@@ -54,6 +54,17 @@ docker run --rm liquibase --url=jdbc:postgresql://<your instance ip>:5432/wfnews
 
 Similar docker scripts are provided for running the WFNEWS API and UI respectively. Local development configurations are provided for running the Angular application outside of the Java Spring container.
 
+### Storybook
+
+For UI/UX development we have Storybook for developers. You can run storybook using the following command:
+```
+ng run WFNEWS:storybook
+```
+
+Create stories for any new or rewritten compoenents.
+
+Node 18+ is required.
+
 ### CI/CD for DEV/TEST/PROD Deployments
 
 The WFNEWS project is built and deployed via Github actions. A Terraform cloud team server handles running the Terraform. A CI pipeline is setup to run static analysis of the Typescript.
