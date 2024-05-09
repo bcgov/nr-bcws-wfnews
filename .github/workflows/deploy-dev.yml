@@ -7,7 +7,7 @@ on:
     branches:
       - 'main'
       - 'dev-deploy'
-      - 'release/**'
+      - '2.3.0'
     paths:
       - ".github/workflows/**"
       - "client/**"
