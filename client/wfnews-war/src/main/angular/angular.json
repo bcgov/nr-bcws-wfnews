@@ -20,7 +20,9 @@
             "outputPath": "dist/wfnews",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "src/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "preserveSymlinks": true,
@@ -161,7 +163,10 @@
           "options": {
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "src/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "scripts": [
@@ -194,7 +199,52 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": ".storybook",
+            "browserTarget": "WFNEWS:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "."
+            ],
+            "styles": [
+              "src/styles/main.scss",
+              "node_modules/leaflet/dist/leaflet.css",
+              "node_modules/ng-pick-datetime/assets/style/picker.min.css",
+              "node_modules/lightgallery/scss/lightgallery.scss"
+            ],
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": ".storybook",
+            "browserTarget": "WFNEWS:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "."
+            ],
+            "styles": [
+              "src/styles/main.scss",
+              "node_modules/leaflet/dist/leaflet.css",
+              "node_modules/ng-pick-datetime/assets/style/picker.min.css",
+              "node_modules/lightgallery/scss/lightgallery.scss"
+            ],
+            "outputDir": "storybook-static"
           }
         }
       }
