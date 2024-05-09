@@ -39,7 +39,7 @@ def lambda_handler(event, context):
                               "&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields"
                               "=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount"
                               "=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters"
-                              "=&sqlFormat=standard&f=pjson&token=")
+                              "=&sqlFormat=standard&f=pjson&token=", timeout=15)
 
         except requests.RequestException as e:
             # Send some context about this error to Lambda Logs
@@ -69,8 +69,13 @@ def lambda_handler(event, context):
                 "statusCode": responses[0]["ResponseMetadata"]["HTTPStatusCode"],
                 "body": json.dumps(responses[0]["ResponseMetadata"])
             }
+        # Handle case where successful, but no new messages
+        elif "features" in message_body and message_body["features"] == []:
+            return {
+                "statusCode": "204"
+            }
         else:
             return {
                 "statusCode": 400,
-                "body": "Bad Request or no new data in past monitor cycle"
+                "body": "Bad Request"
             }
