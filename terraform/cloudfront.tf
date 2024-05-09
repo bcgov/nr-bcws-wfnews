@@ -1045,7 +1045,7 @@ resource "aws_cloudfront_response_headers_policy" "cache_control_response_header
 }
 
 resource "aws_cloudfront_response_headers_policy" "cache_control_response_headers_no_auth_cors" {
-  name = "cache-control-response-headers-no-auth-cor-${var.target_env}"
+  name = "cache-control-response-headers-no-auth-cors-${var.target_env}"
   cors_config {
     access_control_allow_credentials = false
 
@@ -1054,7 +1054,7 @@ resource "aws_cloudfront_response_headers_policy" "cache_control_response_header
     }
 
     access_control_allow_methods {
-      items = ["*"]
+      items = ["GET", "POST", "PUT", "HEAD", "OPTIONS", "PATCH", "DELETE"]
     }
 
     access_control_allow_origins {
@@ -1090,7 +1090,7 @@ resource "aws_cloudfront_response_headers_policy" "cache_control_response_header
 }
 
 resource "aws_cloudfront_response_headers_policy" "cache_control_response_headers_auth_cors" {
-  name = "cache-control-response-headers-auth-cor-${var.target_env}"
+  name = "cache-control-response-headers-auth-cors-${var.target_env}"
   cors_config {
     access_control_allow_credentials = true
 
