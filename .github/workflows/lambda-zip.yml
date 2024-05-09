@@ -40,7 +40,7 @@ jobs:
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r evacuation-orders-monitor.zip lambda/evacuation-orders-monitor/evacuation-orders
+          args: zip -qq -r -j evacuation-orders-monitor.zip lambda/evacuation-orders-monitor/evacuation-orders
 
       - uses: actions/setup-node@v4
         with: 
