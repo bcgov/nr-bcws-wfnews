@@ -53,6 +53,7 @@ export const ICON = {
   INCIDENT: 'incident',
   MAP_SIGNS: 'map-signs',
   MAP: 'map',
+  MAP_HOVER: 'map-hover',
   TWITTER: 'twitter',
   CAMPING: 'camping',
   LARGER: 'larger',
@@ -597,6 +598,13 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ICON.MAP,
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/images/svg-icons/map.svg',
+      ),
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      ICON.MAP_HOVER,
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/images/svg-icons/map-hover.svg',
       ),
     );
 

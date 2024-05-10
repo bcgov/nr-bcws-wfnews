@@ -244,6 +244,7 @@ import { BaseDialogComponent } from './components/base-dialog/base-dialog.compon
 import { NotificationSnackbarComponent } from '@app/components/notification-snackbar/notification-snackbar.component';
 import { HTTP } from '@ionic-native/http/ngx';
 import { IonicStorageService } from './services/ionic-storage.service';
+import { PublicEventPageComponent } from './components/public-event-page/public-event-page.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -405,6 +406,7 @@ export const DATE_FORMATS = {
     WeatherHistoryOptionsDialogComponent,
     BaseDialogComponent,
     NotificationSnackbarComponent,
+    PublicEventPageComponent,
   ],
   imports: [
     MatSortModule,

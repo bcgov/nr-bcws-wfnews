@@ -57,6 +57,7 @@ export class EvacListComponent implements OnInit {
   ];
 
   public locationData: LocationData;
+  hoveredItem: any = null;
 
   convertToDateTime = convertToDateTime;
 
@@ -239,5 +240,18 @@ whereString = null;
     this.searchTimer = setTimeout(() => {
       this.search();
     }, 1000);
+  }
+
+  selectItem(event) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+        queryParams: {
+          eventType: event.status,
+          eventNumber: event.eventNumber,
+          eventName: event.eventName
+        },
+      }),
+    );
+    window.open(url, '_blank');
   }
 }

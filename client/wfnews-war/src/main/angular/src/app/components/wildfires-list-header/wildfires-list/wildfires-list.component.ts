@@ -85,6 +85,7 @@ export class WildFiresListComponent
   fireCentreOptions = FireCentres;
   locationName: string;
   sortedAddressList: string[];
+  hoveredItem: any = null;
 
   public locationData: LocationData;
 

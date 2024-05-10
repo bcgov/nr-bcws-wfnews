@@ -55,6 +55,8 @@ export class BansListComponent implements OnInit {
   ];
 
   public locationData: LocationData;
+  hoveredItem: any = null;
+
   convertToDateTime = convertToDateTime;
   private isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
@@ -212,5 +214,15 @@ whereString = null;
     this.searchTimer = setTimeout(() => {
       this.search();
     }, 1000);
+  }
+
+  selectItem(event) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+        queryParams: {
+        },
+      }),
+    );
+    window.open(url, '_blank');
   }
 }
