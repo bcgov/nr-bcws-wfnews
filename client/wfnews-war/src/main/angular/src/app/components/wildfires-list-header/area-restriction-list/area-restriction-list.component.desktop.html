@@ -65,7 +65,7 @@
         <td mat-cell style="cursor: pointer;" *matCellDef="let item" 
             (mouseover)="hoveredItem = item" 
             (mouseleave)="hoveredItem = null" 
-            (click)="viewMap(item)">
+            (click)="viewMap(item); $event.stopPropagation()">
             <span #el>
                 <mat-icon style="height: 20px; width: 20px;" [svgIcon]="hoveredItem === item ? 'map-hover' : 'map'"></mat-icon>
             </span>
