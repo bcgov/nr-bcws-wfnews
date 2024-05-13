@@ -915,7 +915,7 @@ resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers_no_auth_cors.id
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
@@ -1021,6 +1021,114 @@ output "wfnews_cloudfront_nginx_url" {
 
 resource "aws_cloudfront_response_headers_policy" "cache_control_response_headers" {
   name = "cache-control-response-headers-${var.target_env}"
+  custom_headers_config {
+    items {
+      header   = "Cache-Control"
+      override = true
+      value    = "stale-while-revalidate=600"
+    }
+  }
+
+  remove_headers_config {
+    items {
+      header = "X-Forwarded-Server"
+    }
+
+    items {
+      header = "X-Forwarded-Host"
+    }
+
+    items {
+      header = "X-Host"
+    }
+  }
+}
+
+resource "aws_cloudfront_response_headers_policy" "cache_control_response_headers_no_auth_cors" {
+  name = "cache-control-response-headers-no-auth-cors-${var.target_env}"
+  cors_config {
+    access_control_allow_credentials = false
+
+    access_control_allow_headers {
+      items = ["*"]
+    }
+
+    access_control_allow_methods {
+      items = ["GET", "POST", "PUT", "HEAD", "OPTIONS", "PATCH", "DELETE"]
+    }
+
+    access_control_allow_origins {
+      items = ["*"]
+    }
+    
+    access_control_max_age_sec = 300
+
+    origin_override = true
+  }
+
+  custom_headers_config {
+    items {
+      header   = "Cache-Control"
+      override = true
+      value    = "stale-while-revalidate=600"
+    }
+  }
+
+  remove_headers_config {
+    items {
+      header = "X-Forwarded-Server"
+    }
+
+    items {
+      header = "X-Forwarded-Host"
+    }
+
+    items {
+      header = "X-Host"
+    }
+  }
+}
+
+resource "aws_cloudfront_response_headers_policy" "cache_control_response_headers_auth_cors" {
+  name = "cache-control-response-headers-auth-cors-${var.target_env}"
+  cors_config {
+    access_control_allow_credentials = true
+
+    access_control_allow_headers {
+      items = [
+        "Accept",
+        "Accept-Encoding",
+        "Accept-Language",
+        "Cache-Control",
+        "Origin",
+        "Pragma",
+        "Priority",
+        "Referer",
+        "Apikey",
+        "Authorization",
+        "Content-Type"
+      ]
+    }
+
+    access_control_allow_methods {
+      items = ["GET", "POST", "PUT", "HEAD", "OPTIONS", "PATCH", "DELETE"]
+    }
+
+    access_control_allow_origins {
+      items = [
+        "capacitor://localhost",
+        "http://localhost",
+        "https://localhost",
+        "https://wfnews-client.dev.bcwildfireservices.com",
+        "https://wfnews-client.test.bcwildfireservices.com",
+        "https://wildfiresituation.nrs.gov.bc.ca"
+      ]
+    }
+    
+    access_control_max_age_sec = 300
+
+    origin_override = true
+  }
 
   custom_headers_config {
     items {
@@ -1062,4 +1170,3 @@ resource "aws_cloudfront_response_headers_policy" "strip-vulnerable-headers" {
     }
   }
 }
-
