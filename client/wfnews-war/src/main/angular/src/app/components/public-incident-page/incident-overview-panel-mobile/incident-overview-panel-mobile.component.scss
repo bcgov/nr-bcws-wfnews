@@ -6,8 +6,10 @@
   align-items: center;
   gap: 32px;
   align-self: stretch;
-
+  
   .content-panel {
+    max-width: calc(100vw - 48px);
+
     .resource-detail {
       color: var(--grays-gray-1, var(--Black-1, #242424));
       font-size: 16px;
@@ -182,4 +184,5 @@
   font-weight: 400;
   line-height: normal;
   align-self: stretch;
+  overflow-wrap: break-word;
 }
