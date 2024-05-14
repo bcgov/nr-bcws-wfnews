@@ -213,11 +213,12 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         this.incidentNumberSequnce = params['incidentNumberSequence'];
 
         const self = this;
+        let publishedWFIM = false;
 
         this.publishedIncidentService
           .fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce)
           .subscribe(
-            (incidentResponse) => {
+            async (incidentResponse) => {
               self.currentAdminIncident = incidentResponse.response;
               this.publishedIncidentType = self.currentAdminIncident.type;
               (self.incident as any).discoveryDate = new Date(
@@ -293,44 +294,67 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                   this.cdr.detectChanges();
                 });
 
-              incidentResponse.getPublishedIncident.subscribe(
-                (result) => {
-                  const response = result.body;
-                  this.currentEtag = result.headers.get('ETag')
-                  self.publishedIncidentDetailGuid =
-                    response.publishedIncidentDetailGuid;
-
-                  self.incident.cause = 0;
-                  self.incident.causeComments = response.incidentCauseDetail;
-                  Object.entries(CauseOptionDisclaimer).forEach(
-                    ([index, disclaimer]) => {
-                      if (disclaimer === response.incidentCauseDetail) {
-                        self.incident.cause = Number.parseInt(index, 10);
-                      }
-                    },
-                  );
-                  if (!response.incidentCauseDetail) {
-                    self.incident.causeComments = CauseOptionDisclaimer[0];
+              const publishedIncident = new Promise((resolve, reject) => {
+                incidentResponse.getPublishedIncident.toPromise().then(
+                  (result) => {
+                    if(result) {
+                      publishedWFIM = true;
+                      resolve(result)
+                    }else reject(result)
+                  }, (err) => {
+                    console.log('No published data found...');
+                    console.error(err);
+                    self.publishedIncidentDetailGuid = null;
+                    publishedWFIM = false;
+                    reject(err)
                   }
+                );
+              });
 
-                  this.populateCommonFields(response)
-                  
-                  this.incidentForm.patchValue(this.incident);
-                  this.incidentForm.markAsPristine();
-                  this.evacOrdersDetailsPanel.getEvacOrders();
-                },
-                (error) => {
-                  console.log('No published data found...');
-                  console.error(error);
-                  self.publishedIncidentDetailGuid = null;
-                  // If WFIM returns a 404 for the incident, fetch the published incident from the WFNEWS public API
-                  this.populateIncidentWithPublishedIncident(this.currentAdminIncident?.incidentLabel, this.wildFireYear, self)
-                },
-              );
+
+              // If WFIM returns a 404 for the incident, fetch the published incident from the WFNEWS public API
+              // set cause fields that should be specific to the public side
+              // give the admin screen default cause comments, as they should be null in the public API at this point
+              const publicPublishedIncident = new Promise((resolve, reject) => {
+                this.publishedIncidentService.fetchPublishedIncident(self.currentAdminIncident.incidentLabel, this.wildFireYear)
+                  .toPromise().then(
+                    (response) => {
+                      // resolve only if the incident has not been published in WFIM
+                      if(!publishedWFIM) resolve(response)
+                        else reject(response)
+                    }, (err) => {
+                      console.log('No public published data found...');
+                      console.error(err);
+                      reject(err)
+                    }
+                  );
+              });
+
+              const promises = [publishedIncident, publicPublishedIncident];
+
+              Promise.allSettled(promises).then((results) =>
+                results.forEach((result) => {
+                  let iterate = true;
+                  if (result?.status == 'fulfilled') {
+                    if (iterate) {
+                      const res = result?.value;
+                      if (!publishedWFIM) {
+                        this.populatePublicFields(res)
+                      } else {
+                        this.populatePublishedIMFields(res)
+                      }
+                      this.populateCommonFields(res)
+                      iterate = false;
+                    }
+                  }
+                }
+                ));
+
 
               this.incidentForm.patchValue(this.incident);
               this.incidentForm.markAsPristine();
               this.cdr.detectChanges();
+              this.evacOrdersDetailsPanel.getEvacOrders();
             },
             (incidentResponseError) => {
               console.error(incidentResponseError);
@@ -354,18 +378,47 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     return !value ? null : value;
   }
 
-  populateIncidentWithPublishedIncident(incidentLabel, wildfireYear, self){
+  populatePublicFields(result) {
+    this.incident.cause = result?.generalIncidentCauseCatId;
+    if (result?.incidentCauseDetail != null) {
+      this.incident.causeComments = result?.incidentCauseDetail
+    } else this.incident.causeComments = this.populateCauseComments(result?.generalIncidentCauseCatId);
+  }
+
+  populatePublishedIMFields(result) {
+    const response = result?.body;
+    this.currentEtag = result?.headers?.get('ETag')
+    this.publishedIncidentDetailGuid =
+      response?.publishedIncidentDetailGuid;
+
+    this.incident.cause = 0;
+    this.incident.causeComments = response?.incidentCauseDetail;
+    Object.entries(CauseOptionDisclaimer).forEach(
+      ([index, disclaimer]) => {
+        if (disclaimer === response?.incidentCauseDetail) {
+          this.incident.cause = Number.parseInt(index, 10);
+        }
+      },
+    );
+    if (!response?.incidentCauseDetail) {
+      this.incident.causeComments = CauseOptionDisclaimer[0];
+    }
+
+
+  }
+
+  populateIncidentWithPublishedIncident(incidentLabel, wildfireYear, self) {
     this.publishedIncidentService.fetchPublishedIncident(incidentLabel, wildfireYear)
       .subscribe(response => {
-                  if(response) {
-                    // set cause fields that should be specific to the public side
-                    // give the admin screen default cause comments, as they should be null in the public API at this point
-                    self.incident.cause = response.generalIncidentCauseCatId;
-                    if (response.incidentCauseDetail != null) {
-                      self.incident.causeComments = response.incidentCauseDetail
-                    } else self.incident.causeComments = this.populateCauseComments(response.generalIncidentCauseCatId);
-                    this.populateCommonFields(response);   
-                  }                            
+        if (response) {
+          // set cause fields that should be specific to the public side
+          // give the admin screen default cause comments, as they should be null in the public API at this point
+          self.incident.cause = response.generalIncidentCauseCatId;
+          if (response.incidentCauseDetail != null) {
+            self.incident.causeComments = response.incidentCauseDetail
+          } else self.incident.causeComments = this.populateCauseComments(response.generalIncidentCauseCatId);
+          this.populateCommonFields(response);
+        }
       }),
       (error) => {
         console.log('No public published data found...');
@@ -379,16 +432,17 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   }
 
   populateCauseComments(causeCode: number) {
-    switch(causeCode){
+    switch (causeCode) {
       case 1: return "Humans start wildfires in several ways, either by accident or intentionally.";
       case 2: return "When lightning strikes an object it can release enough heat to ignite a tree or other fuels.";
       case 3: return "Wildfire investigations often take time and can be very complex. Investigations may be carried out by one or more agencies, including the BC Wildfire Service, the Compliance and Enforcement Branch, the RCMP, or other law enforcement agencies, and may be cross jurisdictional."
       default: return "A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.";
-    } 
+    }
   }
 
-  populateCommonFields(response){
-    if(response) {
+  populateCommonFields(result) {
+    const response = result?.body;
+    if (response) {
       this.incident.traditionalTerritory = response.traditionalTerritoryDetail;
       this.incident.lastPublished = response.publishedTimestamp;
       this.incident.location = response.incidentLocation;
@@ -535,7 +589,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           duration: 100000,
           panelClass: 'snackbar-success-v2',
         });
-              // Update the Draft/Publish status on incident name
+        // Update the Draft/Publish status on incident name
         this.incident.lastPublished = doc?.publishedTimestamp;
         this.incident.publishedStatus = doc?.newsPublicationStatusCode;
         this.incidentForm.markAsPristine();
@@ -570,7 +624,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       // if (publishedGuid) {
 
       // } else {
-        
+
       // }
       const saveResult = this.publishedIncidentService.saveIMPublishedIncident(incident);
       if (saveResult) {
