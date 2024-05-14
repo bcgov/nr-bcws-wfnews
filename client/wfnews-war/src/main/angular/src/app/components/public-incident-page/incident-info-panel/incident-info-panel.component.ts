@@ -155,27 +155,6 @@ return 'A wildfire of undetermined cause, including a wildfire that is currently
 }
   }
 
-  public printPage() {
-    const printContents =
-      document.getElementsByClassName('page-container')[0].innerHTML;
-
-    const appRoot = document.body.removeChild(
-      document.getElementById('app-root'),
-    );
-
-    document.body.innerHTML = printContents;
-
-    const canvas = document.getElementById('qr-code');
-    toCanvas(canvas, window.location.href, function(error) {
-      if (error) {
-console.error(error);
-}
-      window.print();
-      document.body.innerHTML = '';
-      document.body.appendChild(appRoot);
-    });
-  }
-
   public copyToClipboard() {
     navigator.clipboard.writeText(window.location.href);
     this.snackbarService.open('URL Copied to Clipboard!', 'OK', {

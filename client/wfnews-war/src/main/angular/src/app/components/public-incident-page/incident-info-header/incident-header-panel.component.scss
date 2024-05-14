@@ -19,7 +19,6 @@
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
-  padding: 22px;
 }
 .header-container.mobile {
   display: block;
@@ -39,7 +38,8 @@
 
 .map-container {
   width: 100%;
-  max-width: 533px;
+  flex: 1;
+  max-width: 50%;
   min-height: 400px !important;
 }
 
@@ -54,6 +54,11 @@
   }
 }
 
+.incident-details.desktop{
+  flex:1;
+  max-width: 50%;
+  padding: 32px 96px;
+}
 .incident-details {
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   padding: 24px;
@@ -102,6 +107,9 @@
     gap: 6px;
     .info-panel-row{
       display: flex;
+    }
+    .info-panel-button-row{
+      padding-top: 26px;
     }
     .icon{
       padding-right: 16px;
@@ -420,4 +428,36 @@
     background-color: #5c6671;
     border: 1px solid black;
   }
+}
+
+.desktop-buttons{
+  display: flex;
+  width: 132px;
+  padding: 6px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+  border: 1px solid #888;
+  background: #F5F7FA;
+  font-size: 16px;
+  font-weight: 500;
+  color: #242424;
+  text-align: center;
+}
+
+.contact-buttons.desktop{
+  gap: 24px;
+}
+
+.back-button{
+  color:#666666;
+  span{
+    padding-left: 9px;
+    vertical-align: top;
+  }
+}
+
+.back-button:hover {
+  cursor: pointer;
 }

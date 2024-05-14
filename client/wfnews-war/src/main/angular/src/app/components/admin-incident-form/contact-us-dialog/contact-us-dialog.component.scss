@@ -53,6 +53,10 @@
       }
     }
 
+    .contact-method.desktop{
+      display: flex;
+    }
+
     .mobile-button {
       border-radius: 5px;
       border: 1px solid #6e6e6e;
@@ -71,4 +75,7 @@
       justify-content: space-between;
     }
   }
+  .material-icons-outlined {
+    vertical-align: bottom;
+  }  
 }
