@@ -218,7 +218,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         this.publishedIncidentService
           .fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce)
           .subscribe(
-            async (incidentResponse) => {
+            (incidentResponse) => {
               self.currentAdminIncident = incidentResponse.response;
               this.publishedIncidentType = self.currentAdminIncident.type;
               (self.incident as any).discoveryDate = new Date(
@@ -403,8 +403,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     if (!response?.incidentCauseDetail) {
       this.incident.causeComments = CauseOptionDisclaimer[0];
     }
-
-
   }
 
   populateIncidentWithPublishedIncident(incidentLabel, wildfireYear, self) {
