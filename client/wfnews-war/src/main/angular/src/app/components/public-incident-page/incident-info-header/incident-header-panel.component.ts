@@ -13,7 +13,8 @@ import {
   convertToFireCentreDescription,
   convertFireNumber,
   ResourcesRoutes,
-  setDisplayColor
+  setDisplayColor,
+  getStageOfControlLabel
 } from '../../../utils';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
@@ -39,8 +40,11 @@ export class IncidentHeaderPanel implements AfterViewInit {
 
   convertToFireCentreDescription = convertToFireCentreDescription;
   convertFireNumber = convertFireNumber;
+  getStageOfControlLabel = getStageOfControlLabel;
 
   private map: any;
+  incidentEvacOrders = [];
+  incidentEvacAlerts = [];
 
   constructor(
     private appConfigService: AppConfigService,
@@ -66,6 +70,15 @@ export class IncidentHeaderPanel implements AfterViewInit {
     this.route.queryParams.subscribe((params: ParamMap) => {
       this.params = params;
     });
+    if (this.evacOrders?.length) {
+      for (const evac of this.evacOrders) {
+        if (evac.orderAlertStatus === 'Order') {
+          this.incidentEvacOrders.push(evac);
+        } else if (evac.orderAlertStatus === 'Alert') {
+          this.incidentEvacAlerts.push(evac);
+        }
+      }
+    }
   }
 
   ngAfterViewInit(): void {
@@ -76,7 +89,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
     ];
     this.map = L.map('map', {
       attributionControl: false,
-      zoomControl: false,
+      zoomControl: true,
       dragging: false,
       doubleClickZoom: false,
       boxZoom: false,

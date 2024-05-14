@@ -1,4 +1,4 @@
-<div class="header-container forPrint" [ngClass]="{mobile: isMobileView()}" id="toprint-header">
+<div class="header-container forPrint" [ngClass]="{mobile: isMobileView()}" [ngClass]="{desktop: !isMobileView()}" id="toprint-header">
   <div class="mobile-header" *ngIf="isMobileView()">
     <img alt="icon" (click)="back()" height="20" width="20" src="/assets/images/svg-icons/arrow-left.svg">
     <span>Wildfire</span>
@@ -11,27 +11,67 @@
     <div class="header">
     </div>
     <div class="title-bar">
-      <div class="title">{{incident.incidentName}} <span *ngIf="incident.fireOfNoteInd && !isMobileView()" #el
-          class="fire-icon-container"><img class="icon" height="24" width="24"
-            src="/assets/images/local_fire_department.png" alt="local_fire_department"></span> <span #el
-          *ngIf="!isMobileView()" class="no-print" style="cursor: pointer;"
-          (click)="onWatchlist() ? removeFromWatchlist() : addToWatchlist()"><mat-icon
-            style="color:#1A5A96">{{onWatchlist() ? 'bookmark' : 'bookmark_border'}}</mat-icon></span></div>
-      <div *ngIf="!isMobileView()" class="subtitle"><a
-          href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres" rel="noopener"
-          target="_blank">{{convertToFireCentreDescription(this.incident.fireCentreName || incident.fireCentre ||
-          incident.fireCentreCode)}}</a></div>
+      <div class="title">{{incident.incidentName}}
+          <span #el *ngIf="!isMobileView()" class="no-print" style="cursor: pointer;"
+            (click)="onWatchlist() ? removeFromWatchlist() : addToWatchlist()">
+            <mat-icon style="color:black">{{onWatchlist() ? 'bookmark' : 'bookmark_border'}}</mat-icon>
+          </span>
+      </div>
+      <div *ngIf="!isMobileView()" class="evac-cards">
+        <div class="alert-count" *ngIf="incidentEvacAlerts.length > 0">
+            <img class="icon" src="/assets/images/svg-icons/evacuation-alert.svg" alt="evacuation-alert" />
+            <span>{{incidentEvacAlerts.length}} Evacuation Alerts</span>
+        </div>
+        <div class="order-count" *ngIf="incidentEvacOrders.length > 0">
+          <img class="icon" src="/assets/images/svg-icons/evacuation-order.svg" alt="evacuation-alert" />
+          <span>{{incidentEvacOrders.length}} Evacuation Order</span>
+      </div>
+      </div>
+      <div *ngIf="!isMobileView()">
+        <div class="fire-of-note" *ngIf="incident.fireOfNoteInd">
+          <img class="fire-icon" height="20" width="20" src="/assets/images/local_fire_department.png"
+              alt="local_fire_department" />
+          <span>Wildfire Of Note</span>
+        </div>
+      </div>
     </div>
     <div *ngIf="!isMobileView()">
       <div class="info-panel">
-        <div><span class="label">Fire Number: </span><span>{{convertFireNumber(incident)}}</span></div>
-        <div><span class="label">Last Updated: </span><span>{{incident.lastUpdatedTimestamp}}</span></div>
-        <div *ngIf="incident.discoveryDate"><span class="label">Discovered On:
-          </span><span>{{incident.discoveryDate}}</span></div>
-        <div *ngIf="incident.stageOfControlCode === 'OUT'"><span class="label">Declared Out:
-          </span><span>{{incident.declaredOutDate}}</span></div>
+        <div class="info-panel-row">
+          <span class="circle-icon {{incident.stageOfControlCode}}"></span>
+          <span>{{getStageOfControlLabel(incident.stageOfControlCode)}}</span>
+        </div>
+        <div class="info-panel-row">
+          <img class="icon" height="24" width="24" src="/assets/images/svg-icons/notepad.svg" alt="notepad" />
+          <span class="label">Fire Number&nbsp;</span><span>{{convertFireNumber(incident)}}</span>
+        </div>
+        <div class="info-panel-row">
+          <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_ruler.svg">
+          <span class="label"></span><span>{{incident.incidentSizeEstimatedHa ?
+            incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span>
+        </div>
+        <div class="info-panel-row" *ngIf="incident.discoveryDate">
+          <img class="icon" height="24" width="24" src="/assets/images/svg-icons/calendar.svg">
+          <span class="label">Discovered On&nbsp;</span><span>{{incident.discoveryDate}}</span>
+        </div>
+        <div class="info-panel-row" *ngIf="incident.updateDate">
+          <img class="icon" height="24" width="24" src="/assets/images/svg-icons/edit.svg">
+          <span class="label">Updated&nbsp;</span><span>{{incident.updateDate}}</span>
+        </div>
+        <div class="info-panel-row" *ngIf="incident.stageOfControlCode === 'OUT'">
+          <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_crop-growth.svg">
+          <span class="label">Declared Out on</span><span>{{incident.declaredOutDate}}</span>
+        </div>
+        <div class="info-panel-row">
+          <img class="icon" height="24" width="24" src="/assets/images/svg-icons/location-pin.svg">
+          <span class="label"></span><span>{{convertToFireCentreDescription(this.incident.fireCentreName || incident.fireCentre ||incident.fireCentreCode)}}</span>
+        </div>
+        <div class="info-panel-row">
+          <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_layers.svg" alt="carbon_layers"/>
+          <span class="label"></span><span>BC Wildfires Active Fires Layer</span>
+        </div>
       </div>
-      <div class="divider"></div>
+      <!-- <div class="divider"></div>
       <div class="info-panel">
         <div class="gutter"><span class="label">Size: </span><span>{{incident.incidentSizeEstimatedHa ?
             incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span>
@@ -43,9 +83,9 @@
         <div class="gutter" *ngIf="incident.traditionalTerritoryDetail"><span class="label">Traditional Territory</span>
         </div>
         <div class="paragraph-format">{{incident.traditionalTerritoryDetail}}</div>
-      </div>
+      </div> -->
       <!-- Evac Orders-->
-      <div *ngIf="evacOrders.length > 0" class="divider"></div>
+      <!-- <div *ngIf="evacOrders.length > 0" class="divider"></div>
       <div style="padding-top: 7px;" *ngIf="evacOrders.length > 0">
         <h4>Active Evacuation Orders and Alerts</h4>
         <div class="evac-list" *ngFor="let evac of evacOrders">
@@ -55,7 +95,7 @@
             target="_blank" rel="noopener">{{ evac.orderAlertStatus }}: {{evac.eventName}}</a>
           <div class="issued-by">(Issued By: {{evac.issuingAgency}})</div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div *ngIf="isMobileView()">
       <div class="contact-buttons">
