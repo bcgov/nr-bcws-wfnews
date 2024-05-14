@@ -299,21 +299,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                   this.currentEtag = result.headers.get('ETag')
                   self.publishedIncidentDetailGuid =
                     response.publishedIncidentDetailGuid;
-                  self.incident.traditionalTerritory =
-                    response.traditionalTerritoryDetail;
-                  self.incident.lastPublished = response.publishedTimestamp;
-                  self.incident.location = response.incidentLocation;
-
-                  self.incident.sizeComments =
-                    response.incidentSizeDetail ||
-                    'Fire size is based on most current information available.';
-                  Object.entries(SizeTypeOptionDisclaimer).forEach(
-                    ([index, disclaimer]) => {
-                      if (disclaimer === response.incidentSizeDetail) {
-                        self.incident.sizeType = Number.parseInt(index, 10);
-                      }
-                    },
-                  );
 
                   self.incident.cause = 0;
                   self.incident.causeComments = response.incidentCauseDetail;
@@ -327,52 +312,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                   if (!response.incidentCauseDetail) {
                     self.incident.causeComments = CauseOptionDisclaimer[0];
                   }
-                  self.incident.publishedStatus =
-                    response.newsPublicationStatusCode;
-                  self.incident.responseComments = response.resourceDetail;
 
-                  self.incident.wildifreCrewsInd =
-                    response.wildfireCrewResourcesInd;
-                  self.incident.crewsComments =
-                    response.wildfireCrewResourcesDetail;
-
-                  self.incident.aviationInd =
-                    response.wildfireAviationResourceInd;
-                  self.incident.aviationComments =
-                    response.wildfireAviationResourceDetail;
-
-                  self.incident.incidentManagementInd =
-                    response.incidentMgmtCrewRsrcInd;
-                  self.incident.incidentManagementComments =
-                    response.incidentMgmtCrewRsrcDetail;
-                  self.incident.heavyEquipmentInd =
-                    response.heavyEquipmentResourcesInd;
-                  self.incident.heavyEquipmentComments =
-                    response.heavyEquipmentResourcesDetail;
-                  self.incident.structureProtectionInd =
-                    response.structureProtectionRsrcInd;
-                  self.incident.structureProtectionComments =
-                    response.structureProtectionRsrcDetail;
-
-                  self.incident.crewResourceCount =
-                    response?.crewResourceCount || undefined;
-                  self.incident.aviationResourceCount =
-                    response?.aviationResourceCount || undefined;
-                  self.incident.heavyEquipmentResourceCount =
-                    response?.heavyEquipmentResourceCount || undefined;
-                  self.incident.incidentManagementResourceCount =
-                    response?.incidentManagementResourceCount || undefined;
-                  self.incident.structureProtectionResourceCount =
-                    response?.structureProtectionResourceCount || undefined;
-
-                  self.incident.contact.fireCentre =
-                    response.contactOrgUnitIdentifer?.toString();
-                  self.incident.contact.phoneNumber =
-                    response.contactPhoneNumber;
-                  self.incident.contact.emailAddress =
-                    response.contactEmailAddress;
-                  self.incident.incidentOverview = response.incidentOverview;
-
+                  this.populateCommonFields(response)
+                  
                   this.incidentForm.patchValue(this.incident);
                   this.incidentForm.markAsPristine();
                   this.evacOrdersDetailsPanel.getEvacOrders();
@@ -381,6 +323,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                   console.log('No published data found...');
                   console.error(error);
                   self.publishedIncidentDetailGuid = null;
+                  // If WFIM returns a 404 for the incident, fetch the published incident from the WFNEWS public API
+                  this.populateIncidentWithPublishedIncident(this.currentAdminIncident?.incidentLabel, this.wildFireYear, self)
                 },
               );
 
@@ -408,6 +352,104 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   nullEmptyStrings(value: string) {
     return !value ? null : value;
+  }
+
+  populateIncidentWithPublishedIncident(incidentLabel, wildfireYear, self){
+    this.publishedIncidentService.fetchPublishedIncident(incidentLabel, wildfireYear)
+      .subscribe(response => {
+                  if(response) {
+                    // set cause fields that should be specific to the public side
+                    // give the admin screen default cause comments, as they should be null in the public API at this point
+                    self.incident.cause = response.generalIncidentCauseCatId;
+                    if (response.incidentCauseDetail != null) {
+                      self.incident.causeComments = response.incidentCauseDetail
+                    } else self.incident.causeComments = this.populateCauseComments(response.generalIncidentCauseCatId);
+                    this.populateCommonFields(response);   
+                  }                            
+      }),
+      (error) => {
+        console.log('No public published data found...');
+        console.error(error);
+      },
+
+      this.incidentForm?.patchValue(this.incident);
+      this.incidentForm?.markAsPristine();
+      this.evacOrdersDetailsPanel?.getEvacOrders();
+      this.cdr.detectChanges();
+  }
+
+  populateCauseComments(causeCode: number) {
+    switch(causeCode){
+      case 1: return "Humans start wildfires in several ways, either by accident or intentionally.";
+      case 2: return "When lightning strikes an object it can release enough heat to ignite a tree or other fuels.";
+      case 3: return "Wildfire investigations often take time and can be very complex. Investigations may be carried out by one or more agencies, including the BC Wildfire Service, the Compliance and Enforcement Branch, the RCMP, or other law enforcement agencies, and may be cross jurisdictional."
+      default: return "A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.";
+    } 
+  }
+
+  populateCommonFields(response){
+    if(response) {
+      this.incident.traditionalTerritory = response.traditionalTerritoryDetail;
+      this.incident.lastPublished = response.publishedTimestamp;
+      this.incident.location = response.incidentLocation;
+
+      this.incident.sizeComments =
+        response.incidentSizeDetail ||
+        'Fire size is based on most current information available.';
+      Object.entries(SizeTypeOptionDisclaimer).forEach(
+        ([index, disclaimer]) => {
+          if (disclaimer === response.incidentSizeDetail) {
+            this.incident.sizeType = Number.parseInt(index, 10);
+          }
+        },
+      );
+
+      this.incident.publishedStatus =
+        response.newsPublicationStatusCode;
+      this.incident.responseComments = response.resourceDetail;
+
+      this.incident.wildifreCrewsInd =
+        response.wildfireCrewResourcesInd;
+      this.incident.crewsComments =
+        response.wildfireCrewResourcesDetail;
+
+      this.incident.aviationInd =
+        response.wildfireAviationResourceInd;
+      this.incident.aviationComments =
+        response.wildfireAviationResourceDetail;
+
+      this.incident.incidentManagementInd =
+        response.incidentMgmtCrewRsrcInd;
+      this.incident.incidentManagementComments =
+        response.incidentMgmtCrewRsrcDetail;
+      this.incident.heavyEquipmentInd =
+        response.heavyEquipmentResourcesInd;
+      this.incident.heavyEquipmentComments =
+        response.heavyEquipmentResourcesDetail;
+      this.incident.structureProtectionInd =
+        response.structureProtectionRsrcInd;
+      this.incident.structureProtectionComments =
+        response.structureProtectionRsrcDetail;
+
+      this.incident.crewResourceCount =
+        response?.crewResourceCount || undefined;
+      this.incident.aviationResourceCount =
+        response?.aviationResourceCount || undefined;
+      this.incident.heavyEquipmentResourceCount =
+        response?.heavyEquipmentResourceCount || undefined;
+      this.incident.incidentManagementResourceCount =
+        response?.incidentManagementResourceCount || undefined;
+      this.incident.structureProtectionResourceCount =
+        response?.structureProtectionResourceCount || undefined;
+
+      this.incident.contact.fireCentre =
+        response.contactOrgUnitIdentifer?.toString();
+      this.incident.contact.phoneNumber =
+        response.contactPhoneNumber;
+      this.incident.contact.emailAddress =
+        response.contactEmailAddress;
+      this.incident.incidentOverview = response.incidentOverview;
+    }
   }
 
   async publishChanges() {
