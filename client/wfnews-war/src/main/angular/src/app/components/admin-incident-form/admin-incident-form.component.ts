@@ -218,7 +218,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         this.publishedIncidentService
           .fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce)
           .subscribe(
-            (incidentResponse) => {
+            async (incidentResponse) => {
               self.currentAdminIncident = incidentResponse.response;
               this.publishedIncidentType = self.currentAdminIncident.type;
               (self.incident as any).discoveryDate = new Date(
@@ -330,9 +330,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                   );
               });
 
-              const promises = [publishedIncident, publicPublishedIncident];
-
-              Promise.allSettled(promises).then((results) =>
+              await Promise.allSettled([publishedIncident, publicPublishedIncident]).then((results) =>
                 results.forEach((result) => {
                   let iterate = true;
                   if (result?.status == 'fulfilled') {
