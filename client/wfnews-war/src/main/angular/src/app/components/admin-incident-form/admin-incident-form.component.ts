@@ -330,7 +330,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                   );
               });
 
-              await Promise.allSettled([publishedIncident, publicPublishedIncident]).then((results) =>
+              const results = await Promise.allSettled([publishedIncident, publicPublishedIncident]).then((results) =>
                 results.forEach((result) => {
                   let iterate = true;
                   if (result?.status == 'fulfilled') {
