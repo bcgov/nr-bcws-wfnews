@@ -240,7 +240,7 @@
                     </div>
                     <div *ngIf='incident.generalIncidentCauseCatId === 3'>
                         <img class="icon-cause" src="/assets/images/svg-icons/help.svg" alt="question" />
-                        {{getCauseLabel(incident.generalIncidentCauseCatId)}}
+                        {{incident.incidentCauseDetail || getCauseLabel(incident.generalIncidentCauseCatId)}}
                     </div>
                 </div>
             </div>
