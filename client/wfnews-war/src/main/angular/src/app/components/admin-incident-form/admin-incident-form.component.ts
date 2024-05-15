@@ -116,7 +116,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   currentAdminIncidentCause: IncidentCauseResource;
   publishedIncidentType: string;
   publishedIncidentDetailGuid: string;
-  currentEtag: string;
+  currentIncidentName: string;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -218,8 +218,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         this.publishedIncidentService
           .fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce)
           .subscribe(
-            (incidentResponse) => {
+            async (incidentResponse) => {
               self.currentAdminIncident = incidentResponse.response;
+              this.currentIncidentName = self.currentAdminIncident.incidentName;
               this.publishedIncidentType = self.currentAdminIncident.type;
               (self.incident as any).discoveryDate = new Date(
                 self.currentAdminIncident.discoveryTimestamp,
@@ -297,10 +298,10 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               const publishedIncident = new Promise((resolve, reject) => {
                 incidentResponse.getPublishedIncident.toPromise().then(
                   (result) => {
-                    if(result) {
+                    if (result) {
                       publishedWFIM = true;
                       resolve(result)
-                    }else reject(result)
+                    } else reject(result)
                   }, (err) => {
                     console.log('No published data found...');
                     console.error(err);
@@ -320,8 +321,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                   .toPromise().then(
                     (response) => {
                       // resolve only if the incident has not been published in WFIM
-                      if(!publishedWFIM) resolve(response)
-                        else reject(response)
+                      if (!publishedWFIM) resolve(response)
+                      else reject(response)
                     }, (err) => {
                       console.log('No public published data found...');
                       console.error(err);
@@ -330,25 +331,24 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                   );
               });
 
-              const promises = [publishedIncident, publicPublishedIncident];
+              const results = await Promise.allSettled([publishedIncident, publicPublishedIncident]);
 
-              Promise.allSettled(promises).then((results) =>
-                results.forEach((result) => {
-                  let iterate = true;
-                  if (result?.status == 'fulfilled') {
-                    if (iterate) {
-                      const res = result?.value;
-                      if (!publishedWFIM) {
-                        this.populatePublicFields(res)
-                      } else {
-                        this.populatePublishedIMFields(res)
-                      }
-                      this.populateCommonFields(res)
-                      iterate = false;
+              results.forEach((result) => {
+                let iterate = true;
+                if (result?.status == 'fulfilled') {
+                  if (iterate) {
+                    const res = result?.value;
+                    if (!publishedWFIM) {
+                      this.populatePublicFields(res)
+                    } else {
+                      this.populatePublishedIMFields(res)
                     }
+                    this.populateCommonFields(res)
+                    iterate = false;
                   }
                 }
-                ));
+              });
+
 
 
               this.incidentForm.patchValue(this.incident);
@@ -386,22 +386,23 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   }
 
   populatePublishedIMFields(result) {
-    const response = result?.body;
-    this.currentEtag = result?.headers?.get('ETag')
-    this.publishedIncidentDetailGuid =
-      response?.publishedIncidentDetailGuid;
-
-    this.incident.cause = 0;
-    this.incident.causeComments = response?.incidentCauseDetail;
-    Object.entries(CauseOptionDisclaimer).forEach(
-      ([index, disclaimer]) => {
-        if (disclaimer === response?.incidentCauseDetail) {
-          this.incident.cause = Number.parseInt(index, 10);
-        }
-      },
-    );
-    if (!response?.incidentCauseDetail) {
-      this.incident.causeComments = CauseOptionDisclaimer[0];
+    if (result?.body) {
+      const response = result.body;
+      this.publishedIncidentDetailGuid =
+        response?.publishedIncidentDetailGuid;
+  
+      this.incident.cause = 0;
+      this.incident.causeComments = response?.incidentCauseDetail;
+      Object.entries(CauseOptionDisclaimer).forEach(
+        ([index, disclaimer]) => {
+          if (disclaimer === response?.incidentCauseDetail) {
+            this.incident.cause = Number.parseInt(index, 10);
+          }
+        },
+      );
+      if (!response?.incidentCauseDetail) {
+        this.incident.causeComments = CauseOptionDisclaimer[0];
+      }
     }
   }
 
@@ -424,9 +425,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       },
 
       this.incidentForm?.patchValue(this.incident);
-      this.incidentForm?.markAsPristine();
-      this.evacOrdersDetailsPanel?.getEvacOrders();
-      this.cdr.detectChanges();
+    this.incidentForm?.markAsPristine();
+    this.evacOrdersDetailsPanel?.getEvacOrders();
+    this.cdr.detectChanges();
   }
 
   populateCauseComments(causeCode: number) {
@@ -501,6 +502,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       this.incident.contact.emailAddress =
         response.contactEmailAddress;
       this.incident.incidentOverview = response.incidentOverview;
+      this.cdr.detectChanges();
     }
   }
 
@@ -578,8 +580,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
     try {
       const doc = await self.publishIncident(publishedIncidentResource);
-      this.publishedIncidentDetailGuid = doc?.publishedIncidentDetailGuid;
-
+      if (doc) {
+        this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid;
+      }
       // Handle evac orders
       await this.evacOrdersDetailsPanel.persistEvacOrders();
       if (doc) {
@@ -605,7 +608,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     }
   }
   publishIncident(incident): Promise<any> {
-
     if (incident.publishedIncidentDetailGuid == null) {
       // If publishedIncidentGuid is null, just save the incident
       // let publishedGuid;
@@ -630,16 +632,19 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       }
     } else {
       // If publishedIncidentGuid is not null, check for updates and then save the incident
-      return this.publishedIncidentService.getIMPublishedIncident(incident)
+      return this.publishedIncidentService.fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce)
         .toPromise()
         .then(data => {
-          let etag = data.headers.get('ETag')
-          if (etag != this.currentEtag) {
+          let name = data.response.incidentName;
+          if (name != this.currentIncidentName) {
             this.snackbarService.open(
-              'There have been updates on this incident. To retrieve the latest information, please refresh the page. Note that after refreshing, any ongoing edits will be lost',
+              'Fire Name has changed externally and has been updated on this page.  Confirm change and re-publish',
               'Ok',
               { duration: 10000, panelClass: 'snackbar-error' },
             );
+            this.currentIncidentName = name;
+            this.incidentForm.get('fireName').setValue(name);
+            this.incident.fireName = name;
             return;
           } else {
             const saveResult = this.publishedIncidentService.saveIMPublishedIncident(incident);
