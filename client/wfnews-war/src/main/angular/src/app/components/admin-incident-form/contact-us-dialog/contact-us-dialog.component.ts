@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { isMobileView } from '@app/utils';
 import { AttachmentResource } from '@wf1/incidents-rest-api/model/attachmentResource';
 
 export class DialogData {
@@ -14,6 +15,8 @@ export class DialogData {
 export class ContactUsDialogComponent {
   public title = '';
   public file: File;
+  isMobileView = isMobileView;
+
 
   constructor(
     public dialogRef: MatDialogRef<ContactUsDialogComponent>,

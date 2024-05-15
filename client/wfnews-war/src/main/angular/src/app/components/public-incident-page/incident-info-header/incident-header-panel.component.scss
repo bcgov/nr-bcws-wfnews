@@ -19,10 +19,18 @@
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
-  padding: 22px;
 }
 .header-container.mobile {
   display: block;
+}
+.header-container.desktop{
+  background: #F5F7FA;
+  .title{
+    font-weight: 600 !important;
+    font-size: 26px !important;
+    font-style: normal !important;
+    color: #1C1C1C !important;
+  }
 }
 .header-container > * {
   flex: 1 1 350px;
@@ -30,7 +38,8 @@
 
 .map-container {
   width: 100%;
-  max-width: 533px;
+  flex: 1;
+  max-width: 50%;
   min-height: 400px !important;
 }
 
@@ -45,6 +54,14 @@
   }
 }
 
+.incident-details.desktop{
+  flex:1;
+  max-width: 50%;
+  padding: 32px 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .incident-details {
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   padding: 24px;
@@ -89,8 +106,19 @@
   .info-panel {
     padding-top: 7px;
     font-size: 1rem;
+    display: inline-grid;
+    gap: 6px;
+    .info-panel-row{
+      display: flex;
+    }
+    .info-panel-button-row{
+      padding-top: 26px;
+    }
+    .icon{
+      padding-right: 16px;
+    }
     .label {
-      color: #036;
+      color: #484848;
     }
   }
   .divider {
@@ -285,4 +313,158 @@
     color: #10294e;
     /* Add any other styles as needed */
   }
+}
+
+.evac-cards{
+  display: flex;
+  align-items: flex-start;
+  gap: var(--16, 16px);
+  margin-top: 12px;
+  margin-bottom: 10px;
+  width:80%;
+  .order-count {
+    width: 90%;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 6px 8px;
+    align-items: center;
+    align-content: center;
+    gap: 8px;
+    align-self: stretch;
+    flex-wrap: wrap;
+    border-radius: 4px;
+    color: var(--reds-red-2, #98273b);
+    border: 1px solid var(--reds-red-7, #f4d1d1);
+    background: var(--reds-red-7, #fef1f2);
+  
+    .icon {
+      padding-right: 8px !important;
+      height: 20px;
+      width: 20px;
+      position: relative;
+      top: 3px;
+    }
+  
+    @media screen and (min-width: 450px) {
+      width: 93%;
+    }
+  }
+  
+  .alert-count {
+    width: 90%;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 6px 8px;
+    align-items: center;
+    align-content: center;
+    gap: 8px;
+    align-self: stretch;
+    flex-wrap: wrap;
+    border-radius: 4px;
+    color: #7c5d11;
+    border: 1px solid var(--yellows-yellow-6, #f3d999);
+    background: var(--yellows-yellow-6, #fcf3d4);
+  
+    .icon {
+      padding-right: 8px !important;
+      height: 20px;
+      width: 20px;
+      position: relative;
+      top: 3px;
+    }
+  
+    @media screen and (min-width: 450px) {
+      width: 93%;
+    }
+  }
+}
+
+.fire-of-note {
+  width: 160px;
+  color: var(--reds-red-1, #852a2d);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding: 6px 8px;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  border-radius: 4px;
+  border: 1px solid #AA1D3E;
+  margin-bottom: 24px;
+  .fire-icon {
+    padding-right: 8px;
+  }
+  span{
+    vertical-align: top;
+  }
+}
+
+.circle-icon {
+  margin-left: 3px;
+  margin-right: 18px;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+
+  &.HOLDING {
+    background-color: #ffff00;
+    border: 1px solid black;
+  }
+
+  &.OUT_CNTRL {
+    background-color: #ff0000;
+    border: 1px solid black;
+  }
+
+  &.UNDR_CNTRL {
+    background-color: #98e600;
+    border: 1px solid black;
+  }
+
+  &.OUT {
+    background-color: #5c6671;
+    border: 1px solid black;
+  }
+}
+
+.desktop-buttons{
+  display: flex;
+  width: 132px;
+  padding: 6px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+  border: 1px solid #888;
+  background: #F5F7FA;
+  font-size: 16px;
+  font-weight: 500;
+  color: #242424;
+  text-align: center;
+}
+
+.contact-buttons.desktop{
+  gap: 24px;
+}
+
+.back-button{
+  color:#666666;
+  span{
+    padding-left: 9px;
+    vertical-align: top;
+  }
+}
+
+.back-button:hover {
+  cursor: pointer;
+}
+
+.bookmark-icon{
+  padding-left: 8px;
 }

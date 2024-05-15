@@ -1,19 +1,20 @@
 <div class="contact-us-container">
   <div class="header">
-    <h1>Contact Us 
+    <h1>Contact Us
       <span class="material-icons-outlined" [mat-dialog-close]="false">clear</span> 
     </h1>
   </div>
   <div class="content" >
     <div class="fire-centre">
+      <img class="icon-bottom" src="/assets/images/centre.png" alt="centre" />
       {{data.fireCentre}}
     </div>
-    <div class="contact-method">
-      <div class="icon-label"><span class="material-icons-outlined icon">email</span><span>Email Address</span></div>
+    <div class="contact-method" [ngClass]="{desktop: !isMobileView()}">
+      <div class="icon-label"><span class="material-icons-outlined icon">email</span><span *ngIf="isMobileView()">Email Address</span></div>
       <span class="value">{{data.email}}</span>
     </div>
-    <div class="contact-method">
-      <div class="icon-label"><span class="material-icons icon">call</span><span>Phone Number</span></div>
+    <div class="contact-method" [ngClass]="{desktop: !isMobileView()}">
+      <div class="icon-label"><span class="material-icons icon">call</span><span *ngIf="isMobileView()">Phone Number</span></div>
       <span class="value">{{data.phoneNumber}}</span>
     </div>
 

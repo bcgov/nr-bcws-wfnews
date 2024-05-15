@@ -4,6 +4,8 @@ import {
   Input,
   AfterViewInit,
   HostListener,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { EvacOrderOption } from '../../../conversion/models';
 import * as L from 'leaflet';
@@ -13,7 +15,8 @@ import {
   convertToFireCentreDescription,
   convertFireNumber,
   ResourcesRoutes,
-  setDisplayColor
+  setDisplayColor,
+  getStageOfControlLabel
 } from '../../../utils';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,6 +25,8 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
+import { toCanvas } from 'qrcode';
+
 
 @Component({
   selector: 'incident-header-panel',
@@ -33,14 +38,18 @@ export class IncidentHeaderPanel implements AfterViewInit {
   @Input() public incident: any;
   @Input() public evacOrders: EvacOrderOption[] = [];
   @Input() public extent: any;
+  @Output() requestPrint = new EventEmitter<void>();
 
   public params: ParamMap;
   public defaultEvacURL: string;
 
   convertToFireCentreDescription = convertToFireCentreDescription;
   convertFireNumber = convertFireNumber;
+  getStageOfControlLabel = getStageOfControlLabel;
 
   private map: any;
+  incidentEvacOrders = [];
+  incidentEvacAlerts = [];
 
   constructor(
     private appConfigService: AppConfigService,
@@ -66,6 +75,15 @@ export class IncidentHeaderPanel implements AfterViewInit {
     this.route.queryParams.subscribe((params: ParamMap) => {
       this.params = params;
     });
+    if (this.evacOrders?.length) {
+      for (const evac of this.evacOrders) {
+        if (evac.orderAlertStatus === 'Order') {
+          this.incidentEvacOrders.push(evac);
+        } else if (evac.orderAlertStatus === 'Alert') {
+          this.incidentEvacAlerts.push(evac);
+        }
+      }
+    }
   }
 
   ngAfterViewInit(): void {
@@ -83,6 +101,12 @@ export class IncidentHeaderPanel implements AfterViewInit {
       trackResize: false,
       scrollWheelZoom: false,
     }).setView(location, 9);
+    if (!this.isMobileView()){
+      // only apply these in desktop
+      L.control.zoom({
+        position: 'topright'
+      }).addTo(this.map);
+    }
     // configure map data
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
@@ -212,9 +236,10 @@ export class IncidentHeaderPanel implements AfterViewInit {
     return formattedDate;
   }
 
-  openContactUsWindow() {
+  openContactUsWindow(mode:string | null) {
     this.dialog.open(ContactUsDialogComponent, {
       panelClass: 'contact-us-dialog',
+      width: mode === 'desktop' ? '500px' : undefined,  // Set width based on mode
       data: {
         fireCentre: convertToFireCentreDescription(
           this.incident.contactOrgUnitIdentifer ||
@@ -327,4 +352,30 @@ this.router.navigate([ResourcesRoutes.DASHBOARD]);
       );
     }
   }
+
+  // printPage(){
+  //   this.requestPrint.emit();
+  // }
+
+  public printPage() {
+    const printContents =
+      document.getElementsByClassName('page-container')[0].innerHTML;
+
+    const appRoot = document.body.removeChild(
+      document.getElementById('app-root'),
+    );
+
+    document.body.innerHTML = printContents;
+
+    const canvas = document.getElementById('qr-code');
+    toCanvas(canvas, window.location.href, function(error) {
+      if (error) {
+console.error(error);
+}
+      window.print();
+      document.body.innerHTML = '';
+      document.body.appendChild(appRoot);
+    });
+  }
+
 }
