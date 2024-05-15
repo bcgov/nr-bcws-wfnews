@@ -580,7 +580,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     };
 
     try {
-      console.log(this.publishedIncidentDetailGuid)
       const doc = await self.publishIncident(publishedIncidentResource);
       if (doc) {
         this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid;
