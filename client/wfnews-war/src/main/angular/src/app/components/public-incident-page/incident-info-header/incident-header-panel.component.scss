@@ -58,6 +58,9 @@
   flex:1;
   max-width: 50%;
   padding: 32px 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .incident-details {
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -460,4 +463,8 @@
 
 .back-button:hover {
   cursor: pointer;
+}
+
+.bookmark-icon{
+  padding-left: 8px;
 }

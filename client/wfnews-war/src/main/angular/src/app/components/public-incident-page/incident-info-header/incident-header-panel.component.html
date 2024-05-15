@@ -17,7 +17,10 @@
         <div class="title">{{incident.incidentName}}
             <span #el *ngIf="!isMobileView()" class="no-print" style="cursor: pointer;"
               (click)="onWatchlist() ? removeFromWatchlist() : addToWatchlist()">
-              <mat-icon style="color:black">{{onWatchlist() ? 'bookmark' : 'bookmark_border'}}</mat-icon>
+              <img *ngIf="!onWatchlist()" height="20" width="20" class="bookmark-icon" src="/assets/images/svg-icons/bookmark.svg"
+              alt="bookmark" />
+              <img *ngIf="onWatchlist()" height="20" width="20" class="bookmark-icon" src="/assets/images/svg-icons/bookmark-blue.svg"
+              alt="bookmark" />
             </span>
         </div>
         <div *ngIf="!isMobileView()" class="evac-cards">
