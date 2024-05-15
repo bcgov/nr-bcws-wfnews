@@ -218,7 +218,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         this.publishedIncidentService
           .fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce)
           .subscribe(
-            (incidentResponse) => {
+            async (incidentResponse) => {
               self.currentAdminIncident = incidentResponse.response;
               this.publishedIncidentType = self.currentAdminIncident.type;
               (self.incident as any).discoveryDate = new Date(
@@ -297,10 +297,10 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               const publishedIncident = new Promise((resolve, reject) => {
                 incidentResponse.getPublishedIncident.toPromise().then(
                   (result) => {
-                    if(result) {
+                    if (result) {
                       publishedWFIM = true;
                       resolve(result)
-                    }else reject(result)
+                    } else reject(result)
                   }, (err) => {
                     console.log('No published data found...');
                     console.error(err);
@@ -320,8 +320,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                   .toPromise().then(
                     (response) => {
                       // resolve only if the incident has not been published in WFIM
-                      if(!publishedWFIM) resolve(response)
-                        else reject(response)
+                      if (!publishedWFIM) resolve(response)
+                      else reject(response)
                     }, (err) => {
                       console.log('No public published data found...');
                       console.error(err);
@@ -330,25 +330,24 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                   );
               });
 
-              const promises = [publishedIncident, publicPublishedIncident];
+              const results = await Promise.allSettled([publishedIncident, publicPublishedIncident]);
 
-              Promise.allSettled(promises).then((results) =>
-                results.forEach((result) => {
-                  let iterate = true;
-                  if (result?.status == 'fulfilled') {
-                    if (iterate) {
-                      const res = result?.value;
-                      if (!publishedWFIM) {
-                        this.populatePublicFields(res)
-                      } else {
-                        this.populatePublishedIMFields(res)
-                      }
-                      this.populateCommonFields(res)
-                      iterate = false;
+              results.forEach((result) => {
+                let iterate = true;
+                if (result?.status == 'fulfilled') {
+                  if (iterate) {
+                    const res = result?.value;
+                    if (!publishedWFIM) {
+                      this.populatePublicFields(res)
+                    } else {
+                      this.populatePublishedIMFields(res)
                     }
+                    this.populateCommonFields(res)
+                    iterate = false;
                   }
                 }
-                ));
+              });
+
 
 
               this.incidentForm.patchValue(this.incident);
@@ -424,9 +423,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       },
 
       this.incidentForm?.patchValue(this.incident);
-      this.incidentForm?.markAsPristine();
-      this.evacOrdersDetailsPanel?.getEvacOrders();
-      this.cdr.detectChanges();
+    this.incidentForm?.markAsPristine();
+    this.evacOrdersDetailsPanel?.getEvacOrders();
+    this.cdr.detectChanges();
   }
 
   populateCauseComments(causeCode: number) {
