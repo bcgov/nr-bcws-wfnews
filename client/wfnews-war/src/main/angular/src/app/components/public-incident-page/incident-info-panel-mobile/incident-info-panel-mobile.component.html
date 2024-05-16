@@ -240,12 +240,12 @@
                     </div>
                     <div *ngIf='incident.generalIncidentCauseCatId === 3'>
                         <img class="icon-cause" src="/assets/images/svg-icons/help.svg" alt="question" />
-                        {{incident.incidentCauseDetail || getCauseLabel(incident.generalIncidentCauseCatId)}}
+                        {{getCauseLabel(incident.generalIncidentCauseCatId)}}
                     </div>
                 </div>
             </div>
             <div class="sub-content">
-                {{getCauseDescription(incident.generalIncidentCauseCatId)}}
+                {{incident.incidentCauseDetail || getCauseDescription(incident.generalIncidentCauseCatId)}}
             </div>
             <div class="divider"></div>
         </div>
