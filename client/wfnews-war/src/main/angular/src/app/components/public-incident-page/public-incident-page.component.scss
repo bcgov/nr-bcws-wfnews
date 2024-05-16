@@ -90,12 +90,33 @@
 }
 
 :host ::ng-deep .mdc-tab--active {
-  font-weight: 700 !important;
-  text-decoration-line: underline;
-  text-decoration-style: solid;
-  text-decoration-color: var(--Medium-Blue, #146fb4);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 7px;
+  @media (min-width: $mobile-max-width){
+    font-weight: 500 !important;
+    border-radius: 100px;
+    border: 2px solid #38598A; 
+    background: #E9F0F8 !important;
+    text-decoration-line: none !important;
+  }
+}
+
+:host ::ng-deep .mdc-tab--active {
+  @media (min-width: $mobile-max-width){
+    font-weight: 700 !important;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-color: var(--Medium-Blue, #146fb4);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 7px;
+  }
+}
+
+:host ::ng-deep .mat-mdc-tab-labels{
+  @media (min-width: $mobile-max-width){
+    border-radius: 100px;
+    border: 1.5px solid #CCC !important;
+    background: #FFF;
+    overflow: hidden;
+  }
 }
 
 .page {
@@ -124,6 +145,17 @@
 :host ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
   color: var(--Black-2, #484848) !important;
   opacity: 0.6;
+}
+
+:host ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  @media (min-width: $mobile-max-width) {
+    color: var(--Black-24, #242424) !important;
+    font-size: 18px !important;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    opacity: 1 !important;
+  }
 }
 
 ::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
@@ -204,4 +236,44 @@
     height: 24px;
     width: 24px;
   }
+}
+
+.tab-group{
+  padding: 0 170px;
+  background-color: white;
+  border-top: 1.5px solid #DDD;
+  align-items: center;
+}
+
+:host ::ng-deep .mat-mdc-tab-header{
+  @media (min-width: $mobile-max-width){
+    padding: 32px 0px !important;
+    background-color: white;
+    width: 640px;
+  }
+}
+
+:host ::ng-deep .mat-mdc-tab-body-wrapper{
+  @media (min-width: $mobile-max-width){
+    width: 70vw;
+    max-width: 1600px;
+  }
+}
+
+:host
+  ::ng-deep
+  .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs
+  > .mat-mdc-tab-header
+  .mat-mdc-tab {
+    @media (min-width: $mobile-max-width){
+      background: white;
+      width: 10px;
+    }
+}
+
+.icon-tab {
+  padding-right: 8px;
+  position: relative;
+  height: 24px;
+  width: 24px;
 }
