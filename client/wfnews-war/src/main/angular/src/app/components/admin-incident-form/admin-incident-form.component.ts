@@ -35,6 +35,7 @@ import {
   SizeTypeOptionDisclaimer,
 } from './incident-details-panel/incident-details-panel.constants';
 import { PublishDialogComponent } from './publish-dialog/publish-dialog.component';
+import { ResourceManagementService } from '@app/services/resource-management.service';
 
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
@@ -127,6 +128,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     private publishedIncidentService: PublishedIncidentService,
     protected snackbarService: MatSnackBar,
     protected http: HttpClient,
+    private resourceManagementService: ResourceManagementService 
   ) {
     this.incidentForm = this.formBuilder.group({
       aviationComments: [],
@@ -281,6 +283,12 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                 this.incidentForm.get('sizeHectares').disable();
               }
 
+              const res = this.resourceManagementService.fetchResource(this.wildFireYear, self.currentAdminIncident.incidentLabel)
+                .subscribe(response => {
+                  console.log(response)
+                },(error) => {
+                  console.log(error)
+                });
 
               this.http
                 .get('../../../../assets/data/fire-center-contacts-agol.json')

@@ -245,6 +245,7 @@ import { NotificationSnackbarComponent } from '@app/components/notification-snac
 import { HTTP } from '@ionic-native/http/ngx';
 import { IonicStorageService } from './services/ionic-storage.service';
 import { PublicEventPageComponent } from './components/public-event-page/public-event-page.component';
+import { ResourceManagementService } from './services/resource-management.service';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -566,7 +567,8 @@ export const DATE_FORMATS = {
     NotificationService,
     GoogleChartsService,
     HTTP,
-    IonicStorageService
+    IonicStorageService,
+    ResourceManagementService
   ],
   bootstrap: [AppComponent],
 })

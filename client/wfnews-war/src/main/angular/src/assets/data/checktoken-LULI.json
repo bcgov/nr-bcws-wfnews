@@ -88,7 +88,10 @@
     "WFDM.UPDATE_FILE_CHECKOUT",
     "WFIM.UPDATE_RESOURCE_ALLOCATION_ASSESSMENT",
     "WFIM.GET_WILDFIRE_INCIDENT",
-    "WFIM.WFNEWS_ADMIN"
+    "WFIM.WFNEWS_ADMIN",
+    "WFRM.GET_TOPLEVEL",
+    "WFRM.GET_ASSIGNMENT",
+    "WFRM.GET_ASSIGNMENT_MEMBER"
   ],
   "clientId": "WFNEWS-UI",
   "cid": "WFNEWS-UI",
@@ -110,5 +113,5 @@
   "iat": 1661803493,
   "exp": 1661846693,
   "iss": "http://localhost:8080/webade-oauth2/oauth/token",
-  "aud": ["WFDM", "WEBADE-REST", "WFIM", "WEBADE-OAUTH2", "WFONE", "WFORG"]
+  "aud": ["WFDM", "WEBADE-REST", "WFIM", "WEBADE-OAUTH2", "WFONE", "WFORG", "WFRM"]
 }
