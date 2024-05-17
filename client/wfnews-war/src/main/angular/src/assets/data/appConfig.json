@@ -112,7 +112,7 @@
     "pointId": "https://wfss-pointid-api.dev.bcwildfireservices.com",
     "fire-report-api": "https://wfone-notifications-api.dev.bcwildfireservices.com/rof",
     "notification-api": "https://wfone-notifications-api.dev.bcwildfireservices.com",
-    "resource-api": "https://i1bcwsapi.nrs.gov.bc.ca/wfrm-resource-schedule-api"
+    "wfrmSchedule": "https://i1bcwsapi.nrs.gov.bc.ca/wfrm-resource-schedule-api"
   },
 
   "webade": {

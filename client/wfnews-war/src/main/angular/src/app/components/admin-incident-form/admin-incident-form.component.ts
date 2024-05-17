@@ -283,13 +283,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                 this.incidentForm.get('sizeHectares').disable();
               }
 
-              const res = this.resourceManagementService.fetchResource(this.wildFireYear, self.currentAdminIncident.incidentLabel)
-                .subscribe(response => {
-                  console.log(response)
-                },(error) => {
-                  console.log(error)
-                });
-
               this.http
                 .get('../../../../assets/data/fire-center-contacts-agol.json')
                 .subscribe((data) => {

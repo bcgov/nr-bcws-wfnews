@@ -246,6 +246,9 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { IonicStorageService } from './services/ionic-storage.service';
 import { PublicEventPageComponent } from './components/public-event-page/public-event-page.component';
 import { ResourceManagementService } from './services/resource-management.service';
+import { ApiModule as ScheduleApiModule, 
+  Configuration as ScheduleAPIServiceConfiguration 
+} from "@wf1/wfrm-resource-schedule-api";
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -489,6 +492,7 @@ export const DATE_FORMATS = {
     IonicModule.forRoot(),
     MatSliderModule,
     GoogleChartsModule,
+    ScheduleApiModule
   ],
   providers: [
     // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER
@@ -538,6 +542,16 @@ export const DATE_FORMATS = {
       useFactory(appConfig: AppConfigService) {
         return new DocumentAPIServiceConfiguration({
           basePath: appConfig.getConfig().rest.wfdm,
+        });
+      },
+      multi: false,
+      deps: [AppConfigService],
+    },
+    {
+      provide: ScheduleAPIServiceConfiguration,
+      useFactory(appConfig: AppConfigService) {
+        return new ScheduleAPIServiceConfiguration({
+          basePath: appConfig.getConfig().rest.wfrmSchedule,
         });
       },
       multi: false,
