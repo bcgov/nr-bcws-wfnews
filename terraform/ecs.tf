@@ -349,6 +349,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = var.NOTIFICATION_API_URL
         },
         {
+          name = "WFRM_RESOURCE_API_URL",
+          value = var.WFRM_RESOURCE_API_URL
+        },
+        {
           name = "POINT_ID_URL",
           value = var.POINT_ID_URL
         },
