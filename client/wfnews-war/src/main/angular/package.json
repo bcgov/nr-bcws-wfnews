@@ -88,6 +88,7 @@
     "@wf1/orgunit-rest-api": "^2.0.2",
     "@wf1/wfcc-application-ui": "^1.2.0-SNAPSHOT",
     "@wf1/wfdm-document-management-api": "^1.2.0-SNAPSHOT",
+    "@wf1/wfrm-resource-schedule-api": "^1.9.0-SNAPSHOT.99",
     "angular-google-charts": "2.2.3",
     "angular-oauth2-oidc": "4.0.2",
     "angular2-uuid": "1.1.1",

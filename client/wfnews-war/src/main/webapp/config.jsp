@@ -163,6 +163,11 @@
       pointidUri = pointidUri.substring(0, pointidUri.length() - 1); //Strip off trailing slash, if it exists.
     }
 
+    String wfrmResourceUri = EnvironmentVariable.getVariable("WFRM_RESOURCE_API_URL"); 
+    if (wfrmResourceUri != null && wfrmResourceUri.endsWith("/")) {
+      wfrmResourceUri = wfrmResourceUri.substring(0, wfrmResourceUri.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
     json.append("\"rest\":{");
       json.append("\"newsLocal\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"incidents\":\"").append(incidentsUri).append("\"").append(",");
@@ -171,6 +176,7 @@
       json.append("\"fire-report-api\":\"").append(fireReportUri).append("\"").append(",");
       json.append("\"notification-api\":\"").append(notificationUri).append("\"").append(",");
       json.append("\"pointId\":\"").append(pointidUri).append("\"");
+      json.append("\"wfrmSchedule\":\"").append(wfrmResourceUri).append("\"");
     json.append("},");
 
     // WebADE OAuth Section
@@ -186,7 +192,7 @@
     json.append("\"webade\":{");
       json.append("\"oauth2Url\":\"").append(webadeOauth2AuthorizeUrl).append("\"").append(",");
       json.append("\"clientId\":\"WFNEWS-UI\",");
-      json.append("\"authScopes\":\"WFIM.* WFORG.* WFDM.* WFNEWS.*\",");
+      json.append("\"authScopes\":\"WFIM.* WFORG.* WFDM.* WFNEWS.* WFRM.*\",");
       json.append("\"enableCheckToken\":true,");
       json.append("\"checkTokenUrl\":\"").append(properties.getProperty("check.token.url", "")).append("\"");
 
