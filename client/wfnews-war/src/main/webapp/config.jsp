@@ -176,7 +176,7 @@
       json.append("\"fire-report-api\":\"").append(fireReportUri).append("\"").append(",");
       json.append("\"notification-api\":\"").append(notificationUri).append("\"").append(",");
       json.append("\"pointId\":\"").append(pointidUri).append("\"");
-      json.append("\"wfrmResource\":\"").append(wfrmResourceUri).append("\"");
+      json.append("\"wfrmSchedule\":\"").append(wfrmResourceUri).append("\"");
     json.append("},");
 
     // WebADE OAuth Section
