@@ -268,7 +268,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
 
   back() {
     if (this.params && this.params['source'] && this.params['source'][0]) {
-      if (this.params['source'][0] === 'map') {
+      if (this.params['source'] === 'map' || this.params['source'][0] === 'map') {
 this.backToMap();
 } else if (
         this.params['source'][0] === 'full-details' &&

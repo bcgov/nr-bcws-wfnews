@@ -57,7 +57,7 @@
 .incident-details.desktop{
   flex:1;
   max-width: 50%;
-  padding: 32px 96px;
+  padding: 32px 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -321,7 +321,6 @@
   gap: var(--16, 16px);
   margin-top: 12px;
   margin-bottom: 10px;
-  width:80%;
   .order-count {
     width: 90%;
     font-size: 16px;
