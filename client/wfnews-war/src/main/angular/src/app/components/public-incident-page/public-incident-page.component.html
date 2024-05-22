@@ -4,42 +4,14 @@
       <incident-header-panel [incident]="incident" [evacOrders]="evacOrders" [extent]="extent"></incident-header-panel>
     </div>
     <div *ngIf="!hideOnMobileView()">
-      <mat-tab-group mat-stretch-tabs class="tab-group" [headerPosition]="above" (selectedTabChange)="onTabChange($event)"  #tabGroup>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <img class="icon-tab"
-                 [src]="tabGroup.selectedIndex === 0 ? '/assets/images/svg-icons/list-blue.svg' : '/assets/images/svg-icons/list-black.svg'"/>
-            Details
-          </ng-template>
-          <incident-info-panel [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <img class="icon-tab"
-                 [src]="tabGroup.selectedIndex === 1 ? '/assets/images/svg-icons/response-firefighter-blue.svg' : '/assets/images/svg-icons/response-firefighter-black.svg'"/>
-                 Response
-          </ng-template>
-          <incident-overview-panel [incident]="incident"></incident-overview-panel>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <img class="icon-contact"
-                 [src]="tabGroup.selectedIndex === 2 ? '/assets/images/svg-icons/gallery-blue.svg' : '/assets/images/svg-icons/gallery-black.svg'"/>
-            Gallery
-          </ng-template>
-          <ng-template matTabContent>
-            <incident-gallery-panel [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel>
-          </ng-template>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <img class="icon-tab"
-                 [src]="tabGroup.selectedIndex === 3 ? '/assets/images/svg-icons/map-blue.svg' : '/assets/images/svg-icons/map-black.svg'"/>
-                 Maps
-          </ng-template>
-          <incident-maps-panel [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel>
-        </mat-tab>
-      </mat-tab-group>
+      <app-incident-tabs 
+        [incident]="incident" 
+        [evacOrders]="evacOrders" 
+        [areaRestrictions]="areaRestrictions" 
+        [showImageWarning]="showImageWarning" 
+        [showMapsWarning]="showMapsWarning"
+        (tabChange)="onTabChange($event)">
+      </app-incident-tabs>
     </div>
     <div *ngIf="hideOnMobileView()">
       <mat-tab-group mat-stretch-tabs-mobile [headerPosition]="above">
