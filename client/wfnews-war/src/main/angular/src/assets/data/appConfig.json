@@ -111,14 +111,15 @@
     "causecodes": "causeCodes/token.jsp",
     "pointId": "https://wfss-pointid-api.dev.bcwildfireservices.com",
     "fire-report-api": "https://wfone-notifications-api.dev.bcwildfireservices.com/rof",
-    "notification-api": "https://wfone-notifications-api.dev.bcwildfireservices.com"
+    "notification-api": "https://wfone-notifications-api.dev.bcwildfireservices.com",
+    "wfrmSchedule": "https://i1bcwsapi.nrs.gov.bc.ca/wfrm-resource-schedule-api"
   },
 
   "webade": {
     "#oauth2Url": "https://d1auth.vividsolutions.com/pub/webade-oauth2/oauth/authorize",
     "oauth2Url": "https://intapps.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize",
     "clientId": "WFNEWS-UI",
-    "authScopes": "WFIM.* WFORG.* WFDM.* WFNEWS.*",
+    "authScopes": "WFIM.* WFORG.* WFDM.* WFNEWS.* WFRM.*",
     "enableCheckToken": true,
     "#checkTokenUrl": "assets/data/checktoken-INCIDENT_COMMANDER.json",
     "checkTokenUrl": "./assets/data/checktoken-LULI.json"

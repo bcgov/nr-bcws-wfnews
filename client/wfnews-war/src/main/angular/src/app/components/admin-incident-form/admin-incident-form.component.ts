@@ -281,7 +281,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                 this.incidentForm.get('sizeHectares').disable();
               }
 
-
               this.http
                 .get('../../../../assets/data/fire-center-contacts-agol.json')
                 .subscribe((data) => {

@@ -547,6 +547,11 @@ variable "NOTIFICATION_API_URL" {
   default = ""
 }
 
+variable "WFRM_RESOURCE_API_URL" {
+  type = string
+  default = ""
+}
+
 variable "POINT_ID_URL" {
   type = string
   default = ""
