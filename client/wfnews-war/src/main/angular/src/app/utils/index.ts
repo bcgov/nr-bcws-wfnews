@@ -570,6 +570,9 @@ export function convertToDateTimeTimeZone(date) {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: undefined, // this removes the seconds
   };
   let convertedDate: string;
   convertedDate = date
