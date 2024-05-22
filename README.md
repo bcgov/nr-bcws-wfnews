@@ -68,3 +68,7 @@ Node 18+ is required.
 ### CI/CD for DEV/TEST/PROD Deployments
 
 The WFNEWS project is built and deployed via Github actions. A Terraform cloud team server handles running the Terraform. A CI pipeline is setup to run static analysis of the Typescript.
+
+### Testing
+
+This project is tested with BrowserStack
