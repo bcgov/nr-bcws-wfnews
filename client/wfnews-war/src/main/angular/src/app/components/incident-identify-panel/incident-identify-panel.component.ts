@@ -161,6 +161,7 @@ export class IncidentIdentifyPanelComponent {
           queryParams: {
             fireYear: this.incident.fireYear,
             incidentNumber: this.incident.incidentNumberLabel,
+            source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
           },
         }),
       );
