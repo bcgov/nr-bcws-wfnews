@@ -245,6 +245,7 @@ import { NotificationSnackbarComponent } from '@app/components/notification-snac
 import { HTTP } from '@ionic-native/http/ngx';
 import { IonicStorageService } from './services/ionic-storage.service';
 import { PublicEventPageComponent } from './components/public-event-page/public-event-page.component';
+import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
 import { ResourceManagementService } from './services/resource-management.service';
 import { ApiModule as ScheduleApiModule, 
   Configuration as ScheduleAPIServiceConfiguration 
@@ -411,6 +412,7 @@ export const DATE_FORMATS = {
     BaseDialogComponent,
     NotificationSnackbarComponent,
     PublicEventPageComponent,
+    IncidentTabsComponent,
   ],
   imports: [
     MatSortModule,
