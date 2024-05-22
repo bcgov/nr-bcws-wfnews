@@ -297,7 +297,7 @@ this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
           },
         });
       } else {
-this.router.navigate(this.params['source']);
+this.router.navigate([this.params['source']]);
 }
     } else {
 this.router.navigate([ResourcesRoutes.DASHBOARD]);
