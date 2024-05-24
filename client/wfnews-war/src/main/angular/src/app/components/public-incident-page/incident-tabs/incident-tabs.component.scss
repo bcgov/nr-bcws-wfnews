@@ -51,7 +51,7 @@
 :host ::ng-deep .mat-mdc-tab-header{
   @media (min-width: $mobile-max-width){
     padding: 32px 0px !important;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.00001); //transparent
     width: 640px;
   }
 }

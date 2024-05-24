@@ -4,6 +4,8 @@ import {
   Input,
   AfterViewInit,
   ChangeDetectorRef,
+  SimpleChanges,
+  OnChanges,
 } from '@angular/core';
 import {
   AreaRestrictionsOption,
@@ -15,7 +17,9 @@ import {
   findFireCentreByName,
   convertToYoutubeId,
   isMobileView,
-  getResponseTypeDescription
+  getResponseTypeDescription,
+  ResourcesRoutes,
+  convertToDateYear
 } from '../../../utils';
 import { PublishedIncidentService } from '../../../services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
@@ -31,7 +35,7 @@ import { YouTubeService } from '@app/services/youtube-service';
   styleUrls: ['./incident-info-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IncidentInfoPanel implements AfterViewInit {
+export class IncidentInfoPanel implements AfterViewInit, OnChanges {
   @Input() public incident: any;
   @Input() public evacOrders: EvacOrderOption[] = [];
   @Input() public areaRestrictions: AreaRestrictionsOption[] = [];
@@ -43,7 +47,11 @@ export class IncidentInfoPanel implements AfterViewInit {
   public convertToYoutubeId = convertToYoutubeId;
   public isMobileView = isMobileView;
   getResponseTypeDescription = getResponseTypeDescription;
+  convertToDateYear = convertToDateYear;
+
   public areaRestrictionLink : string;
+  desktopEvacOrders = [];
+  desktopEvacAlerts = [];
 
   public constructor(
     private publishedIncidentService: PublishedIncidentService,
@@ -53,13 +61,26 @@ export class IncidentInfoPanel implements AfterViewInit {
     private router: ActivatedRoute,
     private http: HttpClient,
     protected route: Router,
-    private youtubeService: YouTubeService
+    private youtubeService: YouTubeService,
   ) {}
 
   handleImageFallback(href: string) {
     const imgComponent = document.getElementById('primary-image-container');
     if (imgComponent) {
       (imgComponent as any).src = href;
+    }
+  }
+
+  ngOnChanges(changes:SimpleChanges) {
+    if (changes?.evacOrders?.currentValue.length){
+      let evacs = changes.evacOrders.currentValue
+      for (const evac of evacs){
+        if (evac.orderAlertStatus === 'Order') {
+          this.desktopEvacOrders.push(evac);
+          } else if (evac.orderAlertStatus === 'Alert') {
+          this.desktopEvacAlerts.push(evac);
+          }
+      }
     }
   }
 
@@ -247,5 +268,47 @@ return 'A wildfire of undetermined cause, including a wildfire that is currently
     return this.http.get(
       '../../../../assets/data/fire-center-contacts-agol.json',
     );
+  }
+
+  navigateToMap() {
+    if (this.incident) {
+      setTimeout(() => {
+        this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+          queryParams: {
+            longitude: this.incident.longitude,
+            latitude: this.incident.latitude,
+            activeWildfires: true
+          },
+        });
+      }, 200);
+    }
+  }
+
+  navigateToEvac(event) {
+    const url = this.route.serializeUrl(
+      this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+        queryParams: {
+          eventType: event.status,
+          eventNumber: event.eventNumber,
+          eventName: event.eventName
+        },
+      }),
+    );
+    window.open(url, '_blank');
+  }
+
+  navigateToAreaRestriction(event) {
+    const url = this.route.serializeUrl(
+      this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT]),
+    );
+    window.open(url, '_blank');
+  }
+
+  emailFireCentre(recipientEmail: string) {
+    const mailtoUrl = `mailto:${recipientEmail}`;
+    window.location.href = mailtoUrl;
+  }
+
+  openAllPhotos() {
   }
 }
