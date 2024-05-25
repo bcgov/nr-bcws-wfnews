@@ -129,6 +129,18 @@
                 <div class="image-container" *ngIf="primaryMedia.type === 'image'">
                   <img alt="icon" id="primary-image-container" class="image-card" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="500" height="500" (error)="handleImageFallback(primaryMedia.href)" />
                   <button class="all-photos-button" (click)="openAllPhotos()">All photos</button>
+                  <div #lightGalleryRef>
+                    <a *ngFor="let item of mediaCollection; let i = index"
+                        [attr.data-index]="i"
+                        data-lg-size="480-475-480, 800-791-800, 1406-1390"
+                        class="gallery-item"
+                        [href]="item.href"
+                        [data-src]="item.href"
+                        [data-responsive]="item.href + ' 800'"
+                        style="display: none;">
+                        <img [id]="i + '-img-thumb'" width="150" alt="Image" class="img-responsive" [src]="item.thumbnail" />
+                    </a>
+                  </div> 
                 </div>
                 <iframe class="no-print" *ngIf="primaryMedia.type === 'video'" style="width:-webkit-fill-available;"
                   width="400" 
@@ -139,7 +151,7 @@
                   allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                   referrerpolicy="strict-origin-when-cross-origin" 
                   allowfullscreen>
-                </iframe>          
+                </iframe>
               </div>
             </ng-template>
           </div>
