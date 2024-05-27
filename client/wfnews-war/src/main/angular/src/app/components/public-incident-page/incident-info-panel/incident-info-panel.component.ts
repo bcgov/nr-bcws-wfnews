@@ -4,6 +4,10 @@ import {
   Input,
   AfterViewInit,
   ChangeDetectorRef,
+  SimpleChanges,
+  OnChanges,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import {
   AreaRestrictionsOption,
@@ -15,7 +19,9 @@ import {
   findFireCentreByName,
   convertToYoutubeId,
   isMobileView,
-  getResponseTypeDescription
+  getResponseTypeDescription,
+  ResourcesRoutes,
+  convertToDateYear
 } from '../../../utils';
 import { PublishedIncidentService } from '../../../services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
@@ -24,6 +30,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { YouTubeService } from '@app/services/youtube-service';
+import lightGallery from 'lightgallery';
 
 @Component({
   selector: 'incident-info-panel',
@@ -31,19 +38,25 @@ import { YouTubeService } from '@app/services/youtube-service';
   styleUrls: ['./incident-info-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IncidentInfoPanel implements AfterViewInit {
+export class IncidentInfoPanel implements AfterViewInit, OnChanges {
   @Input() public incident: any;
   @Input() public evacOrders: EvacOrderOption[] = [];
   @Input() public areaRestrictions: AreaRestrictionsOption[] = [];
+  @ViewChild('lightGalleryRef', { static: false }) lightGalleryRef: ElementRef;
 
   showWarning: boolean;
   public primaryMedia = null;
+  public mediaCollection : any[];
   public convertToFireCentreDescription = convertToFireCentreDescription;
   public findFireCentreByName = findFireCentreByName;
   public convertToYoutubeId = convertToYoutubeId;
   public isMobileView = isMobileView;
   getResponseTypeDescription = getResponseTypeDescription;
+  convertToDateYear = convertToDateYear;
+
   public areaRestrictionLink : string;
+  desktopEvacOrders = [];
+  desktopEvacAlerts = [];
 
   public constructor(
     private publishedIncidentService: PublishedIncidentService,
@@ -53,13 +66,26 @@ export class IncidentInfoPanel implements AfterViewInit {
     private router: ActivatedRoute,
     private http: HttpClient,
     protected route: Router,
-    private youtubeService: YouTubeService
+    private youtubeService: YouTubeService,
   ) {}
 
   handleImageFallback(href: string) {
     const imgComponent = document.getElementById('primary-image-container');
     if (imgComponent) {
       (imgComponent as any).src = href;
+    }
+  }
+
+  ngOnChanges(changes:SimpleChanges) {
+    if (changes?.evacOrders?.currentValue.length){
+      let evacs = changes.evacOrders.currentValue
+      for (const evac of evacs){
+        if (evac.orderAlertStatus === 'Order') {
+          this.desktopEvacOrders.push(evac);
+          } else if (evac.orderAlertStatus === 'Alert') {
+          this.desktopEvacAlerts.push(evac);
+          }
+      }
     }
   }
 
@@ -102,7 +128,7 @@ console.error(error);
     this.fetchPrimaryImage();
     this.areaRestrictionLink = this.appConfigService.getConfig().externalAppConfig[
       'currentRestrictions' 
-    ] as unknown as string
+    ] as unknown as string;
   }
 
   public getStageOfControlLabel(code: string) {
@@ -206,8 +232,46 @@ return 'A wildfire of undetermined cause, including a wildfire that is currently
             .toPromise()
             .then((results) => {
               // Loop through the attachments, for each one, create a ref, and set href to the bytes
+              this.mediaCollection = [];
               if (results?.collection?.length > 0) {
                 for (const attachment of results.collection) {
+                  for (const attachment of results.collection) {
+                    // do a mime type check here
+                    // Light gallery does not really support direct download on mimetype : image/bmp && image/tiff, which will returns 500 error.
+                    if (
+                      attachment.mimeType &&
+                      [
+                        'image/jpg',
+                        'image/jpeg',
+                        'image/png',
+                        'image/gif',
+                        'image/bmp',
+                        'image/tiff',
+                      ].includes(attachment.mimeType.toLowerCase())
+                    ) {
+                      this.mediaCollection.push({
+                        title: attachment.attachmentTitle,
+                        uploadedDate: new Date(
+                          attachment.createdTimestamp,
+                        ).toLocaleDateString(),
+                        fileName: attachment.attachmentFileName,
+                        type: 'image',
+                        href: `${
+                          this.appConfigService.getConfig().rest['wfnews']
+                        }/publicPublishedIncidentAttachment/${
+                          this.incident.incidentNumberLabel
+                        }/attachments/${attachment.attachmentGuid}/bytes`,
+                        thumbnail: `${
+                          this.appConfigService.getConfig().rest['wfnews']
+                        }/publicPublishedIncidentAttachment/${
+                          this.incident.incidentNumberLabel
+                        }/attachments/${
+                          attachment.attachmentGuid
+                        }/bytes?thumbnail=true`,
+                        loaded: false,
+                      });
+                    }
+                  }
                   // do a mime type check here
                   if (attachment.primary) {
                     this.primaryMedia = {
@@ -247,5 +311,58 @@ return 'A wildfire of undetermined cause, including a wildfire that is currently
     return this.http.get(
       '../../../../assets/data/fire-center-contacts-agol.json',
     );
+  }
+
+  navigateToMap() {
+    if (this.incident) {
+      setTimeout(() => {
+        this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+          queryParams: {
+            longitude: this.incident.longitude,
+            latitude: this.incident.latitude,
+            activeWildfires: true
+          },
+        });
+      }, 200);
+    }
+  }
+
+  navigateToEvac(event) {
+    const url = this.route.serializeUrl(
+      this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+        queryParams: {
+          eventType: event.status,
+          eventNumber: event.eventNumber,
+          eventName: event.eventName
+        },
+      }),
+    );
+    window.open(url, '_blank');
+  }
+
+  navigateToAreaRestriction(event) {
+    const url = this.route.serializeUrl(
+      this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT]),
+    );
+    window.open(url, '_blank');
+  }
+
+  emailFireCentre(recipientEmail: string) {
+    const mailtoUrl = `mailto:${recipientEmail}`;
+    window.location.href = mailtoUrl;
+  }
+
+  openAllPhotos() {
+    const gallery = lightGallery(this.lightGalleryRef.nativeElement, {
+      dynamic: true,
+      dynamicEl: this.mediaCollection.map(item => ({
+        src: item.href,
+        thumb: item.thumbnail,
+        subHtml: `<h4>${item.title}</h4><p>${item.uploadedDate}</p>`,
+      })),
+      thumbnail: true, // Ensure thumbnails are enabled in dynamic mode
+    });
+
+    gallery.openGallery();
   }
 }

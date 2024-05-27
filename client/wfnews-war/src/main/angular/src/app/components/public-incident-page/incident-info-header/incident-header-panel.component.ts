@@ -260,6 +260,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
           queryParams: {
             longitude: this.incident.longitude,
             latitude: this.incident.latitude,
+            activeWildfires: true
           },
         });
       }, 100);
