@@ -120,9 +120,9 @@
   <div class="right-container">
     <div class="content-panel" style="border-bottom: none;">
       <div class="content-panel-stack">
-        <div style="padding:0 !important">
+        <div *ngIf="primaryMedia !== null" style="padding:0 !important">
           <!-- Image/video section: fetch from aws cache -->
-          <div *ngIf="primaryMedia !== null">
+          <div>
             <div *ngIf="showWarning; else primaryImage" class="preview-warning">Warning: Primary Video/Image selection cannot be previewed</div>
             <ng-template #primaryImage>
               <div style="text-align: center;">
