@@ -456,9 +456,12 @@
 
 .back-button{
   color:#666666;
+  padding-bottom: 24px;
+  img{
+    vertical-align: bottom;
+  }
   span{
     padding-left: 9px;
-    vertical-align: top;
   }
 }
 
