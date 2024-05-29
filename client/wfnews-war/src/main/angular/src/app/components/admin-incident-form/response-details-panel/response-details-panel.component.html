@@ -22,9 +22,15 @@
   <mat-card appearance="outlined" class="info-card news-form-card">
     <mat-card-title>
       Wildfire Crews
+      <button mat-button (click)="updateCrews()" class="resource-button"><img class="icon"
+        src="/assets/images/svg-icons/fluent_open-24-regular.svg"
+        alt="sync" />Import data from Resource Manager</button>
     </mat-card-title>
     <fieldset class="field-set">
       <legend style="display: none">Response card</legend>
+      <div class="field size-full">
+        <mat-checkbox [(ngModel)]="incident.wildifreCrewsInd" formControlName="wildifreCrewsInd" class="example-margin" (change)="onWildfireCrewsChecked($event)">Display Wildfire Crews information</mat-checkbox>
+      </div>
       <div class="news-form">
         <div class="field size-unset">
           <mat-form-field floatLabel="always">
@@ -39,9 +45,6 @@
             <mat-label class="label">Total Crew Units</mat-label>
             <input matInput type="number" [value]="incident.crewResourceCount" disabled>
           </mat-form-field>
-        </div>
-        <div class="field size-third">
-          <mat-checkbox [(ngModel)]="incident.wildifreCrewsInd" formControlName="wildifreCrewsInd" class="example-margin" (change)="onWildfireCrewsChecked($event)">Crews</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -61,9 +64,15 @@
   <mat-card appearance="outlined" class="info-card news-form-card">
     <mat-card-title>
       Aviation
+      <button mat-button (click)="updateAviation()" class="resource-button"><img class="icon"
+        src="/assets/images/svg-icons/fluent_open-24-regular.svg"
+        alt="sync" />Import data from Resource Manager</button>
     </mat-card-title>
     <fieldset class="field-set">
       <legend style="display: none">Arial Response Card</legend>
+      <div class="field size-full">
+        <mat-checkbox [(ngModel)]="incident.aviationInd" formControlName="aviationInd" class="example-margin" (change)="onAviationChecked($event)">Display Wildfire Aviation information</mat-checkbox>
+      </div>
       <div class="news-form">
         <div class="field size-unset">
           <mat-form-field floatLabel="always">
@@ -78,9 +87,6 @@
             <mat-label class="label">Total Aviation Units</mat-label>
             <input matInput type="number" [value]="incident.aviationResourceCount" disabled>
           </mat-form-field>
-        </div>
-        <div class="field size-third">
-          <mat-checkbox [(ngModel)]="incident.aviationInd" formControlName="aviationInd" class="example-margin" (change)="onAviationChecked($event)">Wildfire Aviation</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -100,18 +106,21 @@
   <mat-card appearance="outlined" class="info-card news-form-card">
     <mat-card-title>
       Incident Management Team
+      <button mat-button (click)="updateIMTeam()" class="resource-button"><img class="icon"
+        src="/assets/images/svg-icons/fluent_open-24-regular.svg"
+        alt="sync" />Import data from Resource Manager</button>
     </mat-card-title>
     <fieldset class="field-set">
       <legend style="display: none">Incident Management Response Card</legend>
+      <div class="field size-full">
+        <mat-checkbox [(ngModel)]="incident.incidentManagementInd" formControlName="incidentManagementInd" class="example-margin" (change)="onIncidentManagementTeamsChecked($event)">Display Incident Management Team information</mat-checkbox>
+      </div>
       <div class="news-form">
         <div class="field size-unset">
           <mat-form-field floatLabel="always">
             <mat-label class="label">Incident Management Teams</mat-label>
             <input matInput type="number" [value]="incident.incidentManagementResourceCount" #imTeams (change)="incidentTeamValueChange()">
           </mat-form-field>
-        </div>
-        <div class="field size-third">
-          <mat-checkbox [(ngModel)]="incident.incidentManagementInd" formControlName="incidentManagementInd" class="example-margin" (change)="onIncidentManagementTeamsChecked($event)">Incident Management Team</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -131,18 +140,21 @@
   <mat-card appearance="outlined" class="info-card news-form-card">
     <mat-card-title>
       Heavy Equipment
+      <button mat-button (click)="updateEquipment()" class="resource-button"><img class="icon"
+        src="/assets/images/svg-icons/fluent_open-24-regular.svg"
+        alt="sync" />Import data from Resource Manager</button>
     </mat-card-title>
     <fieldset class="field-set">
       <legend style="display: none">Equipment Response Card</legend>
+      <div class="field size-full">
+        <mat-checkbox [(ngModel)]="incident.heavyEquipmentInd"  formControlName="heavyEquipmentInd" class="example-margin" (change)="onHeavyEquipmentChecked($event)">Display Heavy Equipment information</mat-checkbox>
+      </div>
       <div class="news-form">
         <div class="field size-unset">
           <mat-form-field floatLabel="always">
             <mat-label class="label">Heavy Equipment Pieces</mat-label>
             <input matInput type="number" [value]="incident.heavyEquipmentResourceCount" #pieces (change)="heavyEquipmentValueChange()">
           </mat-form-field>
-        </div>
-        <div class="field size-third">
-          <mat-checkbox [(ngModel)]="incident.heavyEquipmentInd"  formControlName="heavyEquipmentInd" class="example-margin" (change)="onHeavyEquipmentChecked($event)">Heavy Equipment</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -162,18 +174,21 @@
   <mat-card appearance="outlined" class="info-card news-form-card">
     <mat-card-title>
       Structure Protection
+      <button mat-button (click)="updateStructureProtection()" class="resource-button"><img class="icon"
+        src="/assets/images/svg-icons/fluent_open-24-regular.svg"
+        alt="sync" />Import data from Resource Manager</button>
     </mat-card-title>
     <fieldset class="field-set">
       <legend style="display: none">Structure Protection Response Card</legend>
+      <div class="field size-full">
+        <mat-checkbox [(ngModel)]="incident.structureProtectionInd" formControlName="structureProtectionInd" class="example-margin"  (change)="onStructureProtectionChecked($event)">Display Structure Protection information</mat-checkbox>
+      </div>
       <div class="news-form">
         <div class="field size-unset">
           <mat-form-field floatLabel="always">
             <mat-label class="label">Structure protection</mat-label>
             <input matInput [value]="incident.structureProtectionResourceCount" type="number" #structure (change)="structuretValueChange()">
           </mat-form-field>
-        </div>
-        <div class="field size-third">
-          <mat-checkbox [(ngModel)]="incident.structureProtectionInd" formControlName="structureProtectionInd" class="example-margin"  (change)="onStructureProtectionChecked($event)">Structure Protection</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
