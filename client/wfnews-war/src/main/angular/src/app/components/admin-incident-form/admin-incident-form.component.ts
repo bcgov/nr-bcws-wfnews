@@ -666,7 +666,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   toggleFullScreen() {
     try {
       if (!this.toggled) {
-        document.getElementById('ck-doc').style.height = '90vh'
+        document.getElementById('ck-doc').style.height = '92vh'
         document.getElementById('info-title').style.display = 'none'
         document.getElementById('menu-bar').style.display = 'none'
         document.getElementById('top').style.display = 'none'
