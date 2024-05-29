@@ -56,6 +56,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   public publishDisabled = false;
 
+  toggled = false;
+
   public incident = {
     aviationComments: undefined,
     aviationInd: false,
@@ -83,6 +85,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     incidentManagementComments: undefined,
     incidentManagementInd: false,
     incidentNumberSequence: 0,
+    incidentLabel: undefined,
     incidentOverview: '',
     lastPublished: undefined,
     location: undefined,
@@ -234,6 +237,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                 self.currentAdminIncident.incidentLocation.latitude;
               self.incident.fireNumber =
                 self.currentAdminIncident.incidentNumberSequence;
+              self.incident.incidentLabel =
+                self.currentAdminIncident.incidentLabel;
               self.incident.wildfireYear =
                 self.currentAdminIncident.wildfireYear;
               self.incident.fireOfNote =
@@ -492,7 +497,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           duration: 100000,
           panelClass: 'snackbar-success-v2',
         });
-              // Update the Draft/Publish status on incident name
+        // Update the Draft/Publish status on incident name
         this.incident.lastPublished = doc?.publishedTimestamp;
         this.incident.publishedStatus = doc?.newsPublicationStatusCode;
         this.incidentForm.markAsPristine();
@@ -527,7 +532,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       // if (publishedGuid) {
 
       // } else {
-        
+
       // }
       const saveResult = this.publishedIncidentService.saveIMPublishedIncident(incident);
       if (saveResult) {
@@ -657,4 +662,35 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) =>
       new CustomImageUploader(loader);
   }
+
+  toggleFullScreen() {
+    try {
+      if (!this.toggled) {
+        document.getElementById('ck-doc').style.height = '90vh'
+        document.getElementById('info-title').style.display = 'none'
+        document.getElementById('menu-bar').style.display = 'none'
+        document.getElementById('top').style.display = 'none'
+        document.getElementById('mat-tab-label-0-0').style.display = 'none'
+        document.getElementById('mat-tab-label-0-1').style.display = 'none'
+        document.getElementById('mat-tab-label-0-2').style.display = 'none'
+        document.getElementById('mat-tab-label-0-3').style.display = 'none'
+        document.getElementById('mat-tab-label-0-4').style.display = 'none'
+        this.toggled =true;
+      } else {
+        document.getElementById('ck-doc').style.height = 'unset'
+        document.getElementById('top').style.display = 'flex'
+        document.getElementById('info-title').style.display = 'flex'
+        document.getElementById('menu-bar').style.display = 'flex'
+        document.getElementById('mat-tab-label-0-0').style.display = 'unset'
+        document.getElementById('mat-tab-label-0-1').style.display = 'unset'
+        document.getElementById('mat-tab-label-0-2').style.display = 'unset'
+        document.getElementById('mat-tab-label-0-3').style.display = 'unset'
+        document.getElementById('mat-tab-label-0-4').style.display = 'unset'
+        this.toggled = false;
+      }
+    }catch(error) {
+      console.error("Error while toggling editor to full screen", error)
+    }
+  }
+
 }

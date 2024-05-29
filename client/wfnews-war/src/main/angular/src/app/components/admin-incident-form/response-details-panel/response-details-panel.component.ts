@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { AssignmentResourcesSummary, ResourceManagementService } from '@app/services/resource-management.service';
 
 @Component({
   selector: 'response-details-panel',
@@ -20,6 +21,10 @@ export class ResponseDetailsPanel implements OnInit {
 
   responseDisclaimer = `The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes firefighters, air crew, equipment operators, and support staff. For more information on resources assigned to this incident, please contact the information officer listed for this incident.`;
   incidentManagementComments = `An Incident Management Team has been assigned to this wildfire.`;
+
+  details = "detailsOnly"
+
+  constructor(private resourceManagementService: ResourceManagementService) { }
 
   ngOnInit() {
     this.formGroup.controls['responseComments'].setValue(
@@ -85,21 +90,17 @@ export class ResponseDetailsPanel implements OnInit {
 
   crewCommentsValue(initialAttack, unityCrews) {
     if (initialAttack || unityCrews) {
-      return `There are currently ${
-        initialAttack && initialAttack > 0 ? initialAttack : 0
-      } Initial Attack and ${
-        unityCrews && unityCrews > 0 ? unityCrews : 0
-      } Unit Crews responding to this wildfire.`;
+      return `There are currently ${initialAttack && initialAttack > 0 ? initialAttack : 0
+        } Initial Attack and ${unityCrews && unityCrews > 0 ? unityCrews : 0
+        } Unit Crews responding to this wildfire.`;
     }
   }
 
   aviationCommentsValue(helicopters, airtankers) {
     if (helicopters || airtankers) {
-      return `There are currently ${
-        helicopters && helicopters > 0 ? helicopters : 0
-      } helicopters and ${
-        airtankers && airtankers > 0 ? airtankers : 0
-      } airtankers responding to this wildfire.`;
+      return `There are currently ${helicopters && helicopters > 0 ? helicopters : 0
+        } helicopters and ${airtankers && airtankers > 0 ? airtankers : 0
+        } airtankers responding to this wildfire.`;
     }
   }
 
@@ -127,7 +128,7 @@ export class ResponseDetailsPanel implements OnInit {
       );
       this.incident.crewResourceCount =
         (Number(this.initialAttackCrews?.nativeElement?.value) || 0) +
-          (Number(this.unitCrews?.nativeElement?.value) || 0) || undefined;
+        (Number(this.unitCrews?.nativeElement?.value) || 0) || undefined;
     }
   }
 
@@ -141,7 +142,7 @@ export class ResponseDetailsPanel implements OnInit {
       );
       this.incident.aviationResourceCount =
         (Number(this.helicopters?.nativeElement?.value) || 0) +
-          (Number(this.airtankers?.nativeElement?.value) || 0) || undefined;
+        (Number(this.airtankers?.nativeElement?.value) || 0) || undefined;
     }
   }
 
@@ -173,5 +174,78 @@ export class ResponseDetailsPanel implements OnInit {
       this.incident.incidentManagementResourceCount =
         Number(this.imTeams?.nativeElement?.value) || undefined;
     }
+  }
+
+  updateCrews() {
+    this.resourceManagementService.fetchResource(this.incident.wildfireYear, this.incident.incidentLabel, this.details).toPromise().then(result => {
+      result?.summary?.then(summary => {
+        const details = summary?.details as unknown as AssignmentResourcesSummary;
+        if (details) {
+          this.initialAttackCrews.nativeElement.value = this.getCount(details['Crews'].resources, 'Initial Attack Crew');
+          this.unitCrews.nativeElement.value = this.getCount(details['Crews']?.resources, 'Unit Crew');
+        }
+      })
+    }).catch(error => {
+      console.error('Could not update Crews', error)
+    })
+  }
+
+  updateAviation() {
+    this.resourceManagementService.fetchResource(this.incident.wildfireYear, this.incident.incidentLabel, this.details).toPromise().then(result => {
+      result?.summary?.then(summary => {
+        const details = summary?.details as unknown as AssignmentResourcesSummary;
+        if (details) {
+          this.airtankers.nativeElement.value = this.getCount(details['Crews']?.resources, 'Parattack Crew');
+          this.helicopters.nativeElement.value = this.getCount(details['Crews']?.resources, 'Rapattack Crew');
+        }
+      })
+    }).catch(error => {
+      console.error('Could not update Aviation', error)
+    })
+
+  }
+
+  updateIMTeam() {
+    this.resourceManagementService.fetchResource(this.incident.wildfireYear, this.incident.incidentLabel, this.details).toPromise().then(result => {
+      result?.summary?.then(summary => {
+        const details = summary?.details as unknown as AssignmentResourcesSummary;
+        if (details) {
+          this.imTeams.nativeElement.value = this.getCount(details['Crews']?.resources, 'IMT');
+        }
+      })
+    }).catch(error => {
+      console.error('Could not update IM Team', error)
+    })
+    
+  }
+
+  updateEquipment() {
+    this.resourceManagementService.fetchResource(this.incident.wildfireYear, this.incident.incidentLabel, this.details).toPromise().then(result => {
+      result?.summary?.then(summary => {
+        const details = summary?.details as unknown as AssignmentResourcesSummary;
+        if (details) {
+          this.pieces.nativeElement.value = details['Heavy Equipment']?.totalCount;
+        }
+      })
+    }).catch(error => {
+      console.error('Could not update Heavy Equipment', error);
+    })
+  }
+
+  updateStructureProtection() {
+    this.resourceManagementService.fetchResource(this.incident.wildfireYear, this.incident.incidentLabel, this.details).toPromise().then(result => {
+      result?.summary?.then(summary => {
+        const details = summary?.details as unknown as AssignmentResourcesSummary;
+        if (details) {
+          this.structure.nativeElement.value = this.getCount(details['Fire Services Equipment']?.resources, 'Structure Protection Unit');
+        }
+      })
+    }).catch(error => {
+      console.error('Could not update Structure Protection Unit', error);
+    })
+  }
+
+  getCount(resource, name) {
+    return resource.find(r => r.name == name).count;
   }
 }
