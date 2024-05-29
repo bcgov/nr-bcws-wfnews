@@ -70,6 +70,16 @@ $divider-color: #9b9b9b;
  Spacing Variables
  */
 
+// Old iOS Shims < 15
+$dvh100: 100vh;
+@supports (height: 100dvh) {
+  $dvh100: 100dvh;
+}
+$dvw100: 100vw;
+@supports (width: 100dvw) {
+  $dvw100: 100dvw;
+}
+
 // Standard measurements
 $wf1-app-header-height: 72px;
 $wf1-toolbar-height: 3rem;
@@ -88,7 +98,7 @@ $wf1-header-plus-toolbar-and-filter-total-height: $wf1-header-plus-toolbar-total
   $wf1-toolbar-height;
 $wf1-header-plus-toolbar-and-filter-content-total-height: $wf1-header-plus-toolbar-total-height +
   $wf1-toolbar-height + $wf1-filter-toolbar-content-height;
-$wf1-app-map-panel-height: calc(100dvh - #{$wf1-total-app-header-height});
+$wf1-app-map-panel-height: calc($dvh100 - #{$wf1-total-app-header-height});
 $wf1-app-side-panel-height: calc(
   100dvh - #{$wf1-app-header-height} - #{$wf1-sidebar-title-height}
 );
@@ -106,18 +116,18 @@ $wf1-app-side-panel-with-toolbar-and-filter-content-height: calc(
 );
 
 // Main panel related measurements for full screen interfaces. (No top-level toolbar)
-$wf1-app-main-panel-container-height: calc(100dvh - $wf1-app-header-height);
+$wf1-app-main-panel-container-height: calc($dvh100 - $wf1-app-header-height);
 $wf1-app-main-panel-tab-panel-height: calc(
-  100dvh - #{$wf1-app-header-height} - #{$wf1-toolbar-height} - 1.1rem
+  $dvh100 - #{$wf1-app-header-height} - #{$wf1-toolbar-height} - 1.1rem
 );
 // TODO: Fix filter styling issue that requires .1rem to be added to below variables to hide vertical scrollbar.
-// $wf1-app-main-panel-table-height: calc(100dvh - #{$wf1-total-app-header-height + $wf1-toolbar-height});
-// $wf1-app-main-panel-table-with-filter-content-height: calc(100dvh - #{$wf1-total-app-header-height + $wf1-toolbar-height + $wf1-filter-toolbar-content-height + .1rem});
+// $wf1-app-main-panel-table-height: calc($dvh100 - #{$wf1-total-app-header-height + $wf1-toolbar-height});
+// $wf1-app-main-panel-table-with-filter-content-height: calc($dvh100 - #{$wf1-total-app-header-height + $wf1-toolbar-height + $wf1-filter-toolbar-content-height + .1rem});
 
 // Other measurements
 $wf1-app-header-mobile-height: 4rem;
-$wf1-app-map-mobile-height: calc(100dvh - (7rem));
-$wf1-loading-screen-height: calc(100dvh - (6rem));
+$wf1-app-map-mobile-height: calc($dvh100 - (7rem));
+$wf1-loading-screen-height: calc($dvh100 - (6rem));
 $max-component-width: 65rem;
 
 // Tables measurements

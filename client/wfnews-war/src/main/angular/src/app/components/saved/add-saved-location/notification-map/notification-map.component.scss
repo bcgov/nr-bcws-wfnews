@@ -1,3 +1,5 @@
+@import "../../../../../styles/variables.scss";
+
 .content {
   padding-top: env(safe-area-inset-top, 20px);
   padding-bottom: env(safe-area-inset-bottom, 20px);
@@ -65,7 +67,7 @@
   padding: 0 20px; /* Adjust padding as needed */
   min-width: 60vw;
   width: 100%;
-  max-width: 100dvw;
+  max-width: $dvw100;
   margin-top: -24px;
   z-index: 2;
   .slider-label {
@@ -148,5 +150,5 @@
 
 ::ng-deep .cdk-overlay-container .cdk-overlay-pane {
   min-width: 60vw !important;
-  max-width: 100dvw !important;
+  max-width: $dvw100 !important;
 }

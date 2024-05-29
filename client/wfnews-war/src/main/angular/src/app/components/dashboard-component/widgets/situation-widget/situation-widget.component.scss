@@ -150,7 +150,7 @@
     border-radius: 20px;
     border: 1.5px solid #dedede;
     background-color: #f5f6f9;
-    width: calc(100dvw - 80px);
+    width: calc($dvw100 - 80px);
   }
 
   .widget-header {

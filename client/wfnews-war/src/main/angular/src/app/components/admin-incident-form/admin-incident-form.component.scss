@@ -309,7 +309,7 @@ mat-card h3 {
 }
 
 :host ::ng-deep .ck-editor__editable_inline {
-  min-height: calc(100dvh - 485px);
+  min-height: calc($dvh100 - 485px);
 }
 
 ::ng-deep .mdc-snackbar__surface{

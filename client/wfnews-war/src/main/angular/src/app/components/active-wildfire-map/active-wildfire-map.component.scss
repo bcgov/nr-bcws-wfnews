@@ -13,7 +13,7 @@
 }
 
 .container {
-  height: calc(100dvh - 125px) !important;
+  height: calc($dvh100 - 125px) !important;
   overflow: hidden;
 }
 
@@ -217,9 +217,10 @@ mat-panel-title {
   }
 
   .container {
+    height: 100%;
     height: calc(
-      100dvh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px)
-    ) !important;
+      $dvh100 - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px)
+    );
     overflow: hidden;
   }
 
@@ -607,7 +608,7 @@ mat-panel-title {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   overflow-y: auto;
-  max-height: calc(100dvh - 220px) !important;
+  max-height: calc($dvh100 - 220px) !important;
   max-width: 400px !important;
 }
 

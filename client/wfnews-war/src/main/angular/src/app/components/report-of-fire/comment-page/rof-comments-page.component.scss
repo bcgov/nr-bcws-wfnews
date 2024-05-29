@@ -4,15 +4,15 @@
   margin: 20px 0px;
   background-color: #f5f5f5 !important;
   width: calc(100vw - 60px);
-  height: calc(100dvh - 450px);
+  height: calc($dvh100 - 450px);
   border-radius: 3px;
   min-height: 150px;
   max-width: 790px;
   @media all and (min-width: $desktop-sm-min-width) and (orientation: portrait) {
-    height: calc(100dvh - 440px);
+    height: calc($dvh100 - 440px);
   }
   @media all and (min-width: 1024px) and (orientation: landscape) {
-    height: calc(100dvh - 440px);
+    height: calc($dvh100 - 440px);
   }
   .text-area {
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -23,7 +23,7 @@
     width: 100%;
     border: none;
     background-color: #f5f5f5 !important;
-    height: calc(100dvh - 500px);
+    height: calc($dvh100 - 500px);
     min-height: 100px;
   }
   .comment-divider {
