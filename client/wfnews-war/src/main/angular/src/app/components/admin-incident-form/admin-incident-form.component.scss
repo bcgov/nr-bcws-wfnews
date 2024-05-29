@@ -18,6 +18,29 @@
   text-decoration: none;
 }
 
+.ck-doc {
+  height: 345px;
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 68px;
+  margin-right: 68px;
+  border-radius: 3px;
+  resize: vertical;
+  overflow: auto;
+  position: relative;
+
+  .expand-button {
+    width: 17.5px;
+    height: 17.5px;
+    position: absolute;
+    top: 17px;
+    right: 20px;
+    cursor: pointer;
+  }
+}
+
 .top {
   flex-shrink: 0;
   display: flex;
@@ -34,6 +57,7 @@
     margin-left: 10px;
     box-sizing: border-box;
     display: flex;
+
     h1 {
       font-size: 24px;
       font-weight: normal;
@@ -85,6 +109,15 @@
   font-weight: 600;
 }
 
+.section-title {
+  font-size: 20px;
+  padding: 20px;
+  font-weight: 600;
+  border-bottom: 1px solid #9E9E9E;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
 .details {
   margin: 16px 16px;
 }
@@ -93,8 +126,9 @@
   color: black !important;
 }
 
-::ng-deep  .disabled-input:disabled {
-  color: #c6c8cb !important; /* Set the color to red when input is disabled */
+::ng-deep .disabled-input:disabled {
+  color: #c6c8cb !important;
+  /* Set the color to red when input is disabled */
 }
 
 ::ng-deep .item-full-width {
@@ -113,6 +147,40 @@ mat-mdc-select-panel-done-animating {
   .field-set {
     border: none;
     border-bottom: 1px solid #a1a3a6;
+  }
+
+  .resource-button {
+    display: flex;
+    width: 312px;
+    height: 37px;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    position: relative;
+    color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    float: right;
+    border-radius: 5px;
+    border: 1px solid #000;
+    background: #F6F6F6;
+    right: 28px;
+
+    ::ng-deep .mdc-button__label {
+      bottom: 4px;
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+      top: 6px;
+      position: relative
+    }
   }
 
   .news-form {
@@ -211,6 +279,7 @@ mat-mdc-select-panel-done-animating {
         flex-wrap: wrap;
         justify-content: flex-start;
         padding-bottom: 0.5rem;
+
         mat-radio-button,
         mat-checkbox {
           box-sizing: border-box;
@@ -233,6 +302,7 @@ mat-mdc-select-panel-done-animating {
     .submit-controls {
       display: flex;
       justify-content: flex-end;
+
       // padding-right: 5rem;
       .flex-spacer {
         flex: 1 1 auto;
@@ -244,6 +314,7 @@ mat-mdc-select-panel-done-animating {
 .relay-form {
   padding-bottom: 20px;
 }
+
 .news-form-card .news-form .size-full.relay-panel {
   display: flex;
   padding-top: 20px;
@@ -312,6 +383,6 @@ mat-card h3 {
   min-height: calc(100dvh - 485px);
 }
 
-::ng-deep .mdc-snackbar__surface{
+::ng-deep .mdc-snackbar__surface {
   background-color: transparent !important;
 }

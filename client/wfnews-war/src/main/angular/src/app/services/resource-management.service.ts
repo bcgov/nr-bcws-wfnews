@@ -5,9 +5,28 @@ import { concatMap, map } from "rxjs/operators";
 import { DefaultService as ScheduleAPIService } from "@wf1/wfrm-resource-schedule-api";
 import { UUID } from "angular2-uuid";
 
+export interface AssignmentResourcesSummary {
+    "Header Total": {
+        resources: { name: string, count: number }[]
+    },
+    "Single Resources": AssignmentResourcesSummaryDetail,
+    "Crews": AssignmentResourcesSummaryDetail,
+    "Heavy Equipment": AssignmentResourcesSummaryDetail,
+    "Light Equipment": AssignmentResourcesSummaryDetail,
+    "Fire Services Equipment": AssignmentResourcesSummaryDetail,
+}
+
+export interface AssignmentResourcesSummaryDetail {
+    totalCount: number
+    resources: Array<{
+        name: string,
+        count: number
+    }>
+}
+
 @Injectable({
-    providedIn: 'root',
-})
+        providedIn: 'root',
+    })
 export class ResourceManagementService {
 
     constructor(
@@ -18,6 +37,7 @@ export class ResourceManagementService {
     public fetchResource(
         fireYear: string,
         incidentNumber: string,
+        summaryFilter: string
     ): Observable<any> {
         const authToken = this.tokenService.getOauthToken();
         const requestId = `WFRME${UUID.UUID().toUpperCase()}`.replace(/-/g, "");
@@ -51,7 +71,7 @@ export class ResourceManagementService {
                 concatMap((data) => {
                     return of({
                         response: data.response,
-                        getResourceSummary: this.scheduleApiService.getAssignmentResourcesSummary(
+                        summary: this.scheduleApiService.getAssignmentResourcesSummary(
                             data.assignmentGuid,
                             requestId,
                             2,
@@ -59,7 +79,7 @@ export class ResourceManagementService {
                             "no-cache",
                             `Bearer ${authToken}`,
                             new Date().toISOString().slice(0, 10),
-                            "headerOnly"
+                            summaryFilter
                         ).toPromise()
                     });
                 }),
