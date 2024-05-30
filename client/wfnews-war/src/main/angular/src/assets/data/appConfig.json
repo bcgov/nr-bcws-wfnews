@@ -126,7 +126,7 @@
   },
 
   "mapServices": {
-    "openmapsBaseUrl": "https://maps.dev.bcwildfireservices.com/geo/pub/ows",
+    "openmapsBaseUrl": "https://maps.test.bcwildfireservices.com/geo/pub/ows",
     "services6BaseUrl": "https://services6.dev.bcwildfireservices.com",
     "#openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
     "drivebcBaseUrl": "https://dev-maps.th.gov.bc.ca/geoV05/ows",
