@@ -342,8 +342,8 @@
       padding-right: 8px !important;
       height: 20px;
       width: 20px;
-      position: relative;
       top: 3px;
+      vertical-align: bottom;
     }
   
     @media screen and (min-width: 450px) {
@@ -374,8 +374,8 @@
       padding-right: 8px !important;
       height: 20px;
       width: 20px;
-      position: relative;
       top: 3px;
+      vertical-align: bottom;
     }
   
     @media screen and (min-width: 450px) {
@@ -407,9 +407,7 @@
   margin-bottom: 24px;
   .fire-icon {
     padding-right: 8px;
-  }
-  span{
-    vertical-align: top;
+    vertical-align: bottom;
   }
 }
 
