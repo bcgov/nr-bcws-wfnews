@@ -18,6 +18,9 @@
     text-decoration-color: var(--Medium-Blue, #146fb4);
     text-decoration-thickness: 2px;
     text-underline-offset: 7px;
+    .mdc-tab__text-label{
+      margin-top: -3px;
+    }
   }
 }
 
