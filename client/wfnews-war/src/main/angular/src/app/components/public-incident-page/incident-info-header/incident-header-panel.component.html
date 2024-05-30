@@ -13,96 +13,141 @@
         <img alt="icon" (click)="back()" height="24" width="24" src="/assets/images/svg-icons/arrow-left-grey.svg">
         <span>Back</span>
       </div>
-      <div class="title-bar">
-        <div class="title">{{incident.incidentName}}
-            <span #el *ngIf="!isMobileView()" class="no-print" style="cursor: pointer;"
-              (click)="onWatchlist() ? removeFromWatchlist() : addToWatchlist()">
-              <img *ngIf="!onWatchlist()" height="20" width="20" class="bookmark-icon" src="/assets/images/svg-icons/bookmark.svg"
-              alt="bookmark" />
-              <img *ngIf="onWatchlist()" height="20" width="20" class="bookmark-icon" src="/assets/images/svg-icons/bookmark-blue.svg"
-              alt="bookmark" />
-            </span>
-        </div>
-        <div *ngIf="!isMobileView()" class="evac-cards">
-          <div class="alert-count" *ngIf="incidentEvacAlerts.length > 0">
-              <img class="icon" src="/assets/images/svg-icons/evacuation-alert.svg" alt="evacuation-alert" />
-              <span>{{ incidentEvacAlerts.length > 1 ? incidentEvacAlerts.length + ' Evacuation Alerts' : 'Evacuation Alert' }}</span>
+      <div *ngIf="incident">
+        <div class="title-bar">
+          <div class="title">{{incident.incidentName}}
+              <span #el *ngIf="!isMobileView()" class="no-print" style="cursor: pointer;"
+                (click)="onWatchlist() ? removeFromWatchlist() : addToWatchlist()">
+                <img *ngIf="!onWatchlist()" height="20" width="20" class="bookmark-icon" src="/assets/images/svg-icons/bookmark.svg"
+                alt="bookmark" />
+                <img *ngIf="onWatchlist()" height="20" width="20" class="bookmark-icon" src="/assets/images/svg-icons/bookmark-blue.svg"
+                alt="bookmark" />
+              </span>
+          </div>
+          <div *ngIf="!isMobileView()" class="evac-cards">
+            <div class="alert-count" *ngIf="incidentEvacAlerts.length > 0">
+                <img class="icon" src="/assets/images/svg-icons/evacuation-alert.svg" alt="evacuation-alert" />
+                <span>{{ incidentEvacAlerts.length > 1 ? incidentEvacAlerts.length + ' Evacuation Alerts' : 'Evacuation Alert' }}</span>
+              </div>
+            <div class="order-count" *ngIf="incidentEvacOrders.length > 0">
+              <img class="icon" src="/assets/images/svg-icons/evacuation-order.svg" alt="evacuation-alert" />
+              <span>{{ incidentEvacOrders.length > 1 ? incidentEvacOrders.length + ' Evacuation Orders' : 'Evacuation Order' }}</span>
+          </div>
+          </div>
+          <div *ngIf="!isMobileView()">
+            <div class="fire-of-note" *ngIf="incident.fireOfNoteInd">
+              <img class="fire-icon" height="20" width="20" src="/assets/images/local_fire_department.png"
+                  alt="local_fire_department" />
+              <span>Wildfire Of Note</span>
             </div>
-          <div class="order-count" *ngIf="incidentEvacOrders.length > 0">
-            <img class="icon" src="/assets/images/svg-icons/evacuation-order.svg" alt="evacuation-alert" />
-            <span>{{ incidentEvacOrders.length > 1 ? incidentEvacOrders.length + ' Evacuation Orders' : 'Evacuation Order' }}</span>
-        </div>
+          </div>
         </div>
         <div *ngIf="!isMobileView()">
-          <div class="fire-of-note" *ngIf="incident.fireOfNoteInd">
-            <img class="fire-icon" height="20" width="20" src="/assets/images/local_fire_department.png"
-                alt="local_fire_department" />
-            <span>Wildfire Of Note</span>
+          <div class="info-panel">
+            <div class="info-panel-row">
+              <span class="circle-icon {{incident.stageOfControlCode}}"></span>
+              <span class="label">{{getStageOfControlLabel(incident.stageOfControlCode)}}</span>
+            </div>
+            <div class="info-panel-row">
+              <img class="icon" height="24" width="24" src="/assets/images/svg-icons/notepad.svg" alt="notepad" />
+              <span class="label">Fire Number&nbsp;{{convertFireNumber(incident)}}</span>
+            </div>
+            <div class="info-panel-row">
+              <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_ruler.svg">
+              <span class="label">{{incident.incidentSizeEstimatedHa ?
+                incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span>
+            </div>
+            <div class="info-panel-row" *ngIf="incident.discoveryDate">
+              <img class="icon" height="24" width="24" src="/assets/images/svg-icons/calendar.svg">
+              <span class="label">Discovered On&nbsp;{{incident.discoveryDate}}</span>
+            </div>
+            <div class="info-panel-row" *ngIf="incident.updateDate">
+              <img class="icon" height="24" width="24" src="/assets/images/svg-icons/edit.svg">
+              <span class="label">Updated&nbsp;{{incident.updateDate}}</span>
+            </div>
+            <div class="info-panel-row" *ngIf="incident.stageOfControlCode === 'OUT'">
+              <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_crop-growth.svg">
+              <span class="label">Declared Out on&nbsp;{{incident.declaredOutDate}}</span>
+            </div>
+            <div class="info-panel-row">
+              <img class="icon" height="24" width="24" src="/assets/images/svg-icons/location-pin.svg">
+              <span class="label">{{convertToFireCentreDescription(this.incident.fireCentreName || incident.fireCentre ||incident.fireCentreCode)}}</span>
+            </div>
+            <div class="info-panel-row">
+              <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_layers.svg" alt="carbon_layers"/>
+              <span class="label">BC Wildfires Active Fires Layer</span>
+            </div>
+            <div class="info-panel-button-row" *ngIf="!isMobileView()">
+              <div class="contact-buttons" [ngClass]="{desktop: !isMobileView()}">
+                <button mat-button class="desktop-buttons" (click)="openContactUsWindow('desktop')">
+                  Contact Us
+                </button>
+                <button mat-button class="desktop-buttons" (click)="printPage()">
+                  <img class="icon-contact" src="/assets/images/svg-icons/printer.svg" alt="print" />
+                  Print
+                </button>
+            </div>
+            </div>
           </div>
         </div>
+        <div *ngIf="isMobileView()">
+          <div class="contact-buttons">
+            <button mat-button class="mobile-buttons" [class.on-watchlist]="onWatchlist()" (click)="addToWatchlist()">
+                <img *ngIf="!onWatchlist()" class="icon-contact" src="/assets/images/svg-icons/bookmark.svg"
+                    alt="bookmark" />
+                <img *ngIf="onWatchlist()" class="icon-contact" src="/assets/images/svg-icons/bookmark-blue.svg"
+                alt="bookmark" />
+                {{ onWatchlist() ? 'Saved' : 'Save' }}
+            </button>
+            <button mat-button class="mobile-buttons" (click)="openContactUsWindow()">
+                Contact Us
+            </button>
+        </div>
+          <div class="divider"></div>
+        </div>
       </div>
-      <div *ngIf="!isMobileView()">
+      <div *ngIf="evac" class="evac">
+        <div class="title">Evacuation {{evac.attributes.ORDER_ALERT_STATUS}} for {{evac.attributes.EVENT_NAME}}</div>
+        <div class="evac-cards">
+          <div class="order-count evac " *ngIf="evac.attributes.ORDER_ALERT_STATUS == 'Order' ">
+            <img class="icon" src="/assets/images/svg-icons/evacuation_order.svg" alt="evacuation_order" />Order
+          </div>
+          <div class="alert-count evac" *ngIf="evac.attributes.ORDER_ALERT_STATUS == 'Alert' ">
+            <img class="icon" src="/assets/images/svg-icons/evacuation_alert.svg" alt="evacuation_order" />Alert
+          </div>
+        </div>
         <div class="info-panel">
-          <div class="info-panel-row">
-            <span class="circle-icon {{incident.stageOfControlCode}}"></span>
-            <span>{{getStageOfControlLabel(incident.stageOfControlCode)}}</span>
-          </div>
-          <div class="info-panel-row">
-            <img class="icon" height="24" width="24" src="/assets/images/svg-icons/notepad.svg" alt="notepad" />
-            <span class="label">Fire Number&nbsp;</span><span>{{convertFireNumber(incident)}}</span>
-          </div>
-          <div class="info-panel-row">
-            <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_ruler.svg">
-            <span class="label"></span><span>{{incident.incidentSizeEstimatedHa ?
-              incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span>
-          </div>
-          <div class="info-panel-row" *ngIf="incident.discoveryDate">
+          <div class="info-panel-row" *ngIf="evac.attributes.DATE_MODIFIED">
             <img class="icon" height="24" width="24" src="/assets/images/svg-icons/calendar.svg">
-            <span class="label">Discovered On&nbsp;</span><span>{{incident.discoveryDate}}</span>
+            <span class="label">Issued on&nbsp;{{convertToDateTimeTimeZone(evac.attributes.DATE_MODIFIED)}}</span>
           </div>
-          <div class="info-panel-row" *ngIf="incident.updateDate">
-            <img class="icon" height="24" width="24" src="/assets/images/svg-icons/edit.svg">
-            <span class="label">Updated&nbsp;</span><span>{{incident.updateDate}}</span>
-          </div>
-          <div class="info-panel-row" *ngIf="incident.stageOfControlCode === 'OUT'">
-            <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_crop-growth.svg">
-            <span class="label">Declared Out on</span><span>{{incident.declaredOutDate}}</span>
+          <div class="info-panel-row" *ngIf="evac.attributes.ISSUING_AGENCY">
+            <img class="icon" height="24" width="24" src="/assets/images/svg-icons/local_authority.svg" alt="local_authority" />
+            <span class="label">Issued by&nbsp;{{evac.attributes.ISSUING_AGENCY}}</span>
           </div>
           <div class="info-panel-row">
-            <img class="icon" height="24" width="24" src="/assets/images/svg-icons/location-pin.svg">
-            <span class="label"></span><span>{{convertToFireCentreDescription(this.incident.fireCentreName || incident.fireCentre ||incident.fireCentreCode)}}</span>
+            <img class="icon" src="/assets/images/svg-icons/carbon_layers.svg" alt="Layers" />
+            <span class="label">FireEvacuation Orders and Alerts Layer</span>
           </div>
+          <hr>
           <div class="info-panel-row">
-            <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_layers.svg" alt="carbon_layers"/>
-            <span class="label"></span><span>BC Wildfires Active Fires Layer</span>
+            <span class="label" *ngIf="evac.attributes.ORDER_ALERT_STATUS == 'Order' ">
+              People in this area are at risk and should leave the area immediately.<br>
+              Local authorities will not ask you to leave without good reason.<br>
+              Failing to leave puts you and others at risk.
+            </span>
+            <span class="label" *ngIf="evac.attributes.ORDER_ALERT_STATUS == 'Alert' ">
+              An evacuation alert is a warning about a potential threat to life and/or property.<br>
+              It is intended to give you time to be ready for a possible evacuation. 
+            </span>
           </div>
           <div class="info-panel-button-row" *ngIf="!isMobileView()">
-            <div class="contact-buttons" [ngClass]="{desktop: !isMobileView()}">
-              <button mat-button class="desktop-buttons" (click)="openContactUsWindow('desktop')">
-                Contact Us
+              <button mat-button class="single-button" (click)="navToMap()">
+                <img class="single-button-icon" src="/assets/images/svg-icons/map.svg" height="20" width="20" alt="Map" />
+                View on Map
               </button>
-              <button mat-button class="desktop-buttons" (click)="printPage()">
-                <img class="icon-contact" src="/assets/images/svg-icons/printer.svg" alt="print" />
-                Print
-              </button>
-          </div>
           </div>
         </div>
-      </div>
-      <div *ngIf="isMobileView()">
-        <div class="contact-buttons">
-          <button mat-button class="mobile-buttons" [class.on-watchlist]="onWatchlist()" (click)="addToWatchlist()">
-              <img *ngIf="!onWatchlist()" class="icon-contact" src="/assets/images/svg-icons/bookmark.svg"
-                  alt="bookmark" />
-              <img *ngIf="onWatchlist()" class="icon-contact" src="/assets/images/svg-icons/bookmark-blue.svg"
-              alt="bookmark" />
-              {{ onWatchlist() ? 'Saved' : 'Save' }}
-          </button>
-          <button mat-button class="mobile-buttons" (click)="openContactUsWindow()">
-              Contact Us
-          </button>
-      </div>
-        <div class="divider"></div>
       </div>
     </div>
     

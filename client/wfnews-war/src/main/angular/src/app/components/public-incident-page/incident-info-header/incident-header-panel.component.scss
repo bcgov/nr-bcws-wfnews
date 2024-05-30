@@ -347,8 +347,9 @@
     }
   
     @media screen and (min-width: 450px) {
-      width: 93%;
+      width: auto;
       white-space: nowrap;
+      text-align: center;
     }
   }
   
@@ -378,10 +379,16 @@
     }
   
     @media screen and (min-width: 450px) {
-      width: 93%;
+      width: auto;
       white-space: nowrap;
+      text-align: center;
     }
   }
+  
+  .evac{
+    padding: 8px 16px !important;
+  }
+
 }
 
 .fire-of-note {
@@ -469,4 +476,27 @@
 
 .bookmark-icon{
   padding-left: 8px;
+}
+
+hr {
+  background-color: #ddd;
+  height: 1px;
+  border: 0;
+  margin: 24px 0px 24px 0px;
+}
+
+.single-button{
+  display: flex;
+  width: 240px;
+  padding: 6px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+  border: 1px solid #888;
+  background: #F5F7FA;
+  .single-button-icon{
+    vertical-align: bottom;
+    padding-right: 8px;
+  }
 }
