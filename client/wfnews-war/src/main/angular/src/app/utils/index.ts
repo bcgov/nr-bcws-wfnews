@@ -437,7 +437,7 @@ export function convertToFireCentreDescription(code: string): string {
 }
 
 export function isMobileView() {
-  return window.innerWidth < 768;
+  return ( (window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768) )
 }
 
 export async function snowPlowHelper(page: string, data: any = null) {

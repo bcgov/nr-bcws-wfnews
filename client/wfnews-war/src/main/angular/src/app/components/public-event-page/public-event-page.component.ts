@@ -28,7 +28,6 @@ export class PublicEventPageComponent implements OnInit {
           returnCentroid: true,
           returnExtent: false,
         });
-        // this.initMap();
       }
     });
   }
