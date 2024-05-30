@@ -126,7 +126,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 				: publishedIncident.getDiscoveryDate().getTime();
 
 		try {
-			List<Message> errors = this.modelValidator.validatePublishedIncident(publishedIncident, effectiveAsOfMillis);
+			List<Message> errors = this.modelValidator.validatePublishedIncident(publishedIncident,
+					effectiveAsOfMillis);
 
 			if (!errors.isEmpty()) {
 				throw new ValidationException(errors);
@@ -169,7 +170,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 				: publishedIncident.getDiscoveryDate().getTime();
 
 		try {
-			List<Message> errors = this.modelValidator.validatePublishedIncident(publishedIncident, effectiveAsOfMillis);
+			List<Message> errors = this.modelValidator.validatePublishedIncident(publishedIncident,
+					effectiveAsOfMillis);
 
 			if (!errors.isEmpty()) {
 				throw new ValidationException(errors);
@@ -212,9 +214,12 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	private PublishedIncidentResource updatePublishedWildfireIncident(PublishedIncident publishedIncident,
-			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext)
+			throws DaoException, NotFoundException {
 
 		PublishedIncidentResource result = null;
+		PublishedIncidentResource currentPublishedIncidentResource = getPublishedIncident(
+				publishedIncident.getPublishedIncidentDetailGuid(), null, webAdeAuthentication, factoryContext);
 
 		// if the incident is "out", strip out all of the extra published details
 		if (publishedIncident.getStageOfControlCode().equalsIgnoreCase("OUT")) {
@@ -239,21 +244,30 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 		}
 
 		PublishedIncidentDto dto = new PublishedIncidentDto(publishedIncident);
+
 		try {
 			dto.setUpdateDate(new Date());
 			if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null)
 				dto.setUpdateUser(webAdeAuthentication.getUserId());
 			if (dto.getCreateUser() == null && webAdeAuthentication != null && webAdeAuthentication.getUserId() != null)
 				dto.setCreateUser(webAdeAuthentication.getUserId());
-			if (dto.getCreateDate() == null && webAdeAuthentication != null && webAdeAuthentication.getUserId() != null)
-				dto.setCreateDate(new Date());
+			// use createDate from current incident as this should not change.
+			// otherwise use discoveryDate or if that is somehow null, use create date in payload
+			if (currentPublishedIncidentResource != null) {
+				dto.setCreateDate(currentPublishedIncidentResource.getCreateDate() != null
+						? currentPublishedIncidentResource.getCreateDate()
+						: currentPublishedIncidentResource.getDiscoveryDate());
+			} else if (dto.getCreateDate() != null) {
+				dto.setCreateDate(dto.getCreateDate());
+			} else dto.setCreateDate(new Date());
 
 			this.publishedIncidentDao.update(dto);
 		} catch (DaoException e) {
 			throw new ServiceException(e.getMessage(), e);
 		}
 
-		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid(), dto.getFireYear());
+		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid(),
+				dto.getFireYear());
 
 		result = this.publishedIncidentFactory.getPublishedWildfireIncident(updatedDto, factoryContext);
 		return result;
@@ -271,15 +285,21 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 				dto.setUpdateUser(webAdeAuthentication.getUserId());
 			if (dto.getCreateUser() == null && webAdeAuthentication != null && webAdeAuthentication.getUserId() != null)
 				dto.setCreateUser(webAdeAuthentication.getUserId());
-			if (dto.getCreateDate() == null && webAdeAuthentication != null && webAdeAuthentication.getUserId() != null)
-				dto.setCreateDate(new Date());
-
+			// discoveryDate should be the same as createDate at this point.
+			// discoveryDate is mandatory in WFIM so it shouldn't be null.
+			if (dto.getDiscoveryDate() != null) {
+				dto.setCreateDate(dto.getDiscoveryDate());
+			}else if(dto.getCreateDate() != null) {
+				dto.setCreateDate(dto.getCreateDate());
+			}else dto.setCreateDate(new Date());
+			
 			this.publishedIncidentDao.insert(dto);
 		} catch (DaoException e) {
 			throw new ServiceException(e.getMessage(), e);
 		}
 
-		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid(), dto.getFireYear());
+		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid(),
+				dto.getFireYear());
 
 		result = this.publishedIncidentFactory.getPublishedWildfireIncident(updatedDto, factoryContext);
 		return result;
@@ -299,7 +319,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
 	@Override
 	public PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, Integer fireYear,
-			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException {
+			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext)
+			throws DaoException, NotFoundException {
 
 		PublishedIncidentResource result = null;
 		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid, fireYear);
@@ -312,7 +333,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
 	@Override
 	public PublishedIncidentResource getPublishedIncidentByIncidentGuid(String incidentGuid,
-			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException {
+			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext)
+			throws DaoException, NotFoundException {
 
 		PublishedIncidentResource result = null;
 		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetchForIncidentGuid(incidentGuid);
@@ -364,7 +386,9 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
 	@Override
 	public PublishedIncidentListResource getPublishedIncidentList(String searchText, Integer pageNumber,
-			Integer pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, Date fromCreateDate, Date toCreateDate, Date fromDiscoveryDate, Date toDiscoveryDate, String bbox,
+			Integer pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires,
+			String fireCentreCode, String fireCentreName, Date fromCreateDate, Date toCreateDate,
+			Date fromDiscoveryDate, Date toDiscoveryDate, String bbox,
 			Double latitude, Double longitude, Integer fireYear, Double radius, FactoryContext factoryContext) {
 		PublishedIncidentListResource results = null;
 		PagedDtos<PublishedIncidentDto> publishedIncidentList = new PagedDtos<>();
@@ -400,8 +424,10 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			}
 
 			publishedIncidentList = this.publishedIncidentDao.select(searchText, pageNumber, pageRowCount, orderByList,
-					fireOfNote, stageOfControlList, newFires, fireCentreCode, fireCentreName, fromCreateDate, toCreateDate, fromDiscoveryDate, toDiscoveryDate, bbox, latitude, longitude, fireYear, radius);
-			results = this.publishedIncidentFactory.getPublishedIncidentList(publishedIncidentList, pageNumber, pageRowCount,
+					fireOfNote, stageOfControlList, newFires, fireCentreCode, fireCentreName, fromCreateDate,
+					toCreateDate, fromDiscoveryDate, toDiscoveryDate, bbox, latitude, longitude, fireYear, radius);
+			results = this.publishedIncidentFactory.getPublishedIncidentList(publishedIncidentList, pageNumber,
+					pageRowCount,
 					factoryContext);
 		} catch (DaoException e) {
 			throw new ServiceException(e.getMessage(), e);
@@ -596,7 +622,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 				externalUriList = this.externalUriDao.selectForIncident(sourceObjectUniqueId, pageNumber, pageRowCount);
 			} else
 				externalUriList = this.externalUriDao.select(pageNumber, pageRowCount);
-			results = this.externalUriFactory.getExternalUriList(externalUriList, pageNumber, pageRowCount, factoryContext);
+			results = this.externalUriFactory.getExternalUriList(externalUriList, pageNumber, pageRowCount,
+					factoryContext);
 		} catch (DaoException e) {
 			throw new ServiceException(e.getMessage(), e);
 		}
@@ -754,7 +781,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			}
 
 			AttachmentResource result = new AttachmentResource();
-			AttachmentResource currentAttachment = getIncidentAttachment(attachment.getAttachmentGuid(), factoryContext);
+			AttachmentResource currentAttachment = getIncidentAttachment(attachment.getAttachmentGuid(),
+					factoryContext);
 
 			if (currentAttachment != null) {
 				AttachmentDto dto = new AttachmentDto(attachment);
@@ -832,8 +860,9 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			AttachmentDto dto = this.attachmentDao.fetch(attachmentGuid);
 			if (dto != null) {
 				return this.attachmentFactory.getAttachment(dto, factoryContext);
-			}else throw new NotFoundException("Did not find the attachmentGuid: " + attachmentGuid);
-			
+			} else
+				throw new NotFoundException("Did not find the attachmentGuid: " + attachmentGuid);
+
 		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
 			throw new ConflictException(e.getMessage());
 		} catch (NotFoundDaoException e) {
@@ -844,7 +873,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public SituationReportListResource getSitationReportList(Integer pageNumber, Integer pageRowCount, Boolean published, FactoryContext factoryContext) throws ConflictException, NotFoundException {
+	public SituationReportListResource getSitationReportList(Integer pageNumber, Integer pageRowCount,
+			Boolean published, FactoryContext factoryContext) throws ConflictException, NotFoundException {
 		SituationReportListResource result = new SituationReportListResource();
 
 		try {
@@ -862,7 +892,9 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public SituationReportResource createSituationReport(SituationReportResource report, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+	public SituationReportResource createSituationReport(SituationReportResource report,
+			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext)
+			throws ValidationFailureException, ConflictException, NotFoundException, Exception {
 		SituationReportResource response = null;
 		long effectiveAsOfMillis = report.getCreatedTimestamp() == null ? System.currentTimeMillis()
 				: report.getCreatedTimestamp().getTime();
@@ -910,9 +942,12 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public SituationReportResource updateSituationReport(SituationReportResource report, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+	public SituationReportResource updateSituationReport(SituationReportResource report,
+			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext)
+			throws ValidationFailureException, ConflictException, NotFoundException, Exception {
 		SituationReportResource response = null;
-		long effectiveAsOfMillis = report.getCreatedTimestamp() == null ? System.currentTimeMillis() : report.getCreatedTimestamp().getTime();
+		long effectiveAsOfMillis = report.getCreatedTimestamp() == null ? System.currentTimeMillis()
+				: report.getCreatedTimestamp().getTime();
 
 		try {
 			List<Message> errors = this.modelValidator.validateReport(report, effectiveAsOfMillis);
@@ -961,7 +996,9 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public SituationReportResource deleteSituationReport(String reportGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+	public SituationReportResource deleteSituationReport(String reportGuid, WebAdeAuthentication webAdeAuthentication,
+			FactoryContext factoryContext)
+			throws ValidationFailureException, ConflictException, NotFoundException, Exception {
 		logger.debug("<deleteSituationReport");
 
 		try {
@@ -985,13 +1022,15 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public SituationReportResource getSituationReport(String reportGuid, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+	public SituationReportResource getSituationReport(String reportGuid, FactoryContext factoryContext)
+			throws ValidationFailureException, ConflictException, NotFoundException, Exception {
 		try {
 			SituationReportDto dto = this.situationReportDao.fetch(reportGuid);
 			if (dto != null) {
 				return this.situationReportFactory.getSituationReport(dto, factoryContext);
-			}else throw new NotFoundException("Did not find the reportGuid: " + reportGuid);
-			
+			} else
+				throw new NotFoundException("Did not find the reportGuid: " + reportGuid);
+
 		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
 			throw new ConflictException(e.getMessage());
 		} catch (NotFoundDaoException e) {
@@ -1002,13 +1041,15 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public List<StatisticsResource> getStatistics(String fireCentre, Integer fireYear, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+	public List<StatisticsResource> getStatistics(String fireCentre, Integer fireYear, FactoryContext factoryContext)
+			throws ValidationFailureException, ConflictException, NotFoundException, Exception {
 		try {
 			List<StatisticsDto> dto = this.statisticsDao.fetch(fireCentre, fireYear);
 			if (dto != null) {
 				return this.statisticsFactory.getStatistics(dto, factoryContext);
-			}else throw new NotFoundException("Did not find the fire centre: " + fireCentre);
-			
+			} else
+				throw new NotFoundException("Did not find the fire centre: " + fireCentre);
+
 		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
 			throw new ConflictException(e.getMessage());
 		} catch (NotFoundDaoException e) {
