@@ -72,13 +72,10 @@ $divider-color: #9b9b9b;
 
 // Old iOS Shims < 15
 $dvh100: 100vh;
-@supports (height: 100dvh) {
-  $dvh100: 100dvh;
-}
+$dvh100: 100dvh;
+
 $dvw100: 100vw;
-@supports (width: 100dvw) {
-  $dvw100: 100dvw;
-}
+$dvw100: 100dvw;
 
 // Standard measurements
 $wf1-app-header-height: 72px;
