@@ -248,7 +248,8 @@ whereString = null;
         queryParams: {
           eventType: event.status,
           eventNumber: event.eventNumber,
-          eventName: event.eventName
+          eventName: event.eventName,
+          source: [ResourcesRoutes.WILDFIRESLIST]
         },
       }),
     );
