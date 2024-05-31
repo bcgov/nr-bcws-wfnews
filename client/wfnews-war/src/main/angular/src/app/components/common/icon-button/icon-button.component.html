@@ -1,0 +1,4 @@
+<div class="button-container" [style.background]="style.backgroundColor" [style.border]="style.border" (keypress)="onClick()" (click)="onClick()">
+  <div class="icon" [style.backgroundColor]="style.iconColor" [style.mask-image]="'url('+ iconPath +')'" [style.-webkit-mask-image]="'url('+ iconPath +')'"></div>
+  <div class="label" [style.color]="style.labelColor">{{ label }}</div>
+</div>
