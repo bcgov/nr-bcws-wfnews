@@ -1,1 +1,5 @@
-<p>Place holder for evacuations, area restrictions, bans details</p>
+<div *ngIf="!isLoading && !loadingFailed" >
+    <div>
+        <incident-header-panel [evac]="evac"></incident-header-panel>
+    </div>
+</div>
