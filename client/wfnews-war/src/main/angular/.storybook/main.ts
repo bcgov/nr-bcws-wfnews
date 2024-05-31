@@ -3,11 +3,11 @@ import type { StorybookConfig } from "@storybook/angular";
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   staticDirs: [
-    "../src/assets/icons",
-    "../src/assets/images",
-    "../src/assets/images/drivebc",
-    "../src/assets/images/logo",
-    "../src/assets/images/svg-icons",
+    { from: "../src/assets/icons", to: "/assets/icons" },
+    { from: "../src/assets/images", to: "/assets/images" },
+    { from: "../src/assets/images/drivebc", to: "/assets/images/drivebc" },
+    { from: "../src/assets/images/logo", to: "/assets/images/logo" },
+    { from: "../src/assets/images/svg-icons", to: "/assets/images/svg-icons" },
   ],
   addons: [
     "@storybook/addon-links",

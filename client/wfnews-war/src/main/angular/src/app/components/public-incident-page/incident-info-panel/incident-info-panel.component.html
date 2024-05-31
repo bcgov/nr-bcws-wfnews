@@ -142,16 +142,16 @@
                     </a>
                   </div> 
                 </div>
-                <iframe class="no-print" *ngIf="primaryMedia.type === 'video'" style="width:-webkit-fill-available;"
-                  width="500" 
-                  height="280" 
-                  [src]="primaryMedia.href" 
-                  sandbox="allow-scripts allow-same-origin allow-presentation" 
-                  frameborder="0" 
-                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                  referrerpolicy="strict-origin-when-cross-origin" 
-                  allowfullscreen>
-                </iframe>
+                <div class="video-container no-print" *ngIf="primaryMedia.type === 'video'" >
+                  <iframe
+                    [src]="primaryMedia.href" 
+                    sandbox="allow-scripts allow-same-origin allow-presentation" 
+                    frameborder="0" 
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen>
+                  </iframe>
+                </div>
               </div>
             </ng-template>
           </div>

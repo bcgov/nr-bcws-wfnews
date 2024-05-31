@@ -1,6 +1,6 @@
-<div class="button-container" [ngClass]="{'checked': checked}" (click)="toggle()">
+<div class="button-container" role="button" [ngClass]="{'checked': checked}" (click)="toggle()">
   <div class="label">
     <ng-content></ng-content>
   </div>
-  <div class="checkmark" [ngClass]="{'checked': checked}"></div>
+  <div class="checkmark" role="checkbox" [ariaChecked]="checked"  [ngClass]="{'checked': checked}"></div>
 </div>
