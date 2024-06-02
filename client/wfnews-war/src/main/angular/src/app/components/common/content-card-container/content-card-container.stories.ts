@@ -2,7 +2,7 @@ import { type Meta, type StoryObj } from '@storybook/angular';
 import { ContentCardContainerComponent } from './content-card-container.component';
 
 const meta: Meta<ContentCardContainerComponent> = {
-  title: 'Buttons/ContentCardContainerComponent',
+  title: 'Containers/ContentCardContainerComponent',
   component: ContentCardContainerComponent,
   tags: ['autodocs'],
 };

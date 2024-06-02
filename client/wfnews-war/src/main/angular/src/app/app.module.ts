@@ -115,12 +115,14 @@ import { BaseDialogComponent } from './components/base-dialog/base-dialog.compon
 import { AdvisorySectionComponent } from './components/common/advisory-section/advisory-section.component';
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
 import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
+import { ContentCardContainerComponent } from './components/common/content-card-container/content-card-container.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { IconButtonComponent } from './components/common/icon-button/icon-button.component';
 import { LinkButtonComponent } from './components/common/link-button/link-button.component';
 import { MapToggleButtonComponent } from './components/common/map-toggle-button/map-toggle-button.component';
 import { MobileSlidingDrawerComponent } from './components/common/mobile-sliding-drawer/mobile-sliding-drawer.component';
 import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
+import { TwoColumnContentCardsContainerComponent } from './components/common/two-column-content-cards-container/two-column-content-cards-container.component';
 import { UnsavedChangesDialog } from './components/common/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import { Dashboard } from './components/dashboard-component/dashboard.component';
 import { ActiveFiresWidget } from './components/dashboard-component/widgets/active-fires-widget/active-fires-widget.component';
@@ -255,7 +257,6 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { ContentCardContainerComponent } from './components/common/content-card-container/content-card-container.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -422,7 +423,8 @@ export const DATE_FORMATS = {
     BanHeaderComponent,
     AdvisorySectionComponent,
     IconButtonComponent,
-    ContentCardContainerComponent
+    ContentCardContainerComponent,
+    TwoColumnContentCardsContainerComponent
   ],
   imports: [
     MatSortModule,
