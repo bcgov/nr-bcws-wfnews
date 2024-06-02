@@ -17,7 +17,7 @@ const meta: Meta<AdvisorySectionComponent> = {
 export default meta;
 type Story = StoryObj<AdvisorySectionComponent>;
 
-export const evacuationInformation: Story = {
+export const evacuationInformationOrder: Story = {
   args: {
     logoPath: '/assets/images/logo/emergency-info-bc.png',
     iconPath: '/assets/images/svg-icons/evacuation-order.svg',
@@ -34,6 +34,34 @@ export const evacuationInformation: Story = {
       label: 'Evacuation Information',
       style: {
         backgroundColor: '#B91D38',
+        labelColor: '#FFFFFF',
+        iconColor: '#FFFFFF',
+        border: 'none'
+      },
+      clickHandler: () => () => {
+        console.log('Button clicked');
+      },
+    },
+  },
+};
+
+export const evacuationInformationAlert: Story = {
+  args: {
+    logoPath: '/assets/images/logo/emergency-info-bc.png',
+    iconPath: '/assets/images/svg-icons/evacuation-alert.svg',
+    title: 'Evacuation Information',
+    message: 'Go to Emergency Info BC for up-to-date evaucation information.',
+    style: {
+      backgroundColor: '#FFFAEB',
+      dividerColor: '#EEE8D3',
+      iconCircleColor: '#FEEFBE',
+      outerBorderColor: '#F5E8BA'
+    },
+    button: {
+      iconPath: '/assets/images/svg-icons/launch.svg',
+      label: 'Evacuation Information',
+      style: {
+        backgroundColor: '#8F7100',
         labelColor: '#FFFFFF',
         iconColor: '#FFFFFF',
         border: 'none'
