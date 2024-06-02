@@ -1,0 +1,12 @@
+.two-column-content-cards-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+
+  .column-1, .column-2 {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 32px;
+  }
+}

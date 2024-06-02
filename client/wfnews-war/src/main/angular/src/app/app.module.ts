@@ -120,6 +120,7 @@ import { LinkButtonComponent } from './components/common/link-button/link-button
 import { MapToggleButtonComponent } from './components/common/map-toggle-button/map-toggle-button.component';
 import { MobileSlidingDrawerComponent } from './components/common/mobile-sliding-drawer/mobile-sliding-drawer.component';
 import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
+import { TwoColumnContentCardsContainerComponent } from './components/common/two-column-content-cards-container/two-column-content-cards-container.component';
 import { UnsavedChangesDialog } from './components/common/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import { Dashboard } from './components/dashboard-component/dashboard.component';
 import { ActiveFiresWidget } from './components/dashboard-component/widgets/active-fires-widget/active-fires-widget.component';
@@ -423,6 +424,7 @@ export const DATE_FORMATS = {
     AdvisorySectionComponent,
     IconButtonComponent,
     ContentCardContainerComponent,
+    TwoColumnContentCardsContainerComponent
   ],
   imports: [
     MatSortModule,
