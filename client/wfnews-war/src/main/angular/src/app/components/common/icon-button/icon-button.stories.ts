@@ -21,7 +21,7 @@ export const evacuationInformation: Story = {
       iconColor: '#FFFFFF',
       border: 'none'
     },
-    onClick: () => {
+    clickHandler: () => {
       action('Button clicked');
       console.log('Button clicked');
     }
