@@ -9,7 +9,9 @@
   align-self: stretch;
   cursor: pointer;
   border-radius: 8px;
-  width: fit-content;
+  width: max-content;
+  background: #FFFFFF;
+  border: 1px solid #dedede;
 
   .label {
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
@@ -18,10 +20,12 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    color: #000000;
   }
 
   .icon {
     width: 24px;
     height: 24px;
+    background-color: #000000;
   }
 }

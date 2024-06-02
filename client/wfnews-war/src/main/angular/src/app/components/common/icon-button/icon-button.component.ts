@@ -9,20 +9,20 @@ import { Component, Input } from '@angular/core';
 export class IconButtonComponent {
   @Input() iconPath: string;
   @Input() label: string;
-  @Input() style?: IconButtonStyle = defaultIconButtonStyle;
-  @Input() onClick: () => void;
+  @Input() style?: IconButtonStyle;
+  @Input() clickHandler: () => void;
 }
 
-class IconButtonStyle {
+export interface IconButtonArgs {
+  iconPath: string;
+  label: string;
+  style?: IconButtonStyle;
+  clickHandler: () => void;
+}
+
+interface IconButtonStyle {
   backgroundColor: string;
   border: string;
   iconColor: string;
   labelColor: string;
 }
-
-const defaultIconButtonStyle = {
-  backgroundColor: '#FFFFFF',
-  border: '1px solid #dedede',
-  iconColor: '#000000',
-  labelColor: '#000000',
-};
