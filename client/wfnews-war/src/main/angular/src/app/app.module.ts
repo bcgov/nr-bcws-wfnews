@@ -125,6 +125,7 @@ import { MobileSlidingDrawerComponent } from './components/common/mobile-sliding
 import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
 import { TwoColumnContentCardsContainerComponent } from './components/common/two-column-content-cards-container/two-column-content-cards-container.component';
 import { UnsavedChangesDialog } from './components/common/unsaved-changes-dialog/unsaved-changes-dialog.component';
+import { WarningBannerComponent } from './components/common/warning-banner/warning-banner.component';
 import { WfnewsButtonComponent } from './components/common/wfnews-button/wfnews-button.component';
 import { Dashboard } from './components/dashboard-component/dashboard.component';
 import { ActiveFiresWidget } from './components/dashboard-component/widgets/active-fires-widget/active-fires-widget.component';
@@ -436,7 +437,8 @@ export const DATE_FORMATS = {
     AtTheReceptionCentreCardComponent,
     IconListItemComponent,
     WfnewsButtonComponent,
-    WhereShouldIGoCardComponent
+    WhereShouldIGoCardComponent,
+    WarningBannerComponent
   ],
   imports: [
     MatSortModule,
