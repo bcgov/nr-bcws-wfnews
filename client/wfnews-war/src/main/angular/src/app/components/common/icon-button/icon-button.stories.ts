@@ -11,6 +11,13 @@ const meta: Meta<IconButtonComponent> = {
 export default meta;
 type Story = StoryObj<IconButtonComponent>;
 
+export const defaultStyle: Story = {
+  args: {
+    label: 'Action',
+    iconPath: '/assets/images/svg-icons/red_warning.svg',
+  },
+};
+
 export const evacuationInformation: Story = {
   args: {
     label: 'Evacuation Information',
@@ -20,6 +27,23 @@ export const evacuationInformation: Story = {
       labelColor: '#FFFFFF',
       iconColor: '#FFFFFF',
       border: 'none'
+    },
+    clickHandler: () => {
+      action('Button clicked');
+      console.log('Button clicked');
+    }
+  },
+};
+
+export const withNonMaskedIcon: Story = {
+  args: {
+    label: 'Evacuation Information',
+    iconPath: '/assets/images/svg-icons/fire-note.svg',
+    componentStyle: {
+      backgroundColor: '#FFFFFF',
+      labelColor: '#000000',
+      border: '1 px solid #000000',
+      overrideIconMask: true
     },
     clickHandler: () => {
       action('Button clicked');

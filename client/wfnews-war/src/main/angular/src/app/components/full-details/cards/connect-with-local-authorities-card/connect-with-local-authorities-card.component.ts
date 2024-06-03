@@ -9,6 +9,6 @@ import { Component } from '@angular/core';
 export class ConnectWithLocalAuthoritiesCardComponent {
 
   directToLink() {
-    window.open('');
+    window.open('https://www.civicinfo.bc.ca/directories');
   }
 }

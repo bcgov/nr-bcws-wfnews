@@ -117,6 +117,7 @@ import { CheckboxButtonComponent } from './components/common/checkbox-button/che
 import { ContentCardContainerComponent } from './components/common/content-card-container/content-card-container.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { IconButtonComponent } from './components/common/icon-button/icon-button.component';
+import { IconInfoChipComponent } from './components/common/icon-info-chip/icon-info-chip.component';
 import { IconListItemComponent } from './components/common/icon-list-item/icon-list-item.component';
 import { LinkButtonComponent } from './components/common/link-button/link-button.component';
 import { MapToggleButtonComponent } from './components/common/map-toggle-button/map-toggle-button.component';
@@ -146,6 +147,7 @@ import { DraggablePanelComponent } from './components/draggable-panel/draggable-
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { AreaRestrictionsFullDetailsComponent } from './components/full-details/area-restrictions-full-details/area-restrictions-full-details.component';
 import { BansFullDetailsComponent } from './components/full-details/bans-full-details/bans-full-details.component';
+import { AssociatedWildfireCardComponent } from './components/full-details/cards/associated-wildfire-card/associated-wildfire-card.component';
 import { AtTheReceptionCentreCardComponent } from './components/full-details/cards/at-the-reception-centre-card/at-the-reception-centre-card.component';
 import { ConnectWithLocalAuthoritiesCardComponent } from './components/full-details/cards/connect-with-local-authorities-card/connect-with-local-authorities-card.component';
 import { OtherSourcesWhenYouLeaveCardComponent } from './components/full-details/cards/other-sources-of-information-card/other-sources-of-information-card.component';
@@ -445,7 +447,9 @@ export const DATE_FORMATS = {
     WarningBannerComponent,
     WhenYouLeaveCardComponent,
     OtherSourcesWhenYouLeaveCardComponent,
-    ConnectWithLocalAuthoritiesCardComponent
+    ConnectWithLocalAuthoritiesCardComponent,
+    AssociatedWildfireCardComponent,
+    IconInfoChipComponent
   ],
   imports: [
     MatSortModule,

@@ -3,7 +3,7 @@ import { ContentCardContainerComponent } from '../content-card-container/content
 import { TwoColumnContentCardsContainerComponent } from './two-column-content-cards-container.component';
 
 const meta: Meta<TwoColumnContentCardsContainerComponent> = {
-  title: 'Containers/TwoColumnContentCardsContainerComponent',
+  title: 'Containers/TwoColumnContentCardsContainer',
   component: TwoColumnContentCardsContainerComponent,
   tags: ['autodocs'],
   decorators: [
