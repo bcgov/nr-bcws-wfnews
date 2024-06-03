@@ -1,0 +1,4 @@
+<div class="button-container" [ngStyle]="style ? {'background': style.backgroundColor, 'border': style.border} : null"
+  (keypress)="clickHandler()" (click)="clickHandler()">
+  <div class="label" [ngStyle]="style ? {'color': style.labelColor } : null">{{ label }}</div>
+</div>
