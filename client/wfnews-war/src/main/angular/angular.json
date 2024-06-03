@@ -37,7 +37,6 @@
               "clone-deep"
             ],
             "assets": [
-              "src/assets",
               "src/favicon.png",
               "src/config.jsp",
               "src/token.jsp",
@@ -45,6 +44,11 @@
               "src/refresh-token.html",
               "src/robots.txt",
               "src/wfnews-service-worker.js",
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
+              },
               {
                 "glob": "**/*",
                 "input": "node_modules/@qqnluaq/smk/dist/assets",
