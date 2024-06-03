@@ -9,13 +9,13 @@ import { Component, Input } from '@angular/core';
 export class WarningBannerComponent {
   @Input() iconPath: string;
   @Input() label: string;
-  @Input() style?: WarningBannerStyle;
+  @Input() componentStyle?: WarningBannerStyle;
 }
 
 export interface WarningBannerArgs {
   iconPath: string;
   label: string;
-  style?: WarningBannerStyle;
+  componentStyle?: WarningBannerStyle;
 }
 
 interface WarningBannerStyle {

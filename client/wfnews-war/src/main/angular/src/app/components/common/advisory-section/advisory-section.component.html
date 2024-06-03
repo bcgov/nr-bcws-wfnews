@@ -1,15 +1,15 @@
-<div class="advisory-section" [ngStyle]="style ? {'background': style.backgroundColor, 'border-color': style.outerBorderColor} : null">
+<div class="advisory-section" [ngStyle]="componentStyle ? {'background': componentStyle.backgroundColor, 'border-color': componentStyle.outerBorderColor} : null">
 
   <div class="top">
     <img class="logo" [src]="logoPath" alt="logo" />
   </div>
 
-  <hr [ngStyle]="style ? {'background': style.dividerColor} : null" />
+  <hr [ngStyle]="componentStyle ? {'background': componentStyle.dividerColor} : null" />
 
   <div class="bottom">
 
     <div class="content-container">
-      <div class="icon-container" [ngStyle]="style ? {'background': style.iconCircleColor} : null">
+      <div class="icon-container" [ngStyle]="componentStyle ? {'background': componentStyle.iconCircleColor} : null">
         <img class="icon" [src]="iconPath" alt="icon" />
       </div>
   
@@ -20,7 +20,7 @@
     </div>
 
     <div class="button-container">
-      <icon-button [iconPath]="button.iconPath" [label]="button.label" [style]="button.style"
+      <icon-button [iconPath]="button.iconPath" [label]="button.label" [style]="button.componentStyle"
         [clickHandler]="button.clickHandler()"></icon-button>
     </div>
   </div>

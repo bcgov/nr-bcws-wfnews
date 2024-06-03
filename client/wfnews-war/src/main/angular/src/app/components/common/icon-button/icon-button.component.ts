@@ -9,14 +9,14 @@ import { Component, Input } from '@angular/core';
 export class IconButtonComponent {
   @Input() iconPath: string;
   @Input() label: string;
-  @Input() style?: IconButtonStyle;
+  @Input() componentStyle?: IconButtonStyle;
   @Input() clickHandler: () => void;
 }
 
 export interface IconButtonArgs {
   iconPath: string;
   label: string;
-  style?: IconButtonStyle;
+  componentStyle?: IconButtonStyle;
   clickHandler: () => void;
 }
 

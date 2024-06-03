@@ -8,14 +8,14 @@ import { Component, Input } from '@angular/core';
 })
 export class WfnewsButtonComponent {
   @Input() label: string;
-  @Input() style?: WfnewsButtonStyle;
+  @Input() componentStyle?: WfnewsButtonStyle;
   @Input() clickHandler: () => void;
 }
 
 export interface WfnewsButtonArgs {
   iconPath: string;
   label: string;
-  style?: WfnewsButtonStyle;
+  componentStyle?: WfnewsButtonStyle;
   clickHandler: () => void;
 }
 

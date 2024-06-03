@@ -22,7 +22,7 @@ export const warningExample: Story = {
   args: {
     label: 'Only perform the following tasks if there is time and it is safe to do so.',
     iconPath: '/assets/images/svg-icons/red_warning.svg',
-    style: {
+    componentStyle: {
       backgroundColor: '#FEF1F2',
       labelColor: '#242424',
       iconColor: '#D8292F',
