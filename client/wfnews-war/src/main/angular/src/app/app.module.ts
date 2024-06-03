@@ -142,6 +142,8 @@ import { DraggablePanelComponent } from './components/draggable-panel/draggable-
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { AreaRestrictionsFullDetailsComponent } from './components/full-details/area-restrictions-full-details/area-restrictions-full-details.component';
 import { BansFullDetailsComponent } from './components/full-details/bans-full-details/bans-full-details.component';
+import { RelatedTopicsCardComponent } from './components/full-details/cards/related-topics-card/related-topics-card.component';
+import { ReturningHomeCardComponent } from './components/full-details/cards/returning-home-card/returning-home-card.component';
 import { DangerRatingFullDetailsComponent } from './components/full-details/danger-rating-full-details/danger-rating-full-details.component';
 import { EvacAlertFullDetailsComponent } from './components/full-details/evac-alert-full-details/evac-alert-full-details.component';
 import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
@@ -256,7 +258,6 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { RelatedTopicsCardComponent } from './components/full-details/cards/related-topics-card/related-topics-card.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -426,7 +427,8 @@ export const DATE_FORMATS = {
     IconButtonComponent,
     ContentCardContainerComponent,
     TwoColumnContentCardsContainerComponent,
-    RelatedTopicsCardComponent
+    RelatedTopicsCardComponent,
+    ReturningHomeCardComponent
   ],
   imports: [
     MatSortModule,
