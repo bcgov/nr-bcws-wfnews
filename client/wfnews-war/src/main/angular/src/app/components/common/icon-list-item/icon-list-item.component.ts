@@ -10,4 +10,11 @@ export class IconListItemComponent {
 
   @Input() iconPath: string;
   @Input() text: string;
+  @Input() link?: string;
+
+  directToLink() {
+    if (this.link) {
+      window.open(this.link);
+    }
+  }
 }
