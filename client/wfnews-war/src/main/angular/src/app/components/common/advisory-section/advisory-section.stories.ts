@@ -23,7 +23,7 @@ export const evacuationInformationOrder: Story = {
     iconPath: '/assets/images/svg-icons/evacuation-order.svg',
     title: 'Evacuation Information',
     message: 'Go to Emergency Info BC for up-to-date evaucation information.',
-    style: {
+    componentStyle: {
       backgroundColor: '#FFF5F6',
       dividerColor: '#E7DADA',
       iconCircleColor: '#FDCECE',
@@ -32,7 +32,7 @@ export const evacuationInformationOrder: Story = {
     button: {
       iconPath: '/assets/images/svg-icons/launch.svg',
       label: 'Evacuation Information',
-      style: {
+      componentStyle: {
         backgroundColor: '#B91D38',
         labelColor: '#FFFFFF',
         iconColor: '#FFFFFF',
@@ -51,7 +51,7 @@ export const evacuationInformationAlert: Story = {
     iconPath: '/assets/images/svg-icons/evacuation-alert.svg',
     title: 'Evacuation Information',
     message: 'Go to Emergency Info BC for up-to-date evaucation information.',
-    style: {
+    componentStyle: {
       backgroundColor: '#FFFAEB',
       dividerColor: '#EEE8D3',
       iconCircleColor: '#FEEFBE',
@@ -60,7 +60,7 @@ export const evacuationInformationAlert: Story = {
     button: {
       iconPath: '/assets/images/svg-icons/launch.svg',
       label: 'Evacuation Information',
-      style: {
+      componentStyle: {
         backgroundColor: '#8F7100',
         labelColor: '#FFFFFF',
         iconColor: '#FFFFFF',

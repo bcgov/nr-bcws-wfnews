@@ -1,7 +1,7 @@
-<div class="button-container" [ngStyle]="style ? {'background': style.backgroundColor, 'border': style.border} : null"
+<div class="button-container" [ngStyle]="componentStyle ? {'background': componentStyle.backgroundColor, 'border': componentStyle.border} : null"
   (keypress)="clickHandler()" (click)="clickHandler()">
-  <div class="icon" [ngStyle]="style ? {'backgroundColor': style.iconColor} : null"
+  <div class="icon" [ngStyle]="componentStyle ? {'backgroundColor': componentStyle.iconColor} : null"
     [style.mask-image]="'url('+ iconPath +')'" [style.-webkit-mask-image]="'url('+ iconPath +')'">
   </div>
-  <div class="label" [ngStyle]="style ? {'color': style.labelColor } : null">{{ label }}</div>
+  <div class="label" [ngStyle]="componentStyle ? {'color': componentStyle.labelColor } : null">{{ label }}</div>
 </div>

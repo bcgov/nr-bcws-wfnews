@@ -15,7 +15,7 @@ export const evacuationInformation: Story = {
   args: {
     label: 'Evacuation Information',
     iconPath: '/assets/images/svg-icons/launch.svg',
-    style: {
+    componentStyle: {
       backgroundColor: '#B91D38',
       labelColor: '#FFFFFF',
       iconColor: '#FFFFFF',

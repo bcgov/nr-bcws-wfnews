@@ -1,6 +1,6 @@
-<div class="warning-banner" [ngStyle]="style ? {'background': style.backgroundColor, 'border': style.border} : null">
-    <div class="icon" [ngStyle]="style ? {'background-color': style.iconColor} : null"
+<div class="warning-banner" [ngStyle]="componentStyle ? {'background': componentStyle.backgroundColor, 'border': componentStyle.border} : null">
+    <div class="icon" [ngStyle]="componentStyle ? {'background-color': componentStyle.iconColor} : null"
         [style.mask-image]="'url('+ iconPath +')'" [style.-webkit-mask-image]="'url('+ iconPath +')'">
     </div>
-    <span class="label" [ngStyle]="style ? {'color': style.labelColor } : null">{{label}}</span>
+    <span class="label" [ngStyle]="componentStyle ? {'color': componentStyle.labelColor } : null">{{label}}</span>
 </div>

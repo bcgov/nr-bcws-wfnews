@@ -14,7 +14,7 @@ type Story = StoryObj<WfnewsButtonComponent>;
 export const evacuationInformation: Story = {
   args: {
     label: 'Evacuee Registration and Assistance',
-    style: {
+    componentStyle: {
       backgroundColor: '#EEEEEE',
       labelColor: '#242424',
       border: '1px solid #C7C7C7;'
