@@ -44,6 +44,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
   @Input() public evacOrders: EvacOrderOption[] = [];
   @Input() public extent: any;
   @Input() public evac: any;
+  @Input() public areaRestriction: any;
   @Output() requestPrint = new EventEmitter<void>();
 
   public params: ParamMap;
@@ -128,17 +129,29 @@ export class IncidentHeaderPanel implements AfterViewInit {
           this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
         }
       }
+    } else if (this.areaRestriction){
+      location = [
+        Number(this.areaRestriction.centroid?.y),
+        Number(this.areaRestriction.centroid?.x),
+      ];
+      console.log(this.areaRestriction)
+      const polygonData = this.commonUtilityService.extractPolygonData(this.areaRestriction.geometry?.rings);
+      if (polygonData?.length) {
+        this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
+      }
+      console.warn(this.bounds)
     }
-
-    this.map = L.map('map', {
-      attributionControl: false,
-      zoomControl: false,
-      dragging: false,
-      doubleClickZoom: false,
-      boxZoom: false,
-      trackResize: false,
-      scrollWheelZoom: false,
-    }).setView(location, 9);
+    if (location) {
+      this.map = L.map('map', {
+        attributionControl: false,
+        zoomControl: false,
+        dragging: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        trackResize: false,
+        scrollWheelZoom: false,
+      }).setView(location, 9);
+    } 
 
     if (this.bounds) {
       this.map.fitBounds(this.bounds);
@@ -194,7 +207,8 @@ export class IncidentHeaderPanel implements AfterViewInit {
     const databcUrl = this.appConfigService
       .getConfig()
       ['mapServices']['openmapsBaseUrl'].toString();
-    L.tileLayer
+    if (this.evac) {
+      L.tileLayer
       .wms(databcUrl, {
         layers: 'WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
         styles: '6885',
@@ -212,7 +226,18 @@ export class IncidentHeaderPanel implements AfterViewInit {
         version: '1.1.1',
       })
       .addTo(this.map);
-
+    }
+    if (this.areaRestriction) {
+      L.tileLayer
+      .wms(databcUrl, {
+        layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_RESTRICTED_AREAS_SP ',
+        format: 'image/png',
+        transparent: true,
+        version: '1.1.1',
+        opacity: 0.5,
+      })
+      .addTo(this.map);
+    }
     const icon = L.icon({
       iconUrl: '/assets/images/local_fire_department.png',
       iconSize: [35, 35],
