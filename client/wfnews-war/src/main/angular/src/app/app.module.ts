@@ -147,6 +147,7 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
 import { AreaRestrictionsFullDetailsComponent } from './components/full-details/area-restrictions-full-details/area-restrictions-full-details.component';
 import { BansFullDetailsComponent } from './components/full-details/bans-full-details/bans-full-details.component';
 import { AtTheReceptionCentreCardComponent } from './components/full-details/cards/at-the-reception-centre-card/at-the-reception-centre-card.component';
+import { ConnectWithLocalAuthoritiesCardComponent } from './components/full-details/cards/connect-with-local-authorities-card/connect-with-local-authorities-card.component';
 import { OtherSourcesWhenYouLeaveCardComponent } from './components/full-details/cards/other-sources-of-information-card/other-sources-of-information-card.component';
 import { RelatedTopicsCardComponent } from './components/full-details/cards/related-topics-card/related-topics-card.component';
 import { ReturningHomeCardComponent } from './components/full-details/cards/returning-home-card/returning-home-card.component';
@@ -443,7 +444,8 @@ export const DATE_FORMATS = {
     WhereShouldIGoCardComponent,
     WarningBannerComponent,
     WhenYouLeaveCardComponent,
-    OtherSourcesWhenYouLeaveCardComponent
+    OtherSourcesWhenYouLeaveCardComponent,
+    ConnectWithLocalAuthoritiesCardComponent
   ],
   imports: [
     MatSortModule,
