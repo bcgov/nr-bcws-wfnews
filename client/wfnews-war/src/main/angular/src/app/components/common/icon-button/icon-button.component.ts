@@ -23,6 +23,7 @@ export interface IconButtonArgs {
 interface IconButtonStyle {
   backgroundColor: string;
   border: string;
-  iconColor: string;
+  iconColor?: string;
   labelColor: string;
+  overrideIconMask?: boolean;
 }

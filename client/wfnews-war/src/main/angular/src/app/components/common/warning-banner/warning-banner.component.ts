@@ -21,6 +21,7 @@ export interface WarningBannerArgs {
 interface WarningBannerStyle {
   backgroundColor: string;
   border: string;
-  iconColor: string;
+  iconColor?: string;
   labelColor: string;
+  overrideIconMask?: boolean;
 }
