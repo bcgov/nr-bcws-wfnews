@@ -569,6 +569,11 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		if (rofFormDataJson.has("signsOfResponse") && rofFormDataJson.optJSONArray("signsOfResponse") != null)
 			rof.setFireFightingProgressNote(rofFormDataJson.getJSONArray("signsOfResponse").toString().replace("[", "")
 					.replace("]", "").replace("\"", "").replace(",", ", "));
+		if (rofFormDataJson.has("submittedTimestamp") && !rofFormDataJson.optString("submittedTimestamp", "").equals("")) {
+			String rofTimestamp = rofFormDataJson.optString("submittedTimestamp");
+			LocalDateTime submittedDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(rofTimestamp)), ZoneId.systemDefault());
+			rof.setSubmittedTimestamp(Date.from(submittedDateTime.atZone(ZoneId.systemDefault()).toInstant()));
+		}
 
 		// set default visible flame string as No Comment
 		String visibleFlame = noCommentVisibleFlameString;
