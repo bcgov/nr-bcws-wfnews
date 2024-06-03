@@ -149,6 +149,7 @@ import { BansFullDetailsComponent } from './components/full-details/bans-full-de
 import { AtTheReceptionCentreCardComponent } from './components/full-details/cards/at-the-reception-centre-card/at-the-reception-centre-card.component';
 import { RelatedTopicsCardComponent } from './components/full-details/cards/related-topics-card/related-topics-card.component';
 import { ReturningHomeCardComponent } from './components/full-details/cards/returning-home-card/returning-home-card.component';
+import { WhereShouldIGoCardComponent } from './components/full-details/cards/where-should-i-go-card/where-should-i-go-card.component';
 import { DangerRatingFullDetailsComponent } from './components/full-details/danger-rating-full-details/danger-rating-full-details.component';
 import { EvacAlertFullDetailsComponent } from './components/full-details/evac-alert-full-details/evac-alert-full-details.component';
 import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
@@ -434,7 +435,8 @@ export const DATE_FORMATS = {
     ReturningHomeCardComponent,
     AtTheReceptionCentreCardComponent,
     IconListItemComponent,
-    WfnewsButtonComponent
+    WfnewsButtonComponent,
+    WhereShouldIGoCardComponent
   ],
   imports: [
     MatSortModule,
