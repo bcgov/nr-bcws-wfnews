@@ -8,7 +8,9 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLConnection;
 import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -274,8 +276,6 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		ObjectMapper mapper = new ObjectMapper();
 		rofFormDao = recordRoFService.getRofFormDao();
 
-		LocalDateTime submittedTimestamp = LocalDateTime.now(clock);
-
 		RoFFormDto rofFormDto = new RoFFormDto();
 		rofFormDto.setReportOfFireCacheGuid(reportOfFireCacheGuid);
 		RoFEntryForm newForm = new RoFEntryForm();
@@ -284,7 +284,16 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		newForm.setForm(reportOfFire);
 
 		rofFormDto.setReportOfFire(mapper.writeValueAsString(newForm));
-		rofFormDto.setSubmittedTimestamp(submittedTimestamp);
+		
+		LocalDateTime currentTimestamp = LocalDateTime.now(clock);
+		JSONObject rofJson = new JSONObject(reportOfFire);
+		String rofTimestamp = null;
+		
+		if(rofJson != null && rofJson.optString("submittedTimestamp") != null) {
+			rofTimestamp = rofJson.optString("submittedTimestamp");
+			LocalDateTime submittedTimestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(rofTimestamp)), ZoneId.systemDefault());
+			rofFormDto.setSubmittedTimestamp(submittedTimestamp);
+		}else rofFormDto.setSubmittedTimestamp(currentTimestamp);
 
 		this.rofFormDao.insert(rofFormDto);
 	}

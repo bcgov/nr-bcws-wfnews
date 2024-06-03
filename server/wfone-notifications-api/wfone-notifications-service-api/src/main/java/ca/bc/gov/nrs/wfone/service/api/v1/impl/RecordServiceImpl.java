@@ -1,11 +1,14 @@
 package ca.bc.gov.nrs.wfone.service.api.v1.impl;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.bc.gov.nrs.wfone.common.persistence.dao.DaoException;
@@ -82,12 +85,19 @@ public class RecordServiceImpl implements RecordService {
 
 		rofFormDao = recordService.getRofFormDao();
 
-		LocalDateTime submittedTimestamp = LocalDateTime.now();
-
 		RoFFormDto rofFormDto = new RoFFormDto();
 		rofFormDto.setReportOfFireCacheGuid(reportOfFireCacheGuid);
 		rofFormDto.setReportOfFire(reportOfFire);
-		rofFormDto.setSubmittedTimestamp(submittedTimestamp);
+		
+		LocalDateTime currentTimestamp = LocalDateTime.now();
+		JSONObject rofJson = new JSONObject(reportOfFire);
+		String rofTimestamp = null;
+		
+		if(rofJson != null && rofJson.optString("submittedTimestamp") != null) {
+			rofTimestamp = rofJson.optString("submittedTimestamp");
+			LocalDateTime submittedTimestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(rofTimestamp)), ZoneId.systemDefault());
+			rofFormDto.setSubmittedTimestamp(submittedTimestamp);
+		}else rofFormDto.setSubmittedTimestamp(currentTimestamp);
 
 		try {
 			this.rofFormDao.insert(rofFormDto);
