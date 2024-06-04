@@ -183,6 +183,7 @@ export class ResponseDetailsPanel implements OnInit {
         if (details) {
           this.initialAttackCrews.nativeElement.value = this.getCount(details['Crews'].resources, 'Initial Attack Crew');
           this.unitCrews.nativeElement.value = this.getCount(details['Crews']?.resources, 'Unit Crew');
+          this.crewsValueChange();
         }
       })
     }).catch(error => {
@@ -202,6 +203,7 @@ export class ResponseDetailsPanel implements OnInit {
         const details = summary?.details as unknown as AssignmentResourcesSummary;
         if (details) {
           this.imTeams.nativeElement.value = this.getCount(details['Crews']?.resources, 'IMT');
+          this.incidentTeamValueChange();
         }
       })
     }).catch(error => {
@@ -216,6 +218,7 @@ export class ResponseDetailsPanel implements OnInit {
         const details = summary?.details as unknown as AssignmentResourcesSummary;
         if (details) {
           this.pieces.nativeElement.value = details['Heavy Equipment']?.totalCount;
+          this.heavyEquipmentValueChange();
         }
       })
     }).catch(error => {
@@ -229,6 +232,7 @@ export class ResponseDetailsPanel implements OnInit {
         const details = summary?.details as unknown as AssignmentResourcesSummary;
         if (details) {
           this.structure.nativeElement.value = this.getCount(details['Fire Services Equipment']?.resources, 'Structure Protection Unit');
+          this.structuretValueChange();
         }
       })
     }).catch(error => {
