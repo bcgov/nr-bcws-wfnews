@@ -31,7 +31,7 @@ export class EvacOrderDetailsComponent {
       border: 'none'
     },
     clickHandler: () => {
-      window.open('https://www.emergencyinfobc.gov.bc.ca/');
+      window.open('https://www.emergencyinfobc.gov.bc.ca/', '_blank');
     }
   };
 

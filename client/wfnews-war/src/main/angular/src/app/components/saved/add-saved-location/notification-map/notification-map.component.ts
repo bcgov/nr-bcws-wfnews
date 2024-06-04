@@ -14,7 +14,7 @@ import * as L from 'leaflet';
   templateUrl: './notification-map.component.html',
   styleUrls: ['./notification-map.component.scss'],
 })
-export class notificationMapComponent implements OnInit, AfterViewInit {
+export class NotificationMapComponent implements OnInit, AfterViewInit {
   @ViewChild('itemHeight') itemHeightSlider;
   map: any;
   notificationLocationMarker: any;
@@ -25,7 +25,7 @@ export class notificationMapComponent implements OnInit, AfterViewInit {
   isNotificationRadius = false;
 
   constructor(
-    private dialogRef: MatDialogRef<notificationMapComponent>,
+    private dialogRef: MatDialogRef<NotificationMapComponent>,
     protected cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data,
   ) {
