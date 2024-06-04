@@ -33,6 +33,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -44,10 +45,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { YouTubePlayerModule } from '@angular/youtube-player';
+import { NotificationSnackbarComponent } from '@app/components/notification-snackbar/notification-snackbar.component';
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { RoFReviewPage } from '@app/components/report-of-fire/review-page/rof-review-page.component';
+import { NotificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
+import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
+import { WildfireNotificationDialogComponent } from '@app/components/wildfire-notification-dialog/wildfire-notification-dialog.component';
+import { NotificationService } from '@app/services/notification.service';
 import { OwlNativeDateTimeModule } from '@busacca/ng-pick-datetime';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { HTTP } from '@ionic-native/http/ngx';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { EffectsModule } from '@ngrx/effects';
@@ -69,6 +76,11 @@ import {
 } from '@wf1/orgunit-rest-api';
 import { WildfireApplicationModule } from '@wf1/wfcc-application-ui';
 import { Configuration as DocumentAPIServiceConfiguration } from '@wf1/wfdm-document-management-api';
+import {
+  Configuration as ScheduleAPIServiceConfiguration,
+  ApiModule as ScheduleApiModule
+} from "@wf1/wfrm-resource-schedule-api";
+import { GoogleChartsModule } from 'angular-google-charts';
 import { LightgalleryModule } from 'lightgallery/angular/13';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeModule } from 'ng-pick-datetime';
 import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
@@ -99,14 +111,24 @@ import { EditVideoDialogComponent } from './components/admin-incident-form/video
 import { UploadVideoDialogComponent } from './components/admin-incident-form/video-gallery-panel/upload-video-dialog/upload-video-dialog.component';
 import { VideoCardPanel } from './components/admin-incident-form/video-gallery-panel/video-card-component/video-card-panel.component';
 import { VideoGalleryPanel } from './components/admin-incident-form/video-gallery-panel/video-gallery-panel.component';
+import { BaseDialogComponent } from './components/base-dialog/base-dialog.component';
+import { AdvisorySectionComponent } from './components/common/advisory-section/advisory-section.component';
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
 import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
+import { CircleIconButtonComponent } from './components/common/circle-icon-button/circle-icon-button.component';
+import { ContentCardContainerComponent } from './components/common/content-card-container/content-card-container.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
+import { IconButtonComponent } from './components/common/icon-button/icon-button.component';
+import { IconInfoChipComponent } from './components/common/icon-info-chip/icon-info-chip.component';
+import { IconListItemComponent } from './components/common/icon-list-item/icon-list-item.component';
 import { LinkButtonComponent } from './components/common/link-button/link-button.component';
 import { MapToggleButtonComponent } from './components/common/map-toggle-button/map-toggle-button.component';
 import { MobileSlidingDrawerComponent } from './components/common/mobile-sliding-drawer/mobile-sliding-drawer.component';
 import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
+import { TwoColumnContentCardsContainerComponent } from './components/common/two-column-content-cards-container/two-column-content-cards-container.component';
 import { UnsavedChangesDialog } from './components/common/unsaved-changes-dialog/unsaved-changes-dialog.component';
+import { WarningBannerComponent } from './components/common/warning-banner/warning-banner.component';
+import { WfnewsButtonComponent } from './components/common/wfnews-button/wfnews-button.component';
 import { Dashboard } from './components/dashboard-component/dashboard.component';
 import { ActiveFiresWidget } from './components/dashboard-component/widgets/active-fires-widget/active-fires-widget.component';
 import { BansWidget } from './components/dashboard-component/widgets/bans-widget/bans-widget.component';
@@ -126,13 +148,43 @@ import { DisclaimerDialogComponent } from './components/disclaimer-dialog/discla
 import { DraggablePanelComponent } from './components/draggable-panel/draggable-panel.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { AreaRestrictionsFullDetailsComponent } from './components/full-details/area-restrictions-full-details/area-restrictions-full-details.component';
+import { BansFullDetailsComponent } from './components/full-details/bans-full-details/bans-full-details.component';
+import { AssociatedWildfireCardComponent } from './components/full-details/cards/associated-wildfire-card/associated-wildfire-card.component';
+import { AtTheReceptionCentreCardComponent } from './components/full-details/cards/at-the-reception-centre-card/at-the-reception-centre-card.component';
+import { ConnectWithLocalAuthoritiesCardComponent } from './components/full-details/cards/connect-with-local-authorities-card/connect-with-local-authorities-card.component';
+import { OtherSourcesWhenYouLeaveCardComponent } from './components/full-details/cards/other-sources-of-information-card/other-sources-of-information-card.component';
+import { RelatedTopicsCardComponent } from './components/full-details/cards/related-topics-card/related-topics-card.component';
+import { ReturningHomeCardComponent } from './components/full-details/cards/returning-home-card/returning-home-card.component';
+import { WhenYouLeaveCardComponent } from './components/full-details/cards/when-you-leave-card/when-you-leave-card.component';
+import { WhereShouldIGoCardComponent } from './components/full-details/cards/where-should-i-go-card/where-should-i-go-card.component';
+import { DangerRatingFullDetailsComponent } from './components/full-details/danger-rating-full-details/danger-rating-full-details.component';
+import { EvacAlertFullDetailsComponent } from './components/full-details/evac-alert-full-details/evac-alert-full-details.component';
+import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
+import { EvacOtherInfoComponent } from './components/full-details/evac-other-info/evac-other-info.component';
 import { FullDetailsComponent } from './components/full-details/full-details.component';
 import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
+import { AreaRestrictionLegendComponent } from './components/legend-panels/area-restriction-layers/area-restriction-legend.component';
+import { BansLegendComponent } from './components/legend-panels/bans-layers/bans-legend.component';
+import { BaseLegendComponent } from './components/legend-panels/base-legend.component';
+import { DangerRatingLegendComponent } from './components/legend-panels/danger-rating-layers/danger-rating-legend.component';
+import { EvacLegendComponent } from './components/legend-panels/evac-layers/evac-legend.component';
+import { FireLegendComponent } from './components/legend-panels/fires/fire-legend.component';
+import { LocalAuthoritiesLegendComponent } from './components/legend-panels/local-authorities-layers/local-authorities-legend.component';
+import { MapLegendComponent } from './components/legend-panels/other-layers/map-legend.component';
+import { PrecipForecastLegendComponent } from './components/legend-panels/precip-forecast-layers/precip-forecast-legend.component';
+import { PrecipRadarLegendComponent } from './components/legend-panels/precip-radar-layers/precip-radar-legend.component';
+import { ProtectedLandsLegendComponent } from './components/legend-panels/protected-lands-layers/protected-lands-legend.component';
+import { RecSiteLegendComponent } from './components/legend-panels/rec-site-layers/rec-site-legend.component';
+import { RoadEventLegendComponent } from './components/legend-panels/road-event-layers/road-event-legend.component';
+import { SmokeLegendComponent } from './components/legend-panels/smoke-layers/smoke-legend.component';
 import { MapLayersDataSourceDrawerSectionComponent } from './components/map-layers-datasource-drawer-section/map-layers-datasource-drawer-section.component';
 import { MapLayersDrawerSectionComponent } from './components/map-layers-drawer-section/map-layers-drawer-section.component';
 import { MapTypePickerComponent } from './components/map-type-picker/map-type-picker.component';
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
+import { MoreComponent } from './components/more/more.component';
 import { PanelWildfireStageOfControlComponentDesktop } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component.desktop';
+import { EvacOrderDetailsComponent } from './components/public-event-page/evac-order-details/evac-order-details.component';
+import { PublicEventPageComponent } from './components/public-event-page/public-event-page.component';
 import { ImagePanelComponent } from './components/public-incident-page/incident-gallery-panel/image-panel/image-panel.component';
 import { IncidentGalleryAllMediaMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-all-media-mobile/incident-gallery-all-media-mobile.component';
 import { IncidentGalleryImagesMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-images-mobile/incident-gallery-images-mobile.component';
@@ -140,6 +192,9 @@ import { IncidentGalleryPanelMobileComponent } from './components/public-inciden
 import { IncidentGalleryPanel } from './components/public-incident-page/incident-gallery-panel/incident-gallery-panel.component';
 import { IncidentGalleryVideosMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-videos-mobile/incident-gallery-videos-mobile.component';
 import { VideoPanelComponent } from './components/public-incident-page/incident-gallery-panel/video-panel/video-panel.component';
+import { AreaRestrictionHeaderComponent } from './components/public-incident-page/incident-info-header/area-restriction-header/area-restriction-header.component';
+import { BanHeaderComponent } from './components/public-incident-page/incident-info-header/ban-header/ban-header.component';
+import { DangerRatingHeaderComponent } from './components/public-incident-page/incident-info-header/danger-rating-header/danger-rating-header.component';
 import { IncidentHeaderPanel } from './components/public-incident-page/incident-info-header/incident-header-panel.component';
 import { IncidentInfoPanelMobileComponent } from './components/public-incident-page/incident-info-panel-mobile/incident-info-panel-mobile.component';
 import { IncidentInfoPanel } from './components/public-incident-page/incident-info-panel/incident-info-panel.component';
@@ -147,6 +202,7 @@ import { IncidentMapsPanelMobileComponent } from './components/public-incident-p
 import { IncidentMapsPanel } from './components/public-incident-page/incident-maps-panel/incident-maps-panel.component';
 import { IncidentOverviewPanelMobileComponent } from './components/public-incident-page/incident-overview-panel-mobile/incident-overview-panel-mobile.component';
 import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
+import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
 import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
 import { LocationServicesDialogComponent } from './components/report-of-fire/compass-page/location-services-dialog/location-services-dialog.component';
@@ -162,9 +218,16 @@ import { ReportOfFirePage } from './components/report-of-fire/report-of-fire.com
 import { RofCallPage } from './components/report-of-fire/rof-callback-page/rof-call-page.component';
 import { RoFSimpleQuestionPage } from './components/report-of-fire/simple-question-page/rof-simple-question-page.component';
 import { RoFTitlePage } from './components/report-of-fire/title-page/rof-title-page.component';
+import { AddSavedLocationComponent } from './components/saved/add-saved-location/add-saved-location.component';
+import { SavedLocationFullDetailsComponent } from './components/saved/saved-location-full-details/saved-location-full-details.component';
+import { SavedLocationWeatherDetailsComponent } from './components/saved/saved-location-weather-details/saved-location-weather-details.component';
+import { SavedComponent } from './components/saved/saved.component';
+import { SearchPageComponent } from './components/search/search-page.component';
 import { SignOutPageComponent } from './components/sign-out-page/sign-out-page.component';
 import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
 import { StickyWidgetComponent } from './components/sticky-widget/sticky-widget.component';
+import { WeatherHistoryOptionsDialogComponent } from './components/weather/weather-history-options-dialog/weather-history-options-dialog.component';
+import { WeatherHistoryComponent } from './components/weather/weather-history/weather-history.component';
 import { WeatherPanelComponent } from './components/weather/weather-panel/weather-panel.component';
 import { AdminEditDashboard } from './components/wf-admin-panel/dashboard-panel/edit-dashboard.component';
 import { WfAdminPanelComponentDesktop } from './components/wf-admin-panel/wf-admin-panel.component.desktop';
@@ -195,64 +258,20 @@ import { SafePipe } from './pipes/safe.pipe';
 import { AGOLService } from './services/AGOL-service';
 import { CommonUtilityService } from './services/common-utility.service';
 import { DocumentManagementService } from './services/document-management.service';
+import { GoogleChartsService } from './services/google-charts.service';
+import { IonicStorageService } from './services/ionic-storage.service';
 import { LocalStorageService } from './services/local-storage-service';
 import { MapConfigService } from './services/map-config.service';
 import { PointIdService } from './services/point-id.service';
 import { PublishedIncidentService } from './services/published-incident-service';
 import { ReportOfFireService } from './services/report-of-fire-service';
+import { ResourceManagementService } from './services/resource-management.service';
 import { UpdateService } from './services/update.service';
 import { WatchlistService } from './services/watchlist-service';
 import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { SavedComponent } from './components/saved/saved.component';
-import { MoreComponent } from './components/more/more.component';
-import { BansFullDetailsComponent } from './components/full-details/bans-full-details/bans-full-details.component';
-import { DangerRatingFullDetailsComponent } from './components/full-details/danger-rating-full-details/danger-rating-full-details.component';
-import { EvacAlertFullDetailsComponent } from './components/full-details/evac-alert-full-details/evac-alert-full-details.component';
-import { EvacOtherInfoComponent } from './components/full-details/evac-other-info/evac-other-info.component';
-import { MapLegendComponent } from './components/legend-panels/other-layers/map-legend.component';
-import { FireLegendComponent } from './components/legend-panels/fires/fire-legend.component';
-import { BaseLegendComponent } from './components/legend-panels/base-legend.component';
-import { EvacLegendComponent } from './components/legend-panels/evac-layers/evac-legend.component';
-import { BansLegendComponent } from './components/legend-panels/bans-layers/bans-legend.component';
-import { AreaRestrictionLegendComponent } from './components/legend-panels/area-restriction-layers/area-restriction-legend.component';
-import { DangerRatingLegendComponent } from './components/legend-panels/danger-rating-layers/danger-rating-legend.component';
-import { SmokeLegendComponent } from './components/legend-panels/smoke-layers/smoke-legend.component';
-import { RoadEventLegendComponent } from './components/legend-panels/road-event-layers/road-event-legend.component';
-import { LocalAuthoritiesLegendComponent } from './components/legend-panels/local-authorities-layers/local-authorities-legend.component';
-import { PrecipRadarLegendComponent } from './components/legend-panels/precip-radar-layers/precip-radar-legend.component';
-import { PrecipForecastLegendComponent } from './components/legend-panels/precip-forecast-layers/precip-forecast-legend.component';
-import { RecSiteLegendComponent } from './components/legend-panels/rec-site-layers/rec-site-legend.component';
-import { ProtectedLandsLegendComponent } from './components/legend-panels/protected-lands-layers/protected-lands-legend.component';
-import { SearchPageComponent } from './components/search/search-page.component';
-import { AddSavedLocationComponent } from './components/saved/add-saved-location/add-saved-location.component';
-import { notificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
-import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
-import { MatSliderModule } from '@angular/material/slider';
-import { NotificationService } from '@app/services/notification.service';
-import { SavedLocationFullDetailsComponent } from './components/saved/saved-location-full-details/saved-location-full-details.component';
-import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
-import { WildfireNotificationDialogComponent } from '@app/components/wildfire-notification-dialog/wildfire-notification-dialog.component';
-import { SavedLocationWeatherDetailsComponent } from './components/saved/saved-location-weather-details/saved-location-weather-details.component';
-import { WeatherHistoryComponent } from './components/weather/weather-history/weather-history.component';
-import { WeatherHistoryOptionsDialogComponent } from './components/weather/weather-history-options-dialog/weather-history-options-dialog.component';
-import { GoogleChartsModule } from 'angular-google-charts';
-import { GoogleChartsService } from './services/google-charts.service';
-import { BaseDialogComponent } from './components/base-dialog/base-dialog.component';
-import { NotificationSnackbarComponent } from '@app/components/notification-snackbar/notification-snackbar.component';
-import { HTTP } from '@ionic-native/http/ngx';
-import { IonicStorageService } from './services/ionic-storage.service';
-import { PublicEventPageComponent } from './components/public-event-page/public-event-page.component';
-import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
-import { ResourceManagementService } from './services/resource-management.service';
-import { ApiModule as ScheduleApiModule, 
-  Configuration as ScheduleAPIServiceConfiguration 
-} from "@wf1/wfrm-resource-schedule-api";
-import { AreaRestrictionHeaderComponent } from './components/public-incident-page/incident-info-header/area-restriction-header/area-restriction-header.component';
-import { BanHeaderComponent } from './components/public-incident-page/incident-info-header/ban-header/ban-header.component';
-import { DangerRatingHeaderComponent } from './components/public-incident-page/incident-info-header/danger-rating-header/danger-rating-header.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -372,7 +391,6 @@ export const DATE_FORMATS = {
     FireTotalsWidget,
     HistoricalComparisonWidget,
     FireCentreStatsWidget,
-    MapToggleButtonComponent,
     DraggablePanelComponent,
     MobileSlidingDrawerComponent,
     MapTypePickerComponent,
@@ -405,7 +423,7 @@ export const DATE_FORMATS = {
     ProtectedLandsLegendComponent,
     SearchPageComponent,
     AddSavedLocationComponent,
-    notificationMapComponent,
+    NotificationMapComponent,
     SavedLocationFullDetailsComponent,
     ConfirmationDialogComponent,
     WildfireNotificationDialogComponent,
@@ -419,6 +437,24 @@ export const DATE_FORMATS = {
     AreaRestrictionHeaderComponent,
     BanHeaderComponent,
     DangerRatingHeaderComponent,
+    AdvisorySectionComponent,
+    IconButtonComponent,
+    ContentCardContainerComponent,
+    TwoColumnContentCardsContainerComponent,
+    RelatedTopicsCardComponent,
+    ReturningHomeCardComponent,
+    AtTheReceptionCentreCardComponent,
+    IconListItemComponent,
+    WfnewsButtonComponent,
+    WhereShouldIGoCardComponent,
+    WarningBannerComponent,
+    WhenYouLeaveCardComponent,
+    OtherSourcesWhenYouLeaveCardComponent,
+    ConnectWithLocalAuthoritiesCardComponent,
+    AssociatedWildfireCardComponent,
+    IconInfoChipComponent,
+    CircleIconButtonComponent,
+    EvacOrderDetailsComponent
   ],
   imports: [
     MatSortModule,
