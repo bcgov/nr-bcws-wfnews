@@ -149,6 +149,12 @@
           </div>
         </div>
       </div>
+      <div *ngIf="areaRestriction">
+        <wfnews-area-restriction-header [areaRestriction]="areaRestriction"></wfnews-area-restriction-header>
+      </div>
+      <div *ngIf="ban">
+        <wfnews-ban-header [ban]="ban"></wfnews-ban-header>
+      </div>
     </div>
     
   </div>
