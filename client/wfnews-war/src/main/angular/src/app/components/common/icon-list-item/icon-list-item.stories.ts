@@ -23,3 +23,11 @@ export const patio: Story = {
     text: 'Some of these emojis are random. Where do we even use these?',
   },
 };
+
+export const smallerIcons: Story = {
+  args: {
+    iconPath: '/assets/images/svg-icons/patio_furniture.svg',
+    text: 'Some of these emojis are random. Where do we even use these?',
+    slim: true,
+  },
+};

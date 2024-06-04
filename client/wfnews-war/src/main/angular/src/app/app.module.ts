@@ -114,6 +114,7 @@ import { VideoGalleryPanel } from './components/admin-incident-form/video-galler
 import { BaseDialogComponent } from './components/base-dialog/base-dialog.component';
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
 import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
+import { CircleIconButtonComponent } from './components/common/circle-icon-button/circle-icon-button.component';
 import { ContentCardContainerComponent } from './components/common/content-card-container/content-card-container.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { IconButtonComponent } from './components/common/icon-button/icon-button.component';
@@ -449,7 +450,8 @@ export const DATE_FORMATS = {
     OtherSourcesWhenYouLeaveCardComponent,
     ConnectWithLocalAuthoritiesCardComponent,
     AssociatedWildfireCardComponent,
-    IconInfoChipComponent
+    IconInfoChipComponent,
+    CircleIconButtonComponent
   ],
   imports: [
     MatSortModule,
