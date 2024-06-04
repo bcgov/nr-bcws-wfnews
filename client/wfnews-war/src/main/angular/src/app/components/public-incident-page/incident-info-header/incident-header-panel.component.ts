@@ -139,7 +139,6 @@ export class IncidentHeaderPanel implements AfterViewInit {
       if (polygonData?.length) {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
-      console.warn(this.bounds)
     }
       else if (this.ban){
       location = [
