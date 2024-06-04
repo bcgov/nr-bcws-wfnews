@@ -200,7 +200,7 @@ export class ResponseDetailsPanel implements OnInit {
           this.helicopters.nativeElement.value = this.getCount(details['Crews']?.resources, 'Rapattack Crew');
           this.aviationValueChange();
         }
-      });
+      })
     }).catch(error => {
       console.error('Could not update Aviation', error)
     })
@@ -215,7 +215,7 @@ export class ResponseDetailsPanel implements OnInit {
           this.imTeams.nativeElement.value = this.getCount(details['Crews']?.resources, 'IMT');
           this.incidentTeamValueChange();
         }
-      });
+      })
     }).catch(error => {
       console.error('Could not update IM Team', error)
     })
@@ -230,7 +230,7 @@ export class ResponseDetailsPanel implements OnInit {
           this.pieces.nativeElement.value = details['Heavy Equipment']?.totalCount;
           this.heavyEquipmentValueChange();
         }
-      }); 
+      })
     }).catch(error => {
       console.error('Could not update Heavy Equipment', error);
     })
@@ -244,7 +244,7 @@ export class ResponseDetailsPanel implements OnInit {
           this.structure.nativeElement.value = this.getCount(details['Fire Services Equipment']?.resources, 'Structure Protection Unit');
           this.structuretValueChange();
         }
-      }); 
+      })
     }).catch(error => {
       console.error('Could not update Structure Protection Unit', error);
     })
