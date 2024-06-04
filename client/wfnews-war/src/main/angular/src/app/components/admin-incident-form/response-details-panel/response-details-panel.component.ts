@@ -185,7 +185,7 @@ export class ResponseDetailsPanel implements OnInit {
           this.unitCrews.nativeElement.value = this.getCount(details['Crews']?.resources, 'Unit Crew');
           this.crewsValueChange();
         }
-      });
+      })
     }).catch(error => {
       console.error('Could not update Crews', error)
     })
