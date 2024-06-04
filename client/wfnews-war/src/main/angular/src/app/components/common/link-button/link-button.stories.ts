@@ -50,3 +50,14 @@ export const longTitle: Story = {
     componentWrapperDecorator((story) => `<div style="width: 50%;">${story}</div>`),
   ],
 };
+
+export const noSubtext: Story = {
+  args: {
+    text: 'Only the title',
+    link: 'https://bing.com',
+    iconColor: '#909090'
+  },
+  decorators: [
+    componentWrapperDecorator((story) => `<div style="width: 50%;">${story}</div>`),
+  ],
+};

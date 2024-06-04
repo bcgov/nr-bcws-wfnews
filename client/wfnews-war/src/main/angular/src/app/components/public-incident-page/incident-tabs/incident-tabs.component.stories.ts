@@ -1,15 +1,15 @@
 // Import necessary Angular modules and decorators
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 // Import your specific component
-import { IncidentTabsComponent } from './incident-tabs.component';
-import { IncidentInfoPanel } from '../incident-info-panel/incident-info-panel.component';
-import { IncidentOverviewPanel } from '../incident-overview-panel/incident-overview-panel.component';
 import { IncidentGalleryPanel } from '../incident-gallery-panel/incident-gallery-panel.component';
+import { IncidentInfoPanel } from '../incident-info-panel/incident-info-panel.component';
 import { IncidentMapsPanel } from '../incident-maps-panel/incident-maps-panel.component';
+import { IncidentOverviewPanel } from '../incident-overview-panel/incident-overview-panel.component';
+import { IncidentTabsComponent } from './incident-tabs.component';
 
 // Mock data for the story
 const mockIncident = {
@@ -107,7 +107,7 @@ const mockAreaRestrictions = [
 
 // Define the default export configuration using Meta
 const meta: Meta<IncidentTabsComponent> = {
-  title: 'Components/Incident Tabs',
+  title: 'Components/IncidentTabs',
   component: IncidentTabsComponent,
   decorators: [
     moduleMetadata({

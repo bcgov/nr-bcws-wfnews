@@ -218,6 +218,10 @@ export class AreaRestrictionListComponent implements OnInit {
     const url = this.router.serializeUrl(
       this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
         queryParams: {
+          eventType: 'area-restriction',
+          eventNumber: event.protRsSysID,
+          eventName: event.name,
+          source: [ResourcesRoutes.WILDFIRESLIST]
         },
       }),
     );

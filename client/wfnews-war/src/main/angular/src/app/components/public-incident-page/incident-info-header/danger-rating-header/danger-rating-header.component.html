@@ -1,0 +1,20 @@
+<div *ngIf="dangerRating" class="evac">
+    <div class="title">{{dangerRating.attributes.DANGER_RATING_DESC}} Danger Rating</div>
+    <div class="info-panel event">
+      <div class="info-panel-row">
+        <img class="icon" src="/assets/images/svg-icons/carbon_layers.svg" alt="Layers" />
+        <span class="label">BC Wildfire Danger Rating Layer</span>
+      </div>
+      <hr>
+      <div class="info-panel-row">
+        <span class="label" [innerHTML]="dangerDescription()">
+        </span>
+      </div>
+      <div class="info-panel-button-row">
+          <button mat-button class="single-button" (click)="navToMap()">
+            <img class="single-button-icon" src="/assets/images/svg-icons/map.svg" height="20" width="20" alt="Map" />
+            View on Map
+          </button>
+      </div>
+    </div>
+  </div>
