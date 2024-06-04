@@ -1,0 +1,10 @@
+:host { display: block; }
+
+.evac-alert-details {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 0;
+}

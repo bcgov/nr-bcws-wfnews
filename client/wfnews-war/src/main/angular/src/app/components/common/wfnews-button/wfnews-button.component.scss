@@ -14,19 +14,22 @@
   background: #FFFFFF;
   border: 1px solid #dedede;
 
+  &.slim {
+    padding: 8px 16px;
+  }
+
   .label {
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
       sans-serif;
     font-size: 16px;
+    line-height: 24px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
     color: #000000;
-  }
 
-  .icon {
-    width: 24px;
-    height: 24px;
-    background-color: #000000;
+    &.slim {
+      font-weight: 400;
+    }
   }
 }

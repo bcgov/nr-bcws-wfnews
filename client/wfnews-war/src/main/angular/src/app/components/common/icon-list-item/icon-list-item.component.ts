@@ -15,7 +15,7 @@ export class IconListItemComponent {
 
   directToLink() {
     if (this.link) {
-      window.open(this.link);
+      window.open(this.link, '_blank');
     }
   }
 }
