@@ -183,8 +183,9 @@ export class ResponseDetailsPanel implements OnInit {
         if (details) {
           this.initialAttackCrews.nativeElement.value = this.getCount(details['Crews'].resources, 'Initial Attack Crew');
           this.unitCrews.nativeElement.value = this.getCount(details['Crews']?.resources, 'Unit Crew');
+          this.crewsValueChange();
         }
-      })
+      });
     }).catch(error => {
       console.error('Could not update Crews', error)
     })
@@ -197,8 +198,9 @@ export class ResponseDetailsPanel implements OnInit {
         if (details) {
           this.airtankers.nativeElement.value = this.getCount(details['Crews']?.resources, 'Parattack Crew');
           this.helicopters.nativeElement.value = this.getCount(details['Crews']?.resources, 'Rapattack Crew');
+          this.aviationValueChange();
         }
-      })
+      });
     }).catch(error => {
       console.error('Could not update Aviation', error)
     })
@@ -211,8 +213,9 @@ export class ResponseDetailsPanel implements OnInit {
         const details = summary?.details as unknown as AssignmentResourcesSummary;
         if (details) {
           this.imTeams.nativeElement.value = this.getCount(details['Crews']?.resources, 'IMT');
+          this.incidentTeamValueChange();
         }
-      })
+      });
     }).catch(error => {
       console.error('Could not update IM Team', error)
     })
@@ -225,8 +228,9 @@ export class ResponseDetailsPanel implements OnInit {
         const details = summary?.details as unknown as AssignmentResourcesSummary;
         if (details) {
           this.pieces.nativeElement.value = details['Heavy Equipment']?.totalCount;
+          this.heavyEquipmentValueChange();
         }
-      })
+      }); 
     }).catch(error => {
       console.error('Could not update Heavy Equipment', error);
     })
@@ -238,8 +242,9 @@ export class ResponseDetailsPanel implements OnInit {
         const details = summary?.details as unknown as AssignmentResourcesSummary;
         if (details) {
           this.structure.nativeElement.value = this.getCount(details['Fire Services Equipment']?.resources, 'Structure Protection Unit');
+          this.structuretValueChange();
         }
-      })
+      }); 
     }).catch(error => {
       console.error('Could not update Structure Protection Unit', error);
     })

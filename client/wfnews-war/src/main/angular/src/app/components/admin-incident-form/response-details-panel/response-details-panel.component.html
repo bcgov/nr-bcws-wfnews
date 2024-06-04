@@ -43,7 +43,7 @@
           </mat-form-field>
           <mat-form-field floatLabel="always">
             <mat-label class="label">Total Crew Units</mat-label>
-            <input matInput type="number" [value]="incident.crewResourceCount" disabled>
+            <input matInput type="number" [value]="incident.crewResourceCount" (change)="crewsValueChange()" disabled>
           </mat-form-field>
         </div>
         <div class="field size-full">
