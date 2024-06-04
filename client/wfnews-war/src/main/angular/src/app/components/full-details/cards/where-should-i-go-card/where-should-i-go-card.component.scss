@@ -1,5 +1,7 @@
 @import "../../../../../styles/variables.scss";
 
+:host { display: block; }
+
 .where-should-i-go-card {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,7 @@
 @import "../../../../styles/variables.scss";
 
+:host { display: block; }
+
 .chip-container {
   display: flex;
   padding: 8px 16px;

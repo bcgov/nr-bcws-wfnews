@@ -1,5 +1,7 @@
 @import "../../../../../styles/variables.scss";
 
+:host { display: block; }
+
 .connect-with-local-authorities-card {
   display: flex;
   flex-direction: column;
