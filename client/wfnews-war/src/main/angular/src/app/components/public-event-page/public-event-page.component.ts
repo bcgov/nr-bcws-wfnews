@@ -11,7 +11,10 @@ export class PublicEventPageComponent implements OnInit {
   public isLoading = true;
   public loadingFailed = false;
   public eventNumber: string;
+  public eventName: string;
   public evac: string;
+  public areaRestriction: string
+  public ban: string
 
   constructor(
     private agolService: AGOLService,
@@ -28,6 +31,14 @@ export class PublicEventPageComponent implements OnInit {
           returnCentroid: true,
           returnExtent: false,
         });
+      }
+      else if(params && params['eventName'] && params['eventType'] === 'area-restriction'){
+        this.eventName = params['eventName'];
+        this.populateAreaRestrictionByName();
+      }
+      else if(params && params['eventNumber'] && params['eventType'] === 'ban'){
+        this.eventNumber = params['eventNumber'];
+        this.populateBanById();
       }
     });
   }
@@ -47,4 +58,42 @@ export class PublicEventPageComponent implements OnInit {
         }
       });
   }
+
+  async populateAreaRestrictionByName(options: AgolOptions = null) {
+    this.agolService
+    .getAreaRestrictions(
+      `NAME='${this.eventName}'`,
+      null,
+      {
+        returnGeometry: true,
+        returnCentroid: true,
+        returnExtent: false,
+      },
+    )
+      .toPromise()
+      .then((response) => {
+        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
+          this.areaRestriction = response.features[0];
+          this.isLoading = false;
+        }
+      });
+  }
+
+  async populateBanById(options: AgolOptions = null) {
+    this.agolService
+    .getBansAndProhibitionsById(
+      this.eventNumber, {
+        returnGeometry: true,
+        returnCentroid: true,
+        returnExtent: false,
+      })
+      .toPromise()
+      .then((response) => {
+        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
+          this.ban = response.features[0];
+          this.isLoading = false;
+        }
+      });
+  }
+
 }
