@@ -1,5 +1,7 @@
 @import "../../../../styles/_variables.scss";
 
+:host { display: block; }
+
 .two-column-content-cards-container {
   display: flex;
   align-items: flex-start;
