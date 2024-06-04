@@ -191,18 +191,9 @@ export class ResponseDetailsPanel implements OnInit {
   }
 
   updateAviation() {
-    this.resourceManagementService.fetchResource(this.incident.wildfireYear, this.incident.incidentLabel, this.details).toPromise().then(result => {
-      result?.summary?.then(summary => {
-        const details = summary?.details as unknown as AssignmentResourcesSummary;
-        if (details) {
-          this.airtankers.nativeElement.value = this.getCount(details['Crews']?.resources, 'Parattack Crew');
-          this.helicopters.nativeElement.value = this.getCount(details['Crews']?.resources, 'Rapattack Crew');
-        }
-      })
-    }).catch(error => {
-      console.error('Could not update Aviation', error)
-    })
-
+    // needs to be set to 0 for now, Aviation has not yet been implemented in WFRM
+    this.airtankers.nativeElement.value = 0;
+    this.helicopters.nativeElement.value = 0;
   }
 
   updateIMTeam() {
