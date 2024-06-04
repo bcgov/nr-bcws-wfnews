@@ -1,0 +1,32 @@
+@import "../../../../styles/variables.scss";
+
+:host { display: block; }
+
+.button-container {
+  display: flex;
+  padding: 12px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  cursor: pointer;
+  border-radius: 8px;
+  background: #FFFFFF;
+  border: 1px solid #dedede;
+
+  .label {
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+      sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: #000000;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    background-color: #000000;
+  }
+}
