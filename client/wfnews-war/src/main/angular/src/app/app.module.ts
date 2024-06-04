@@ -112,6 +112,7 @@ import { UploadVideoDialogComponent } from './components/admin-incident-form/vid
 import { VideoCardPanel } from './components/admin-incident-form/video-gallery-panel/video-card-component/video-card-panel.component';
 import { VideoGalleryPanel } from './components/admin-incident-form/video-gallery-panel/video-gallery-panel.component';
 import { BaseDialogComponent } from './components/base-dialog/base-dialog.component';
+import { AdvisorySectionComponent } from './components/common/advisory-section/advisory-section.component';
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
 import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
 import { CircleIconButtonComponent } from './components/common/circle-icon-button/circle-icon-button.component';
