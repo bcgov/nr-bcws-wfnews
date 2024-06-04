@@ -220,6 +220,10 @@ whereString = null;
     const url = this.router.serializeUrl(
       this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
         queryParams: {
+          eventType: 'ban',
+          eventNumber: event.id,
+          eventName: event.details,
+          source: [ResourcesRoutes.WILDFIRESLIST]
         },
       }),
     );

@@ -1,0 +1,30 @@
+<div *ngIf="ban" class="evac">
+    <div class="title">Fire Ban on {{ban.attributes.ACCESS_PROHIBITION_DESCRIPTION}} Open Fires</div>
+    <div class="info-panel">
+      <div class="info-panel-row" *ngIf="ban.attributes.ACCESS_STATUS_EFFECTIVE_DATE">
+        <img class="icon" height="24" width="24" src="/assets/images/svg-icons/calendar.svg">
+        <span class="label">Issued on&nbsp;{{convertToDateTimeTimeZone(ban.attributes.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+      </div>
+      <div class="info-panel-row" *ngIf="ban.attributes.FIRE_CENTRE_NAME">
+        <img class="icon" height="24" width="24" src="/assets/images/svg-icons/local_authority.svg" alt="local_authority" />
+        <span class="label">{{ban.attributes.FIRE_CENTRE_NAME}}&nbsp;Fire Centre</span>
+      </div>
+      <div class="info-panel-row">
+        <img class="icon" src="/assets/images/svg-icons/carbon_layers.svg" alt="Layers" />
+        <span class="label">BC Wildfire Fire Bans and Prohibitions Layer</span>
+      </div>
+      <hr>
+      <div class="info-panel-row">
+        <span class="label">
+            Decisions on when and where to implement fire bans and restrictions are made by B.C.’s regional fire centres depending on local fire hazards or dangers,<br>
+            forecasted weather conditions and the type and level of fire activity occurring.
+        </span>
+      </div>
+      <div class="info-panel-button-row">
+          <button mat-button class="single-button" (click)="navToMap()">
+            <img class="single-button-icon" src="/assets/images/svg-icons/map.svg" height="20" width="20" alt="Map" />
+            View on Map
+          </button>
+      </div>
+    </div>
+  </div>

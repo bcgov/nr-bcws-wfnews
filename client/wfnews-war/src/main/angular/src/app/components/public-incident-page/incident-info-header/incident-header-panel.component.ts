@@ -45,6 +45,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
   @Input() public extent: any;
   @Input() public evac: any;
   @Input() public areaRestriction: any;
+  @Input() public ban: any;
   @Output() requestPrint = new EventEmitter<void>();
 
   public params: ParamMap;
@@ -134,12 +135,21 @@ export class IncidentHeaderPanel implements AfterViewInit {
         Number(this.areaRestriction.centroid?.y),
         Number(this.areaRestriction.centroid?.x),
       ];
-      console.log(this.areaRestriction)
       const polygonData = this.commonUtilityService.extractPolygonData(this.areaRestriction.geometry?.rings);
       if (polygonData?.length) {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
       console.warn(this.bounds)
+    }
+      else if (this.ban){
+      location = [
+        Number(this.ban.centroid?.y),
+        Number(this.ban.centroid?.x),
+      ];
+      const polygonData = this.commonUtilityService.extractPolygonData(this.ban.geometry?.rings);
+      if (polygonData?.length) {
+        this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
+      }
     }
     if (location) {
       this.map = L.map('map', {
@@ -237,6 +247,59 @@ export class IncidentHeaderPanel implements AfterViewInit {
         opacity: 0.5,
       })
       .addTo(this.map);
+    }
+    if (this.ban) {
+      Promise.all([
+        this.http
+          .get('assets/js/smk/bans-cat1.sld', { responseType: 'text' })
+          .toPromise(),
+        this.http
+          .get('assets/js/smk/bans-cat2.sld', { responseType: 'text' })
+          .toPromise(),
+        this.http
+          .get('assets/js/smk/bans-cat3.sld', { responseType: 'text' })
+          .toPromise(),
+      ]).then(async ([cat1sld, cat2sld, cat3sld]) => {
+        L.tileLayer
+        .wms(databcUrl, {
+          layers:
+            'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
+          format: 'image/png',
+          transparent: true,
+          version: '1.1.1',
+          sld_body: cat3sld,
+          cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 3%\'',
+          opacity: 0.5,
+        })
+        .addTo(this.map);
+
+      L.tileLayer
+        .wms(databcUrl, {
+          layers:
+            'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
+          format: 'image/png',
+          transparent: true,
+          version: '1.1.1',
+          sld_body: cat2sld,
+          cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 2%\'',
+          opacity: 0.5,
+        })
+        .addTo(this.map);
+
+      L.tileLayer
+        .wms(databcUrl, {
+          layers:
+            'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
+          format: 'image/png',
+          transparent: true,
+          version: '1.1.1',
+          sld_body: cat1sld,
+          cql_filter:
+            'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 1%\' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfire%\'',
+          opacity: 0.5,
+        })
+        .addTo(this.map);
+      })
     }
     const icon = L.icon({
       iconUrl: '/assets/images/local_fire_department.png',
