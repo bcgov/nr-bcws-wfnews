@@ -4,13 +4,12 @@ import { ContactUsDialogComponent } from './contact-us-dialog.component';
 import { AppConfigService } from '@wf1/core-ui';
 import { AGOLService } from '@app/services/AGOL-service';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { isMobileView } from '@app/utils';
+import { CommonModule } from '@angular/common';
 
 const mockAgolService = {
     getAreaRestrictions: () => Promise.resolve({ collection: [] })
 };
 
-  // Mock services
 const mockAppConfigService = {
     getConfig: () => ({})
 };
@@ -25,7 +24,7 @@ const meta: Meta<ContactUsDialogComponent> = {
             imports: [
                 MatDialogModule,
                 MatDialogRef,
-                isMobileView
+                CommonModule
             ],
             providers: [
                 { provide: AppConfigService, useValue: mockAppConfigService },
@@ -40,9 +39,8 @@ export default meta;
 
 type Story = StoryObj<ContactUsDialogComponent>;
 
-// Story for the default desktop view
 export const Default: Story = {
-    args: {isMobileView: () => true}
+        args: {}
 };
 
 

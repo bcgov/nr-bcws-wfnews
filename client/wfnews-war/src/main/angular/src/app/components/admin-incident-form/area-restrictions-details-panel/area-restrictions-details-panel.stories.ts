@@ -10,7 +10,7 @@ const mockAgolService = {
 
   // Mock services
 const mockAppConfigService = {
-    getConfig: () => ({})
+    getExternalUriList: () => ({})
 };
 
 // Define the default export configuration using Meta
