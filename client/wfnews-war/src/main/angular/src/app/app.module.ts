@@ -270,6 +270,7 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
+import { EvacOrderDetailsComponent } from './components/public-event-page/evac-order-details/evac-order-details.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -451,7 +452,8 @@ export const DATE_FORMATS = {
     ConnectWithLocalAuthoritiesCardComponent,
     AssociatedWildfireCardComponent,
     IconInfoChipComponent,
-    CircleIconButtonComponent
+    CircleIconButtonComponent,
+    EvacOrderDetailsComponent
   ],
   imports: [
     MatSortModule,

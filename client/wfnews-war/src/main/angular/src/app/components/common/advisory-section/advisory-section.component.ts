@@ -13,7 +13,7 @@ export class AdvisorySectionComponent {
   @Input() title: string;
   @Input() message: string;
   @Input() componentStyle: AdvisorySectionStyle;
-  @Input() button: IconButtonArgs;
+  @Input() buttonArgs: IconButtonArgs;
 }
 
 export interface AdvisorySectionArgs {
@@ -22,7 +22,7 @@ export interface AdvisorySectionArgs {
   title: string;
   message: string;
   componentStyle: AdvisorySectionStyle;
-  button: IconButtonArgs;
+  buttonArgs: IconButtonArgs;
 }
 
 interface AdvisorySectionStyle {

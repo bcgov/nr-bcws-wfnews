@@ -8,7 +8,7 @@
   .header {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 16px;
 
     .title {
       color: var(--Black-24, #242424);
@@ -40,7 +40,7 @@
     .content {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 16px;
       width: 100%;
 
       .content-title {

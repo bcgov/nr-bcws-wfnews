@@ -29,7 +29,7 @@ export const evacuationInformationOrder: Story = {
       iconCircleColor: '#FDCECE',
       outerBorderColor: '#F2D3D3'
     },
-    button: {
+    buttonArgs: {
       iconPath: '/assets/images/svg-icons/launch.svg',
       label: 'Evacuation Information',
       componentStyle: {
@@ -57,7 +57,7 @@ export const evacuationInformationAlert: Story = {
       iconCircleColor: '#FEEFBE',
       outerBorderColor: '#F5E8BA'
     },
-    button: {
+    buttonArgs: {
       iconPath: '/assets/images/svg-icons/launch.svg',
       label: 'Evacuation Information',
       componentStyle: {
