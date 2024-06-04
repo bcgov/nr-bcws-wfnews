@@ -11,6 +11,7 @@ export class IconListItemComponent {
   @Input() iconPath: string;
   @Input() text: string;
   @Input() link?: string;
+  @Input() slim?: boolean;
 
   directToLink() {
     if (this.link) {

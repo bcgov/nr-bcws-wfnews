@@ -2,9 +2,19 @@
   display: flex;
   gap: 16px;
 
+  &.slim {
+    gap: 8px;
+  }
+
   .icon {
     width: 24px;
     height: 24px;
+    align-self: center;
+
+    &.slim {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   .text {

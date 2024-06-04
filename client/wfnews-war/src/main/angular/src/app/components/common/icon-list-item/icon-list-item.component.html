@@ -1,5 +1,8 @@
-<div class="icon-list-item" (keypress)="directToLink()" (click)="directToLink()" [style.cursor]="link ? 'pointer': 'auto'">
-  <img class="icon" [src]="iconPath" [alt]="iconPath" />
+<div class="icon-list-item"  (keypress)="directToLink()" (click)="directToLink()"
+  [ngClass]="{'slim': slim}"
+  [style.cursor]="link ? 'pointer': 'auto'">
+  <img class="icon"
+    [ngClass]="{'slim': slim}"
+    [src]="iconPath" [alt]="iconPath" />
   <span class="text">{{text}}</span>
 </div>
-

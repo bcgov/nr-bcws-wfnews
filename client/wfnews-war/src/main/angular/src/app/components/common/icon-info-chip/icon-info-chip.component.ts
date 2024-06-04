@@ -18,7 +18,7 @@ export interface IconInfoChipArgs {
   componentStyle?: IconInfoChipStyle;
 }
 
-interface IconInfoChipStyle {
+export interface IconInfoChipStyle {
   backgroundColor: string;
   border: string;
   iconColor?: string;
