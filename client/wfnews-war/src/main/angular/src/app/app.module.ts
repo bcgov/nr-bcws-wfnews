@@ -252,6 +252,7 @@ import { ApiModule as ScheduleApiModule,
 } from "@wf1/wfrm-resource-schedule-api";
 import { AreaRestrictionHeaderComponent } from './components/public-incident-page/incident-info-header/area-restriction-header/area-restriction-header.component';
 import { BanHeaderComponent } from './components/public-incident-page/incident-info-header/ban-header/ban-header.component';
+import { DangerRatingHeaderComponent } from './components/public-incident-page/incident-info-header/danger-rating-header/danger-rating-header.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -417,6 +418,7 @@ export const DATE_FORMATS = {
     IncidentTabsComponent,
     AreaRestrictionHeaderComponent,
     BanHeaderComponent,
+    DangerRatingHeaderComponent,
   ],
   imports: [
     MatSortModule,

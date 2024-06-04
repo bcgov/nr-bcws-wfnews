@@ -15,6 +15,7 @@ export class PublicEventPageComponent implements OnInit {
   public evac: string;
   public areaRestriction: string
   public ban: string
+  public dangerRating: string
 
   constructor(
     private agolService: AGOLService,
@@ -39,6 +40,10 @@ export class PublicEventPageComponent implements OnInit {
       else if(params && params['eventNumber'] && params['eventType'] === 'ban'){
         this.eventNumber = params['eventNumber'];
         this.populateBanById();
+      }
+      else if(params && params['eventNumber'] && params['eventType'] === 'danger-rating'){
+        this.eventNumber = params['eventNumber'];
+        this.populateDangerRatingById();
       }
     });
   }
@@ -91,6 +96,26 @@ export class PublicEventPageComponent implements OnInit {
       .then((response) => {
         if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
           this.ban = response.features[0];
+          this.isLoading = false;
+        }
+      });
+  }
+
+  async populateDangerRatingById(options: AgolOptions = null) {
+    this.agolService
+    this.agolService
+    .getDangerRatings(
+      `PROT_DR_SYSID ='${this.eventNumber}'`,
+      null,
+      {
+        returnGeometry: true,
+        returnCentroid: true,
+      },
+    )
+      .toPromise()
+      .then((response) => {
+        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
+          this.dangerRating = response.features[0];
           this.isLoading = false;
         }
       });

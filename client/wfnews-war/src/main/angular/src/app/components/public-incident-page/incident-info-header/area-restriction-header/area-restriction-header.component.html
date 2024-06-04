@@ -1,9 +1,9 @@
 <div *ngIf="areaRestriction" class="evac">
     <div class="title">{{areaRestriction.attributes.NAME}}</div>
-    <div class="info-panel">
+    <div class="info-panel event">
       <div class="info-panel-row" *ngIf="areaRestriction.attributes.ACCESS_STATUS_EFFECTIVE_DATE">
         <img class="icon" height="24" width="24" src="/assets/images/svg-icons/calendar.svg">
-        <span class="label">Issued on&nbsp;{{convertToDateTimeTimeZone(areaRestriction.attributes.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+        <span class="label">Issued on&nbsp;{{convertToDateYear(areaRestriction.attributes.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
       </div>
       <div class="info-panel-row" *ngIf="areaRestriction.attributes.FIRE_CENTRE_NAME">
         <img class="icon" height="24" width="24" src="/assets/images/svg-icons/local_authority.svg" alt="local_authority" />
