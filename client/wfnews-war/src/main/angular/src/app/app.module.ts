@@ -48,7 +48,7 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
 import { NotificationSnackbarComponent } from '@app/components/notification-snackbar/notification-snackbar.component';
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { RoFReviewPage } from '@app/components/report-of-fire/review-page/rof-review-page.component';
-import { notificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
+import { NotificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
 import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
 import { WildfireNotificationDialogComponent } from '@app/components/wildfire-notification-dialog/wildfire-notification-dialog.component';
 import { NotificationService } from '@app/services/notification.service';
@@ -183,6 +183,7 @@ import { MapTypePickerComponent } from './components/map-type-picker/map-type-pi
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { MoreComponent } from './components/more/more.component';
 import { PanelWildfireStageOfControlComponentDesktop } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component.desktop';
+import { EvacOrderDetailsComponent } from './components/public-event-page/evac-order-details/evac-order-details.component';
 import { PublicEventPageComponent } from './components/public-event-page/public-event-page.component';
 import { ImagePanelComponent } from './components/public-incident-page/incident-gallery-panel/image-panel/image-panel.component';
 import { IncidentGalleryAllMediaMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-all-media-mobile/incident-gallery-all-media-mobile.component';
@@ -270,7 +271,6 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { EvacOrderDetailsComponent } from './components/public-event-page/evac-order-details/evac-order-details.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -422,7 +422,7 @@ export const DATE_FORMATS = {
     ProtectedLandsLegendComponent,
     SearchPageComponent,
     AddSavedLocationComponent,
-    notificationMapComponent,
+    NotificationMapComponent,
     SavedLocationFullDetailsComponent,
     ConfirmationDialogComponent,
     WildfireNotificationDialogComponent,
