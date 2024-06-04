@@ -1,9 +1,9 @@
 <div *ngIf="ban" class="evac">
-    <div class="title">Fire Ban on {{ban.attributes.ACCESS_PROHIBITION_DESCRIPTION}} Open Fires</div>
-    <div class="info-panel">
+  <div class="title">Fire Ban on {{ replaceCategoryDescription(ban.attributes.ACCESS_PROHIBITION_DESCRIPTION) }} Open Fires</div>
+    <div class="info-panel event">
       <div class="info-panel-row" *ngIf="ban.attributes.ACCESS_STATUS_EFFECTIVE_DATE">
         <img class="icon" height="24" width="24" src="/assets/images/svg-icons/calendar.svg">
-        <span class="label">Issued on&nbsp;{{convertToDateTimeTimeZone(ban.attributes.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+        <span class="label">Issued on&nbsp;{{convertToDateYear(ban.attributes.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
       </div>
       <div class="info-panel-row" *ngIf="ban.attributes.FIRE_CENTRE_NAME">
         <img class="icon" height="24" width="24" src="/assets/images/svg-icons/local_authority.svg" alt="local_authority" />

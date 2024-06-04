@@ -5,6 +5,7 @@ import {
 } from '../../../conversion/models';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'alert-order-banner',
   templateUrl: './alert-order-banner.component.html',
   styleUrls: ['./alert-order-banner.component.scss'],

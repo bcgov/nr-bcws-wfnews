@@ -1,5 +1,14 @@
-<div *ngIf="!isLoading && !loadingFailed" >
-    <div>
-        <incident-header-panel [evac]="evac" [areaRestriction]="areaRestriction" [ban]="ban"></incident-header-panel>
+<div class="public-event-page" *ngIf="!isLoading && !loadingFailed">
+    <div class="header">
+        <incident-header-panel [evac]="evac" [areaRestriction]="areaRestriction" [ban]="ban" [dangerRating]="dangerRating"></incident-header-panel>
+    </div>
+
+    <div class="event-details">
+        <evac-order-details
+            [incident]="incident"
+            [isBookmarked]="isAssociatedWildfireBookmarked"
+            (bookmarkClicked)="handleBookmarkClicked($event)"
+            (viewDetailsClicked)="handleViewDetailsClicked()"
+        ></evac-order-details>
     </div>
 </div>

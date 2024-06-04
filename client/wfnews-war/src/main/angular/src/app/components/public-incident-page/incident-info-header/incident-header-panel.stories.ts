@@ -1,16 +1,16 @@
 // Import necessary Angular modules and decorators
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 // Import your specific component
-import { IncidentHeaderPanel } from './incident-header-panel.component';
-import { AppConfigService } from '@wf1/core-ui';
-import { WatchlistService } from '@app/services/watchlist-service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
+import { WatchlistService } from '@app/services/watchlist-service';
+import { AppConfigService } from '@wf1/core-ui';
 import { of } from 'rxjs';
+import { IncidentHeaderPanel } from './incident-header-panel.component';
 
 // Mock services
 const mockAppConfigService = {
@@ -41,7 +41,7 @@ const mockActivatedRoute = {
 
 // Define the default export configuration using Meta
 const meta: Meta<IncidentHeaderPanel> = {
-    title: 'Components/Incident Header Panel',
+    title: 'Components/IncidentHeaderPanel',
     component: IncidentHeaderPanel,
     decorators: [
         moduleMetadata({
