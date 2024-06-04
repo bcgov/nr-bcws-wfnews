@@ -195,6 +195,7 @@ export class ResponseDetailsPanel implements OnInit {
     // needs to be set to 0 for now, Aviation has not yet been implemented in WFRM
     this.airtankers.nativeElement.value = 0;
     this.helicopters.nativeElement.value = 0;
+    this.aviationValueChange();
   }
 
   updateIMTeam() {
