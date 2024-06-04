@@ -46,6 +46,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
   @Input() public evac: any;
   @Input() public areaRestriction: any;
   @Input() public ban: any;
+  @Input() public dangerRating: any;
   @Output() requestPrint = new EventEmitter<void>();
 
   public params: ParamMap;
@@ -150,6 +151,16 @@ export class IncidentHeaderPanel implements AfterViewInit {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
     }
+    else if (this.dangerRating){
+      location = [
+        Number(this.dangerRating.centroid?.y),
+        Number(this.dangerRating.centroid?.x),
+      ];
+      const polygonData = this.commonUtilityService.extractPolygonData(this.dangerRating.geometry?.rings);
+      if (polygonData?.length) {
+        this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
+      }
+    }
     if (location) {
       this.map = L.map('map', {
         attributionControl: false,
@@ -243,7 +254,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
         format: 'image/png',
         transparent: true,
         version: '1.1.1',
-        opacity: 0.5,
+        opacity: 0.8,
       })
       .addTo(this.map);
     }
@@ -299,6 +310,19 @@ export class IncidentHeaderPanel implements AfterViewInit {
         })
         .addTo(this.map);
       })
+    }
+
+    if(this.dangerRating){
+      L.tileLayer
+      .wms(databcUrl, {
+        layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
+        format: 'image/png',
+        transparent: true,
+        version: '1.1.1',
+        opacity: 0.8,
+        style: '7734',
+      })
+      .addTo(this.map);
     }
     const icon = L.icon({
       iconUrl: '/assets/images/local_fire_department.png',

@@ -1,6 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { ResourcesRoutes, convertToDateTimeTimeZone } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 
 @Component({
   selector: 'wfnews-ban-header',
@@ -9,7 +9,7 @@ import { ResourcesRoutes, convertToDateTimeTimeZone } from '@app/utils';
   encapsulation: ViewEncapsulation.None // This line disables view encapsulation
 })
 export class BanHeaderComponent {
-  convertToDateTimeTimeZone = convertToDateTimeTimeZone;
+  convertToDateYear = convertToDateYear;
 
   constructor(
     private router: Router,
@@ -30,4 +30,11 @@ export class BanHeaderComponent {
       });
     }, 200);
   }
+  replaceCategoryDescription(description: string): string {
+    if (description.includes("Category 1")) {
+      return description.replace("Category 1", "Category 1 (Campfires)");
+    }
+    return description;
+  }
+
 }

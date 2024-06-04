@@ -1,6 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { ResourcesRoutes, convertToDateTimeTimeZone } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 
 @Component({
   selector: 'wfnews-area-restriction-header',
@@ -10,7 +10,7 @@ import { ResourcesRoutes, convertToDateTimeTimeZone } from '@app/utils';
 
 })
 export class AreaRestrictionHeaderComponent {
-  convertToDateTimeTimeZone = convertToDateTimeTimeZone;
+  convertToDateYear = convertToDateYear;
 
   constructor(
     private router: Router,
