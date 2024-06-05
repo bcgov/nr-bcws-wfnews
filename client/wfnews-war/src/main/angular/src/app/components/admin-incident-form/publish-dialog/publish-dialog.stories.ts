@@ -1,26 +1,24 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 import { PublishDialogComponent } from './publish-dialog.component';
-import { AGOLService } from '@app/services/AGOL-service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-const mockAgolService = {
-    getEvacOrders: () => Promise.resolve({ collection: [] })
-};
-
-// Define the default export configuration using Meta
 const meta: Meta<PublishDialogComponent> = {
     title: 'Components/PublishDialogComponent',
     component: PublishDialogComponent,
     decorators: [
         moduleMetadata({
             declarations: [PublishDialogComponent],
-            imports: [ MatDialogRef,
-                       CommonModule
+            imports: [
+                CommonModule,
+                MatDialogModule,
+                BrowserAnimationsModule
             ],
             providers: [
-                { provide: AGOLService, useValue: mockAgolService}
+                { provide: MAT_DIALOG_DATA, useValue: {} },
+                { provide: MatDialogRef, useValue: {} }
             ]
         }),
     ],
@@ -31,9 +29,7 @@ export default meta;
 
 type Story = StoryObj<PublishDialogComponent>;
 
-export const Default: Story = {
-    args: {}
-};
+export const Default: Story = {};
 
 
 

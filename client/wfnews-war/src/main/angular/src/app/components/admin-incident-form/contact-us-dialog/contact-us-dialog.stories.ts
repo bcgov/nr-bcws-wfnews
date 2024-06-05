@@ -1,20 +1,10 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 import { ContactUsDialogComponent } from './contact-us-dialog.component';
-import { AppConfigService } from '@wf1/core-ui';
-import { AGOLService } from '@app/services/AGOL-service';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-const mockAgolService = {
-    getAreaRestrictions: () => Promise.resolve({ collection: [] })
-};
-
-const mockAppConfigService = {
-    getConfig: () => ({})
-};
-
-// Define the default export configuration using Meta
 const meta: Meta<ContactUsDialogComponent> = {
     title: 'Components/ContactUsDialogComponent',
     component: ContactUsDialogComponent,
@@ -22,13 +12,13 @@ const meta: Meta<ContactUsDialogComponent> = {
         moduleMetadata({
             declarations: [ContactUsDialogComponent],
             imports: [
+                CommonModule,
                 MatDialogModule,
-                MatDialogRef,
-                CommonModule
+                BrowserAnimationsModule
             ],
             providers: [
-                { provide: AppConfigService, useValue: mockAppConfigService },
-                { provide: AGOLService, useValue: mockAgolService }
+                { provide: MAT_DIALOG_DATA, useValue: {} },
+                { provide: MatDialogRef, useValue: {} }
             ]
         }),
     ],
@@ -39,9 +29,7 @@ export default meta;
 
 type Story = StoryObj<ContactUsDialogComponent>;
 
-export const Default: Story = {
-        args: {}
-};
+export const Default: Story = {};
 
 
 

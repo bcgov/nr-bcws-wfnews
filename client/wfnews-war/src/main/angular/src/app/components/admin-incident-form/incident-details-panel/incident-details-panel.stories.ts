@@ -2,32 +2,35 @@ import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 import { IncidentDetailsPanel } from './incident-details-panel.component';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { MatDialogModule } from '@angular/material/dialog';
-import { AppConfigService } from '@wf1/core-ui';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { of } from 'rxjs';
 import { TextFieldModule } from '@angular/cdk/text-field'; 
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { FormControl, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+const formGroup: UntypedFormGroup = new UntypedFormGroup({
+  fireName: new FormControl(),
+  traditionalTerritory: new FormControl(),
+  fireOfNote: new FormControl(),
+  location: new FormControl(),
+  wasFireOfNote: new FormControl(),
+  sizeHectares: new FormControl(),
+  sizeType: new FormControl(),
+  sizeComments: new FormControl(),
+  cause: new FormControl(),
+  causeComments: new FormControl(),
+})
+
+formGroup['toJSON'] = () => null; 
 
 const mockPublishedIncidentService = {
     fetchPublishedIncidentsList: () => Promise.resolve({ collection: [] })
 };
 
-const mockActivatedRoute = {
-    queryParams: of({}),
-    snapshot: {
-      paramMap: {
-        get: (key: string) => 'some default value'
-      }
-    }
-  };
-
-  // Mock services
-const mockAppConfigService = {
-    getConfig: () => ({})
-};
-
-// Define the default export configuration using Meta
 const meta: Meta<IncidentDetailsPanel> = {
     title: 'Components/IncidentDetailsPanel',
     component: IncidentDetailsPanel,
@@ -36,14 +39,17 @@ const meta: Meta<IncidentDetailsPanel> = {
             declarations: [IncidentDetailsPanel],
             imports: [
                 CommonModule, 
-                RouterModule.forChild([]),
-                MatDialogModule,
-                TextFieldModule
+                TextFieldModule,
+                MatCardModule,
+                MatFormFieldModule,
+                MatRadioModule,
+                MatSelectModule,
+                MatInputModule,
+                ReactiveFormsModule,
+                BrowserAnimationsModule
             ],
             providers: [
-                { provide: AppConfigService, useValue: mockAppConfigService },
                 { provide: PublishedIncidentService, useValue: mockPublishedIncidentService },
-                { provide: ActivatedRoute, useValue: mockActivatedRoute } // Providing the mock ActivatedRoute
             ]
         }),
     ],
@@ -54,12 +60,10 @@ export default meta;
 
 type Story = StoryObj<IncidentDetailsPanel>;
 
-// Story for the default desktop view
 export const Default: Story = {
     args: {
         incident: {
-
-                aviationComments: "These are avaiation comments",
+                aviationComments: "These are aviation comments",
                 aviationInd: true,
                 cause: 2,
                 causeComments: "These are cause comments",
@@ -109,7 +113,8 @@ export const Default: Story = {
                 incidentManagementResourceCount: 1,
                 structureProtectionResourceCount: 1,
                 signOffSignatureGuid: undefined,
-              }
+              },
+              formGroup: formGroup
     }
 };
 
