@@ -97,4 +97,47 @@ export class WeatherPanelComponent implements OnDestroy {
       ':00'
     );
   }
+
+  formatHourlyData() {
+    if (this.hourly?.hour){
+      const year = parseInt(this.hourly.hour.substring(0, 4));
+      const month = parseInt(this.hourly.hour.substring(4, 6)) - 1;
+      const day = parseInt(this.hourly.hour.substring(6, 8));
+      const hour = parseInt(this.hourly.hour.substring(8, 10));
+      // JavaScript months are 0-based
+    
+      const date = new Date(year, month, day, hour);
+      const now = new Date();
+    
+      // Calculate the difference in days
+      const diffTime = Math.abs(now.getTime() - date.getTime());
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+      let formattedDate = `${this.hourly.hour.substring(8, 10)}:00`;
+    
+      if (diffDays === 0) {
+        formattedDate = `Today at ${formattedDate}`;
+      } else if (diffDays === 1) {
+        formattedDate = `Yesterday at ${formattedDate}`;
+      } else {
+        formattedDate = `${year}-${month + 1}-${day} at ${formattedDate}`;
+      }
+    
+      return formattedDate;
+    }
+  }
+
+  closePanel(){
+    (
+      document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
+    ).style.display = 'none';
+  }
+
+  goBack(){
+    const goBackButton = document.querySelector('.smk-panel-go-back');
+    (goBackButton as HTMLElement).click();
+    (
+      document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
+    ).style.display = 'none';
+  }
 }
