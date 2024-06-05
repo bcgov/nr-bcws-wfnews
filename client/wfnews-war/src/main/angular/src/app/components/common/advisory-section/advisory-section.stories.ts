@@ -19,15 +19,22 @@ type Story = StoryObj<AdvisorySectionComponent>;
 
 export const evacuationInformationOrder: Story = {
   args: {
-    logoPath: '/assets/images/logo/emergency-info-bc.png',
-    iconPath: '/assets/images/svg-icons/evacuation-order.svg',
+    
     title: 'Evacuation Information',
     message: 'Go to Emergency Info BC for up-to-date evaucation information.',
     componentStyle: {
       backgroundColor: '#FFF5F6',
-      dividerColor: '#E7DADA',
-      iconCircleColor: '#FDCECE',
-      outerBorderColor: '#F2D3D3'
+      dividerColor: '#E7DADA', 
+      outerBorderColor: '#F2D3D3',
+      logo: {
+        logoPath: '/assets/images/logo/emergency-info-bc.png',
+        width: 174,
+        height: 34
+      },
+      icon: {
+        iconPath: '/assets/images/svg-icons/evacuation-order.svg',
+        iconCircleColor: '#FDCECE',
+      }
     },
     buttonArgs: {
       iconPath: '/assets/images/svg-icons/launch.svg',
@@ -47,21 +54,61 @@ export const evacuationInformationOrder: Story = {
 
 export const evacuationInformationAlert: Story = {
   args: {
-    logoPath: '/assets/images/logo/emergency-info-bc.png',
-    iconPath: '/assets/images/svg-icons/evacuation-alert.svg',
     title: 'Evacuation Information',
     message: 'Go to Emergency Info BC for up-to-date evaucation information.',
     componentStyle: {
       backgroundColor: '#FFFAEB',
       dividerColor: '#EEE8D3',
-      iconCircleColor: '#FEEFBE',
-      outerBorderColor: '#F5E8BA'
+      outerBorderColor: '#F5E8BA',
+      logo: {
+        logoPath: '/assets/images/logo/emergency-info-bc.png',
+        width: 174,
+        height: 34
+      },
+      icon: {
+        iconPath: '/assets/images/svg-icons/evacuation-alert.svg',
+        iconCircleColor: '#FEEFBE',
+      }
     },
     buttonArgs: {
       iconPath: '/assets/images/svg-icons/launch.svg',
       label: 'Evacuation Information',
       componentStyle: {
         backgroundColor: '#8F7100',
+        labelColor: '#FFFFFF',
+        iconColor: '#FFFFFF',
+        border: 'none'
+      },
+      clickHandler: () => () => {
+        console.log('Button clicked');
+      },
+    },
+  },
+};
+
+export const areaRestriction: Story = {
+  args: {
+    title: 'Information Bulletin',
+    message: 'View the bulletin on our website for more information.',
+    componentStyle: {
+      backgroundColor: '#F0F5FF',
+      dividerColor: '#DBDFED',
+      outerBorderColor: '#DBDFED',
+      logo: {
+        logoPath: '/assets/images/logo/bc-wildfire-service-logo-transparent.png',
+        width: 274,
+        height: 80
+      },
+      icon: {
+        iconPath: '/assets/images/svg-icons/carbon_bullhorn-selected.svg',
+        iconCircleColor: '#D9DEEE',
+      }
+    },
+    buttonArgs: {
+      label: 'Go to the Bulletin',
+      iconPath: '/assets/images/svg-icons/link.svg',
+      componentStyle: {
+        backgroundColor: '#036',
         labelColor: '#FFFFFF',
         iconColor: '#FFFFFF',
         border: 'none'

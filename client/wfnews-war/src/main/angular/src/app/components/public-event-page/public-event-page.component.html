@@ -16,5 +16,8 @@
             (bookmarkClicked)="handleBookmarkClicked($event)"
             (viewDetailsClicked)="handleViewDetailsClicked()"
         ></evac-order-details>
+        <area-restriction-details *ngSwitchCase="'area-restriction'"
+            [areaRestriction]="areaRestriction"
+        ></area-restriction-details>
     </div>
 </div>
