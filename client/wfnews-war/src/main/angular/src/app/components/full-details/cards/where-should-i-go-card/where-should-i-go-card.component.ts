@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { defaultSlimButtonStyle } from '@app/components/common/wfnews-button/wfnews-button.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -8,7 +9,9 @@ import { Component } from '@angular/core';
 })
 export class WhereShouldIGoCardComponent {
 
+  defaultSlimButtonStyle = defaultSlimButtonStyle;
+
   directToLink() {
-    window.open('https://www.drivebc.ca/');
+    window.open('https://www.drivebc.ca/', '_blank');
   }
 }

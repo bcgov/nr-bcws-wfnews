@@ -14,6 +14,7 @@ import { convertToDateYear, getStageOfControlIcon, getStageOfControlLabel } from
 export class PublicEventPageComponent {
   public isLoading = true;
   public loadingFailed = false;
+  public eventType: string;
   public eventNumber: string;
   public eventName: string;
   public evac: string;
@@ -31,6 +32,7 @@ export class PublicEventPageComponent {
     private cdr: ChangeDetectorRef,
   ) {
     this.router.queryParams.subscribe((params: ParamMap) => {
+      this.eventType = params['eventType'];
       if (params && params['eventNumber'] && 
           (params['eventType'] === 'Order' || params['eventType'] === 'Alert')) {
         this.eventNumber = params['eventNumber'];
@@ -51,6 +53,7 @@ export class PublicEventPageComponent {
       }
 
       this.populateIncident(this.eventNumber);
+      this.isAssociatedWildfireBookmarked = this.onWatchlist(this.incident);
     });
   }
 

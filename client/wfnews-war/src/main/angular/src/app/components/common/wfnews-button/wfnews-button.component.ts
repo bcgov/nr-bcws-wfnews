@@ -12,6 +12,13 @@ export class WfnewsButtonComponent {
   @Input() clickHandler: () => void;
 }
 
+export const defaultSlimButtonStyle: WfnewsButtonStyle = {
+  slim: true,
+  backgroundColor: 'transparent',
+  border: '1px solid #C7C7C7',
+  labelColor: '#242424'
+};
+
 export interface WfnewsButtonArgs {
   iconPath: string;
   label: string;
@@ -19,8 +26,9 @@ export interface WfnewsButtonArgs {
   clickHandler: () => void;
 }
 
-interface WfnewsButtonStyle {
+export interface WfnewsButtonStyle {
   backgroundColor: string;
   border: string;
   labelColor: string;
+  slim?: boolean;
 }

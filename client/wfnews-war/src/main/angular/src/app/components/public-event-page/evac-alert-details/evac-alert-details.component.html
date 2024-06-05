@@ -1,0 +1,21 @@
+<div class="evac-alert-details">
+  <advisory-section logoPath="/assets/images/logo/emergency-info-bc.png"
+    iconPath="/assets/images/svg-icons/evacuation-alert.svg" title="Evacuation Information"
+    message="Go to Emergency Info BC for up-to-date evaucation information."
+    [componentStyle]="advisorySectionComponentStyle" [buttonArgs]="advisorySectionButtonArgs">
+  </advisory-section>
+
+  <two-column-content-cards-container>
+    <ng-container column-1>
+      <get-prepared-card></get-prepared-card>
+      <what-to-expect-alert-to-order-card></what-to-expect-alert-to-order-card>
+    </ng-container>
+    <ng-container column-2>
+      <connect-with-local-authorities-card></connect-with-local-authorities-card>
+      <associated-wildfire-card *ngIf="incident" [incident]="incident" [isBookmarked]="isBookmarked" (bookmarkClicked)="handleBookmarkClicked($event)"
+        (viewDetailsClicked)="handleViewDetailsClicked()"></associated-wildfire-card>
+      <other-sources-of-information-card></other-sources-of-information-card>
+      <related-topics-card></related-topics-card>
+    </ng-container>
+  </two-column-content-cards-container>
+</div>

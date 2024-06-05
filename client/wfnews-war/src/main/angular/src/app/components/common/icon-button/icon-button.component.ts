@@ -13,6 +13,13 @@ export class IconButtonComponent {
   @Input() clickHandler: () => void;
 }
 
+export const defaultSlimIconButtonStyle: IconButtonStyle = {
+  slim: true,
+  backgroundColor: 'transparent',
+  border: '1px solid #C7C7C7',
+  labelColor: '#242424'
+};
+
 export interface IconButtonArgs {
   iconPath: string;
   label: string;
@@ -20,10 +27,11 @@ export interface IconButtonArgs {
   clickHandler: () => void;
 }
 
-interface IconButtonStyle {
+export interface IconButtonStyle {
   backgroundColor: string;
   border: string;
   iconColor?: string;
   labelColor: string;
   overrideIconMask?: boolean;
+  slim?: boolean;
 }
