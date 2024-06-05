@@ -151,9 +151,13 @@ import { AreaRestrictionsFullDetailsComponent } from './components/full-details/
 import { BansFullDetailsComponent } from './components/full-details/bans-full-details/bans-full-details.component';
 import { AssociatedWildfireCardComponent } from './components/full-details/cards/associated-wildfire-card/associated-wildfire-card.component';
 import { AtTheReceptionCentreCardComponent } from './components/full-details/cards/at-the-reception-centre-card/at-the-reception-centre-card.component';
+import { Category1FiresCardComponent } from './components/full-details/cards/category-1-fires-card/category-1-fires-card.component';
+import { Category2FiresCardComponent } from './components/full-details/cards/category-2-fires-card/category-2-fires-card.component';
+import { Category3FiresCardComponent } from './components/full-details/cards/category-3-fires-card/category-3-fires-card.component';
 import { ConnectWithLocalAuthoritiesCardComponent } from './components/full-details/cards/connect-with-local-authorities-card/connect-with-local-authorities-card.component';
 import { ExcludedAreasCardComponent } from './components/full-details/cards/excluded-areas-card/excluded-areas-card.component';
 import { GetPreparedCardComponent } from './components/full-details/cards/get-prepared-card/get-prepared-card.component';
+import { OtherBurningRestrictionsCardComponent } from './components/full-details/cards/other-burning-restrictions-card/other-burning-restrictions-card.component';
 import { OtherSourcesWhenYouLeaveCardComponent } from './components/full-details/cards/other-sources-of-information-card/other-sources-of-information-card.component';
 import { RelatedTopicsCardComponent } from './components/full-details/cards/related-topics-card/related-topics-card.component';
 import { ReturningHomeCardComponent } from './components/full-details/cards/returning-home-card/returning-home-card.component';
@@ -190,6 +194,7 @@ import { PanelWildfireStageOfControlComponentDesktop } from './components/panel-
 import { AreaRestrictionDetailsComponent } from './components/public-event-page/area-restriction-details/area-restriction-details.component';
 import { EvacAlertDetailsComponent } from './components/public-event-page/evac-alert-details/evac-alert-details.component';
 import { EvacOrderDetailsComponent } from './components/public-event-page/evac-order-details/evac-order-details.component';
+import { FireBanDetailsComponent } from './components/public-event-page/fire-ban-details/fire-ban-details.component';
 import { PublicEventPageComponent } from './components/public-event-page/public-event-page.component';
 import { ImagePanelComponent } from './components/public-incident-page/incident-gallery-panel/image-panel/image-panel.component';
 import { IncidentGalleryAllMediaMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-all-media-mobile/incident-gallery-all-media-mobile.component';
@@ -466,7 +471,12 @@ export const DATE_FORMATS = {
     WhatToExpectAlertToOrderCardComponent,
     AreaRestrictionDetailsComponent,
     WarningCardComponent,
-    ExcludedAreasCardComponent
+    ExcludedAreasCardComponent,
+    FireBanDetailsComponent,
+    Category1FiresCardComponent,
+    Category2FiresCardComponent,
+    Category3FiresCardComponent,
+    OtherBurningRestrictionsCardComponent
   ],
   imports: [
     MatSortModule,
