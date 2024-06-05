@@ -152,10 +152,12 @@ import { BansFullDetailsComponent } from './components/full-details/bans-full-de
 import { AssociatedWildfireCardComponent } from './components/full-details/cards/associated-wildfire-card/associated-wildfire-card.component';
 import { AtTheReceptionCentreCardComponent } from './components/full-details/cards/at-the-reception-centre-card/at-the-reception-centre-card.component';
 import { ConnectWithLocalAuthoritiesCardComponent } from './components/full-details/cards/connect-with-local-authorities-card/connect-with-local-authorities-card.component';
+import { ExcludedAreasCardComponent } from './components/full-details/cards/excluded-areas-card/excluded-areas-card.component';
 import { GetPreparedCardComponent } from './components/full-details/cards/get-prepared-card/get-prepared-card.component';
 import { OtherSourcesWhenYouLeaveCardComponent } from './components/full-details/cards/other-sources-of-information-card/other-sources-of-information-card.component';
 import { RelatedTopicsCardComponent } from './components/full-details/cards/related-topics-card/related-topics-card.component';
 import { ReturningHomeCardComponent } from './components/full-details/cards/returning-home-card/returning-home-card.component';
+import { WarningCardComponent } from './components/full-details/cards/warning-card/warning-card.component';
 import { WhatToExpectAlertToOrderCardComponent } from './components/full-details/cards/what-to-expect-alert-to-order-card/what-to-expect-alert-to-order-card.component';
 import { WhenYouLeaveCardComponent } from './components/full-details/cards/when-you-leave-card/when-you-leave-card.component';
 import { WhereShouldIGoCardComponent } from './components/full-details/cards/where-should-i-go-card/where-should-i-go-card.component';
@@ -185,6 +187,7 @@ import { MapTypePickerComponent } from './components/map-type-picker/map-type-pi
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { MoreComponent } from './components/more/more.component';
 import { PanelWildfireStageOfControlComponentDesktop } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component.desktop';
+import { AreaRestrictionDetailsComponent } from './components/public-event-page/area-restriction-details/area-restriction-details.component';
 import { EvacAlertDetailsComponent } from './components/public-event-page/evac-alert-details/evac-alert-details.component';
 import { EvacOrderDetailsComponent } from './components/public-event-page/evac-order-details/evac-order-details.component';
 import { PublicEventPageComponent } from './components/public-event-page/public-event-page.component';
@@ -460,7 +463,10 @@ export const DATE_FORMATS = {
     EvacOrderDetailsComponent,
     EvacAlertDetailsComponent,
     GetPreparedCardComponent,
-    WhatToExpectAlertToOrderCardComponent
+    WhatToExpectAlertToOrderCardComponent,
+    AreaRestrictionDetailsComponent,
+    WarningCardComponent,
+    ExcludedAreasCardComponent
   ],
   imports: [
     MatSortModule,
