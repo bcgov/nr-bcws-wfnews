@@ -1,0 +1,47 @@
+@import "../../../../styles/variables.scss";
+
+:host { display: block; }
+
+.button-container {
+  display: flex;
+  padding: 12px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  cursor: pointer;
+  border-radius: 8px;
+  background: #FFFFFF;
+  border: 1px solid #dedede;
+
+  &.slim {
+    padding: 8px;
+  }
+
+  .label {
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+      sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    line-height: normal;
+    color: #000000;
+
+    &.slim {
+      font-weight: 400;
+    }
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    align-self: center;
+
+    &.slim {
+      width: 20px;
+      height: 20px;
+      align-self: center;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+<content-card-container class="when-you-leave-card">
+  <div class="header">
+    <span class="title">When You Leave</span>
+  </div>
+  <div class="content-container">
+    <warning-banner 
+      label="Only perform the following tasks if there is time and it is safe to do so."
+      iconPath="/assets/images/svg-icons/red_warning.svg"
+      [componentStyle]="warningStyle"
+    ></warning-banner>
+    <div class="content">
+      <div class="content-title">Remember to Bring</div>
+      <div class="content-list">
+        <icon-list-item iconPath="/assets/images/svg-icons/medical_kit.svg" text="Take your emergency kit(s) and critical items (medicine, purse, wallet, cellphone and keys)."></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/pets.svg" text="Take pets with you in kennels or on a leash. "></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/clothing.svg" text="Wear a long-sleeved shirt, long pants and sturdy shoes to help protect you from unforeseen hazards."></icon-list-item>
+      </div>
+    </div>
+    <div class="content">
+      <div class="content-title">Prepare your Home</div>
+      <div class="content-list">
+        <icon-list-item iconPath="/assets/images/svg-icons/door.svg" text="Close all windows, vents, doors and other openings in the house. Close and latch gates, but do not lock them."></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/lightbulb.svg" text="Turn on both interior and exterior lights so your home is visible to firefighters in heavy smoke."></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/valve.svg" [text]="'Do not shut off your natural gas. If requested by emergency officials, FortisBC will turn off natural gas. However, if you suspect a gas leak, turn off the gas valve and leave immediately.'"></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/note.svg" text="If you are comfortable doing so, post a message in clear view, indicating where you are going and how you can be contacted."></icon-list-item>
+      </div>
+    </div>
+  </div>
+</content-card-container>
+
