@@ -37,3 +37,80 @@
     height: 500px;
   }
 }
+
+.popup-header{
+  padding: 10px 16px;
+  color: var(--Grays-Gray-2, #484848);
+  text-align: center;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  border-bottom: 1px solid var(--Grays-Gray-7, #DEDEDE);
+  display: flex;
+  justify-content: space-between;
+  .back-button {
+    flex: 0 0 auto;
+  }
+  .popup-title {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+  .close-button {
+    flex: 0 0 auto;
+    cursor: pointer;
+    font-size: 1.5em;
+  }
+  mat-icon{
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.desktop-preview-icon{
+  padding-right: 8px;
+  vertical-align: bottom;
+}
+
+.popup-title{
+  color: var(--Black-24, #242424);
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  padding: 0 0 8px 0;
+}
+
+.label{
+  color: #666;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding-bottom: 4px;
+}
+
+.popup-content{
+  padding: 16px;
+}
+
+.buttons{
+  display: flex;
+  gap: 16px;
+  padding: 0 16px;
+  .desktop-button-primary {
+    width: 100%;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+      sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: #fdfdfd;
+    background-color: #036;
+    padding: 8px;
+  }
+}

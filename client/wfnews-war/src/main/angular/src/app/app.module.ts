@@ -253,6 +253,7 @@ import { ApiModule as ScheduleApiModule,
 import { AreaRestrictionHeaderComponent } from './components/public-incident-page/incident-info-header/area-restriction-header/area-restriction-header.component';
 import { BanHeaderComponent } from './components/public-incident-page/incident-info-header/ban-header/ban-header.component';
 import { DangerRatingHeaderComponent } from './components/public-incident-page/incident-info-header/danger-rating-header/danger-rating-header.component';
+import { WeatherPanelDetailComponent } from './components/weather/weather-panel/weather-panel-detail/weather-panel-detail.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -419,6 +420,7 @@ export const DATE_FORMATS = {
     AreaRestrictionHeaderComponent,
     BanHeaderComponent,
     DangerRatingHeaderComponent,
+    WeatherPanelDetailComponent,
   ],
   imports: [
     MatSortModule,
