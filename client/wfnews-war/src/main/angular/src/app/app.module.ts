@@ -50,6 +50,7 @@ import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/
 import { RoFReviewPage } from '@app/components/report-of-fire/review-page/rof-review-page.component';
 import { NotificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
 import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
+import { WeatherPanelDetailComponent } from '@app/components/weather/weather-panel/weather-panel-detail/weather-panel-detail.component';
 import { WildfireNotificationDialogComponent } from '@app/components/wildfire-notification-dialog/wildfire-notification-dialog.component';
 import { NotificationService } from '@app/services/notification.service';
 import { OwlNativeDateTimeModule } from '@busacca/ng-pick-datetime';
@@ -157,11 +158,15 @@ import { Category3FiresCardComponent } from './components/full-details/cards/cat
 import { ConnectWithLocalAuthoritiesCardComponent } from './components/full-details/cards/connect-with-local-authorities-card/connect-with-local-authorities-card.component';
 import { ExcludedAreasCardComponent } from './components/full-details/cards/excluded-areas-card/excluded-areas-card.component';
 import { GetPreparedCardComponent } from './components/full-details/cards/get-prepared-card/get-prepared-card.component';
+import { HeaderTextCardComponent } from './components/full-details/cards/header-text-card/header-text-card.component';
+import { IndustrialActivitiesCardComponent } from './components/full-details/cards/industrial-activities-card/industrial-activities-card.component';
 import { OtherBurningRestrictionsCardComponent } from './components/full-details/cards/other-burning-restrictions-card/other-burning-restrictions-card.component';
 import { OtherSourcesWhenYouLeaveCardComponent } from './components/full-details/cards/other-sources-of-information-card/other-sources-of-information-card.component';
 import { RelatedTopicsCardComponent } from './components/full-details/cards/related-topics-card/related-topics-card.component';
 import { ReturningHomeCardComponent } from './components/full-details/cards/returning-home-card/returning-home-card.component';
+import { UpdateFrequencyCardComponent } from './components/full-details/cards/update-frequency-card/update-frequency-card.component';
 import { WarningCardComponent } from './components/full-details/cards/warning-card/warning-card.component';
+import { WhatIsADangerRatingCardComponent } from './components/full-details/cards/what-is-a-danger-rating-card/what-is-a-danger-rating-card.component';
 import { WhatToExpectAlertToOrderCardComponent } from './components/full-details/cards/what-to-expect-alert-to-order-card/what-to-expect-alert-to-order-card.component';
 import { WhenYouLeaveCardComponent } from './components/full-details/cards/when-you-leave-card/when-you-leave-card.component';
 import { WhereShouldIGoCardComponent } from './components/full-details/cards/where-should-i-go-card/where-should-i-go-card.component';
@@ -195,6 +200,7 @@ import { AreaRestrictionDetailsComponent } from './components/public-event-page/
 import { EvacAlertDetailsComponent } from './components/public-event-page/evac-alert-details/evac-alert-details.component';
 import { EvacOrderDetailsComponent } from './components/public-event-page/evac-order-details/evac-order-details.component';
 import { FireBanDetailsComponent } from './components/public-event-page/fire-ban-details/fire-ban-details.component';
+import { FireDangerDetailsComponent } from './components/public-event-page/fire-danger-details/fire-danger-details.component';
 import { PublicEventPageComponent } from './components/public-event-page/public-event-page.component';
 import { ImagePanelComponent } from './components/public-incident-page/incident-gallery-panel/image-panel/image-panel.component';
 import { IncidentGalleryAllMediaMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-all-media-mobile/incident-gallery-all-media-mobile.component';
@@ -283,7 +289,6 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { WeatherPanelDetailComponent } from '@app/components/weather/weather-panel/weather-panel-detail/weather-panel-detail.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -478,7 +483,12 @@ export const DATE_FORMATS = {
     Category2FiresCardComponent,
     Category3FiresCardComponent,
     OtherBurningRestrictionsCardComponent,
-    WeatherPanelDetailComponent
+    WeatherPanelDetailComponent,
+    HeaderTextCardComponent,
+    WhatIsADangerRatingCardComponent,
+    IndustrialActivitiesCardComponent,
+    UpdateFrequencyCardComponent,
+    FireDangerDetailsComponent,
   ],
   imports: [
     MatSortModule,
