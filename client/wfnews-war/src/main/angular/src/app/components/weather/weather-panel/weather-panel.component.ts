@@ -14,6 +14,8 @@ export class WeatherPanelComponent implements OnDestroy {
   public latitude;
   public longitude;
 
+  isDetailView = false;
+
   ngOnDestroy(): void {
     (
       document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement
@@ -131,13 +133,25 @@ export class WeatherPanelComponent implements OnDestroy {
     (
       document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
     ).style.display = 'none';
+    (
+      document.getElementsByClassName('smk-panel').item(0) as HTMLElement
+    ).style.display = 'none';
   }
 
   goBack(){
-    const goBackButton = document.querySelector('.smk-panel-go-back');
-    (goBackButton as HTMLElement).click();
-    (
-      document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
-    ).style.display = 'none';
+    if (this.isDetailView){
+      this.isDetailView = !this.isDetailView
+    }
+    else{
+      const goBackButton = document.querySelector('.smk-panel-go-back');
+      (goBackButton as HTMLElement).click();
+      (
+        document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
+      ).style.display = 'none';
+    }
+  }
+
+  enterFullDetail(){
+    this.isDetailView = true;
   }
 }
