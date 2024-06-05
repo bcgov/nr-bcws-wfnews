@@ -283,6 +283,7 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
+import { WeatherPanelDetailComponent } from '@app/components/weather/weather-panel/weather-panel-detail/weather-panel-detail.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -476,7 +477,8 @@ export const DATE_FORMATS = {
     Category1FiresCardComponent,
     Category2FiresCardComponent,
     Category3FiresCardComponent,
-    OtherBurningRestrictionsCardComponent
+    OtherBurningRestrictionsCardComponent,
+    WeatherPanelDetailComponent
   ],
   imports: [
     MatSortModule,
