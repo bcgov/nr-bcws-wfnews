@@ -201,6 +201,7 @@ import { AreaRestrictionDetailsComponent } from './components/public-event-page/
 import { EvacAlertDetailsComponent } from './components/public-event-page/evac-alert-details/evac-alert-details.component';
 import { EvacOrderDetailsComponent } from './components/public-event-page/evac-order-details/evac-order-details.component';
 import { FireBanDetailsComponent } from './components/public-event-page/fire-ban-details/fire-ban-details.component';
+import { FireDangerDetailsComponent } from './components/public-event-page/fire-danger-details/fire-danger-details.component';
 import { PublicEventPageComponent } from './components/public-event-page/public-event-page.component';
 import { IncidentGalleryImagesMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-images-mobile/incident-gallery-images-mobile.component';
 import { IncidentGalleryPanelMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-panel-mobile/incident-gallery-panel-mobile.component';
