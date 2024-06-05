@@ -175,6 +175,7 @@ import { EvacAlertFullDetailsComponent } from './components/full-details/evac-al
 import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
 import { EvacOtherInfoComponent } from './components/full-details/evac-other-info/evac-other-info.component';
 import { FullDetailsComponent } from './components/full-details/full-details.component';
+import { IdentifyPanel } from './components/identify-panel/identify-panel.component';
 import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
 import { AreaRestrictionLegendComponent } from './components/legend-panels/area-restriction-layers/area-restriction-legend.component';
 import { BansLegendComponent } from './components/legend-panels/bans-layers/bans-legend.component';
@@ -289,7 +290,6 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { IdentifyPanel } from './components/identify-panel/identify-panel.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
