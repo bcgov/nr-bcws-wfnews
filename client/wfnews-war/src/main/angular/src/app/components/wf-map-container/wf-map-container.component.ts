@@ -300,9 +300,20 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
               createContent(el) {
                 self.zone.run(function() {
                   const compRef = self.makeComponent(WeatherPanelComponent);
-                  (compRef.instance as any).setWeatherStation(station);
-                  el.appendChild(compRef.location.nativeElement);
+                  (compRef.instance as any).setWeatherStation(
+                    station
+                  );
+                  const panel = document
+                    .getElementsByClassName('desktop-preview')
+                    .item(0) as HTMLElement;
+                  panel.appendChild(compRef.location.nativeElement);
                   self.cdr.detectChanges();
+                  // display the panel
+                  (
+                    document
+                      .getElementsByClassName('desktop-preview')
+                      .item(0) as HTMLElement
+                  ).style.display = 'block';
                 });
               },
             },
