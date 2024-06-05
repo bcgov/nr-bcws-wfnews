@@ -1,0 +1,12 @@
+<div class="button-container"
+  [ngClass]="{'slim': componentStyle?.slim}"
+  [ngStyle]="componentStyle ? {'background': componentStyle.backgroundColor, 'border': componentStyle.border} : null"
+  (keypress)="clickHandler()" (click)="clickHandler()">
+  <div *ngIf="!componentStyle?.overrideIconMask" class="icon"
+    [ngClass]="{'slim': componentStyle?.slim}"
+    [ngStyle]="{'background-color': componentStyle && componentStyle.iconColor ? componentStyle.iconColor : '#000000'}"
+    [style.mask-image]="'url('+ iconPath +')'" [style.-webkit-mask-image]="'url('+ iconPath +')'">
+  </div>
+  <img *ngIf="componentStyle?.overrideIconMask" class="icon" [src]="iconPath" alt="icon">
+  <div class="label" [ngClass]="{'slim': componentStyle?.slim}" [ngStyle]="componentStyle ? {'color': componentStyle.labelColor } : null">{{ label }}</div>
+</div>

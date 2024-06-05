@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
-import { notificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
+import { NotificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { NotificationService } from '@app/services/notification.service';
@@ -193,7 +193,7 @@ export class AddSavedLocationComponent implements OnInit {
   }
 
   chooseOnMap() {
-    const dialogRef = this.dialog.open(notificationMapComponent, {
+    const dialogRef = this.dialog.open(NotificationMapComponent, {
       autoFocus: false,
       width: '100dvw',
       minWidth: '100dvw',
@@ -228,7 +228,7 @@ export class AddSavedLocationComponent implements OnInit {
   }
 
   chooseRadiusOnMap() {
-    const dialogRef = this.dialog.open(notificationMapComponent, {
+    const dialogRef = this.dialog.open(NotificationMapComponent, {
       autoFocus: false,
       width: '100dvw',
       minWidth: '100dvw',

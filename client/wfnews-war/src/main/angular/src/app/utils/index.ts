@@ -535,13 +535,13 @@ export function convertToDateYearUtc(date: string): string {
 }
 
 export function getStageOfControlLabel(code: string) {
-  if (code.toUpperCase().trim() === 'OUT') {
+  if (code?.toUpperCase().trim() === 'OUT') {
 return 'Out';
-} else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
+} else if (code?.toUpperCase().trim() === 'OUT_CNTRL') {
 return 'Out of Control';
-} else if (code.toUpperCase().trim() === 'HOLDING') {
+} else if (code?.toUpperCase().trim() === 'HOLDING') {
 return 'Being Held';
-} else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
+} else if (code?.toUpperCase().trim() === 'UNDR_CNTRL') {
 return 'Under Control';
 } else {
 return 'Unknown';
