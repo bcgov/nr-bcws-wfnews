@@ -126,4 +126,18 @@ export class WeatherPanelComponent implements OnDestroy {
       return formattedDate;
     }
   }
+
+  closePanel(){
+    (
+      document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
+    ).style.display = 'none';
+  }
+
+  goBack(){
+    const goBackButton = document.querySelector('.smk-panel-go-back');
+    (goBackButton as HTMLElement).click();
+    (
+      document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
+    ).style.display = 'none';
+  }
 }

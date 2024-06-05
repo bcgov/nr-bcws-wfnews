@@ -1,14 +1,14 @@
 <div class="smk-popup">
   <div class="popup-header">
     <span class="back-button">
-      <mat-icon svgIcon="back-icon-panel"></mat-icon>
+      <mat-icon svgIcon="back-icon-panel" (click)="goBack()"></mat-icon>
     </span>
     <span class="title">
       <img class="desktop-preview-icon" src="/assets/images/svg-icons/carbon_partly-cloudy.svg" width='20' height='20' alt="active weather station">
       Active Weather Station
     </span>
     <span class="close-button">
-      <mat-icon svgIcon="cancel"></mat-icon>
+      <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
     </span>
   </div>
   <div class="popup-content">
