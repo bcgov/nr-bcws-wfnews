@@ -1,0 +1,17 @@
+<div class="area-restriction-details">
+  <advisory-section
+    title="Information Bulletin"
+    message="View the bulletin on our website for more information."
+    [componentStyle]="advisorySectionComponentStyle" [buttonArgs]="advisorySectionButtonArgs">
+  </advisory-section>
+
+  <two-column-content-cards-container>
+    <ng-container column-1>
+      <warning-card></warning-card>
+      <excluded-areas-card></excluded-areas-card>
+    </ng-container>
+    <ng-container column-2>
+      <related-topics-card [links]="relatedTopicLinks"></related-topics-card>
+    </ng-container>
+  </two-column-content-cards-container>
+</div>

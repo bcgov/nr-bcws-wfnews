@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AdvisorySectionStyle } from '@app/components/common/advisory-section/advisory-section.component';
 import { IconButtonArgs } from '@app/components/common/icon-button/icon-button.component';
 import { SimpleIncident } from '@app/services/published-incident-service';
 
@@ -15,11 +16,19 @@ export class EvacOrderDetailsComponent {
   @Output() bookmarkClicked = new EventEmitter<boolean>();
   @Output() viewDetailsClicked = new EventEmitter<void>();
 
-  advisorySectionComponentStyle = {
+  advisorySectionComponentStyle: AdvisorySectionStyle = {
     backgroundColor: '#FFF5F6',
     dividerColor: '#E7DADA',
-    iconCircleColor: '#FDCECE',
-    outerBorderColor: '#F2D3D3'
+    outerBorderColor: '#F2D3D3',
+    logo: {
+      logoPath: '/assets/images/logo/emergency-info-bc.png',
+      width: 174,
+      height: 34
+    },
+    icon: {
+      iconPath: '/assets/images/svg-icons/evacuation-order.svg',
+      iconCircleColor: '#FDCECE',
+    }
   };
   advisorySectionButtonArgs: IconButtonArgs = {
     label: 'Evacuation Information',
