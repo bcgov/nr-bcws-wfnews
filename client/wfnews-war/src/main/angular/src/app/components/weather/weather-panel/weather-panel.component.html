@@ -11,33 +11,39 @@
       <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
     </span>
   </div>
-  <div class="popup-content">
-    <div class="popup-title">Weather Station: {{stationData.stationName}}</div>
-    <div *ngIf="hourly && hourly.hour">
-      <div class="label">{{formatHourlyData()}}</div>
-    </div>
-    <div *ngIf="hourly && hourly.temp">
-      <div class="label">
-        <img class= "desktop-preview-icon" height="20" width="20" src="/assets/images/svg-icons/carbon_temperature-celsius.svg">
-        {{hourly.temp}}° C
+  <div *ngIf="!isDetailView; else detailView">
+    <div class="popup-content">
+      <div class="popup-title">Weather Station: {{stationData.stationName}}</div>
+      <div *ngIf="hourly && hourly.hour">
+        <div class="label">{{formatHourlyData()}}</div>
+      </div>
+      <div *ngIf="hourly && hourly.temp">
+        <div class="label">
+          <img class= "desktop-preview-icon" height="20" width="20" src="/assets/images/svg-icons/carbon_temperature-celsius.svg">
+          {{hourly.temp}}° C
+        </div>
+      </div>
+      <div *ngIf="hourly && hourly.precipitation != null && hourly.relativeHumidity != null">
+        <div class="label">
+          <img class="desktop-preview-icon" height="20" width="20" src="/assets/images/svg-icons/carbon_humidity.svg" >
+          Precipitation: {{hourly.precipitation}}mm | Humidity: {{hourly.relativeHumidity}}%
+        </div>
+      </div>
+      <div *ngIf="hourly && hourly.windSpeed && hourly.windCardinalDir">
+        <div class="label">
+          <img class="desktop-preview-icon" height="20" width="20" src="/assets/images/svg-icons/carbon_windy-strong.svg" >
+          Wind: {{hourly.windSpeed}}km/h {{hourly.windCardinalDir}}
+        </div>
       </div>
     </div>
-    <div *ngIf="hourly && hourly.precipitation != null && hourly.relativeHumidity != null">
-      <div class="label">
-        <img class="desktop-preview-icon" height="20" width="20" src="/assets/images/svg-icons/carbon_humidity.svg" >
-        Precipitation: {{hourly.precipitation}}mm | Humidity: {{hourly.relativeHumidity}}%
-      </div>
-    </div>
-    <div *ngIf="hourly && hourly.windSpeed && hourly.windCardinalDir">
-      <div class="label">
-        <img class="desktop-preview-icon" height="20" width="20" src="/assets/images/svg-icons/carbon_windy-strong.svg" >
-        Wind: {{hourly.windSpeed}}km/h {{hourly.windCardinalDir}}
-      </div>
+    <div class="buttons">
+      <button mat-flat-button class="desktop-button-primary" (click)="enterFullDetail()">
+          Full Details
+      </button>
     </div>
   </div>
-  <div class="buttons">
-    <button mat-flat-button class="desktop-button-primary">
-        Full Details
-    </button>
-  </div>
+  <ng-template #detailView>
+    <!-- Detail View -->
+    <wfnews-weather-panel-detail [hourly]="hourly" [daily]="daily" [latitude]="latitude" [longitude]="longitude" [stationData]="stationData"></wfnews-weather-panel-detail>
+  </ng-template>
 </div>
