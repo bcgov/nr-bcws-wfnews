@@ -13,7 +13,7 @@ const mockAgolService = {
 const formGroup: UntypedFormGroup = new UntypedFormGroup({})
 
 const meta: Meta<AreaRestrictionsDetailsPanel> = {
-    title: 'Components/AreaRestrictionsDetailsPanel',
+    title: 'Panels/AreaRestrictionsDetailsPanel',
     component: AreaRestrictionsDetailsPanel,
     decorators: [
         moduleMetadata({

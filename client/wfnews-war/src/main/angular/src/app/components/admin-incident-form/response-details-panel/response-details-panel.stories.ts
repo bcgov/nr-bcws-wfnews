@@ -25,7 +25,7 @@ const formGroup: UntypedFormGroup = new UntypedFormGroup({
 formGroup['toJSON'] = () => null; 
 
 const meta: Meta<ResponseDetailsPanel> = {
-    title: 'Components/ResponseDetailsPanel',
+    title: 'Panels/ResponseDetailsPanel',
     component: ResponseDetailsPanel,
     decorators: [
         moduleMetadata({

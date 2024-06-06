@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 
 const meta: Meta<SummaryPanel> = {
-    title: 'Components/SummaryPanel',
+    title: 'Panels/SummaryPanel',
     component: SummaryPanel,
     decorators: [
         moduleMetadata({

@@ -32,7 +32,7 @@ const mockPublishedIncidentService = {
 };
 
 const meta: Meta<IncidentDetailsPanel> = {
-    title: 'Components/IncidentDetailsPanel',
+    title: 'Panels/IncidentDetailsPanel',
     component: IncidentDetailsPanel,
     decorators: [
         moduleMetadata({

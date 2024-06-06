@@ -20,7 +20,7 @@ const mockAgolService = {
 };
 
 const meta: Meta<EvacOrdersDetailsPanel> = {
-    title: 'Components/EvacOrdersDetailsPanel',
+    title: 'Panels/EvacOrdersDetailsPanel',
     component: EvacOrdersDetailsPanel,
     decorators: [
         moduleMetadata({

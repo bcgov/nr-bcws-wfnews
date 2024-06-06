@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from '@angular/material/select';
-import { Observable } from 'rxjs';
 import { FormArray, FormControl, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 
 
@@ -25,12 +24,9 @@ const formGroup: UntypedFormGroup = new UntypedFormGroup({
 
 formGroup['toJSON'] = () => null; 
 
-function getFireCentreContacts(): () => Observable<any> {
-    return () => new Observable<any>;
-}
 
 const meta: Meta<ContactsDetailsPanel> = {
-    title: 'Components/ContactsDetailsPanel',
+    title: 'Panels/ContactsDetailsPanel',
     component: ContactsDetailsPanel,
     decorators: [
         moduleMetadata({
