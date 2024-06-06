@@ -8,8 +8,6 @@ import { IconButtonArgs } from '../icon-button/icon-button.component';
   styleUrls: ['./advisory-section.component.scss']
 })
 export class AdvisorySectionComponent {
-  @Input() logoPath: string;
-  @Input() iconPath: string;
   @Input() title: string;
   @Input() message: string;
   @Input() componentStyle: AdvisorySectionStyle;
@@ -17,17 +15,23 @@ export class AdvisorySectionComponent {
 }
 
 export interface AdvisorySectionArgs {
-  logoPath: string;
-  iconPath: string;
   title: string;
   message: string;
   componentStyle: AdvisorySectionStyle;
   buttonArgs: IconButtonArgs;
 }
 
-interface AdvisorySectionStyle {
+export interface AdvisorySectionStyle {
   backgroundColor: string;
   dividerColor: string;
-  iconCircleColor: string;
   outerBorderColor: string;
+  icon: {
+    iconPath: string;
+    iconCircleColor: string;
+  };
+  logo: {
+    width: number;
+    height: number;
+    logoPath: string;
+  };
 };

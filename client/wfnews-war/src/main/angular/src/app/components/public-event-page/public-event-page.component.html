@@ -16,5 +16,13 @@
             (bookmarkClicked)="handleBookmarkClicked($event)"
             (viewDetailsClicked)="handleViewDetailsClicked()"
         ></evac-order-details>
+        <area-restriction-details *ngSwitchCase="'area-restriction'"
+            [areaRestriction]="areaRestriction"
+        ></area-restriction-details>
+        <fire-ban-details *ngSwitchCase="'ban'"
+            [fireBan]="ban"
+        ></fire-ban-details>
+        <fire-danger-details *ngSwitchCase="'danger-rating'">
+        </fire-danger-details>
     </div>
 </div>
