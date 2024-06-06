@@ -36,5 +36,63 @@
         justify-content: space-between;
         align-items: center;
     }
-
 }
+
+.wildfire-icon {
+   display: block;
+}
+
+.circle-icon {
+    &.active-wildfires-holding {
+      background-color: #ffff00;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list {
+        width: 22px;
+        height: 22px;
+        display: block;
+      }
+    }
+    &.active-wildfires-out-of-control {
+      background-color: #ff0000;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list {
+        width: 22px;
+        height: 22px;
+        display: block;
+      }
+    }
+    &.active-wildfires-under-control {
+      background-color: #98e600;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list {
+        width: 22px;
+        height: 22px;
+        display: block;
+      }
+    }
+    &.bcws-activefires-publicview-inactive, &.active-wildfires-out {
+      background-color: #5c6671;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list {
+        width: 22px;
+        height: 22px;
+        display: block;
+      }
+    }
+  }
