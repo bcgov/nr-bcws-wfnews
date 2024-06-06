@@ -222,36 +222,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
           ].includes(feature.layerId)
         ) {
           lastFeature = feature;
-          feature.properties.createContent = function(el) {
-            self.zone.run(function() {
-              const compRef = self.makeComponent(IncidentIdentifyPanelComponent);
-              (compRef.instance as any).setIncident(
-                feature.properties,
-                identified.featureSet,
-              );
-              const panel = document
-                .getElementsByClassName('identify-panel')
-                .item(0) as HTMLElement;
-              panel.appendChild(compRef.location.nativeElement);
-              self.cdr.detectChanges();
-              // display the panel
-              (
-                document
-                  .getElementsByClassName('identify-panel')
-                  .item(0) as HTMLElement
-              ).style.display = 'block';
-              // apply a slight debounce to clear the identify and destroy the panel
-              setTimeout(() => {
-                const identifyPanel = document
-                  .getElementsByClassName('smk-panel')
-                  .item(0) as HTMLElement;
-                if (identifyPanel) {
-                  identifyPanel.remove();
-                }
-                // use smk.$viewer.identified to reset the form?
-              }, 200);
-            });
-          };
         }
       }
     }

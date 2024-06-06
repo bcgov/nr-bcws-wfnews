@@ -276,7 +276,7 @@ import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy'
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
 import { WeatherPanelDetailComponent } from '@app/components/weather/weather-panel/weather-panel-detail/weather-panel-detail.component';
-import { IdentifyPanelComponent } from './components/identify-panel/identify-panel.component';
+import { IdentifyPanel } from './components/identify-panel/identify-panel.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -464,7 +464,7 @@ export const DATE_FORMATS = {
     GetPreparedCardComponent,
     WhatToExpectAlertToOrderCardComponent,
     WeatherPanelDetailComponent,
-    IdentifyPanelComponent
+    IdentifyPanel
   ],
   imports: [
     MatSortModule,

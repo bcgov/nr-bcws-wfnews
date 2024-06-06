@@ -1,0 +1,149 @@
+.identify-panel {
+    position: absolute;
+    background-color: white;
+    width: 340px;
+    max-width: 600px;
+    overflow-y: auto;
+    border: 1px solid #dddddd;
+    top: 110px;
+    left: 5px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
+    max-height: calc(65vh - env(safe-area-inset-bottom, 0px) - env(safe-area-inset-top, 20px) - 10px) !important;
+    border-top: 1px solid #ccc;
+    z-index: 100000000 !important;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.23);
+    padding-bottom: 24px;
+}
+
+.panel-container {
+    font-weight: 600;
+    overflow: auto;
+    height: 90%;
+    border-radius: 20px;
+
+    .identify-panel-title {
+        background-color: white;
+        position: sticky;
+        top: 0;
+        font-size: 18px;
+        color: #242424;
+        padding: 12px 20px;
+        border-bottom: 1px solid #dedede;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .preview-title {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .criteria-title {
+        font-size: 18px;
+        color: #242424;
+        padding: 16px 20px 0 20px;
+    }
+
+    .identify-card-title {
+        color: var(--grays-gray-1, #242424);
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        padding-bottom: 4px;
+    }
+
+    .widget-card {
+        padding: 8px 20px 0 20px;
+    }
+
+    .widget-row {
+        display: flex;
+        padding: 12px;
+        align-items: center;
+        border-radius: 8px;
+        background: #f2f2f6;
+        justify-content: space-between;
+    }
+
+    .left-content {
+        display: flex;
+        align-items: center;
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    }
+
+    .incident-icon {
+        width: 16px;
+        height: 16px;
+        margin-right: 12px;
+    }
+
+    .incident-icon-title {
+        width: 24px;
+        height: 24px;
+        margin-right: 12px;
+    }
+
+    .circle-icon {
+        &.active-wildfires-holding {
+            background-color: #ffff00;
+            border: 1px solid black;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+
+            &.list {
+                width: 22px;
+                height: 22px;
+            }
+        }
+
+        &.active-wildfires-out-of-control {
+            background-color: #ff0000;
+            border: 1px solid black;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+
+            &.list {
+                width: 22px;
+                height: 22px;
+            }
+        }
+
+        &.active-wildfires-under-control {
+            background-color: #98e600;
+            border: 1px solid black;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+
+            &.list {
+                width: 22px;
+                height: 22px;
+            }
+        }
+
+        &.bcws-activefires-publicview-inactive,
+        &.active-wildfires-out {
+            background-color: #5c6671;
+            border: 1px solid black;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+
+            &.list {
+                width: 22px;
+                height: 22px;
+            }
+        }
+    }
+
+}
