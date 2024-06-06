@@ -50,8 +50,13 @@
   border-bottom: 1px solid var(--Grays-Gray-7, #DEDEDE);
   display: flex;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: white; 
+  z-index: 10;
   .back-button {
     flex: 0 0 auto;
+    cursor: pointer;
   }
   .popup-title {
     flex: 1 1 auto;
