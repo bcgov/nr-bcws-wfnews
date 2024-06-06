@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -7,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./related-topics-card.component.scss']
 })
 export class RelatedTopicsCardComponent {
+  @Input() links?: RelatedTopicsLink[];
+}
 
+export interface RelatedTopicsLink {
+  text: string;
+  url: string;
 }
