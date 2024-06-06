@@ -19,3 +19,13 @@ type Story = StoryObj<RelatedTopicsCardComponent>;
 
 export const example: Story = {
 };
+
+export const linksProvided: Story = {
+  args: {
+    links: [
+      { text: 'Link 1', url: 'https://google.com' },
+      { text: 'Link 2', url: 'https://bing.com' },
+      { text: 'Link 3', url: 'https://yahoo.com' }
+    ]
+  }
+};
