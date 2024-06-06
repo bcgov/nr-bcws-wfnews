@@ -63,7 +63,6 @@
       background-color: white;
       width: 340px;
       max-width: 600px;
-      overflow-y: auto;
       border: 1px solid #dddddd;
       display: none;
       top: 110px;
@@ -73,6 +72,21 @@
       max-height: calc(100vh - 260px);
       overflow-x: hidden !important;
       overflow-y: auto !important;
+
+      /* Custom scrollbar styles */
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: white;
+        border-radius: 24px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 24px;
+      }
     }
   }
 
