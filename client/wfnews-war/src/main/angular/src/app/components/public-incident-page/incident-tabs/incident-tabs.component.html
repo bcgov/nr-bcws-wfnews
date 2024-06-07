@@ -1,36 +1,55 @@
-<mat-tab-group mat-stretch-tabs class="tab-group"  (selectedTabChange)="onTabChange($event)" #tabGroup>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <img class="icon-tab"
-             [src]="tabGroup.selectedIndex === 0 ? '/assets/images/svg-icons/list-blue.svg' : '/assets/images/svg-icons/list-black.svg'"/>
+<mat-tab-group mat-stretch-tabs class="tab-group" (selectedTabChange)="onTabChange($event)" #tabGroup>
+  
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <div class="button-face">
+        <img class="icon-tab" alt="Details icon"
+          [src]="tabGroup.selectedIndex === 0 ? '/assets/images/svg-icons/list-blue.svg' : '/assets/images/svg-icons/list-black.svg'" />
         Details
-      </ng-template>
-      <incident-info-panel [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
-    </mat-tab>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <img class="icon-tab"
-             [src]="tabGroup.selectedIndex === 1 ? '/assets/images/svg-icons/response-firefighter-blue.svg' : '/assets/images/svg-icons/response-firefighter-black.svg'"/>
-             Response
-      </ng-template>
-      <incident-overview-panel [incident]="incident"></incident-overview-panel>
-    </mat-tab>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <img class="icon-contact"
-             [src]="tabGroup.selectedIndex === 2 ? '/assets/images/svg-icons/gallery-blue.svg' : '/assets/images/svg-icons/gallery-black.svg'"/>
+      </div>
+    </ng-template>
+    <incident-info-panel [incident]="incident" [evacOrders]="evacOrders"
+      [areaRestrictions]="areaRestrictions"></incident-info-panel>
+  </mat-tab>
+
+  <div class="divider">&nbsp;</div>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <div class="button-face">
+        <img class="icon-tab" alt="Response icon"
+          [src]="tabGroup.selectedIndex === 1 ? '/assets/images/svg-icons/response-firefighter-blue.svg' : '/assets/images/svg-icons/response-firefighter-black.svg'" />
+        Response
+      </div>
+    </ng-template>
+    <incident-overview-panel [incident]="incident"></incident-overview-panel>
+  </mat-tab>
+
+  <div class="divider">&nbsp;</div>
+  
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <div class="button-face">
+        <img class="icon-contact" alt="Gallery icon"
+          [src]="tabGroup.selectedIndex === 2 ? '/assets/images/svg-icons/gallery-blue.svg' : '/assets/images/svg-icons/gallery-black.svg'" />
         Gallery
-      </ng-template>
-      <ng-template matTabContent>
-        <incident-gallery-panel [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel>
-      </ng-template>
-    </mat-tab>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <img class="icon-tab"
-             [src]="tabGroup.selectedIndex === 3 ? '/assets/images/svg-icons/map-blue.svg' : '/assets/images/svg-icons/map-black.svg'"/>
-             Maps
-      </ng-template>
-      <incident-maps-panel [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel>
-    </mat-tab>
-  </mat-tab-group>
+      </div>
+    </ng-template>
+    <ng-template matTabContent>
+      <incident-gallery-panel [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel>
+    </ng-template>
+  </mat-tab>
+  
+  <div class="divider">What if I put text in?</div>
+  
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <div class="button-face">
+        <img class="icon-tab" alt="Maps icon"
+          [src]="tabGroup.selectedIndex === 3 ? '/assets/images/svg-icons/map-blue.svg' : '/assets/images/svg-icons/map-black.svg'" />
+        Maps
+      </div>
+    </ng-template>
+    <incident-maps-panel [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel>
+  </mat-tab>
+</mat-tab-group>

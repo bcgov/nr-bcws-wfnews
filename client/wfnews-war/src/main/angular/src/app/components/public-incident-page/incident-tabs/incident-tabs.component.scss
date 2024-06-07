@@ -1,23 +1,32 @@
 @import "../../../../styles/variables";
 
-:host ::ng-deep .mdc-tab--active {
-  @media (min-width: $mobile-max-width){
-    font-weight: 500 !important;
-    border-radius: 100px;
-    border: 2px solid #38598A; 
-    background: #E9F0F8 !important;
-    text-decoration-line: none !important;
+:host ::ng-deep .mat-ripple { display: none; }
+
+::ng-deep {
+  .mat-mdc-button-ripple,
+  .mdc-button__ripple {
+    display: none !important;
   }
+}
+
+:host ::ng-deep .mat-mdc-tab.mdc-tab {
+  height: 53px;
+
+  border-radius: 100px;
+  border: 2px solid transparent; 
+  text-decoration-line: none !important;
+  box-sizing: content-box;
 }
 
 :host ::ng-deep .mdc-tab--active {
   @media (min-width: $mobile-max-width){
-    font-weight: 700 !important;
-    text-decoration-line: underline;
-    text-decoration-style: solid;
-    text-decoration-color: var(--Medium-Blue, #146fb4);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 7px;
+    font-weight: 500 !important;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    border-radius: 100px;
+    border: 2px solid #38598A !important; 
+    background: #E9F0F8 !important;
+    text-decoration-line: none !important;
+    box-sizing: content-box;
   }
 }
 
@@ -36,7 +45,9 @@
     font-size: 18px !important;
     font-style: normal;
     font-weight: 500;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     line-height: normal;
+    letter-spacing: normal;
     opacity: 1 !important;
   }
 }
@@ -74,9 +85,15 @@
     }
 }
 
-.icon-tab {
-  padding-right: 8px;
-  position: relative;
-  height: 24px;
-  width: 24px;
+.button-face {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  .icon-tab {
+    height: 20px;
+    width: 20px;
+  }
 }
+
+
