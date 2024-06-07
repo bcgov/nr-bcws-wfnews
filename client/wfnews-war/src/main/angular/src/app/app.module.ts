@@ -219,6 +219,7 @@ import { IncidentMapsPanelMobileComponent } from './components/public-incident-p
 import { IncidentMapsPanel } from './components/public-incident-page/incident-maps-panel/incident-maps-panel.component';
 import { IncidentOverviewPanelMobileComponent } from './components/public-incident-page/incident-overview-panel-mobile/incident-overview-panel-mobile.component';
 import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
+import { ContactUsCardComponent } from './components/public-incident-page/incident-tabs/contact-us-card/contact-us-card.component';
 import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
 import { ResponseUpdateCardComponent } from './components/public-incident-page/incident-tabs/response-update-card/response-update-card.component';
 import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
@@ -491,6 +492,7 @@ export const DATE_FORMATS = {
     UpdateFrequencyCardComponent,
     FireDangerDetailsComponent,
     ResponseUpdateCardComponent,
+    ContactUsCardComponent,
   ],
   imports: [
     MatSortModule,
