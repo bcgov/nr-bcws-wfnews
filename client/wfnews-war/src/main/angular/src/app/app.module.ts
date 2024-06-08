@@ -293,6 +293,7 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
+import { AssignedResourceItemComponent } from './components/public-incident-page/incident-tabs/resources-assigned-card/assigned-resource-item/assigned-resource-item.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -497,6 +498,7 @@ export const DATE_FORMATS = {
     ContactUsCardComponent,
     ResponseTypeCardComponent,
     TextCardComponent,
+    AssignedResourceItemComponent,
   ],
   imports: [
     MatSortModule,
