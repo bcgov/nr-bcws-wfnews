@@ -220,6 +220,7 @@ import { IncidentOverviewPanelMobileComponent } from './components/public-incide
 import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
 import { ContactUsCardComponent } from './components/public-incident-page/incident-tabs/contact-us-card/contact-us-card.component';
 import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
+import { ResponseTypeCardComponent } from './components/public-incident-page/incident-tabs/response-type-card/response-type-card.component';
 import { ResponseUpdateCardComponent } from './components/public-incident-page/incident-tabs/response-update-card/response-update-card.component';
 import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
@@ -494,6 +495,7 @@ export const DATE_FORMATS = {
     FireDangerDetailsComponent,
     ResponseUpdateCardComponent,
     ContactUsCardComponent,
+    ResponseTypeCardComponent,
   ],
   imports: [
     MatSortModule,
