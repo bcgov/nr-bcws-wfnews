@@ -223,6 +223,7 @@ import { ContactUsCardComponent } from './components/public-incident-page/incide
 import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
 import { ResponseTypeCardComponent } from './components/public-incident-page/incident-tabs/response-type-card/response-type-card.component';
 import { ResponseUpdateCardComponent } from './components/public-incident-page/incident-tabs/response-update-card/response-update-card.component';
+import { TextCardComponent } from './components/public-incident-page/incident-tabs/text-card/text-card.component';
 import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
 import { LocationServicesDialogComponent } from './components/report-of-fire/compass-page/location-services-dialog/location-services-dialog.component';
@@ -495,6 +496,7 @@ export const DATE_FORMATS = {
     ResponseUpdateCardComponent,
     ContactUsCardComponent,
     ResponseTypeCardComponent,
+    TextCardComponent,
   ],
   imports: [
     MatSortModule,
