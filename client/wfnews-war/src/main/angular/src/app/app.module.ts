@@ -220,6 +220,8 @@ import { IncidentOverviewPanelMobileComponent } from './components/public-incide
 import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
 import { ContactUsCardComponent } from './components/public-incident-page/incident-tabs/contact-us-card/contact-us-card.component';
 import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
+import { AssignedResourceItemComponent } from './components/public-incident-page/incident-tabs/resources-assigned-card/assigned-resource-item/assigned-resource-item.component';
+import { ResourcesAssignedCardComponent } from './components/public-incident-page/incident-tabs/resources-assigned-card/resources-assigned-card.component';
 import { ResponseTypeCardComponent } from './components/public-incident-page/incident-tabs/response-type-card/response-type-card.component';
 import { ResponseUpdateCardComponent } from './components/public-incident-page/incident-tabs/response-update-card/response-update-card.component';
 import { TextCardComponent } from './components/public-incident-page/incident-tabs/text-card/text-card.component';
@@ -292,7 +294,6 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { AssignedResourceItemComponent } from './components/public-incident-page/incident-tabs/resources-assigned-card/assigned-resource-item/assigned-resource-item.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -500,6 +501,7 @@ export const DATE_FORMATS = {
     ResponseTypeCardComponent,
     TextCardComponent,
     AssignedResourceItemComponent,
+    ResourcesAssignedCardComponent
   ],
   imports: [
     MatSortModule,

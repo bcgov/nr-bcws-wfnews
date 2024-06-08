@@ -2,7 +2,7 @@ import { type Meta, type StoryObj } from '@storybook/angular';
 import { AssignedResourceItemComponent } from './assigned-resource-item.component';
 
 const meta: Meta<AssignedResourceItemComponent> = {
-  title: 'Component/AssignedResourceItemComponent',
+  title: 'Cards/ResourcesAssignedCard/AssignedResourceItem',
   component: AssignedResourceItemComponent,
   tags: ['autodocs'], 
 };
@@ -21,8 +21,8 @@ export const aviation: Story = {
 export const crews: Story = {
   args: {
     iconPath: 'assets/images/svg-icons/wildfire-crews-mobile.svg',
-    headerText: 'Wildfire Crews',
-    description: 'There are currently 9 helicopters and 0 airtankers responding to this wildfire.',
+    headerText: 'Firefighting Personnel',
+    description: 'There are currently 3 Initial Attack and 2 Unit Crews responding to this wildfire, as well as 20 military personnel.',
   }
 };
 
@@ -30,15 +30,15 @@ export const heavyEquipment: Story = {
   args: {
     iconPath: 'assets/images/svg-icons/heavy_equipment-mobile.svg',
     headerText: 'Heavy Equipment',
-    description: 'There are currently 9 helicopters and 0 airtankers responding to this wildfire.',
+    description: 'There are currently 10 pieces of heavy equipment responding to this wildfire.',
   }
 };
 
 export const incidentManagementTeam: Story = {
   args: {
     iconPath: 'assets/images/svg-icons/incident-management-teams-mobile.svg',
-    headerText: 'Incident Management Teams',
-    description: 'There are currently 9 helicopters and 0 airtankers responding to this wildfire.',
+    headerText: 'Incident Management Team',
+    description: 'The Incident Management Team is now in place for the North Peace Complex.',
   }
 };
 
@@ -46,6 +46,6 @@ export const structureProtection: Story = {
   args: {
     iconPath: 'assets/images/svg-icons/structure-protection-mobile.svg',
     headerText: 'Structure Protection',
-    description: 'There are currently 9 helicopters and 0 airtankers responding to this wildfire.',
+    description: 'Three Structure Protection teams have been deployed to the area.',
   }
 };
