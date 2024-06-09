@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { DISCLAIMER_TEXT } from '@app/constants';
 import { AssignmentResourcesSummary, ResourceManagementService } from '@app/services/resource-management.service';
 
 @Component({
@@ -19,8 +20,8 @@ export class ResponseDetailsPanel implements OnInit {
   @ViewChild('structure') structure: ElementRef;
   @ViewChild('imTeams') imTeams: ElementRef;
 
-  responseDisclaimer = `The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes firefighters, air crew, equipment operators, and support staff. For more information on resources assigned to this incident, please contact the information officer listed for this incident.`;
-  incidentManagementComments = `An Incident Management Team has been assigned to this wildfire.`;
+  responseDisclaimer = DISCLAIMER_TEXT.RESPONSE;
+  incidentManagementComments = DISCLAIMER_TEXT.INCIDENT_MANAGEMENT;
 
   details = "detailsOnly"
 

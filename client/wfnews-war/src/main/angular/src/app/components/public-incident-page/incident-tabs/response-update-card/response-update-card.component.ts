@@ -7,7 +7,7 @@ import { AfterContentChecked, ChangeDetectorRef, Component, ElementRef, Input, V
   styleUrls: ['./response-update-card.component.scss']
 })
 export class ResponseUpdateCardComponent implements AfterContentChecked {
-  @Input() updateDate: string;
+  @Input() updateDate?: string;
 
   @ViewChild('responseUpdateContent') contentElementRef: ElementRef;
 
@@ -19,10 +19,9 @@ export class ResponseUpdateCardComponent implements AfterContentChecked {
   constructor(private cdr: ChangeDetectorRef) { }
 
   ngAfterContentChecked() {
-    const size = this.contentElementRef?.nativeElement?.offsetHeight;;
+    const size = this.contentElementRef?.nativeElement?.offsetHeight;
     this.useColumns = size > (this.columnTrigger * this.columnSize);
     if (this.useColumns) {
-      console.log('useColumns', this.useColumns);
       this.cdr.detectChanges();
     }
   }  
