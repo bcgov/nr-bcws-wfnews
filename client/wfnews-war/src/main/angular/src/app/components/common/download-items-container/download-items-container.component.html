@@ -1,0 +1,16 @@
+<div class="download-items">
+  <div class="header">
+    {{ headerText}}
+  </div>
+
+  <div class="content">
+    <download-item 
+    *ngFor="let file of files" 
+    [fileName]="file.fileName"
+    [date]="file.date"
+    [linkUrl]="file.linkUrl"
+    [iconPath]="iconPath"
+    ></download-item>
+  </div>
+
+</div>

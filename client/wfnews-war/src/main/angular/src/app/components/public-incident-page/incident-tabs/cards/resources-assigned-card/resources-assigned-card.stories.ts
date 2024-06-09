@@ -1,7 +1,7 @@
 import { ContentCardContainerComponent } from '@app/components/common/content-card-container/content-card-container.component';
 import { IconButtonComponent } from '@app/components/common/icon-button/icon-button.component';
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
-import { AssignedResourceItemComponent } from './assigned-resource-item/assigned-resource-item.component';
+import { AssignedResourceItemComponent } from '../response-type-card/assigned-resource-item/assigned-resource-item.component';
 import { ResourcesAssignedCardComponent } from './resources-assigned-card.component';
 
 const meta: Meta<ResourcesAssignedCardComponent> = {

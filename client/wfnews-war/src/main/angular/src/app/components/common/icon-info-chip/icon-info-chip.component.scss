@@ -33,5 +33,9 @@
     width: 20px;
     height: 20px;
     align-self: center;
+
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
   }
 }

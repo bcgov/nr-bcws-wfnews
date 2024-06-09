@@ -118,6 +118,8 @@ import { AlertOrderBannerComponent } from './components/common/alert-order-banne
 import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
 import { CircleIconButtonComponent } from './components/common/circle-icon-button/circle-icon-button.component';
 import { ContentCardContainerComponent } from './components/common/content-card-container/content-card-container.component';
+import { DownloadItemComponent } from './components/common/download-item/download-item.component';
+import { DownloadItemsContainerComponent } from './components/common/download-items-container/download-items-container.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { IconButtonComponent } from './components/common/icon-button/icon-button.component';
 import { IconInfoChipComponent } from './components/common/icon-info-chip/icon-info-chip.component';
@@ -218,13 +220,14 @@ import { IncidentMapsPanelMobileComponent } from './components/public-incident-p
 import { IncidentMapsPanel } from './components/public-incident-page/incident-maps-panel/incident-maps-panel.component';
 import { IncidentOverviewPanelMobileComponent } from './components/public-incident-page/incident-overview-panel-mobile/incident-overview-panel-mobile.component';
 import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
-import { ContactUsCardComponent } from './components/public-incident-page/incident-tabs/contact-us-card/contact-us-card.component';
+import { IncidentResponsePanelComponent } from './components/public-incident-page/incident-response-panel/incident-response-panel.component';
+import { ContactUsCardComponent } from './components/public-incident-page/incident-tabs/cards/contact-us-card/contact-us-card.component';
+import { AssignedResourceItemComponent } from './components/public-incident-page/incident-tabs/cards/resources-assigned-card/assigned-resource-item/assigned-resource-item.component';
+import { ResourcesAssignedCardComponent } from './components/public-incident-page/incident-tabs/cards/resources-assigned-card/resources-assigned-card.component';
+import { ResponseTypeCardComponent } from './components/public-incident-page/incident-tabs/cards/response-type-card/response-type-card.component';
+import { ResponseUpdateCardComponent } from './components/public-incident-page/incident-tabs/cards/response-update-card/response-update-card.component';
+import { TextCardComponent } from './components/public-incident-page/incident-tabs/cards/text-card/text-card.component';
 import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
-import { AssignedResourceItemComponent } from './components/public-incident-page/incident-tabs/resources-assigned-card/assigned-resource-item/assigned-resource-item.component';
-import { ResourcesAssignedCardComponent } from './components/public-incident-page/incident-tabs/resources-assigned-card/resources-assigned-card.component';
-import { ResponseTypeCardComponent } from './components/public-incident-page/incident-tabs/response-type-card/response-type-card.component';
-import { ResponseUpdateCardComponent } from './components/public-incident-page/incident-tabs/response-update-card/response-update-card.component';
-import { TextCardComponent } from './components/public-incident-page/incident-tabs/text-card/text-card.component';
 import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
 import { LocationServicesDialogComponent } from './components/report-of-fire/compass-page/location-services-dialog/location-services-dialog.component';
@@ -294,7 +297,6 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { IncidentResponsePanelComponent } from './components/public-incident-page/incident-response-panel/incident-response-panel.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -503,7 +505,9 @@ export const DATE_FORMATS = {
     TextCardComponent,
     AssignedResourceItemComponent,
     ResourcesAssignedCardComponent,
-    IncidentResponsePanelComponent
+    IncidentResponsePanelComponent,
+    DownloadItemComponent,
+    DownloadItemsContainerComponent
   ],
   imports: [
     MatSortModule,
