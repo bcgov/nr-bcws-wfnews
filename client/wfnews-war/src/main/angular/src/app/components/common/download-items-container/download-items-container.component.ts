@@ -8,8 +8,11 @@ import { Component, Input } from '@angular/core';
 })
 export class DownloadItemsContainerComponent {
   @Input() headerText: string;
+  @Input() emptyStateText: string;
+  @Input() warningText: string;
   @Input() files: DownloadItem[];
   @Input() iconPath: string;
+  @Input() showWarning: boolean;
 }
 
 export interface DownloadItem {
