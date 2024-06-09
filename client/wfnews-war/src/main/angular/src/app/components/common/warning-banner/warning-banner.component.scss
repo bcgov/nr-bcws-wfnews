@@ -13,6 +13,10 @@
     width: 24px;
     height: 24px;
     flex-shrink: 0;
+
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
   }
 
   .label {

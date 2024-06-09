@@ -49,5 +49,9 @@
     height: 24px;
     -webkit-mask-image: url("../../../../assets/images/svg-icons/launch_black.svg");
     mask-image: url("../../../../assets/images/svg-icons/launch_black.svg");
+
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
   }
 }
