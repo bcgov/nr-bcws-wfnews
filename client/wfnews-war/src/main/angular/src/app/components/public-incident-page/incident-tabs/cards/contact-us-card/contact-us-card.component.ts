@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { ContactUsBannerComponent } from '../../contact-us-banner/contact-us-banner.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -6,15 +7,5 @@ import { Component, Input } from '@angular/core';
   templateUrl: './contact-us-card.component.html',
   styleUrls: ['./contact-us-card.component.scss']
 })
-export class ContactUsCardComponent {
-
-  @Input() incident;
-
-  call = () => {
-    window.open('tel:' + this.incident.contactPhoneNumber, '_self');
-  };
-
-  email = () => {
-    window.open('mailto:' + this.incident.contactEmailAddress, '_blank');
-  };
+export class ContactUsCardComponent extends ContactUsBannerComponent{
 }

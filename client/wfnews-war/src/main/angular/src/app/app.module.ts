@@ -229,6 +229,7 @@ import { AssignedResourceItemComponent } from './components/public-incident-page
 import { ResponseTypeCardComponent } from './components/public-incident-page/incident-tabs/cards/response-type-card/response-type-card.component';
 import { ResponseUpdateCardComponent } from './components/public-incident-page/incident-tabs/cards/response-update-card/response-update-card.component';
 import { TextCardComponent } from './components/public-incident-page/incident-tabs/cards/text-card/text-card.component';
+import { ContactUsBannerComponent } from './components/public-incident-page/incident-tabs/contact-us-banner/contact-us-banner.component';
 import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
 import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
@@ -508,6 +509,7 @@ export const DATE_FORMATS = {
     IncidentResponsePanelComponent,
     DownloadItemComponent,
     DownloadItemsContainerComponent,
+    ContactUsBannerComponent,
   ],
   imports: [
     MatSortModule,
