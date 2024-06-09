@@ -20,43 +20,43 @@ export class ResourcesAssignedCardComponent implements OnInit {
   }
 
   populateResources = () => {
-    if (this.incident.incident?.incidentMgmtCrewRsrcInd && this.incident.incident?.incidentMgmtCrewRsrcDetail) {
+    if (this.incident?.incidentMgmtCrewRsrcInd && this.incident?.incidentMgmtCrewRsrcDetail) {
       this.resources.push({
         headerText: 'Incident Management Team',
         iconPath: 'assets/images/svg-icons/incident-management-teams-mobile.svg',
-        description: this.incident.incident.incidentMgmtCrewRsrcDetail,
+        description: this.incident.incidentMgmtCrewRsrcDetail,
       });
     }
 
-    if (this.incident.incident?.wildfireCrewResourcesInd && this.incident.incident?.wildfireCrewResourcesDetail) {
+    if (this.incident?.wildfireCrewResourcesInd && this.incident?.wildfireCrewResourcesDetail) {
       this.resources.push({
         headerText: 'Firefighting Personnel',
         iconPath: 'assets/images/svg-icons/wildfire-crews-mobile.svg',
-        description: this.incident.incident.wildfireCrewResourcesDetail,
+        description: this.incident.wildfireCrewResourcesDetail,
       });
     }
 
-    if (this.incident.incident?.wildfireAviationResourceInd && this.incident.incident?.wildfireAviationResourceDetail) {
+    if (this.incident?.wildfireAviationResourceInd && this.incident?.wildfireAviationResourceDetail) {
       this.resources.push({
         headerText: 'Aviation',
         iconPath: 'assets/images/svg-icons/aviation-mobile.svg',
-        description: this.incident.incident.wildfireAviationResourceDetail,
+        description: this.incident.wildfireAviationResourceDetail,
       });
     }
 
-    if (this.incident.incident?.heavyEquipmentResourcesInd && this.incident.incident?.heavyEquipmentResourcesDetail) {
+    if (this.incident?.heavyEquipmentResourcesInd && this.incident?.heavyEquipmentResourcesDetail) {
       this.resources.push({
         headerText: 'Heavy Equipment',
         iconPath: 'assets/images/svg-icons/heavy_equipment-mobile.svg',
-        description: this.incident.incident.heavyEquipmentResourcesDetail,
+        description: this.incident.heavyEquipmentResourcesDetail,
       });
     }
 
-    if (this.incident.incident?.structureProtectionRsrcInd && this.incident.incident?.structureProtectionRsrcDetail) {
+    if (this.incident?.structureProtectionRsrcInd && this.incident?.structureProtectionRsrcDetail) {
       this.resources.push({
         headerText: 'Structure Protection',
         iconPath: 'assets/images/svg-icons/structure-protection-mobile.svg',
-        description: this.incident.incident.structureProtectionRsrcDetail,
+        description: this.incident.structureProtectionRsrcDetail,
       });
     }
   };

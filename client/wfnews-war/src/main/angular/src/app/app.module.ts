@@ -294,6 +294,7 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
+import { IncidentResponsePanelComponent } from './components/public-incident-page/incident-response-panel/incident-response-panel.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -501,7 +502,8 @@ export const DATE_FORMATS = {
     ResponseTypeCardComponent,
     TextCardComponent,
     AssignedResourceItemComponent,
-    ResourcesAssignedCardComponent
+    ResourcesAssignedCardComponent,
+    IncidentResponsePanelComponent
   ],
   imports: [
     MatSortModule,

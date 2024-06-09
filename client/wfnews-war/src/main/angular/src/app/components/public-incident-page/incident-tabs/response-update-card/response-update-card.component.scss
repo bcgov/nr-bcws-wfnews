@@ -38,9 +38,15 @@
   }
 
   .content {
+    
     &.columns {
-      columns: 490px 2;
-      column-gap: 72px;
+      ::ng-deep {
+        .ck-read-only {
+          columns: 490px 2;
+          column-gap: 72px;
+          column-fill: balance;
+        }
+      }
     }
     
     /* 16 Reg */
@@ -50,7 +56,7 @@
     font-weight: 400;
     line-height: 24px; /* 150% */
 
-    ::ng-deep{
+    ::ng-deep {
       figure {
         margin: 0;
         width: 100%;
@@ -60,7 +66,6 @@
           height: auto;
         }
       }
-    
     } 
   }
 }
