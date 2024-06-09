@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -80,7 +81,7 @@ import { Configuration as DocumentAPIServiceConfiguration } from '@wf1/wfdm-docu
 import {
   Configuration as ScheduleAPIServiceConfiguration,
   ApiModule as ScheduleApiModule
-} from "@wf1/wfrm-resource-schedule-api";
+} from '@wf1/wfrm-resource-schedule-api';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { LightgalleryModule } from 'lightgallery/angular/13';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeModule } from 'ng-pick-datetime';
@@ -222,8 +223,8 @@ import { IncidentOverviewPanelMobileComponent } from './components/public-incide
 import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
 import { IncidentResponsePanelComponent } from './components/public-incident-page/incident-response-panel/incident-response-panel.component';
 import { ContactUsCardComponent } from './components/public-incident-page/incident-tabs/cards/contact-us-card/contact-us-card.component';
-import { AssignedResourceItemComponent } from './components/public-incident-page/incident-tabs/cards/resources-assigned-card/assigned-resource-item/assigned-resource-item.component';
 import { ResourcesAssignedCardComponent } from './components/public-incident-page/incident-tabs/cards/resources-assigned-card/resources-assigned-card.component';
+import { AssignedResourceItemComponent } from './components/public-incident-page/incident-tabs/cards/response-type-card/assigned-resource-item/assigned-resource-item.component';
 import { ResponseTypeCardComponent } from './components/public-incident-page/incident-tabs/cards/response-type-card/response-type-card.component';
 import { ResponseUpdateCardComponent } from './components/public-incident-page/incident-tabs/cards/response-update-card/response-update-card.component';
 import { TextCardComponent } from './components/public-incident-page/incident-tabs/cards/text-card/text-card.component';
@@ -507,7 +508,7 @@ export const DATE_FORMATS = {
     ResourcesAssignedCardComponent,
     IncidentResponsePanelComponent,
     DownloadItemComponent,
-    DownloadItemsContainerComponent
+    DownloadItemsContainerComponent,
   ],
   imports: [
     MatSortModule,
