@@ -12,6 +12,7 @@ import { SimpleIncident } from '@app/services/published-incident-service';
 export class EvacOrderDetailsComponent {
   @Input() incident: SimpleIncident;
   @Input() isBookmarked: boolean;
+  @Input() evacuation;
 
   @Output() bookmarkClicked = new EventEmitter<boolean>();
   @Output() viewDetailsClicked = new EventEmitter<void>();

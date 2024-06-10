@@ -9,7 +9,6 @@
   align-items: center;
   gap: 8px;
   align-self: stretch;
-  cursor: pointer;
   border-radius: 4px;
   width: max-content;
   background: #FFFFFF;
@@ -33,5 +32,9 @@
     width: 20px;
     height: 20px;
     align-self: center;
+
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
   }
 }

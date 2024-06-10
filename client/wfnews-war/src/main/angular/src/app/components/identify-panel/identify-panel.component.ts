@@ -18,7 +18,7 @@ export class IdentifyPanel extends DraggablePanelComponent {
   @ViewChild('dangerRatingPanelContainer', { read: ViewContainerRef }) dangerRatingPanelContainer: ViewContainerRef;
   @ViewChild('protectedLandPanelContainer', { read: ViewContainerRef }) protectedLandPanelContainer: ViewContainerRef;
 
-  parseAreaRestriction(text: string){
+  parseAreaRestriction(text: string) {
     text = text.replace("Area Restriction", "Restricted Area")
     return decodeURIComponent(escape(text));
   }

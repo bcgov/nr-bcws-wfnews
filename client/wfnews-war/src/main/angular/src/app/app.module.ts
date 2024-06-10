@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -80,7 +81,7 @@ import { Configuration as DocumentAPIServiceConfiguration } from '@wf1/wfdm-docu
 import {
   Configuration as ScheduleAPIServiceConfiguration,
   ApiModule as ScheduleApiModule
-} from "@wf1/wfrm-resource-schedule-api";
+} from '@wf1/wfrm-resource-schedule-api';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { LightgalleryModule } from 'lightgallery/angular/13';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeModule } from 'ng-pick-datetime';
@@ -118,6 +119,8 @@ import { AlertOrderBannerComponent } from './components/common/alert-order-banne
 import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
 import { CircleIconButtonComponent } from './components/common/circle-icon-button/circle-icon-button.component';
 import { ContentCardContainerComponent } from './components/common/content-card-container/content-card-container.component';
+import { DownloadItemComponent } from './components/common/download-item/download-item.component';
+import { DownloadItemsContainerComponent } from './components/common/download-items-container/download-items-container.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { IconButtonComponent } from './components/common/icon-button/icon-button.component';
 import { IconInfoChipComponent } from './components/common/icon-info-chip/icon-info-chip.component';
@@ -175,6 +178,7 @@ import { EvacAlertFullDetailsComponent } from './components/full-details/evac-al
 import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
 import { EvacOtherInfoComponent } from './components/full-details/evac-other-info/evac-other-info.component';
 import { FullDetailsComponent } from './components/full-details/full-details.component';
+import { IdentifyPanel } from './components/identify-panel/identify-panel.component';
 import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
 import { AreaRestrictionLegendComponent } from './components/legend-panels/area-restriction-layers/area-restriction-legend.component';
 import { BansLegendComponent } from './components/legend-panels/bans-layers/bans-legend.component';
@@ -219,6 +223,14 @@ import { IncidentMapsPanelMobileComponent } from './components/public-incident-p
 import { IncidentMapsPanel } from './components/public-incident-page/incident-maps-panel/incident-maps-panel.component';
 import { IncidentOverviewPanelMobileComponent } from './components/public-incident-page/incident-overview-panel-mobile/incident-overview-panel-mobile.component';
 import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
+import { IncidentResponsePanelComponent } from './components/public-incident-page/incident-response-panel/incident-response-panel.component';
+import { ContactUsCardComponent } from './components/public-incident-page/incident-tabs/cards/contact-us-card/contact-us-card.component';
+import { ResourcesAssignedCardComponent } from './components/public-incident-page/incident-tabs/cards/resources-assigned-card/resources-assigned-card.component';
+import { AssignedResourceItemComponent } from './components/public-incident-page/incident-tabs/cards/response-type-card/assigned-resource-item/assigned-resource-item.component';
+import { ResponseTypeCardComponent } from './components/public-incident-page/incident-tabs/cards/response-type-card/response-type-card.component';
+import { ResponseUpdateCardComponent } from './components/public-incident-page/incident-tabs/cards/response-update-card/response-update-card.component';
+import { TextCardComponent } from './components/public-incident-page/incident-tabs/cards/text-card/text-card.component';
+import { ContactUsBannerComponent } from './components/public-incident-page/incident-tabs/contact-us-banner/contact-us-banner.component';
 import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
 import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
@@ -289,7 +301,6 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { IdentifyPanel } from './components/identify-panel/identify-panel.component';
 import { AreaRestrictionPreviewComponent } from './components/preview-panels/area-restriction-preview/area-restriction-preview.component';
 import { FireBanPreviewComponent } from './components/preview-panels/fire-ban-preview/fire-ban-preview.component';
 import { DangerRatingPreviewComponent } from './components/preview-panels/danger-rating-preview/danger-rating-preview.component';
@@ -500,6 +511,16 @@ export const DATE_FORMATS = {
     FireBanPreviewComponent,
     DangerRatingPreviewComponent,
     ProtectedLandPreviewComponent,
+    ResponseUpdateCardComponent,
+    ContactUsCardComponent,
+    ResponseTypeCardComponent,
+    TextCardComponent,
+    AssignedResourceItemComponent,
+    ResourcesAssignedCardComponent,
+    IncidentResponsePanelComponent,
+    DownloadItemComponent,
+    DownloadItemsContainerComponent,
+    ContactUsBannerComponent,
   ],
   imports: [
     MatSortModule,
