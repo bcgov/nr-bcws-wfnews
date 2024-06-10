@@ -54,7 +54,6 @@ export class PublicEventPageComponent {
       }
 
       this.populateIncident(this.eventNumber);
-      this.isAssociatedWildfireBookmarked = this.onWatchlist(this.incident);
     });
   }
 
@@ -148,6 +147,7 @@ export class PublicEventPageComponent {
               response?.stageOfControlCode,
             );
             this.incident = simpleIncident;
+            this.isAssociatedWildfireBookmarked = this.onWatchlist(this.incident);
             this.cdr.detectChanges();
           }
         });
@@ -174,6 +174,15 @@ export class PublicEventPageComponent {
     }
   }
 
+  removeFromWatchlist(incident) {
+    if (this.onWatchlist(incident)) {
+      this.watchlistService.removeFromWatchlist(
+        incident.fireYear,
+        incident.incidentNumberLabel,
+      );
+    }
+  }
+
   navToIncident(incident: SimpleIncident) {
     this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
       queryParams: {
@@ -188,8 +197,12 @@ export class PublicEventPageComponent {
   }
 
   handleBookmarkClicked = ($event) => {
-    this.addToWatchlist(this.incident);
-    this.isAssociatedWildfireBookmarked = true;
+    this.isAssociatedWildfireBookmarked = $event;
+    if ($event) {
+      this.addToWatchlist(this.incident);
+    } else {
+      this.removeFromWatchlist(this.incident);
+    }
   };
 
   handleViewDetailsClicked = () => {
