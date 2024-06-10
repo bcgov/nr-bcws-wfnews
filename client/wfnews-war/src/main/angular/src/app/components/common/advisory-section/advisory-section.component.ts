@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { IconButtonArgs } from '../icon-button/icon-button.component';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'advisory-section',
   templateUrl: './advisory-section.component.html',
   styleUrls: ['./advisory-section.component.scss']

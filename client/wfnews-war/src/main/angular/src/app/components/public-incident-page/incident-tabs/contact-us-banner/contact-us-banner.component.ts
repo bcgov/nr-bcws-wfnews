@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { defaultSlimIconButtonStyle } from '../../../common/icon-button/icon-button.component';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'contact-us-banner',
   templateUrl: './contact-us-banner.component.html',
   styleUrls: ['./contact-us-banner.component.scss']

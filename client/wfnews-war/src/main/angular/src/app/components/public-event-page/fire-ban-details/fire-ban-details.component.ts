@@ -5,7 +5,6 @@ import { RelatedTopicsLink } from '@app/components/full-details/cards/related-to
 import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'fire-ban-details',
   templateUrl: './fire-ban-details.component.html',
   styleUrls: ['./fire-ban-details.component.scss']
