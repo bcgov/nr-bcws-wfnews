@@ -1,0 +1,8 @@
+<content-card-container class="card">
+  <div class="header">
+    <span class="title">Response Update</span>
+    <span *ngIf="updateDate" class="date"><img src="assets/images/svg-icons/edit.svg" alt="pencil">  Updated on {{updateDate | date: 'mediumDate'}}</span>
+  </div>
+  <div #responseUpdateContent class="content" [ngClass]="{'columns': useColumns}"><ng-content></ng-content></div>
+</content-card-container>
+

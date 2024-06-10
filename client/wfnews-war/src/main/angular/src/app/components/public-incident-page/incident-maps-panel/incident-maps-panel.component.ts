@@ -1,28 +1,23 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
-  Input,
-  OnInit,
-  ChangeDetectorRef,
-} from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {
   HttpClient,
   HttpEventType,
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import { PublishedIncidentService } from '../../../services/published-incident-service';
-import { AppConfigService } from '@wf1/core-ui';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { DownloadItem } from '@app/components/common/download-item/download-item.component';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { Directory, Filesystem } from '@capacitor/filesystem';
-
-export class DownloadableMap {
-  name: string;
-  link: string;
-  date: string;
-}
+import { AppConfigService } from '@wf1/core-ui';
+import { PublishedIncidentService } from '../../../services/published-incident-service';
 
 @Component({
   selector: 'incident-maps-panel',
@@ -34,7 +29,7 @@ export class IncidentMapsPanel implements OnInit {
   @Input() public incident;
   @Input() public showMapsWarning;
 
-  maps: DownloadableMap[];
+  maps: DownloadItem[];
   isPreview: boolean;
 
   constructor(
@@ -51,8 +46,8 @@ export class IncidentMapsPanel implements OnInit {
     const self = this;
     this.loadMaps().then((docs) => {
       self.maps = docs.map((doc) => ({
-        name: doc.attachmentTitle,
-        link: `${this.appConfigService.getConfig().rest['wfnews']
+        fileName: doc.attachmentTitle,
+        linkUrl: `${this.appConfigService.getConfig().rest['wfnews']
           }/publicPublishedIncidentAttachment/${self.incident.incidentNumberLabel
           }/attachments/${doc.attachmentGuid}/bytes`,
         date: new Date(doc.createdTimestamp).toDateString(),
@@ -102,8 +97,12 @@ export class IncidentMapsPanel implements OnInit {
       });
   }
 
+  handleMapDownload(map: DownloadItem) {
+    this.generateMapRequest(map.linkUrl, map.fileName);
+  }
+
   downloadMap(mapLink, fileName) {
-    const request = this.generateMapRequest(mapLink, fileName);
+    this.generateMapRequest(mapLink, fileName);
   }
 
   async generateMapRequest(mapLink, fileName) {
