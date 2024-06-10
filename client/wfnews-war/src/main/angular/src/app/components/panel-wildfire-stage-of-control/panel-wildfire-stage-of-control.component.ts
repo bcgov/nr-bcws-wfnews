@@ -560,6 +560,7 @@ message = err.message;
         .getElementsByClassName('identify-panel')
         .item(0) as HTMLElement;
       panel.appendChild(compRef.location.nativeElement);
+      console.log('identify')
       self.cdr.detectChanges();
       (
         document.getElementsByClassName('identify-panel').item(0) as HTMLElement
@@ -568,6 +569,7 @@ message = err.message;
         const identifyPanel = document
           .getElementsByClassName('smk-panel')
           .item(0) as HTMLElement;
+        console.log('smk')
         if (identifyPanel) {
           identifyPanel.remove();
         }
