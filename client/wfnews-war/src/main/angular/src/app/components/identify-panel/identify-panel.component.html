@@ -86,7 +86,7 @@
             <div *ngIf="filteredDangerRatings && filteredDangerRatings.length">
                 <div class="criteria-title">Fire Danger Rating</div>
                 <div *ngFor="let danger of filteredDangerRatings" class="widget-card">
-                    <div class="widget-row">
+                    <div class="widget-row" (click)="enterPreview(danger)">
                         <div>
                             <div *ngIf = "danger.properties.DANGER_RATING_DESC === 'Extreme'" class="left-content">
                                 <img class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-extreme.svg" alt="Fire Danger">
@@ -163,7 +163,7 @@
             <div *ngIf="filteredProtectedLandsAccessRestrictions && filteredProtectedLandsAccessRestrictions.length">
                 <div class="criteria-title">Protected Lands Access Restrictions</div>
                 <div *ngFor="let protectedLandsAccessRestriction of filteredProtectedLandsAccessRestrictions" class="widget-card">
-                    <div class="widget-row">
+                    <div class="widget-row" (click)="enterPreview(protectedLandsAccessRestriction)">
                         <div class="left-content">
                             {{protectedLandsAccessRestriction.title}}
                         </div>
@@ -252,5 +252,7 @@
         <ng-template #weatherPanelContainer></ng-template>
         <ng-template #areaRestrictionPanelContainer></ng-template>
         <ng-template #fireBanPanelContainer></ng-template>
+        <ng-template #dangerRatingPanelContainer></ng-template>
+        <ng-template #protectedLandPanelContainer></ng-template>
     </div>
 </div>

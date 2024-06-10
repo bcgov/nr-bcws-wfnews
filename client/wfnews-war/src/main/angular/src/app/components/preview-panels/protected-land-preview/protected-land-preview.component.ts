@@ -1,17 +1,11 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { ResourcesRoutes } from '@app/utils';
 
 @Component({
-  selector: 'wfnews-area-restriction-preview',
-  templateUrl: './area-restriction-preview.component.html',
-  styleUrls: ['./area-restriction-preview.component.scss']
+  selector: 'wfnews-protected-land-preview',
+  templateUrl: './protected-land-preview.component.html',
+  styleUrls: ['./protected-land-preview.component.scss']
 })
-export class AreaRestrictionPreviewComponent {
-
-  constructor(
-    private router: Router
-  ) {}
+export class ProtectedLandPreviewComponent {
   public data;
   setContent(data) {
     this.data = data.properties;
@@ -36,7 +30,7 @@ export class AreaRestrictionPreviewComponent {
       document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
     ).style.display = 'none';
   }
-  
+
   formatDate(timestamp: string | number): string {
     if (timestamp) {
       const date = new Date((typeof timestamp === 'string' ? timestamp.slice(0, 10) : timestamp));
@@ -50,22 +44,5 @@ export class AreaRestrictionPreviewComponent {
     } else return '';
   }
 
-  enterFullDetail(){
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
-        queryParams: {
-          eventType: 'area-restriction',
-          eventNumber: this.data.PROT_RA_SYSID,
-          eventName: this.data.NAME,
-          source: [ResourcesRoutes.ACTIVEWILDFIREMAP]
-        },
-      }),
-    );
-    window.open(url, '_blank');
-  }
-
-  zoomIn(){
-
-  }
-
+  
 }

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ResourcesRoutes } from '@app/utils';
 
 @Component({
   selector: 'wfnews-fire-ban-preview',
@@ -6,6 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./fire-ban-preview.component.scss']
 })
 export class FireBanPreviewComponent {
+  
+  constructor(
+    private router: Router
+  ) {}
   public data;
   setContent(data) {
     this.data = data.properties;
@@ -45,7 +51,17 @@ export class FireBanPreviewComponent {
   }
 
   enterFullDetail(){
-
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+        queryParams: {
+          eventType: 'ban',
+          eventNumber: this.data.PROT_BAP_SYSID,
+          eventName: this.data.ACCESS_PROHIBITION_DESCRIPTION,
+          source: [ResourcesRoutes.ACTIVEWILDFIREMAP]
+        },
+      }),
+    );
+    window.open(url, '_blank');
   }
 
   zoomIn(){

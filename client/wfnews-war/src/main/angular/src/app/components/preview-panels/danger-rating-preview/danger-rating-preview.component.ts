@@ -3,15 +3,16 @@ import { Router } from '@angular/router';
 import { ResourcesRoutes } from '@app/utils';
 
 @Component({
-  selector: 'wfnews-area-restriction-preview',
-  templateUrl: './area-restriction-preview.component.html',
-  styleUrls: ['./area-restriction-preview.component.scss']
+  selector: 'wfnews-danger-rating-preview',
+  templateUrl: './danger-rating-preview.component.html',
+  styleUrls: ['./danger-rating-preview.component.scss']
 })
-export class AreaRestrictionPreviewComponent {
+export class DangerRatingPreviewComponent {
 
   constructor(
     private router: Router
   ) {}
+
   public data;
   setContent(data) {
     this.data = data.properties;
@@ -54,9 +55,9 @@ export class AreaRestrictionPreviewComponent {
     const url = this.router.serializeUrl(
       this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
         queryParams: {
-          eventType: 'area-restriction',
-          eventNumber: this.data.PROT_RA_SYSID,
-          eventName: this.data.NAME,
+          eventType: 'danger-rating',
+          eventNumber: this.data.PROT_DR_SYSID,
+          eventName: this.data.DANGER_RATING_DESC,
           source: [ResourcesRoutes.ACTIVEWILDFIREMAP]
         },
       }),
@@ -65,7 +66,21 @@ export class AreaRestrictionPreviewComponent {
   }
 
   zoomIn(){
-
+    
   }
 
+  displayDangerRatingDes(danger) {
+    switch (danger) {
+      case 'Extreme':
+        return 'Extremely high risk of fire starting. Forest fuels are extremely dry and the fire risk is very serious. Fires can start easily, spread rapidly, and challenge fire suppression efforts. Forest activities may be restricted.';
+      case 'High':
+        return 'Serious risk of fire starting. Forest fuels are very dry and extreme caution must be used.';
+      case 'Moderate':
+        return 'Moderate risk of fire starting. Forest fuels are dry and caution should be exercised in forested areas.';
+      case 'Low':
+        return 'Low risk of fire starting. Fires are unlikely to involve deeper fuel layers or larger fuels. Fire is still possible, so be prepared for conditions to change.';
+      case 'Very Low':
+        return 'Very low risk of fire starting.';
+    }
+  }
 }
