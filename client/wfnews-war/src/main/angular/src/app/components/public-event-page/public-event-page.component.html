@@ -6,12 +6,14 @@
     <div class="event-details" [ngSwitch]="eventType">
         <evac-alert-details *ngSwitchCase="'Alert'"
             [incident]="incident"
+            [evacuation]="evac"
             [isBookmarked]="isAssociatedWildfireBookmarked"
             (bookmarkClicked)="handleBookmarkClicked($event)"
             (viewDetailsClicked)="handleViewDetailsClicked()"
         ></evac-alert-details>
         <evac-order-details *ngSwitchCase="'Order'"
             [incident]="incident"
+            [evacuation]="evac"
             [isBookmarked]="isAssociatedWildfireBookmarked"
             (bookmarkClicked)="handleBookmarkClicked($event)"
             (viewDetailsClicked)="handleViewDetailsClicked()"
