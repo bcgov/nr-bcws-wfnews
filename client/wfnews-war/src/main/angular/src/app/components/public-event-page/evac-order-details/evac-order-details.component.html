@@ -1,6 +1,5 @@
 <div class="evac-order-details">
-  <advisory-section 
-    title="Evacuation Information"
+  <advisory-section title="Evacuation Information"
     message="Go to Emergency Info BC for up-to-date evaucation information."
     [componentStyle]="advisorySectionComponentStyle" [buttonArgs]="advisorySectionButtonArgs">
   </advisory-section>
@@ -13,8 +12,10 @@
       <returning-home-card></returning-home-card>
     </ng-container>
     <ng-container column-2>
-      <connect-with-local-authorities-card></connect-with-local-authorities-card>
-      <associated-wildfire-card *ngIf="incident" [incident]="incident" [isBookmarked]="isBookmarked" (bookmarkClicked)="handleBookmarkClicked($event)"
+      <connect-with-local-authorities-card *ngIf="evacuation?.attributes?.ISSUING_AGENCY"
+        [localAuthority]="evacuation?.attributes?.ISSUING_AGENCY"></connect-with-local-authorities-card>
+      <associated-wildfire-card *ngIf="incident" [incident]="incident" [isBookmarked]="isBookmarked"
+        (bookmarkClicked)="handleBookmarkClicked($event)"
         (viewDetailsClicked)="handleViewDetailsClicked()"></associated-wildfire-card>
       <other-sources-of-information-card></other-sources-of-information-card>
       <related-topics-card></related-topics-card>

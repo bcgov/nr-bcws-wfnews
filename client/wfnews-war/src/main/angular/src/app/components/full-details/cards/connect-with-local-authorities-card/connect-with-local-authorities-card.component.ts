@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { defaultSlimIconButtonStyle } from '@app/components/common/icon-button/icon-button.component';
 
 @Component({
@@ -8,6 +8,8 @@ import { defaultSlimIconButtonStyle } from '@app/components/common/icon-button/i
   styleUrls: ['./connect-with-local-authorities-card.component.scss']
 })
 export class ConnectWithLocalAuthoritiesCardComponent {
+
+  @Input() localAuthority: string;
 
   defaultSlimIconButtonStyle = defaultSlimIconButtonStyle;
   
