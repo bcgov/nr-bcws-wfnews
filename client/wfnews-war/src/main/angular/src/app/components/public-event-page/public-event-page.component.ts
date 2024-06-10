@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
 import { PublishedIncidentService, SimpleIncident } from '@app/services/published-incident-service';
 import { WatchlistService } from '@app/services/watchlist-service';
-import { convertToDateYear, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -26,12 +26,13 @@ export class PublicEventPageComponent {
 
   constructor(
     private agolService: AGOLService,
-    private router: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private watchlistService: WatchlistService,
     private publishedIncidentService: PublishedIncidentService,
     private cdr: ChangeDetectorRef,
+    private router: Router,
   ) {
-    this.router.queryParams.subscribe((params: ParamMap) => {
+    this.activatedRoute.queryParams.subscribe((params: ParamMap) => {
       this.eventType = params['eventType'];
       if (params && params['eventNumber'] && 
           (params['eventType'] === 'Order' || params['eventType'] === 'Alert')) {
@@ -173,18 +174,18 @@ export class PublicEventPageComponent {
     }
   }
 
-  // navToIncident(incident: SimpleIncident) {
-  //   this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
-  //     queryParams: {
-  //       fireYear: incident.fireYear,
-  //       incidentNumber: incident.incidentNumberLabel,
-  //       source: [ResourcesRoutes.FULL_DETAILS],
-  //       sourceId: this.id,
-  //       sourceType: 'evac-order',
-  //       name: this.name
-  //     },
-  //   });
-  // }
+  navToIncident(incident: SimpleIncident) {
+    this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
+      queryParams: {
+        fireYear: incident.fireYear,
+        incidentNumber: incident.incidentNumberLabel,
+        source: [ResourcesRoutes.FULL_DETAILS],
+        sourceId: this.incident.incidentNumber,
+        sourceType: 'evac-order',
+        name: this.incident.incidentName,
+      },
+    });
+  }
 
   handleBookmarkClicked = ($event) => {
     this.addToWatchlist(this.incident);
@@ -192,6 +193,6 @@ export class PublicEventPageComponent {
   };
 
   handleViewDetailsClicked = () => {
-    //this.navToIncident(this.incident);
+    this.navToIncident(this.incident);
   };
 }
