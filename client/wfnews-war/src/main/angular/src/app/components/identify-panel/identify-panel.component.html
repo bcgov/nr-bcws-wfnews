@@ -1,5 +1,5 @@
 <div>
-    <div class="identify-panel" *ngIf="showPanel && currentIncidentRefs && currentIncidentRefs.length >= 1">
+    <div class="identify-panel" *ngIf="currentIncidentRefs && currentIncidentRefs.length >= 1">
         <div class="panel-container" >
             <div *ngIf="currentIncidentRefs && currentIncidentRefs.length == 1" class="identify-panel-title">
                 {{currentIncidentRefs.length}} Result <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>

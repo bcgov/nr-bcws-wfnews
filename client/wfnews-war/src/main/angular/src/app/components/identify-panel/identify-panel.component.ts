@@ -8,7 +8,7 @@ import { DraggablePanelComponent } from '../draggable-panel/draggable-panel.comp
 })
 export class IdentifyPanel extends DraggablePanelComponent {
 
-  parseAreaRestriction(text: string){
+  parseAreaRestriction(text: string) {
     text = text.replace("Area Restriction", "Restricted Area")
     return decodeURIComponent(escape(text));
   }
