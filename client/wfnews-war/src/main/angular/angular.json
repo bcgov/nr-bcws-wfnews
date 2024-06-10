@@ -122,16 +122,6 @@
             },
             "development": {
               "buildOptimizer": false,
-              "optimization": {
-                "scripts": true,
-                "styles": {
-                  "minify": true,
-                  "inlineCritical": true
-                },
-                "fonts": {
-                  "inline": true
-                }
-              },
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,

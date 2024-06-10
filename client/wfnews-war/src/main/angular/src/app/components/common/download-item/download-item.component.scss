@@ -1,0 +1,51 @@
+:host {
+  display: block;
+}
+
+.download-item {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  align-self: stretch;
+  height: 90px;
+  cursor: pointer;
+  
+  .icon {
+    background-color: #000;
+    min-width: 32px;
+    width: 32px;
+    height: 70px;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+  }
+
+  .labels {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .file-name {
+      color: var(--Black-1A, #1A1A1A);
+
+      /* 18 Reg */
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+      sans-serif;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 29px; /* 161.111% */
+    }
+
+    .date {
+      color: var(--Grey-5B, #5B5B5B);
+
+      /* 16 Reg */
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+      sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px; /* 150% */
+    }
+  }
+}
