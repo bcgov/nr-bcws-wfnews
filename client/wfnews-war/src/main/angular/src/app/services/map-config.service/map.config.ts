@@ -50,7 +50,7 @@ export const mapConfig = (
       enabled: true,
       showTitle: false,
       showWidget: false,
-      showPanel: true,
+      showPanel: false,
       radius: 20,
       command: {
         attributeMode: false,

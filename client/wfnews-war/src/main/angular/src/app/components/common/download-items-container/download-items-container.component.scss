@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.download-items {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  color: var(--Grey-5B, #5B5B5B);
+
+  /* Body 1 */
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+      sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+
+  .header{
+    color: var(--Black-24, #242424);
+
+    /* 22 SB */
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+      sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 33px; /* 150% */
+  }
+
+  .content {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 56px;
+    row-gap: 40px;
+  }
+
+}

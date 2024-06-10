@@ -1,23 +1,6 @@
-<div class="panel">
-    <div class="header-row">
-      <h4>Wildfire Maps
-        <div *ngIf="showMapsWarning" class="preview-warning">Warning: Uploaded Maps cannot be previewed</div>
-      </h4>
-    </div>
-    <div class="content-panel">
-        <div class="content-panel-stack" *ngIf="maps && maps.length; else showDisclaimer">
-            <div *ngFor="let map of maps">
-                <div style="display: flex;">
-                    <div class="file-pdf-icon" (click)="downloadMap(map.link, map.name)"></div>
-                    <div>
-                        <div class="document-title">{{map.name}}</div>
-                        <div class="document-date">{{map.date}}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <ng-template #showDisclaimer>
-            <div *ngIf="!isPreview">There are currently no maps associated with this incident.</div>
-        </ng-template>
-    </div>
+<div class="incident-maps-panel">
+    <download-items-container headerText="Map Downloads" [files]="maps" iconPath="/assets/images/svg-icons/pdf-file.svg"
+        emptyStateText="There are currently no maps associated with this incident." [showWarning]="showMapsWarning"
+        warningText="Warning: Uploaded maps cannot be previewed." (downloadClicked)="handleMapDownload($event)"></download-items-container>
+    <contact-us-banner [incident]="incident"></contact-us-banner>
 </div>

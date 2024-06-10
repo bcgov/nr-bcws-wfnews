@@ -19,4 +19,7 @@ export default meta;
 type Story = StoryObj<ConnectWithLocalAuthoritiesCardComponent>;
 
 export const example: Story = {
+  args: {
+    localAuthority: 'Coastal Regional District'
+  }
 };

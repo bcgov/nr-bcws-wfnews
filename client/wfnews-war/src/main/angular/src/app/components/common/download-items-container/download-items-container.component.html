@@ -1,0 +1,14 @@
+<div class="download-items">
+  <div class="header">
+    {{ headerText}}
+  </div>
+
+  <div *ngIf="showWarning">{{ warningText }}</div>
+  <div *ngIf="!files || files.length === 0">{{ emptyStateText }}</div>
+
+  <div class="content">
+    <download-item *ngFor="let file of files" [fileName]="file.fileName" [date]="file.date" [linkUrl]="file.linkUrl"
+      [iconPath]="iconPath" (downloadClicked)="forwardDownloadClick($event)"></download-item>
+  </div>
+
+</div>

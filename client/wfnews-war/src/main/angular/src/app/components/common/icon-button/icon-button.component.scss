@@ -15,7 +15,8 @@
   border: 1px solid #dedede;
 
   &.slim {
-    padding: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 
   .label {
@@ -37,11 +38,8 @@
     width: 24px;
     height: 24px;
     align-self: center;
-
-    &.slim {
-      width: 20px;
-      height: 20px;
-      align-self: center;
-    }
+    mask-size: contain;
+    mask-position: center;
+    mask-repeat: no-repeat;
   }
 }
