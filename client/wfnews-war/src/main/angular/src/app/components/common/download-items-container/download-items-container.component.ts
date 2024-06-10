@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { DownloadItem } from '../download-item/download-item.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -13,10 +14,9 @@ export class DownloadItemsContainerComponent {
   @Input() files: DownloadItem[];
   @Input() iconPath: string;
   @Input() showWarning: boolean;
-}
+  @Output() downloadClicked = new EventEmitter<DownloadItem>();
 
-export interface DownloadItem {
-  fileName: string;
-  date: string;
-  linkUrl: string;
+  forwardDownloadClick = ($event) => {
+    this.downloadClicked.emit($event);
+  };
 }

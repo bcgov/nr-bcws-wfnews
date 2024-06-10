@@ -8,7 +8,7 @@
 
   <div class="content">
     <download-item *ngFor="let file of files" [fileName]="file.fileName" [date]="file.date" [linkUrl]="file.linkUrl"
-      [iconPath]="iconPath"></download-item>
+      [iconPath]="iconPath" (downloadClicked)="forwardDownloadClick($event)"></download-item>
   </div>
 
 </div>

@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { DownloadItem } from '@app/components/common/download-items-container/download-items-container.component';
+import { DownloadItem } from '@app/components/common/download-item/download-item.component';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { AppConfigService } from '@wf1/core-ui';
@@ -97,8 +97,12 @@ export class IncidentMapsPanel implements OnInit {
       });
   }
 
+  handleMapDownload(map: DownloadItem) {
+    this.generateMapRequest(map.linkUrl, map.fileName);
+  }
+
   downloadMap(mapLink, fileName) {
-    const request = this.generateMapRequest(mapLink, fileName);
+    this.generateMapRequest(mapLink, fileName);
   }
 
   async generateMapRequest(mapLink, fileName) {

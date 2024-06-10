@@ -12,5 +12,19 @@ export class DownloadItemComponent {
   @Input() fileName: string;
   @Input() date: string;
   @Input() linkUrl: string;
-  @Output() downloadClicked = new EventEmitter<void>(); 
+  @Output() downloadClicked = new EventEmitter<DownloadItem>(); 
+
+  clickHandler = () => {
+    this.downloadClicked.emit({
+      fileName: this.fileName, 
+      date: this.date,
+      linkUrl: this.linkUrl
+    });
+  };
 }
+
+export interface DownloadItem {
+  fileName: string;
+  date: string;
+  linkUrl: string;
+};
