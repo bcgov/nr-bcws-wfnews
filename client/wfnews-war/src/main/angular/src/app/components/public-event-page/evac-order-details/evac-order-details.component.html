@@ -15,8 +15,8 @@
       <connect-with-local-authorities-card *ngIf="evacuation?.attributes?.ISSUING_AGENCY"
         [localAuthority]="evacuation?.attributes?.ISSUING_AGENCY"></connect-with-local-authorities-card>
       <associated-wildfire-card *ngIf="incident" [incident]="incident" [isBookmarked]="isBookmarked"
-        (bookmarkClicked)="handleBookmarkClicked($event)" (keypress)="handleViewDetailsClicked()"
-        (click)="handleViewDetailsClicked()"></associated-wildfire-card>
+        (bookmarkClicked)="handleBookmarkClicked($event)"
+        (viewDetailsClicked)="handleViewDetailsClicked()"></associated-wildfire-card>
       <other-sources-of-information-card></other-sources-of-information-card>
       <related-topics-card></related-topics-card>
     </ng-container>
