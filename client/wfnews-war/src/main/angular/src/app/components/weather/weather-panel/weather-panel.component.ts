@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'weather-panel',
@@ -13,6 +13,10 @@ export class WeatherPanelComponent implements OnDestroy {
   public precipHumidityData;
   public latitude;
   public longitude;
+
+  constructor(
+    protected cdr: ChangeDetectorRef,
+  ) {}
 
   isDetailView = false;
 
@@ -87,6 +91,7 @@ export class WeatherPanelComponent implements OnDestroy {
     // Workaround to force update
     this.tempWindData = [...tempWindDataHolder];
     this.precipHumidityData = [...precipHumidityDataHolder];
+    this.cdr.detectChanges()
   }
 
   convertName(name: string) {
@@ -129,22 +134,29 @@ export class WeatherPanelComponent implements OnDestroy {
     }
   }
 
-  closePanel(){
-    (
-      document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
-    ).style.display = 'none';
-    (
-      document.getElementsByClassName('smk-panel').item(0) as HTMLElement
-    ).style.display = 'none';
+  closePanel() {
+    this.isDetailView = false;
+  
+    const desktopPreview = document.getElementsByClassName('desktop-preview').item(0) as HTMLElement;
+    if (desktopPreview) {
+      desktopPreview.style.display = 'none';
+    }
+  
+    const identifyPanelWrapper = document.getElementsByClassName('identify-panel-wrapper').item(0) as HTMLElement;
+    if (identifyPanelWrapper) {
+      identifyPanelWrapper.style.display = 'block';
+    }
+  
+    this.cdr.detectChanges();
   }
-
   goBack(){
     if (this.isDetailView){
       this.isDetailView = !this.isDetailView
     }
     else{
-      const goBackButton = document.querySelector('.smk-panel-go-back');
-      (goBackButton as HTMLElement).click();
+      (
+        document.getElementsByClassName('identify-panel-wrapper').item(0) as HTMLElement
+      ).style.display = 'block';
       (
         document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
       ).style.display = 'none';

@@ -85,6 +85,9 @@
     width: 24px;
     height: 24px;
     margin-right: 12px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .circle-icon {

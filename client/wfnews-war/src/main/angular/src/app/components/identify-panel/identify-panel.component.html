@@ -1,4 +1,4 @@
-<div>
+<div class="identify-panel-wrapper">
     <div class="identify-panel" *ngIf="showPanel && currentIncidentRefs && currentIncidentRefs.length >= 1">
         <div class="panel-container" >
             <div *ngIf="currentIncidentRefs && currentIncidentRefs.length == 1" class="identify-panel-title">
@@ -56,7 +56,7 @@
             <div *ngIf="filteredAreaRestrictions && filteredAreaRestrictions.length">
                 <div class="criteria-title">Area Restrictions</div>
                 <div *ngFor="let areaRestriction of filteredAreaRestrictions" class="widget-card">
-                    <div class="widget-row">
+                    <div class="widget-row" (click)="enterPreview(areaRestriction)">
                         <div class="left-content">
                             <img class="incident-icon-title" src="/assets/images/svg-icons/area-restriction.svg" alt="Area Restrictions">
                         {{parseAreaRestriction(areaRestriction.properties.NAME)}}
@@ -71,7 +71,7 @@
             <div *ngIf="filteredBansAndProhibitions && filteredBansAndProhibitions.length">
                 <div class="criteria-title">Fire Bans and Prohibitions</div>
                 <div *ngFor="let ban of filteredBansAndProhibitions" class="widget-card">
-                    <div class="widget-row">
+                    <div class="widget-row" (click)="enterPreview(ban)">
                         <div class="left-content">
                             <img class="incident-icon-title" src="/assets/images/svg-icons/ban.svg" alt="Ban">
                         Fire Ban on {{ban.title}} Open Fires
@@ -237,7 +237,7 @@
             <div *ngIf="weatherStations?.length">
               <div class="criteria-title">Active Weather Stations</div>
               <div *ngFor="let station of weatherStations" class="widget-card">
-                  <div class="widget-row">
+                  <div class="widget-row" (click)="enterPreview(station)">
                       <div class="left-content">
                           <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_partly-cloudy.svg" alt="nearby weather station">
                           {{station.title}}
@@ -249,5 +249,8 @@
               </div>
           </div>
         </div>
+        <ng-template #weatherPanelContainer></ng-template>
+        <ng-template #areaRestrictionPanelContainer></ng-template>
+        <ng-template #fireBanPanelContainer></ng-template>
     </div>
 </div>

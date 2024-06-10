@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectorRef,
   Component,
+  ComponentFactoryResolver,
   Input,
   OnChanges,
   OnDestroy,
@@ -84,7 +85,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     private router: Router,
     private agolService: AGOLService,
     private commonUtilityService: CommonUtilityService,
-    private appConfigService: AppConfigService
+    private appConfigService: AppConfigService,
+    public componentFactoryResolver: ComponentFactoryResolver,
   ) {}
 
   ngOnDestroy(): void {

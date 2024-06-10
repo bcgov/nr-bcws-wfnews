@@ -96,3 +96,9 @@
       }
     }
   }
+
+  .widget-card{
+    &:hover {
+      cursor: pointer !important;
+    } 
+  }

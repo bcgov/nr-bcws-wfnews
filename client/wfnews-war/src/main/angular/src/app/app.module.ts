@@ -290,6 +290,8 @@ import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy'
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
 import { IdentifyPanel } from './components/identify-panel/identify-panel.component';
+import { AreaRestrictionPreviewComponent } from './components/preview-panels/area-restriction-preview/area-restriction-preview.component';
+import { FireBanPreviewComponent } from './components/preview-panels/fire-ban-preview/fire-ban-preview.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -492,6 +494,8 @@ export const DATE_FORMATS = {
     IndustrialActivitiesCardComponent,
     UpdateFrequencyCardComponent,
     FireDangerDetailsComponent,
+    AreaRestrictionPreviewComponent,
+    FireBanPreviewComponent,
   ],
   imports: [
     MatSortModule,
