@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
-@Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+@Component({  
   selector: 'when-you-leave-card',
   templateUrl: './when-you-leave-card.component.html',
   styleUrls: ['./when-you-leave-card.component.scss']

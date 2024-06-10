@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'icon-info-chip',
   templateUrl: './icon-info-chip.component.html',
   styleUrls: ['./icon-info-chip.component.scss'],

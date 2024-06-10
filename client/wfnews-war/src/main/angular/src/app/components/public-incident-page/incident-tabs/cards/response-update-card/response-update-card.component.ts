@@ -1,7 +1,6 @@
 import { AfterContentChecked, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'response-update-card',
   templateUrl: './response-update-card.component.html',
   styleUrls: ['./response-update-card.component.scss']

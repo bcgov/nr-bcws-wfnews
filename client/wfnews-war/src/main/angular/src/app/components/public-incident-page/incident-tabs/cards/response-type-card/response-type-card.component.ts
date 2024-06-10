@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'response-type-card',
   templateUrl: './response-type-card.component.html',
   styleUrls: ['./response-type-card.component.scss']

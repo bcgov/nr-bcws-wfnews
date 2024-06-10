@@ -4,7 +4,6 @@ import { IconButtonArgs } from '@app/components/common/icon-button/icon-button.c
 import { SimpleIncident } from '@app/services/published-incident-service';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'evac-alert-details',
   templateUrl: './evac-alert-details.component.html',
   styleUrls: ['./evac-alert-details.component.scss']

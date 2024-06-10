@@ -6,7 +6,6 @@ import { SimpleIncident } from '@app/services/published-incident-service';
 import { convertToDateYear, getStageOfControlLabel } from '@app/utils';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'associated-wildfire-card',
   templateUrl: './associated-wildfire-card.component.html',
   styleUrls: ['./associated-wildfire-card.component.scss']

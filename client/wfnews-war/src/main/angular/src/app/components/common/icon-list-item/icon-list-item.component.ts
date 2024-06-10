@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'icon-list-item',
   templateUrl: './icon-list-item.component.html',
   styleUrls: ['./icon-list-item.component.scss']

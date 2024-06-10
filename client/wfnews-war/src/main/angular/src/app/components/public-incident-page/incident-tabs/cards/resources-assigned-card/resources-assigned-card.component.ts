@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { defaultSlimIconButtonStyle } from '@app/components/common/icon-button/icon-button.component';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'resources-assigned-card',
   templateUrl: './resources-assigned-card.component.html',
   styleUrls: ['./resources-assigned-card.component.scss']
