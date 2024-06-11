@@ -13,7 +13,7 @@
             <div class="identify-card-item">
                 <span>{{data.ACCESS_STATUS}}</span>
             </div>
-            <div class="identify-card-item">
+            <div class="identify-card-item" *ngIf="data.ACCESS_STATUS_EFFECTIVE_DATE">
                 <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
                 <span>Effective on {{formatDate(data.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
             </div>

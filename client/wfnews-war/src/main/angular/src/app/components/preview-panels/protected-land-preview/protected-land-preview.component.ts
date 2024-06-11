@@ -1,6 +1,5 @@
-import { formatDate } from '@angular/common';
 import { Component } from '@angular/core';
-import { hidePanel, showPanel } from '@app/utils';
+import { formatDate, hidePanel, showPanel } from '@app/utils';
 
 @Component({
   selector: 'wfnews-protected-land-preview',
