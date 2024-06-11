@@ -19,6 +19,7 @@ import {
   setDisplayColor,
   convertToDateTime,
   snowPlowHelper,
+  formatDate,
 } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
@@ -71,6 +72,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   ];
   convertToDateYear = convertToDateYear;
   convertToDateTime = convertToDateTime;
+  formatDate = formatDate;
   removeIdentity = false;
 
   private previousZoom: number;
@@ -862,19 +864,6 @@ return 'Unknown';
         0,
       ) || 0;
     return `${precip.toFixed(1)}mm`;
-  }
-
-  formatDate(timestamp: string | number): string {
-    if (timestamp) {
-      const date = new Date((typeof timestamp === 'string' ? timestamp.slice(0, 10) : timestamp));
-      const options: Intl.DateTimeFormatOptions = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      };
-
-      return date.toLocaleDateString('en-US', options);
-    } else return '';
   }
 
   fixPolygonToMap(polygonData,response?) {

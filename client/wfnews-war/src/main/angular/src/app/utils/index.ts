@@ -760,4 +760,18 @@ return;
   });
 }
 
+export function formatDate(timestamp: string | number): string {
+  if (timestamp) {
+    const date = new Date((typeof timestamp === 'string' ? timestamp.slice(0, 10) : timestamp));
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+
+    return date.toLocaleDateString('en-US', options);
+  } else return '';
+}
+
+
 export const isAndroidViaNavigator = () => navigator.platform.includes('Linux') || navigator.platform.includes('Android');

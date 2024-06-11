@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,9 +8,11 @@ import { Component } from '@angular/core';
 })
 export class ProtectedLandPreviewComponent {
   public data;
+  formatDate = formatDate;
   setContent(data) {
     this.data = data.properties;
   }
+  
 
   closePanel() {  
     const desktopPreview = document.getElementsByClassName('desktop-preview').item(0) as HTMLElement;
@@ -30,19 +33,5 @@ export class ProtectedLandPreviewComponent {
       document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
     ).style.display = 'none';
   }
-
-  formatDate(timestamp: string | number): string {
-    if (timestamp) {
-      const date = new Date((typeof timestamp === 'string' ? timestamp.slice(0, 10) : timestamp));
-      const options: Intl.DateTimeFormatOptions = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      };
-
-      return date.toLocaleDateString('en-US', options);
-    } else return '';
-  }
-
   
 }

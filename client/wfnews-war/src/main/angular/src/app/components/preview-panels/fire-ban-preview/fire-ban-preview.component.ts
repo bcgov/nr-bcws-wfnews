@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ResourcesRoutes } from '@app/utils';
+import { ResourcesRoutes, formatDate } from '@app/utils';
 
 @Component({
   selector: 'wfnews-fire-ban-preview',
@@ -13,6 +13,7 @@ export class FireBanPreviewComponent {
     private router: Router
   ) {}
   public data;
+  formatDate = formatDate;
   setContent(data) {
     this.data = data.properties;
   }
@@ -35,19 +36,6 @@ export class FireBanPreviewComponent {
     (
       document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
     ).style.display = 'none';
-  }
-  
-  formatDate(timestamp: string | number): string {
-    if (timestamp) {
-      const date = new Date((typeof timestamp === 'string' ? timestamp.slice(0, 10) : timestamp));
-      const options: Intl.DateTimeFormatOptions = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      };
-
-      return date.toLocaleDateString('en-US', options);
-    } else return '';
   }
 
   enterFullDetail(){

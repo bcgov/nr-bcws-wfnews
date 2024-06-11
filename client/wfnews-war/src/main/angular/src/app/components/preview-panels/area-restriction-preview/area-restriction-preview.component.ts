@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ResourcesRoutes } from '@app/utils';
+import { ResourcesRoutes, formatDate } from '@app/utils';
 
 @Component({
   selector: 'wfnews-area-restriction-preview',
@@ -12,6 +12,7 @@ export class AreaRestrictionPreviewComponent {
   constructor(
     private router: Router
   ) {}
+  formatDate = formatDate;
   public data;
   setContent(data) {
     this.data = data.properties;
@@ -37,19 +38,6 @@ export class AreaRestrictionPreviewComponent {
     ).style.display = 'none';
   }
   
-  formatDate(timestamp: string | number): string {
-    if (timestamp) {
-      const date = new Date((typeof timestamp === 'string' ? timestamp.slice(0, 10) : timestamp));
-      const options: Intl.DateTimeFormatOptions = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      };
-
-      return date.toLocaleDateString('en-US', options);
-    } else return '';
-  }
-
   enterFullDetail(){
     const url = this.router.serializeUrl(
       this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
