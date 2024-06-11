@@ -171,5 +171,5 @@ jobs:
         name: Upload Build Artifact to GitHub
         with:
           name: wfnews-android.zip
-          path: "${{ env.ANGULAR_DIRECTORY }}/android/wfnews-android.zip"
+          path: "${{ env.ANGULAR_DIRECTORY }}/wfnews-android.zip"
           retention-days: 1
