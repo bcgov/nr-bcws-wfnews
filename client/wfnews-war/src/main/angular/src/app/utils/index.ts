@@ -773,5 +773,19 @@ export function formatDate(timestamp: string | number): string {
   } else return '';
 }
 
+export function hidePanel(panelClass: string) {
+  const panel = document.getElementsByClassName(panelClass).item(0) as HTMLElement;
+  if (panel) {
+    panel.style.display = 'none';
+  }
+}
+
+export function showPanel(panelClass: string) {
+  const panel = document.getElementsByClassName(panelClass).item(0) as HTMLElement;
+  if (panel) {
+    panel.style.display = 'block';
+  }
+}
+
 
 export const isAndroidViaNavigator = () => navigator.platform.includes('Linux') || navigator.platform.includes('Android');

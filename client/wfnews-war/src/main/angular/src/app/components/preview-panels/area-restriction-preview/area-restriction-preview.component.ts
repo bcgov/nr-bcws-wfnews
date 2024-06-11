@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ResourcesRoutes, formatDate } from '@app/utils';
+import { ResourcesRoutes, formatDate, hidePanel, showPanel } from '@app/utils';
 
 @Component({
   selector: 'wfnews-area-restriction-preview',
@@ -19,24 +19,15 @@ export class AreaRestrictionPreviewComponent {
   }
 
   closePanel() {  
-    const desktopPreview = document.getElementsByClassName('desktop-preview').item(0) as HTMLElement;
-    if (desktopPreview) {
-      desktopPreview.style.display = 'none';
-    }
-    const identifyPanelWrapper = document.getElementsByClassName('identify-panel-wrapper').item(0) as HTMLElement;
-    if (identifyPanelWrapper) {
-      identifyPanelWrapper.style.display = 'block';
-    }
-
+    hidePanel('identify-panel-wrapper')
+    showPanel('desktop-preview');
   }
+  
   goBack(){
-    (
-      document.getElementsByClassName('identify-panel-wrapper').item(0) as HTMLElement
-    ).style.display = 'block';
-    (
-      document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
-    ).style.display = 'none';
+    showPanel('identify-panel-wrapper')
+    hidePanel('desktop-preview');
   }
+
   
   enterFullDetail(){
     const url = this.router.serializeUrl(
