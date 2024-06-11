@@ -301,6 +301,10 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
+import { AreaRestrictionPreviewComponent } from './components/preview-panels/area-restriction-preview/area-restriction-preview.component';
+import { FireBanPreviewComponent } from './components/preview-panels/fire-ban-preview/fire-ban-preview.component';
+import { DangerRatingPreviewComponent } from './components/preview-panels/danger-rating-preview/danger-rating-preview.component';
+import { ProtectedLandPreviewComponent } from './components/preview-panels/protected-land-preview/protected-land-preview.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -503,6 +507,10 @@ export const DATE_FORMATS = {
     IndustrialActivitiesCardComponent,
     UpdateFrequencyCardComponent,
     FireDangerDetailsComponent,
+    AreaRestrictionPreviewComponent,
+    FireBanPreviewComponent,
+    DangerRatingPreviewComponent,
+    ProtectedLandPreviewComponent,
     ResponseUpdateCardComponent,
     ContactUsCardComponent,
     ResponseTypeCardComponent,
