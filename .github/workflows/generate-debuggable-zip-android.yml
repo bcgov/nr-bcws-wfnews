@@ -164,7 +164,7 @@ jobs:
         uses: montudor/action-zip@v1
 
       - name: Zip output
-        working-directory: ${{ env.ANGULAR_DIRECTORY }}/android
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: zip -qq -r wfnews-android.zip .
 
       - uses: actions/upload-artifact@v3
