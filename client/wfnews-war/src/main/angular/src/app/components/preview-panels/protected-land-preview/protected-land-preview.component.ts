@@ -16,8 +16,7 @@ export class ProtectedLandPreviewComponent {
   
 
   closePanel() {  
-    hidePanel('identify-panel-wrapper')
-    showPanel('desktop-preview');
+    hidePanel('desktop-preview');
   }
   goBack(){
     showPanel('identify-panel-wrapper')

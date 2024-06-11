@@ -5,7 +5,7 @@ import { AreaRestrictionPreviewComponent } from '@app/components/preview-panels/
 import { FireBanPreviewComponent } from '@app/components/preview-panels/fire-ban-preview/fire-ban-preview.component';
 import { DangerRatingPreviewComponent } from '@app/components/preview-panels/danger-rating-preview/danger-rating-preview.component';
 import { ProtectedLandPreviewComponent } from '@app/components/preview-panels/protected-land-preview/protected-land-preview.component';
-import { hidePanel } from '@app/utils';
+import { hidePanel, showPanel } from '@app/utils';
 
 @Component({
   selector: 'wfnews-identify-panel',
@@ -53,7 +53,7 @@ export class IdentifyPanel extends DraggablePanelComponent {
     }
 
     // Hide the identify-panel-wrapper
-    hidePanel('identify-panel-wrappe')
+    hidePanel('identify-panel-wrapper')
 
     this.cdr.markForCheck();
   }

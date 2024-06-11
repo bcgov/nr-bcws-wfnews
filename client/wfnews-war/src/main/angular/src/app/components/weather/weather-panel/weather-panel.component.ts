@@ -137,10 +137,7 @@ export class WeatherPanelComponent implements OnDestroy {
 
   closePanel() {
     this.isDetailView = false;
-  
-    hidePanel('identify-panel-wrapper')
-    showPanel('desktop-preview');
-  
+    hidePanel('desktop-preview');
     this.cdr.detectChanges();
   }
   goBack(){

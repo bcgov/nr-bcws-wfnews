@@ -19,8 +19,7 @@ export class FireBanPreviewComponent {
   }
 
   closePanel() {  
-    hidePanel('identify-panel-wrapper')
-    showPanel('desktop-preview');
+    hidePanel('desktop-preview');
   }
   
   goBack(){

@@ -18,9 +18,8 @@ export class AreaRestrictionPreviewComponent {
     this.data = data.properties;
   }
 
-  closePanel() {  
-    hidePanel('identify-panel-wrapper')
-    showPanel('desktop-preview');
+  closePanel() {
+    hidePanel('desktop-preview');
   }
   
   goBack(){
