@@ -600,6 +600,14 @@ return 'Unknown';
             window['turf'].point([long, lat]),
             this.defaultZoomLevel,
           );
+        } else if (layerId.includes('protected-lands-access-restrictions')) {
+          this.identifyItem;
+          if (this.identifyItem?.geometry?.coordinates.length > 0) {
+            const coordinates = this.commonUtilityService.extractPolygonData(this.identifyItem.geometry.coordinates);
+            if (coordinates.length) {
+              this.fixPolygonToMap(coordinates);
+            }
+          }
         }
       });
     }

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MapUtilityService } from '@app/components/preview-panels/map-share-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { formatDate, hidePanel, showPanel } from '@app/utils';
 
 @Component({
@@ -7,10 +9,17 @@ import { formatDate, hidePanel, showPanel } from '@app/utils';
   styleUrls: ['./protected-land-preview.component.scss']
 })
 export class ProtectedLandPreviewComponent {
+
+  constructor(
+    private commonUtilityService: CommonUtilityService,
+    private mapUtilityService: MapUtilityService
+  ) {}
   public data;
+  public geometry;
   formatDate = formatDate;
   setContent(data) {
     this.data = data.properties;
+    this.geometry = data.geometry
   }
   
 
@@ -20,6 +29,14 @@ export class ProtectedLandPreviewComponent {
   goBack(){
     showPanel('identify-panel-wrapper')
     hidePanel('desktop-preview');
+  }
+
+  zoomIn(){
+    const polygonData = this.commonUtilityService.extractPolygonData(this.geometry.coordinates);
+    if (polygonData?.length) {
+      this.mapUtilityService.fixPolygonToMap(polygonData, this.geometry.coordinates);
+
+    }   
   }
   
 }
