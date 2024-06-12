@@ -187,9 +187,10 @@ export class PublicEventPageComponent {
       queryParams: {
         fireYear: incident.fireYear,
         incidentNumber: incident.incidentNumberLabel,
-        source: [ResourcesRoutes.FULL_DETAILS],
+        source: ResourcesRoutes.FULL_DETAILS,
         sourceId: this.incident.incidentNumber,
-        sourceType: 'evac-order',
+        sourceType: this.eventType ,
+        eventNumber: this.eventNumber,
         name: this.incident.incidentName,
       },
     });
