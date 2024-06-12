@@ -328,21 +328,38 @@ return 'A wildfire of undetermined cause, including a wildfire that is currently
   }
 
   navigateToEvac(event) {
-    const url = this.route.serializeUrl(
-      this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
-        queryParams: {
-          eventType: event.status,
-          eventNumber: event.eventNumber,
-          eventName: event.eventName
-        },
-      }),
-    );
-    window.open(url, '_blank');
+    if (event?.externalUri) {
+      window.open(event.uri, '_blank');
+    }
+    else{
+      const url = this.route.serializeUrl(
+        this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+          queryParams: {
+            eventType: event.orderAlertStatus,
+            eventNumber: event.eventNumber,
+            eventName: event.eventName,
+            source: [ResourcesRoutes.PUBLIC_INCIDENT],
+            fireYear: this.incident.fireYear,
+            incidentNumber: this.incident.incidentNumberLabel
+          },
+        }),
+      );
+      window.open(url, '_blank');
+    }
   }
 
   navigateToAreaRestriction(event) {
     const url = this.route.serializeUrl(
-      this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT]),
+      this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+        queryParams: {
+          eventType: 'area-restriction',
+          eventNumber: event.protRsSysID,
+          eventName: event.name,
+          source: [ResourcesRoutes.PUBLIC_INCIDENT],
+          fireYear: this.incident.fireYear,
+          incidentNumber: this.incident.incidentNumberLabel
+        },
+      }),
     );
     window.open(url, '_blank');
   }
