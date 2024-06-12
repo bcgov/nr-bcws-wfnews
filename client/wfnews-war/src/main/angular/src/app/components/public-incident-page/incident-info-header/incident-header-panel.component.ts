@@ -479,7 +479,30 @@ export class IncidentHeaderPanel implements AfterViewInit {
             latitude: this.params['sourceLatitude'],
           },
         });
-      } else {
+      } else if (
+        this.params['source'] === 'full-details'
+      ) {
+        if (this.params['sourceType'] == 'Alert' || this.params['sourceType'] == 'Order'){
+          this.router.navigate([ResourcesRoutes.PUBLIC_EVENT], {
+            queryParams: {
+              eventType: this.params['sourceType'],
+              eventNumber: this.params['eventNumber'],
+              eventName: this.params['name'],
+              source: [ResourcesRoutes.WILDFIRESLIST]
+            },
+          });
+        }
+      } else if (
+        this.params['source'] === 'incidents'
+      ) {
+        this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
+          queryParams: {
+            fireYear: this.params['fireYear'],
+            incidentNumber: this.params['incidentNumber'],
+          },
+        });
+      }
+      else {
         this.router.navigate([this.params['source']]);
       }
     } else {
