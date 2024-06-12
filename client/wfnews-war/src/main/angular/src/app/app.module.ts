@@ -300,6 +300,9 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
+import { MediaGalleryItemComponent } from './components/common/media-gallery-item/media-gallery-item.component';
+import { MediaGalleryContainerComponent } from './components/common/media-gallery-container/media-gallery-container.component';
+import { WfnewsSelectComponent } from './components/common/wfnews-select/wfnews-select.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -510,6 +513,9 @@ export const DATE_FORMATS = {
     DownloadItemComponent,
     DownloadItemsContainerComponent,
     ContactUsBannerComponent,
+    MediaGalleryItemComponent,
+    MediaGalleryContainerComponent,
+    WfnewsSelectComponent,
   ],
   imports: [
     MatSortModule,
