@@ -33,7 +33,7 @@ export class ProtectedLandPreviewComponent {
 
   zoomIn(){
     const polygonData = this.commonUtilityService.extractPolygonData(this.geometry?.coordinates);
-    if (polygonData?.length) {
+    if (polygonData) {
       this.mapUtilityService.fixPolygonToMap(polygonData, this.geometry.coordinates);
 
     }   
