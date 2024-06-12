@@ -1,4 +1,4 @@
 <div class="incident-gallery-panel">
-  <media-gallery-container [items]="displayedMedia" (filterSelected)="applyFilter($event)"></media-gallery-container>
+  <media-gallery-container [items]="displayedMedia" [isLoadMoreVisible]="isLoadMoreVisible" (filterSelected)="handleFilterSelect($event)" (loadMoreClicked)="loadMore()"></media-gallery-container>
   <contact-us-banner [incident]="incident"></contact-us-banner>
 </div>

@@ -9,6 +9,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class WfnewsButtonComponent {
   @Input() label: string;
   @Input() componentStyle?: WfnewsButtonStyle;
+  @Input() isVisible?: boolean = true;
   @Output() buttonClicked = new EventEmitter<void>();
 
   clickHandler() {

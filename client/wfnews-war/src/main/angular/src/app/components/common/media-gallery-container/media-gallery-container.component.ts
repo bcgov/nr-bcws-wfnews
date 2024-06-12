@@ -13,6 +13,7 @@ import { MediaGalleryItem } from '../media-gallery-item/media-gallery-item.compo
 })
 export class MediaGalleryContainerComponent implements OnInit {
   @Input() items: MediaGalleryItem[] = [];
+  @Input() isLoadMoreVisible: boolean;
   @Output() filterSelected = new EventEmitter<string>();
   @Output() loadMoreClicked = new EventEmitter<void>();
 

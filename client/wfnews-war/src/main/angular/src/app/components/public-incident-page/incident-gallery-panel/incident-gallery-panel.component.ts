@@ -25,6 +25,11 @@ export class IncidentGalleryPanel implements OnInit {
   displayedMedia: MediaGalleryItem[];
   isPreview: boolean;
 
+  defaultItemNumber = 9;
+  defaultItemLoadMoreNumber = 3;
+  displayedItemNumber = this.defaultItemNumber;
+  isLoadMoreVisible = false;
+
   public constructor(
     private publishedIncidentService: PublishedIncidentService,
     private appConfigService: AppConfigService,
@@ -32,12 +37,34 @@ export class IncidentGalleryPanel implements OnInit {
     private router: ActivatedRoute,
   ) { }
 
-  get videos() {
-    return this.media.filter((item) => item.type === 'video');
+  getAll(displayedItemNumber: number) {
+    return this.media.sort(
+      (a, b) => new Date(b.uploadedDate).getDate() - new Date(a.uploadedDate).getDate()
+    ).slice(0, displayedItemNumber);
   }
 
-  get images() {
-    return this.media.filter((item) => item.type === 'image');
+  getAllCount() {
+    return this.media.length;
+  }
+
+  getVideos(displayedItemNumber: number) {
+    return this.media.filter((item) => item.type === 'video').sort(
+      (a, b) => new Date(b.uploadedDate).getDate() - new Date(a.uploadedDate).getDate()
+    ).slice(0, displayedItemNumber);
+  }
+
+  getVideosCount() {
+    return this.media.filter((item) => item.type === 'video').length;
+  }
+
+  getImages(displayedItemNumber: number) {
+    return this.media.filter((item) => item.type === 'image').sort(
+      (a, b) => new Date(b.uploadedDate).getDate() - new Date(a.uploadedDate).getDate()
+    ).slice(0, displayedItemNumber);
+  }
+
+  getImagesCount() {
+    return this.media.filter((item) => item.type === 'image').length;
   }
 
   async ngOnInit() {
@@ -45,12 +72,12 @@ export class IncidentGalleryPanel implements OnInit {
       this.media = [];
       await this.loadVideos();
       await this.loadImages();
-      this.currentMediaType = 'All';
-      this.displayedMedia = [...this.media];
+      this.currentMediaType = 'all';
+      this.applyFilter(this.currentMediaType, this.defaultItemNumber);
     } catch (error) {
       console.error('Error loading media', error);
     }
-    
+
     this.cdr.detectChanges();
 
     this.router.queryParams.subscribe((params: ParamMap) => {
@@ -60,18 +87,32 @@ export class IncidentGalleryPanel implements OnInit {
     });
   }
 
-  applyFilter(filter: string) {
+  handleFilterSelect(filter: string) {
+    this.displayedItemNumber = this.defaultItemNumber;
+    this.applyFilter(filter, this.defaultItemNumber);
+  }
+
+  applyFilter(filter: string, displayedItemNumber?: number) {
+    this.currentMediaType = filter;
     switch (filter) {
       case 'all':
-        this.displayedMedia = [...this.media];
+        this.displayedMedia = this.getAll(displayedItemNumber);
+        this.isLoadMoreVisible = this.displayedMedia.length < this.getAllCount();
         break;
       case 'images':
-        this.displayedMedia = this.images;
+        this.displayedMedia = this.getImages(displayedItemNumber);
+        this.isLoadMoreVisible = this.displayedMedia.length < this.getImagesCount();
         break;
       case 'videos':
-        this.displayedMedia = this.videos;
+        this.displayedMedia = this.getVideos(displayedItemNumber);
+        this.isLoadMoreVisible = this.displayedMedia.length < this.getVideosCount();
         break;
     }
+  }
+
+  loadMore() {
+    this.displayedItemNumber += this.defaultItemLoadMoreNumber;
+    this.applyFilter(this.currentMediaType, this.displayedItemNumber);
   }
 
   handleImageFallback(item: any, index: number) {
