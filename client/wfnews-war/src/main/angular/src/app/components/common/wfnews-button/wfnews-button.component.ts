@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wfnews-button',
   templateUrl: './wfnews-button.component.html',
   styleUrls: ['./wfnews-button.component.scss'],

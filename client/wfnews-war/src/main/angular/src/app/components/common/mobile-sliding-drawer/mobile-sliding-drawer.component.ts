@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'mobile-sliding-drawer',
   templateUrl: './mobile-sliding-drawer.component.html',
   styleUrls: ['./mobile-sliding-drawer.component.scss'],

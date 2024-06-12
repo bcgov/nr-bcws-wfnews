@@ -6,7 +6,6 @@ import { WatchlistService } from '@app/services/watchlist-service';
 import { ResourcesRoutes, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wfnews-public-event-page',
   templateUrl: './public-event-page.component.html',
   styleUrls: ['./public-event-page.component.scss']

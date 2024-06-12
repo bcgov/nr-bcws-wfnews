@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectorRef,
   Component,
+  ComponentFactoryResolver,
   Input,
   OnChanges,
   OnDestroy,
@@ -18,6 +19,8 @@ import {
   setDisplayColor,
   convertToDateTime,
   snowPlowHelper,
+  formatDate,
+  showPanel,
 } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
@@ -70,6 +73,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   ];
   convertToDateYear = convertToDateYear;
   convertToDateTime = convertToDateTime;
+  formatDate = formatDate;
   removeIdentity = false;
 
   private previousZoom: number;
@@ -84,7 +88,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     private router: Router,
     private agolService: AGOLService,
     private commonUtilityService: CommonUtilityService,
-    private appConfigService: AppConfigService
+    private appConfigService: AppConfigService,
+    public componentFactoryResolver: ComponentFactoryResolver,
   ) {}
 
   ngOnDestroy(): void {
@@ -159,6 +164,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     if (this.currentIncidentRefs.length === 1 && this.allowBackToIncidentsPanel) {
       // only show preview detial if it is through openPreviewPanel(). We will always the preview list page by clicking on map, even there is only single item.
       this.showPanel = true;
+      showPanel('identify-panel-wrapper')
       const viewer = getActiveMap().$viewer;
       for (const polygon of this.highlightPolygons) {
         viewer.map.removeLayer(polygon);
@@ -169,6 +175,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
 
       // single feature within clicked area
       this.showPanel = true;
+      showPanel('identify-panel-wrapper')
       this.identifyItem = this.currentIncidentRefs[0];
       let incidentNumber = null;
       let fireYear = null;
@@ -223,6 +230,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       // multiple features within clicked area
       this.identifyItem = null;
       this.showPanel = true;
+      showPanel('identify-panel-wrapper')
       this.filteredWildfires = this.currentIncidentRefs.filter((item) =>
         this.wildfireLayerIds.includes(item.layerId),
       );
@@ -272,6 +280,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       );
       if (this.weatherStations) {
         this.showPanel = true;
+        showPanel('identify-panel-wrapper')
       }
     }
   }
@@ -860,19 +869,6 @@ return 'Unknown';
         0,
       ) || 0;
     return `${precip.toFixed(1)}mm`;
-  }
-
-  formatDate(timestamp: string | number): string {
-    if (timestamp) {
-      const date = new Date((typeof timestamp === 'string' ? timestamp.slice(0, 10) : timestamp));
-      const options: Intl.DateTimeFormatOptions = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      };
-
-      return date.toLocaleDateString('en-US', options);
-    } else return '';
   }
 
   fixPolygonToMap(polygonData,response?) {

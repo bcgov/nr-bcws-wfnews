@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'circle-icon-button',
   templateUrl: './circle-icon-button.component.html',
   styleUrls: ['./circle-icon-button.component.scss'],

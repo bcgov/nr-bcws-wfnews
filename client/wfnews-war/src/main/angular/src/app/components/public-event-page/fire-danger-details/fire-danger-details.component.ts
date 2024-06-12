@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RelatedTopicsLink } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'fire-danger-details',
   templateUrl: './fire-danger-details.component.html',
   styleUrls: ['./fire-danger-details.component.scss']

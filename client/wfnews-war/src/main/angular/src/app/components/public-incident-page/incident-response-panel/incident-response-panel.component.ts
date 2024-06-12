@@ -3,7 +3,6 @@ import { DISCLAIMER_TEXT } from '@app/constants';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'incident-response-panel',
   templateUrl: './incident-response-panel.component.html',
   styleUrls: ['./incident-response-panel.component.scss']

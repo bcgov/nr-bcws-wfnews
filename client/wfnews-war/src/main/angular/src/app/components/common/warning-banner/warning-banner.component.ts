@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'warning-banner',
   templateUrl: './warning-banner.component.html',
   styleUrls: ['./warning-banner.component.scss'],
