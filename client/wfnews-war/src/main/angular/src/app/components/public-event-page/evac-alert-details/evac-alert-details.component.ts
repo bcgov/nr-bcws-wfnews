@@ -38,9 +38,6 @@ export class EvacAlertDetailsComponent {
       labelColor: '#FFFFFF',
       iconColor: '#FFFFFF',
       border: 'none'
-    },
-    clickHandler: () => {
-      window.open('https://www.emergencyinfobc.gov.bc.ca/', '_blank');
     }
   };
 
@@ -50,5 +47,9 @@ export class EvacAlertDetailsComponent {
 
   handleViewDetailsClicked = () => {
     this.viewDetailsClicked.emit();
+  };
+
+  handleAdvisoryClick = () => {
+    window.open('https://www.emergencyinfobc.gov.bc.ca/', '_blank');
   };
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -9,7 +9,11 @@ import { Component, Input } from '@angular/core';
 export class WfnewsButtonComponent {
   @Input() label: string;
   @Input() componentStyle?: WfnewsButtonStyle;
-  @Input() clickHandler: () => void;
+  @Output() buttonClicked = new EventEmitter<void>();
+
+  clickHandler() {
+    this.buttonClicked.emit();
+  }
 }
 
 export const defaultSlimButtonStyle: WfnewsButtonStyle = {
@@ -23,7 +27,6 @@ export interface WfnewsButtonArgs {
   iconPath: string;
   label: string;
   componentStyle?: WfnewsButtonStyle;
-  clickHandler: () => void;
 }
 
 export interface WfnewsButtonStyle {

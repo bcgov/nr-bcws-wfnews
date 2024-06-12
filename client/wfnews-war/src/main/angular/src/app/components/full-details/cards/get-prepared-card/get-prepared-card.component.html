@@ -21,7 +21,7 @@
       <div class="content-title">Read the Wildfire Preparedness Guide</div>
       <div class="content-list">
         <span class="content-text">This guide will help you prepare your household, protect your property and learn what to do if a wildfire is close to your community.</span>
-        <icon-button class="max-width-300" [componentStyle]="defaultSlimButtonStyle" iconPath="/assets/images/svg-icons/carbon_download.svg" label="Download PDF" [clickHandler]="directToDownloadPdf"></icon-button>
+        <icon-button class="max-width-300" [componentStyle]="defaultSlimButtonStyle" iconPath="/assets/images/svg-icons/carbon_download.svg" label="Download PDF" (buttonClicked)="directToDownloadPdf()"></icon-button>
       </div>
     </div>
 
@@ -29,7 +29,7 @@
       <div class="content-title">Prepare your Emergency Kit</div>
       <div class="content-list">
         <span class="content-text">Make an emergency kit and a grab-and-go bag so you are ready to leave on short notice. Open the link below for a basic supply list.</span>
-        <wfnews-button class="max-width-300" [componentStyle]="defaultSlimButtonStyle" label="Build Your Kit" [clickHandler]="directToBuildKit"></wfnews-button>
+        <wfnews-button class="max-width-300" [componentStyle]="defaultSlimButtonStyle" label="Build Your Kit" (buttonClicked)="directToBuildKit()"></wfnews-button>
       </div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -10,7 +10,11 @@ export class CircleIconButtonComponent {
   @Input() iconPath: string;
   @Input() label: string;
   @Input() componentStyle?: CircleIconButtonStyle;
-  @Input() clickHandler: () => void;
+  @Output() buttonClicked = new EventEmitter<void>();
+
+  clickHandler = () => {
+    this.buttonClicked.emit();
+  };
 }
 
 export interface CircleIconButtonArgs {

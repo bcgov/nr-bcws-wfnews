@@ -38,9 +38,6 @@ export class FireBanDetailsComponent implements OnInit {
       labelColor: '#FFFFFF',
       iconColor: '#FFFFFF',
       border: 'none'
-    },
-    clickHandler: () => {
-      window.open(this.getBulletinLink(), '_blank');
     }
   };
 
@@ -77,4 +74,9 @@ export class FireBanDetailsComponent implements OnInit {
     return this.fireBan?.attributes.BULLETIN_URL 
       || this.appConfigService.getConfig().externalAppConfig['currentRestrictions'] as unknown as string;
   }
+
+  handleAdvisoryClick = () => {
+    window.open(this.getBulletinLink(), '_blank');
+  };
+  
 }
