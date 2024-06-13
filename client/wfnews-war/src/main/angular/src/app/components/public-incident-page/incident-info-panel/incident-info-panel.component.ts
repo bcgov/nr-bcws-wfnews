@@ -1,36 +1,38 @@
+import { HttpClient } from '@angular/common/http';
 import {
-  Component,
-  ChangeDetectionStrategy,
-  Input,
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
-  SimpleChanges,
-  OnChanges,
-  ViewChild,
+  Component,
   ElementRef,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
 } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { CauseOptionDisclaimer } from '@app/components/admin-incident-form/incident-details-panel/incident-details-panel.constants';
+import { YouTubeService } from '@app/services/youtube-service';
+import { AppConfigService } from '@wf1/core-ui';
+import lightGallery from 'lightgallery';
+import { toCanvas } from 'qrcode';
+import { Observable } from 'rxjs';
 import {
   AreaRestrictionsOption,
   EvacOrderOption,
 } from '../../../conversion/models';
-import { toCanvas } from 'qrcode';
-import {
-  convertToFireCentreDescription,
-  findFireCentreByName,
-  convertToYoutubeId,
-  isMobileView,
-  getResponseTypeDescription,
-  ResourcesRoutes,
-  convertToDateYear
-} from '../../../utils';
 import { PublishedIncidentService } from '../../../services/published-incident-service';
-import { AppConfigService } from '@wf1/core-ui';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { YouTubeService } from '@app/services/youtube-service';
-import lightGallery from 'lightgallery';
+import {
+  ResourcesRoutes,
+  convertToDateYear,
+  convertToFireCentreDescription,
+  convertToYoutubeId,
+  findFireCentreByName,
+  getResponseTypeDescription,
+  getStageOfControlDescription,
+  isMobileView
+} from '../../../utils';
 
 @Component({
   selector: 'incident-info-panel',
@@ -46,15 +48,16 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
 
   showWarning: boolean;
   public primaryMedia = null;
-  public mediaCollection : any[];
+  public mediaCollection: any[];
   public convertToFireCentreDescription = convertToFireCentreDescription;
   public findFireCentreByName = findFireCentreByName;
   public convertToYoutubeId = convertToYoutubeId;
   public isMobileView = isMobileView;
   getResponseTypeDescription = getResponseTypeDescription;
   convertToDateYear = convertToDateYear;
+  getStageOfControlDescription = getStageOfControlDescription;
 
-  public areaRestrictionLink : string;
+  public areaRestrictionLink: string;
   desktopEvacOrders = [];
   desktopEvacAlerts = [];
 
@@ -67,7 +70,7 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
     private http: HttpClient,
     protected route: Router,
     private youtubeService: YouTubeService,
-  ) {}
+  ) { }
 
   handleImageFallback(href: string) {
     const imgComponent = document.getElementById('primary-image-container');
@@ -76,15 +79,15 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes:SimpleChanges) {
-    if (changes?.evacOrders?.currentValue.length){
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes?.evacOrders?.currentValue.length) {
       let evacs = changes.evacOrders.currentValue
-      for (const evac of evacs){
+      for (const evac of evacs) {
         if (evac.orderAlertStatus === 'Order') {
           this.desktopEvacOrders.push(evac);
-          } else if (evac.orderAlertStatus === 'Alert') {
+        } else if (evac.orderAlertStatus === 'Alert') {
           this.desktopEvacAlerts.push(evac);
-          }
+        }
       }
     }
   }
@@ -98,26 +101,26 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
         const fc = findFireCentreByName(
           convertToFireCentreDescription(
             this.incident.fireCentreName ||
-              this.incident.fireCentre ||
-              this.incident.fireCentreCode,
+            this.incident.fireCentre ||
+            this.incident.fireCentreCode,
           ),
         );
         if (!this.incident.contactEmailAddress) {
-this.incident.contactEmailAddress = data[+fc.code].url;
-}
+          this.incident.contactEmailAddress = data[+fc.code].url;
+        }
         if (!this.incident.contactPhoneNumber) {
-this.incident.contactPhoneNumber = data[+fc.code].phone;
-}
+          this.incident.contactPhoneNumber = data[+fc.code].phone;
+        }
         this.cdr.detectChanges();
       });
     }
 
     const canvas = document.getElementById('qr-code');
     if (canvas) {
-      toCanvas(canvas, window.location.href, function(error) {
+      toCanvas(canvas, window.location.href, function (error) {
         if (error) {
-console.error(error);
-}
+          console.error(error);
+        }
       });
     }
 
@@ -127,58 +130,47 @@ console.error(error);
 
     this.fetchPrimaryImage();
     this.areaRestrictionLink = this.appConfigService.getConfig().externalAppConfig[
-      'currentRestrictions' 
+      'currentRestrictions'
     ] as unknown as string;
   }
 
   public getStageOfControlLabel(code: string) {
     if (code.toUpperCase().trim() === 'OUT') {
-return 'Out';
-} else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
-return 'Out of Control';
-} else if (code.toUpperCase().trim() === 'HOLDING') {
-return 'Being Held';
-} else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
-return 'Under Control';
-} else {
-return 'Unknown';
-}
-  }
-
-  public getStageOfControlDescription(code: string) {
-    if (code.toUpperCase().trim() === 'OUT') {
-return 'The wildfire has been extinguished or winter conditions are present, and the Wildfire will not spread.';
-} else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
-return 'A wildfire that is spreading or it is anticipated to spread beyond the current perimeter, or control line.';
-} else if (code.toUpperCase().trim() === 'HOLDING') {
-return 'A wildfire that is projected, based on fuel and weather conditions and resource availability, to remain within the current perimeter, control line or boundary.';
-} else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
-return 'A wildfire that is not projected to spread beyond the current perimeter.';
-} else {
-return 'Unknown stage of control';
-}
+      return 'Out';
+    } else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
+      return 'Out of Control';
+    } else if (code.toUpperCase().trim() === 'HOLDING') {
+      return 'Being Held';
+    } else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
+      return 'Under Control';
+    } else {
+      return 'Unknown';
+    }
   }
 
   public getCauseLabel(code: number) {
     if (code === 1) {
-return 'Human';
-} else if (code === 2) {
-return 'Lightning';
-} else if (code === 3) {
-return 'Under Investigation';
-} else {
-return 'Unknown';
-}
+      return 'Human';
+    } else if (code === 2) {
+      return 'Lightning';
+    } else if (code === 3) {
+      return 'Under Investigation';
+    } else {
+      return 'Unknown';
+    }
   }
 
   public getCauseDescription(code: number) {
-    if (code === 1) {
-return 'A wildfire started by humans or human activity.';
-} else if (code === 2) {
-return 'This fire was caused by a dry lightning strike which means it occurred without rain nearby. The cause of a wildfire is determined by professional investigations in accordance with international standards. Wildfire investigations can be complex and may take weeks or even months to complete.';
-} else {
-return 'A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.';
-}
+    switch (code) {
+      case 1:
+        return CauseOptionDisclaimer[1];
+      case 2:
+        return CauseOptionDisclaimer[2];
+      case 3:
+        return CauseOptionDisclaimer[3];
+      default:
+        return CauseOptionDisclaimer[0];
+    }
   }
 
   public copyToClipboard() {
@@ -256,18 +248,13 @@ return 'A wildfire of undetermined cause, including a wildfire that is currently
                         ).toLocaleDateString(),
                         fileName: attachment.attachmentFileName,
                         type: 'image',
-                        href: `${
-                          this.appConfigService.getConfig().rest['wfnews']
-                        }/publicPublishedIncidentAttachment/${
-                          this.incident.incidentNumberLabel
-                        }/attachments/${attachment.attachmentGuid}/bytes`,
-                        thumbnail: `${
-                          this.appConfigService.getConfig().rest['wfnews']
-                        }/publicPublishedIncidentAttachment/${
-                          this.incident.incidentNumberLabel
-                        }/attachments/${
-                          attachment.attachmentGuid
-                        }/bytes?thumbnail=true`,
+                        href: `${this.appConfigService.getConfig().rest['wfnews']
+                          }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+                          }/attachments/${attachment.attachmentGuid}/bytes`,
+                        thumbnail: `${this.appConfigService.getConfig().rest['wfnews']
+                          }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+                          }/attachments/${attachment.attachmentGuid
+                          }/bytes?thumbnail=true`,
                         loaded: false,
                       });
                     }
@@ -281,18 +268,13 @@ return 'A wildfire of undetermined cause, including a wildfire that is currently
                       ).toLocaleDateString(),
                       fileName: attachment.attachmentFileName,
                       type: 'image',
-                      href: `${
-                        this.appConfigService.getConfig().rest['wfnews']
-                      }/publicPublishedIncidentAttachment/${
-                        this.incident.incidentNumberLabel
-                      }/attachments/${attachment.attachmentGuid}/bytes`,
-                      thumbnail: `${
-                        this.appConfigService.getConfig().rest['wfnews']
-                      }/publicPublishedIncidentAttachment/${
-                        this.incident.incidentNumberLabel
-                      }/attachments/${
-                        attachment.attachmentGuid
-                      }/bytes?thumbnail=true`,
+                      href: `${this.appConfigService.getConfig().rest['wfnews']
+                        }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+                        }/attachments/${attachment.attachmentGuid}/bytes`,
+                      thumbnail: `${this.appConfigService.getConfig().rest['wfnews']
+                        }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+                        }/attachments/${attachment.attachmentGuid
+                        }/bytes?thumbnail=true`,
                     };
                     break;
                   }
@@ -331,7 +313,7 @@ return 'A wildfire of undetermined cause, including a wildfire that is currently
     if (event?.externalUri) {
       window.open(event.uri, '_blank');
     }
-    else{
+    else {
       const url = this.route.serializeUrl(
         this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
           queryParams: {

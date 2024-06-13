@@ -5,7 +5,12 @@ import { AreaRestrictionPreviewComponent } from '@app/components/preview-panels/
 import { FireBanPreviewComponent } from '@app/components/preview-panels/fire-ban-preview/fire-ban-preview.component';
 import { DangerRatingPreviewComponent } from '@app/components/preview-panels/danger-rating-preview/danger-rating-preview.component';
 import { ProtectedLandPreviewComponent } from '@app/components/preview-panels/protected-land-preview/protected-land-preview.component';
-import { hidePanel, showPanel } from '@app/utils';
+import { WildfirePreviewComponent } from '@app/components/preview-panels/wildfire-preview/wildfire-preview.component';
+import { EvacuationsPreviewComponent } from '@app/components/preview-panels/evacuations-preview/evacuations-preview.component';
+import { hidePanel } from '@app/utils';
+import { RoadEventsPreviewComponent } from '@app/components/preview-panels/road-events-preview/road-events-preview.component';
+import { LocalAuthoritiesComponent } from '@app/components/preview-panels/local-authorities/local-authorities.component';
+import { ClosedRecSitesComponent } from '@app/components/preview-panels/closed-rec-sites/closed-rec-sites.component';
 
 @Component({
   selector: 'wfnews-identify-panel',
@@ -18,6 +23,11 @@ export class IdentifyPanel extends DraggablePanelComponent {
   @ViewChild('fireBanPanelContainer', { read: ViewContainerRef }) fireBanPanelContainer: ViewContainerRef;
   @ViewChild('dangerRatingPanelContainer', { read: ViewContainerRef }) dangerRatingPanelContainer: ViewContainerRef;
   @ViewChild('protectedLandPanelContainer', { read: ViewContainerRef }) protectedLandPanelContainer: ViewContainerRef;
+  @ViewChild('wildfirePanelContainer', { read: ViewContainerRef }) wildfirePanelContainer: ViewContainerRef;
+  @ViewChild('evacuationsPanelContainer', { read: ViewContainerRef }) evacuationsPanelContainer: ViewContainerRef;
+  @ViewChild('roadEventsPanelContainer', { read: ViewContainerRef }) roadEventsPanelContainer: ViewContainerRef;
+  @ViewChild('localAuthoritiesPanelContainer', { read: ViewContainerRef }) localAuthoritiesPanelContainer: ViewContainerRef;
+  @ViewChild('closedRecSitesPanelContainer', { read: ViewContainerRef }) closedRecSitesPanelContainer: ViewContainerRef;
 
   parseAreaRestriction(text: string) {
     text = text.replace("Area Restriction", "Restricted Area")
@@ -48,6 +58,33 @@ export class IdentifyPanel extends DraggablePanelComponent {
         this.handleWeatherStations(item);
         break;
 
+      case 'active-wildfires-fire-of-note':
+      case 'active-wildfires-out-of-control':
+      case 'active-wildfires-holding':
+      case 'active-wildfires-under-control':
+      case 'active-wildfires-out':
+        this.handleWildfires(item)
+        break;
+
+      case 'evacuation-orders-and-alerts-wms':
+        this.handleEvacs(item)
+        break;
+        
+      case 'drive-bc-active-events':
+        this.handleRoadEvents(item)
+        break;
+      
+      case 'abms-regional-districts':
+      case 'clab-indian-reserves':
+      case 'abms-municipalities':
+      case 'fnt-treaty-land':
+        this.handleLocalAuthorities(item)
+        break;
+
+      case 'closed-recreation-sites':
+        this.handleClosedRecSites(item)
+        break;
+           
       default:
         console.error('Unknown layerId:', item.layerId);
     }
@@ -74,6 +111,26 @@ export class IdentifyPanel extends DraggablePanelComponent {
     this.handlePreview(this.componentFactoryResolver, this.protectedLandPanelContainer, ProtectedLandPreviewComponent, item, 'desktop-preview');
   }
 
+  handleWildfires(item: any){
+    this.handlePreview(this.componentFactoryResolver, this.wildfirePanelContainer, WildfirePreviewComponent, item, 'desktop-preview');
+  }
+
+  handleEvacs(item: any) {
+    this.handlePreview(this.componentFactoryResolver, this.evacuationsPanelContainer, EvacuationsPreviewComponent, item, 'desktop-preview');
+  }
+
+  handleRoadEvents(item: any) {
+    this.handlePreview(this.componentFactoryResolver, this.roadEventsPanelContainer, RoadEventsPreviewComponent, item, 'desktop-preview');
+  }
+
+  handleLocalAuthorities(item: any) {
+    this.handlePreview(this.componentFactoryResolver, this.localAuthoritiesPanelContainer, LocalAuthoritiesComponent, item, 'desktop-preview');
+  }
+
+  handleClosedRecSites(item: any) {
+    this.handlePreview(this.componentFactoryResolver, this.closedRecSitesPanelContainer, ClosedRecSitesComponent, item, 'desktop-preview');
+  }
+
   handleWeatherStations(item: any) {
     this.weatherPanelContainer.clear();
 
@@ -95,7 +152,7 @@ export class IdentifyPanel extends DraggablePanelComponent {
     previewClass: string
   ) {
     container.clear();
-  
+
     const componentFactory = componentFactoryResolver.resolveComponentFactory(component);
     const componentRef = container.createComponent(componentFactory);
     componentRef.instance.setContent(data);

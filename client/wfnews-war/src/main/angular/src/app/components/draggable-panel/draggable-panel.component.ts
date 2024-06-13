@@ -16,11 +16,14 @@ import {
   ResourcesRoutes,
   convertToDateYear,
   getActiveMap,
-  setDisplayColor,
   convertToDateTime,
   snowPlowHelper,
   formatDate,
   showPanel,
+  displayLocalAuthorityType,
+  displayItemTitle,
+  addMarker,
+  getStageOfControlDescription
 } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
@@ -74,6 +77,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   convertToDateYear = convertToDateYear;
   convertToDateTime = convertToDateTime;
   formatDate = formatDate;
+  displayLocalAuthorityType = displayLocalAuthorityType;
+  displayItemTitle = displayItemTitle;
+  addMarker = addMarker;
+  getStageOfControlDescription = getStageOfControlDescription;
+  
   removeIdentity = false;
 
   private previousZoom: number;
@@ -285,47 +293,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  addMarker(incident: any) {
-    if (this.marker) {
-      this.marker.remove();
-      this.marker = null;
-    }
-
-    if (this.markerAnimation) {
-      clearInterval(this.markerAnimation);
-    }
-
-    const pointerIcon = L.divIcon({
-      iconSize: [20, 20],
-      iconAnchor: [12, 12],
-      popupAnchor: [10, 0],
-      shadowSize: [0, 0],
-      className: 'animated-icon',
-    });
-    this.marker = L.marker(
-      [Number(incident.latitude), Number(incident.longitude)],
-      { icon: pointerIcon },
-    );
-    this.marker.on('add', function() {
-      const icon: any = document.querySelector('.animated-icon');
-      icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
-
-      this.markerAnimation = setInterval(() => {
-        icon.style.width = icon.style.width === '10px' ? '20px' : '10px';
-        icon.style.height = icon.style.height === '10px' ? '20px' : '10px';
-        icon.style.marginLeft = icon.style.width === '20px' ? '-10px' : '-5px';
-        icon.style.marginTop = icon.style.width === '20px' ? '-10px' : '-5px';
-        icon.style.boxShadow =
-          icon.style.width === '20px'
-            ? '4px 4px 4px rgba(0, 0, 0, 0.65)'
-            : '0px 0px 0px transparent';
-      }, 1000);
-    });
-
-    const viewer = getActiveMap().$viewer;
-    this.marker.addTo(viewer.map);
-  }
-
   displayWildfireName(wildfire) {
     if (wildfire.layerId === 'fire-perimeters') {
       return wildfire.properties.FIRE_NUMBER + ' Wildfire';
@@ -388,19 +355,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  displayItemTitle(identifyItem) {
-    switch (identifyItem.layerId) {
-      case 'active-wildfires-fire-of-note':
-        return 'Wildfire of Note';
-      case 'active-wildfires-out-of-control':
-      case 'active-wildfires-under-control':
-      case 'bcws-activefires-publicview-inactive':
-      case 'active-wildfires-holding':
-      case 'active-wildfires-out':
-        return 'Wildfire';
-    }
-  }
-
   displayTitleIcon(identifyItem) {
     switch (identifyItem.layerId) {
       case 'active-wildfires-out-of-control':
@@ -437,22 +391,6 @@ return 'active-wildfires-out-of-control';
 return 'active-wildfires-holding';
 } else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
 return 'active-wildfires-under-control';
-} else {
-return 'Unknown';
-}
-    }
-  }
-
-  getDescription(code: string) {
-    if (code) {
-      if (code.toUpperCase().trim() === 'OUT') {
-return 'This wildfire is extinguished. Suppression efforts are complete.';
-} else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
-return 'This wildfire is continuing to spread and is not responding to suppression efforts.';
-} else if (code.toUpperCase().trim() === 'HOLDING') {
-return 'This wildfire is not likely to spread beyond predetermined boundaries under current conditions.';
-} else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
-return 'This wildfire will not spread any further due to suppression efforts.';
 } else {
 return 'Unknown';
 }
@@ -843,18 +781,6 @@ return 'Unknown';
       layerId === 'abms-municipalities'
     ) {
       return true;
-    }
-  }
-
-  displayLocalAuthorityType(layerId: string) {
-    if (layerId === 'abms-regional-districts') {
-      return 'Regional District';
-    }
-    if (layerId === 'clab-indian-reserves') {
-      return 'Indian Reserve';
-    }
-    if (layerId === 'abms-municipalities') {
-      return 'Municipality';
     }
   }
 

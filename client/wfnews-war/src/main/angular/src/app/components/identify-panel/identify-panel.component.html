@@ -10,7 +10,7 @@
             <div *ngIf="filteredWildfires && filteredWildfires.length">
                 <div class="criteria-title">Wildfires</div>
                 <div *ngFor="let wildfire of filteredWildfires" class="widget-card">
-                    <div class="widget-row">
+                    <div class="widget-row" (click)="enterPreview(wildfire)">
                         <div class="left-content">
                             <img alt="icon" *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="incident-icon-title" src="/assets/images/local_fire_department.png"/>
                             <div class="wildfire-icon"><span class="circle-icon {{wildfire.layerId === 'fire-perimeters' ? convertFirePerimeterFireStatus(wildfire.properties.FIRE_STATUS) : wildfire.layerId }} list"></span></div>
@@ -40,7 +40,7 @@
             <div *ngIf="filteredEvacs && filteredEvacs.length">
                 <div class="criteria-title">Evacuations</div>
                 <div *ngFor="let evac of filteredEvacs" class="widget-card">
-                    <div class="widget-row">
+                    <div class="widget-row" (click)="enterPreview(evac)">
                         <div class="left-content">
                             <img *ngIf="evac.properties.ORDER_ALERT_STATUS === 'Alert'" class="incident-icon-title" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Order">
                             <img *ngIf="evac.properties.ORDER_ALERT_STATUS === 'Order'" class="incident-icon-title" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order">
@@ -119,7 +119,7 @@
             <div *ngIf="filteredRoadEvents && filteredRoadEvents.length">
                 <div class="criteria-title">Road Events</div>
                 <div *ngFor="let event of filteredRoadEvents" class="widget-card">
-                    <div class="widget-row">
+                    <div class="widget-row" (click)="enterPreview(event)">
                         <div class="left-content">
                             <img class="incident-icon-title" src="/assets/images/svg-icons/ban.svg" alt="ban">
                             {{event.title}}
@@ -134,7 +134,7 @@
             <div *ngIf="filteredClosedRecreationSites && filteredClosedRecreationSites.length">
                 <div class="criteria-title">Closed Recreation Sites</div>
                 <div *ngFor="let closedRecreationSite of filteredClosedRecreationSites" class="widget-card">
-                    <div class="widget-row">
+                    <div class="widget-row" (click)="enterPreview(closedRecreationSite)">
                         <div class="left-content">
                             <img class="incident-icon-title" src="/assets/images/svg-icons/closed-recreation-site.svg" alt="closed-recreation-site">
                             {{closedRecreationSite.title}}
@@ -177,7 +177,7 @@
             <div *ngIf="filteredRegionalDistricts && filteredRegionalDistricts.length">
                 <div class="criteria-title">Regional Districts</div>
                 <div *ngFor="let regionalDistrict of filteredRegionalDistricts" class="widget-card">
-                    <div class="widget-row">
+                    <div class="widget-row" (click)="enterPreview(regionalDistrict)">
                         <div class="left-content">
                             <img class="incident-icon-title" src="/assets/images/svg-icons/regional-districts.svg" alt="regional-districts">
                             {{regionalDistrict.title}}
@@ -192,7 +192,7 @@
             <div *ngIf="filteredMunicipalities && filteredMunicipalities.length">
                 <div class="criteria-title">Municipalities</div>
                 <div *ngFor="let municipality of filteredMunicipalities" class="widget-card">
-                    <div class="widget-row" (click)="openPreviewPanel(municipality)">
+                    <div class="widget-row" (click)="enterPreview(municipality)">
                         <div class="left-content">
                             <img class="incident-icon-title" src="/assets/images/svg-icons/regional-districts.svg" alt="municipalities">
                             {{municipality.title}}
@@ -207,7 +207,7 @@
             <div *ngIf="filteredFirstNationsTreatyLand && filteredFirstNationsTreatyLand.length">
                 <div class="criteria-title">First Nations Treaty Land</div>
                 <div *ngFor="let firstNationsTreatyLand of filteredFirstNationsTreatyLand" class="widget-card">
-                    <div class="widget-row" (click)="openPreviewPanel(firstNationsTreatyLand)">
+                    <div class="widget-row" (click)="enterPreview(firstNationsTreatyLand)">
                         <div class="left-content">
                             <img class="incident-icon-title" src="/assets/images/svg-icons/brown-square.svg" alt="first-nations-treaty-land">
                             {{firstNationsTreatyLand.title}}
@@ -222,7 +222,7 @@
             <div *ngIf="filteredIndianReserve && filteredIndianReserve.length">
                 <div class="criteria-title">Indian Reserve</div>
                 <div *ngFor="let indianReserve of filteredIndianReserve" class="widget-card">
-                    <div class="widget-row">
+                    <div class="widget-row" (click)="enterPreview(indianReserve)">
                         <div class="left-content">
                             <img class="incident-icon-title" src="/assets/images/svg-icons/indian-reserve.svg" alt="indian-reserve">
                             {{indianReserve.title}}
@@ -254,5 +254,10 @@
         <ng-template #fireBanPanelContainer></ng-template>
         <ng-template #dangerRatingPanelContainer></ng-template>
         <ng-template #protectedLandPanelContainer></ng-template>
+        <ng-template #wildfirePanelContainer></ng-template>
+        <ng-template #evacuationsPanelContainer></ng-template>
+        <ng-template #roadEventsPanelContainer></ng-template>
+        <ng-template #localAuthoritiesPanelContainer></ng-template>
+        <ng-template #closedRecSitesPanelContainer></ng-template>
     </div>
 </div>
