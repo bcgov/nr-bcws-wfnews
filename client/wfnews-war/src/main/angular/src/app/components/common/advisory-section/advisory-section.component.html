@@ -21,7 +21,7 @@
 
     <div class="button-container">
       <icon-button [iconPath]="buttonArgs.iconPath" [label]="buttonArgs.label" [componentStyle]="buttonArgs.componentStyle"
-        [clickHandler]="buttonArgs.clickHandler"></icon-button>
+        (buttonClicked)="handleAdvisoryClick()"></icon-button>
     </div>
   </div>
 
