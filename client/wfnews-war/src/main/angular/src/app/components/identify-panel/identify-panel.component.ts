@@ -30,11 +30,7 @@ export class IdentifyPanel extends DraggablePanelComponent {
   @ViewChild('closedRecSitesPanelContainer', { read: ViewContainerRef }) closedRecSitesPanelContainer: ViewContainerRef;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (
-      !this.removeIdentity ||
-      (changes?.incidentRefs?.currentValue &&
-        changes.incidentRefs.currentValue.length > 0)
-    ) {
+    if (!this.removeIdentity || (changes?.incidentRefs?.currentValue?.length > 0)) {
       this.removeIdentity = false;
       this.showPanel = false;
       this.identifyIncident = null;
