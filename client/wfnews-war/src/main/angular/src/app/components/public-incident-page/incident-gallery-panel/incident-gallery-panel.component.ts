@@ -135,7 +135,7 @@ export class IncidentGalleryPanel implements OnInit {
             title: uri.externalUriDisplayLabel,
             uploadedDate: new Date(
               uri.createdTimestamp,
-            ).toLocaleDateString(),
+            ).valueOf(),
             fileName: '',
             type: 'video',
             href: uri.externalUri,
@@ -173,7 +173,7 @@ export class IncidentGalleryPanel implements OnInit {
             title: attachment.attachmentTitle,
             uploadedDate: new Date(
               attachment.createdTimestamp,
-            ).toLocaleDateString(),
+            ).valueOf(),
             fileName: attachment.attachmentFileName,
             type: 'image',
             href: `${this.appConfigService.getConfig().rest['wfnews']
