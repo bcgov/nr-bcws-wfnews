@@ -96,6 +96,7 @@ export const ICON = {
   CARBON_CALENDAR: 'carbon-calendar',
   ARROW_LEFT: 'carbon-calendar',
   CARBON_LAYER: 'carbon-layer',
+  LAUNCH_WHITE: 'launch_white'
 };
 
 @Component({
@@ -872,6 +873,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ICON.CARBON_LAYER,
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/images/svg-icons/carbon_layers.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.LAUNCH_WHITE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/images/svg-icons/launch_white.svg',
       ),
     );
   }

@@ -21,7 +21,8 @@ import {
   isMobileView,
   getResponseTypeDescription,
   ResourcesRoutes,
-  convertToDateYear
+  convertToDateYear,
+  getStageOfControlDescription
 } from '../../../utils';
 import { PublishedIncidentService } from '../../../services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
@@ -53,6 +54,7 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
   public isMobileView = isMobileView;
   getResponseTypeDescription = getResponseTypeDescription;
   convertToDateYear = convertToDateYear;
+  getStageOfControlDescription = getStageOfControlDescription;
 
   public areaRestrictionLink : string;
   desktopEvacOrders = [];
@@ -142,20 +144,6 @@ return 'Being Held';
 return 'Under Control';
 } else {
 return 'Unknown';
-}
-  }
-
-  public getStageOfControlDescription(code: string) {
-    if (code.toUpperCase().trim() === 'OUT') {
-return 'The wildfire has been extinguished or winter conditions are present, and the Wildfire will not spread.';
-} else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
-return 'A wildfire that is spreading or it is anticipated to spread beyond the current perimeter, or control line.';
-} else if (code.toUpperCase().trim() === 'HOLDING') {
-return 'A wildfire that is projected, based on fuel and weather conditions and resource availability, to remain within the current perimeter, control line or boundary.';
-} else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
-return 'A wildfire that is not projected to spread beyond the current perimeter.';
-} else {
-return 'Unknown stage of control';
 }
   }
 
