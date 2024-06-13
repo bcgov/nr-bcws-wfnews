@@ -22,7 +22,7 @@
     <div class="content">
       <div class="content-list">
         <wfnews-button class="max-width-300" [componentStyle]="defaultSlimButtonStyle" label="BC Parks Active Advisories"
-          [clickHandler]="directToLink"></wfnews-button>
+          (buttonClicked)="directToLink()"></wfnews-button>
       </div>
     </div>
   </div>

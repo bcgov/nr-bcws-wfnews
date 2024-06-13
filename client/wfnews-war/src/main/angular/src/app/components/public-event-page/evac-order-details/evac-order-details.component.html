@@ -1,7 +1,9 @@
 <div class="evac-order-details">
-  <advisory-section title="Evacuation Information"
+  <advisory-section 
+    title="Evacuation Information"
     message="Go to Emergency Info BC for up-to-date evaucation information."
-    [componentStyle]="advisorySectionComponentStyle" [buttonArgs]="advisorySectionButtonArgs">
+    [componentStyle]="advisorySectionComponentStyle" [buttonArgs]="advisorySectionButtonArgs"
+    (advisoryClicked)="handleAdvisoryClick()">
   </advisory-section>
 
   <two-column-content-cards-container>

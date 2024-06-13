@@ -35,9 +35,6 @@ export class AreaRestrictionDetailsComponent {
       labelColor: '#FFFFFF',
       iconColor: '#FFFFFF',
       border: 'none'
-    },
-    clickHandler: () => {
-      window.open(this.getBulletinLink(), '_blank');
     }
   };
 
@@ -62,4 +59,8 @@ export class AreaRestrictionDetailsComponent {
     return this.areaRestriction?.attributes.BULLETIN_URL 
       || this.appConfigService.getConfig().externalAppConfig['currentRestrictions'] as unknown as string;
   }
+
+  handleAdvisoryClick = () => {
+    window.open(this.getBulletinLink(), '_blank');
+  };
 }

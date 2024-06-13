@@ -2,6 +2,10 @@
 
 :host { display: block; }
 
+:hover {
+  mask-image: linear-gradient(rgb(0, 0, 0, .7), rgb(0, 0, 0, .7));
+}
+
 .button-container {
   display: flex;
   padding: 12px 32px;
@@ -13,6 +17,10 @@
   border-radius: 8px;
   background: #FFFFFF;
   border: 1px solid #dedede;
+
+  &.hide {
+    display: none;
+  }
 
   &.slim {
     padding: 8px 16px;

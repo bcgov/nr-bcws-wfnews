@@ -44,10 +44,7 @@ export const evacuationInformationOrder: Story = {
         labelColor: '#FFFFFF',
         iconColor: '#FFFFFF',
         border: 'none'
-      },
-      clickHandler: () => () => {
-        console.log('Button clicked');
-      },
+      }
     },
   },
 };
@@ -78,10 +75,7 @@ export const evacuationInformationAlert: Story = {
         labelColor: '#FFFFFF',
         iconColor: '#FFFFFF',
         border: 'none'
-      },
-      clickHandler: () => () => {
-        console.log('Button clicked');
-      },
+      }
     },
   },
 };
@@ -112,10 +106,7 @@ export const areaRestriction: Story = {
         labelColor: '#FFFFFF',
         iconColor: '#FFFFFF',
         border: 'none'
-      },
-      clickHandler: () => () => {
-        console.log('Button clicked');
-      },
+      }
     },
   },
 };

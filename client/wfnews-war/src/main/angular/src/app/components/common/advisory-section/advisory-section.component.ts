@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IconButtonArgs } from '../icon-button/icon-button.component';
 
 @Component({
@@ -11,6 +11,11 @@ export class AdvisorySectionComponent {
   @Input() message: string;
   @Input() componentStyle: AdvisorySectionStyle;
   @Input() buttonArgs: IconButtonArgs;
+  @Output() advisoryClicked = new EventEmitter<void>();
+
+  handleAdvisoryClick = () => {
+    this.advisoryClicked.emit();
+  };
 }
 
 export interface AdvisorySectionArgs {
