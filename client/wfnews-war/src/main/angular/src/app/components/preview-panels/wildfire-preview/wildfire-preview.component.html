@@ -18,8 +18,7 @@
             <div class="identify-card">
                 <div class="identify-card-title">{{incident.incidentName}}</div>
                 <div class="identify-card-item">
-                    <span class="circle-icon {{getStageOfControlIcon(incident.stageOfControlCode)}}"
-                        style="border:none"></span>
+                    <span class="circle-icon {{getStageOfControlIcon(incident.stageOfControlCode)}}"></span>
                     {{getStageOfControlLabel(incident.stageOfControlCode)}}
                 </div>
                 <div *ngIf="incident.incidentSizeEstimatedHa < 1 || incident.incidentSizeEstimatedHa > 1; else hectare" class="identify-card-item">
@@ -49,7 +48,7 @@
                         A wildfire that is highly visible or poses a potential threat to public safety.
                     </div>
                     <div class="identify-card-description">
-                        {{getDescription(incident.stageOfControlCode)}}
+                        {{getStageOfControlDescription(incident.stageOfControlCode)}}
                     </div>
                 </div>
             </div>

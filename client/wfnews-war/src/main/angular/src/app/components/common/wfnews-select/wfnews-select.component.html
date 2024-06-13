@@ -1,0 +1,6 @@
+<select appWFSingleSelect class="wfnews-select" aria-label="Type" [options]="options" [selected]="selectedValue"
+  (change)="changeHandler($event)">
+  <option *ngFor="let option of options" value="{{option.value}}">
+    <span class="option-label">{{option.label}}</span>
+  </option>
+</select>

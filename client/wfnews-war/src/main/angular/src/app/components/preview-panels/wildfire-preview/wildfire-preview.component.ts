@@ -1,11 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ResourcesRoutes, showPanel, hidePanel } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
-import { snowPlowHelper, displayItemTitle, setDisplayColor, getStageOfControlIcon, getStageOfControlLabel, convertToDateYear, getDescription, getActiveMap, formatNumber } from '@app/utils';
+import { snowPlowHelper, displayItemTitle, setDisplayColor, getStageOfControlIcon, getStageOfControlLabel, convertToDateYear, getStageOfControlDescription, getActiveMap, formatNumber, addMarker } from '@app/utils';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { MapConfigService } from '@app/services/map-config.service';
-import * as L from 'leaflet';
 
 @Component({
   selector: 'wfnews-wildfire-preview',
@@ -36,10 +35,11 @@ export class WildfirePreviewComponent implements OnDestroy{
   getStageOfControlIcon = getStageOfControlIcon;
   getStageOfControlLabel = getStageOfControlLabel;
   convertToDateYear = convertToDateYear;
-  getDescription = getDescription;
+  getStageOfControlDescription = getStageOfControlDescription;
   formatNumber = formatNumber;
   setDisplayColor = setDisplayColor;
-
+  addMarker = addMarker;
+  
   closePanel() {
     this.removeMarker();
     hidePanel('desktop-preview');
@@ -105,47 +105,6 @@ export class WildfirePreviewComponent implements OnDestroy{
       text: 'Full Details',
     });
 
-  }
-
-  addMarker(incident: any) {
-    if (this.marker) {
-      this.marker.remove();
-      this.marker = null;
-    }
-
-    if (this.markerAnimation) {
-      clearInterval(this.markerAnimation);
-    }
-
-    const pointerIcon = L.divIcon({
-      iconSize: [20, 20],
-      iconAnchor: [12, 12],
-      popupAnchor: [10, 0],
-      shadowSize: [0, 0],
-      className: 'animated-icon',
-    });
-    this.marker = L.marker(
-      [Number(incident.latitude), Number(incident.longitude)],
-      { icon: pointerIcon },
-    );
-    this.marker.on('add', function() {
-      const icon: any = document.querySelector('.animated-icon');
-      icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
-
-      this.markerAnimation = setInterval(() => {
-        icon.style.width = icon.style.width === '10px' ? '20px' : '10px';
-        icon.style.height = icon.style.height === '10px' ? '20px' : '10px';
-        icon.style.marginLeft = icon.style.width === '20px' ? '-10px' : '-5px';
-        icon.style.marginTop = icon.style.width === '20px' ? '-10px' : '-5px';
-        icon.style.boxShadow =
-          icon.style.width === '20px'
-            ? '4px 4px 4px rgba(0, 0, 0, 0.65)'
-            : '0px 0px 0px transparent';
-      }, 1000);
-    });
-
-    const viewer = getActiveMap().$viewer;
-    this.marker.addTo(viewer.map);
   }
 
   removeMarker() {

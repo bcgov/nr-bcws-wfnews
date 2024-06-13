@@ -14,7 +14,7 @@
       </div>
       <icon-button class="max-width-340" [componentStyle]="defaultSlimIconButtonStyle"
         iconPath="/assets/images/svg-icons/launch_black.svg" label="Learn about Wildfire Resources"
-        [clickHandler]="directToLink"></icon-button>
+        (buttonClicked)="directToLink()"></icon-button>
     </div>
   </div>
 

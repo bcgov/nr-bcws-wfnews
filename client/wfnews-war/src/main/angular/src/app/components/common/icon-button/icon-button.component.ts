@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'icon-button',
@@ -9,7 +9,11 @@ export class IconButtonComponent {
   @Input() iconPath: string;
   @Input() label: string;
   @Input() componentStyle?: IconButtonStyle;
-  @Input() clickHandler: () => void;
+  @Output() buttonClicked = new EventEmitter<void>();
+
+  clickHandler() {
+    this.buttonClicked.emit();
+  }
 }
 
 export const defaultSlimIconButtonStyle: IconButtonStyle = {
@@ -23,7 +27,6 @@ export interface IconButtonArgs {
   iconPath: string;
   label: string;
   componentStyle?: IconButtonStyle;
-  clickHandler: () => void;
 }
 
 export interface IconButtonStyle {

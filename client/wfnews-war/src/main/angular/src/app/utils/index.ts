@@ -12,6 +12,7 @@ import { EffectSources } from '@ngrx/effects';
 import { SortDirection } from '@wf1/core-ui';
 import * as moment from 'moment';
 import { PagingInfoRequest } from '../store/application/application.state';
+import * as L from 'leaflet';
 
 declare const window: any;
 export enum ResourcesRoutes {
@@ -803,7 +804,7 @@ export function displayItemTitle(identifyItem) {
   }
 }
 
-export function getDescription(code: string) {
+export function getStageOfControlDescription(code: string) {
   if (code) {
     if (code.toUpperCase().trim() === 'OUT') {
 return 'The wildfire has been extinguished or winter conditions are present, and the wildfire will not spread.';
@@ -836,4 +837,45 @@ export function displayLocalAuthorityType(layerId: string) {
 
 export function formatNumber(number) {
   return number.toLocaleString('en-US')
+}
+
+export function addMarker(incident: any) {
+  if (this.marker) {
+    this.marker.remove();
+    this.marker = null;
+  }
+
+  if (this.markerAnimation) {
+    clearInterval(this.markerAnimation);
+  }
+
+  const pointerIcon = L.divIcon({
+    iconSize: [20, 20],
+    iconAnchor: [12, 12],
+    popupAnchor: [10, 0],
+    shadowSize: [0, 0],
+    className: 'animated-icon',
+  });
+  this.marker = L.marker(
+    [Number(incident.latitude), Number(incident.longitude)],
+    { icon: pointerIcon },
+  );
+  this.marker.on('add', function() {
+    const icon: any = document.querySelector('.animated-icon');
+    icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
+
+    this.markerAnimation = setInterval(() => {
+      icon.style.width = icon.style.width === '10px' ? '20px' : '10px';
+      icon.style.height = icon.style.height === '10px' ? '20px' : '10px';
+      icon.style.marginLeft = icon.style.width === '20px' ? '-10px' : '-5px';
+      icon.style.marginTop = icon.style.width === '20px' ? '-10px' : '-5px';
+      icon.style.boxShadow =
+        icon.style.width === '20px'
+          ? '4px 4px 4px rgba(0, 0, 0, 0.65)'
+          : '0px 0px 0px transparent';
+    }, 1000);
+  });
+
+  const viewer = getActiveMap().$viewer;
+  this.marker.addTo(viewer.map);
 }

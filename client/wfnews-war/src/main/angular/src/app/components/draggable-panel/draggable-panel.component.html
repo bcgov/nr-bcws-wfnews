@@ -270,7 +270,7 @@
             <div class="identify-card">
                 <div class="identify-card-title" *ngIf="identifyIncident">{{identifyIncident.incidentName}}</div>
                 <div class="identify-card-item">
-                    <span class="circle-icon {{getStageOfControlIcon(identifyIncident.stageOfControlCode)}}" style="border:none"></span>
+                    <span class="circle-icon {{getStageOfControlIcon(identifyIncident.stageOfControlCode)}}"></span>
                     {{getStageOfControlLabel(identifyIncident.stageOfControlCode)}}
                 </div>
                 <div class="identify-card-item">
@@ -286,7 +286,7 @@
                         This wildfire is highly visible or poses a potential threat to public safety.
                     </div>
                     <div class="identify-card-description">
-                        {{getDescription(identifyIncident.stageOfControlCode)}}
+                        {{getStageOfControlDescription(identifyIncident.stageOfControlCode)}}
                     </div>
                 </div>
             </div>

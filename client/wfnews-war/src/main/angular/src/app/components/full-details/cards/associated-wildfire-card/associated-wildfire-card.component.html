@@ -20,7 +20,7 @@
       <icon-list-item slim="true" iconPath="/assets/images/svg-icons/location-pin.svg" [text]="getFireCenter()"></icon-list-item>
       <icon-list-item slim="true" iconPath="/assets/images/svg-icons/calendar.svg" [text]="getDiscoveryDate()"></icon-list-item>
     </div>
-    <circle-icon-button iconPath="/assets/images/svg-icons/forward-arrow-grey.svg" [componentStyle]="circleButtonStyle" [clickHandler]="viewDetails"></circle-icon-button>
+    <circle-icon-button iconPath="/assets/images/svg-icons/forward-arrow-grey.svg" [componentStyle]="circleButtonStyle" (buttonClicked)="viewDetails()"></circle-icon-button>
   </div>
 
 </content-card-container>
