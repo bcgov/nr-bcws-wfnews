@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'download-item',
   templateUrl: './download-item.component.html',
   styleUrls: ['./download-item.component.scss']

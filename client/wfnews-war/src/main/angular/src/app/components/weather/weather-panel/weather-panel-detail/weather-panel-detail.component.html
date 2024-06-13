@@ -1,77 +1,49 @@
-<p>weather-panel-detail works!</p>
-<!-- placeholder -->
-
-<!-- <div class="popup-title">Weather Station: {{stationData.stationName}}</div>
-<div *ngIf="hourly && hourly.hour">
-  <div class="label">{{formatHourlyData()}}</div>
+<div class="weather-detail-container">
+  <div class="content">
+    <div class="section">
+      <div class="section-title">Weather Detail</div>
+      <div class="section-detail">Weather Station: {{stationData ? stationData.stationName : null}}</div>
+      <div class="divider"></div>
+    </div>
+    <div class="section" *ngIf="hourly">
+      <div class="section-title">Hourly Indices</div>
+      <div class="section-detail">Temperature: {{hourly.temp}}° C</div>
+      <div class="section-detail">Relative Humidity: {{hourly.relativeHumidity}}%</div>
+      <div class="section-detail">Wind Speed: {{hourly.windSpeed}} km/h</div>
+      <div class="section-detail">Wind Direction: {{hourly.windDirection}}° {{hourly.windCardinalDir}}</div>
+      <div class="section-detail">Precipitation: {{hourly.precipitation}}mm</div>
+      <div class="section-detail">Fine Fuel Moisture Code: {{hourly.fineFuelMoistureCode}}</div>
+      <div class="section-detail">Initial Spread Index: {{hourly.initialSpreadIndex}}</div>
+      <div class="section-detail">Fire Weather Index: {{hourly.fireWeatherIndex}}</div>
+      <div class="section-detail">Recorded: {{readableHour(hourly.hour)}}</div>
+      <div class="divider"></div>
+    </div>
+    <div class="section" *ngIf="daily">
+      <div class="section-title">Daily Indices</div>
+      <div class="section-detail">Date: {{readableDate(daily.day)}}</div>
+      <div class="section-detail">Temperature: {{daily.temp}}° C</div>
+      <div class="section-detail">Relative Humidity: {{daily.relativeHumidity}}%</div>
+      <div class="section-detail">Wind Speed: {{daily.windSpeed}} km/h</div>
+      <div class="section-detail">Wind Direction: {{daily.windDirection}}° {{hourly.windCardinalDir}}</div>
+      <div class="section-detail">Precipitation: {{daily.precipitation}}mm</div>
+      <div class="section-detail">Fine Fuel Moisture Code: {{daily.fineFuelMoistureCode}}</div>
+      <div class="section-detail">Initial Spread Index: {{daily.initialSpreadIndex}}</div>
+      <div class="section-detail">Fire Weather Index: {{daily.fireWeatherIndex}}</div>
+      <div class="section-detail">Drought Code: {{daily.droughtCode}}</div>
+      <div class="section-detail">Build Up Index: {{daily.buildupIndex}}</div>
+      <div class="section-detail">Duff Moisture Code: {{daily.duffMoistureCode}}</div>
+      <div class="section-detail">Recorded: {{readableHour(daily.day + 12)}}</div>
+      <div class="divider"></div>
+    </div>
+    <div class="section" *ngIf="latitude && longitude">
+      <wfnews-weather-history [latitude]="latitude" [longitude]="longitude"></wfnews-weather-history>
+      <div class="popup-button-container">
+        <a class="popup-button" target="_blank" rel="noopener" href="https://wfapps.nrs.gov.bc.ca/pub/wfwx-danger-summary-war/dangerSummary">
+          Fire Danger Class
+          <img alt="icon" class="external-link-icon" src="/assets/images/svg-icons/external-link-grey.svg">
+        </a>
+      </div>
+    </div>
+    <div class="bottom"></div>
+  </div>
 </div>
-<div *ngIf="hourly && hourly.temp">
-  <div class="label">{{hourly.temp}}° C</div>
-</div>
-<div *ngIf="hourly && hourly.relativeHumidity" class="popup-attributes">
-  <div class="label">Relative Humidity:</div>
-  <div class="attribute">{{hourly.relativeHumidity}}%</div>
-</div>
-<div *ngIf="hourly && hourly.windSpeed" class="popup-attributes">
-  <div class="label">Wind Speed:</div>
-  <div class="attribute">{{hourly.windSpeed}} km/h</div>
-</div>
-<div *ngIf="hourly && hourly.windDirection" class="popup-attributes">
-  <div class="label">Wind Direction:</div>
-  <div class="attribute">{{hourly.windDirection}}° {{hourly.windCardinalDir}}</div>
-</div>
-<div *ngIf="hourly && hourly.precipitation" class="popup-attributes">
-  <div class="label">Precipitation:</div>
-  <div class="attribute">{{hourly.precipitation}}mm</div>
-</div>
-<div *ngIf="!hourly || (!hourly.temp && !hourly.relativeHumidity && !hourly.windSpeed && !hourly.windDirection&& !hourly.precipitation)" class="popup-attributes">
-  No Information Available
-</div>
-<div>
-  <div class="label">Fire Weather Indices</div>
-</div>
-<div *ngIf="!hourly || (!hourly.fineFuelMoistureCode && !hourly.relativeHumidity && !hourly.fireWeatherIndex && !daily.fineFuelMoistureCode)" class="popup-attributes">
-  No Information Available
-</div>
-<div *ngIf="hourly && hourly.fineFuelMoistureCode" class="popup-attributes">
-  <div class="label">Hourly FFMC:</div>
-  <div class="attribute">{{hourly.fineFuelMoistureCode}}</div>
-</div>
-<div *ngIf="hourly && hourly.initialSpreadIndex" class="popup-attributes">
-  <div class="label">Hourly ISI:</div>
-  <div class="attribute">{{hourly.initialSpreadIndex}}</div>
-</div>
-<div *ngIf="hourly && hourly.fireWeatherIndex" class="popup-attributes">
-  <div class="label">Hourly FWI:</div>
-  <div class="attribute">{{hourly.fireWeatherIndex}}</div>
-</div>
-<div *ngIf="hourly && daily && daily.fineFuelMoistureCode" class="popup-attributes">
-  <div class="label">Daily FFMC:</div>
-  <div class="attribute">{{daily.fineFuelMoistureCode}}</div>
-</div>
-<div *ngIf="hourly && daily && daily.buildupIndex" class="popup-attributes">
-  <div class="label">Daily BUI:</div>
-  <div class="attribute">{{daily.buildupIndex}}</div>
-</div>
-<div *ngIf="hourly && daily && daily.droughtCode" class="popup-attributes">
-  <div class="label">Daily DC:</div>
-  <div class="attribute">{{daily.droughtCode}}</div>
-</div>
-<div *ngIf="hourly && daily && daily.duffMoistureCode" class="popup-attributes">
-  <div class="label">Daily DMC:</div>
-  <div class="attribute">{{daily.duffMoistureCode}}</div>
-</div>
-<div *ngIf="hourly && daily && daily.initialSpreadIndex" class="popup-attributes">
-  <div class="label">Daily ISI:</div>
-  <div class="attribute">{{daily.initialSpreadIndex}}</div>
-</div>
-<div *ngIf="hourly && daily && daily.fireWeatherIndex" class="popup-attributes">
-  <div class="label">Daily FWI:</div>
-  <div class="attribute">{{daily.fireWeatherIndex}}</div>
-</div>
-
-<wfnews-weather-history *ngIf="latitude && longitude" [latitude]="latitude" [longitude]="longitude"></wfnews-weather-history>
-
-<div class="popup-button-container">
-  <a class="popup-button" target="_blank" rel="noopener" href="https://wfapps.nrs.gov.bc.ca/pub/wfwx-danger-summary-war/dangerSummary">Fire Danger Class</a>
-</div> -->

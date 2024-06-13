@@ -5,7 +5,6 @@ import { RelatedTopicsLink } from '@app/components/full-details/cards/related-to
 import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'area-restriction-details',
   templateUrl: './area-restriction-details.component.html',
   styleUrls: ['./area-restriction-details.component.scss']

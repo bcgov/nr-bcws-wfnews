@@ -127,12 +127,15 @@ import { IconInfoChipComponent } from './components/common/icon-info-chip/icon-i
 import { IconListItemComponent } from './components/common/icon-list-item/icon-list-item.component';
 import { LinkButtonComponent } from './components/common/link-button/link-button.component';
 import { MapToggleButtonComponent } from './components/common/map-toggle-button/map-toggle-button.component';
+import { MediaGalleryContainerComponent } from './components/common/media-gallery-container/media-gallery-container.component';
+import { MediaGalleryItemComponent } from './components/common/media-gallery-item/media-gallery-item.component';
 import { MobileSlidingDrawerComponent } from './components/common/mobile-sliding-drawer/mobile-sliding-drawer.component';
 import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
 import { TwoColumnContentCardsContainerComponent } from './components/common/two-column-content-cards-container/two-column-content-cards-container.component';
 import { UnsavedChangesDialog } from './components/common/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import { WarningBannerComponent } from './components/common/warning-banner/warning-banner.component';
 import { WfnewsButtonComponent } from './components/common/wfnews-button/wfnews-button.component';
+import { WfnewsSelectComponent } from './components/common/wfnews-select/wfnews-select.component';
 import { Dashboard } from './components/dashboard-component/dashboard.component';
 import { ActiveFiresWidget } from './components/dashboard-component/widgets/active-fires-widget/active-fires-widget.component';
 import { BansWidget } from './components/dashboard-component/widgets/bans-widget/bans-widget.component';
@@ -178,6 +181,7 @@ import { EvacAlertFullDetailsComponent } from './components/full-details/evac-al
 import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
 import { EvacOtherInfoComponent } from './components/full-details/evac-other-info/evac-other-info.component';
 import { FullDetailsComponent } from './components/full-details/full-details.component';
+import { IdentifyPanel } from './components/identify-panel/identify-panel.component';
 import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
 import { AreaRestrictionLegendComponent } from './components/legend-panels/area-restriction-layers/area-restriction-legend.component';
 import { BansLegendComponent } from './components/legend-panels/bans-layers/bans-legend.component';
@@ -199,6 +203,10 @@ import { MapTypePickerComponent } from './components/map-type-picker/map-type-pi
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { MoreComponent } from './components/more/more.component';
 import { PanelWildfireStageOfControlComponentDesktop } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component.desktop';
+import { AreaRestrictionPreviewComponent } from './components/preview-panels/area-restriction-preview/area-restriction-preview.component';
+import { DangerRatingPreviewComponent } from './components/preview-panels/danger-rating-preview/danger-rating-preview.component';
+import { FireBanPreviewComponent } from './components/preview-panels/fire-ban-preview/fire-ban-preview.component';
+import { ProtectedLandPreviewComponent } from './components/preview-panels/protected-land-preview/protected-land-preview.component';
 import { AreaRestrictionDetailsComponent } from './components/public-event-page/area-restriction-details/area-restriction-details.component';
 import { EvacAlertDetailsComponent } from './components/public-event-page/evac-alert-details/evac-alert-details.component';
 import { EvacOrderDetailsComponent } from './components/public-event-page/evac-order-details/evac-order-details.component';
@@ -300,9 +308,6 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { MediaGalleryItemComponent } from './components/common/media-gallery-item/media-gallery-item.component';
-import { MediaGalleryContainerComponent } from './components/common/media-gallery-container/media-gallery-container.component';
-import { WfnewsSelectComponent } from './components/common/wfnews-select/wfnews-select.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -489,6 +494,8 @@ export const DATE_FORMATS = {
     EvacAlertDetailsComponent,
     GetPreparedCardComponent,
     WhatToExpectAlertToOrderCardComponent,
+    WeatherPanelDetailComponent,
+    IdentifyPanel,
     AreaRestrictionDetailsComponent,
     WarningCardComponent,
     ExcludedAreasCardComponent,
@@ -503,6 +510,10 @@ export const DATE_FORMATS = {
     IndustrialActivitiesCardComponent,
     UpdateFrequencyCardComponent,
     FireDangerDetailsComponent,
+    AreaRestrictionPreviewComponent,
+    FireBanPreviewComponent,
+    DangerRatingPreviewComponent,
+    ProtectedLandPreviewComponent,
     ResponseUpdateCardComponent,
     ContactUsCardComponent,
     ResponseTypeCardComponent,

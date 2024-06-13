@@ -436,16 +436,36 @@ export class IncidentHeaderPanel implements AfterViewInit {
   }
 
   backToMap() {
-    if (this.incident?.longitude && this.incident?.latitude) {
+    const navigateToMap = (longitude: number, latitude: number, queryParamKey: string) => {
       setTimeout(() => {
         this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
           queryParams: {
-            longitude: this.incident.longitude,
-            latitude: this.incident.latitude,
-            activeWildfires: true
+            longitude,
+            latitude,
+            [queryParamKey]: true
           },
         });
       }, 100);
+    };
+    
+    if (this.incident?.longitude && this.incident?.latitude) {
+      navigateToMap(this.incident.longitude, this.incident.latitude, 'activeWildfires');
+    }
+    
+    if (this.ban?.centroid?.y && this.ban?.centroid?.x) {
+      navigateToMap(this.ban.centroid.x, this.ban.centroid.y, 'bansProhibitions');
+    }
+
+    if (this.areaRestriction?.centroid?.y && this.areaRestriction?.centroid?.x) {
+      navigateToMap(this.areaRestriction.centroid.x, this.areaRestriction.centroid.y, 'areaRestriction');
+    }
+
+    if (this.evac?.centroid?.y && this.evac?.centroid?.x) {
+      navigateToMap(this.evac.centroid.x, this.evac.centroid.y, 'evacuationAlert');
+    }
+
+    if (this.dangerRating?.centroid?.y && this.dangerRating?.centroid?.x) {
+      navigateToMap(this.dangerRating.centroid.x, this.dangerRating.centroid.y, 'dangerRating');
     }
   }
 
@@ -479,7 +499,30 @@ export class IncidentHeaderPanel implements AfterViewInit {
             latitude: this.params['sourceLatitude'],
           },
         });
-      } else {
+      } else if (
+        this.params['source'] === 'full-details'
+      ) {
+        if (this.params['sourceType'] == 'Alert' || this.params['sourceType'] == 'Order'){
+          this.router.navigate([ResourcesRoutes.PUBLIC_EVENT], {
+            queryParams: {
+              eventType: this.params['sourceType'],
+              eventNumber: this.params['eventNumber'],
+              eventName: this.params['name'],
+              source: [ResourcesRoutes.WILDFIRESLIST]
+            },
+          });
+        }
+      } else if (
+        this.params['source'] === 'incidents'
+      ) {
+        this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
+          queryParams: {
+            fireYear: this.params['fireYear'],
+            incidentNumber: this.params['incidentNumber'],
+          },
+        });
+      }
+      else {
         this.router.navigate([this.params['source']]);
       }
     } else {

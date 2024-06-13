@@ -5,6 +5,7 @@
     </div>
     <div id="map-container" class="map">
       <div class="identify-panel"></div>
+      <wfnews-identify-panel *ngIf="!isMobileView() && showPanel" [incidentRefs]="incidentRefs"></wfnews-identify-panel>
       <div class="desktop-preview"></div>
       <div class="search-row">
         <div class="search-bar">

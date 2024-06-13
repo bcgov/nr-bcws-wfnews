@@ -3,7 +3,6 @@ import { defaultSlimIconButtonStyle } from '@app/components/common/icon-button/i
 import { defaultSlimButtonStyle } from '@app/components/common/wfnews-button/wfnews-button.component';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'get-prepared-card',
   templateUrl: './get-prepared-card.component.html',
   styleUrls: ['./get-prepared-card.component.scss']

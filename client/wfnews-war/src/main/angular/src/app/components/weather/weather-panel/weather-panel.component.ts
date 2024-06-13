@@ -1,4 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { hidePanel, showPanel } from '@app/utils';
 
 @Component({
   selector: 'weather-panel',
@@ -13,6 +14,12 @@ export class WeatherPanelComponent implements OnDestroy {
   public precipHumidityData;
   public latitude;
   public longitude;
+
+  constructor(
+    protected cdr: ChangeDetectorRef,
+  ) {}
+
+  isDetailView = false;
 
   ngOnDestroy(): void {
     (
@@ -85,6 +92,7 @@ export class WeatherPanelComponent implements OnDestroy {
     // Workaround to force update
     this.tempWindData = [...tempWindDataHolder];
     this.precipHumidityData = [...precipHumidityDataHolder];
+    this.cdr.detectChanges()
   }
 
   convertName(name: string) {
@@ -127,17 +135,22 @@ export class WeatherPanelComponent implements OnDestroy {
     }
   }
 
-  closePanel(){
-    (
-      document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
-    ).style.display = 'none';
+  closePanel() {
+    this.isDetailView = false;
+    hidePanel('desktop-preview');
+    this.cdr.detectChanges();
+  }
+  goBack(){
+    if (this.isDetailView){
+      this.isDetailView = !this.isDetailView
+    }
+    else{
+      showPanel('identify-panel-wrapper')
+      hidePanel('desktop-preview');
+    }
   }
 
-  goBack(){
-    const goBackButton = document.querySelector('.smk-panel-go-back');
-    (goBackButton as HTMLElement).click();
-    (
-      document.getElementsByClassName('desktop-preview').item(0) as HTMLElement
-    ).style.display = 'none';
+  enterFullDetail(){
+    this.isDetailView = true;
   }
 }

@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { isMobileView } from '../../../utils';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'scroll-to-top-button',
   templateUrl: './scroll-to-top.component.html',
   styleUrls: ['./scroll-to-top.component.scss'],
