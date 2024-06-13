@@ -30,6 +30,18 @@
     }
   }
 
+  .no-media {
+    color: var(--Grey-5B, #5B5B5B);
+
+    /* Body 1 */
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+        sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
   .gallery {
     display: flex;
     flex-wrap: wrap;
