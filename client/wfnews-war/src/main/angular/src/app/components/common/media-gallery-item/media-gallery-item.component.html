@@ -1,7 +1,7 @@
 <div class="media-gallery-item">
   <div class="header">
     <div class="title">{{item.title}}</div>
-    <div class="date">{{item.uploadedDate}}</div>
+    <div class="date">{{item.uploadedDate | date:'mediumDate'}}</div>
   </div>
   <div class="media">
     <lightgallery [settings]="settings"  [onInit]="onInit">

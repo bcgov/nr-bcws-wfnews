@@ -46,7 +46,7 @@ export class MediaGalleryItemComponent {
 
 export interface MediaGalleryItem {
   title: string;
-  uploadedDate: string;
+  uploadedDate: number;
   fileName?: string;
   type: string;
   href: string | SafeResourceUrl;
