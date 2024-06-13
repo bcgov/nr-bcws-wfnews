@@ -110,37 +110,3 @@ export const areaRestriction: Story = {
     },
   },
 };
-
-export const areaRestriction: Story = {
-  args: {
-    title: 'Information Bulletin',
-    message: 'View the bulletin on our website for more information.',
-    componentStyle: {
-      backgroundColor: '#F0F5FF',
-      dividerColor: '#DBDFED',
-      outerBorderColor: '#DBDFED',
-      logo: {
-        logoPath: '/assets/images/logo/bc-wildfire-service-logo-transparent.png',
-        width: 274,
-        height: 80
-      },
-      icon: {
-        iconPath: '/assets/images/svg-icons/carbon_bullhorn-selected.svg',
-        iconCircleColor: '#D9DEEE',
-      }
-    },
-    buttonArgs: {
-      label: 'Go to the Bulletin',
-      iconPath: '/assets/images/svg-icons/link.svg',
-      componentStyle: {
-        backgroundColor: '#036',
-        labelColor: '#FFFFFF',
-        iconColor: '#FFFFFF',
-        border: 'none'
-      },
-      clickHandler: () => () => {
-        console.log('Button clicked');
-      },
-    },
-  },
-};
