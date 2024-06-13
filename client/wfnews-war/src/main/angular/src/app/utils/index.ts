@@ -12,6 +12,7 @@ import { EffectSources } from '@ngrx/effects';
 import { SortDirection } from '@wf1/core-ui';
 import * as moment from 'moment';
 import { PagingInfoRequest } from '../store/application/application.state';
+import * as L from 'leaflet';
 
 declare const window: any;
 export enum ResourcesRoutes {
@@ -789,3 +790,92 @@ export function showPanel(panelClass: string) {
 
 
 export const isAndroidViaNavigator = () => navigator.platform.includes('Linux') || navigator.platform.includes('Android');
+
+export function displayItemTitle(identifyItem) {
+  switch (identifyItem.layerId) {
+    case 'active-wildfires-fire-of-note':
+      return 'Wildfire of Note';
+    case 'active-wildfires-out-of-control':
+    case 'active-wildfires-under-control':
+    case 'bcws-activefires-publicview-inactive':
+    case 'active-wildfires-holding':
+    case 'active-wildfires-out':
+      return 'Wildfire';
+  }
+}
+
+export function getStageOfControlDescription(code: string) {
+  if (code) {
+    if (code.toUpperCase().trim() === 'OUT') {
+return 'The wildfire has been extinguished or winter conditions are present, and the wildfire will not spread.';
+} else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
+return 'A wildfire that is spreading or it is anticipated to spread beyond the current perimeter, or control line.';
+} else if (code.toUpperCase().trim() === 'HOLDING') {
+return 'A wildfire that is projected, based on fuel and weather conditions and resource availability, to remain within the current perimeter, control line or boundary.';
+} else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
+return 'A wildfire that is not projected to spread beyond the current perimeter.';
+} else {
+return 'Unknown';
+}
+  }
+}
+
+export function displayLocalAuthorityType(layerId: string) {
+  if (layerId === 'abms-regional-districts') {
+    return 'Regional District';
+  }
+  if (layerId === 'clab-indian-reserves') {
+    return 'Indian Reserve';
+  }
+  if (layerId === 'abms-municipalities') {
+    return 'Municipality';
+  }
+  if (layerId === 'fnt-treaty-land') {
+    return 'First Nations';
+  }
+}
+
+export function formatNumber(number) {
+  return number.toLocaleString('en-US')
+}
+
+export function addMarker(incident: any) {
+  if (this.marker) {
+    this.marker.remove();
+    this.marker = null;
+  }
+
+  if (this.markerAnimation) {
+    clearInterval(this.markerAnimation);
+  }
+
+  const pointerIcon = L.divIcon({
+    iconSize: [20, 20],
+    iconAnchor: [12, 12],
+    popupAnchor: [10, 0],
+    shadowSize: [0, 0],
+    className: 'animated-icon',
+  });
+  this.marker = L.marker(
+    [Number(incident.latitude), Number(incident.longitude)],
+    { icon: pointerIcon },
+  );
+  this.marker.on('add', function() {
+    const icon: any = document.querySelector('.animated-icon');
+    icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
+
+    this.markerAnimation = setInterval(() => {
+      icon.style.width = icon.style.width === '10px' ? '20px' : '10px';
+      icon.style.height = icon.style.height === '10px' ? '20px' : '10px';
+      icon.style.marginLeft = icon.style.width === '20px' ? '-10px' : '-5px';
+      icon.style.marginTop = icon.style.width === '20px' ? '-10px' : '-5px';
+      icon.style.boxShadow =
+        icon.style.width === '20px'
+          ? '4px 4px 4px rgba(0, 0, 0, 0.65)'
+          : '0px 0px 0px transparent';
+    }, 1000);
+  });
+
+  const viewer = getActiveMap().$viewer;
+  this.marker.addTo(viewer.map);
+}

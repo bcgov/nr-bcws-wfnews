@@ -11,7 +11,7 @@ export class MapUtilityService {
 
   constructor(private commonUtilityService: CommonUtilityService) {}
 
-  fixPolygonToMap(polygonData: number[][], response: any[]) {
+  fixPolygonToMap(polygonData: number[][], response?: any[]) {
     const viewer = getActiveMap().$viewer;
     const convex = this.commonUtilityService.createConvex(polygonData);
     const bounds = convex?.reduce((acc, coord) => [
