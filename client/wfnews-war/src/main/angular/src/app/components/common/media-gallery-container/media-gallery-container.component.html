@@ -3,12 +3,11 @@
     <div class="title">Image/Video Gallery</div>
     <wfnews-select [options]="options" (selectedValueChange)="filterApplied($event)"></wfnews-select>
   </div>
-  <lightgallery [settings]="settings" [onBeforeSlide]="onBeforeSlide" [onInit]="onInit"
-    class="gallery-container">
-    <div class="gallery">
-      <media-gallery-item *ngFor="let item of items" [item]="item"></media-gallery-item>
-    </div>
-  </lightgallery>
+
+  <div class="gallery">
+    <media-gallery-item *ngFor="let item of items" [item]="item"></media-gallery-item>
+  </div>
+
 </div>
 <div class="load-more">
   <wfnews-button label="Load More" [isVisible]="isLoadMoreVisible" (buttonClicked)="loadMore()"></wfnews-button>

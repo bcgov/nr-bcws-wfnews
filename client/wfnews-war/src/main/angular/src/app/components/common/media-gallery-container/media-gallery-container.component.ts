@@ -1,9 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BeforeSlideDetail, InitDetail } from 'lightgallery/lg-events';
-import { LightGallery } from 'lightgallery/lightgallery';
-import lgFullscreen from 'lightgallery/plugins/fullscreen';
-import lgThumbnail from 'lightgallery/plugins/thumbnail';
-import lgZoom from 'lightgallery/plugins/zoom';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { MediaGalleryItem } from '../media-gallery-item/media-gallery-item.component';
 
 @Component({
@@ -11,7 +7,7 @@ import { MediaGalleryItem } from '../media-gallery-item/media-gallery-item.compo
   templateUrl: './media-gallery-container.component.html',
   styleUrls: ['./media-gallery-container.component.scss']
 })
-export class MediaGalleryContainerComponent implements OnInit {
+export class MediaGalleryContainerComponent {
   @Input() items: MediaGalleryItem[] = [];
   @Input() isLoadMoreVisible: boolean;
   @Output() filterSelected = new EventEmitter<string>();
@@ -23,31 +19,7 @@ export class MediaGalleryContainerComponent implements OnInit {
     { value: 'videos', label: 'Videos' },
   ];
 
-  settings = {
-    counter: true,
-    plugins: [lgZoom, lgFullscreen, lgThumbnail],
-    download: true,
-    showZoomInOutIcons: true,
-    fullScreen: true,
-    actualSize: true,
-    thumbnail: true,
-  };
-
-  private lightGallery!: LightGallery;
-
   constructor() {}
-
-  ngOnInit(): void {
-    
-  }
-
-  onInit = (detail: InitDetail): void => {
-    this.lightGallery = detail.instance;
-  };
-
-  onBeforeSlide = (detail: BeforeSlideDetail): void => {
-    // unused
-  };
 
   loadMore() {
     this.loadMoreClicked.emit();

@@ -30,14 +30,11 @@
     }
   }
 
-  .gallery-container {
-    width: 100%;
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      column-gap: 24px;
-      row-gap: 40px;
-    }
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 24px;
+    row-gap: 40px;
   }
 
 }
