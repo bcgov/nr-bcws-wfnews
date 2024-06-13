@@ -218,6 +218,15 @@ export class IncidentHeaderPanel implements AfterViewInit {
       L.control.zoomToExtent({ position: 'topright' }).addTo(this.map);
     }
 
+    if (this.extent) {
+      this.map.fitBounds(
+        new L.LatLngBounds(
+          [this.extent.ymin, this.extent.xmin],
+          [this.extent.ymax, this.extent.xmax],
+        ),
+      );
+    }
+
     // configure map data
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
@@ -362,15 +371,6 @@ export class IncidentHeaderPanel implements AfterViewInit {
 
     // fetch incidents in surrounding area and add to map
     this.addSurroundingIncidents();
-
-    if (this.extent) {
-      this.map.fitBounds(
-        new L.LatLngBounds(
-          [this.extent.ymin, this.extent.xmin],
-          [this.extent.ymax, this.extent.xmax],
-        ),
-      );
-    }
   }
 
   onWatchlist(): boolean {
@@ -447,7 +447,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
         });
       }, 100);
     };
-    
+
     if (this.incident?.longitude && this.incident?.latitude) {
       navigateToMap(this.incident.longitude, this.incident.latitude, 'activeWildfires');
     }
