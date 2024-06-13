@@ -869,8 +869,6 @@ return 'Unknown';
   }
 
   fixPolygonToMap(polygonData,response?) {
-    console.log(polygonData)
-    console.log(response)
     //calculate the bounding box (bounds) for a set of polygon coordinates (polygonData).
     const viewer = getActiveMap().$viewer;
     const convex = this.commonUtilityService.createConvex(polygonData);

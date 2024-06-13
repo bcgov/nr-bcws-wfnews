@@ -66,8 +66,6 @@ export class AreaRestrictionPreviewComponent {
       if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
         const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
         if (polygonData?.length) {
-          console.log(polygonData)
-          console.log(response.features[0].geometry.rings)
           this.mapUtilityService.fixPolygonToMap(polygonData, response.features[0].geometry.rings);
 
         }                
