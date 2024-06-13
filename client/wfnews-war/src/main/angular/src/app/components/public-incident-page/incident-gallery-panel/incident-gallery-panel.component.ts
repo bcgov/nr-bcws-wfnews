@@ -127,60 +127,68 @@ export class IncidentGalleryPanel implements OnInit {
 
   async loadVideos() {
     // fetch the Videos
-    const results = await this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise();
-    for (const uri of results?.collection) {
-      if (!uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
-        this.media.push({
-          title: uri.externalUriDisplayLabel,
-          uploadedDate: new Date(
-            uri.createdTimestamp,
-          ).toLocaleDateString(),
-          fileName: '',
-          type: 'video',
-          href: uri.externalUri,
-        });
+    try {
+      const results = await this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise();
+      for (const uri of results?.collection) {
+        if (!uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
+          this.media.push({
+            title: uri.externalUriDisplayLabel,
+            uploadedDate: new Date(
+              uri.createdTimestamp,
+            ).toLocaleDateString(),
+            fileName: '',
+            type: 'video',
+            href: uri.externalUri,
+          });
+        }
       }
+    } catch (error) {
+      console.error('Error loading videos', error);
     }
   }
 
   async loadImages() {
     // fetch image attachments
-    const results = await this.publishedIncidentService
-      .fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel)
-      .toPromise();
+    try {
+      const results = await this.publishedIncidentService
+        .fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel)
+        .toPromise();
 
-    // Loop through the attachments, for each one, create a ref, and set href to the bytes
-    for (const attachment of results?.collection) {
-      // do a mime type check here
-      // Light gallery does not really support direct download on mimetype : image/bmp && image/tiff, which will returns 500 error.
-      if (
-        attachment.mimeType &&
-        [
-          'image/jpg',
-          'image/jpeg',
-          'image/png',
-          'image/gif',
-          'image/bmp',
-          'image/tiff',
-        ].includes(attachment.mimeType.toLowerCase())
-      ) {
-        this.media.push({
-          title: attachment.attachmentTitle,
-          uploadedDate: new Date(
-            attachment.createdTimestamp,
-          ).toLocaleDateString(),
-          fileName: attachment.attachmentFileName,
-          type: 'image',
-          href: `${this.appConfigService.getConfig().rest['wfnews']
-            }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
-            }/attachments/${attachment.attachmentGuid}/bytes`,
-          thumbnail: `${this.appConfigService.getConfig().rest['wfnews']
-            }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
-            }/attachments/${attachment.attachmentGuid
-            }/bytes?thumbnail=true`,
-          loaded: false,
-        });
+      // Loop through the attachments, for each one, create a ref, and set href to the bytes
+      for (const attachment of results?.collection) {
+        // do a mime type check here
+        // Light gallery does not really support direct download on mimetype : image/bmp && image/tiff, which will returns 500 error.
+        if (
+          attachment.mimeType &&
+          [
+            'image/jpg',
+            'image/jpeg',
+            'image/png',
+            'image/gif',
+            'image/bmp',
+            'image/tiff',
+          ].includes(attachment.mimeType.toLowerCase())
+        ) {
+          this.media.push({
+            title: attachment.attachmentTitle,
+            uploadedDate: new Date(
+              attachment.createdTimestamp,
+            ).toLocaleDateString(),
+            fileName: attachment.attachmentFileName,
+            type: 'image',
+            href: `${this.appConfigService.getConfig().rest['wfnews']
+              }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+              }/attachments/${attachment.attachmentGuid}/bytes`,
+            thumbnail: `${this.appConfigService.getConfig().rest['wfnews']
+              }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+              }/attachments/${attachment.attachmentGuid
+              }/bytes?thumbnail=true`,
+            loaded: false,
+          });
+        }
       }
+    } catch (error) {
+      console.error('Error loading images', error);
     }
   }
 
