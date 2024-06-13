@@ -1,4 +1,4 @@
-import { Component,ComponentFactoryResolver,Type,ViewChild, ViewContainerRef } from '@angular/core';
+import { Component,ComponentFactoryResolver,OnChanges,SimpleChanges,Type,ViewChild, ViewContainerRef } from '@angular/core';
 import { DraggablePanelComponent } from '../draggable-panel/draggable-panel.component';
 import { WeatherPanelComponent } from '@app/components/weather/weather-panel/weather-panel.component';
 import { AreaRestrictionPreviewComponent } from '@app/components/preview-panels/area-restriction-preview/area-restriction-preview.component';
@@ -28,6 +28,24 @@ export class IdentifyPanel extends DraggablePanelComponent {
   @ViewChild('roadEventsPanelContainer', { read: ViewContainerRef }) roadEventsPanelContainer: ViewContainerRef;
   @ViewChild('localAuthoritiesPanelContainer', { read: ViewContainerRef }) localAuthoritiesPanelContainer: ViewContainerRef;
   @ViewChild('closedRecSitesPanelContainer', { read: ViewContainerRef }) closedRecSitesPanelContainer: ViewContainerRef;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!this.removeIdentity || (changes?.incidentRefs?.currentValue?.length > 0)) {
+      this.removeIdentity = false;
+      this.showPanel = false;
+      this.identifyIncident = null;
+
+      const incidentRefs = changes?.incidentRefs?.currentValue;
+      if (incidentRefs) {
+        this.currentIncidentRefs = incidentRefs;
+        this.handleLayersSelection();
+      }
+
+      if(this.currentIncidentRefs?.length == 1) {
+        this.enterPreview(this.currentIncidentRefs[0])
+      }
+    }
+  }
 
   parseAreaRestriction(text: string) {
     text = text.replace("Area Restriction", "Restricted Area")
