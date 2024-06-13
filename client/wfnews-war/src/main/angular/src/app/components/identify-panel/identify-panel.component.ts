@@ -17,8 +17,7 @@ import { ClosedRecSitesComponent } from '@app/components/preview-panels/closed-r
   templateUrl: './identify-panel.component.html',
   styleUrls: ['./identify-panel.component.scss']
 })
-// export class IdentifyPanel extends DraggablePanelComponent implements OnChanges {
-  export class IdentifyPanel extends DraggablePanelComponent {
+export class IdentifyPanel extends DraggablePanelComponent {
   @ViewChild('weatherPanelContainer', { read: ViewContainerRef }) weatherPanelContainer: ViewContainerRef;
   @ViewChild('areaRestrictionPanelContainer', { read: ViewContainerRef }) areaRestrictionPanelContainer: ViewContainerRef;
   @ViewChild('fireBanPanelContainer', { read: ViewContainerRef }) fireBanPanelContainer: ViewContainerRef;
