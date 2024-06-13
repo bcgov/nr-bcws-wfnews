@@ -5,7 +5,8 @@ import {
   AfterViewInit,
   HostListener,
   Output,
-  EventEmitter
+  EventEmitter,
+  ChangeDetectorRef
 } from '@angular/core';
 import { EvacOrderOption } from '../../../conversion/models';
 import * as L from 'leaflet';
@@ -73,7 +74,8 @@ export class IncidentHeaderPanel implements AfterViewInit {
     private route: ActivatedRoute,
     private agolService: AGOLService,
     private commonUtilityService: CommonUtilityService,
-    private http: HttpClient
+    private http: HttpClient,
+    protected cdr: ChangeDetectorRef,
 
   ) {
     /* Empty, just here for injection */
@@ -319,6 +321,8 @@ export class IncidentHeaderPanel implements AfterViewInit {
         })
         .addTo(this.map);
       })
+      this.cdr.detectChanges();
+
     }
 
     if(this.dangerRating){
