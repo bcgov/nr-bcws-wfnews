@@ -1,9 +1,6 @@
 .draggable-panel {
   background-color: #ffffff;
-  height: calc(
-    40vh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px) -
-      56px
-  ) !important;
+  height: calc(40vh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px) - 56px) !important;
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -37,6 +34,10 @@
     .preview-title {
       display: flex;
       align-items: center;
+      color: var(--Black-48, #484848);
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
     }
   }
 
@@ -90,6 +91,7 @@
     width: 24px;
     height: 24px;
     margin-right: 12px;
+
     &:hover {
       cursor: pointer;
     }
@@ -104,11 +106,13 @@
       height: 12px;
       margin-right: 12px;
       margin-left: 1px;
+
       &.list {
         width: 22px;
         height: 22px;
       }
     }
+
     &.active-wildfires-out-of-control {
       background-color: #ff0000;
       border: 1px solid black;
@@ -117,11 +121,13 @@
       height: 12px;
       margin-right: 12px;
       margin-left: 1px;
+
       &.list {
         width: 22px;
         height: 22px;
       }
     }
+
     &.active-wildfires-under-control {
       background-color: #98e600;
       border: 1px solid black;
@@ -130,12 +136,15 @@
       height: 12px;
       margin-right: 12px;
       margin-left: 1px;
+
       &.list {
         width: 22px;
         height: 22px;
       }
     }
-    &.bcws-activefires-publicview-inactive, &.active-wildfires-out {
+
+    &.bcws-activefires-publicview-inactive,
+    &.active-wildfires-out {
       background-color: #5c6671;
       border: 1px solid black;
       border-radius: 50%;
@@ -143,6 +152,7 @@
       height: 12px;
       margin-right: 12px;
       margin-left: 1px;
+
       &.list {
         width: 22px;
         height: 22px;
@@ -168,7 +178,8 @@
       font-size: 15px;
       font-style: normal;
       font-weight: 400;
-      line-height: 22px; /* 146.667% */
+      line-height: 22px;
+      /* 146.667% */
       letter-spacing: -0.408px;
       align-items: center;
     }
@@ -186,7 +197,8 @@
       font-size: 15px;
       font-style: normal;
       font-weight: 400;
-      line-height: 22px; /* 146.667% */
+      line-height: 22px;
+      /* 146.667% */
       letter-spacing: -0.408px;
       padding-bottom: 24px;
     }
@@ -200,6 +212,7 @@
     gap: 16px;
     padding: 24px 20px 0 20px;
     align-items: center;
+
     .divider {
       height: 1px;
       background-color: #dedede;
@@ -209,6 +222,7 @@
     .buttons {
       display: flex;
       gap: 16px;
+
       .mobile-button {
         width: 100%;
         font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
@@ -222,6 +236,7 @@
         padding: 8px;
         border: 1px solid var(--Grays-Gray-6, #C4C4C4);
       }
+
       .mobile-button-primary {
         width: 100%;
         font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
