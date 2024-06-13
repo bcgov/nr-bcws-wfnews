@@ -21,6 +21,7 @@ import {
   snowPlowHelper,
   formatDate,
   showPanel,
+  displayLocalAuthorityType
 } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
@@ -74,6 +75,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   convertToDateYear = convertToDateYear;
   convertToDateTime = convertToDateTime;
   formatDate = formatDate;
+  displayLocalAuthorityType = displayLocalAuthorityType;
   removeIdentity = false;
 
   private previousZoom: number;
@@ -846,18 +848,6 @@ return 'Unknown';
     }
   }
 
-  displayLocalAuthorityType(layerId: string) {
-    if (layerId === 'abms-regional-districts') {
-      return 'Regional District';
-    }
-    if (layerId === 'clab-indian-reserves') {
-      return 'Indian Reserve';
-    }
-    if (layerId === 'abms-municipalities') {
-      return 'Municipality';
-    }
-  }
-
   decode(text: string): string {
     return decodeURIComponent(escape(text));
   }
@@ -879,6 +869,8 @@ return 'Unknown';
   }
 
   fixPolygonToMap(polygonData,response?) {
+    console.log(polygonData)
+    console.log(response)
     //calculate the bounding box (bounds) for a set of polygon coordinates (polygonData).
     const viewer = getActiveMap().$viewer;
     const convex = this.commonUtilityService.createConvex(polygonData);

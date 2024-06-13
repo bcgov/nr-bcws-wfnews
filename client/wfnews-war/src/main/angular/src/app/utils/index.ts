@@ -789,3 +789,51 @@ export function showPanel(panelClass: string) {
 
 
 export const isAndroidViaNavigator = () => navigator.platform.includes('Linux') || navigator.platform.includes('Android');
+
+export function displayItemTitle(identifyItem) {
+  switch (identifyItem.layerId) {
+    case 'active-wildfires-fire-of-note':
+      return 'Wildfire of Note';
+    case 'active-wildfires-out-of-control':
+    case 'active-wildfires-under-control':
+    case 'bcws-activefires-publicview-inactive':
+    case 'active-wildfires-holding':
+    case 'active-wildfires-out':
+      return 'Wildfire';
+  }
+}
+
+export function getDescription(code: string) {
+  if (code) {
+    if (code.toUpperCase().trim() === 'OUT') {
+return 'The wildfire has been extinguished or winter conditions are present, and the wildfire will not spread.';
+} else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
+return 'A wildfire that is spreading or it is anticipated to spread beyond the current perimeter, or control line.';
+} else if (code.toUpperCase().trim() === 'HOLDING') {
+return 'A wildfire that is projected, based on fuel and weather conditions and resource availability, to remain within the current perimeter, control line or boundary.';
+} else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
+return 'A wildfire that is not projected to spread beyond the current perimeter.';
+} else {
+return 'Unknown';
+}
+  }
+}
+
+export function displayLocalAuthorityType(layerId: string) {
+  if (layerId === 'abms-regional-districts') {
+    return 'Regional District';
+  }
+  if (layerId === 'clab-indian-reserves') {
+    return 'Indian Reserve';
+  }
+  if (layerId === 'abms-municipalities') {
+    return 'Municipality';
+  }
+  if (layerId === 'fnt-treaty-land') {
+    return 'First Nations';
+  }
+}
+
+export function formatNumber(number) {
+  return number.toLocaleString('en-US')
+}

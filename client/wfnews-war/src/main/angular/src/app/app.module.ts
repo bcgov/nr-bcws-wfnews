@@ -305,6 +305,11 @@ import { AreaRestrictionPreviewComponent } from './components/preview-panels/are
 import { FireBanPreviewComponent } from './components/preview-panels/fire-ban-preview/fire-ban-preview.component';
 import { DangerRatingPreviewComponent } from './components/preview-panels/danger-rating-preview/danger-rating-preview.component';
 import { ProtectedLandPreviewComponent } from './components/preview-panels/protected-land-preview/protected-land-preview.component';
+import { WildfirePreviewComponent } from './components/preview-panels/wildfire-preview/wildfire-preview.component';
+import { EvacuationsPreviewComponent } from './components/preview-panels/evacuations-preview/evacuations-preview.component';
+import { RoadEventsPreviewComponent } from './components/preview-panels/road-events-preview/road-events-preview.component';
+import { LocalAuthoritiesComponent } from './components/preview-panels/local-authorities/local-authorities.component';
+import { ClosedRecSitesComponent } from './components/preview-panels/closed-rec-sites/closed-rec-sites.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -521,6 +526,11 @@ export const DATE_FORMATS = {
     DownloadItemComponent,
     DownloadItemsContainerComponent,
     ContactUsBannerComponent,
+    WildfirePreviewComponent,
+    EvacuationsPreviewComponent,
+    RoadEventsPreviewComponent,
+    LocalAuthoritiesComponent,
+    ClosedRecSitesComponent,
   ],
   imports: [
     MatSortModule,

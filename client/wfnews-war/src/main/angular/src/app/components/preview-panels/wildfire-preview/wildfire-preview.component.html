@@ -1,0 +1,69 @@
+<div *ngIf="incident && data">
+    <div class="prev-panel">
+        <div class="panel-container">
+            <div class="draggable-panel-title">
+                <mat-icon svgIcon="back-icon-panel" (click)="goBack()"></mat-icon>
+                <span class="preview-title">
+                    <ng-container *ngIf="data.layerId === 'active-wildfires-fire-of-note'; else fireIcon">
+                        <img alt="icon" class="incident-icon-title"
+                            src="/assets/images/local_fire_department.png" />
+                    </ng-container>
+                    <ng-template #fireIcon>
+                        <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/report.svg">
+                    </ng-template>
+                    {{displayItemTitle(data)}}
+                </span>
+                <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+            </div>
+            <div class="identify-card">
+                <div class="identify-card-title">{{incident.incidentName}}</div>
+                <div class="identify-card-item">
+                    <span class="circle-icon {{getStageOfControlIcon(incident.stageOfControlCode)}}"
+                        style="border:none"></span>
+                    {{getStageOfControlLabel(incident.stageOfControlCode)}}
+                </div>
+                <div *ngIf="incident.incidentSizeEstimatedHa < 1 || incident.incidentSizeEstimatedHa > 1; else hectare" class="identify-card-item">
+                    <img alt="icon" class="preview-icon" src="/assets/images/svg-icons/carbon_ruler.svg"
+                        class="incident-icon">
+                    {{formatNumber(incident.incidentSizeEstimatedHa)}} Hectares
+                </div>
+                <ng-template #hectare>
+                <div class="identify-card-item">
+                    <img alt="icon" class="preview-icon" src="/assets/images/svg-icons/carbon_ruler.svg"
+                        class="incident-icon">
+                    {{incident.incidentSizeEstimatedHa}} Hectare
+                </div>
+                </ng-template>
+                <div class="identify-card-item">
+                    <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+                    Discovered on {{convertToDateYear(incident.discoveryDate)}}
+                </div>
+                <div class="identify-card-item">
+                    <img alt="icon" class="preview-icon" src="/assets/images/svg-icons/location-pin.svg"
+                        class="incident-icon">
+                    {{incident.fireCentreName}}
+                </div>
+                <div class="description-section">
+                    <div class="identify-card-description"
+                        *ngIf="data.layerId === 'active-wildfires-fire-of-note'">
+                        A wildfire that is highly visible or poses a potential threat to public safety.
+                    </div>
+                    <div class="identify-card-description">
+                        {{getDescription(incident.stageOfControlCode)}}
+                    </div>
+                </div>
+            </div>
+            <div class="button-row">
+                <div class="buttons">
+                    <button mat-flat-button class="mobile-button" (click)="zoomIn()">
+                        <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
+                        Zoom to
+                    </button>
+                    <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                        Full Details
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
