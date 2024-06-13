@@ -121,6 +121,7 @@ import { CircleIconButtonComponent } from './components/common/circle-icon-butto
 import { ContentCardContainerComponent } from './components/common/content-card-container/content-card-container.component';
 import { DownloadItemComponent } from './components/common/download-item/download-item.component';
 import { DownloadItemsContainerComponent } from './components/common/download-items-container/download-items-container.component';
+import { EventInfoComponent } from './components/common/event-info/event-info.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { IconButtonComponent } from './components/common/icon-button/icon-button.component';
 import { IconInfoChipComponent } from './components/common/icon-info-chip/icon-info-chip.component';
@@ -537,6 +538,7 @@ export const DATE_FORMATS = {
     MediaGalleryItemComponent,
     MediaGalleryContainerComponent,
     WfnewsSelectComponent,
+    EventInfoComponent,
   ],
   imports: [
     MatSortModule,
