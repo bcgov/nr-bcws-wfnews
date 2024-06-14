@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import {
   convertToDateYear,
   getResponseTypeDescription,
@@ -10,6 +10,7 @@ import { IncidentOverviewPanel } from '../incident-overview-panel/incident-overv
   selector: 'incident-overview-panel-mobile',
   templateUrl: './incident-overview-panel-mobile.component.html',
   styleUrls: ['./incident-overview-panel-mobile.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class IncidentOverviewPanelMobileComponent extends IncidentOverviewPanel {
   getResponseTypeTitle = getResponseTypeTitle;
