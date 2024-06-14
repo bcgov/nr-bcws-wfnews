@@ -75,7 +75,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
     private agolService: AGOLService,
     private commonUtilityService: CommonUtilityService,
     private http: HttpClient,
-    protected cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef,
 
   ) {
     /* Empty, just here for injection */
@@ -280,7 +280,23 @@ export class IncidentHeaderPanel implements AfterViewInit {
         this.http
           .get('assets/js/smk/bans-cat3.sld', { responseType: 'text' })
           .toPromise(),
-      ]).then(async ([cat1sld, cat2sld, cat3sld]) => {
+        this.agolService
+        .getBansAndProhibitionsById(this.params['eventNumber'], {
+          returnGeometry: false,
+          returnCentroid: false,
+          returnExtent: true,
+        })
+        .toPromise(),
+      ]).then(async ([cat1sld, cat2sld, cat3sld,extent]) => {
+        if (extent?.extent) {
+          this.map.fitBounds(
+            new L.LatLngBounds(
+              [extent.extent.ymin, extent.extent.xmin],
+              [extent.extent.ymax, extent.extent.xmax],
+            ),
+          );
+        }
+
         L.tileLayer
         .wms(databcUrl, {
           layers:
@@ -321,8 +337,6 @@ export class IncidentHeaderPanel implements AfterViewInit {
         })
         .addTo(this.map);
       })
-      this.cdr.detectChanges();
-
     }
 
     if(this.dangerRating){
@@ -372,6 +386,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
         fillColor: colorToDisplay,
       }).addTo(this.map);
     }
+    this.cdr.detectChanges();
 
     // fetch incidents in surrounding area and add to map
     this.addSurroundingIncidents();
