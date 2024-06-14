@@ -23,7 +23,7 @@ import {
   displayLocalAuthorityType,
   displayItemTitle,
   addMarker,
-  getStageOfControlDescription,
+  getStageOfControlDescription
 } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';

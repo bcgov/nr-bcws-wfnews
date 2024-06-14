@@ -82,7 +82,6 @@ export class WFMapService {
             'BespokeTool--full-extent',
             'triggered',
             (smk, tool) => {
-              console.log("wqeq!!")
               hidePanel('desktop-preview')
               zoomToProvince();
             },
