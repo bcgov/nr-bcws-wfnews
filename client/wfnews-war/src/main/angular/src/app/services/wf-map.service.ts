@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CapacitorService } from '@app/services/capacitor-service';
-import { getActiveMap, isAndroidViaNavigator } from '@app/utils';
+import { getActiveMap, hidePanel, isAndroidViaNavigator } from '@app/utils';
 import { CapacitorHttp } from '@capacitor/core';
 import { AppConfigService } from '@wf1/core-ui';
 import * as esriVector from 'esri-leaflet-vector';
@@ -82,6 +82,8 @@ export class WFMapService {
             'BespokeTool--full-extent',
             'triggered',
             (smk, tool) => {
+              console.log("wqeq!!")
+              hidePanel('desktop-preview')
               zoomToProvince();
             },
           );
