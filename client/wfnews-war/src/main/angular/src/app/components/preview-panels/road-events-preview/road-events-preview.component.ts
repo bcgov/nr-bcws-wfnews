@@ -12,7 +12,7 @@ export class RoadEventsPreviewComponent {
 
   constructor(private mapConfigService: MapConfigService,
     private appConfigService: AppConfigService
-  ) {}
+  ) { }
 
   convertToDateYear = convertToDateYear;
   openLink = openLink
@@ -20,7 +20,7 @@ export class RoadEventsPreviewComponent {
   public data;
   defaultZoomLevel = 11;
   pinDrop;
-  
+
   setContent(data) {
     this.data = data;
   }
@@ -28,10 +28,24 @@ export class RoadEventsPreviewComponent {
   closePanel() {
     hidePanel('desktop-preview');
   }
-  
-  goBack(){
+
+  goBack() {
     showPanel('identify-panel-wrapper')
     hidePanel('desktop-preview');
+  }
+
+  openDriveBC() {
+    let url: string = null;
+
+    if (this.data?.properties?.SOURCE_ID) {
+      url = 'https://drivebc.ca/mobile/pub/events/id/' + this.data.properties.SOURCE_ID + '.html';
+    }
+
+    else url = this.appConfigService.getConfig().externalAppConfig[
+      'driveBCUrl'
+    ] as unknown as string
+
+    window.open(url, '_blank');
   }
 
 }
