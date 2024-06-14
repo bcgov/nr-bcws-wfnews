@@ -119,7 +119,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   currentAdminIncidentCause: IncidentCauseResource;
   publishedIncidentType: string;
   publishedIncidentDetailGuid: string;
-  currentEtag: string;
+  currentIncidentName: string;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -216,12 +216,14 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         this.incidentNumberSequnce = params['incidentNumberSequence'];
 
         const self = this;
+        let publishedWFIM = false;
 
         this.publishedIncidentService
           .fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce)
           .subscribe(
-            (incidentResponse) => {
+            async (incidentResponse) => {
               self.currentAdminIncident = incidentResponse.response;
+              this.currentIncidentName = self.currentAdminIncident.incidentName;
               this.publishedIncidentType = self.currentAdminIncident.type;
               (self.incident as any).discoveryDate = new Date(
                 self.currentAdminIncident.discoveryTimestamp,
@@ -297,100 +299,66 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                   this.cdr.detectChanges();
                 });
 
-              incidentResponse.getPublishedIncident.subscribe(
-                (result) => {
-                  const response = result.body;
-                  this.currentEtag = result.headers.get('ETag')
-                  self.publishedIncidentDetailGuid =
-                    response.publishedIncidentDetailGuid;
-                  self.incident.traditionalTerritory =
-                    response.traditionalTerritoryDetail;
-                  self.incident.lastPublished = response.publishedTimestamp;
-                  self.incident.location = response.incidentLocation;
-
-                  self.incident.sizeComments =
-                    response.incidentSizeDetail ||
-                    'Fire size is based on most current information available.';
-                  Object.entries(SizeTypeOptionDisclaimer).forEach(
-                    ([index, disclaimer]) => {
-                      if (disclaimer === response.incidentSizeDetail) {
-                        self.incident.sizeType = Number.parseInt(index, 10);
-                      }
-                    },
-                  );
-
-                  self.incident.cause = 0;
-                  self.incident.causeComments = response.incidentCauseDetail;
-                  Object.entries(CauseOptionDisclaimer).forEach(
-                    ([index, disclaimer]) => {
-                      if (disclaimer === response.incidentCauseDetail) {
-                        self.incident.cause = Number.parseInt(index, 10);
-                      }
-                    },
-                  );
-                  if (!response.incidentCauseDetail) {
-                    self.incident.causeComments = CauseOptionDisclaimer[0];
+              const publishedIncident = new Promise((resolve, reject) => {
+                incidentResponse.getPublishedIncident.toPromise().then(
+                  (result) => {
+                    if (result) {
+                      publishedWFIM = true;
+                      resolve(result)
+                    } else reject(result)
+                  }, (err) => {
+                    console.log('No published data found...');
+                    console.error(err);
+                    self.publishedIncidentDetailGuid = null;
+                    publishedWFIM = false;
+                    reject(err)
                   }
-                  self.incident.publishedStatus =
-                    response.newsPublicationStatusCode;
-                  self.incident.responseComments = response.resourceDetail;
+                );
+              });
 
-                  self.incident.wildifreCrewsInd =
-                    response.wildfireCrewResourcesInd;
-                  self.incident.crewsComments =
-                    response.wildfireCrewResourcesDetail;
 
-                  self.incident.aviationInd =
-                    response.wildfireAviationResourceInd;
-                  self.incident.aviationComments =
-                    response.wildfireAviationResourceDetail;
+              // If WFIM returns a 404 for the incident, fetch the published incident from the WFNEWS public API
+              // set cause fields that should be specific to the public side
+              // give the admin screen default cause comments, as they should be null in the public API at this point
+              const publicPublishedIncident = new Promise((resolve, reject) => {
+                this.publishedIncidentService.fetchPublishedIncident(self.currentAdminIncident.incidentLabel, this.wildFireYear)
+                  .toPromise().then(
+                    (response) => {
+                      // resolve only if the incident has not been published in WFIM
+                      if (!publishedWFIM) resolve(response)
+                      else reject(response)
+                    }, (err) => {
+                      console.log('No public published data found...');
+                      console.error(err);
+                      reject(err)
+                    }
+                  );
+              });
 
-                  self.incident.incidentManagementInd =
-                    response.incidentMgmtCrewRsrcInd;
-                  self.incident.incidentManagementComments =
-                    response.incidentMgmtCrewRsrcDetail;
-                  self.incident.heavyEquipmentInd =
-                    response.heavyEquipmentResourcesInd;
-                  self.incident.heavyEquipmentComments =
-                    response.heavyEquipmentResourcesDetail;
-                  self.incident.structureProtectionInd =
-                    response.structureProtectionRsrcInd;
-                  self.incident.structureProtectionComments =
-                    response.structureProtectionRsrcDetail;
+              const results = await Promise.allSettled([publishedIncident, publicPublishedIncident]);
 
-                  self.incident.crewResourceCount =
-                    response?.crewResourceCount || undefined;
-                  self.incident.aviationResourceCount =
-                    response?.aviationResourceCount || undefined;
-                  self.incident.heavyEquipmentResourceCount =
-                    response?.heavyEquipmentResourceCount || undefined;
-                  self.incident.incidentManagementResourceCount =
-                    response?.incidentManagementResourceCount || undefined;
-                  self.incident.structureProtectionResourceCount =
-                    response?.structureProtectionResourceCount || undefined;
+              results.forEach((result) => {
+                let iterate = true;
+                if (result?.status == 'fulfilled') {
+                  if (iterate) {
+                    const res = result?.value;
+                    if (!publishedWFIM) {
+                      this.populatePublicFields(res)
+                    } else {
+                      this.populatePublishedIMFields(res)
+                    }
+                    this.populateCommonFields(res)
+                    iterate = false;
+                  }
+                }
+              });
 
-                  self.incident.contact.fireCentre =
-                    response.contactOrgUnitIdentifer?.toString();
-                  self.incident.contact.phoneNumber =
-                    response.contactPhoneNumber;
-                  self.incident.contact.emailAddress =
-                    response.contactEmailAddress;
-                  self.incident.incidentOverview = response.incidentOverview;
 
-                  this.incidentForm.patchValue(this.incident);
-                  this.incidentForm.markAsPristine();
-                  this.evacOrdersDetailsPanel.getEvacOrders();
-                },
-                (error) => {
-                  console.log('No published data found...');
-                  console.error(error);
-                  self.publishedIncidentDetailGuid = null;
-                },
-              );
 
               this.incidentForm.patchValue(this.incident);
               this.incidentForm.markAsPristine();
               this.cdr.detectChanges();
+              this.evacOrdersDetailsPanel.getEvacOrders();
             },
             (incidentResponseError) => {
               console.error(incidentResponseError);
@@ -412,6 +380,134 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   nullEmptyStrings(value: string) {
     return !value ? null : value;
+  }
+
+  populatePublicFields(result) {
+    this.incident.cause = result?.generalIncidentCauseCatId;
+    if (result?.incidentCauseDetail != null) {
+      this.incident.causeComments = result?.incidentCauseDetail
+    } else this.incident.causeComments = this.populateCauseComments(result?.generalIncidentCauseCatId);
+  }
+
+  populatePublishedIMFields(result) {
+    if (result?.body) {
+      const response = result.body;
+      this.publishedIncidentDetailGuid =
+        response?.publishedIncidentDetailGuid;
+  
+      this.incident.cause = 0;
+      this.incident.causeComments = response?.incidentCauseDetail;
+      Object.entries(CauseOptionDisclaimer).forEach(
+        ([index, disclaimer]) => {
+          if (disclaimer === response?.incidentCauseDetail) {
+            this.incident.cause = Number.parseInt(index, 10);
+          }
+        },
+      );
+      if (!response?.incidentCauseDetail) {
+        this.incident.causeComments = CauseOptionDisclaimer[0];
+      }
+    }
+  }
+
+  populateIncidentWithPublishedIncident(incidentLabel, wildfireYear, self) {
+    this.publishedIncidentService.fetchPublishedIncident(incidentLabel, wildfireYear)
+      .subscribe(response => {
+        if (response) {
+          // set cause fields that should be specific to the public side
+          // give the admin screen default cause comments, as they should be null in the public API at this point
+          self.incident.cause = response.generalIncidentCauseCatId;
+          if (response.incidentCauseDetail != null) {
+            self.incident.causeComments = response.incidentCauseDetail
+          } else self.incident.causeComments = this.populateCauseComments(response.generalIncidentCauseCatId);
+          this.populateCommonFields(response);
+        }
+      }),
+      (error) => {
+        console.log('No public published data found...');
+        console.error(error);
+      },
+
+      this.incidentForm?.patchValue(this.incident);
+    this.incidentForm?.markAsPristine();
+    this.evacOrdersDetailsPanel?.getEvacOrders();
+    this.cdr.detectChanges();
+  }
+
+  populateCauseComments(causeCode: number) {
+    switch (causeCode) {
+      case 1: return "Humans start wildfires in several ways, either by accident or intentionally.";
+      case 2: return "When lightning strikes an object it can release enough heat to ignite a tree or other fuels.";
+      case 3: return "Wildfire investigations often take time and can be very complex. Investigations may be carried out by one or more agencies, including the BC Wildfire Service, the Compliance and Enforcement Branch, the RCMP, or other law enforcement agencies, and may be cross jurisdictional."
+      default: return "A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.";
+    }
+  }
+
+  populateCommonFields(result) {
+    const response = result?.body;
+    if (response) {
+      this.incident.traditionalTerritory = response.traditionalTerritoryDetail;
+      this.incident.lastPublished = response.publishedTimestamp;
+      this.incident.location = response.incidentLocation;
+
+      this.incident.sizeComments =
+        response.incidentSizeDetail ||
+        'Fire size is based on most current information available.';
+      Object.entries(SizeTypeOptionDisclaimer).forEach(
+        ([index, disclaimer]) => {
+          if (disclaimer === response.incidentSizeDetail) {
+            this.incident.sizeType = Number.parseInt(index, 10);
+          }
+        },
+      );
+
+      this.incident.publishedStatus =
+        response.newsPublicationStatusCode;
+      this.incident.responseComments = response.resourceDetail;
+
+      this.incident.wildifreCrewsInd =
+        response.wildfireCrewResourcesInd;
+      this.incident.crewsComments =
+        response.wildfireCrewResourcesDetail;
+
+      this.incident.aviationInd =
+        response.wildfireAviationResourceInd;
+      this.incident.aviationComments =
+        response.wildfireAviationResourceDetail;
+
+      this.incident.incidentManagementInd =
+        response.incidentMgmtCrewRsrcInd;
+      this.incident.incidentManagementComments =
+        response.incidentMgmtCrewRsrcDetail;
+      this.incident.heavyEquipmentInd =
+        response.heavyEquipmentResourcesInd;
+      this.incident.heavyEquipmentComments =
+        response.heavyEquipmentResourcesDetail;
+      this.incident.structureProtectionInd =
+        response.structureProtectionRsrcInd;
+      this.incident.structureProtectionComments =
+        response.structureProtectionRsrcDetail;
+
+      this.incident.crewResourceCount =
+        response?.crewResourceCount || undefined;
+      this.incident.aviationResourceCount =
+        response?.aviationResourceCount || undefined;
+      this.incident.heavyEquipmentResourceCount =
+        response?.heavyEquipmentResourceCount || undefined;
+      this.incident.incidentManagementResourceCount =
+        response?.incidentManagementResourceCount || undefined;
+      this.incident.structureProtectionResourceCount =
+        response?.structureProtectionResourceCount || undefined;
+
+      this.incident.contact.fireCentre =
+        response.contactOrgUnitIdentifer?.toString();
+      this.incident.contact.phoneNumber =
+        response.contactPhoneNumber;
+      this.incident.contact.emailAddress =
+        response.contactEmailAddress;
+      this.incident.incidentOverview = response.incidentOverview;
+      this.cdr.detectChanges();
+    }
   }
 
   async publishChanges() {
@@ -488,8 +584,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
     try {
       const doc = await self.publishIncident(publishedIncidentResource);
-      this.publishedIncidentDetailGuid = doc?.publishedIncidentDetailGuid;
-
+      if (doc) {
+        this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid;
+      }
       // Handle evac orders
       await this.evacOrdersDetailsPanel.persistEvacOrders();
       if (doc) {
@@ -515,7 +612,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     }
   }
   publishIncident(incident): Promise<any> {
-
     if (incident.publishedIncidentDetailGuid == null) {
       // If publishedIncidentGuid is null, just save the incident
       // let publishedGuid;
@@ -540,16 +636,19 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       }
     } else {
       // If publishedIncidentGuid is not null, check for updates and then save the incident
-      return this.publishedIncidentService.getIMPublishedIncident(incident)
+      return this.publishedIncidentService.fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce)
         .toPromise()
         .then(data => {
-          let etag = data.headers.get('ETag')
-          if (etag != this.currentEtag) {
+          let name = data.response.incidentName;
+          if (name != this.currentIncidentName) {
             this.snackbarService.open(
-              'There have been updates on this incident. To retrieve the latest information, please refresh the page. Note that after refreshing, any ongoing edits will be lost',
+              'Fire Name has changed externally and has been updated on this page.  Confirm change and re-publish',
               'Ok',
               { duration: 10000, panelClass: 'snackbar-error' },
             );
+            this.currentIncidentName = name;
+            this.incidentForm.get('fireName').setValue(name);
+            this.incident.fireName = name;
             return;
           } else {
             const saveResult = this.publishedIncidentService.saveIMPublishedIncident(incident);
