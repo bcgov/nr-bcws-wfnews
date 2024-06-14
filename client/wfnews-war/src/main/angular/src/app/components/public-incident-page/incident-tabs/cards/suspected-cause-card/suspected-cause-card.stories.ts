@@ -1,5 +1,4 @@
 import { ContentCardContainerComponent } from '@app/components/common/content-card-container/content-card-container.component';
-import { IconListItemComponent } from '@app/components/common/icon-list-item/icon-list-item.component';
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { SuspectedCauseCardComponent } from './suspected-cause-card.component';
 
@@ -9,7 +8,7 @@ const meta: Meta<SuspectedCauseCardComponent> = {
   tags: ['autodocs'], 
   decorators: [
     moduleMetadata({
-      declarations: [SuspectedCauseCardComponent, ContentCardContainerComponent, IconListItemComponent]
+      declarations: [SuspectedCauseCardComponent, ContentCardContainerComponent]
     })
   ]
 };

@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { CauseOptionDisclaimer } from '@app/components/admin-incident-form/incident-details-panel/incident-details-panel.constants';
-import { defaultSlimIconButtonStyle } from '@app/components/common/icon-button/icon-button.component';
 
 @Component({
   selector: 'suspected-cause-card',
@@ -10,8 +9,6 @@ import { defaultSlimIconButtonStyle } from '@app/components/common/icon-button/i
 export class SuspectedCauseCardComponent {
 
   @Input() incidentSuspectedCauseCatId: number;
-
-  defaultSlimIconButtonStyle = defaultSlimIconButtonStyle;
   
   getCauseIcon = () => {
     const directory = 'assets/images/svg-icons/';
