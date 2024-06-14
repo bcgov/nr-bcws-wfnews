@@ -18,7 +18,6 @@ import {
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
-import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
 
 let mapIndexAuto = 0;
