@@ -235,9 +235,8 @@ export class IncidentHeaderPanel implements AfterViewInit {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-    const databcUrl = this.appConfigService
-      .getConfig()
-      ['mapServices']['openmapsBaseUrl'].toString();
+    //hard code now to test in dev
+    const databcUrl = "https://maps.dev.bcwildfireservices.com/geo/pub/ows"
     if (this.evac) {
       L.tileLayer
       .wms(databcUrl, {
