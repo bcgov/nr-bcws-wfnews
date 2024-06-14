@@ -205,9 +205,14 @@ import { MessageDialogComponent } from './components/message-dialog/message-dial
 import { MoreComponent } from './components/more/more.component';
 import { PanelWildfireStageOfControlComponentDesktop } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component.desktop';
 import { AreaRestrictionPreviewComponent } from './components/preview-panels/area-restriction-preview/area-restriction-preview.component';
+import { ClosedRecSitesComponent } from './components/preview-panels/closed-rec-sites/closed-rec-sites.component';
 import { DangerRatingPreviewComponent } from './components/preview-panels/danger-rating-preview/danger-rating-preview.component';
+import { EvacuationsPreviewComponent } from './components/preview-panels/evacuations-preview/evacuations-preview.component';
 import { FireBanPreviewComponent } from './components/preview-panels/fire-ban-preview/fire-ban-preview.component';
+import { LocalAuthoritiesComponent } from './components/preview-panels/local-authorities/local-authorities.component';
 import { ProtectedLandPreviewComponent } from './components/preview-panels/protected-land-preview/protected-land-preview.component';
+import { RoadEventsPreviewComponent } from './components/preview-panels/road-events-preview/road-events-preview.component';
+import { WildfirePreviewComponent } from './components/preview-panels/wildfire-preview/wildfire-preview.component';
 import { AreaRestrictionDetailsComponent } from './components/public-event-page/area-restriction-details/area-restriction-details.component';
 import { EvacAlertDetailsComponent } from './components/public-event-page/evac-alert-details/evac-alert-details.component';
 import { EvacOrderDetailsComponent } from './components/public-event-page/evac-order-details/evac-order-details.component';
@@ -237,6 +242,8 @@ import { ResourcesAssignedCardComponent } from './components/public-incident-pag
 import { AssignedResourceItemComponent } from './components/public-incident-page/incident-tabs/cards/response-type-card/assigned-resource-item/assigned-resource-item.component';
 import { ResponseTypeCardComponent } from './components/public-incident-page/incident-tabs/cards/response-type-card/response-type-card.component';
 import { ResponseUpdateCardComponent } from './components/public-incident-page/incident-tabs/cards/response-update-card/response-update-card.component';
+import { StageOfControlCardComponent } from './components/public-incident-page/incident-tabs/cards/stage-of-control-card/stage-of-control-card.component';
+import { SuspectedCauseCardComponent } from './components/public-incident-page/incident-tabs/cards/suspected-cause-card/suspected-cause-card.component';
 import { TextCardComponent } from './components/public-incident-page/incident-tabs/cards/text-card/text-card.component';
 import { ContactUsBannerComponent } from './components/public-incident-page/incident-tabs/contact-us-banner/contact-us-banner.component';
 import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
@@ -309,11 +316,6 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { WildfirePreviewComponent } from './components/preview-panels/wildfire-preview/wildfire-preview.component';
-import { EvacuationsPreviewComponent } from './components/preview-panels/evacuations-preview/evacuations-preview.component';
-import { RoadEventsPreviewComponent } from './components/preview-panels/road-events-preview/road-events-preview.component';
-import { LocalAuthoritiesComponent } from './components/preview-panels/local-authorities/local-authorities.component';
-import { ClosedRecSitesComponent } from './components/preview-panels/closed-rec-sites/closed-rec-sites.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -539,6 +541,8 @@ export const DATE_FORMATS = {
     MediaGalleryContainerComponent,
     WfnewsSelectComponent,
     EventInfoComponent,
+    SuspectedCauseCardComponent,
+    StageOfControlCardComponent,
   ],
   imports: [
     MatSortModule,

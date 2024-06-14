@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { CauseOptionDisclaimer } from '@app/components/admin-incident-form/incident-details-panel/incident-details-panel.constants';
 import { YouTubeService } from '@app/services/youtube-service';
 import { AppConfigService } from '@wf1/core-ui';
 import lightGallery from 'lightgallery';
@@ -30,9 +29,9 @@ import {
   convertToYoutubeId,
   findFireCentreByName,
   getResponseTypeDescription,
-  getStageOfControlDescription,
   isMobileView
 } from '../../../utils';
+import { eventInfoAlertStyle, eventInfoOrderStyle } from '../../common/event-info/event-info.component';
 
 @Component({
   selector: 'incident-info-panel',
@@ -55,7 +54,9 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
   public isMobileView = isMobileView;
   getResponseTypeDescription = getResponseTypeDescription;
   convertToDateYear = convertToDateYear;
-  getStageOfControlDescription = getStageOfControlDescription;
+  
+  eventInfoAlertStyle = eventInfoAlertStyle;
+  eventInfoOrderStyle = eventInfoOrderStyle;
 
   public areaRestrictionLink: string;
   desktopEvacOrders = [];
@@ -132,45 +133,6 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
     this.areaRestrictionLink = this.appConfigService.getConfig().externalAppConfig[
       'currentRestrictions'
     ] as unknown as string;
-  }
-
-  public getStageOfControlLabel(code: string) {
-    if (code.toUpperCase().trim() === 'OUT') {
-      return 'Out';
-    } else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
-      return 'Out of Control';
-    } else if (code.toUpperCase().trim() === 'HOLDING') {
-      return 'Being Held';
-    } else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
-      return 'Under Control';
-    } else {
-      return 'Unknown';
-    }
-  }
-
-  public getCauseLabel(code: number) {
-    if (code === 1) {
-      return 'Human';
-    } else if (code === 2) {
-      return 'Lightning';
-    } else if (code === 3) {
-      return 'Under Investigation';
-    } else {
-      return 'Unknown';
-    }
-  }
-
-  public getCauseDescription(code: number) {
-    switch (code) {
-      case 1:
-        return CauseOptionDisclaimer[1];
-      case 2:
-        return CauseOptionDisclaimer[2];
-      case 3:
-        return CauseOptionDisclaimer[3];
-      default:
-        return CauseOptionDisclaimer[0];
-    }
   }
 
   public copyToClipboard() {

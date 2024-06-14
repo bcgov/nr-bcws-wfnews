@@ -63,25 +63,16 @@
             <div class="content-panel-body" style="padding-bottom: 0;">
                 People in this area are at risk and should leave the area immediately.
             </div>
-            <div class="info-card info-card-order" *ngFor="let item of desktopEvacOrders">
-              <div class="title"><img class="icon-info-title" src="/assets/images/svg-icons/evacuation-order.svg" width="24px" height="24px"
-                      alt="evacuation-order" />
-                  Evacuation Order for {{incident.incidentName ? incident.incidentName :
-                  incident.incidentNumberLabel}}
-              </div>
-              <hr>
-              <div class="subtitle">
-                  <img class="fire-icon" height="20" width="20" src="/assets/images/svg-icons/calendar.svg"
-                      alt="calendar" />Issued on {{item.issuedOn}}
-              </div>
-              <div class="subtitle">
-                  <img class="fire-icon" height="20" width="20" src="/assets/images/svg-icons/issuing_agency.svg"
-                      alt="issuing_agency" />Issued by {{item.issuingAgency}}
-                  <img height="20" width="20" class="arrow-button arrow-button-order"
-                  alt="icon" src="/assets/images/svg-icons/forward-arrow-red.svg" (click)="navigateToEvac(item)">
-              </div>
-            </div>
+            <event-info *ngFor="let order of desktopEvacOrders"
+              [headerText]="'Evacuation Order for ' + (incident.incidentName ? incident.incidentName : incident.incidentNumberLabel)"
+              [issueDateText]="'Issued on ' + order.issuedOn"
+              [issueAuthorityText]="'Issued by ' + order.issuingAgency"
+              [headerIconPath]="'/assets/images/svg-icons/evacuation-order.svg'"
+              [componentStyle]="eventInfoOrderStyle"
+              (viewDetails)="navigateToEvac(order)">
+            </event-info>
           </div>
+
           <div id="evac-alert" *ngIf="desktopEvacAlerts && desktopEvacAlerts.length >= 1">
             <div class="sub-title"><img class="fire-icon" src="/assets/images/svg-icons/custom_warning.svg" width="24px" height="24px"
                     alt="custom_warning" />Evacuation Alerts
@@ -90,28 +81,14 @@
                 An evacuation alert is a warning about a potential threat to life and/or property. It is
                 intended to give you time to be ready for a possible evacuation.
             </div>
-            <div class="info-card info-card-alert" *ngFor="let item of desktopEvacAlerts">
-              <div class="title">
-                  <img class="icon-info-title" src="/assets/images/svg-icons/evacuation-alert.svg" width="24px" height="24px" alt="evacuation-alert" />
-                  <ng-container *ngIf="!item.externalUri">
-                    Evacuation Alert for {{ incident.incidentName ? incident.incidentName : incident.incidentNumberLabel }}
-                  </ng-container>
-                  <ng-container *ngIf="item.externalUri">
-                    {{ item.eventName }}
-                  </ng-container>
-              </div>
-              <hr>
-              <div class="subtitle">
-                  <img class="fire-icon" height="20" width="20" src="/assets/images/svg-icons/calendar.svg"
-                      alt="calendar" />Issued on {{item.issuedOn}}
-              </div>
-              <div class="subtitle"><img class="fire-icon" height="20" width="20"
-                      src="/assets/images/svg-icons/issuing_agency.svg" alt="issuing_agency" />Issued by
-                  {{item.issuingAgency}}
-                  <img height="20" width="20" class="arrow-button arrow-button-alert"
-                  alt="fire-icon" src="/assets/images/svg-icons/forward-arrow-yellow.svg" (click)="navigateToEvac(item)">
-              </div>
-            </div>
+            <event-info *ngFor="let alert of desktopEvacAlerts"
+              [headerText]="'Evacuation Alert for ' + (incident.incidentName ? incident.incidentName : incident.incidentNumberLabel)"
+              [issueDateText]="'Issued on ' + alert.issuedOn"
+              [issueAuthorityText]="'Issued by ' + alert.issuingAgency"
+              [headerIconPath]="'/assets/images/svg-icons/evacuation-alert.svg'"
+              [componentStyle]="eventInfoAlertStyle"
+              (viewDetails)="navigateToEvac(order)">
+            </event-info>
           </div>
         </div>
       </div>
@@ -192,54 +169,8 @@
               </div>
           </ng-template>
         </div>
-        <div>
-          <h1>Suspected Cause</h1>
-          <div class="sub-title">
-              <div class="sub-content-title">
-                  <div *ngIf='incident.generalIncidentCauseCatId === 1'>
-                      <img class="fire-icon" src="/assets/images/svg-icons/human.svg" alt="human" width="24" height="24"/>
-                      {{getCauseLabel(incident.generalIncidentCauseCatId)}}
-                  </div>
-                  <div *ngIf='incident.generalIncidentCauseCatId === 2'>
-                      <img class="fire-icon" src="/assets/images/svg-icons/lightning.svg" alt="lightning" width="24" height="24" />
-                      {{getCauseLabel(incident.generalIncidentCauseCatId)}}
-                  </div>
-                  <div *ngIf='incident.generalIncidentCauseCatId === 3'>
-                      <img class="fire-icon" src="/assets/images/svg-icons/help.svg" alt="question" width="24" height="24"/>
-                      {{getCauseLabel(incident.generalIncidentCauseCatId)}}
-                  </div>
-              </div>
-          </div>
-          <div class="content-panel-body" style="padding-bottom: 0">
-              {{getCauseDescription(incident.generalIncidentCauseCatId)}}
-          </div>
-        </div>
 
-        <div>
-          <h1>Contact Us</h1>
-          <div>
-              <div class="content-panel-body"><img class="fire-icon" src="/assets/images/centre.png"
-                      alt="centre" />{{incident.fireCentreName}}</div>
-              <div class="content-panel-body"> <img class="fire-icon"
-                      src="/assets/images/svg-icons/carbon_email.svg"
-                      alt="carbon_email" />{{incident.contactEmailAddress}}</div>
-              <div class="content-panel-body"><img class="fire-icon"
-                      src="/assets/images/svg-icons/carbon_phone.svg"
-                      alt="carbon_phone" />{{incident.contactPhoneNumber}}</div>
-          </div>
-          <div class="contact-buttons">
-              <button mat-button class="desktop-button ">
-                  <img class="fire-icon" src="/assets/images/svg-icons/carbon_phone.svg"
-                      alt="carbon_phone" />
-                  <a [href]="'tel:' + incident.contactPhoneNumber" style="text-decoration: none; color: inherit;">Call Us</a>
-              </button>
-              <button mat-button class="desktop-button " (click)="emailFireCentre(incident.contactEmailAddress)">
-                  <img class="fire-icon" src="/assets/images/svg-icons/carbon_email.svg"
-                      alt="carbon_email" />
-                  Email Us
-              </button>
-          </div>
-        </div>
+
       </div>
       <div class="spacer-bottom"></div>
     </div>
