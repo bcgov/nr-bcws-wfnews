@@ -10,7 +10,9 @@ import { AppConfigService } from '@wf1/core-ui';
 })
 export class RoadEventsPreviewComponent {
 
-  constructor(private mapConfigService: MapConfigService) {}
+  constructor(private mapConfigService: MapConfigService,
+    private appConfigService: AppConfigService
+  ) {}
 
   convertToDateYear = convertToDateYear;
   openLink = openLink
