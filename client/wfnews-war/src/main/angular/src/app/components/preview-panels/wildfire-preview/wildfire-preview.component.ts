@@ -75,6 +75,7 @@ export class WildfirePreviewComponent implements OnDestroy{
   }
 
   zoomIn(){
+    console.log('zooming')
     const long = Number(this.incident?.longitude);
     const lat = Number(this.incident?.latitude);
 
