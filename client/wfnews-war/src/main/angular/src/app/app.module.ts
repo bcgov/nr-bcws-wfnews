@@ -239,6 +239,7 @@ import { IncidentOverviewPanel } from './components/public-incident-page/inciden
 import { IncidentResponsePanelComponent } from './components/public-incident-page/incident-response-panel/incident-response-panel.component';
 import { ContactUsCardComponent } from './components/public-incident-page/incident-tabs/cards/contact-us-card/contact-us-card.component';
 import { FireSizeCardComponent } from './components/public-incident-page/incident-tabs/cards/fire-size-card/fire-size-card.component';
+import { LocationCardComponent } from './components/public-incident-page/incident-tabs/cards/location-card/location-card.component';
 import { ResourcesAssignedCardComponent } from './components/public-incident-page/incident-tabs/cards/resources-assigned-card/resources-assigned-card.component';
 import { AssignedResourceItemComponent } from './components/public-incident-page/incident-tabs/cards/response-type-card/assigned-resource-item/assigned-resource-item.component';
 import { ResponseTypeCardComponent } from './components/public-incident-page/incident-tabs/cards/response-type-card/response-type-card.component';
@@ -545,6 +546,7 @@ export const DATE_FORMATS = {
     SuspectedCauseCardComponent,
     StageOfControlCardComponent,
     FireSizeCardComponent,
+    LocationCardComponent,
   ],
   imports: [
     MatSortModule,
