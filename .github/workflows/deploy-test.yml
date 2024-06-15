@@ -65,8 +65,8 @@ jobs:
 
       - name: Tag nginx image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ github.base_ref }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ github.base_ref }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ github.ref_name  }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ github.ref_name  }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
           docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
 
       - name: Tag notifications-api image
