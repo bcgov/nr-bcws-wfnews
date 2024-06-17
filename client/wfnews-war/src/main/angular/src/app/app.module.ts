@@ -237,7 +237,9 @@ import { IncidentMapsPanel } from './components/public-incident-page/incident-ma
 import { IncidentOverviewPanelMobileComponent } from './components/public-incident-page/incident-overview-panel-mobile/incident-overview-panel-mobile.component';
 import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
 import { IncidentResponsePanelComponent } from './components/public-incident-page/incident-response-panel/incident-response-panel.component';
+import { AreaRestrictionsCardComponent } from './components/public-incident-page/incident-tabs/cards/area-restrictions-card/area-restrictions-card.component';
 import { ContactUsCardComponent } from './components/public-incident-page/incident-tabs/cards/contact-us-card/contact-us-card.component';
+import { EvacuationsCardComponent } from './components/public-incident-page/incident-tabs/cards/evacuations-card/evacuations-card.component';
 import { FireSizeCardComponent } from './components/public-incident-page/incident-tabs/cards/fire-size-card/fire-size-card.component';
 import { LocationCardComponent } from './components/public-incident-page/incident-tabs/cards/location-card/location-card.component';
 import { ResourcesAssignedCardComponent } from './components/public-incident-page/incident-tabs/cards/resources-assigned-card/resources-assigned-card.component';
@@ -547,6 +549,8 @@ export const DATE_FORMATS = {
     StageOfControlCardComponent,
     FireSizeCardComponent,
     LocationCardComponent,
+    EvacuationsCardComponent,
+    AreaRestrictionsCardComponent,
   ],
   imports: [
     MatSortModule,
