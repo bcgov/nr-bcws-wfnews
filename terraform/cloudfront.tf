@@ -1170,4 +1170,3 @@ resource "aws_cloudfront_response_headers_policy" "strip-vulnerable-headers" {
     }
   }
 }
-

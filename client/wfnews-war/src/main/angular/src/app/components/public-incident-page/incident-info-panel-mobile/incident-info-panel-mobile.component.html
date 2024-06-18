@@ -245,7 +245,7 @@
                 </div>
             </div>
             <div class="sub-content">
-                {{getCauseDescription(incident.generalIncidentCauseCatId)}}
+                {{incident.incidentCauseDetail || getCauseDescription(incident.generalIncidentCauseCatId)}}
             </div>
             <div class="divider"></div>
         </div>

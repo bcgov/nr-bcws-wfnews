@@ -23,7 +23,8 @@ import {
   displayLocalAuthorityType,
   displayItemTitle,
   addMarker,
-  getStageOfControlDescription
+  getStageOfControlDescription,
+  hidePanel
 } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
@@ -173,6 +174,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       // only show preview detial if it is through openPreviewPanel(). We will always the preview list page by clicking on map, even there is only single item.
       this.showPanel = true;
       showPanel('identify-panel-wrapper')
+      hidePanel('desktop-preview')
       const viewer = getActiveMap().$viewer;
       for (const polygon of this.highlightPolygons) {
         viewer.map.removeLayer(polygon);
@@ -184,6 +186,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       // single feature within clicked area
       this.showPanel = true;
       showPanel('identify-panel-wrapper')
+      hidePanel('desktop-preview')
       this.identifyItem = this.currentIncidentRefs[0];
       let incidentNumber = null;
       let fireYear = null;
@@ -239,6 +242,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       this.identifyItem = null;
       this.showPanel = true;
       showPanel('identify-panel-wrapper')
+      hidePanel('desktop-preview')
       this.filteredWildfires = this.currentIncidentRefs.filter((item) =>
         this.wildfireLayerIds.includes(item.layerId),
       );
@@ -289,6 +293,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       if (this.weatherStations) {
         this.showPanel = true;
         showPanel('identify-panel-wrapper')
+        hidePanel('desktop-preview')
       }
     }
   }

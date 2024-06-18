@@ -23,6 +23,7 @@ export class EvacuationsPreviewComponent {
   public data;
   setContent(data) {
     this.data = data.properties;
+    this.zoomIn();
   }
 
   closePanel() {
