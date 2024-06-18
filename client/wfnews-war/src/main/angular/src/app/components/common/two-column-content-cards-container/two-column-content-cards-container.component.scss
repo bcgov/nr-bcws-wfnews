@@ -16,7 +16,7 @@
     }
   }
 
-  @media screen and (max-width: $desktop-sm-max-width) {
+  @media screen and (max-width: $mobile-max-width) {
     display: block;
     padding-bottom: 24px;
   }
@@ -27,7 +27,7 @@
     width: 50%;
     gap: 32px;
 
-    @media screen and (max-width: $desktop-sm-max-width) {
+    @media screen and (max-width: $mobile-max-width) {
       width: auto;
       padding-bottom: 24px;
       padding-left: 24px;
