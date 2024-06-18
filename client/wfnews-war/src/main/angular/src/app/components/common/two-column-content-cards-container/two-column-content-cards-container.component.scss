@@ -7,7 +7,16 @@
   align-items: flex-start;
   gap: 32px;
 
-  @media screen and (max-width: $mobile-max-width) {
+  &.print {
+    flex-direction: column;
+    padding: 0;
+
+    .column-1, .column-2 {
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: $desktop-sm-max-width) {
     display: block;
     padding-bottom: 24px;
   }
@@ -18,7 +27,7 @@
     width: 50%;
     gap: 32px;
 
-    @media screen and (max-width: $mobile-max-width) {
+    @media screen and (max-width: $desktop-sm-max-width) {
       width: auto;
       padding-bottom: 24px;
       padding-left: 24px;

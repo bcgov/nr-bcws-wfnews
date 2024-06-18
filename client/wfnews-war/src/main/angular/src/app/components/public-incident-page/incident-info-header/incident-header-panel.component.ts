@@ -1,37 +1,37 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Input,
-  AfterViewInit,
-  HostListener,
-  Output,
-  EventEmitter,
-  ChangeDetectorRef
-} from '@angular/core';
-import { EvacOrderOption } from '../../../conversion/models';
-import * as L from 'leaflet';
-import { AppConfigService } from '@wf1/core-ui';
-import { WatchlistService } from '../../../services/watchlist-service';
-import {
-  convertToFireCentreDescription,
-  convertFireNumber,
-  ResourcesRoutes,
-  setDisplayColor,
-  getStageOfControlLabel,
-  convertToDateTimeTimeZone,
-  isMobileView
-} from '../../../utils';
-import * as moment from 'moment';
-import { MatDialog } from '@angular/material/dialog';
-import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { toCanvas } from 'qrcode';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { HttpClient } from '@angular/common/http';
+import { PublishedIncidentService } from '@app/services/published-incident-service';
+import { AppConfigService } from '@wf1/core-ui';
+import * as L from 'leaflet';
+import * as moment from 'moment';
+import { toCanvas } from 'qrcode';
+import { EvacOrderOption } from '../../../conversion/models';
+import { WatchlistService } from '../../../services/watchlist-service';
+import {
+  ResourcesRoutes,
+  convertFireNumber,
+  convertToDateTimeTimeZone,
+  convertToFireCentreDescription,
+  getStageOfControlLabel,
+  isMobileView,
+  setDisplayColor
+} from '../../../utils';
+import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
 
 
 @Component({
@@ -588,6 +588,9 @@ export class IncidentHeaderPanel implements AfterViewInit {
   // }
 
   public printPage() {
+    const twoColumnContent = document.getElementsByClassName('two-column-content-cards-container')[0];
+    twoColumnContent.classList.add('print');
+
     const printContents =
       document.getElementsByClassName('page-container')[0].innerHTML;
 
@@ -598,13 +601,14 @@ export class IncidentHeaderPanel implements AfterViewInit {
     document.body.innerHTML = printContents;
 
     const canvas = document.getElementById('qr-code');
-    toCanvas(canvas, window.location.href, function (error) {
+    toCanvas(canvas, window.location.href, (error) => {
       if (error) {
         console.error(error);
       }
       window.print();
       document.body.innerHTML = '';
       document.body.appendChild(appRoot);
+      twoColumnContent.classList.remove('print');
     });
   }
 
