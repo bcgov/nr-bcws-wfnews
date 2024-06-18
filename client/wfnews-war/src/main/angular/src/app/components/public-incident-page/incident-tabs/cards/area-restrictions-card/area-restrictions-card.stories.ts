@@ -43,3 +43,24 @@ export const emptyState: Story = {
     areaRestrictions: []
   }
 };
+
+export const exampleWithWarning: Story = {
+  args: {
+    areaRestrictions: [{
+      protRsSysID: 22,
+      name: 'K55405 Area Restriction',
+      accessStatusEffectiveDate: new Date(),
+      fireCentre: 'Kamloops Fire Centre',
+      fireZone: 'Pentiction Fire Zone',
+      bulletinUrl: null
+    }],
+    showPreviewWarning: true
+  }
+};
+
+export const emptyStateWithWarning: Story = {
+  args: {
+    areaRestrictions: [],
+    showPreviewWarning: true
+  }
+};

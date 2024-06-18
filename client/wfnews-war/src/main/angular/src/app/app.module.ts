@@ -320,6 +320,7 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
+import { PrimaryMediaCardComponent } from './components/public-incident-page/incident-tabs/cards/primary-media-card/primary-media-card.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -551,6 +552,7 @@ export const DATE_FORMATS = {
     LocationCardComponent,
     EvacuationsCardComponent,
     AreaRestrictionsCardComponent,
+    PrimaryMediaCardComponent,
   ],
   imports: [
     MatSortModule,

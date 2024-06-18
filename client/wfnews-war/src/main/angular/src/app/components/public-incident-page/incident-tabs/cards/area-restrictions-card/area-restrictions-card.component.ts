@@ -10,6 +10,7 @@ import { eventInfoAreaRestrictionStyle } from '../../../../common/event-info/eve
 })
 export class AreaRestrictionsCardComponent {
   @Input() areaRestrictions: AreaRestrictionsOption[] = [];
+  @Input() showPreviewWarning: boolean;
   @Output() viewDetailsClicked = new EventEmitter<any>();
 
   eventInfoAreaRestrictionStyle = eventInfoAreaRestrictionStyle;
