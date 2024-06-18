@@ -3,22 +3,20 @@
 }
 
 .primary-media-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
   .media {
     .image {
       border-radius: 16px;
       object-fit: cover;
       width: 100%;
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 4 / 3;
     }
 
     .all-photos-button {
-      position: absolute;
-      bottom: 20px;
-      right: 16px;
+      position: relative;
+      float: right;
+      bottom: 52px;
+      right: 8px;
+      margin-bottom: -52px;
       padding: 6px 12px;
       border-radius: 30px;
       background: #FFF;

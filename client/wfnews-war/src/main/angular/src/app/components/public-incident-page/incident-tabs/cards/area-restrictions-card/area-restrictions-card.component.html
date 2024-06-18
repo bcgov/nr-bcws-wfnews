@@ -29,7 +29,7 @@
         <event-info *ngFor="let areaRestriction of areaRestrictions" [headerIconPath]="'assets/images/svg-icons/area-restriction.svg'"
           [headerText]="areaRestriction.name" [fireCentreText]="areaRestriction.fireCentre"
           [issueDateText]="'Issued on ' + convertToDateYear(areaRestriction.accessStatusEffectiveDate)" [componentStyle]="eventInfoAreaRestrictionStyle"
-          (viewDetailsClicked)="handleButtonClick(order)"></event-info>
+          (viewDetailsClicked)="handleButtonClick(areaRestriction)"></event-info>
       </div>
     </div>
   </div>
