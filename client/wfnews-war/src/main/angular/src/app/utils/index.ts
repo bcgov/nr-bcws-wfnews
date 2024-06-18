@@ -896,3 +896,38 @@ export function addMarker(incident: any) {
   const viewer = getActiveMap().$viewer;
   this.marker.addTo(viewer.map);
 }
+
+export function zoomInWithLocationPin(){
+  const viewer = getActiveMap().$viewer;
+  const long = Number(this.data?._identifyPoint?.longitude);
+  const lat = Number(this.data?._identifyPoint?.latitude);
+
+  if(long && lat) {
+    this.mapConfigService.getMapConfig().then(() => {
+      getActiveMap().$viewer.panToFeature(
+        window['turf'].point([long, lat]),
+        this.defaultZoomLevel
+      );
+    });
+    const markerOptions = {
+      icon: L.divIcon({
+        className: 'custom-icon-class',
+        html: `<div class="custom-marker" style="margin-top:-30px">
+              <img alt="icon" src="/assets/images/svg-icons/pin-drop.svg"/>
+            </div>`,
+        iconSize: [32, 32],
+      }),
+      draggable: false,
+    };
+      if (this.pinDrop) {
+        viewer.map.removeLayer(this.pinDrop);
+      }
+
+      this.pinDrop = L.marker(
+        [lat, long],
+        markerOptions,
+      ).addTo(viewer.map);
+    }
+  }
+
+
