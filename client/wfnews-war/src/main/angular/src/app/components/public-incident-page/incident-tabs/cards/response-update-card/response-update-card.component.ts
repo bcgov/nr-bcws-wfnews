@@ -19,7 +19,7 @@ export class ResponseUpdateCardComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const size = this.contentElementRef?.nativeElement?.offsetHeight;
-    this.useColumns = size >= (this.columnTrigger * this.columnSize);
+    this.useColumns = size > (this.columnTrigger * this.columnSize);
     if (this.useColumns) {
       this.cdr.detectChanges();
     }
