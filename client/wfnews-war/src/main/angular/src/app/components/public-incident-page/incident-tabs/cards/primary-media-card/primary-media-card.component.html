@@ -1,0 +1,14 @@
+<div class="primary-media-item">
+  <div *ngIf="showPreviewWarning">Warning: Primary Video/Image selection cannot be previewed</div>
+  <div class="media" *ngIf="item">
+
+    <img *ngIf="item.type === 'image'" class="image" id="primary-image-container" [src]="item.thumbnailUrl" [alt]="item.title" (error)="handleImageError()">
+    <button *ngIf="item.type === 'image'" class="all-photos-button" (click)="openAllPhotos()">All photos</button>
+
+    <iframe *ngIf="item.type === 'video'" [src]="bypassUrlSecurity(item.href)" [title]="item.title"
+      sandbox="allow-scripts allow-same-origin allow-presentation"
+      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+    </iframe>
+  </div>
+</div>

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CircleIconButtonStyle } from '@app/components/common/circle-icon-button/circle-icon-button.component';
 import { IconInfoChipStyle } from '@app/components/common/icon-info-chip/icon-info-chip.component';
-import { STAGE_OF_CONTROL_CODES } from '@app/constants';
 import { SimpleIncident } from '@app/services/published-incident-service';
-import { convertToDateYear, getStageOfControlLabel } from '@app/utils';
+import { convertToDateYear, getStageOfControlIconPath, getStageOfControlLabel } from '@app/utils';
+import { getStageOfControlIcon } from '../../../../utils/index';
 
 @Component({
   selector: 'associated-wildfire-card',
@@ -19,6 +19,7 @@ export class AssociatedWildfireCardComponent {
   @Output() viewDetailsClicked = new EventEmitter<void>();
 
   getStageOfControlLabel = getStageOfControlLabel;
+  getStageOfControlIcon = getStageOfControlIcon;
   convertToDateYear = convertToDateYear;
 
   wildfireOfNoteChipStyle: IconInfoChipStyle = {
@@ -38,22 +39,7 @@ export class AssociatedWildfireCardComponent {
   getBookmarkIconPath = () => this.isBookmarked ? 'assets/images/svg-icons/bookmark-blue.svg' : 'assets/images/svg-icons/bookmark.svg';
 
   getStageOfControlLabelText = () => getStageOfControlLabel(this.incident?.stageOfControlCode);
-
-  getStageOfControlIconPath = () => {
-    const directory = 'assets/images/svg-icons/';
-    switch (this.incident?.stageOfControlCode?.toUpperCase()?.trim()) {
-      case STAGE_OF_CONTROL_CODES.OUT:
-        return directory + 'out-fire.svg';
-      case STAGE_OF_CONTROL_CODES.OUT_OF_CONTROL:
-        return directory + 'out-of-control.svg';
-      case STAGE_OF_CONTROL_CODES.BEING_HELD:
-        return directory + 'being-held.svg';
-      case STAGE_OF_CONTROL_CODES.UNDER_CONTROL:
-        return directory + 'under-control.svg';
-      default:
-        return directory + 'question.svg';
-    };
-  };
+  getStageOfControlIconPath = () => getStageOfControlIconPath(this.incident?.stageOfControlCode);
 
   getDiscoveryDate = () => 'Discovered on ' + convertToDateYear(this.incident?.discoveryDate);
 

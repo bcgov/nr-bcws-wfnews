@@ -28,6 +28,16 @@ export const smallerIcons: Story = {
   args: {
     iconPath: '/assets/images/svg-icons/patio_furniture.svg',
     text: 'Some of these emojis are random. Where do we even use these?',
-    slim: true,
+    iconSize: 16,
+    gapSize: 8
+  },
+};
+
+export const mediumIcons: Story = {
+  args: {
+    iconPath: '/assets/images/svg-icons/patio_furniture.svg',
+    text: 'Some of these emojis are random. Where do we even use these?',
+    iconSize: 20,
+    gapSize: 8
   },
 };

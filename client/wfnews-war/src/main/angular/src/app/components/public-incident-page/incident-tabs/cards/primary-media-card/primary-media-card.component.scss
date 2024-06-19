@@ -1,0 +1,39 @@
+:host { 
+  display: block; 
+}
+
+.primary-media-item {
+  .media {
+    .image {
+      border-radius: 16px;
+      object-fit: cover;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+    }
+
+    .all-photos-button {
+      position: relative;
+      float: right;
+      bottom: 52px;
+      right: 8px;
+      margin-bottom: -52px;
+      padding: 6px 12px;
+      border-radius: 30px;
+      background: #FFF;
+      color: var(--Black-24, #242424);
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px; /* 150% */
+      cursor: pointer;
+    }
+
+    iframe {
+      border: none;
+      width: 100%;
+      object-fit: fill;
+      aspect-ratio: 16 / 9;
+    }
+  }
+}

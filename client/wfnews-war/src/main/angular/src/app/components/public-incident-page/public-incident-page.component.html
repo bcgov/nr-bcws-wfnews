@@ -10,7 +10,9 @@
         [areaRestrictions]="areaRestrictions" 
         [showImageWarning]="showImageWarning" 
         [showMapsWarning]="showMapsWarning"
-        (tabChange)="onTabChange($event)">
+        (tabChange)="onTabChange($event)"
+        [selectedTabIndex]="selectedTabIndex"
+        >
       </app-incident-tabs>
     </div>
     <div *ngIf="hideOnMobileView()">

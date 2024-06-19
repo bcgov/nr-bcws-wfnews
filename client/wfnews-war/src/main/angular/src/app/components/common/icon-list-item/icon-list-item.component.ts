@@ -10,7 +10,8 @@ export class IconListItemComponent {
   @Input() iconPath: string;
   @Input() text: string;
   @Input() link?: string;
-  @Input() slim?: boolean;
+  @Input() gapSize?: number;
+  @Input() iconSize?: number;
 
   directToLink() {
     if (this.link) {

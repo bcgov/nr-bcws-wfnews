@@ -1,0 +1,14 @@
+<content-card-container class="suspected-cause-card">
+  <div class="header">
+    <span class="title">Suspected Cause</span>
+  </div>
+  <div class="content-container">
+    <div class="content">
+      <div class="content-title"><img class="icon" [src]="getCauseIcon()" alt="authorities">
+        {{ getCauseLabel() }}</div>
+      <div class="content-list">
+        <span class="content-text">{{ getCauseDescription() }}</span>
+      </div>
+    </div>
+  </div>
+</content-card-container>
