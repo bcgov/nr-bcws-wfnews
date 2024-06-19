@@ -1,23 +1,34 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
-import { ContactUsDialogComponent } from './contact-us-dialog.component';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ContactUsCoreComponent } from '@app/components/common/contact-us-core/contact-us-core.component';
+import { IconButtonComponent } from '@app/components/common/icon-button/icon-button.component';
+import { IconListItemComponent } from '@app/components/common/icon-list-item/icon-list-item.component';
+import { ContactUsDialogComponent } from './contact-us-dialog.component';
 
 const meta: Meta<ContactUsDialogComponent> = {
-    title: 'Components/ContactUsDialogComponent',
+    title: 'Dialogs/ContactUsDialog',
     component: ContactUsDialogComponent,
     decorators: [
         moduleMetadata({
-            declarations: [ContactUsDialogComponent],
+            declarations: [ContactUsDialogComponent, ContactUsCoreComponent, IconListItemComponent, IconButtonComponent],
             imports: [
                 CommonModule,
                 MatDialogModule,
-                BrowserAnimationsModule
+                BrowserAnimationsModule,
             ],
             providers: [
-                { provide: MAT_DIALOG_DATA, useValue: {} },
+                {
+                    provide: MAT_DIALOG_DATA, useValue: {
+                        incident: {
+                            fireCentreName: 'Prince George Fire Centre',
+                            contactEmailAddress: 'BCWS.NorthPeaceComplex.Info@gov.bc.ca',
+                            contactPhoneNumber: '778-362-4783'
+                        }
+                    }
+                },
                 { provide: MatDialogRef, useValue: {} }
             ]
         }),
@@ -29,7 +40,5 @@ export default meta;
 
 type Story = StoryObj<ContactUsDialogComponent>;
 
-export const Default: Story = {};
-
-
-
+export const example: Story = {
+};
