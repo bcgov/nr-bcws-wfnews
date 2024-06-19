@@ -1,0 +1,29 @@
+<div class="event-info"
+  [ngStyle]="{'background-color': componentStyle.backgroundColor, border: componentStyle.border}"
+>
+  <div class="header"
+    [ngStyle]="{'border-color': componentStyle.dividerColor}"
+  >
+      <img class="icon" alt="icon" [src]="headerIconPath" />
+      <span class="title">{{headerText}}</span>
+  </div>
+
+  <div class="content">
+    <div class="info-list">
+      <icon-list-item iconPath="/assets/images/svg-icons/location-pin.svg"
+        *ngIf="fireCentreText"
+        iconSize="20" gapSize="8"
+        [text]="fireCentreText"></icon-list-item>
+      <icon-list-item iconPath="/assets/images/svg-icons/calendar.svg"
+        *ngIf="issueDateText"
+        iconSize="20" gapSize="8"
+        [text]="issueDateText"></icon-list-item>
+      <icon-list-item iconPath="/assets/images/svg-icons/issuing_agency.svg"
+        *ngIf="issueAuthorityText"
+        iconSize="20" gapSize="8"
+        [text]="issueAuthorityText"></icon-list-item>
+    </div>
+    <circle-icon-button iconPath="/assets/images/svg-icons/forward-arrow-grey.svg" [componentStyle]="componentStyle.circleButtonStyle"
+      (buttonClicked)="viewDetails()"></circle-icon-button>
+  </div>
+</div>

@@ -39,8 +39,11 @@ export class MediaGalleryItemComponent {
     this.errorFunction(this.item, this.index);
   };
 
-  bypassUrlSecurity(url: string): SafeResourceUrl {
-    return this.youTubeService.sanitizeYoutubeUrl(url);
+  bypassUrlSecurity(url): SafeResourceUrl {
+    if (typeof url === 'string') {
+      return this.youTubeService.sanitizeYoutubeUrl(url);
+    }
+    return url;
   }
 }
 

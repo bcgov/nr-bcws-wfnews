@@ -9,6 +9,10 @@
   }
 }
 
+:host ::ng-deep .mat-mdc-tab-label-container {
+  border-radius: 100px;
+}
+
 :host ::ng-deep .mat-mdc-tab.mdc-tab {
   height: 53px;
 

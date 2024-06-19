@@ -5,10 +5,12 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -44,6 +46,7 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
   @Input() public incident: any;
   @Input() public evacOrders: EvacOrderOption[] = [];
   @Input() public areaRestrictions: AreaRestrictionsOption[] = [];
+  @Output() public tabChangeRequired = new EventEmitter<number>();
   @ViewChild('lightGalleryRef', { static: false }) lightGalleryRef: ElementRef;
 
   showWarning: boolean;
@@ -363,5 +366,9 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
     });
 
     gallery.openGallery();
+  }
+
+  sendToGalleryTab() {
+    this.tabChangeRequired.emit(2);
   }
 }
