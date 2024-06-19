@@ -437,19 +437,12 @@ export class IncidentHeaderPanel implements AfterViewInit {
     return formattedDate;
   }
 
-  openContactUsWindow(mode:string | null) {
+  openContactUsWindow(mode: string | null) {
     this.dialog.open(ContactUsDialogComponent, {
       panelClass: 'contact-us-dialog',
       width: mode === 'desktop' ? '500px' : undefined,  // Set width based on mode
       data: {
-        fireCentre: convertToFireCentreDescription(
-          this.incident.contactOrgUnitIdentifer ||
-          this.incident.fireCentreName ||
-          this.incident.fireCentreCode ||
-          this.incident.fireCentre,
-        ),
-        email: this.incident.contactEmailAddress,
-        phoneNumber: this.incident.contactPhoneNumber,
+        incident: this.incident,
       },
     });
   }

@@ -1,23 +1,10 @@
-import { Component, Input } from '@angular/core';
-import { defaultSlimIconButtonStyle } from '../../../common/icon-button/icon-button.component';
+import { Component } from '@angular/core';
+import { ContactUsCoreComponent } from '@app/components/common/contact-us-core/contact-us-core.component';
 
 @Component({
   selector: 'contact-us-banner',
   templateUrl: './contact-us-banner.component.html',
   styleUrls: ['./contact-us-banner.component.scss']
 })
-export class ContactUsBannerComponent {
-
-  @Input() incident;
-
-  iconButtonStyling = { ...defaultSlimIconButtonStyle, backgroundColor: '#FFF' };
-  
-
-  call = () => {
-    window.open('tel:' + this.incident.contactPhoneNumber, '_self');
-  };
-
-  email = () => {
-    window.open('mailto:' + this.incident.contactEmailAddress, '_blank');
-  };
+export class ContactUsBannerComponent extends ContactUsCoreComponent {
 }
