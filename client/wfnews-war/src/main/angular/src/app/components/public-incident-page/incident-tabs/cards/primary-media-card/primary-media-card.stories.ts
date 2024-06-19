@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { LightgalleryComponent } from 'lightgallery/angular/13';
 import { PrimaryMediaCardComponent } from './primary-media-card.component';
