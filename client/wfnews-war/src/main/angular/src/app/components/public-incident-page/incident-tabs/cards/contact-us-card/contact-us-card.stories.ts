@@ -1,3 +1,4 @@
+import { ContactUsCoreComponent } from '@app/components/common/contact-us-core/contact-us-core.component';
 import { ContentCardContainerComponent } from '@app/components/common/content-card-container/content-card-container.component';
 import { IconButtonComponent } from '@app/components/common/icon-button/icon-button.component';
 import { IconListItemComponent } from '@app/components/common/icon-list-item/icon-list-item.component';
@@ -10,7 +11,13 @@ const meta: Meta<ContactUsCardComponent> = {
   tags: ['autodocs'], 
   decorators: [
     moduleMetadata({
-      declarations: [ContactUsCardComponent, ContentCardContainerComponent, IconListItemComponent, IconButtonComponent]
+      declarations: [
+        ContactUsCardComponent, 
+        ContactUsCoreComponent, 
+        ContentCardContainerComponent, 
+        IconListItemComponent, 
+        IconButtonComponent
+      ]
     })
   ]
 };

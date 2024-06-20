@@ -9,6 +9,10 @@
   }
 }
 
+:host ::ng-deep .mat-mdc-tab-label-container {
+  border-radius: 100px;
+}
+
 :host ::ng-deep .mat-mdc-tab.mdc-tab {
   height: 53px;
 
@@ -54,7 +58,6 @@
 }
 
 .tab-group{
-  padding: 0 170px;
   background-color: white;
   border-top: 1.5px solid #DDD;
   align-items: center;

@@ -1,0 +1,58 @@
+:host {
+  display: block;
+}
+
+.event-info {
+  display: flex;
+  padding: var(--16, 16px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  align-self: stretch;
+
+  border-radius: var(--8, 8px);
+  border: 2px solid #C4C4C4;
+  background: #F5F5F5;
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      align-self: center;
+    }
+
+    .title {
+      color: var(--Black-24, #242424);
+      /* 22 SB */
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+        sans-serif;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 27px; /* 150% */
+      flex: 1 0 0;
+    }
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    align-self: stretch;
+    gap: 4px;
+
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+}

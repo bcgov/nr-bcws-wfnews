@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { convertToDateTimeTimeZone, convertToDateYear, convertToDateYearUtc, snowPlowHelper } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
 import {
   AreaRestrictionsOption,
   EvacOrderOption,
@@ -9,8 +11,6 @@ import {
 import { AGOLService } from '../../services/AGOL-service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { findFireCentreByName, hideOnMobileView } from '../../utils';
-import { AppConfigService } from '@wf1/core-ui';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 @Component({
   selector: 'public-incident-page',
   templateUrl: './public-incident-page.component.html',
@@ -26,7 +26,9 @@ export class PublicIncidentPage implements OnInit {
   public evacOrders: EvacOrderOption[] = [];
   public areaRestrictions: AreaRestrictionsOption[] = [];
   public extent: any = null;
-  public snowPlowHelper = snowPlowHelper
+  public snowPlowHelper = snowPlowHelper;
+
+  selectedTabIndex = 0;
 
   showImageWarning: boolean;
   showMapsWarning: boolean;
@@ -309,5 +311,4 @@ this.incident.incidentSizeEstimatedHa =
       text: event?.tab?.textLabel
     });
   }
-  
 }

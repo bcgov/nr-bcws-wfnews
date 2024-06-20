@@ -4,15 +4,16 @@ import {
   InjectionToken,
   Type,
 } from '@angular/core';
+import { STAGE_OF_CONTROL_CODES } from '@app/constants';
 import {
   WeatherHourlyCondition,
   WeatherStationConditions,
 } from '@app/services/point-id.service';
 import { EffectSources } from '@ngrx/effects';
 import { SortDirection } from '@wf1/core-ui';
+import * as L from 'leaflet';
 import * as moment from 'moment';
 import { PagingInfoRequest } from '../store/application/application.state';
-import * as L from 'leaflet';
 
 declare const window: any;
 export enum ResourcesRoutes {
@@ -438,7 +439,7 @@ export function convertToFireCentreDescription(code: string): string {
 }
 
 export function isMobileView() {
-  return ( (window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768) )
+  return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
 }
 
 export async function snowPlowHelper(page: string, data: any = null) {
@@ -537,31 +538,47 @@ export function convertToDateYearUtc(date: string): string {
 
 export function getStageOfControlLabel(code: string) {
   if (code?.toUpperCase().trim() === 'OUT') {
-return 'Out';
-} else if (code?.toUpperCase().trim() === 'OUT_CNTRL') {
-return 'Out of Control';
-} else if (code?.toUpperCase().trim() === 'HOLDING') {
-return 'Being Held';
-} else if (code?.toUpperCase().trim() === 'UNDR_CNTRL') {
-return 'Under Control';
-} else {
-return 'Unknown';
+    return 'Out';
+  } else if (code?.toUpperCase().trim() === 'OUT_CNTRL') {
+    return 'Out of Control';
+  } else if (code?.toUpperCase().trim() === 'HOLDING') {
+    return 'Being Held';
+  } else if (code?.toUpperCase().trim() === 'UNDR_CNTRL') {
+    return 'Under Control';
+  } else {
+    return 'Unknown';
+  }
 }
+
+export function getStageOfControlIconPath(code: string) {
+  const directory = 'assets/images/svg-icons/';
+  switch (code.toUpperCase()?.trim()) {
+    case STAGE_OF_CONTROL_CODES.OUT:
+      return directory + 'out-fire.svg';
+    case STAGE_OF_CONTROL_CODES.OUT_OF_CONTROL:
+      return directory + 'out-of-control.svg';
+    case STAGE_OF_CONTROL_CODES.BEING_HELD:
+      return directory + 'being-held.svg';
+    case STAGE_OF_CONTROL_CODES.UNDER_CONTROL:
+      return directory + 'under-control.svg';
+    default:
+      return directory + 'question.svg';
+  }
 }
 
 export function getStageOfControlIcon(code: string) {
   if (code) {
     if (code.toUpperCase().trim() === 'OUT') {
-return 'bcws-activefires-publicview-inactive';
-} else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
-return 'active-wildfires-out-of-control';
-} else if (code.toUpperCase().trim() === 'HOLDING') {
-return 'active-wildfires-holding';
-} else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
-return 'active-wildfires-under-control';
-} else {
-return 'Unknown';
-}
+      return 'bcws-activefires-publicview-inactive';
+    } else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
+      return 'active-wildfires-out-of-control';
+    } else if (code.toUpperCase().trim() === 'HOLDING') {
+      return 'active-wildfires-holding';
+    } else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
+      return 'active-wildfires-under-control';
+    } else {
+      return 'Unknown';
+    }
   }
 }
 
@@ -629,22 +646,22 @@ export function setDisplayColor(stageOfControlCode: string) {
 
 export function getResponseTypeDescription(code: string) {
   if (code === 'MONITOR') {
-return 'When a fire is being monitored, this means BC Wildfire Service is observing and analyzing the fire but it\'s not immediately suppressed. It may be allowed to burn to achieve ecological or resource management objectives and is used on remote fires that do not threaten values.';
-} else if (code === 'MODIFIED') {
-return 'During a modified response, a wildfire is managed using a combination of techniques with the goal to minimize costs and damage while maximizing ecological benefits from the fire. This response method is used when there is no immediate threat to values.';
-} else if (code === 'FULL') {
-return 'The suppression of an unwanted wildfire to limit spread.';
-}
+    return 'When a fire is being monitored, this means BC Wildfire Service is observing and analyzing the fire but it\'s not immediately suppressed. It may be allowed to burn to achieve ecological or resource management objectives and is used on remote fires that do not threaten values.';
+  } else if (code === 'MODIFIED') {
+    return 'During a modified response, a wildfire is managed using a combination of techniques with the goal to minimize costs and damage while maximizing ecological benefits from the fire. This response method is used when there is no immediate threat to values.';
+  } else if (code === 'FULL') {
+    return 'The suppression of an unwanted wildfire to limit spread.';
+  }
 }
 
 export function getResponseTypeTitle(code: string) {
   if (code === 'MONITOR') {
-return 'Monitored Response';
-} else if (code === 'MODIFIED') {
-return 'Modified Response';
-} else if (code === 'FULL') {
-return 'Full Response';
-}
+    return 'Monitored Response';
+  } else if (code === 'MODIFIED') {
+    return 'Modified Response';
+  } else if (code === 'FULL') {
+    return 'Full Response';
+  }
 }
 
 export function checkLayerVisible(layerId: string | string[]): boolean {
@@ -660,8 +677,8 @@ export function checkLayerVisible(layerId: string | string[]): boolean {
           for (const layer of layerId) {
             result = Object.hasOwn(smkMap?.$viewer?.visibleLayer, layer);
             if (result) {
-break;
-}
+              break;
+            }
           }
           layerFound = result;
         } else {
@@ -720,16 +737,16 @@ export function getActiveMap(smk: any | null = null) {
   }
   // Sort of a fail-safe if the object doesn't have a key to force-retry with the window SMK object
   else {
-return window['SMK'].MAP[
+    return window['SMK'].MAP[
       Object.keys(window['SMK'].MAP)[Object.keys(window['SMK'].MAP).length - 1]
     ];
-}
+  }
 }
 
 export function openLink(link: string) {
   window.open(
     this.appConfigService.getConfig().externalAppConfig[
-      link
+    link
     ] as unknown as string,
     '_blank',
   );
@@ -754,9 +771,9 @@ export function getCurrentCondition(
   conditions: WeatherStationConditions,
 ): WeatherHourlyCondition {
   if (!conditions || !conditions.hourly) {
-return;
-}
-  return conditions.hourly.find(function(hc) {
+    return;
+  }
+  return conditions.hourly.find(function (hc) {
     return hc.temp != null;
   });
 }
@@ -807,16 +824,16 @@ export function displayItemTitle(identifyItem) {
 export function getStageOfControlDescription(code: string) {
   if (code) {
     if (code.toUpperCase().trim() === 'OUT') {
-return 'The wildfire has been extinguished or winter conditions are present, and the wildfire will not spread.';
-} else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
-return 'A wildfire that is spreading or it is anticipated to spread beyond the current perimeter, or control line.';
-} else if (code.toUpperCase().trim() === 'HOLDING') {
-return 'A wildfire that is projected, based on fuel and weather conditions and resource availability, to remain within the current perimeter, control line or boundary.';
-} else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
-return 'A wildfire that is not projected to spread beyond the current perimeter.';
-} else {
-return 'Unknown';
-}
+      return 'The wildfire has been extinguished or winter conditions are present, and the wildfire will not spread.';
+    } else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
+      return 'A wildfire that is spreading or it is anticipated to spread beyond the current perimeter, or control line.';
+    } else if (code.toUpperCase().trim() === 'HOLDING') {
+      return 'A wildfire that is projected, based on fuel and weather conditions and resource availability, to remain within the current perimeter, control line or boundary.';
+    } else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
+      return 'A wildfire that is not projected to spread beyond the current perimeter.';
+    } else {
+      return 'Unknown';
+    }
   }
 }
 
@@ -860,7 +877,7 @@ export function addMarker(incident: any) {
     [Number(incident.latitude), Number(incident.longitude)],
     { icon: pointerIcon },
   );
-  this.marker.on('add', function() {
+  this.marker.on('add', function () {
     const icon: any = document.querySelector('.animated-icon');
     icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
 

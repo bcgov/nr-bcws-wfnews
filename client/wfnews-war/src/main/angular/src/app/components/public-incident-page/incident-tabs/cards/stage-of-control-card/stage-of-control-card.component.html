@@ -1,0 +1,26 @@
+<content-card-container class="stage-of-control-card">
+  <div class="header">
+    <span class="title">Stage of Control</span>
+  </div>
+  <div class="content-container">
+    <div class="content" *ngIf="isFireOfNote">
+      <div class="content-title">
+        <img class="icon" src="assets/images/local_fire_department.png" alt="Wildfire of Note">
+        Wildfire of Note
+      </div>
+      <div class="content-list">
+        <span class="content-text">This wildfire is highly visible or poses a potential threat to public safety.</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content-title">
+        <img class="icon" [src]="getIcon()" alt="Stage of Control">
+        {{ getLabel() }}
+      </div>
+      <div class="content-list">
+        <span class="content-text">{{ getDescription() }}</span>
+      </div>
+    </div>
+  </div>
+</content-card-container>

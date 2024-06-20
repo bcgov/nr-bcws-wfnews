@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
@@ -12,10 +12,16 @@ export class IncidentTabsComponent {
   @Input() areaRestrictions: any[];
   @Input() showImageWarning: boolean;
   @Input() showMapsWarning: boolean;
+  @Input() selectedTabIndex = 0;
   
   @Output() tabChange = new EventEmitter<MatTabChangeEvent>();
 
   onTabChange(event: MatTabChangeEvent) {
+    this.selectedTabIndex = event.index;
     this.tabChange.emit(event);
   }
+
+  handleTabChange(tabIndex) {
+    this.selectedTabIndex = tabIndex;
+  } 
 }

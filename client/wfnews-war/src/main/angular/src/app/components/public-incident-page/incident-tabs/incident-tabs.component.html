@@ -1,4 +1,4 @@
-<mat-tab-group mat-stretch-tabs class="tab-group" (selectedTabChange)="onTabChange($event)" #tabGroup>
+<mat-tab-group mat-stretch-tabs class="tab-group" (selectedTabChange)="onTabChange($event)" #tabGroup [disableRipple]="true" [selectedIndex]="selectedTabIndex">
   
   <mat-tab>
     <ng-template mat-tab-label>
@@ -8,7 +8,7 @@
         Details
       </div>
     </ng-template>
-    <incident-info-panel [incident]="incident" [evacOrders]="evacOrders"
+    <incident-info-panel [incident]="incident" [evacOrders]="evacOrders" (tabChangeRequired)="handleTabChange($event)"
       [areaRestrictions]="areaRestrictions"></incident-info-panel>
   </mat-tab>
 

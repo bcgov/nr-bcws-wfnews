@@ -4,19 +4,13 @@
   display: flex;
   gap: 16px;
 
-  &.slim {
-    gap: 8px;
-  }
-
   .icon {
     width: 24px;
     height: 24px;
-
-    &.slim {
-      width: 16px;
-      height: 16px;
-      align-self: center;
-    }
+    align-self: center;
+    mask-size: contain;
+    mask-position: center;
+    mask-repeat: no-repeat;
   }
 
   .text {
