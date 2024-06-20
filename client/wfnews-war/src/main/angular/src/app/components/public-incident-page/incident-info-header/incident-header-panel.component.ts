@@ -305,14 +305,14 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
           })
           .toPromise(),
       ]).then(async ([cat1sld, cat2sld, cat3sld, extent]) => {
+        let bounds;
 
         if (extent?.extent) {
-          this.map.fitBounds(
-            new L.LatLngBounds(
-              [extent.extent.ymin, extent.extent.xmin],
-              [extent.extent.ymax, extent.extent.xmax],
-            ),
+          bounds = new L.LatLngBounds(
+            [extent.extent.ymin, extent.extent.xmin],
+            [extent.extent.ymax, extent.extent.xmax],
           );
+          this.map.fitBounds(bounds);
         }
 
         if (this.banCategories.isCat3) {
@@ -326,6 +326,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
               sld_body: cat3sld,
               cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 3%\'',
               tileSize: 1000,
+              bounds: bounds,
               opacity: 0.5,
             })
             .addTo(this.map);
@@ -342,6 +343,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
               sld_body: cat2sld,
               cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 2%\'',
               tileSize: 1000,
+              bounds: bounds,
               opacity: 0.5,
             })
             .addTo(this.map);
@@ -359,6 +361,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
               cql_filter:
                 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 1%\' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfire%\'',
               tileSize: 1000,
+              bounds: bounds,
               opacity: 0.5,
             })
             .addTo(this.map);
