@@ -150,9 +150,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
       if (polygonData?.length) {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
-    }
-    else if (this.ban) {
-      // 
+    } else if (this.ban) {
       this.banCategories.isCat1 =
         this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('1') ||
         this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.toLowerCase().includes('campfires');
@@ -166,8 +164,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
       if (polygonData?.length) {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
-    }
-    else if (this.dangerRating) {
+    } else if (this.dangerRating) {
       location = [
         Number(this.dangerRating.centroid?.y),
         Number(this.dangerRating.centroid?.x),
@@ -177,6 +174,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
     }
+    
     if (location) {
       this.map = L.map('map', {
         attributionControl: false,
