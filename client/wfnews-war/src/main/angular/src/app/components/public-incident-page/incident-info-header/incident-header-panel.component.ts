@@ -8,6 +8,7 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnInit,
   Output
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -40,7 +41,7 @@ import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-d
   styleUrls: ['./incident-header-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IncidentHeaderPanel implements AfterViewInit {
+export class IncidentHeaderPanel implements AfterViewInit, OnInit {
   @Input() public incident: any;
   @Input() public evacOrders: EvacOrderOption[] = [];
   @Input() public extent: any;
@@ -59,10 +60,17 @@ export class IncidentHeaderPanel implements AfterViewInit {
   getStageOfControlLabel = getStageOfControlLabel;
   isMobileView = isMobileView;
 
-  private map: any;
   incidentEvacOrders = [];
   incidentEvacAlerts = [];
   bounds = null;
+  banCategories = {
+    isCat1: false,
+    isCat2: false,
+    isCat3: false,
+  };
+
+  private map: any;
+ 
 
   constructor(
     private appConfigService: AppConfigService,
@@ -133,7 +141,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
           this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
         }
       }
-    } else if (this.areaRestriction){
+    } else if (this.areaRestriction) {
       location = [
         Number(this.areaRestriction.centroid?.y),
         Number(this.areaRestriction.centroid?.x),
@@ -142,8 +150,12 @@ export class IncidentHeaderPanel implements AfterViewInit {
       if (polygonData?.length) {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
-    }
-      else if (this.ban){
+    } else if (this.ban) {
+      this.banCategories.isCat1 =
+        this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('1') ||
+        this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.toLowerCase().includes('campfires');
+      this.banCategories.isCat2 = this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('2');
+      this.banCategories.isCat3 = this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('3');
       location = [
         Number(this.ban.centroid?.y),
         Number(this.ban.centroid?.x),
@@ -152,8 +164,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
       if (polygonData?.length) {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
-    }
-    else if (this.dangerRating){
+    } else if (this.dangerRating) {
       location = [
         Number(this.dangerRating.centroid?.y),
         Number(this.dangerRating.centroid?.x),
@@ -163,6 +174,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
     }
+    
     if (location) {
       this.map = L.map('map', {
         attributionControl: false,
@@ -173,7 +185,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
         trackResize: false,
         scrollWheelZoom: false,
       }).setView(location, 9);
-    } 
+    }
 
     if (this.bounds) {
       this.map.fitBounds(this.bounds);
@@ -237,39 +249,44 @@ export class IncidentHeaderPanel implements AfterViewInit {
 
     const databcUrl = this.appConfigService
       .getConfig()
-      ['mapServices']['openmapsBaseUrl'].toString();
+    ['mapServices']['openmapsBaseUrl'].toString();
+
     if (this.evac) {
       L.tileLayer
-      .wms(databcUrl, {
-        layers: 'WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
-        styles: '6885',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.1',
-      })
-      .addTo(this.map);
-    L.tileLayer
-      .wms(databcUrl, {
-        layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP',
-        styles: '1751_1752',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.1',
-      })
-      .addTo(this.map);
+        .wms(databcUrl, {
+          layers: 'WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
+          styles: '6885',
+          format: 'image/png',
+          transparent: true,
+          version: '1.1.1',
+        })
+        .addTo(this.map);
+      L.tileLayer
+        .wms(databcUrl, {
+          layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP',
+          styles: '1751_1752',
+          format: 'image/png',
+          transparent: true,
+          version: '1.1.1',
+        })
+        .addTo(this.map);
     }
+
     if (this.areaRestriction) {
       L.tileLayer
-      .wms(databcUrl, {
-        layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_RESTRICTED_AREAS_SP ',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.1',
-        opacity: 0.8,
-      })
-      .addTo(this.map);
+        .wms(databcUrl, {
+          layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_RESTRICTED_AREAS_SP ',
+          format: 'image/png',
+          transparent: true,
+          version: '1.1.1',
+          opacity: 0.8,
+        })
+        .addTo(this.map);
     }
+
     if (this.ban) {
+      console.log('this.ban', this.ban);
+
       Promise.all([
         this.http
           .get('assets/js/smk/bans-cat1.sld', { responseType: 'text' })
@@ -281,13 +298,14 @@ export class IncidentHeaderPanel implements AfterViewInit {
           .get('assets/js/smk/bans-cat3.sld', { responseType: 'text' })
           .toPromise(),
         this.agolService
-        .getBansAndProhibitionsById(this.params['eventNumber'], {
-          returnGeometry: false,
-          returnCentroid: false,
-          returnExtent: true,
-        })
-        .toPromise(),
-      ]).then(async ([cat1sld, cat2sld, cat3sld,extent]) => {
+          .getBansAndProhibitionsById(this.params['eventNumber'], {
+            returnGeometry: false,
+            returnCentroid: false,
+            returnExtent: true,
+          })
+          .toPromise(),
+      ]).then(async ([cat1sld, cat2sld, cat3sld, extent]) => {
+
         if (extent?.extent) {
           this.map.fitBounds(
             new L.LatLngBounds(
@@ -297,50 +315,59 @@ export class IncidentHeaderPanel implements AfterViewInit {
           );
         }
 
-        L.tileLayer
-        .wms(databcUrl, {
-          layers:
-            'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          sld_body: cat3sld,
-          cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 3%\'',
-          opacity: 0.5,
-        })
-        .addTo(this.map);
+        if (this.banCategories.isCat3) {
+          L.tileLayer
+            .wms(databcUrl, {
+              layers:
+                'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
+              format: 'image/png',
+              transparent: true,
+              version: '1.1.1',
+              sld_body: cat3sld,
+              cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 3%\'',
+              tileSize: 1000,
+              opacity: 0.5,
+            })
+            .addTo(this.map);
+        }
 
-      L.tileLayer
-        .wms(databcUrl, {
-          layers:
-            'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          sld_body: cat2sld,
-          cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 2%\'',
-          opacity: 0.5,
-        })
-        .addTo(this.map);
+        if (this.banCategories.isCat2) {
+          L.tileLayer
+            .wms(databcUrl, {
+              layers:
+                'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
+              format: 'image/png',
+              transparent: true,
+              version: '1.1.1',
+              sld_body: cat2sld,
+              cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 2%\'',
+              tileSize: 1000,
+              opacity: 0.5,
+            })
+            .addTo(this.map);
+        }
 
-      L.tileLayer
-        .wms(databcUrl, {
-          layers:
-            'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          sld_body: cat1sld,
-          cql_filter:
-            'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 1%\' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfire%\'',
-          opacity: 0.5,
-        })
-        .addTo(this.map);
-      })
+        if (this.banCategories.isCat1) {
+          L.tileLayer
+            .wms(databcUrl, {
+              layers:
+                'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
+              format: 'image/png',
+              transparent: true,
+              version: '1.1.1',
+              sld_body: cat1sld,
+              cql_filter:
+                'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 1%\' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfire%\'',
+              tileSize: 1000,
+              opacity: 0.5,
+            })
+            .addTo(this.map);
+        }
+      });
     }
 
-    if(this.dangerRating){
-      L.tileLayer
+  if(this.dangerRating) {
+    L.tileLayer
       .wms(databcUrl, {
         layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
         format: 'image/png',
@@ -350,297 +377,297 @@ export class IncidentHeaderPanel implements AfterViewInit {
         style: '7734',
       })
       .addTo(this.map);
-    }
-    const icon = L.icon({
-      iconUrl: '/assets/images/local_fire_department.png',
-      iconSize: [35, 35],
-      shadowAnchor: [4, 62],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41],
-    });
+  }
+  const icon = L.icon({
+    iconUrl: '/assets/images/local_fire_department.png',
+    iconSize: [35, 35],
+    shadowAnchor: [4, 62],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
 
-    if (this.incident.fireOfNoteInd) {
-      L.marker(location, { icon }).addTo(this.map);
-    } else {
-      let colorToDisplay;
-      switch (this.incident.stageOfControlCode) {
-        case 'OUT_CNTRL':
-          colorToDisplay = '#FF0000';
-          break;
-        case 'HOLDING':
-          colorToDisplay = '#ffff00';
-          break;
-        case 'UNDR_CNTRL':
-          colorToDisplay = '#98E600';
-          break;
-        case 'OUT':
-          colorToDisplay = '#999999';
-          break;
-        default:
-          colorToDisplay = 'white';
-      }
-      L.circleMarker(location, {
-        radius: 15,
-        fillOpacity: 1,
-        color: 'black',
-        fillColor: colorToDisplay,
-      }).addTo(this.map);
-    }
-    this.cdr.detectChanges();
+  if(this.incident.fireOfNoteInd) {
+    L.marker(location, { icon }).addTo(this.map);
+  } else {
+  let colorToDisplay;
+  switch (this.incident.stageOfControlCode) {
+    case 'OUT_CNTRL':
+      colorToDisplay = '#FF0000';
+      break;
+    case 'HOLDING':
+      colorToDisplay = '#ffff00';
+      break;
+    case 'UNDR_CNTRL':
+      colorToDisplay = '#98E600';
+      break;
+    case 'OUT':
+      colorToDisplay = '#999999';
+      break;
+    default:
+      colorToDisplay = 'white';
+  }
+  L.circleMarker(location, {
+    radius: 15,
+    fillOpacity: 1,
+    color: 'black',
+    fillColor: colorToDisplay,
+  }).addTo(this.map);
+}
+this.cdr.detectChanges();
 
-    // fetch incidents in surrounding area and add to map
-    this.addSurroundingIncidents();
+// fetch incidents in surrounding area and add to map
+this.addSurroundingIncidents();
   }
 
-  onWatchlist(): boolean {
-    return this.watchlistService
-      .getWatchlist()
-      .includes(
-        this.incident.fireYear + ':' + this.incident.incidentNumberLabel,
-      );
-  }
+onWatchlist(): boolean {
+  return this.watchlistService
+    .getWatchlist()
+    .includes(
+      this.incident.fireYear + ':' + this.incident.incidentNumberLabel,
+    );
+}
 
-  addToWatchlist() {
-    if (this.onWatchlist()) {
-      this.removeFromWatchlist();
-    } else {
-      this.watchlistService.saveToWatchlist(
-        this.incident.fireYear,
-        this.incident.incidentNumberLabel,
-      );
-    }
-  }
-
-  removeFromWatchlist() {
-    this.watchlistService.removeFromWatchlist(
+addToWatchlist() {
+  if (this.onWatchlist()) {
+    this.removeFromWatchlist();
+  } else {
+    this.watchlistService.saveToWatchlist(
       this.incident.fireYear,
       this.incident.incidentNumberLabel,
     );
   }
+}
 
-  displaySizeType(incidentSizeDetail: string) {
-    if (incidentSizeDetail?.includes('estimated')) {
-      return '(Estimated)';
-    } else if (incidentSizeDetail?.includes('mapped')) {
-      return '(Mapped)';
-    } else {
-      return null;
-    }
+removeFromWatchlist() {
+  this.watchlistService.removeFromWatchlist(
+    this.incident.fireYear,
+    this.incident.incidentNumberLabel,
+  );
+}
+
+displaySizeType(incidentSizeDetail: string) {
+  if (incidentSizeDetail?.includes('estimated')) {
+    return '(Estimated)';
+  } else if (incidentSizeDetail?.includes('mapped')) {
+    return '(Mapped)';
+  } else {
+    return null;
+  }
+}
+
+convertToMobileFormat(dateString) {
+  // Should probably be MMM for month formats to prevent long strings
+  const formattedDate = moment(
+    dateString,
+    'dddd, MMMM D, YYYY [at] h:mm:ss A',
+  ).format('MMMM D, YYYY');
+  return formattedDate;
+}
+
+openContactUsWindow(mode: string | null) {
+  this.dialog.open(ContactUsDialogComponent, {
+    panelClass: 'contact-us-dialog',
+    width: mode === 'desktop' ? '500px' : undefined,  // Set width based on mode
+    data: {
+      incident: this.incident,
+    },
+  });
+}
+
+backToMap() {
+  const navigateToMap = (longitude: number, latitude: number, queryParamKey: string) => {
+    setTimeout(() => {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+        queryParams: {
+          longitude,
+          latitude,
+          [queryParamKey]: true
+        },
+      });
+    }, 100);
+  };
+
+  if (this.incident?.longitude && this.incident?.latitude) {
+    navigateToMap(this.incident.longitude, this.incident.latitude, 'activeWildfires');
   }
 
-  convertToMobileFormat(dateString) {
-    // Should probably be MMM for month formats to prevent long strings
-    const formattedDate = moment(
-      dateString,
-      'dddd, MMMM D, YYYY [at] h:mm:ss A',
-    ).format('MMMM D, YYYY');
-    return formattedDate;
+  if (this.ban?.centroid?.y && this.ban?.centroid?.x) {
+    navigateToMap(this.ban.centroid.x, this.ban.centroid.y, 'bansProhibitions');
   }
 
-  openContactUsWindow(mode: string | null) {
-    this.dialog.open(ContactUsDialogComponent, {
-      panelClass: 'contact-us-dialog',
-      width: mode === 'desktop' ? '500px' : undefined,  // Set width based on mode
-      data: {
-        incident: this.incident,
-      },
-    });
+  if (this.areaRestriction?.centroid?.y && this.areaRestriction?.centroid?.x) {
+    navigateToMap(this.areaRestriction.centroid.x, this.areaRestriction.centroid.y, 'areaRestriction');
   }
 
-  backToMap() {
-    const navigateToMap = (longitude: number, latitude: number, queryParamKey: string) => {
-      setTimeout(() => {
-        this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
-          queryParams: {
-            longitude,
-            latitude,
-            [queryParamKey]: true
-          },
-        });
-      }, 100);
-    };
-
-    if (this.incident?.longitude && this.incident?.latitude) {
-      navigateToMap(this.incident.longitude, this.incident.latitude, 'activeWildfires');
-    }
-    
-    if (this.ban?.centroid?.y && this.ban?.centroid?.x) {
-      navigateToMap(this.ban.centroid.x, this.ban.centroid.y, 'bansProhibitions');
-    }
-
-    if (this.areaRestriction?.centroid?.y && this.areaRestriction?.centroid?.x) {
-      navigateToMap(this.areaRestriction.centroid.x, this.areaRestriction.centroid.y, 'areaRestriction');
-    }
-
-    if (this.evac?.centroid?.y && this.evac?.centroid?.x) {
-      navigateToMap(this.evac.centroid.x, this.evac.centroid.y, 'evacuationAlert');
-    }
-
-    if (this.dangerRating?.centroid?.y && this.dangerRating?.centroid?.x) {
-      navigateToMap(this.dangerRating.centroid.x, this.dangerRating.centroid.y, 'dangerRating');
-    }
+  if (this.evac?.centroid?.y && this.evac?.centroid?.x) {
+    navigateToMap(this.evac.centroid.x, this.evac.centroid.y, 'evacuationAlert');
   }
 
-  back() {
-    if (this.params && this.params['source'] && this.params['source'][0]) {
-      if (this.params['source'] === 'map' || this.params['source'][0] === 'map') {
-        this.backToMap();
-      } else if (
-        this.params['source'][0] === 'full-details' &&
-        this.params['sourceId'] &&
-        this.params['sourceType']
-      ) {
-        this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
+  if (this.dangerRating?.centroid?.y && this.dangerRating?.centroid?.x) {
+    navigateToMap(this.dangerRating.centroid.x, this.dangerRating.centroid.y, 'dangerRating');
+  }
+}
+
+back() {
+  if (this.params && this.params['source'] && this.params['source'][0]) {
+    if (this.params['source'] === 'map' || this.params['source'][0] === 'map') {
+      this.backToMap();
+    } else if (
+      this.params['source'][0] === 'full-details' &&
+      this.params['sourceId'] &&
+      this.params['sourceType']
+    ) {
+      this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
+        queryParams: {
+          type: this.params['sourceType'],
+          id: this.params['sourceId'],
+          name: this.params['name']
+        },
+      });
+    } else if (
+      this.params['source'] === 'saved-location' &&
+      this.params['sourceName'] &&
+      this.params['sourceLongitude'] &&
+      this.params['sourceLatitude']
+    ) {
+      this.router.navigate([ResourcesRoutes.SAVED_LOCATION], {
+        queryParams: {
+          type: 'saved-location',
+          name: this.params['sourceName'],
+          longitude: this.params['sourceLongitude'],
+          latitude: this.params['sourceLatitude'],
+        },
+      });
+    } else if (
+      this.params['source'] === 'full-details'
+    ) {
+      if (this.params['sourceType'] == 'Alert' || this.params['sourceType'] == 'Order') {
+        this.router.navigate([ResourcesRoutes.PUBLIC_EVENT], {
           queryParams: {
-            type: this.params['sourceType'],
-            id: this.params['sourceId'],
-            name: this.params['name']
-          },
-        });
-      } else if (
-        this.params['source'] === 'saved-location' &&
-        this.params['sourceName'] &&
-        this.params['sourceLongitude'] &&
-        this.params['sourceLatitude']
-      ) {
-        this.router.navigate([ResourcesRoutes.SAVED_LOCATION], {
-          queryParams: {
-            type: 'saved-location',
-            name: this.params['sourceName'],
-            longitude: this.params['sourceLongitude'],
-            latitude: this.params['sourceLatitude'],
-          },
-        });
-      } else if (
-        this.params['source'] === 'full-details'
-      ) {
-        if (this.params['sourceType'] == 'Alert' || this.params['sourceType'] == 'Order'){
-          this.router.navigate([ResourcesRoutes.PUBLIC_EVENT], {
-            queryParams: {
-              eventType: this.params['sourceType'],
-              eventNumber: this.params['eventNumber'],
-              eventName: this.params['name'],
-              source: [ResourcesRoutes.WILDFIRESLIST]
-            },
-          });
-        }
-      } else if (
-        this.params['source'] === 'incidents'
-      ) {
-        this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
-          queryParams: {
-            fireYear: this.params['fireYear'],
-            incidentNumber: this.params['incidentNumber'],
+            eventType: this.params['sourceType'],
+            eventNumber: this.params['eventNumber'],
+            eventName: this.params['name'],
+            source: [ResourcesRoutes.WILDFIRESLIST]
           },
         });
       }
-      else {
-        this.router.navigate([this.params['source']]);
-      }
-    } else {
-      this.router.navigate([ResourcesRoutes.DASHBOARD]);
+    } else if (
+      this.params['source'] === 'incidents'
+    ) {
+      this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
+        queryParams: {
+          fireYear: this.params['fireYear'],
+          incidentNumber: this.params['incidentNumber'],
+        },
+      });
     }
+    else {
+      this.router.navigate([this.params['source']]);
+    }
+  } else {
+    this.router.navigate([ResourcesRoutes.DASHBOARD]);
   }
+}
 
-  shareContent() {
-    const currentUrl = this.location.path();
-    if (navigator.share) {
-      navigator
-        .share({
-          url: currentUrl, // The URL user wants to share
-        })
-        .then(() => console.log('Sharing succeeded.'))
-        .catch((error) => console.error('Error sharing:', error));
-    }
+shareContent() {
+  const currentUrl = this.location.path();
+  if (navigator.share) {
+    navigator
+      .share({
+        url: currentUrl, // The URL user wants to share
+      })
+      .then(() => console.log('Sharing succeeded.'))
+      .catch((error) => console.error('Error sharing:', error));
   }
+}
 
   async addSurroundingIncidents() {
-    // now fetch the rest of the incidents in the area and display on map
-    try {
-      const locationData = new LocationData();
-      locationData.latitude = Number(this.incident.latitude);
-      locationData.longitude = Number(this.incident.longitude);
-      locationData.radius = 100;
-      const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
-      const incidents = await this.publishedIncidentService
-        .fetchPublishedIncidentsList(
-          0,
-          9999,
-          locationData,
-          null,
-          null,
-          stageOfControlCodes,
-        )
-        .toPromise();
-      if (incidents?.collection && incidents?.collection?.length > 0) {
-        for (const item of incidents.collection) {
-          const location = [Number(item.latitude), Number(item.longitude)];
-          const colorToDisplay = setDisplayColor(item.stageOfControlCode);
-          L.circleMarker(location, {
-            radius: 5,
-            fillOpacity: 1,
-            color: 'black',
-            fillColor: colorToDisplay,
-          }).addTo(this.map);
-        }
+  // now fetch the rest of the incidents in the area and display on map
+  try {
+    const locationData = new LocationData();
+    locationData.latitude = Number(this.incident.latitude);
+    locationData.longitude = Number(this.incident.longitude);
+    locationData.radius = 100;
+    const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
+    const incidents = await this.publishedIncidentService
+      .fetchPublishedIncidentsList(
+        0,
+        9999,
+        locationData,
+        null,
+        null,
+        stageOfControlCodes,
+      )
+      .toPromise();
+    if (incidents?.collection && incidents?.collection?.length > 0) {
+      for (const item of incidents.collection) {
+        const location = [Number(item.latitude), Number(item.longitude)];
+        const colorToDisplay = setDisplayColor(item.stageOfControlCode);
+        L.circleMarker(location, {
+          radius: 5,
+          fillOpacity: 1,
+          color: 'black',
+          fillColor: colorToDisplay,
+        }).addTo(this.map);
       }
-    } catch (err) {
-      console.error(
-        'Could not retrieve surrounding incidents for area restriction',
-      );
     }
+  } catch (err) {
+    console.error(
+      'Could not retrieve surrounding incidents for area restriction',
+    );
   }
+}
 
   // printPage(){
   //   this.requestPrint.emit();
   // }
 
   public printPage() {
-    const twoColumnContent = document.getElementsByClassName('two-column-content-cards-container')[0];
-    twoColumnContent.classList.add('print');
+  const twoColumnContent = document.getElementsByClassName('two-column-content-cards-container')[0];
+  twoColumnContent.classList.add('print');
 
-    const printContents =
-      document.getElementsByClassName('page-container')[0].innerHTML;
+  const printContents =
+    document.getElementsByClassName('page-container')[0].innerHTML;
 
-    const appRoot = document.body.removeChild(
-      document.getElementById('app-root'),
-    );
+  const appRoot = document.body.removeChild(
+    document.getElementById('app-root'),
+  );
 
-    document.body.innerHTML = printContents;
+  document.body.innerHTML = printContents;
 
-    const canvas = document.getElementById('qr-code');
-    toCanvas(canvas, window.location.href, (error) => {
-      if (error) {
-        console.error(error);
-      }
-      window.print();
-      document.body.innerHTML = '';
-      document.body.appendChild(appRoot);
-      twoColumnContent.classList.remove('print');
+  const canvas = document.getElementById('qr-code');
+  toCanvas(canvas, window.location.href, (error) => {
+    if (error) {
+      console.error(error);
+    }
+    window.print();
+    document.body.innerHTML = '';
+    document.body.appendChild(appRoot);
+    twoColumnContent.classList.remove('print');
+  });
+}
+
+navToMap() {
+  setTimeout(() => {
+    this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+      queryParams: {
+        longitude: this.evac.centroid.x,
+        latitude: this.evac.centroid.y,
+        evacuationAlert: true,
+      },
     });
-  }
-
-  navToMap() {
-    setTimeout(() => {
-      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
-        queryParams: {
-          longitude: this.evac.centroid.x,
-          latitude: this.evac.centroid.y,
-          evacuationAlert: true,
-        },
-      });
-    }, 200);
-  }
+  }, 200);
+}
 
   private loadSVGContent(btn: HTMLElement): void {
-    const svgPath = 'assets/images/svg-icons/zoom-to-extent.svg';
-    this.http.get(svgPath, { responseType: 'text' }).subscribe(
-      (data) => {
-        btn.innerHTML = data;
-      },
-      (error) => {
-        console.error('Error loading SVG', error);
-      }
-    );
-  }
+  const svgPath = 'assets/images/svg-icons/zoom-to-extent.svg';
+  this.http.get(svgPath, { responseType: 'text' }).subscribe(
+    (data) => {
+      btn.innerHTML = data;
+    },
+    (error) => {
+      console.error('Error loading SVG', error);
+    }
+  );
+}
 }
