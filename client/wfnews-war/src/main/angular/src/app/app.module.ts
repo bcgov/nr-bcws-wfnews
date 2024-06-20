@@ -118,6 +118,7 @@ import { AdvisorySectionComponent } from './components/common/advisory-section/a
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
 import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
 import { CircleIconButtonComponent } from './components/common/circle-icon-button/circle-icon-button.component';
+import { ContactUsCoreComponent } from './components/common/contact-us-core/contact-us-core.component';
 import { ContentCardContainerComponent } from './components/common/content-card-container/content-card-container.component';
 import { DownloadItemComponent } from './components/common/download-item/download-item.component';
 import { DownloadItemsContainerComponent } from './components/common/download-items-container/download-items-container.component';
@@ -242,6 +243,7 @@ import { ContactUsCardComponent } from './components/public-incident-page/incide
 import { EvacuationsCardComponent } from './components/public-incident-page/incident-tabs/cards/evacuations-card/evacuations-card.component';
 import { FireSizeCardComponent } from './components/public-incident-page/incident-tabs/cards/fire-size-card/fire-size-card.component';
 import { LocationCardComponent } from './components/public-incident-page/incident-tabs/cards/location-card/location-card.component';
+import { PrimaryMediaCardComponent } from './components/public-incident-page/incident-tabs/cards/primary-media-card/primary-media-card.component';
 import { ResourcesAssignedCardComponent } from './components/public-incident-page/incident-tabs/cards/resources-assigned-card/resources-assigned-card.component';
 import { AssignedResourceItemComponent } from './components/public-incident-page/incident-tabs/cards/response-type-card/assigned-resource-item/assigned-resource-item.component';
 import { ResponseTypeCardComponent } from './components/public-incident-page/incident-tabs/cards/response-type-card/response-type-card.component';
@@ -320,7 +322,6 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { PrimaryMediaCardComponent } from './components/public-incident-page/incident-tabs/cards/primary-media-card/primary-media-card.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -553,6 +554,7 @@ export const DATE_FORMATS = {
     EvacuationsCardComponent,
     AreaRestrictionsCardComponent,
     PrimaryMediaCardComponent,
+    ContactUsCoreComponent,
   ],
   imports: [
     MatSortModule,

@@ -22,9 +22,4 @@ export class ContactUsDialogComponent {
     public dialogRef: MatDialogRef<ContactUsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data,
   ) {}
-
-  emailFireCentre(recipientEmail: string) {
-    const mailtoUrl = `mailto:${recipientEmail}`;
-    window.location.href = mailtoUrl;
-  }
 }

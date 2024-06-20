@@ -1,4 +1,4 @@
-import { AfterContentChecked, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {AfterContentChecked, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'response-update-card',
@@ -14,13 +14,16 @@ export class ResponseUpdateCardComponent implements AfterContentChecked {
 
   columnTrigger = 2;
   columnSize = 24;
+  heightThreshold = 200;
+
 
   constructor(private cdr: ChangeDetectorRef) { }
 
   ngAfterContentChecked() {
     const size = this.contentElementRef?.nativeElement?.offsetHeight;
-    this.useColumns = size > (this.columnTrigger * this.columnSize);
-    if (this.useColumns) {
+    const previousUseColumns = this.useColumns;
+    this.useColumns = size > this.heightThreshold;
+    if (this.useColumns !== previousUseColumns ) {
       this.cdr.detectChanges();
     }
   }  
