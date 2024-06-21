@@ -107,11 +107,11 @@ export class EvacOrdersDetailsPanel implements OnInit {
     }
   }
 
-  getEvacOrders() {
+  async getEvacOrders() {
     if (this.incident.geometry.x && this.incident.geometry.y) {
-      this.agolService
+      await this.agolService
         .getEvacOrders(null, this.incident.geometry)
-        .subscribe((response) => {
+        .toPromise().then((response) => {
           if (response.features) {
             for (const element of response.features) {
               this.evacOrders.push({
