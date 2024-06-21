@@ -400,4 +400,8 @@
   vertical-align: baseline;
   color: #548adb;
   margin-right: 8px;
+  @media (max-height: 700px) {
+    position: inherit;
+    top: 2px;
+  }
 }
