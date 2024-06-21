@@ -29,4 +29,8 @@ export class IonicStorageService {
     this._storage?.remove(key);
   }
 
+  public clear() {
+    this._storage?.clear();
+  }
+
 }
