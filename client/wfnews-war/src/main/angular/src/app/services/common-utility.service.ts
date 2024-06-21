@@ -7,7 +7,7 @@ import { Geolocation } from '@capacitor/geolocation';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
 import { ReportOfFireService } from './report-of-fire-service';
-import { LocalStorageService } from './local-storage-service';
+import { IonicStorageService } from './ionic-storage.service';
 
 const MAX_CACHE_AGE = 30 * 1000;
 
@@ -40,7 +40,7 @@ export class CommonUtilityService {
     private http: HttpClient,
     private appConfigService: AppConfigService,
     private injector: Injector,
-    private storageService: LocalStorageService
+    private ionicStorageService: IonicStorageService
   ) {
     setTimeout(() => (this.rofService = injector.get(ReportOfFireService)));
   }
@@ -234,8 +234,12 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   async removeInvalidOfflineRoF() {
     try {
+      let offlineReportSaved = null;
       // Fetch locally stored data
-      const offlineReportSaved = this.storageService.getData('offlineReportData');
+      await this.ionicStorageService.get('offlineReportData').then(response => {
+        offlineReportSaved = response;
+      });
+      
       if (offlineReportSaved) {
         const offlineReport = JSON.parse(offlineReportSaved);
 
@@ -246,7 +250,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
             resource.submittedTimestamp &&
             this.invalidTimestamp(resource.submittedTimestamp)
           ) {
-            this.storageService.removeData('offlineReportData');
+            this.ionicStorageService.clear();
           }
         }
       }
