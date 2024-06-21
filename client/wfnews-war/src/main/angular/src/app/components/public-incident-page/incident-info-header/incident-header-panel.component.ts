@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable object-shorthand */
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -70,7 +72,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
   };
 
   private map: any;
- 
+
 
   constructor(
     private appConfigService: AppConfigService,
@@ -174,7 +176,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
     }
-    
+
     if (location) {
       this.map = L.map('map', {
         attributionControl: false,
@@ -202,7 +204,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
         onAdd: (map) => {
           const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
           const btn = L.DomUtil.create('button', '', container);
-          this.loadSVGContent(btn)
+          this.loadSVGContent(btn);
           btn.style.backgroundColor = 'white';
           btn.style.width = '34px';
           btn.style.height = '34px';
@@ -226,19 +228,17 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
         }
       });
 
-      L.control.zoomToExtent = function (opts) {
-        return new L.Control.ZoomToExtent(opts);
-      }
+      L.control.zoomToExtent = (opts) => new L.Control.ZoomToExtent(opts);
       L.control.zoomToExtent({ position: 'topright' }).addTo(this.map);
     }
 
+    let bounds;
     if (this.extent) {
-      this.map.fitBounds(
-        new L.LatLngBounds(
-          [this.extent.ymin, this.extent.xmin],
-          [this.extent.ymax, this.extent.xmax],
-        ),
+      bounds = new L.LatLngBounds(
+        [this.extent.ymin, this.extent.xmin],
+        [this.extent.ymax, this.extent.xmax],
       );
+      this.map.fitBounds(bounds);
     }
 
     // configure map data
@@ -259,6 +259,8 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
           format: 'image/png',
           transparent: true,
           version: '1.1.1',
+          tileSize: 1000,
+          bounds: bounds,
         })
         .addTo(this.map);
       L.tileLayer
@@ -268,6 +270,8 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
           format: 'image/png',
           transparent: true,
           version: '1.1.1',
+          tileSize: 1000,
+          bounds: bounds,
         })
         .addTo(this.map);
     }
@@ -280,6 +284,8 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
           transparent: true,
           version: '1.1.1',
           opacity: 0.8,
+          tileSize: 1000,
+          bounds: bounds,
         })
         .addTo(this.map);
     }
@@ -305,7 +311,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
           })
           .toPromise(),
       ]).then(async ([cat1sld, cat2sld, cat3sld, extent]) => {
-        let bounds;
+        let banBounds: L.LatLngBounds;
 
         if (extent?.extent) {
           bounds = new L.LatLngBounds(
@@ -326,7 +332,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
               sld_body: cat3sld,
               cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 3%\'',
               tileSize: 1000,
-              bounds: bounds,
+              bounds: banBounds,
               opacity: 0.5,
             })
             .addTo(this.map);
@@ -343,7 +349,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
               sld_body: cat2sld,
               cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 2%\'',
               tileSize: 1000,
-              bounds: bounds,
+              bounds: banBounds,
               opacity: 0.5,
             })
             .addTo(this.map);
@@ -361,7 +367,7 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
               cql_filter:
                 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 1%\' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfire%\'',
               tileSize: 1000,
-              bounds: bounds,
+              bounds: banBounds,
               opacity: 0.5,
             })
             .addTo(this.map);
@@ -369,308 +375,309 @@ export class IncidentHeaderPanel implements AfterViewInit, OnInit {
       });
     }
 
-  if(this.dangerRating) {
-    L.tileLayer
-      .wms(databcUrl, {
-        layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.1',
-        opacity: 0.8,
-        style: '7734',
-      })
-      .addTo(this.map);
+    if (this.dangerRating) {
+      L.tileLayer
+        .wms(databcUrl, {
+          layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
+          format: 'image/png',
+          transparent: true,
+          version: '1.1.1',
+          opacity: 0.8,
+          tileSize: 1000,
+          bounds: bounds,
+          style: '7734',
+        })
+        .addTo(this.map);
+    }
+    const icon = L.icon({
+      iconUrl: '/assets/images/local_fire_department.png',
+      iconSize: [35, 35],
+      shadowAnchor: [4, 62],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41],
+    });
+
+    if (this.incident.fireOfNoteInd) {
+      L.marker(location, { icon }).addTo(this.map);
+    } else {
+      let colorToDisplay;
+      switch (this.incident.stageOfControlCode) {
+        case 'OUT_CNTRL':
+          colorToDisplay = '#FF0000';
+          break;
+        case 'HOLDING':
+          colorToDisplay = '#ffff00';
+          break;
+        case 'UNDR_CNTRL':
+          colorToDisplay = '#98E600';
+          break;
+        case 'OUT':
+          colorToDisplay = '#999999';
+          break;
+        default:
+          colorToDisplay = 'white';
+      }
+      L.circleMarker(location, {
+        radius: 15,
+        fillOpacity: 1,
+        color: 'black',
+        fillColor: colorToDisplay,
+      }).addTo(this.map);
+    }
+    this.cdr.detectChanges();
+
+    // fetch incidents in surrounding area and add to map
+    this.addSurroundingIncidents();
   }
-  const icon = L.icon({
-    iconUrl: '/assets/images/local_fire_department.png',
-    iconSize: [35, 35],
-    shadowAnchor: [4, 62],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-  });
 
-  if(this.incident.fireOfNoteInd) {
-    L.marker(location, { icon }).addTo(this.map);
-  } else {
-  let colorToDisplay;
-  switch (this.incident.stageOfControlCode) {
-    case 'OUT_CNTRL':
-      colorToDisplay = '#FF0000';
-      break;
-    case 'HOLDING':
-      colorToDisplay = '#ffff00';
-      break;
-    case 'UNDR_CNTRL':
-      colorToDisplay = '#98E600';
-      break;
-    case 'OUT':
-      colorToDisplay = '#999999';
-      break;
-    default:
-      colorToDisplay = 'white';
-  }
-  L.circleMarker(location, {
-    radius: 15,
-    fillOpacity: 1,
-    color: 'black',
-    fillColor: colorToDisplay,
-  }).addTo(this.map);
-}
-this.cdr.detectChanges();
-
-// fetch incidents in surrounding area and add to map
-this.addSurroundingIncidents();
+  onWatchlist(): boolean {
+    return this.watchlistService
+      .getWatchlist()
+      .includes(
+        this.incident.fireYear + ':' + this.incident.incidentNumberLabel,
+      );
   }
 
-onWatchlist(): boolean {
-  return this.watchlistService
-    .getWatchlist()
-    .includes(
-      this.incident.fireYear + ':' + this.incident.incidentNumberLabel,
-    );
-}
+  addToWatchlist() {
+    if (this.onWatchlist()) {
+      this.removeFromWatchlist();
+    } else {
+      this.watchlistService.saveToWatchlist(
+        this.incident.fireYear,
+        this.incident.incidentNumberLabel,
+      );
+    }
+  }
 
-addToWatchlist() {
-  if (this.onWatchlist()) {
-    this.removeFromWatchlist();
-  } else {
-    this.watchlistService.saveToWatchlist(
+  removeFromWatchlist() {
+    this.watchlistService.removeFromWatchlist(
       this.incident.fireYear,
       this.incident.incidentNumberLabel,
     );
   }
-}
 
-removeFromWatchlist() {
-  this.watchlistService.removeFromWatchlist(
-    this.incident.fireYear,
-    this.incident.incidentNumberLabel,
-  );
-}
-
-displaySizeType(incidentSizeDetail: string) {
-  if (incidentSizeDetail?.includes('estimated')) {
-    return '(Estimated)';
-  } else if (incidentSizeDetail?.includes('mapped')) {
-    return '(Mapped)';
-  } else {
-    return null;
-  }
-}
-
-convertToMobileFormat(dateString) {
-  // Should probably be MMM for month formats to prevent long strings
-  const formattedDate = moment(
-    dateString,
-    'dddd, MMMM D, YYYY [at] h:mm:ss A',
-  ).format('MMMM D, YYYY');
-  return formattedDate;
-}
-
-openContactUsWindow(mode: string | null) {
-  this.dialog.open(ContactUsDialogComponent, {
-    panelClass: 'contact-us-dialog',
-    width: mode === 'desktop' ? '500px' : undefined,  // Set width based on mode
-    data: {
-      incident: this.incident,
-    },
-  });
-}
-
-backToMap() {
-  const navigateToMap = (longitude: number, latitude: number, queryParamKey: string) => {
-    setTimeout(() => {
-      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
-        queryParams: {
-          longitude,
-          latitude,
-          [queryParamKey]: true
-        },
-      });
-    }, 100);
-  };
-
-  if (this.incident?.longitude && this.incident?.latitude) {
-    navigateToMap(this.incident.longitude, this.incident.latitude, 'activeWildfires');
+  displaySizeType(incidentSizeDetail: string) {
+    if (incidentSizeDetail?.includes('estimated')) {
+      return '(Estimated)';
+    } else if (incidentSizeDetail?.includes('mapped')) {
+      return '(Mapped)';
+    } else {
+      return null;
+    }
   }
 
-  if (this.ban?.centroid?.y && this.ban?.centroid?.x) {
-    navigateToMap(this.ban.centroid.x, this.ban.centroid.y, 'bansProhibitions');
+  convertToMobileFormat(dateString) {
+    // Should probably be MMM for month formats to prevent long strings
+    const formattedDate = moment(
+      dateString,
+      'dddd, MMMM D, YYYY [at] h:mm:ss A',
+    ).format('MMMM D, YYYY');
+    return formattedDate;
   }
 
-  if (this.areaRestriction?.centroid?.y && this.areaRestriction?.centroid?.x) {
-    navigateToMap(this.areaRestriction.centroid.x, this.areaRestriction.centroid.y, 'areaRestriction');
+  openContactUsWindow(mode: string | null) {
+    this.dialog.open(ContactUsDialogComponent, {
+      panelClass: 'contact-us-dialog',
+      width: mode === 'desktop' ? '500px' : undefined,  // Set width based on mode
+      data: {
+        incident: this.incident,
+      },
+    });
   }
 
-  if (this.evac?.centroid?.y && this.evac?.centroid?.x) {
-    navigateToMap(this.evac.centroid.x, this.evac.centroid.y, 'evacuationAlert');
-  }
-
-  if (this.dangerRating?.centroid?.y && this.dangerRating?.centroid?.x) {
-    navigateToMap(this.dangerRating.centroid.x, this.dangerRating.centroid.y, 'dangerRating');
-  }
-}
-
-back() {
-  if (this.params && this.params['source'] && this.params['source'][0]) {
-    if (this.params['source'] === 'map' || this.params['source'][0] === 'map') {
-      this.backToMap();
-    } else if (
-      this.params['source'][0] === 'full-details' &&
-      this.params['sourceId'] &&
-      this.params['sourceType']
-    ) {
-      this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
-        queryParams: {
-          type: this.params['sourceType'],
-          id: this.params['sourceId'],
-          name: this.params['name']
-        },
-      });
-    } else if (
-      this.params['source'] === 'saved-location' &&
-      this.params['sourceName'] &&
-      this.params['sourceLongitude'] &&
-      this.params['sourceLatitude']
-    ) {
-      this.router.navigate([ResourcesRoutes.SAVED_LOCATION], {
-        queryParams: {
-          type: 'saved-location',
-          name: this.params['sourceName'],
-          longitude: this.params['sourceLongitude'],
-          latitude: this.params['sourceLatitude'],
-        },
-      });
-    } else if (
-      this.params['source'] === 'full-details'
-    ) {
-      if (this.params['sourceType'] == 'Alert' || this.params['sourceType'] == 'Order') {
-        this.router.navigate([ResourcesRoutes.PUBLIC_EVENT], {
+  backToMap() {
+    const navigateToMap = (longitude: number, latitude: number, queryParamKey: string) => {
+      setTimeout(() => {
+        this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
           queryParams: {
-            eventType: this.params['sourceType'],
-            eventNumber: this.params['eventNumber'],
-            eventName: this.params['name'],
-            source: [ResourcesRoutes.WILDFIRESLIST]
+            longitude,
+            latitude,
+            [queryParamKey]: true
           },
         });
-      }
-    } else if (
-      this.params['source'] === 'incidents'
-    ) {
-      this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
-        queryParams: {
-          fireYear: this.params['fireYear'],
-          incidentNumber: this.params['incidentNumber'],
-        },
-      });
-    }
-    else {
-      this.router.navigate([this.params['source']]);
-    }
-  } else {
-    this.router.navigate([ResourcesRoutes.DASHBOARD]);
-  }
-}
+      }, 100);
+    };
 
-shareContent() {
-  const currentUrl = this.location.path();
-  if (navigator.share) {
-    navigator
-      .share({
-        url: currentUrl, // The URL user wants to share
-      })
-      .then(() => console.log('Sharing succeeded.'))
-      .catch((error) => console.error('Error sharing:', error));
+    if (this.incident?.longitude && this.incident?.latitude) {
+      navigateToMap(this.incident.longitude, this.incident.latitude, 'activeWildfires');
+    }
+
+    if (this.ban?.centroid?.y && this.ban?.centroid?.x) {
+      navigateToMap(this.ban.centroid.x, this.ban.centroid.y, 'bansProhibitions');
+    }
+
+    if (this.areaRestriction?.centroid?.y && this.areaRestriction?.centroid?.x) {
+      navigateToMap(this.areaRestriction.centroid.x, this.areaRestriction.centroid.y, 'areaRestriction');
+    }
+
+    if (this.evac?.centroid?.y && this.evac?.centroid?.x) {
+      navigateToMap(this.evac.centroid.x, this.evac.centroid.y, 'evacuationAlert');
+    }
+
+    if (this.dangerRating?.centroid?.y && this.dangerRating?.centroid?.x) {
+      navigateToMap(this.dangerRating.centroid.x, this.dangerRating.centroid.y, 'dangerRating');
+    }
   }
-}
+
+  back() {
+    if (this.params && this.params['source'] && this.params['source'][0]) {
+      if (this.params['source'] === 'map' || this.params['source'][0] === 'map') {
+        this.backToMap();
+      } else if (
+        this.params['source'][0] === 'full-details' &&
+        this.params['sourceId'] &&
+        this.params['sourceType']
+      ) {
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
+          queryParams: {
+            type: this.params['sourceType'],
+            id: this.params['sourceId'],
+            name: this.params['name']
+          },
+        });
+      } else if (
+        this.params['source'] === 'saved-location' &&
+        this.params['sourceName'] &&
+        this.params['sourceLongitude'] &&
+        this.params['sourceLatitude']
+      ) {
+        this.router.navigate([ResourcesRoutes.SAVED_LOCATION], {
+          queryParams: {
+            type: 'saved-location',
+            name: this.params['sourceName'],
+            longitude: this.params['sourceLongitude'],
+            latitude: this.params['sourceLatitude'],
+          },
+        });
+      } else if (
+        this.params['source'] === 'full-details'
+      ) {
+        if (this.params['sourceType'] === 'Alert' || this.params['sourceType'] === 'Order') {
+          this.router.navigate([ResourcesRoutes.PUBLIC_EVENT], {
+            queryParams: {
+              eventType: this.params['sourceType'],
+              eventNumber: this.params['eventNumber'],
+              eventName: this.params['name'],
+              source: [ResourcesRoutes.WILDFIRESLIST]
+            },
+          });
+        }
+      } else if (
+        this.params['source'] === 'incidents'
+      ) {
+        this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
+          queryParams: {
+            fireYear: this.params['fireYear'],
+            incidentNumber: this.params['incidentNumber'],
+          },
+        });
+      } else {
+        this.router.navigate([this.params['source']]);
+      }
+    } else {
+      this.router.navigate([ResourcesRoutes.DASHBOARD]);
+    }
+  }
+
+  shareContent() {
+    const currentUrl = this.location.path();
+    if (navigator.share) {
+      navigator
+        .share({
+          url: currentUrl, // The URL user wants to share
+        })
+        .then(() => console.log('Sharing succeeded.'))
+        .catch((error) => console.error('Error sharing:', error));
+    }
+  }
 
   async addSurroundingIncidents() {
-  // now fetch the rest of the incidents in the area and display on map
-  try {
-    const locationData = new LocationData();
-    locationData.latitude = Number(this.incident.latitude);
-    locationData.longitude = Number(this.incident.longitude);
-    locationData.radius = 100;
-    const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
-    const incidents = await this.publishedIncidentService
-      .fetchPublishedIncidentsList(
-        0,
-        9999,
-        locationData,
-        null,
-        null,
-        stageOfControlCodes,
-      )
-      .toPromise();
-    if (incidents?.collection && incidents?.collection?.length > 0) {
-      for (const item of incidents.collection) {
-        const location = [Number(item.latitude), Number(item.longitude)];
-        const colorToDisplay = setDisplayColor(item.stageOfControlCode);
-        L.circleMarker(location, {
-          radius: 5,
-          fillOpacity: 1,
-          color: 'black',
-          fillColor: colorToDisplay,
-        }).addTo(this.map);
+    // now fetch the rest of the incidents in the area and display on map
+    try {
+      const locationData = new LocationData();
+      locationData.latitude = Number(this.incident.latitude);
+      locationData.longitude = Number(this.incident.longitude);
+      locationData.radius = 100;
+      const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
+      const incidents = await this.publishedIncidentService
+        .fetchPublishedIncidentsList(
+          0,
+          9999,
+          locationData,
+          null,
+          null,
+          stageOfControlCodes,
+        )
+        .toPromise();
+      if (incidents?.collection && incidents?.collection?.length > 0) {
+        for (const item of incidents.collection) {
+          const location = [Number(item.latitude), Number(item.longitude)];
+          const colorToDisplay = setDisplayColor(item.stageOfControlCode);
+          L.circleMarker(location, {
+            radius: 5,
+            fillOpacity: 1,
+            color: 'black',
+            fillColor: colorToDisplay,
+          }).addTo(this.map);
+        }
       }
+    } catch (err) {
+      console.error(
+        'Could not retrieve surrounding incidents for area restriction',
+      );
     }
-  } catch (err) {
-    console.error(
-      'Could not retrieve surrounding incidents for area restriction',
-    );
   }
-}
 
   // printPage(){
   //   this.requestPrint.emit();
   // }
 
   public printPage() {
-  const twoColumnContent = document.getElementsByClassName('two-column-content-cards-container')[0];
-  twoColumnContent.classList.add('print');
+    const twoColumnContent = document.getElementsByClassName('two-column-content-cards-container')[0];
+    twoColumnContent.classList.add('print');
 
-  const printContents =
-    document.getElementsByClassName('page-container')[0].innerHTML;
+    const printContents =
+      document.getElementsByClassName('page-container')[0].innerHTML;
 
-  const appRoot = document.body.removeChild(
-    document.getElementById('app-root'),
-  );
+    const appRoot = document.body.removeChild(
+      document.getElementById('app-root'),
+    );
 
-  document.body.innerHTML = printContents;
+    document.body.innerHTML = printContents;
 
-  const canvas = document.getElementById('qr-code');
-  toCanvas(canvas, window.location.href, (error) => {
-    if (error) {
-      console.error(error);
-    }
-    window.print();
-    document.body.innerHTML = '';
-    document.body.appendChild(appRoot);
-    twoColumnContent.classList.remove('print');
-  });
-}
-
-navToMap() {
-  setTimeout(() => {
-    this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
-      queryParams: {
-        longitude: this.evac.centroid.x,
-        latitude: this.evac.centroid.y,
-        evacuationAlert: true,
-      },
+    const canvas = document.getElementById('qr-code');
+    toCanvas(canvas, window.location.href, (error) => {
+      if (error) {
+        console.error(error);
+      }
+      window.print();
+      document.body.innerHTML = '';
+      document.body.appendChild(appRoot);
+      twoColumnContent.classList.remove('print');
     });
-  }, 200);
-}
+  }
+
+  navToMap() {
+    setTimeout(() => {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+        queryParams: {
+          longitude: this.evac.centroid.x,
+          latitude: this.evac.centroid.y,
+          evacuationAlert: true,
+        },
+      });
+    }, 200);
+  }
 
   private loadSVGContent(btn: HTMLElement): void {
-  const svgPath = 'assets/images/svg-icons/zoom-to-extent.svg';
-  this.http.get(svgPath, { responseType: 'text' }).subscribe(
-    (data) => {
-      btn.innerHTML = data;
-    },
-    (error) => {
-      console.error('Error loading SVG', error);
-    }
-  );
-}
+    const svgPath = 'assets/images/svg-icons/zoom-to-extent.svg';
+    this.http.get(svgPath, { responseType: 'text' }).subscribe(
+      (data) => {
+        btn.innerHTML = data;
+      },
+      (error) => {
+        console.error('Error loading SVG', error);
+      }
+    );
+  }
 }
