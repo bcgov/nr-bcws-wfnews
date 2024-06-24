@@ -34,7 +34,11 @@ export class EvacOrdersDetailsPanel implements OnInit {
   }
 
   ngOnInit() {
-    this.getEvacOrders();
+    try {
+      this.getEvacOrders();
+    } catch(error) {
+      console.log("Error fetching evacuations: " + error);
+    }
   }
 
   addEvacOrder() {
@@ -109,10 +113,10 @@ export class EvacOrdersDetailsPanel implements OnInit {
 
   async getEvacOrders() {
     if (this.incident.geometry.x && this.incident.geometry.y) {
-      await this.agolService
+      const response: any = await this.agolService
         .getEvacOrders(null, this.incident.geometry)
-        .toPromise().then((response) => {
-          if (response.features) {
+        .toPromise();
+          if (response && response.features) {
             for (const element of response.features) {
               this.evacOrders.push({
                 eventName: element.attributes.EVENT_NAME,
@@ -124,7 +128,6 @@ export class EvacOrdersDetailsPanel implements OnInit {
               });
             }
           }
-        });
     }
 
     this.externalUriService
