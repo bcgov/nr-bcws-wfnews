@@ -35,6 +35,10 @@
     @media (max-height: 700px) {
       font-size: 2.2vh;
     }
+    @media (min-height: 701px) and (max-height: 800px) {
+      font-size: 2.6vh;
+      bottom: 5px;
+    }
     font-style: normal;
     font-weight: 600;
     letter-spacing: -0.38px;
@@ -396,4 +400,8 @@
   vertical-align: baseline;
   color: #548adb;
   margin-right: 8px;
+  @media (max-height: 700px) {
+    position: inherit;
+    top: 2px;
+  }
 }
