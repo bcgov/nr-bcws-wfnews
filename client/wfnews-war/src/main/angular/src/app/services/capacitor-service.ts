@@ -19,14 +19,22 @@ import { ApplicationStateService } from './application-state.service';
 import { EventEmitterService } from './event-emitter.service';
 
 import { ResourcesRoutes } from '@app/utils';
-import { NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
 import { Preferences } from '@capacitor/preferences';
+import { NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
 
 export interface CompassHeading {
-  magneticHeading?: number; //The heading in degrees from 0-359.99 at a single moment in time. (Number)
-  trueHeading?: number; //The heading relative to the geographic North Pole in degrees 0-359.99 at a single moment in time. A negative value indicates that the true heading can't be determined. (Number)
-  headingAccuracy?: number; //The deviation in degrees between the reported heading and the true heading. (Number)
-  timestamp?: string; //The time at which this heading was determined. (DOMTimeStamp)
+  //The heading in degrees from 0-359.99 at a single moment in time. (Number)
+  magneticHeading?: number; 
+
+  // The heading relative to the geographic North Pole in degrees 0-359.99 at a single moment in time. 
+  // A negative value indicates that the true heading can't be determined. (Number)
+  trueHeading?: number; 
+  
+  //The deviation in degrees between the reported heading and the true heading. (Number)
+  headingAccuracy?: number; 
+  
+  //The time at which this heading was determined. (DOMTimeStamp)
+  timestamp?: string; 
   error?: string;
 }
 
@@ -118,6 +126,56 @@ export class CapacitorService {
     });
   }
 
+  get isMobile(): Promise<boolean> {
+    return this.deviceProperties.then((p) => p.isMobilePlatform);
+  }
+
+  get deviceProperties(): Promise<DeviceProperties> {
+    if (!this.devicePropertiesPromise) {
+      this.devicePropertiesPromise = Device.getInfo()
+        .then((devInfo) => Device.getId().then((deviceId) => {
+
+          const p = devInfo && devInfo.platform;
+          const prop: DeviceProperties = {
+            isIOSPlatform: p === 'ios',
+            isAndroidPlatform: p === 'android',
+            isWebPlatform: p !== 'ios' && p !== 'android',
+            isMobilePlatform:
+              p === 'ios' ||
+              p === 'android' ||
+              !!environment['is_mobile_platform'],
+            deviceId: deviceId.identifier,
+            isTwitterInstalled: false,
+          };
+          const scheme = prop.isIOSPlatform
+            ? 'twitter://'
+            : 'com.twitter.android';
+          return AppLauncher.canOpenUrl({ url: scheme })
+            .then((canOpen) => {
+              prop.isTwitterInstalled = canOpen.value;
+              return prop;
+            })
+            .catch((e) => {
+              console.warn(e);
+              return prop;
+            });
+        }))
+        .catch((e) => {
+          console.warn(e);
+          return {
+            isIOSPlatform: false,
+            isAndroidPlatform: false,
+            isWebPlatform: false,
+            isMobilePlatform: false,
+            deviceId: '',
+            isTwitterInstalled: false,
+          };
+        });
+    }
+
+    return this.devicePropertiesPromise;
+  }
+
   init() {
     const startRefreshTimer = () => {
       stopRefreshTimer();
@@ -130,8 +188,8 @@ export class CapacitorService {
 
     const stopRefreshTimer = () => {
       if (!this.refreshTimer) {
-return;
-}
+        return;
+      }
 
       clearTimeout(this.refreshTimer);
       this.refreshTimer = null;
@@ -144,8 +202,8 @@ return;
         startRefreshTimer();
 
         if (!this.inactiveStart) {
-return;
-}
+          return;
+        }
 
         const inactiveDuration = Date.now() - this.inactiveStart;
         this.inactiveStart = null;
@@ -155,8 +213,8 @@ return;
         }
       } else {
         if (!this.inactiveStart) {
-this.inactiveStart = Date.now();
-}
+          this.inactiveStart = Date.now();
+        }
 
         stopRefreshTimer();
       }
@@ -253,16 +311,16 @@ this.inactiveStart = Date.now();
   handleRofPushNotification(notification: PushNotificationSchema) {
     this.notificationSnackbarPromise = this.notificationSnackbarPromise.then(
       () => new Promise((res, rej) => {
-          const sb = this.showNotificationSnackbar(notification);
+        const sb = this.showNotificationSnackbar(notification);
 
-          sb.onAction().subscribe(() => {
-            this.emitLocationNotification(notification.body);
-          });
+        sb.onAction().subscribe(() => {
+          this.emitLocationNotification(notification.body);
+        });
 
-          sb.afterDismissed().subscribe(() => {
-            res();
-          });
-        }),
+        sb.afterDismissed().subscribe(() => {
+          res();
+        });
+      }),
     );
 
     return true;
@@ -283,29 +341,29 @@ this.inactiveStart = Date.now();
   handleLocationPushNotification(notification: PushNotificationSchema) {
     this.notificationSnackbarPromise = this.notificationSnackbarPromise.then(
       () => new Promise((res, rej) => {
-          const sb = this.showNotificationSnackbar(notification);
+        const sb = this.showNotificationSnackbar(notification);
 
-          sb.onAction().subscribe(() => {
-            const c = JSON.parse(notification.data['coords']);
-              const r = JSON.parse(notification.data['radius']);
-            this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
-              queryParams: {
-                latitude: c[0],
-                longitude: c[1],
-                radius: r,
-                featureId: notification.data['messageID'],
-                featureType: notification.data['topicKey'],
-                identify: true,
-                notification: true,
-                time: Date.now(),
-              },
-            });
+        sb.onAction().subscribe(() => {
+          const c = JSON.parse(notification.data['coords']);
+          const r = JSON.parse(notification.data['radius']);
+          this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+            queryParams: {
+              latitude: c[0],
+              longitude: c[1],
+              radius: r,
+              featureId: notification.data['messageID'],
+              featureType: notification.data['topicKey'],
+              identify: true,
+              notification: true,
+              time: Date.now(),
+            },
           });
+        });
 
-          sb.afterDismissed().subscribe(() => {
-            res();
-          });
-        }),
+        sb.afterDismissed().subscribe(() => {
+          res();
+        });
+      }),
     );
 
     return true;
@@ -315,7 +373,7 @@ this.inactiveStart = Date.now();
     setTimeout(() => {
       try {
         const c = JSON.parse(data['coords']);
-          const r = JSON.parse(data['radius']);
+        const r = JSON.parse(data['radius']);
 
         this.locationNotifications.emit({
           latitude: c[0],
@@ -349,8 +407,8 @@ this.inactiveStart = Date.now();
       .then((devInfo) => {
         console.log(devInfo);
         if (!devInfo) {
-return;
-}
+          return;
+        }
 
         this.isIOSPlatform = devInfo.platform === 'ios';
         this.isAndroidPlatform = devInfo.platform === 'android';
@@ -403,29 +461,6 @@ return;
     });
   }
 
-  private async checkTwitterAppInstalled(): Promise<boolean> {
-    if (this.isMobilePlatform()) {
-      const scheme = this.isIOSPlatform ? 'twitter://' : 'com.twitter.android';
-      const ret = await AppLauncher.canOpenUrl({ url: scheme });
-      return ret.value;
-    }
-    return false;
-  }
-
-  private async checkFbAppInstalled(): Promise<boolean> {
-    if (this.isMobilePlatform()) {
-      const scheme = this.isIOSPlatform ? 'fb://' : 'com.facebook.katana';
-      const ret = await AppLauncher.canOpenUrl({ url: scheme });
-      return ret.value;
-    }
-    return false;
-  }
-
-  private async appIsInstalled(scheme: string): Promise<boolean> {
-    const ret = await AppLauncher.canOpenUrl({ url: scheme });
-    return ret.value;
-  }
-
   initOfflinePageSettings() {
     App.addListener('appStateChange', (state: AppState) => {
       this.appState = state;
@@ -469,6 +504,18 @@ return;
     }
   }
 
+  redirect(url: string, internal = false) {
+    if (this.isMobilePlatform()) {
+      if (internal) {
+        this.router.navigateByUrl(url);
+      } else {
+        this.openLinkInAppBrowser(url);
+      }
+    } else {
+      window.open(url, '_blank');
+    }
+  }
+
   isAndroid() {
     return this.isAndroidPlatform;
   }
@@ -480,8 +527,8 @@ return;
   getCurrentHeading(): Promise<CompassHeading> {
     const compass = navigator['compass'];
     if (!compass) {
-return Promise.reject(Error('navigator.compass not available'));
-} else {
+      return Promise.reject(Error('navigator.compass not available'));
+    } else {
       const currentHeading = new Promise((res, rej) => {
         compass.getCurrentHeading(
           (heading: CompassHeading) => {
@@ -511,70 +558,44 @@ return Promise.reject(Error('navigator.compass not available'));
     }
   }
 
-  get deviceProperties(): Promise<DeviceProperties> {
-    if (!this.devicePropertiesPromise) {
-this.devicePropertiesPromise = Device.getInfo()
-        .then((devInfo) => Device.getId().then((deviceId) => {
-
-            const p = devInfo && devInfo.platform;
-              const prop: DeviceProperties = {
-                isIOSPlatform: p == 'ios',
-                isAndroidPlatform: p == 'android',
-                isWebPlatform: p != 'ios' && p != 'android',
-                isMobilePlatform:
-                  p == 'ios' ||
-                  p == 'android' ||
-                  !!environment['is_mobile_platform'],
-                deviceId: deviceId.identifier,
-                isTwitterInstalled: false,
-              };
-            const scheme = prop.isIOSPlatform
-              ? 'twitter://'
-              : 'com.twitter.android';
-            return AppLauncher.canOpenUrl({ url: scheme })
-              .then((canOpen) => {
-                prop.isTwitterInstalled = canOpen.value;
-                return prop;
-              })
-              .catch((e) => {
-                console.warn(e);
-                return prop;
-              });
-          }))
-        .catch((e) => {
-          console.warn(e);
-          return {
-            isIOSPlatform: false,
-            isAndroidPlatform: false,
-            isWebPlatform: false,
-            isMobilePlatform: false,
-            deviceId: '',
-            isTwitterInstalled: false,
-          };
-        });
-}
-
-    return this.devicePropertiesPromise;
-  }
-
-  get isMobile(): Promise<boolean> {
-    return this.deviceProperties.then((p) => p.isMobilePlatform);
-  }
-
   async saveData(key: string, value: string) {
     await Preferences.set({
-      key: key,
-      value: value
+      key,
+      value
     });
   }
-  
+
   async getData(key: string) {
-    const response = await Preferences.get({ key: key });
+    const response = await Preferences.get({ key });
     return response.value;
   }
 
   async removeData(key: string) {
-    await Preferences.remove({ key: key })
+    await Preferences.remove({ key });
+  }
+
+
+  private async checkTwitterAppInstalled(): Promise<boolean> {
+    if (this.isMobilePlatform()) {
+      const scheme = this.isIOSPlatform ? 'twitter://' : 'com.twitter.android';
+      const ret = await AppLauncher.canOpenUrl({ url: scheme });
+      return ret.value;
+    }
+    return false;
+  }
+
+  private async checkFbAppInstalled(): Promise<boolean> {
+    if (this.isMobilePlatform()) {
+      const scheme = this.isIOSPlatform ? 'fb://' : 'com.facebook.katana';
+      const ret = await AppLauncher.canOpenUrl({ url: scheme });
+      return ret.value;
+    }
+    return false;
+  }
+
+  private async appIsInstalled(scheme: string): Promise<boolean> {
+    const ret = await AppLauncher.canOpenUrl({ url: scheme });
+    return ret.value;
   }
 }
 
