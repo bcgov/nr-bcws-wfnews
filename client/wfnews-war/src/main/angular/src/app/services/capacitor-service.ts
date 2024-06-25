@@ -505,12 +505,8 @@ export class CapacitorService {
   }
 
   redirect(url: string, internal = false) {
-    if (this.isMobilePlatform()) {
-      if (internal) {
-        this.router.navigateByUrl(url);
-      } else {
-        this.openLinkInAppBrowser(url);
-      }
+    if (this.isMobilePlatform() && internal) {
+      this.router.navigateByUrl(url);
     } else {
       window.open(url, '_blank');
     }
