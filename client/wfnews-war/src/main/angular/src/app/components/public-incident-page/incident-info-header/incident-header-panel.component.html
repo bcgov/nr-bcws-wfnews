@@ -9,8 +9,8 @@
   </div>
   <div class="incident-details" [ngClass]="{desktop: !isMobileView()}">
     <div class="details-content">
-      <div *ngIf="!isMobileView()" class="back-button">
-        <img alt="icon" (click)="back()" height="24" width="24" src="/assets/images/svg-icons/arrow-left-grey.svg">
+      <div *ngIf="!isMobileView()" (click)="back()" class="back-button">
+        <img alt="icon" height="24" width="24" src="/assets/images/svg-icons/arrow-left-grey.svg">
         <span>Back</span>
       </div>
       <div *ngIf="incident">
