@@ -1,27 +1,27 @@
 import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnInit,
 } from '@angular/core';
-import moment from 'moment';
-import { AGOLService } from '../../../services/AGOL-service';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { haversineDistance } from '@app/services/wfnews-map.service/util';
+import { ResourcesRoutes, convertToDateTime } from '@app/utils';
+import { Observable } from 'rxjs';
+import { AGOLService } from '../../../services/AGOL-service';
 import {
   FilterByLocationDialogComponent,
   LocationData,
 } from '../filter-by-location/filter-by-location-dialog.component';
-import {
-  BreakpointObserver,
-  BreakpointState,
-  Breakpoints,
-} from '@angular/cdk/layout';
-import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { ResourcesRoutes, convertToDateTime } from '@app/utils';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'wf-evac-list',
@@ -71,6 +71,7 @@ export class EvacListComponent implements OnInit {
     private commonUtilityService: CommonUtilityService,
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
+    private capacitorService: CapacitorService
   ) {}
 
   ngOnInit(): void {
@@ -253,6 +254,6 @@ whereString = null;
         },
       }),
     );
-    window.open(url, '_blank');
+    this.capacitorService.redirect(url, true);
   }
 }

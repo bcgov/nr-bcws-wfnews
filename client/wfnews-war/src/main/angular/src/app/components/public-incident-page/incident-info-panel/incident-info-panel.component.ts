@@ -15,6 +15,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { CauseOptionDisclaimer } from '@app/components/admin-incident-form/incident-details-panel/incident-details-panel.constants';
+import { CapacitorService } from '@app/services/capacitor-service';
 import { YouTubeService } from '@app/services/youtube-service';
 import { AppConfigService } from '@wf1/core-ui';
 import lightGallery from 'lightgallery';
@@ -73,6 +74,7 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
     private http: HttpClient,
     protected route: Router,
     private youtubeService: YouTubeService,
+    private capacitorService: CapacitorService
   ) { }
 
   handleImageFallback(href: string) {
@@ -314,9 +316,8 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
 
   navigateToEvac(event) {
     if (event?.externalUri) {
-      window.open(event.uri, '_blank');
-    }
-    else {
+      this.capacitorService.redirect(event.uri);
+    } else {
       const url = this.route.serializeUrl(
         this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
           queryParams: {
@@ -329,7 +330,7 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
           },
         }),
       );
-      window.open(url, '_blank');
+      this.capacitorService.redirect(url, true);
     }
   }
 
@@ -346,7 +347,7 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
         },
       }),
     );
-    window.open(url, '_blank');
+    this.capacitorService.redirect(url, true);
   }
 
   emailFireCentre(recipientEmail: string) {
