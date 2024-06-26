@@ -43,7 +43,7 @@ import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-d
   styleUrls: ['./incident-header-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IncidentHeaderPanel implements AfterViewInit, OnInit {
+export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   @Input() public incident: any;
   @Input() public evacOrders: EvacOrderOption[] = [];
   @Input() public extent: any;

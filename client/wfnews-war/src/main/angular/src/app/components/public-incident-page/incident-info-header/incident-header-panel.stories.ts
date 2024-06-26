@@ -10,7 +10,7 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import { WatchlistService } from '@app/services/watchlist-service';
 import { AppConfigService } from '@wf1/core-ui';
 import { of } from 'rxjs';
-import { IncidentHeaderPanel } from './incident-header-panel.component';
+import { IncidentHeaderPanelComponent } from './incident-header-panel.component';
 
 // Mock services
 const mockAppConfigService = {
@@ -40,12 +40,12 @@ const mockActivatedRoute = {
   };
 
 // Define the default export configuration using Meta
-const meta: Meta<IncidentHeaderPanel> = {
+const meta: Meta<IncidentHeaderPanelComponent> = {
     title: 'Components/IncidentHeaderPanel',
-    component: IncidentHeaderPanel,
+    component: IncidentHeaderPanelComponent,
     decorators: [
         moduleMetadata({
-            declarations: [IncidentHeaderPanel],
+            declarations: [IncidentHeaderPanelComponent],
             imports: [
                 CommonModule, 
                 RouterModule.forChild([]),
@@ -72,7 +72,7 @@ function createIsMobileViewOverride(isMobile: boolean): () => boolean {
 }
 
 // Define the type for Story Object
-type Story = StoryObj<IncidentHeaderPanel>;
+type Story = StoryObj<IncidentHeaderPanelComponent>;
 
 // Story for the default desktop view
 export const Default: Story = {
