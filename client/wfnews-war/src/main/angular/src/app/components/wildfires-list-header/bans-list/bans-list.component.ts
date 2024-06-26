@@ -68,7 +68,7 @@ export class BansListComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
     private capacitorService: CapacitorService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.search();
@@ -80,6 +80,7 @@ export class BansListComponent implements OnInit {
     let whereString = '';
 
     if (this.searchText && this.searchText.length > 0) {
+      // eslint-disable-next-line max-len
       whereString += `(ACCESS_PROHIBITION_DESCRIPTION LIKE '%${this.searchText}%' OR FIRE_CENTRE_NAME LIKE '%${this.searchText}%' OR TYPE LIKE '%${this.searchText}%') AND (`;
     }
 
@@ -101,24 +102,24 @@ export class BansListComponent implements OnInit {
     }
 
     if (whereString.startsWith(' OR ')) {
-whereString = whereString.substring(3);
-}
+      whereString = whereString.substring(3);
+    }
     if (whereString.endsWith(' AND ()')) {
-whereString = whereString.substring(0, whereString.length - 7);
-}
+      whereString = whereString.substring(0, whereString.length - 7);
+    }
     if (whereString === '') {
-whereString = null;
-}
+      whereString = null;
+    }
 
     this.agolService
       .getBansAndProhibitions(
         whereString,
         location
           ? {
-              x: location.longitude,
-              y: location.latitude,
-              radius: location.radius,
-            }
+            x: location.longitude,
+            y: location.latitude,
+            radius: location.radius,
+          }
           : null,
         { returnCentroid: true, returnGeometry: false },
       )

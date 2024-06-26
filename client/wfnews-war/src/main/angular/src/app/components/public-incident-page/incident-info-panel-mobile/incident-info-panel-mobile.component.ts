@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IncidentInfoPanel } from '../incident-info-panel/incident-info-panel.component';
 import { ResourcesRoutes, convertToDateYear } from '@app/utils';
+import { IncidentInfoPanelComponent } from '../incident-info-panel/incident-info-panel.component';
 
 @Component({
   selector: 'incident-info-panel-mobile',
@@ -8,7 +8,7 @@ import { ResourcesRoutes, convertToDateYear } from '@app/utils';
   styleUrls: ['./incident-info-panel-mobile.component.scss'],
 })
 export class IncidentInfoPanelMobileComponent
-  extends IncidentInfoPanel
+  extends IncidentInfoPanelComponent
   implements OnInit {
   mobileEvacOrders = [];
   mobileEvacAlerts = [];
@@ -22,14 +22,14 @@ export class IncidentInfoPanelMobileComponent
     if (this.evacOrders) {
       for (const evac of this.evacOrders) {
         if (evac.orderAlertStatus === 'Order') {
-this.mobileEvacOrders.push(evac);
-} else if (evac.orderAlertStatus === 'Alert') {
-this.mobileEvacAlerts.push(evac);
-} else {
-console.error(
+          this.mobileEvacOrders.push(evac);
+        } else if (evac.orderAlertStatus === 'Alert') {
+          this.mobileEvacAlerts.push(evac);
+        } else {
+          console.error(
             'Could not determine orderAlertStatus for mobile evacuations',
           );
-}
+        }
       }
     }
   }
@@ -54,10 +54,10 @@ console.error(
     } else if (evac && this.incident) {
       let type = null;
       if (evac.orderAlertStatus === 'Alert') {
-type = 'evac-alert';
-} else if (evac.orderAlertStatus === 'Order') {
-type = 'evac-order';
-}
+        type = 'evac-alert';
+      } else if (evac.orderAlertStatus === 'Order') {
+        type = 'evac-order';
+      }
       this.route.navigate([ResourcesRoutes.FULL_DETAILS], {
         queryParams: {
           type,
@@ -76,7 +76,7 @@ type = 'evac-order';
 
   navigateToAreaRestriction(area) {
     if (area?.protRsSysID && this.incident) {
-this.route.navigate([ResourcesRoutes.FULL_DETAILS], {
+      this.route.navigate([ResourcesRoutes.FULL_DETAILS], {
         queryParams: {
           type: 'area-restriction',
           id: area.protRsSysID,
@@ -88,13 +88,13 @@ this.route.navigate([ResourcesRoutes.FULL_DETAILS], {
           name: area.name
         },
       });
-}
+    }
   }
 
   scrollToSection(sectionId) {
     const section = document.getElementById(sectionId);
     if (section) {
-section.scrollIntoView({ behavior: 'smooth' });
-}
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }
