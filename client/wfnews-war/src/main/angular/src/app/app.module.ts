@@ -230,9 +230,9 @@ import { VideoPanelComponent } from './components/public-incident-page/incident-
 import { AreaRestrictionHeaderComponent } from './components/public-incident-page/incident-info-header/area-restriction-header/area-restriction-header.component';
 import { BanHeaderComponent } from './components/public-incident-page/incident-info-header/ban-header/ban-header.component';
 import { DangerRatingHeaderComponent } from './components/public-incident-page/incident-info-header/danger-rating-header/danger-rating-header.component';
-import { IncidentHeaderPanel } from './components/public-incident-page/incident-info-header/incident-header-panel.component';
+import { IncidentHeaderPanelComponent } from './components/public-incident-page/incident-info-header/incident-header-panel.component';
 import { IncidentInfoPanelMobileComponent } from './components/public-incident-page/incident-info-panel-mobile/incident-info-panel-mobile.component';
-import { IncidentInfoPanel } from './components/public-incident-page/incident-info-panel/incident-info-panel.component';
+import { IncidentInfoPanelComponent } from './components/public-incident-page/incident-info-panel/incident-info-panel.component';
 import { IncidentMapsPanelMobileComponent } from './components/public-incident-page/incident-maps-panel-mobile/incident-maps-panel-mobile.component';
 import { IncidentMapsPanel } from './components/public-incident-page/incident-maps-panel/incident-maps-panel.component';
 import { IncidentOverviewPanelMobileComponent } from './components/public-incident-page/incident-overview-panel-mobile/incident-overview-panel-mobile.component';
@@ -374,8 +374,8 @@ export const DATE_FORMATS = {
     PanelWildfireStageOfControlContainerDesktop,
     PublicIncidentPage,
     IncidentGalleryPanel,
-    IncidentHeaderPanel,
-    IncidentInfoPanel,
+    IncidentHeaderPanelComponent,
+    IncidentInfoPanelComponent,
     IncidentMapsPanel,
     IncidentOverviewPanel,
     SummaryPanel,

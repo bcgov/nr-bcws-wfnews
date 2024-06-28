@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AGOLService } from '@app/services/AGOL-service';
+import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { ResourcesRoutes, hidePanel, showPanel, convertToDateTimeTimeZone, getActiveMap } from '@app/utils';
+import { ResourcesRoutes, convertToDateTimeTimeZone, hidePanel, showPanel } from '@app/utils';
 import { MapUtilityService } from '../map-share-service';
 
 @Component({
@@ -12,15 +13,17 @@ import { MapUtilityService } from '../map-share-service';
 })
 export class EvacuationsPreviewComponent {
 
+  public data;
+  convertToDateTimeTimeZone = convertToDateTimeTimeZone;
+
   constructor(
     private router: Router,
     private agolService: AGOLService,
     private commonUtilityService: CommonUtilityService,
-    private mapUtilityService: MapUtilityService
-  ) {}
+    private mapUtilityService: MapUtilityService,
+    private capacitorService: CapacitorService,
+  ) { }
 
-  convertToDateTimeTimeZone = convertToDateTimeTimeZone;
-  public data;
   setContent(data) {
     this.data = data.properties;
     this.zoomIn();
@@ -29,12 +32,12 @@ export class EvacuationsPreviewComponent {
   closePanel() {
     hidePanel('desktop-preview');
   }
-  
-  goBack(){
-    showPanel('identify-panel-wrapper')
+
+  goBack() {
+    showPanel('identify-panel-wrapper');
     hidePanel('desktop-preview');
   }
-  
+
   displayEvacTitle(item) {
     let prefix = null;
     if (item?.ORDER_ALERT_STATUS === 'Alert') {
@@ -45,8 +48,8 @@ export class EvacuationsPreviewComponent {
     return prefix + item?.EVENT_NAME;
   }
 
-  enterFullDetail(){
-    if(this.data) {
+  enterFullDetail() {
+    if (this.data) {
       const url = this.router.serializeUrl(
         this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
           queryParams: {
@@ -57,24 +60,24 @@ export class EvacuationsPreviewComponent {
           },
         }),
       );
-      window.open(url, '_blank');
+      this.capacitorService.redirect(url, true);
     }
   }
 
-  zoomIn(){
+  zoomIn() {
     this.agolService
-    .getEvacOrdersByEventNumber(this.data.EVENT_NUMBER, {
-      returnGeometry: true,
-    })
-    .toPromise()
-    .then((response) => {
-      if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-        const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
-        if (polygonData?.length) {
-          this.mapUtilityService.fixPolygonToMap(polygonData, response.features[0].geometry.rings);
-        }                
-      }
-    });
+      .getEvacOrdersByEventNumber(this.data.EVENT_NUMBER, {
+        returnGeometry: true,
+      })
+      .toPromise()
+      .then((response) => {
+        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
+          const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
+          if (polygonData?.length) {
+            this.mapUtilityService.fixPolygonToMap(polygonData, response.features[0].geometry.rings);
+          }
+        }
+      });
   }
 
 }

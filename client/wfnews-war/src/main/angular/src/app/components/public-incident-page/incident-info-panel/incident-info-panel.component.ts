@@ -15,6 +15,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { CauseOptionDisclaimer } from '@app/components/admin-incident-form/incident-details-panel/incident-details-panel.constants';
+import { CapacitorService } from '@app/services/capacitor-service';
 import { YouTubeService } from '@app/services/youtube-service';
 import { AppConfigService } from '@wf1/core-ui';
 import lightGallery from 'lightgallery';
@@ -42,7 +43,7 @@ import {
   styleUrls: ['./incident-info-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IncidentInfoPanel implements AfterViewInit, OnChanges {
+export class IncidentInfoPanelComponent implements AfterViewInit, OnChanges {
   @Input() public incident: any;
   @Input() public evacOrders: EvacOrderOption[] = [];
   @Input() public areaRestrictions: AreaRestrictionsOption[] = [];
@@ -73,6 +74,7 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
     private http: HttpClient,
     protected route: Router,
     private youtubeService: YouTubeService,
+    private capacitorService: CapacitorService
   ) { }
 
   handleImageFallback(href: string) {
@@ -84,7 +86,7 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.evacOrders?.currentValue.length) {
-      let evacs = changes.evacOrders.currentValue
+      const evacs = changes.evacOrders.currentValue;
       for (const evac of evacs) {
         if (evac.orderAlertStatus === 'Order') {
           this.desktopEvacOrders.push(evac);
@@ -120,7 +122,7 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
 
     const canvas = document.getElementById('qr-code');
     if (canvas) {
-      toCanvas(canvas, window.location.href, function (error) {
+      toCanvas(canvas, window.location.href, (error) => {
         if (error) {
           console.error(error);
         }
@@ -225,45 +227,46 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
                 : this.incident.incidentNumberLabelFull,
             )
             .toPromise()
-            .then((results) => {
+            .then((attachments) => {
               // Loop through the attachments, for each one, create a ref, and set href to the bytes
               this.mediaCollection = [];
-              if (results?.collection?.length > 0) {
-                for (const attachment of results.collection) {
-                  for (const attachment of results.collection) {
-                    // do a mime type check here
-                    // Light gallery does not really support direct download on mimetype : image/bmp && image/tiff, which will returns 500 error.
-                    if (
-                      attachment.mimeType &&
-                      [
-                        'image/jpg',
-                        'image/jpeg',
-                        'image/png',
-                        'image/gif',
-                        'image/bmp',
-                        'image/tiff',
-                      ].includes(attachment.mimeType.toLowerCase())
-                    ) {
-                      this.mediaCollection.push({
-                        title: attachment.attachmentTitle,
-                        uploadedDate: new Date(
-                          attachment.createdTimestamp,
-                        ).toLocaleDateString(),
-                        fileName: attachment.attachmentFileName,
-                        type: 'image',
-                        href: `${this.appConfigService.getConfig().rest['wfnews']
-                          }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
-                          }/attachments/${attachment.attachmentGuid}/bytes`,
-                        thumbnail: `${this.appConfigService.getConfig().rest['wfnews']
-                          }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
-                          }/attachments/${attachment.attachmentGuid
-                          }/bytes?thumbnail=true`,
-                        loaded: false,
-                      });
-                    }
-                  }
+              if (attachments?.collection?.length > 0) {
+                for (const attachment of attachments.collection) {
+
                   // do a mime type check here
-                  if (attachment.primary) {
+                  // Light gallery does not really support direct download on mimetype
+                  // image/bmp && image/tiff, which will returns 500 error.
+                  if (
+                    attachment.mimeType &&
+                    [
+                      'image/jpg',
+                      'image/jpeg',
+                      'image/png',
+                      'image/gif',
+                      'image/bmp',
+                      'image/tiff',
+                    ].includes(attachment.mimeType.toLowerCase())
+                  ) {
+                    this.mediaCollection.push({
+                      title: attachment.attachmentTitle,
+                      uploadedDate: new Date(
+                        attachment.createdTimestamp,
+                      ).toLocaleDateString(),
+                      fileName: attachment.attachmentFileName,
+                      type: 'image',
+                      href: `${this.appConfigService.getConfig().rest['wfnews']
+                        }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+                        }/attachments/${attachment.attachmentGuid}/bytes`,
+                      thumbnail: `${this.appConfigService.getConfig().rest['wfnews']
+                        }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+                        }/attachments/${attachment.attachmentGuid
+                        }/bytes?thumbnail=true`,
+                      loaded: false,
+                    });
+                  }
+
+                  // do a mime type check here
+                  if (attachment.primary && !this.primaryMedia) {
                     this.primaryMedia = {
                       title: attachment.attachmentTitle,
                       uploadedDate: new Date(
@@ -279,7 +282,6 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
                         }/attachments/${attachment.attachmentGuid
                         }/bytes?thumbnail=true`,
                     };
-                    break;
                   }
                 }
               }
@@ -314,9 +316,8 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
 
   navigateToEvac(event) {
     if (event?.externalUri) {
-      window.open(event.uri, '_blank');
-    }
-    else {
+      this.capacitorService.redirect(event.uri);
+    } else {
       const url = this.route.serializeUrl(
         this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
           queryParams: {
@@ -329,7 +330,7 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
           },
         }),
       );
-      window.open(url, '_blank');
+      this.capacitorService.redirect(url, true);
     }
   }
 
@@ -346,7 +347,7 @@ export class IncidentInfoPanel implements AfterViewInit, OnChanges {
         },
       }),
     );
-    window.open(url, '_blank');
+    this.capacitorService.redirect(url, true);
   }
 
   emailFireCentre(recipientEmail: string) {
