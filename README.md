@@ -1,6 +1,6 @@
 # BCWS Situation Report (WFNEWS)
 
-[![Lifecycle](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
+[![Lifecycle](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
 ![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 ### Sonar Status
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=bcgov_nr-bcws-wfnews&metric=bugs)](https://sonarcloud.io/summary/new_code?id=bcgov_nr-bcws-wfnews)
