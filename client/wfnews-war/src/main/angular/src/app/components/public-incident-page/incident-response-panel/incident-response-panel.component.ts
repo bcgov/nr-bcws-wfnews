@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
-import { DISCLAIMER_TEXT } from '@app/constants';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 @Component({
@@ -15,7 +14,7 @@ export class IncidentResponsePanelComponent implements AfterViewInit {
   public responseDisclaimer: string;
 
   ngAfterViewInit() {
-    this.responseDisclaimer = this.incident?.resourceDetail || DISCLAIMER_TEXT.RESPONSE;
+    this.responseDisclaimer = this.incident?.resourceDetail;
   }
 
   public onReady(editor) {
