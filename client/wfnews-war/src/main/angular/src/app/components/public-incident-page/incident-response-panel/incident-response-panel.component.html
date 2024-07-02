@@ -5,7 +5,7 @@
       <resources-assigned-card [incident]="incident"></resources-assigned-card>
     </ng-container>
     <ng-container column-2>
-      <text-card [text]="responseDisclaimer" backgroundColor="#F5F5F5" textColor="#5B5B5B"></text-card>
+      <text-card *ngIf="responseDisclaimer" [text]="responseDisclaimer" backgroundColor="#F5F5F5" textColor="#5B5B5B"></text-card>
       <response-type-card [responseTypeCode]="incident.responseTypeCode"></response-type-card>
       <contact-us-card [incident]="incident"></contact-us-card>
     </ng-container>
