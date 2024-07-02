@@ -9,7 +9,7 @@
       <evacuations-card [evacuations]="evacOrders" [incident]="incident" (viewDetailsClicked)="navigateToEvac($event)" ></evacuations-card>
     </ng-container>
     <ng-container column-2>
-      <primary-media-card [showPreviewWarning]="showWarning" [item]="primaryMedia" (imageError)="handleImageFallback(primaryMedia.href)" (openAllPhotosClicked)="sendToGalleryTab()" ></primary-media-card>
+      <primary-media-card *ngIf="primaryMedia" [showPreviewWarning]="showWarning" [item]="primaryMedia" (imageError)="handleImageFallback(primaryMedia.href)" (openAllPhotosClicked)="sendToGalleryTab()" ></primary-media-card>
       <area-restrictions-card [showPreviewWarning]="showWarning" [areaRestrictions]="areaRestrictions" (viewDetailsClicked)="navigateToAreaRestriction($event)" ></area-restrictions-card>
       <suspected-cause-card [incidentSuspectedCauseCatId]="incident.generalIncidentCauseCatId"></suspected-cause-card>
       <contact-us-card [incident]="incident"></contact-us-card>
