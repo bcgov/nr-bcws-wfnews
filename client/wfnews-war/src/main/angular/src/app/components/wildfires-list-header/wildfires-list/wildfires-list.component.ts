@@ -294,7 +294,7 @@ export class WildFiresListComponent
         queryParams: {
           fireYear: incident.fireYear,
           incidentNumber: incident.incidentNumberLabel,
-          source: [ResourcesRoutes.WILDFIRESLIST],
+          source: ResourcesRoutes.WILDFIRESLIST,
         },
       }),
     );
