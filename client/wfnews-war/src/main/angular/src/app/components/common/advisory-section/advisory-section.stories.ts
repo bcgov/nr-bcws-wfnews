@@ -21,7 +21,7 @@ export const evacuationInformationOrder: Story = {
   args: {
     
     title: 'Evacuation Information',
-    message: 'Go to Emergency Info BC for up-to-date evaucation information.',
+    message: 'Go to Emergency Info BC for up-to-date evacuation information.',
     componentStyle: {
       backgroundColor: '#FFF5F6',
       dividerColor: '#E7DADA', 
@@ -52,7 +52,7 @@ export const evacuationInformationOrder: Story = {
 export const evacuationInformationAlert: Story = {
   args: {
     title: 'Evacuation Information',
-    message: 'Go to Emergency Info BC for up-to-date evaucation information.',
+    message: 'Go to Emergency Info BC for up-to-date evacuation information.',
     componentStyle: {
       backgroundColor: '#FFFAEB',
       dividerColor: '#EEE8D3',
