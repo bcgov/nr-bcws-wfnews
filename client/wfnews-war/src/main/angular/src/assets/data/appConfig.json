@@ -117,7 +117,7 @@
 
   "webade": {
     "#oauth2Url": "https://d1auth.vividsolutions.com/pub/webade-oauth2/oauth/authorize",
-    "oauth2Url": "https://intapps.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize",
+    "oauth2Url": "https://wfappsi.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize",
     "clientId": "WFNEWS-UI",
     "authScopes": "WFIM.* WFORG.* WFDM.* WFNEWS.* WFRM.*",
     "enableCheckToken": true,
