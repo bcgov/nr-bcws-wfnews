@@ -1,6 +1,6 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
   <mat-card appearance="outlined" class="info-card news-form-card">
-    <fieldset class="field-set">
+    <fieldset class="field-set" style="border-bottom: none;">
       <legend style="display: none">General Disclaimer Card</legend>
       <div class="news-form">
         <div class="field size-full">
@@ -20,6 +20,9 @@
     </fieldset>
   </mat-card>
   <mat-card appearance="outlined" class="info-card news-form-card">
+    <div class="resources-header">
+      <h2>Resources Assigned</h2>
+    </div>
     <mat-card-title>
       Wildfire Crews
       <button mat-button (click)="updateCrews()" class="resource-button"><img class="icon"

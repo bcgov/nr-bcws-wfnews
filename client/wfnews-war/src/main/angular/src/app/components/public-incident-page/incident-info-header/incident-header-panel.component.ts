@@ -204,13 +204,14 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         onAdd: (map) => {
           const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
           const btn = L.DomUtil.create('button', '', container);
-          this.loadSVGContent(btn);
+          this.createZoomIcon(btn);
           btn.style.backgroundColor = 'white';
           btn.style.width = '34px';
           btn.style.height = '34px';
           btn.style.cursor = 'pointer';
-          btn.style.border = '2px solid darkgrey';
-          btn.style.borderRadius = '4px';
+          btn.style.border = '2px solid rgba(0, 0, 0, 0.35)';
+          btn.style.borderBottomLeftRadius = '4px';
+          btn.style.borderBottomRightRadius = '4px';
           btn.style.display = 'flex';
           btn.style.alignItems = 'center';
           btn.style.justifyContent = 'center';
@@ -669,15 +670,17 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     }, 200);
   }
 
-  private loadSVGContent(btn: HTMLElement): void {
+  private createZoomIcon(btn: HTMLElement): void {
     const svgPath = 'assets/images/svg-icons/zoom-to-extent.svg';
-    this.http.get(svgPath, { responseType: 'text' }).subscribe(
-      (data) => {
-        btn.innerHTML = data;
-      },
-      (error) => {
-        console.error('Error loading SVG', error);
-      }
-    );
+
+    const icon = L.DomUtil.create('div', '', btn);
+    
+    icon.style.maskImage = 'url(' + svgPath + ')';
+    icon.style.width = '24px';
+    icon.style.height = '24px';
+    icon.style.backgroundColor = 'black';
+    icon.style.maskSize = 'contain';
+    icon.style.maskRepeat = 'no-repeat';
+    icon.style.maskPosition = 'center';
   }
 }
