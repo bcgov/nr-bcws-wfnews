@@ -899,8 +899,8 @@ export function addMarker(incident: any) {
 
 export function zoomInWithLocationPin(){
   const viewer = getActiveMap().$viewer;
-  const long = Number(this.data?._identifyPoint?.longitude);
-  const lat = Number(this.data?._identifyPoint?.latitude);
+  const long = Number(this.data?.geometry?.coordinates[0]);
+  const lat = Number(this.data?.geometry?.coordinates[1]);
 
   if(long && lat) {
     this.mapConfigService.getMapConfig().then(() => {
