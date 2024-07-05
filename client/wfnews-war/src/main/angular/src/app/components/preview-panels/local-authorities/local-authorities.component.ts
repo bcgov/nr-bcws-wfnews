@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, Component } from '@angular/core';
 import { MapUtilityService } from '@app/components/preview-panels/map-share-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { convertToDateYear, hidePanel, showPanel, displayLocalAuthorityType } from '@app/utils';
@@ -8,7 +8,7 @@ import { convertToDateYear, hidePanel, showPanel, displayLocalAuthorityType } fr
   templateUrl: './local-authorities.component.html',
   styleUrls: ['./local-authorities.component.scss']
 })
-export class LocalAuthoritiesComponent implements OnInit{
+export class LocalAuthoritiesComponent implements AfterContentInit{
   constructor(
     private commonUtilityService: CommonUtilityService,
     private mapUtilityService: MapUtilityService
@@ -18,7 +18,7 @@ export class LocalAuthoritiesComponent implements OnInit{
   displayLocalAuthorityType = displayLocalAuthorityType;
   public data;
 
-  ngOnInit(): void {
+  ngAfterContentInit(): void {
     try {
       this.zoomIn();
     } catch(error) {
