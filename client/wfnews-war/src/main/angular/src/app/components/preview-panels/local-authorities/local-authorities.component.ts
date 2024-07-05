@@ -41,22 +41,16 @@ export class LocalAuthoritiesComponent implements OnInit{
 
   zoomIn() {
     if (this.data?.layerId && this.data?.geometry?.coordinates?.length > 0) { 
-        if(this.data?.layerId !== 'fnt-treaty-land') {  
-            if(this.data.geometry.coordinates[0][0] && this.isNumberArray(this.data.geometry.coordinates[0][0]) && this.data.geometry.coordinates[0].length === 1) {
-              this.mapUtilityService.fixPolygonToMap(this.data.geometry.coordinates[0][0], this.data.geometry.coordinates[0]);
-            }
-            else if(this.data.geometry.coordinates[0] && this.isNumberArray(this.data.geometry.coordinates[0])) {
-              this.mapUtilityService.fixPolygonToMap(this.data.geometry.coordinates[0], this.data.geometry.coordinates);
-            } 
-        } else {
-           this.mapUtilityService.fixMultipolygonToMap(this.data.geometry.coordinates, this.data.geometry.coordinates);
-         }
+        if(this.isNumberArray(this.data.geometry.coordinates[0][0])) {
+          this.mapUtilityService.fixMultipolygonToMap(this.data.geometry.coordinates, this.data.geometry.coordinates);
+        } else if(this.isNumberArray(this.data.geometry.coordinates[0])) {
+          this.mapUtilityService.fixPolygonToMap(this.data.geometry.coordinates[0], this.data.geometry.coordinates)
+        } 
     }
   }
 
  isNumberArray(array) {
-  const num = parseFloat(array[0]);
-  return Number.isNaN(num) ? false : true;
+  return typeof array[0][0] === 'number';
  }
 
 }
