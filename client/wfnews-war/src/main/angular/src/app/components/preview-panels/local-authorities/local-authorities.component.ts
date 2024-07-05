@@ -19,7 +19,11 @@ export class LocalAuthoritiesComponent implements OnInit{
   public data;
 
   ngOnInit(): void {
-    this.zoomIn();
+    try {
+      this.zoomIn();
+    } catch(error) {
+      console.error('Could not zoom to local authority: ' + error)
+    }
   }
 
   setContent(data) {
@@ -37,8 +41,7 @@ export class LocalAuthoritiesComponent implements OnInit{
 
   zoomIn() {
     if (this.data?.layerId && this.data?.geometry?.coordinates?.length > 0) { 
-
-        if(this.data?.layerId === 'abms-regional-districts' || this.data?.layerId === 'abms-municipalities') {  
+        if(this.data?.layerId !== 'fnt-treaty-land') {  
             if(this.data.geometry.coordinates[0][0] && this.isNumberArray(this.data.geometry.coordinates[0][0]) && this.data.geometry.coordinates[0].length === 1) {
               this.mapUtilityService.fixPolygonToMap(this.data.geometry.coordinates[0][0], this.data.geometry.coordinates[0]);
             }
@@ -46,11 +49,8 @@ export class LocalAuthoritiesComponent implements OnInit{
               this.mapUtilityService.fixPolygonToMap(this.data.geometry.coordinates[0], this.data.geometry.coordinates);
             } 
         } else {
-          const coordinates = this.commonUtilityService.extractPolygonData(this.data.geometry.coordinates[0]);
-          if (coordinates.length) {
-            this.mapUtilityService.fixPolygonToMap(coordinates);
-          }
-        }
+           this.mapUtilityService.fixMultipolygonToMap(this.data.geometry.coordinates, this.data.geometry.coordinates);
+         }
     }
   }
 

@@ -8,22 +8,56 @@ import { getActiveMap } from '@app/utils';
 })
 export class MapUtilityService {
   highlightPolygons: L.Polygon[] = [];
-
-  constructor(private commonUtilityService: CommonUtilityService) {}
+  viewer = getActiveMap().$viewer;
+  constructor(private commonUtilityService: CommonUtilityService) { }
 
   fixPolygonToMap(polygonData: number[][], response?: any[]) {
-    const viewer = getActiveMap().$viewer;
+  
     const convex = this.commonUtilityService.createConvex(polygonData);
-    const bounds = convex?.reduce((acc, coord) => [
-      [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
-      [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
-    ], [[Infinity, Infinity], [-Infinity, -Infinity]]);
-    viewer.map.fitBounds(bounds);
-
+    this.fitBounds(convex)
+    
     for (const polygon of this.highlightPolygons) {
-      viewer.map.removeLayer(polygon);
+      this.viewer.map.removeLayer(polygon);
     }
 
+    if (response) {
+      this.highlightPolygon(response)
+    }
+
+  }
+
+  fixMultipolygonToMap(multiPolygonData: number[][], response: any[]) {
+    
+    let convexMulti: any[][] = [];
+    let convexArr: any[] = [];
+    
+    for (const polygon of this.highlightPolygons) {
+      this.viewer.map.removeLayer(polygon);
+    }
+
+    if (response) {
+      for (const coord of response as any[])
+        this.highlightPolygon(coord)
+    }
+
+    // retrieve convex from each ploygon 
+    for(const polygon of multiPolygonData){
+      for(const poly of polygon){
+        convexMulti.push(this.commonUtilityService.createConvex(poly));
+      }
+    }
+
+    // add all coordinates to single array to create bounds
+    for(const arr of convexMulti as any[]){
+      for(const array of arr as any[]){
+        convexArr.push(array)
+      }
+    }
+
+    this.fitBounds(convexArr)
+  }
+
+  highlightPolygon(response: any[]) {
     for (const ring of response) {
       const multiSwappedPolygonData: number[][] = ring.map(([latitude, longitude]) => [longitude, latitude]);
       const polygon = L.polygon(multiSwappedPolygonData, {
@@ -31,8 +65,16 @@ export class MapUtilityService {
         color: 'black',
         fillColor: 'white',
         fillOpacity: 0.3
-      }).addTo(viewer.map);
+      }).addTo(this.viewer.map);
       this.highlightPolygons.push(polygon);
     }
+  }
+
+  fitBounds(coords) {
+    const bounds = coords?.reduce((acc, coord) => [
+      [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
+      [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
+    ], [[Infinity, Infinity], [-Infinity, -Infinity]]);
+    this.viewer.map.fitBounds(bounds);
   }
 }
