@@ -75,6 +75,10 @@ export class WFMapService {
                 icon: 'zoom_out_map',
                 order: 3,
               },
+              {
+                type: "measure",
+                enabled: true
+              }
             ],
           });
 
@@ -92,6 +96,15 @@ export class WFMapService {
             'triggered',
             (smk, tool) => {
               option.fullScreen.emit();
+            },
+          );
+          
+          SMK.HANDLER.set(
+            'measure',
+            'triggered',
+            (smk, tool) => {
+              hidePanel('desktop-preview')
+              zoomToProvince();
             },
           );
 
