@@ -809,15 +809,20 @@ export function showPanel(panelClass: string) {
 export const isAndroidViaNavigator = () => navigator.platform.includes('Linux') || navigator.platform.includes('Android');
 
 export function displayItemTitle(identifyItem) {
-  switch (identifyItem.layerId) {
-    case 'active-wildfires-fire-of-note':
-      return 'Wildfire of Note';
-    case 'active-wildfires-out-of-control':
-    case 'active-wildfires-under-control':
-    case 'bcws-activefires-publicview-inactive':
-    case 'active-wildfires-holding':
-    case 'active-wildfires-out':
-      return 'Wildfire';
+  if (identifyItem.layerId){
+    switch (identifyItem.layerId) {
+      case 'active-wildfires-fire-of-note':
+        return 'Wildfire of Note';
+      case 'active-wildfires-out-of-control':
+      case 'active-wildfires-under-control':
+      case 'bcws-activefires-publicview-inactive':
+      case 'active-wildfires-holding':
+      case 'active-wildfires-out':
+        return 'Wildfire';
+    }
+  } 
+  else if (identifyItem.fireOfNoteInd !== undefined) {
+    return identifyItem.fireOfNoteInd ? 'Wildfire of Note' : 'Wildfire';
   }
 }
 
