@@ -206,8 +206,9 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           const btn = L.DomUtil.create('button', '', container);
           this.createZoomIcon(btn);
           btn.style.backgroundColor = 'white';
-          btn.style.width = '34px';
-          btn.style.height = '34px';
+          btn.style.width = '33px';
+          btn.style.height = '31px';
+          btn.style.padding = '0px';
           btn.style.cursor = 'pointer';
           btn.style.border = '2px solid rgba(0, 0, 0, 0.35)';
           btn.style.borderBottomLeftRadius = '4px';
@@ -398,11 +399,11 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       shadowSize: [41, 41],
     });
 
-    if (this.incident.fireOfNoteInd) {
+    if (this.incident?.fireOfNoteInd) {
       L.marker(location, { icon }).addTo(this.map);
     } else {
       let colorToDisplay;
-      switch (this.incident.stageOfControlCode) {
+      switch (this.incident?.stageOfControlCode) {
         case 'OUT_CNTRL':
           colorToDisplay = '#FF0000';
           break;
@@ -671,16 +672,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   }
 
   private createZoomIcon(btn: HTMLElement): void {
-    const svgPath = 'assets/images/svg-icons/zoom-to-extent.svg';
-
     const icon = L.DomUtil.create('div', '', btn);
-    
-    icon.style.maskImage = 'url(' + svgPath + ')';
-    icon.style.width = '24px';
-    icon.style.height = '24px';
-    icon.style.backgroundColor = 'black';
-    icon.style.maskSize = 'contain';
-    icon.style.maskRepeat = 'no-repeat';
-    icon.style.maskPosition = 'center';
+    L.DomUtil.addClass(icon, 'zoom-to-extent-icon');
   }
 }
