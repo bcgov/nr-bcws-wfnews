@@ -1,7 +1,7 @@
 <div class="title-panel">
   <div class="full-details-title">{{restrictionData?.name}}</div>
-  <p class="info">A legal order that prohibits access to certain areas in order to limit the risk of fire, address a
-    public safety concern or avoid interference with fire control.</p>
+  <p class="info">An Area Restriction is a legal order that prohibits access to certain areas in order to limit the risk of fire,
+    address a public safety concern or avoid interference with fire control.</p>
   <button (click)="navToMap()" mat-button class="map-button"><img height="20" width="20" class="tertiary-icon"
       src="/assets/images/svg-icons/map.svg" alt="Map" />View on Map</button>
 </div>
@@ -10,7 +10,7 @@
   <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
       alt="Calendar" />Issued on {{restrictionData?.issuedDate}}</div>
   <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/location-pin.svg"
-      alt="Location Pin" />{{restrictionData?.fireCentre}}</div>
+      alt="Location Pin" />Issued by {{restrictionData?.fireCentre}}</div>
   <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_layers.svg"
       alt="Layers" />BC Wildfire Area Restrictions Layer</div>
 </div>
@@ -31,12 +31,6 @@
         alt="Calendar" />Discovered on {{incident.discoveryDate}}<img height="20" width="20" class="arrow-button"
         alt="icon" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
   </div>
-</div>
-<hr>
-<div class="info-container">
-  <div class="full-details-secondary-title">Excluded Areas</div>
-  <p class="info">Restrictions do not include areas which are within the boundaries of local government and subject to
-    local bylaws. You should check with local government authorities before lighting any fires.</p>
 </div>
 <hr>
 <div class="info-container">

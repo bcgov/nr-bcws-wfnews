@@ -185,50 +185,50 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
   }
 
   addSelectedIncidentPanels(smk) {
-    const self = this;
-    const identified = smk.$viewer.identified;
-    const map = smk.$viewer.map;
+    // const self = this;
+    // const identified = smk.$viewer.identified;
+    // const map = smk.$viewer.map;
 
-    // Variable to store the timeout ID
-    // Function to handle the timeout logic
-    function handleTimeout() {
-      self.selectIncidents.emit(identified.featureSet);
-    }
+    // // Variable to store the timeout ID
+    // // Function to handle the timeout logic
+    // function handleTimeout() {
+    //   self.selectIncidents.emit(identified.featureSet);
+    // }
 
-    // Set a timeout to emit selectIncidents event after 500 milliseconds
-    const delayTimer = setTimeout(handleTimeout, 500);
+    // // Set a timeout to emit selectIncidents event after 500 milliseconds
+    // const delayTimer = setTimeout(handleTimeout, 500);
 
-    // Listen for the zoomend event
-    map.on('zoomend', () => {
-      // Clear the timeout to prevent the selectIncidents event from being emitted
-      clearTimeout(delayTimer);
-    });
+    // // Listen for the zoomend event
+    // map.on('zoomend', () => {
+    //   // Clear the timeout to prevent the selectIncidents event from being emitted
+    //   clearTimeout(delayTimer);
+    // });
 
-    let lastFeature;
-    let featureCount = 0;
-    for (const fid in identified.featureSet) {
-      if (Object.hasOwn(identified.featureSet, fid)) {
-        const feature = identified.featureSet[fid];
-        featureCount++;
-        if (
-          [
-            'active-wildfires-fire-of-note',
-            'active-wildfires-out-of-control',
-            'active-wildfires-holding',
-            'active-wildfires-under-control',
-            'active-wildfires-out',
-            'fire-perimeters',
-          ].includes(feature.layerId)
-        ) {
-          lastFeature = feature;
-        }
-      }
-    }
+    // let lastFeature;
+    // let featureCount = 0;
+    // for (const fid in identified.featureSet) {
+    //   if (Object.hasOwn(identified.featureSet, fid)) {
+    //     const feature = identified.featureSet[fid];
+    //     featureCount++;
+    //     if (
+    //       [
+    //         'active-wildfires-fire-of-note',
+    //         'active-wildfires-out-of-control',
+    //         'active-wildfires-holding',
+    //         'active-wildfires-under-control',
+    //         'active-wildfires-out',
+    //         'fire-perimeters',
+    //       ].includes(feature.layerId)
+    //     ) {
+    //       lastFeature = feature;
+    //     }
+    //   }
+    // }
 
-    if (lastFeature && featureCount === 1) {
-      // force the call from the list view (should auto-trigger but wont if identify called from list view)
-      lastFeature.properties.createContent();
-    }
+    // if (lastFeature && featureCount === 1) {
+    //   // force the call from the list view (should auto-trigger but wont if identify called from list view)
+    //   lastFeature.properties.createContent();
+    // }
   }
 
   async addNearbyWeatherStation(smk) {
