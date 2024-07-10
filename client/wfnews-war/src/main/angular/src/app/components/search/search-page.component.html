@@ -19,7 +19,7 @@
           <div class="result-card-icon-holder">
             <div class="result-card-icon-holder-icon">
               <img *ngIf="item?.type === 'address'" alt="search" class="icon" src="/assets/images/svg-icons/location-pin.svg" >
-              <img *ngIf="item?.type === 'incident'" alt="search" class="icon" src="/assets/images/svg-icons/fire-search-icon-grey.svg" >
+              <img *ngIf="item?.type === 'incident'" alt="search" class="icon" src="/assets/images/svg-icons/wildfire-grey.svg" >
               <img *ngIf="item?.type === 'alert'" alt="search" class="icon" src="/assets/images/svg-icons/alert-filled-grey.svg" >
               <img *ngIf="item?.type === 'order'" alt="search" class="icon" src="/assets/images/svg-icons/order-filled-grey.svg" >
             </div>
@@ -42,7 +42,7 @@
         <div *ngFor="let item of fonData; let i = index" class="result-card" [mat-dialog-close]="item">
           <div class="result-card-icon-holder">
             <div class="result-card-icon-holder-icon">
-              <img alt="search" class="icon" src="/assets/images/svg-icons/fire-search-icon-grey.svg" >
+              <img alt="search" class="icon" src="/assets/images/svg-icons/wildfire-grey.svg" >
             </div>
             <div class="result-card-icon-holder-dist">{{item.distance ? item.distance + 'km' : ''}}</div>
           </div>
@@ -79,7 +79,7 @@
           <div class="result-card-icon-holder">
             <div class="result-card-icon-holder-icon">
               <img *ngIf="item?.type === 'address'" alt="search" class="icon" src="/assets/images/svg-icons/location-pin.svg" >
-              <img *ngIf="item?.type === 'incident'" alt="search" class="icon" src="/assets/images/svg-icons/fire-search-icon-grey.svg" >
+              <img *ngIf="item?.type === 'incident'" alt="search" class="icon" src="/assets/images/svg-icons/wildfire-grey.svg" >
               <img *ngIf="item?.type === 'alert'" alt="search" class="icon" src="/assets/images/svg-icons/alert-filled-grey.svg" >
               <img *ngIf="item?.type === 'order'" alt="search" class="icon" src="/assets/images/svg-icons/order-filled-grey.svg" >
             </div>
