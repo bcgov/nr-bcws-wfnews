@@ -13,7 +13,7 @@ export class SuspectedCauseCardComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.incident?.generalIncidentCauseCatId) {
-      this.incidentSuspectedCauseCatId = this.incident?.generalIncidentCauseCatId;
+      this.incidentSuspectedCauseCatId = this.incident.generalIncidentCauseCatId;
     }
   }
   
