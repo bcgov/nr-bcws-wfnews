@@ -206,8 +206,9 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           const btn = L.DomUtil.create('button', '', container);
           this.createZoomIcon(btn);
           btn.style.backgroundColor = 'white';
-          btn.style.width = '34px';
-          btn.style.height = '34px';
+          btn.style.width = '33px';
+          btn.style.height = '31px';
+          btn.style.padding = '0px';
           btn.style.cursor = 'pointer';
           btn.style.border = '2px solid rgba(0, 0, 0, 0.35)';
           btn.style.borderBottomLeftRadius = '4px';
@@ -398,34 +399,36 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       shadowSize: [41, 41],
     });
 
-    if (this.incident.fireOfNoteInd) {
-      L.marker(location, { icon }).addTo(this.map);
-    } else {
-      let colorToDisplay;
-      switch (this.incident.stageOfControlCode) {
-        case 'OUT_CNTRL':
-          colorToDisplay = '#FF0000';
-          break;
-        case 'HOLDING':
-          colorToDisplay = '#ffff00';
-          break;
-        case 'UNDR_CNTRL':
-          colorToDisplay = '#98E600';
-          break;
-        case 'OUT':
-          colorToDisplay = '#999999';
-          break;
-        default:
-          colorToDisplay = 'white';
+    if (this.incident) {
+      if (this.incident.fireOfNoteInd) {
+        L.marker(location, { icon }).addTo(this.map);
+      } else {
+        let colorToDisplay;
+        switch (this.incident.stageOfControlCode) {
+          case 'OUT_CNTRL':
+            colorToDisplay = '#FF0000';
+            break;
+          case 'HOLDING':
+            colorToDisplay = '#ffff00';
+            break;
+          case 'UNDR_CNTRL':
+            colorToDisplay = '#98E600';
+            break;
+          case 'OUT':
+            colorToDisplay = '#999999';
+            break;
+          default:
+            colorToDisplay = 'white';
+        }
+        L.circleMarker(location, {
+          radius: 15,
+          fillOpacity: 1,
+          color: 'black',
+          fillColor: colorToDisplay,
+        }).addTo(this.map);
       }
-      L.circleMarker(location, {
-        radius: 15,
-        fillOpacity: 1,
-        color: 'black',
-        fillColor: colorToDisplay,
-      }).addTo(this.map);
+      this.cdr.detectChanges();
     }
-    this.cdr.detectChanges();
 
     // fetch incidents in surrounding area and add to map
     this.addSurroundingIncidents();
@@ -671,16 +674,13 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   }
 
   private createZoomIcon(btn: HTMLElement): void {
-    const svgPath = 'assets/images/svg-icons/zoom-to-extent.svg';
-
     const icon = L.DomUtil.create('div', '', btn);
-    
-    icon.style.maskImage = 'url(' + svgPath + ')';
-    icon.style.width = '24px';
-    icon.style.height = '24px';
-    icon.style.backgroundColor = 'black';
+    icon.style.width = '20px';
+    icon.style.height = '20px';
+    icon.style.maskImage = 'url("/assets/images/svg-icons/zoom-to-extent.svg")';
     icon.style.maskSize = 'contain';
     icon.style.maskRepeat = 'no-repeat';
     icon.style.maskPosition = 'center';
+    icon.style.backgroundColor = 'black';
   }
 }

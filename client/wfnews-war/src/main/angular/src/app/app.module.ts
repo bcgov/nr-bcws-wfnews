@@ -184,7 +184,6 @@ import { EvacOrderFullDetailsComponent } from './components/full-details/evac-or
 import { EvacOtherInfoComponent } from './components/full-details/evac-other-info/evac-other-info.component';
 import { FullDetailsComponent } from './components/full-details/full-details.component';
 import { IdentifyPanel } from './components/identify-panel/identify-panel.component';
-import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
 import { AreaRestrictionLegendComponent } from './components/legend-panels/area-restriction-layers/area-restriction-legend.component';
 import { BansLegendComponent } from './components/legend-panels/bans-layers/bans-legend.component';
 import { BaseLegendComponent } from './components/legend-panels/base-legend.component';
@@ -370,7 +369,6 @@ export const DATE_FORMATS = {
     ErrorPageComponent,
     WildFiresListComponentDesktop,
     WildfiresListContainerDesktop,
-    IncidentIdentifyPanelComponent,
     PanelWildfireStageOfControlContainerDesktop,
     PublicIncidentPage,
     IncidentGalleryPanel,

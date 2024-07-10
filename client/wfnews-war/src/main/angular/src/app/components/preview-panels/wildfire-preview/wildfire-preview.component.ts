@@ -53,15 +53,17 @@ export class WildfirePreviewComponent implements OnDestroy{
 
   async setContent(data) {
     this.data = data;
-    if (data.properties?.incident_number_label && data.properties?.fire_year) {
+    const incidentNumberLabel = data.properties?.incident_number_label || data.incidentNumberLabel;
+    const fireYear = data.properties?.fire_year || data.fireYear;
+
+    if (incidentNumberLabel && fireYear) {
       // identify an incident
       try {
         const result = await this.publishedIncidentService
-          .fetchPublishedIncident(data.properties.incident_number_label, data.properties.fire_year)
+          .fetchPublishedIncident(incidentNumberLabel, fireYear)
           .toPromise();
 
         this.incident = result;
-        console.log(result)
         this.zoomIn();
         this.addMarker(this.incident);
         
@@ -69,7 +71,6 @@ export class WildfirePreviewComponent implements OnDestroy{
 
       } catch (error) {
         console.error('Unable to identify', error);
-
       }
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, Component } from '@angular/core';
 import { MapUtilityService } from '@app/components/preview-panels/map-share-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { convertToDateYear, hidePanel, showPanel, displayLocalAuthorityType } from '@app/utils';
@@ -8,7 +8,7 @@ import { convertToDateYear, hidePanel, showPanel, displayLocalAuthorityType } fr
   templateUrl: './local-authorities.component.html',
   styleUrls: ['./local-authorities.component.scss']
 })
-export class LocalAuthoritiesComponent implements OnInit{
+export class LocalAuthoritiesComponent implements AfterContentInit{
   constructor(
     private commonUtilityService: CommonUtilityService,
     private mapUtilityService: MapUtilityService
@@ -18,8 +18,12 @@ export class LocalAuthoritiesComponent implements OnInit{
   displayLocalAuthorityType = displayLocalAuthorityType;
   public data;
 
-  ngOnInit(): void {
-    this.zoomIn();
+  ngAfterContentInit(): void {
+    try {
+      this.zoomIn();
+    } catch(error) {
+      console.error('Could not zoom to local authority: ' + error)
+    }
   }
 
   setContent(data) {
@@ -37,26 +41,16 @@ export class LocalAuthoritiesComponent implements OnInit{
 
   zoomIn() {
     if (this.data?.layerId && this.data?.geometry?.coordinates?.length > 0) { 
-
-        if(this.data?.layerId === 'abms-regional-districts' || this.data?.layerId === 'abms-municipalities') {  
-            if(this.data.geometry.coordinates[0][0] && this.isNumberArray(this.data.geometry.coordinates[0][0]) && this.data.geometry.coordinates[0].length === 1) {
-              this.mapUtilityService.fixPolygonToMap(this.data.geometry.coordinates[0][0], this.data.geometry.coordinates[0]);
-            }
-            else if(this.data.geometry.coordinates[0] && this.isNumberArray(this.data.geometry.coordinates[0])) {
-              this.mapUtilityService.fixPolygonToMap(this.data.geometry.coordinates[0], this.data.geometry.coordinates);
-            } 
-        } else {
-          const coordinates = this.commonUtilityService.extractPolygonData(this.data.geometry.coordinates[0]);
-          if (coordinates.length) {
-            this.mapUtilityService.fixPolygonToMap(coordinates);
-          }
-        }
+        if(this.isNumberArray(this.data.geometry.coordinates[0][0])) {
+          this.mapUtilityService.fixMultipolygonToMap(this.data.geometry.coordinates, this.data.geometry.coordinates);
+        } else if(this.isNumberArray(this.data.geometry.coordinates[0])) {
+          this.mapUtilityService.fixPolygonToMap(this.data.geometry.coordinates[0], this.data.geometry.coordinates)
+        } 
     }
   }
 
  isNumberArray(array) {
-  const num = parseFloat(array[0]);
-  return Number.isNaN(num) ? false : true;
+  return typeof array[0][0] === 'number';
  }
 
 }
