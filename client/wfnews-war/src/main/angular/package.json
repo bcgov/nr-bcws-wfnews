@@ -80,7 +80,7 @@
     "@ngrx/router-store": "15.4.0",
     "@ngrx/store": "15.4.0",
     "@ngrx/store-devtools": "15.4.0",
-    "@qqnluaq/smk": "=1.0.16000",
+    "@qqnluaq/smk": "=1.0.16001",
     "@swimlane/ngx-charts": "20.1.0",
     "@types/geojson": "7946.0.8",
     "@wf1/core-ui": "^2.4.5",
