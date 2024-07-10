@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CauseOptionDisclaimer } from '@app/components/admin-incident-form/incident-details-panel/incident-details-panel.constants';
 
 @Component({
@@ -6,9 +6,16 @@ import { CauseOptionDisclaimer } from '@app/components/admin-incident-form/incid
   templateUrl: './suspected-cause-card.component.html',
   styleUrls: ['./suspected-cause-card.component.scss']
 })
-export class SuspectedCauseCardComponent {
+export class SuspectedCauseCardComponent implements OnInit {
 
-  @Input() incidentSuspectedCauseCatId: number;
+  @Input() incident: any;
+  public incidentSuspectedCauseCatId: number;
+
+  ngOnInit(): void {
+    if(this.incident?.generalIncidentCauseCatId) {
+      this.incidentSuspectedCauseCatId = this.incident?.generalIncidentCauseCatId;
+    }
+  }
   
   getCauseIcon = () => {
     const directory = 'assets/images/svg-icons/';
