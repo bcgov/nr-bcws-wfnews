@@ -752,25 +752,25 @@ export function openLink(link: string) {
   );
 }
 
-export function displayDangerRatingDes(danger) {
+export function displayDangerRatingDescription(danger) {
   switch (danger) {
     case 'Extreme':
-      return 'Extremely dry forest fuels and the fire risk is very serious. New fires will start easily, spread rapidly, and challenge fire suppression efforts.';
+      return 'Extremely dry forest fuels and the fire risk is very serious. New fires will start easily, spread rapidly, and challenge fire suppression efforts. General forest activities may be restricted, including open burning, industrial activities and campfires.';
     case 'High':
-      return 'Forest fuels are very dry and the fire risk is serious.  Extreme caution must be used in any forest activities.';
+      return 'Forest fuels are very dry and the fire risk is serious. New fires may start easily, burn vigorously, and challenge fire suppression efforts. Extreme caution must be used in any forest activities. Open burning and industrial activities may be restricted.';
     case 'Moderate':
       return 'Forest fuels are drying and there is an increased risk of surface fires starting. Carry out any forest activities with caution.';
     case 'Low':
       return 'Fires may start easily and spread quickly but there will be minimal involvement of deeper fuel layers or larger fuels.';
     case 'Very Low':
-      return 'Dry forest fuels are at a very low risk of catching fire.';
+      return 'The amount of dry forest fuels are limited and are at a low risk of catching fire.';
   }
 }
 
 export function getCurrentCondition(
   conditions: WeatherStationConditions,
 ): WeatherHourlyCondition {
-  if (!conditions || !conditions.hourly) {
+  if (!conditions?.hourly) {
     return;
   }
   return conditions.hourly.find(function (hc) {

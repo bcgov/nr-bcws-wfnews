@@ -164,7 +164,6 @@ import { Category1FiresCardComponent } from './components/full-details/cards/cat
 import { Category2FiresCardComponent } from './components/full-details/cards/category-2-fires-card/category-2-fires-card.component';
 import { Category3FiresCardComponent } from './components/full-details/cards/category-3-fires-card/category-3-fires-card.component';
 import { ConnectWithLocalAuthoritiesCardComponent } from './components/full-details/cards/connect-with-local-authorities-card/connect-with-local-authorities-card.component';
-import { ExcludedAreasCardComponent } from './components/full-details/cards/excluded-areas-card/excluded-areas-card.component';
 import { GetPreparedCardComponent } from './components/full-details/cards/get-prepared-card/get-prepared-card.component';
 import { HeaderTextCardComponent } from './components/full-details/cards/header-text-card/header-text-card.component';
 import { IndustrialActivitiesCardComponent } from './components/full-details/cards/industrial-activities-card/industrial-activities-card.component';
@@ -510,7 +509,6 @@ export const DATE_FORMATS = {
     IdentifyPanel,
     AreaRestrictionDetailsComponent,
     WarningCardComponent,
-    ExcludedAreasCardComponent,
     FireBanDetailsComponent,
     Category1FiresCardComponent,
     Category2FiresCardComponent,

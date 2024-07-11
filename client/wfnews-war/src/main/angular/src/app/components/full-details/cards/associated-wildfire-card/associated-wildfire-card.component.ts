@@ -43,7 +43,7 @@ export class AssociatedWildfireCardComponent {
 
   getDiscoveryDate = () => 'Discovered on ' + convertToDateYear(this.incident?.discoveryDate);
 
-  getIncidentName = () => this.incident?.incidentName?.replace('Fire', '').trim() + ' Wildfire';
+  getIncidentName = () => this.incident?.incidentName;
 
   getFireCenter = () => this.incident?.fireCentreName || 'Unknown';
 

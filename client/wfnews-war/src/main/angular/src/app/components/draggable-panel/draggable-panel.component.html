@@ -278,6 +278,10 @@
                     {{identifyIncident.fireCentreName}}
                 </div>
                 <div class="identify-card-item">
+                    <img alt="icon" class="preview-icon" src="/assets/images/svg-icons/carbon_ruler.svg" class="incident-icon">
+                        {{identifyIncident.incidentSizeEstimatedHa}} Hectare
+                </div>
+                <div class="identify-card-item">
                     <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
                     Discovered on {{convertToDateYear(identifyIncident.discoveryDate)}}
                 </div>
@@ -336,7 +340,7 @@
                 </div>
                 <div class="description-section">
                     <div class="identify-card-description" *ngIf="identifyItem.properties.ORDER_ALERT_STATUS === 'Alert'">
-                        An evacuation alert is a warning about a potential threat to life and/or property. It is intended to give you time to be ready for a possible evacuation.
+                        An evacuation alert is a warning about a potential threat to life and/or property. It is intended to give you time to be ready for a possible evacuation. Follow instructions from your local government or First Nation.
                     </div>
                     <div class="identify-card-description" *ngIf="identifyItem.properties.ORDER_ALERT_STATUS === 'Order'">
                         People in this area are at risk and should leave the area immediately. Failing to leave puts you and others at risk.
@@ -449,7 +453,7 @@
                         <span *ngIf="identifyItem.layerId === 'drive-bc-active-events'">{{identifyItem.properties.DESCRIPTION}}</span>
                         <span *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions'">{{identifyItem.properties.ACCESS_DETAILS}}</span>
                         <span *ngIf="identifyItem.layerId === 'bc-fsr'">{{identifyItem.properties.INFORMATION}}</span>
-                        <span *ngIf="isLocalAuthoritiesLayer(identifyItem.layerId)">The best information sources related to evacuations are your municipality, regional district, Indigenous community or local authority.</span>
+                        <span *ngIf="isLocalAuthoritiesLayer(identifyItem.layerId)">The best information sources related to evacuations are your municipality, regional district, First Nation or local authority.</span>
                     </div>
                 </div>
             </div>
@@ -484,7 +488,7 @@
                 <div class="identify-card-title" *ngIf="identifyItem.properties.DANGER_RATING_DESC">{{identifyItem.properties.DANGER_RATING_DESC}} Fire Danger</div>
                 <div class="description-section">
                     <div class="identify-card-description">
-                        {{displayDangerRatingDes(identifyItem.properties.DANGER_RATING_DESC)}}
+                        {{displayDangerRatingDescription(identifyItem.properties.DANGER_RATING_DESC)}}
                     </div>
                 </div>
             </div>
