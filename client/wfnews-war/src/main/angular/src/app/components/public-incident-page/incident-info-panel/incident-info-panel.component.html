@@ -11,7 +11,7 @@
     <ng-container column-2>
       <primary-media-card *ngIf="primaryMedia" [showPreviewWarning]="showWarning" [item]="primaryMedia" (imageError)="handleImageFallback(primaryMedia.href)" (openAllPhotosClicked)="sendToGalleryTab()" ></primary-media-card>
       <area-restrictions-card [showPreviewWarning]="showWarning" [areaRestrictions]="areaRestrictions" (viewDetailsClicked)="navigateToAreaRestriction($event)" ></area-restrictions-card>
-      <suspected-cause-card [incidentSuspectedCauseCatId]="incident.generalIncidentCauseCatId"></suspected-cause-card>
+      <suspected-cause-card [incident]="incident"></suspected-cause-card>
       <contact-us-card [incident]="incident"></contact-us-card>
     </ng-container>
   </two-column-content-cards-container>
