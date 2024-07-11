@@ -31,7 +31,7 @@ export class DangerRatingHeaderComponent {
   }
 
   dangerDescription() {
-     return displayDangerRatingDes(this.dangerRating.attributes.DANGER_RATING_DESC);  
+     return displayDangerRatingDes(this.dangerRating?.attributes?.DANGER_RATING_DESC);  
   }
 
 }

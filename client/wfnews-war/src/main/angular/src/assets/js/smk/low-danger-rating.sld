@@ -45,8 +45,8 @@
 					</Filter>
 					<PolygonSymbolizer>
 						<Stroke>
-							<CssParameter name="stroke">#8FAA50</CssParameter>
-							<CssParameter name="stroke-width">10</CssParameter>
+							<CssParameter name="stroke">#6b8749</CssParameter>
+							<CssParameter name="stroke-width">8</CssParameter>
 							<CssParameter name="stroke-opacity">1</CssParameter>
 						</Stroke>
 						<Fill>
@@ -72,7 +72,7 @@
 					</Filter>
 					<PolygonSymbolizer>
 						<Stroke>
-							<CssParameter name="stroke">#F3ED46</CssParameter>
+							<CssParameter name="stroke">#d1c708</CssParameter>
 							<CssParameter name="stroke-width">2</CssParameter>
 							<CssParameter name="stroke-opacity">1</CssParameter>
 						</Stroke>
@@ -99,10 +99,10 @@
 					</Filter>
 					<PolygonSymbolizer>
 						<Stroke>
-							<CssParameter name="stroke">#DBA350</CssParameter>
+							<CssParameter name="stroke">#995c00</CssParameter>
 						</Stroke>
 						<Fill>
-							<CssParameter name="fill">#DBA350</CssParameter>
+							<CssParameter name="fill">#ff9900</CssParameter>
 							<CssParameter name="fill-opacity">0.8</CssParameter>
 						</Fill>
 					</PolygonSymbolizer>
@@ -120,6 +120,9 @@
 						<Fill>
 							<CssParameter name="fill">#FF9080</CssParameter>
 						</Fill>
+						<Stroke>
+							<CssParameter name="stroke">#f55a42</CssParameter>
+						</Stroke>
 					</PolygonSymbolizer>
 				</Rule>
 			</FeatureTypeStyle>
