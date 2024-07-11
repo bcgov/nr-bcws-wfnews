@@ -7,7 +7,7 @@ import {
   ResourcesRoutes,
   convertToDateTimeTimeZone,
   convertToDateYear,
-  displayDangerRatingDes,
+  displayDangerRatingDescription,
   getStageOfControlIcon,
   getStageOfControlLabel,
   isMobileView,
@@ -44,7 +44,7 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   public userAllNotificationsPreferences: any;
   public evacsPopulated: boolean;
 
-  displayDangerRatingDes = displayDangerRatingDes;
+  displayDangerRatingDescription = displayDangerRatingDescription;
   convertToDateYear = convertToDateYear;
   getStageOfControlIcon = getStageOfControlIcon;
   getStageOfControlLabel = getStageOfControlLabel;

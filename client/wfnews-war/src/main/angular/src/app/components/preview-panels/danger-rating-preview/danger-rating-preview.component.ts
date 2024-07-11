@@ -4,7 +4,7 @@ import { MapUtilityService } from '@app/components/preview-panels/map-share-serv
 import { AGOLService } from '@app/services/AGOL-service';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { ResourcesRoutes, formatDate, hidePanel, showPanel, displayDangerRatingDes } from '@app/utils';
+import { ResourcesRoutes, formatDate, hidePanel, showPanel, displayDangerRatingDescription } from '@app/utils';
 
 @Component({
   selector: 'wfnews-danger-rating-preview',
@@ -15,7 +15,7 @@ export class DangerRatingPreviewComponent {
 
   public data;
   formatDate = formatDate;
-  displayDangerRatingDes = displayDangerRatingDes;
+  displayDangerRatingDescription = displayDangerRatingDescription;
 
   constructor(
     private router: Router,

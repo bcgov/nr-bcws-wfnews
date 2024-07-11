@@ -1,6 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { ResourcesRoutes, convertToDateTimeTimeZone, displayDangerRatingDes} from '@app/utils';
+import { ResourcesRoutes, convertToDateTimeTimeZone, displayDangerRatingDescription} from '@app/utils';
 
 @Component({
   selector: 'wfnews-danger-rating-header',
@@ -12,7 +12,7 @@ export class DangerRatingHeaderComponent {
   @Input() dangerRating: any;
 
   convertToDateTimeTimeZone = convertToDateTimeTimeZone;
-  displayDangerRatingDes = displayDangerRatingDes;
+  displayDangerRatingDescription = displayDangerRatingDescription;
   
   constructor(
     private router: Router,
@@ -31,7 +31,7 @@ export class DangerRatingHeaderComponent {
   }
 
   dangerDescription() {
-     return displayDangerRatingDes(this.dangerRating?.attributes?.DANGER_RATING_DESC);  
+     return displayDangerRatingDescription(this.dangerRating?.attributes?.DANGER_RATING_DESC);  
   }
 
 }

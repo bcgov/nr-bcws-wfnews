@@ -4,7 +4,7 @@ import { LocationData } from '@app/components/wildfires-list-header/filter-by-lo
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
-import { ResourcesRoutes, setDisplayColor, displayDangerRatingDes } from '@app/utils';
+import { ResourcesRoutes, setDisplayColor, displayDangerRatingDescription } from '@app/utils';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 
@@ -20,7 +20,7 @@ export class DangerRatingFullDetailsComponent implements OnInit {
 
   public map: any;
 
-  displayDangerRatingDes = displayDangerRatingDes;
+  displayDangerRatingDescription = displayDangerRatingDescription;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -36,7 +36,7 @@ export class DangerRatingFullDetailsComponent implements OnInit {
   }
 
   dangerDescription() {
-    return displayDangerRatingDes(this.rating);  
+    return displayDangerRatingDescription(this.rating);  
  }
 
   async initMap() {

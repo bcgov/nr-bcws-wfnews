@@ -752,7 +752,7 @@ export function openLink(link: string) {
   );
 }
 
-export function displayDangerRatingDes(danger) {
+export function displayDangerRatingDescription(danger) {
   switch (danger) {
     case 'Extreme':
       return 'Extremely dry forest fuels and the fire risk is very serious. New fires will start easily, spread rapidly, and challenge fire suppression efforts. General forest activities may be restricted, including open burning, industrial activities and campfires.';

@@ -25,7 +25,7 @@ import {
   addMarker,
   getStageOfControlDescription,
   hidePanel,
-  displayDangerRatingDes
+  displayDangerRatingDescription
 } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
@@ -83,7 +83,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   displayItemTitle = displayItemTitle;
   addMarker = addMarker;
   getStageOfControlDescription = getStageOfControlDescription;
-  displayDangerRatingDes = displayDangerRatingDes;
+  displayDangerRatingDescription = displayDangerRatingDescription;
   
   removeIdentity = false;
 
