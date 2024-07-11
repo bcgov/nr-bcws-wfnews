@@ -4,7 +4,7 @@ import { MapUtilityService } from '@app/components/preview-panels/map-share-serv
 import { AGOLService } from '@app/services/AGOL-service';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { ResourcesRoutes, formatDate, getActiveMap, hidePanel, showPanel } from '@app/utils';
+import { ResourcesRoutes, formatDate, hidePanel, showPanel, displayDangerRatingDes } from '@app/utils';
 
 @Component({
   selector: 'wfnews-danger-rating-preview',
@@ -15,6 +15,7 @@ export class DangerRatingPreviewComponent {
 
   public data;
   formatDate = formatDate;
+  displayDangerRatingDes = displayDangerRatingDes;
 
   constructor(
     private router: Router,
@@ -52,7 +53,6 @@ export class DangerRatingPreviewComponent {
   }
 
   zoomIn(level?: number, polygon?: boolean) {
-    const viewer = getActiveMap().$viewer;
     this.agolService
       .getDangerRatings(
         `PROT_DR_SYSID ='${this.data.PROT_DR_SYSID}'`,
@@ -73,21 +73,4 @@ export class DangerRatingPreviewComponent {
       });
   }
 
-
-  displayDangerRatingDes(danger) {
-    switch (danger) {
-      case 'Extreme':
-        // eslint-disable-next-line max-len
-        return 'Extremely high risk of fire starting. Forest fuels are extremely dry and the fire risk is very serious. Fires can start easily, spread rapidly, and challenge fire suppression efforts. Forest activities may be restricted.';
-      case 'High':
-        return 'Serious risk of fire starting. Forest fuels are very dry and extreme caution must be used.';
-      case 'Moderate':
-        return 'Moderate risk of fire starting. Forest fuels are dry and caution should be exercised in forested areas.';
-      case 'Low':
-        // eslint-disable-next-line max-len
-        return 'Low risk of fire starting. Fires are unlikely to involve deeper fuel layers or larger fuels. Fire is still possible, so be prepared for conditions to change.';
-      case 'Very Low':
-        return 'Very low risk of fire starting.';
-    }
-  }
 }

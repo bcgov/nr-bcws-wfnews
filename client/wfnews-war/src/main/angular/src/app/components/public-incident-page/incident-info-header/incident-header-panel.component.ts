@@ -378,7 +378,14 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     }
 
     if (this.dangerRating) {
-      L.tileLayer
+      let rating = this.convertDangerRating(this.dangerRating.attributes?.DANGER_RATING_DESC);  
+
+      Promise.all([
+        this.http
+          .get('assets/js/smk/' + rating + '-danger-rating.sld', { responseType: 'text' })
+          .toPromise(),
+      ]).then((dangerRating) => {
+        L.tileLayer
         .wms(databcUrl, {
           layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
           format: 'image/png',
@@ -388,8 +395,10 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           tileSize: 1000,
           bounds: bounds,
           style: '7734',
+          sld_body: dangerRating,
         })
         .addTo(this.map);
+      })
     }
     const icon = L.icon({
       iconUrl: '/assets/images/local_fire_department.png',
@@ -467,6 +476,23 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       return '(Mapped)';
     } else {
       return null;
+    }
+  }
+
+  convertDangerRating(rating) {
+    switch (rating) {
+      case 'Very Low':
+        return 'very-low';
+      case 'Low':
+        return 'low';
+      case 'Moderate':
+        return 'moderate';
+      case 'High':
+        return 'high';
+      case 'Extreme':
+          return 'extreme';
+      default: 
+        return null;
     }
   }
 
