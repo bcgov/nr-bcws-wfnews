@@ -56,7 +56,9 @@
         "localGovUrl": "#{LOCAL_GOV_URL}#",
         "emergencyAlertUrl": "#{EMERGENCY_ALERT_URL}#",
         "driveBCUrl": "#{DRIVE_BC_URL}#",
-        "evacServicesUrl": "#{EVAC_SERVICES_URL}#"
+        "evacServicesUrl": "#{EVAC_SERVICES_URL}#",
+        "dangerSummary": "{DANGER_SUMMARY}",
+        "highRiskActivities": "{HIGH_RISK_ACTIVITIES}"
        
     },
 

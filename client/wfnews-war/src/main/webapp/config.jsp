@@ -96,6 +96,8 @@
       json.append("\"emergencyAlertUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/public-safety/emergency-alerts").append("\",");
       json.append("\"driveBCUrl\":\"").append("https://www.drivebc.ca/mobile/index.html").append("\",");
       json.append("\"evacServicesUrl\":\"").append("https://ess.gov.bc.ca").append("\",");
+      json.append("\"dangerSummary\":\"").append("https://wfapps.nrs.gov.bc.ca/pub/wfwx-danger-summary-war/dangerSummary").append("\",");
+      json.append("\"highRiskActivities\":\"").append("https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/for-industry-commercial-operators/high-risk-activities").append("\",");
 	  
 	  json.append("\"contactInformation\":{");
       json.append("\"rofPhoneNumber\":\"1 800 663-5555\",");

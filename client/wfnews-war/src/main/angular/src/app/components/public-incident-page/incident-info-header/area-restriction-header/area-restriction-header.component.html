@@ -2,7 +2,7 @@
     <div class="title">{{areaRestriction.attributes.NAME}}</div>
     <div class="info-panel event">
       <div class="info-panel-row" *ngIf="areaRestriction.attributes.ACCESS_STATUS_EFFECTIVE_DATE">
-        <img class="icon" height="24" width="24" src="/assets/images/svg-icons/calendar.svg">
+        <img class="icon" alt="calendar" height="24" width="24" src="/assets/images/svg-icons/calendar.svg">
         <span class="label">Issued on&nbsp;{{convertToDateYear(areaRestriction.attributes.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
       </div>
       <div class="info-panel-row" *ngIf="areaRestriction.attributes.FIRE_CENTRE_NAME">
@@ -16,8 +16,8 @@
       <hr>
       <div class="info-panel-row">
         <span class="label">
-            A legal order that prohibits access to certain areas in order to limit the risk of fire,
-            address a public safety concern or avoid interference with fire control.
+          An Area Restriction is a legal order that prohibits access to certain areas in order to limit the risk of fire,
+          address a public safety concern or avoid interference with fire control.
         </span>
       </div>
       <div class="info-panel-button-row">
