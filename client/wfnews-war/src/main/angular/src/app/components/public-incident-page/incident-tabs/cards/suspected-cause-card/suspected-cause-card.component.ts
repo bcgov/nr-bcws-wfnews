@@ -45,6 +45,9 @@ export class SuspectedCauseCardComponent implements OnInit {
   };
 
   getCauseDescription = () => {
+    if (this.incident?.incidentCauseDetail)
+      return this.incident?.incidentCauseDetail;
+
     switch (this.incidentSuspectedCauseCatId) {
       case 1:
         return CauseOptionDisclaimer[1];
