@@ -206,18 +206,20 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           const btn = L.DomUtil.create('button', '', container);
           this.createZoomIcon(btn);
           btn.style.backgroundColor = 'white';
-          btn.style.width = '33px';
-          btn.style.height = '31px';
+          btn.style.backgroundClip = 'padding-box';
+          btn.style.boxSizing = 'content-box';
+          btn.style.width = '30px';
+          btn.style.height = '30px';
           btn.style.padding = '0px';
           btn.style.cursor = 'pointer';
-          btn.style.border = '2px solid rgba(0, 0, 0, 0.35)';
+          btn.style.border = '2px solid rgba(0, 0, 0, 0.2)';
           btn.style.borderBottomLeftRadius = '4px';
           btn.style.borderBottomRightRadius = '4px';
           btn.style.display = 'flex';
           btn.style.alignItems = 'center';
           btn.style.justifyContent = 'center';
           btn.style.marginTop = '-3px';
-          btn.style.borderTopWidth = '1px';
+          btn.style.borderTop = '1px solid #CCC';
           btn.onclick = () => {
             if (this.bounds) {
               this.map.fitBounds(this.bounds);
