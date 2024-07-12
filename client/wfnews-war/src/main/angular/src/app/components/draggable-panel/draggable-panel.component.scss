@@ -44,7 +44,7 @@
   }
 
   .criteria-container{
-    overflow: scroll;
+    overflow-y: scroll !important;
   }
 
   .criteria-title {
@@ -168,7 +168,7 @@
 
   .identify-card-container {
     flex: 1;
-    overflow: scroll;
+    overflow-y: scroll !important;
     margin: 16px 20px 24px 20px;
   }
 
@@ -273,6 +273,22 @@
   display: inline;
 }
 
-* {
-  scrollbar-width: thin;
+
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 24px;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+  border-radius: 24px;
 }
