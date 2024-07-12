@@ -412,6 +412,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         .then(() => {
           const deviceConfig = { viewer: { device: 'desktop' } };
           this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
+          this.isMapLoaded = true;
+        })
+        .catch((error) => {
+          console.error('Error loading map:', error);
+          this.isMapLoaded = false;
         });
     });
     this.activedRouter.queryParams.subscribe((params: ParamMap) => {
@@ -977,61 +982,63 @@ async onSelectIncidents(incidentRefs) {
       { itemId: 'radar-1km-rrai--radarurpprecipr14-linear', visible: false },
       { itemId: 'weather-stations', visible: true },
     ];
-
-    switch (this.selectedLayer) {
-      case 'evacuation-orders-and-alerts':
-        layers[1].visible = true;
-        layers[2].visible = true;
-        break;
-
-      case 'area-restrictions':
-        layers[6].visible = true;
-        // gives a 404 error from SMK
-        // layers[7].visible = true;
-        break;
-
-      case 'bans-and-prohibitions':
-        layers[5].visible = true;
-        layers[19].visible = true;
-        layers[20].visible = true;
-        layers[21].visible = true;
-        break;
-
-      case 'smoke-forecast':
-        layers[14].visible = true;
-        break;
-
-      case 'fire-danger':
-        layers[0].visible = true;
-        layers[3].visible = true;
-        break;
-
-      case 'local-authorities':
-        layers[15].visible = true;
-        layers[16].visible = true;
-        layers[17].visible = true;
-        layers[18].visible = true;
-        break;
-
-      case 'routes-impacted':
-        layers[11].visible = true;
-        break;
-
-      case 'out-fires':
-        layers[9].visible = true;
-        break;
-
-      case 'all-layers':
-        break;
-
-      default:
-        layers[0].visible = true;
-        layers[22].visible = true;
-        layers[23].visible = true;
-        layers[24].visible = true;
-        layers[25].visible = true;
+    try {
+      switch (this.selectedLayer) {
+        case 'evacuation-orders-and-alerts':
+          layers[1].visible = true;
+          layers[2].visible = true;
+          break;
+    
+        case 'area-restrictions':
+          layers[6].visible = true;
+          // gives a 404 error from SMK
+          // layers[7].visible = true;
+          break;
+    
+        case 'bans-and-prohibitions':
+          layers[5].visible = true;
+          layers[19].visible = true;
+          layers[20].visible = true;
+          layers[21].visible = true;
+          break;
+    
+        case 'smoke-forecast':
+          layers[14].visible = true;
+          break;
+    
+        case 'fire-danger':
+          layers[0].visible = true;
+          layers[3].visible = true;
+          break;
+    
+        case 'local-authorities':
+          layers[15].visible = true;
+          layers[16].visible = true;
+          layers[17].visible = true;
+          layers[18].visible = true;
+          break;
+    
+        case 'routes-impacted':
+          layers[11].visible = true;
+          break;
+    
+        case 'out-fires':
+          layers[9].visible = true;
+          break;
+    
+        case 'all-layers':
+          break;
+    
+        default:
+          layers[0].visible = true;
+          layers[22].visible = true;
+          layers[23].visible = true;
+          layers[24].visible = true;
+          layers[25].visible = true;
+      }
+    } catch (error) {
+      console.error('Error activating layers:', error);
     }
-
     // initialize smkApi if undefined
     if (!this.smkApi) {
       let event: Event;
