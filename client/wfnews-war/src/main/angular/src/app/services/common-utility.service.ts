@@ -302,9 +302,10 @@ export class CommonUtilityService {
   }
 
   extractPolygonData(response) {
+    const isWebkitBrowser = navigator.userAgent.indexOf('AppleWebKit') > -1;
     const polygonData = [];
 
-    if (this.capacitorService.isIOS()) {
+    if (this.capacitorService.isIOS() || isWebkitBrowser) {
       // eslint-disable-next-line @typescript-eslint/prefer-for-of
       for (let i = 0; i < response.length; i++) {
         // iOS does not like the splat operator
