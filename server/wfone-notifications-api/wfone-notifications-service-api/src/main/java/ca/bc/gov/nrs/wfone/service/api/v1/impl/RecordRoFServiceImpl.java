@@ -122,6 +122,9 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 	private String noCommentString = "No comments";
 	private FileService fileService;
 	private CodeTableListRsrc codeTables;
+	private Properties applicationProperties;
+	private RoFFormDao rofFormDao;
+	private RoFImageDao rofImageDao;
 	
 	// Time since degredation was detected, or a notification was last sent
 	Optional<LocalDateTime> stuckSince = Optional.empty();
