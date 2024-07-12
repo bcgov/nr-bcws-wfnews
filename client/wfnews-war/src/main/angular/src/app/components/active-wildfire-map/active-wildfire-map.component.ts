@@ -827,75 +827,84 @@ async onSelectIncidents(incidentRefs) {
   }
 }
 
-  async initializeLayers() {
+async initializeLayers() {
+  try {
     const selectedLayer = await Preferences.get({ key: 'selectedLayer' });
-    this.selectedLayer =
-      (selectedLayer.value as SelectedLayer) || 'wildfire-stage-of-control';
+    this.selectedLayer = (selectedLayer.value as SelectedLayer) || 'wildfire-stage-of-control';
     this.onSelectLayer(this.selectedLayer);
     this.isMapLoaded = true;
     this.notificationService
       .getUserNotificationPreferences()
       .then((response) => {
-        const SMK = window['SMK'];
-        const map = getActiveMap(SMK).$viewer.map;
+        try {
+          const SMK = window['SMK'];
+          const map = getActiveMap(SMK).$viewer.map;
 
-        if (!response.notifications) {
-          return;
-        }
+          if (!response.notifications) {
+            return;
+          }
 
-        map.on('zoomend', () => {
-          this.updateSavedLocationLabelVisibility();
-        });
+          map.on('zoomend', () => {
+            this.updateSavedLocationLabelVisibility();
+          });
 
-        this.resizeObserver = new ResizeObserver(() => {
-          map.invalidateSize();
-        });
+          this.resizeObserver = new ResizeObserver(() => {
+            map.invalidateSize();
+          });
 
-        this.resizeObserver.observe(map._container);
+          this.resizeObserver.observe(map._container);
 
-        for (const smkMap in SMK.MAP) {
-          if (Object.hasOwn(SMK.MAP, smkMap)) {
-            const savedLocationMarker = {
-              icon: L.icon({
-                iconUrl:
-                  '/assets/images/svg-icons/blue-white-location-icon.svg',
-                iconSize: [32, 32],
-                iconAnchor: [16, 32],
-                popupAnchor: [0, -32],
-              }),
-              draggable: false,
-            };
-            for (const item of response.notifications) {
-              L.marker(
-                [item.point.coordinates[1], item.point.coordinates[0]],
-                savedLocationMarker,
-              ).addTo(getActiveMap(this.SMK).$viewer.map);
-              const label = L.marker(
-                [item.point.coordinates[1], item.point.coordinates[0]],
-                {
-                  icon: L.divIcon({
-                    className: 'marker-label',
-                    html: `<div class="custom-marker"
+          for (const smkMap in SMK.MAP) {
+            if (Object.hasOwn(SMK.MAP, smkMap)) {
+              const savedLocationMarker = {
+                icon: L.icon({
+                  iconUrl: '/assets/images/svg-icons/blue-white-location-icon.svg',
+                  iconSize: [32, 32],
+                  iconAnchor: [16, 32],
+                  popupAnchor: [0, -32],
+                }),
+                draggable: false,
+              };
+              for (const item of response.notifications) {
+                try {
+                  L.marker(
+                    [item.point.coordinates[1], item.point.coordinates[0]],
+                    savedLocationMarker,
+                  ).addTo(getActiveMap(this.SMK).$viewer.map);
+                  const label = L.marker(
+                    [item.point.coordinates[1], item.point.coordinates[0]],
+                    {
+                      icon: L.divIcon({
+                        className: 'marker-label',
+                        html: `<div class="custom-marker"
                   style="margin-top: -20px; margin-left: 25px; height: 1.2em; text-wrap: nowrap; display:flex; align-items: center; justify-content: left; text-align: center; color: #000; font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif; font-size: 16px; font-style: normal; font-weight: 600;">
                   ${item.notificationName}
                 </div>`,
-                  }),
-                },
-              );
-              label.addTo(getActiveMap(this.SMK).$viewer.map);
-              this.savedLocationlabels.push(label);
-              this.savedLocationlabelsToShow.push(label);
+                      }),
+                    },
+                  );
+                  label.addTo(getActiveMap(this.SMK).$viewer.map);
+                  this.savedLocationlabels.push(label);
+                  this.savedLocationlabelsToShow.push(label);
+                } catch (markerError) {
+                  console.error('Error adding marker or label:', markerError);
+                }
+              }
             }
           }
+          map.invalidateSize();
+        } catch (smkError) {
+          console.error('Error in SMK setup:', smkError);
         }
-        map.invalidateSize();
       })
-      .catch((error) => {
-        console.error(error);
+      .catch((notificationError) => {
+        console.error('Error fetching user notification preferences:', notificationError);
       });
     this.cdr.detectChanges();
+  } catch (initializationError) {
+    console.error('Error during layer initialization:', initializationError);
   }
-
+}
   private updateSavedLocationLabelVisibility() {
     // showing the savedLocation label only start with zoom level 5
     const map = getActiveMap(this.SMK).$viewer.map;
