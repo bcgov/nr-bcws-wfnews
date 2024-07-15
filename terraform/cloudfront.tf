@@ -354,7 +354,19 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
     target_origin_id       = "wfnews_nginx_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
-    cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    
+    min_ttl                = 3600
+    default_ttl            = 43200
+    max_ttl                = 86400
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
+
+      cookies {
+        forward = "all"
+      }
+    }
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
   }
@@ -591,7 +603,19 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
     target_origin_id       = "wfnews_nginx_gov_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
-    cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    
+    min_ttl                = 3600
+    default_ttl            = 43200
+    max_ttl                = 86400
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
+
+      cookies {
+        forward = "all"
+      }
+    }
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
   }
