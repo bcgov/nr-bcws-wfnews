@@ -269,7 +269,7 @@ this.incident.incidentSizeEstimatedHa =
       .getAreaRestrictions(null, {
         x: +this.incident.longitude,
         y: +this.incident.latitude,
-        radius: null,
+        radius: 25,
       })
       .toPromise()
       .then((response) => {
