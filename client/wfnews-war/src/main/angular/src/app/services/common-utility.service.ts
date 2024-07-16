@@ -302,24 +302,15 @@ export class CommonUtilityService {
   }
 
   extractPolygonData(response) {
-    const isWebkitBrowser = navigator.userAgent.indexOf('AppleWebKit') > -1;
-    const polygonData = [];
+    let polygonData = [];
 
-    if (this.capacitorService.isIOS() || isWebkitBrowser) {
-      // eslint-disable-next-line @typescript-eslint/prefer-for-of
-      for (let i = 0; i < response.length; i++) {
-        // iOS does not like the splat operator
-        polygonData.push(response[i][0], response[i][1]);
-      }
-    } else {
-      for (const element of response) {
-        polygonData.push(...element);
-      }
+    for (const element of response) {
+      polygonData = polygonData.concat(element);
     }
-    
+  
     return polygonData;
   }
-
+  
   createConvex(polygonData) {
     const turfPoints = polygonData.map(coord => window['turf'].point(coord));
     const pointsFeatureCollection = window['turf'].featureCollection(turfPoints);
