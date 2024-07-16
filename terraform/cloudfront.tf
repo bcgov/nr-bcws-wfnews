@@ -349,8 +349,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
 
   ordered_cache_behavior {
     path_pattern           = "/statistics"
-    allowed_methods        = ["GET", "OPTIONS", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
+    allowed_methods        = ["GET"]
+    cached_methods         = ["GET"]
     target_origin_id       = "wfnews_nginx_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
@@ -361,10 +361,9 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
@@ -598,8 +597,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
 
   ordered_cache_behavior {
     path_pattern           = "/statistics"
-    allowed_methods        = ["GET", "OPTIONS", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
+    allowed_methods        = ["GET"]
+    cached_methods         = ["GET"]
     target_origin_id       = "wfnews_nginx_gov_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
@@ -610,10 +609,9 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
