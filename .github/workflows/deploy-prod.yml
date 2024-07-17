@@ -27,7 +27,7 @@ jobs:
     environment: PROD
 
     env:
-      branch-name: ${{ github.event_name == 'release' && github.ref_name || github.event.release.target_commitish }}
+      branch-name: ${{ github.event_name == 'release' && github.event.release.target_commitish || github.ref_name }}
 
     outputs:
       tag-value: ${{ steps.get-release-tag.outputs.tag-value }}
