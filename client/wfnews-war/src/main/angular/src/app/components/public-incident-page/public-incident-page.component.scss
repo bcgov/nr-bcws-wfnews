@@ -160,6 +160,7 @@
     align-items: flex-start;
     gap: 16px;
     align-self: stretch;
+    word-break: break-all;
 
     .mobile-buttons {
       display: flex;
