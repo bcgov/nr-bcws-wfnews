@@ -40,10 +40,10 @@
   <div class="info-container">
     <div class="full-details-secondary-title">Connect with Local Authorities</div>
     <div class="full-details-tertiary-title"><img class="tertiary-icon" src="/assets/images/svg-icons/local_authority.svg"
-        alt="local_authority" />{{evacData.issuingAgency}}</div>
+        alt="local_authority" />{{evacData?.issuingAgency}}</div>
     <p class="info">Evacuation notices are authorized and implemented by local authorities. The local
       authority for this
-      evacuation notice is Central Coast Regional District. Please contact them or visit their website for more details.
+      evacuation notice is {{evacData?.issuingAgency}}. Please contact them or visit their website for more details.
     </p>
     <div class="full-details-tertiary-title">Contact information</div>
     <p class="info">
