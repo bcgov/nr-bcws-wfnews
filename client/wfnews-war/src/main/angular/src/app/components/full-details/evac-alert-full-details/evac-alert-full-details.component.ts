@@ -12,6 +12,7 @@ import { AppConfigService } from '@wf1/core-ui';
 import { Router } from '@angular/router';
 import { WatchlistService } from '@app/services/watchlist-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import * as esri from 'esri-leaflet';
 
 export class EvacData {
   public name: string;
@@ -107,25 +108,42 @@ export class EvacAlertFullDetailsComponent implements OnInit {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-    const databcUrl = this.appConfigService
-      .getConfig()
-      ['mapServices']['openmapsBaseUrl'].toString();
-    L.tileLayer
-      .wms(databcUrl, {
-        layers: 'WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
-        styles: '6885',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.1',
+      esri.featureLayer({
+        url: this.appConfigService.getConfig()['externalAppConfig']['AGOLperimetres'].toString(),
+        ignoreRenderer: true,
+        precision: 3,
+        style: (feature) => {
+            return {
+              fillColor: '#e60000',
+              color: '#e60000',
+              weight: 2,
+              fillOpacity: 1
+            };
+        }
       })
       .addTo(this.map);
-    L.tileLayer
-      .wms(databcUrl, {
-        layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP',
-        styles: '1751_1752',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.1',
+
+    esri.featureLayer({
+        url: this.appConfigService.getConfig()['externalAppConfig']['AGOLevacOrders'].toString(),
+        ignoreRenderer: true,
+        precision: 3,
+        style: (feature) => {
+          if (feature.properties.ORDER_ALERT_STATUS === 'Order') {
+            return {
+              fillColor: '#ff3a35',
+              color: '#ff3a35',
+              weight: 2.25,
+              fillOpacity: 0.15
+            };
+          } else if (feature.properties.ORDER_ALERT_STATUS === 'Alert') {
+            return {
+              fillColor: '#fa9600',
+              color: '#fa9600',
+              weight: 2.25,
+              fillOpacity: 0.15
+            };
+          }
+        }
       })
       .addTo(this.map);
 
