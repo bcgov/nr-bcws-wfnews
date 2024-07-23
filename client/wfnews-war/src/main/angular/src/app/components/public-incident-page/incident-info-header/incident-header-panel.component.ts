@@ -35,7 +35,7 @@ import {
   setDisplayColor
 } from '../../../utils';
 import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
-
+import * as esri from 'esri-leaflet';
 
 @Component({
   selector: 'incident-header-panel',
@@ -256,28 +256,44 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     ['mapServices']['openmapsBaseUrl'].toString();
 
     if (this.evac) {
-      L.tileLayer
-        .wms(databcUrl, {
-          layers: 'WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
-          styles: '6885',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          tileSize: 1000,
-          bounds: bounds,
-        })
-        .addTo(this.map);
-      L.tileLayer
-        .wms(databcUrl, {
-          layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP',
-          styles: '1751_1752',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          tileSize: 1000,
-          bounds: bounds,
-        })
-        .addTo(this.map);
+      esri.featureLayer({
+      url: this.appConfigService.getConfig()['externalAppConfig']['AGOLperimetres'].toString(),
+      ignoreRenderer: true,
+      precision: 3,
+      style: (feature) => {
+          return {
+            fillColor: '#e60000',
+            color: '#e60000',
+            weight: 2,
+            fillOpacity: 1
+          };
+      }
+    })
+    .addTo(this.map);
+
+      esri.featureLayer({
+        url: this.appConfigService.getConfig()['externalAppConfig']['AGOLevacOrders'].toString(),
+        ignoreRenderer: true,
+        precision: 3,
+        style: (feature) => {
+          if (feature.properties.ORDER_ALERT_STATUS === 'Order') {
+            return {
+              fillColor: '#ff3a35',
+              color: '#ff3a35',
+              weight: 2.25,
+              fillOpacity: 0.15
+            };
+          } else if (feature.properties.ORDER_ALERT_STATUS === 'Alert') {
+            return {
+              fillColor: '#fa9600',
+              color: '#fa9600',
+              weight: 2.25,
+              fillOpacity: 0.15
+            };
+          }
+        }
+      })
+      .addTo(this.map);
     }
 
     if (this.areaRestriction) {
