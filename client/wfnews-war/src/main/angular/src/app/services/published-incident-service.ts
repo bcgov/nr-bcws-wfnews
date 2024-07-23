@@ -223,19 +223,19 @@ export class PublishedIncidentService {
   public getIMPublishedIncident(publishedIncident: any): Observable<any> {
     const publishedUrl = `${this.appConfigService.getConfig().rest['incidents']}/publishedIncidents`;
     const headers = new HttpHeaders({
-        Authorization: `Bearer ${this.tokenService.getOauthToken()}`
+      Authorization: `Bearer ${this.tokenService.getOauthToken()}`
     });
 
     if (publishedIncident.publishedIncidentDetailGuid) {
-        return this.httpClient.get(publishedUrl + `/${publishedIncident.publishedIncidentDetailGuid}`, {
-            headers: headers,
-            observe: 'response'
-        }).pipe(
-            map(response => {
-                console.log('ETag:', response.headers.get('ETag')); 
-                return response;  
-            })
-        );
+      return this.httpClient.get(publishedUrl + `/${publishedIncident.publishedIncidentDetailGuid}`, {
+        headers: headers,
+        observe: 'response'
+      }).pipe(
+        map(response => {
+          console.log('ETag:', response.headers.get('ETag'));
+          return response;
+        })
+      );
     }
   }
 
@@ -314,11 +314,10 @@ export class PublishedIncidentService {
     pageNum: number = 0,
     rowCount: number = 9999,
     published = true,
-    cacheBust = false,
   ): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']
       }/publicSituationReport?pageNumber=${pageNum}&pageRowCount=${rowCount}&published=${published ? 'TRUE' : 'FALSE'
-      }${cacheBust ? '&cacheBust=' + new Date().getTime() : ''}`;
+      }`;
     return this.httpClient.get<SituationReport>(url, this.getPublicSituationReportHeaders());
   }
 

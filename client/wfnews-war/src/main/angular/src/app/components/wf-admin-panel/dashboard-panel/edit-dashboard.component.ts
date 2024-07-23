@@ -48,7 +48,7 @@ export class AdminEditDashboard implements OnInit {
   ngOnInit() {
     this.situationReport = new SituationReport();
     this.publishedIncidentService
-      .fetchSituationReportList(0, 9999, true, true)
+      .fetchSituationReportList(0, 9999, true)
       .toPromise()
       .then((results) => {
         if (results?.collection) {
