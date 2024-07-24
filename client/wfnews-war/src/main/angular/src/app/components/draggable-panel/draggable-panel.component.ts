@@ -643,14 +643,15 @@ return 'Unknown';
         case 'active-wildfires-holding':
         case 'active-wildfires-under-control':
         case 'active-wildfires-out':
-          if (
-            item.properties.fire_year &&
-            item.properties.incident_number_label
-          ) {
+        case 'fire-perimeters' :
+          const fireYear = item.properties?.fire_year || item.properties?.FIRE_YEAR;
+          const incidentNumber = item.properties?.incident_number_label || item.properties?.FIRE_NUMBER;
+        
+          if (fireYear && incidentNumber) {
             this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
               queryParams: {
-                fireYear: item.properties.fire_year,
-                incidentNumber: item.properties.incident_number_label,
+                fireYear: fireYear,
+                incidentNumber: incidentNumber,
                 source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
               },
             });

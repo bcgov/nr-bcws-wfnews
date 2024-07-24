@@ -53,8 +53,16 @@ export class WildfirePreviewComponent implements OnDestroy{
 
   async setContent(data) {
     this.data = data;
-    const incidentNumberLabel = data.properties?.incident_number_label || data.incidentNumberLabel;
-    const fireYear = data.properties?.fire_year || data.fireYear;
+
+    let incidentNumberLabel, fireYear;
+    
+    if (this.data.layerId === "fire-perimeters") {
+      incidentNumberLabel = data.properties?.FIRE_NUMBER;
+      fireYear = data.properties?.FIRE_YEAR;
+    } else {
+      incidentNumberLabel = data.properties?.incident_number_label || data.incidentNumberLabel;
+      fireYear = data.properties?.fire_year || data.fireYear;
+    }
 
     if (incidentNumberLabel && fireYear) {
       // identify an incident

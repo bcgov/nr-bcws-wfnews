@@ -818,6 +818,7 @@ export function displayItemTitle(identifyItem) {
       case 'bcws-activefires-publicview-inactive':
       case 'active-wildfires-holding':
       case 'active-wildfires-out':
+      case 'fire-perimeters': 
         return 'Wildfire';
     }
   } 
