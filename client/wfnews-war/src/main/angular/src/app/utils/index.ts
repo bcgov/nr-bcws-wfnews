@@ -648,7 +648,7 @@ export function getResponseTypeDescription(code: string) {
   if (code === 'MONITOR') {
     return 'When a fire is being monitored, this means BC Wildfire Service is observing and analyzing the fire but it\'s not immediately suppressed. It may be allowed to burn to achieve ecological or resource management objectives and is used on remote fires that do not threaten values.';
   } else if (code === 'MODIFIED') {
-    return 'During a modified response, a wildfire is managed using a combination of techniques with the goal to minimize costs and damage while maximizing ecological benefits from the fire. This response method is used when there is no immediate threat to values.';
+    return 'During a modified response, a wildfire is managed using a combination of techniques with the goal to minimize damage while maximizing ecological benefits from the fire. This response method is used when there is no immediate threat to values.';
   } else if (code === 'FULL') {
     return 'The suppression of an unwanted wildfire to limit spread.';
   }
