@@ -125,10 +125,7 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true,
-              "aot": false,
-              "optimization": false,
-              "outputHashing": "none"
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "development"
@@ -206,7 +203,7 @@
           "builder": "@storybook/angular:start-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "WFNEWS:build",
+            "browserTarget": "WFNEWS:build:development",
             "compodoc": true,
             "compodocArgs": [
               "-e",
