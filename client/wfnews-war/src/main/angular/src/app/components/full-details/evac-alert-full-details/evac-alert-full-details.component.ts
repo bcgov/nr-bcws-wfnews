@@ -53,7 +53,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     private watchlistService: WatchlistService,
     private commonUtilityService: CommonUtilityService,
 
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
     await this.populateEvacByID({
@@ -72,15 +72,15 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     ];
     let bounds = null;
     this.agolService
-    .getEvacOrdersByEventNumber(
-      this.eventNumber,
-      {
-        returnGeometry: true,
-      },
-    )
-    .toPromise()
-    .then((response) => {
-        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
+      .getEvacOrdersByEventNumber(
+        this.eventNumber,
+        {
+          returnGeometry: true,
+        },
+      )
+      .toPromise()
+      .then((response) => {
+        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
           const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
           if (polygonData?.length) {
             bounds = this.commonUtilityService.getPolygonBond(polygonData);
@@ -90,61 +90,59 @@ export class EvacAlertFullDetailsComponent implements OnInit {
         else {
           this.createMap(location)
         }
-    });
+      });
   }
 
   async createMap(location: number[], bounds?: any) {
     const mapOptions = this.commonUtilityService.getMapOptions(bounds, location);
-  
+
     // Create the map using the mapOptions
     this.map = L.map('restrictions-map', mapOptions);
-  
-  // If bounds exist, fit the map to the bounds; otherwise, set the view to the default location and zoom level
-  if (bounds) {
-    this.map.fitBounds(bounds);
-  }
+
+    // If bounds exist, fit the map to the bounds; otherwise, set the view to the default location and zoom level
+    if (bounds) {
+      this.map.fitBounds(bounds);
+    }
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-      esri.featureLayer({
-        url: this.appConfigService.getConfig()['externalAppConfig']['AGOLperimetres'].toString(),
-        ignoreRenderer: true,
-        precision: 3,
-        style: (feature) => {
-            return {
-              fillColor: '#e60000',
-              color: '#e60000',
-              weight: 2,
-              fillOpacity: 1
-            };
-        }
+    esri.featureLayer({
+      url: this.appConfigService.getConfig()['externalAppConfig']['AGOLperimetres'].toString(),
+      ignoreRenderer: true,
+      precision: 3,
+      style: (feature) => ({
+        fillColor: '#e60000',
+        color: '#e60000',
+        weight: 2,
+        fillOpacity: 0.5
       })
+    })
       .addTo(this.map);
 
     esri.featureLayer({
-        url: this.appConfigService.getConfig()['externalAppConfig']['AGOLevacOrders'].toString(),
-        ignoreRenderer: true,
-        precision: 10,
-        style: (feature) => {
-          if (feature.properties.ORDER_ALERT_STATUS === 'Order') {
-            return {
-              fillColor: '#ff3a35',
-              color: '#ff3a35',
-              weight: 2.25,
-              fillOpacity: 0.15
-            };
-          } else if (feature.properties.ORDER_ALERT_STATUS === 'Alert') {
-            return {
-              fillColor: '#fa9600',
-              color: '#fa9600',
-              weight: 2.25,
-              fillOpacity: 0.15
-            };
-          }
+      url: this.appConfigService.getConfig()['externalAppConfig']['AGOLevacOrders'].toString(),
+      ignoreRenderer: true,
+      precision: 10,
+      style: (feature) => {
+        if (feature.properties.ORDER_ALERT_STATUS === 'Order') {
+          return {
+            fillColor: '#ff3a35',
+            color: '#ff3a35',
+            weight: 2.25,
+            fillOpacity: 0.5
+          };
+        } else if (feature.properties.ORDER_ALERT_STATUS === 'Alert') {
+          return {
+            fillColor: '#fa9600',
+            color: '#fa9600',
+            weight: 2.25,
+            fillOpacity: 0.5
+          };
         }
-      })
+      }
+    })
       .addTo(this.map);
 
     const fireOfNoteIcon = L.icon({
@@ -199,8 +197,8 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   async populateEvacByID(options: AgolOptions = null) {
     this.evacData = null;
     const response = this.name ?
-    await this.agolService.getEvacOrdersByParam(`EVENT_NAME='${this.name}'`, options).toPromise() :
-    await this.agolService.getEvacOrdersByParam(`EMRG_OAA_SYSID='${this.id}'`, options).toPromise();
+      await this.agolService.getEvacOrdersByParam(`EVENT_NAME='${this.name}'`, options).toPromise() :
+      await this.agolService.getEvacOrdersByParam(`EMRG_OAA_SYSID='${this.id}'`, options).toPromise();
     if (response?.features[0]?.attributes) {
       const evac = response.features[0];
 
@@ -223,28 +221,28 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   async populateIncident(eventNumber: string) {
     let simpleIncident: SimpleIncident = new SimpleIncident;
     try {
-        this.publishedIncidentService.fetchPublishedIncident(eventNumber).subscribe(response => {
-          if (response) {
-            simpleIncident.discoveryDate = convertToDateYear(response.discoveryDate);
-            simpleIncident.incidentName = response.incidentName?.replace('Fire', '').trim() + ' Wildfire';
-            simpleIncident.fireCentreName = response.fireCentreName;
-            simpleIncident.fireYear = response.fireYear;
-            simpleIncident.incidentNumberLabel = response.incidentNumberLabel;
-            simpleIncident.fireOfNoteInd = response.fireOfNoteInd;
-            simpleIncident.stageOfControlCode = response.stageOfControlCode;
-            simpleIncident.stageOfControlIcon = getStageOfControlIcon(
-              response?.stageOfControlCode,
-            );
-            simpleIncident.stageOfControlLabel = getStageOfControlLabel(
-              response?.stageOfControlCode,
-            );
-            this.incident = simpleIncident;
-          }
-        })
+      this.publishedIncidentService.fetchPublishedIncident(eventNumber).subscribe(response => {
+        if (response) {
+          simpleIncident.discoveryDate = convertToDateYear(response.discoveryDate);
+          simpleIncident.incidentName = response.incidentName?.replace('Fire', '').trim() + ' Wildfire';
+          simpleIncident.fireCentreName = response.fireCentreName;
+          simpleIncident.fireYear = response.fireYear;
+          simpleIncident.incidentNumberLabel = response.incidentNumberLabel;
+          simpleIncident.fireOfNoteInd = response.fireOfNoteInd;
+          simpleIncident.stageOfControlCode = response.stageOfControlCode;
+          simpleIncident.stageOfControlIcon = getStageOfControlIcon(
+            response?.stageOfControlCode,
+          );
+          simpleIncident.stageOfControlLabel = getStageOfControlLabel(
+            response?.stageOfControlCode,
+          );
+          this.incident = simpleIncident;
+        }
+      })
     } catch (error) {
       console.error(
         'Caught error while populating associated incident for evacuation: ' +
-          error,
+        error,
       );
     }
   }
@@ -279,7 +277,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
       window.open(this.evacData.bulletinUrl, '_blank');
     } else {
       window.open('https://www.emergencyinfobc.gov.bc.ca', '_blank');
-    } 
+    }
   }
 
   onWatchlist(incident): boolean {
