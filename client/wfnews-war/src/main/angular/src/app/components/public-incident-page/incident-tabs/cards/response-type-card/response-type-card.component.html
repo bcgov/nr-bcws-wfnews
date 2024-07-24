@@ -3,39 +3,21 @@
     <span class="title">Response Type</span>
   </div>
 
-  <div class="content" *ngSwitchCase="responseTypes.full">
-    <div class="content-title"><img class="icon" src="/assets/images/svg-icons/full_response.svg" alt="full response">
+  <div class="content">
+    <div *ngSwitchCase="responseTypes.full" class="content-title"><img class="icon"
+        src="/assets/images/svg-icons/full_response.svg" alt="full response">
       Full Response
     </div>
-
-    <span class="content-text">When a fire is being monitored, this means BC Wildfire Service is observing and analyzing
-      the fire but it's not immediately suppressed. It may be allowed to burn to achieve ecological or resource
-      management objectives and is used on remote fires that do not threaten values. 
-    </span>
-  </div>
-
-  <div class="content" *ngSwitchCase="responseTypes.monitored">
-    <div class="content-title"><img class="icon" src="/assets/images/svg-icons/monitored_response.svg"
-        alt="monitored response">
+    <div *ngSwitchCase="responseTypes.monitored" class="content-title"><img class="icon"
+        src="/assets/images/svg-icons/monitored_response.svg" alt="monitored response">
       Monitored Response
     </div>
-
-    <span class="content-text">When a fire is being monitored, this means BC Wildfire Service is observing and analyzing
-      the fire but it's not immediately suppressed. It may be allowed to burn to achieve ecological or resource
-      management objectives and is used on remote fires that do not threaten values.
-    </span>
-  </div>
-
-  <div class="content" *ngSwitchCase="responseTypes.modified">
-    <div class="content-title"><img class="icon" src="/assets/images/svg-icons/modified_response.svg"
-        alt="modified response">
+    <div *ngSwitchCase="responseTypes.modified" class="content-title"><img class="icon"
+        src="/assets/images/svg-icons/modified_response.svg" alt="modified response">
       Modified Response
     </div>
 
-    <span class="content-text">During a modified response, a wildfire is managed using a combination of techniques with
-      the goal to minimize costs and damage while maximizing ecological benefits from the fire. This response method is
-      used when there is no immediate threat to values.
-    </span>
+    <span class="content-text">{{ responseText }}</span>
   </div>
 
 </content-card-container>
