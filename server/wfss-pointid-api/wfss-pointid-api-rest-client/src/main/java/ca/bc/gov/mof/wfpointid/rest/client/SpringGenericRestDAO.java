@@ -301,7 +301,6 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 				Map<String, String> parameters = parseHeaderDirectives(contentDisposition);
 				String filename = parameters.get("filename");
 				logger.debug("filename="+filename);
-				logger.debug(new String(body));
 				Object responseResource = transformer.unmarshall(body, getClazz());
 				
 				T genericResource = cast(responseResource);
