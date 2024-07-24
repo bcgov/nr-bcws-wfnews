@@ -81,6 +81,7 @@ export class IdentifyPanel extends DraggablePanelComponent {
       case 'active-wildfires-holding':
       case 'active-wildfires-under-control':
       case 'active-wildfires-out':
+      case 'fire-perimeters':
         this.handleWildfires(item)
         break;
 
