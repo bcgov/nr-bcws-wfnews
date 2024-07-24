@@ -129,6 +129,9 @@ export class PublicEventPageComponent {
 
   async populateIncident(eventNumber: string) {
     const simpleIncident: SimpleIncident = new SimpleIncident();
+    if (!eventNumber) {
+      return;
+    }
     try {
         this.publishedIncidentService.fetchPublishedIncident(eventNumber).subscribe(response => {
           if (response) {
