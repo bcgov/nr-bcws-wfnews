@@ -20,6 +20,7 @@ import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
+import * as esri from 'esri-leaflet';
 import * as L from 'leaflet';
 import * as moment from 'moment';
 import { toCanvas } from 'qrcode';
@@ -35,7 +36,6 @@ import {
   setDisplayColor
 } from '../../../utils';
 import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
-import * as esri from 'esri-leaflet';
 
 @Component({
   selector: 'incident-header-panel',
@@ -274,7 +274,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       esri.featureLayer({
         url: this.appConfigService.getConfig()['externalAppConfig']['AGOLevacOrders'].toString(),
         ignoreRenderer: true,
-        precision: 3,
+        precision: 10,
         style: (feature) => {
           if (feature.properties.ORDER_ALERT_STATUS === 'Order') {
             return {

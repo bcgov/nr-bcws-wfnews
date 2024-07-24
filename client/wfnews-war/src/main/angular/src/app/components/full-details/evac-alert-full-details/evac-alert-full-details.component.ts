@@ -1,18 +1,18 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import {
   PublishedIncidentService,
   SimpleIncident,
 } from '@app/services/published-incident-service';
-import { ResourcesRoutes, convertToDateYear, convertToDateTime, openLink, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
+import { WatchlistService } from '@app/services/watchlist-service';
+import { ResourcesRoutes, convertToDateTime, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel, openLink } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
+import * as esri from 'esri-leaflet';
 import L from 'leaflet';
 import { setDisplayColor } from '../../../utils';
-import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { AppConfigService } from '@wf1/core-ui';
-import { Router } from '@angular/router';
-import { WatchlistService } from '@app/services/watchlist-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
-import * as esri from 'esri-leaflet';
 
 export class EvacData {
   public name: string;
@@ -126,7 +126,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     esri.featureLayer({
         url: this.appConfigService.getConfig()['externalAppConfig']['AGOLevacOrders'].toString(),
         ignoreRenderer: true,
-        precision: 3,
+        precision: 10,
         style: (feature) => {
           if (feature.properties.ORDER_ALERT_STATUS === 'Order') {
             return {
