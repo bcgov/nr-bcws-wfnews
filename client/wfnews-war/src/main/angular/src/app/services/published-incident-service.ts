@@ -153,7 +153,6 @@ export class PublishedIncidentService {
     guid: string,
     fireYear: string = null,
   ): Observable<any> {
-    debugger
     const url = `${this.appConfigService.getConfig().rest['wfnews']
       }/publicPublishedIncident/${guid}${fireYear ? '?fireYear=' + fireYear : ''
       }`;
