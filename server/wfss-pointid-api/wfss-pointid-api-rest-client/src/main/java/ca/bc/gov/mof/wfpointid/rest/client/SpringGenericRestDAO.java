@@ -43,8 +43,7 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 		
 	@Override
 	public Response<T> Process(Transformer transformer, String urlString, String method, String eTag, Object resource, MultipartData[] files, Map<String,String> headerParams, MultiValuedMap<String,String> queryParams, RestTemplate restTemplate) throws RestDAOException {
-		logger.debug("<Process "+urlString);
-		
+
 		Response<T> result = null;
 		
 		try {
@@ -76,8 +75,6 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 				}
 				
 				urlString = uriBuilder.build().toString();
-				
-				logger.debug("urlString="+urlString);
 			}
 	
 			// Save the error handler to be restored later
@@ -96,18 +93,11 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 			URL url = new URL(urlString);
 			
 			String queryString = url.getQuery();
-			logger.debug("query="+queryString);
 			
 			if(queryString!=null) {
 				urlString = urlString.substring(0, (urlString.length()-queryString.length())-1);
-				
-				logger.debug("urlString="+urlString);
-				
 				urlString = urlString +"?" + queryString;
-				
 			} 
-			
-			logger.debug("urlString="+urlString);
 			
 			url = new URL(urlString);
 	
@@ -122,11 +112,8 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 						if (value != null) {
 							
 							if (key.contains("\n") || value.contains("\n")) {
-								
 								logger.warn("Ignoring header with invalid value: " + key);
 							} else {
-								
-								logger.debug("Adding header "+key+"=" + value);
 								headers.set(key, value);
 							}
 						}
@@ -134,10 +121,7 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 				}
 				
 				if(eTag!=null) {
-				
 					headers.set("If-Match", eTag);
-					
-					logger.debug("If-Match:"+eTag);
 				}
 				
 				headers.set("Accept", transformer.getContentType());
@@ -145,7 +129,6 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 				if(getLog4jRequestIdMdcKey()!=null&&getLog4jRequestIdMdcKey().trim().length()>0&&getRequestIdHeader()!=null&&getRequestIdHeader().trim().length()>0) {
 					String requestId = MDC.get(getLog4jRequestIdMdcKey());
 					if(requestId!=null) {
-						logger.debug("requestId=" + requestId);
 						headers.set(getRequestIdHeader(), requestId);
 					}
 				}
@@ -180,15 +163,12 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 							MultipartData file = files[i];
 							
 							final String fileName = file.getFileName();
-							logger.debug("fileName="+fileName);
 							
 							String fileContentType = file.getContentType();
-							logger.debug("fileContentType="+fileContentType);
 							if(fileContentType==null||fileContentType.trim().length()==0) {
 								throw new IllegalArgumentException("MultipartData contentType is required.");
 							}
 							byte[] fileBytes = file.getBytes();
-							logger.debug("fileBytes="+fileBytes);
 							if(fileBytes==null||fileBytes.length==0) {
 								throw new IllegalArgumentException("MultipartData bytes is required.");
 							}
@@ -237,10 +217,8 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 				}
 				
 				eTag = headers.getETag();
-				logger.debug("eTag="+eTag);
 				
 				String responseVersion = headers.getFirst(HeaderConstants.VERSION_HEADER);
-				logger.debug("responseVersion="+responseVersion);
 				if(getClientVersion()!=null&&getClientVersion().trim().length()>0) {
 					if(!getClientVersion().equals(responseVersion)) {
 						String message = "The reponse version '"+responseVersion+"' does not match the client version '"+getClientVersion()+"'.";
@@ -249,8 +227,6 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 				}
 				
 				Long cacheExpiresMillis = Long.valueOf(headers.getExpires());
-				logger.debug("cacheExpiresMillis="+cacheExpiresMillis);
-	
 				
 			} catch (MalformedURLException e) {
 				throw new RestDAOException(e);		
@@ -276,7 +252,6 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 			throw new RestDAOException(e);
 		}
 		
-		logger.debug(">Process");
 		return result;
 	}
 	
@@ -297,10 +272,8 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 			} else {
 				
 				String contentDisposition = headers.getFirst("Content-Disposition");
-				logger.debug("contentDisposition="+contentDisposition);
 				Map<String, String> parameters = parseHeaderDirectives(contentDisposition);
 				String filename = parameters.get("filename");
-				logger.debug("filename="+filename);
 				Object responseResource = transformer.unmarshall(body, getClazz());
 				
 				T genericResource = cast(responseResource);
@@ -391,12 +364,10 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 				} catch(ClassCastException e) {
 					logger.warn(e.getMessage());
 					String responseString = new String(body);
-					logger.debug("responseString=\n"+responseString);
 					messages = new Messages(responseString);
 				} catch(TransformerException e) {
 					logger.warn(e.getMessage());
 					String responseString = new String(body);
-					logger.debug("responseString=\n"+responseString);
 					messages = new Messages(responseString);
 				}
 			}
@@ -420,12 +391,10 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 				} catch(ClassCastException e) {
 					logger.warn(e.getMessage());
 					String responseString = new String(body);
-					logger.debug("responseString=\n"+responseString);
 					messages = new Messages(responseString);
 				} catch(TransformerException e) {
 					logger.warn(e.getMessage());
 					String responseString = new String(body);
-					logger.debug("responseString=\n"+responseString);
 					messages = new Messages(responseString);
 				}
 			}
