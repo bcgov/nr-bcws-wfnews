@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
 import { PublishedIncidentService, SimpleIncident } from '@app/services/published-incident-service';
 import { WatchlistService } from '@app/services/watchlist-service';
-import { ResourcesRoutes, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel, currentFireYear } from '@app/utils';
 
 @Component({
   selector: 'wfnews-public-event-page',
@@ -133,7 +133,7 @@ export class PublicEventPageComponent {
       return;
     }
     try {
-        this.publishedIncidentService.fetchPublishedIncident(eventNumber).subscribe(response => {
+        this.publishedIncidentService.fetchPublishedIncident(eventNumber,currentFireYear().toString()).subscribe(response => {
           if (response) {
             simpleIncident.discoveryDate = convertToDateYear(response.discoveryDate);
             simpleIncident.incidentName = response.incidentName?.replace('Fire', '').trim() + ' Wildfire';
