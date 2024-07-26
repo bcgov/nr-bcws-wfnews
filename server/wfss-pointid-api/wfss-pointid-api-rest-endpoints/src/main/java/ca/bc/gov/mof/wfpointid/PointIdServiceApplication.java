@@ -15,7 +15,6 @@ import ca.bc.gov.mof.wfpointid.util.SSLDisabler;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan
 public class PointIdServiceApplication {
 
 	public static final String HTTPS_PROTOCOLS = "TLSv1,TLSv1.1,TLSv1.2";
