@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -199,6 +200,7 @@ public class PointIdEndpoints
 		@ApiResponse(code = 400, message = "Bad Request", response = Messages.class),
 		@ApiResponse(code = 500, message = "Internal Server Error", response = Messages.class) })
 	@RequestMapping(value = "/weatherStation", method = RequestMethod.GET)
+	@Cacheable(value = "weatherStationData", unless = "#result == null", key = "{#code, #hourstamp, #durationHours, #durationDays, #duration}")
 	public WeatherResource getWeatherStationData(
 			@ApiParam("The station ID code.") @RequestParam("code") String code, 
 			@ApiParam("The hour of day used to filter weather events, default now.") @RequestParam(value = "hour", required = false) String hourstamp, 
