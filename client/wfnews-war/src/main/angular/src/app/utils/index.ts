@@ -650,7 +650,7 @@ export function getResponseTypeDescription(code: string) {
   } else if (code === 'MODIFIED') {
     return 'During a modified response, a wildfire is managed using a combination of techniques with the goal to minimize damage while maximizing ecological benefits from the fire. This response method is used when there is no immediate threat to values.';
   } else if (code === 'FULL') {
-    return 'The suppression of an unwanted wildfire to limit spread.';
+    return 'The BC Wildfire Service uses a full response when there is threat to public safety and/or property and other values, such as infrastructure or timber. Immediate action is taken. During a full response, a wildfire is suppressed and controlled until it is deemed "out".';
   }
 }
 

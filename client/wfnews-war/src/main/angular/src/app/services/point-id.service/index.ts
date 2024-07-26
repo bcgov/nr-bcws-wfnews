@@ -1,14 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { AppConfigService } from '@wf1/core-ui';
 import { WeatherStationConditions, WeatherStationResult } from './interfaces';
 
 export {
-  WeatherHourlyCondition,
-  WeatherDailyCondition,
-  WeatherStation,
+  WeatherDailyCondition, WeatherHourlyCondition, WeatherStation,
   WeatherStationConditions,
-  WeatherStationResult,
+  WeatherStationResult
 } from './interfaces';
 
 const MAX_CACHE_AGE = 60 * 1000; //ms
@@ -31,8 +29,8 @@ export class PointIdService {
     const now = Date.now();
 
     if (this.cache[url] && now - this.cache[url].ts < MAX_CACHE_AGE) {
-return this.cache[url].result;
-}
+      return this.cache[url].result;
+    }
 
     Object.keys(this.cache).forEach(function(url) {
       if (now - self.cache[url].ts < MAX_CACHE_AGE) {
@@ -71,8 +69,8 @@ return this.cache[url].result;
   ): Promise<WeatherStationConditions> {
     return this.fetch(
       `${this.baseAPIUrl}/weather?lat=${latitude.toFixed(
-        3,
-      )}&lon=${longitude.toFixed(3)}&duration=3`,
+        1,
+      )}&lon=${longitude.toFixed(1)}&duration=3`,
     ).then(function(resp: WeatherStationResult) {
       return resp.stations[0];
     });
