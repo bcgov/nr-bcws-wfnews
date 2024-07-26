@@ -451,6 +451,44 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           fillColor: colorToDisplay,
         }).addTo(this.map);
       }
+
+      esri.featureLayer({
+        url: this.appConfigService.getConfig()['externalAppConfig']['AGOLperimetres'].toString(),
+        ignoreRenderer: true,
+        precision: 3,
+        style: (feature) => ({
+          fillColor: '#e60000',
+          color: '#e60000',
+          weight: 2,
+          fillOpacity: 0.5
+        })
+      })
+        .addTo(this.map);
+
+      esri.featureLayer({
+        url: this.appConfigService.getConfig()['externalAppConfig']['AGOLevacOrders'].toString(),
+        ignoreRenderer: true,
+        precision: 10,
+        style: (feature) => {
+          if (feature.properties.ORDER_ALERT_STATUS === 'Order') {
+            return {
+              fillColor: '#ff3a35',
+              color: '#ff3a35',
+              weight: 2.25,
+              fillOpacity: 0.5
+            };
+          } else if (feature.properties.ORDER_ALERT_STATUS === 'Alert') {
+            return {
+              fillColor: '#fa9600',
+              color: '#fa9600',
+              weight: 2.25,
+              fillOpacity: 0.5
+            };
+          }
+        }
+      })
+        .addTo(this.map);
+
       this.cdr.detectChanges();
     }
 
