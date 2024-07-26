@@ -8,7 +8,7 @@ import {
   SimpleIncident,
 } from '@app/services/published-incident-service';
 import { WatchlistService } from '@app/services/watchlist-service';
-import { ResourcesRoutes, convertToDateTime, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel, openLink } from '@app/utils';
+import { ResourcesRoutes, convertToDateTime, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel, openLink, currentFireYear } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import * as esri from 'esri-leaflet';
 import L from 'leaflet';
@@ -221,7 +221,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   async populateIncident(eventNumber: string) {
     let simpleIncident: SimpleIncident = new SimpleIncident;
     try {
-      this.publishedIncidentService.fetchPublishedIncident(eventNumber).subscribe(response => {
+      this.publishedIncidentService.fetchPublishedIncident(eventNumber,currentFireYear().toString()).subscribe(response => {
         if (response) {
           simpleIncident.discoveryDate = convertToDateYear(response.discoveryDate);
           simpleIncident.incidentName = response.incidentName?.replace('Fire', '').trim() + ' Wildfire';
