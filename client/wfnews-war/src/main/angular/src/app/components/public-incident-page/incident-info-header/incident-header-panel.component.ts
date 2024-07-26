@@ -617,7 +617,8 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           },
         });
       } else {
-        this.router.navigate(this.params['source']);
+        const destination = Array.isArray(this.params['source']) ? this.params['source'] : [this.params['source']];
+        this.router.navigate(destination);
       }
     } else {
       this.router.navigate([ResourcesRoutes.DASHBOARD]);
