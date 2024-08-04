@@ -15,6 +15,7 @@ export class PublicEventPageComponent {
   public loadingFailed = false;
   public eventType: string;
   public eventNumber: string;
+  public id : string;
   public eventName: string;
   public evac: string;
   public areaRestriction: string;
@@ -33,9 +34,10 @@ export class PublicEventPageComponent {
   ) {
     this.activatedRoute.queryParams.subscribe((params: ParamMap) => {
       this.eventType = params['eventType'];
-      if (params && params['eventNumber'] && 
+      if (params && params['eventNumber'] && params['id'] &&
           (params['eventType'] === 'Order' || params['eventType'] === 'Alert')) {
         this.eventNumber = params['eventNumber'];
+        this.id = params['id'];
         this.populateEvacByID({
           returnGeometry: true,
           returnCentroid: true,
@@ -58,14 +60,17 @@ export class PublicEventPageComponent {
 
   async populateEvacByID(options: AgolOptions = null) {
     this.agolService
-      .getEvacOrdersByEventNumber(
-        this.eventNumber,
+      .getEvacOrdersById(
+        this.id,
         options
       )
       .toPromise()
       .then((response) => {
         if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
-          this.evac = response.features[0];
+          // testing purpose: EMRG_OAA_SYSID (id) is supposed to be unique ID. 
+          // However in AGOL TEST, all the evacucation orders and alerts' id are 0, so we need to use the event number to filter them out
+          const matchingFeature = response.features.find(feature => feature.attributes.EVENT_NUMBER === this.eventNumber);
+          this.evac = matchingFeature;
           this.isLoading = false;
         }
       });

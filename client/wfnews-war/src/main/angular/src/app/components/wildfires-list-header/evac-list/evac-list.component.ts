@@ -249,6 +249,7 @@ export class EvacListComponent implements OnInit {
       this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
         queryParams: {
           eventType: event.status,
+          id: event.emrgOAAsysID,
           eventNumber: event.eventNumber,
           eventName: event.eventName,
           source: [ResourcesRoutes.WILDFIRESLIST]
