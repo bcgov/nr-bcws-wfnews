@@ -329,8 +329,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
     viewer_protocol_policy = "redirect-to-https"
     
     min_ttl                = 3600
-    default_ttl            = 43200
-    max_ttl                = 86400
+    default_ttl            = 3600
+    max_ttl                = 43200
 
     forwarded_values {
       query_string = true
@@ -561,8 +561,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
     viewer_protocol_policy = "redirect-to-https"
     
     min_ttl                = 3600
-    default_ttl            = 43200
-    max_ttl                = 86400
+    default_ttl            = 3600
+    max_ttl                = 43200
 
     forwarded_values {
       query_string = true
