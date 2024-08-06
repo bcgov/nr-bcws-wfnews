@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { haversineDistance } from '@app/services/wfnews-map.service/util';
-import { ResourcesRoutes, convertToDateTime } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 import { Observable } from 'rxjs';
 import { AGOLService } from '../../../services/AGOL-service';
 import {
@@ -59,7 +59,7 @@ export class EvacListComponent implements OnInit {
   public locationData: LocationData;
   hoveredItem: any = null;
 
-  convertToDateTime = convertToDateTime;
+  convertToDateYear = convertToDateYear;
 
   private isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
@@ -157,7 +157,7 @@ export class EvacListComponent implements OnInit {
                 agency: element.attributes.ISSUING_AGENCY,
                 preOcCode: element.attributes.PREOC_CODE,
                 emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
-                issuedOn: this.convertToDateTime(element.attributes.DATE_MODIFIED),
+                issuedOn: this.convertToDateYear(element.attributes.DATE_MODIFIED),
                 distance,
                 latitude: element.centroid.y,
                 longitude: element.centroid.x,
