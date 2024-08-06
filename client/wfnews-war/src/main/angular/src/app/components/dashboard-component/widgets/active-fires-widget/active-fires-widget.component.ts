@@ -58,14 +58,20 @@ export class ActiveFiresWidget implements AfterViewInit {
               n,
               {
                 activeBeingHeldFires,
+                activeBeingHeldFiresOfNote,
                 activeOutOfControlFires,
+                activeOutOfControlFiresOfNote,
                 activeUnderControlFires,
+                activeUnderControlFiresOfNote,
               },
             ) =>
               n +
               activeBeingHeldFires +
+              activeBeingHeldFiresOfNote +
               activeOutOfControlFires +
-              activeUnderControlFires,
+              activeOutOfControlFiresOfNote +
+              activeUnderControlFires +
+              activeUnderControlFiresOfNote,
             0,
           ) || 0;
         const previousYearActive =
@@ -74,16 +80,23 @@ export class ActiveFiresWidget implements AfterViewInit {
               n,
               {
                 activeBeingHeldFires,
+                activeBeingHeldFiresOfNote,
                 activeOutOfControlFires,
+                activeOutOfControlFiresOfNote,
                 activeUnderControlFires,
+                activeUnderControlFiresOfNote,
               },
             ) =>
               n +
               activeBeingHeldFires +
+              activeBeingHeldFiresOfNote +
               activeOutOfControlFires +
-              activeUnderControlFires,
+              activeOutOfControlFiresOfNote +
+              activeUnderControlFires +
+              activeUnderControlFiresOfNote,
             0,
           ) || 0;
+
         const currentYearActiveFoN =
           stats.reduce(
             (
