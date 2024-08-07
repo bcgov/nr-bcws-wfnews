@@ -119,7 +119,7 @@
         <div class="info-panel">
           <div class="info-panel-row" *ngIf="evac.attributes.DATE_MODIFIED">
             <img class="icon" height="24" width="24" alt="calendar "src="/assets/images/svg-icons/calendar.svg">
-            <span class="label">Last modified on&nbsp;{{convertToDateTimeTimeZone(evac.attributes.DATE_MODIFIED)}}</span>
+            <span class="label">Updated on&nbsp;{{convertToDateYear(evac.attributes.DATE_MODIFIED)}}</span>
           </div>
           <div class="info-panel-row" *ngIf="evac.attributes.ISSUING_AGENCY">
             <img class="icon" height="24" width="24" src="/assets/images/svg-icons/local_authority.svg" alt="local_authority" />

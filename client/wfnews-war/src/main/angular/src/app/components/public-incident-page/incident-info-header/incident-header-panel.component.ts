@@ -29,7 +29,7 @@ import { WatchlistService } from '../../../services/watchlist-service';
 import {
   ResourcesRoutes,
   convertFireNumber,
-  convertToDateTimeTimeZone,
+  convertToDateYear,
   convertToFireCentreDescription,
   getStageOfControlLabel,
   isMobileView,
@@ -58,7 +58,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
 
   convertToFireCentreDescription = convertToFireCentreDescription;
   convertFireNumber = convertFireNumber;
-  convertToDateTimeTimeZone = convertToDateTimeTimeZone;
+  convertToDateYear = convertToDateYear;
   getStageOfControlLabel = getStageOfControlLabel;
   isMobileView = isMobileView;
 

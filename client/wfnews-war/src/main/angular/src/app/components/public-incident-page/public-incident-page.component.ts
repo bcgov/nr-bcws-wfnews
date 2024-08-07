@@ -225,7 +225,7 @@ this.incident.incidentSizeEstimatedHa =
               emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
               uri: null,
               centroid: element.centroid,
-              issuedOn: convertToDateTimeTimeZone(
+              issuedOn: convertToDateYear(
                 element.attributes.DATE_MODIFIED,
               ),
               eventNumber: element.attributes.EVENT_NUMBER

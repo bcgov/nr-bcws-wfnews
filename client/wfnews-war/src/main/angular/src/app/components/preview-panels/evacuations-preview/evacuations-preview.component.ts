@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { ResourcesRoutes, convertToDateTimeTimeZone, hidePanel, showPanel } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, hidePanel, showPanel } from '@app/utils';
 import { MapUtilityService } from '../map-share-service';
 
 @Component({
@@ -14,7 +14,7 @@ import { MapUtilityService } from '../map-share-service';
 export class EvacuationsPreviewComponent {
 
   public data;
-  convertToDateTimeTimeZone = convertToDateTimeTimeZone;
+  convertToDateYear = convertToDateYear;
 
   constructor(
     private router: Router,
