@@ -18,7 +18,7 @@
             <div class="identify-card-title" *ngIf="data.EVENT_NAME">{{displayEvacTitle(data)}}</div>
             <div class="identify-card-item">
                 <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
-                Last modified on {{convertToDateTimeTimeZone(data.DATE_MODIFIED)}}
+                Updated on {{convertToDateYear(data.DATE_MODIFIED)}}
             </div>
             <div class="identify-card-item">
                 <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/carbon_finance.svg">
