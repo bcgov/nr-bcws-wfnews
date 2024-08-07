@@ -61,12 +61,6 @@ export class FireCauseWidget implements AfterViewInit {
             (n, { activeHumanCausedFires }) => n + activeHumanCausedFires,
             0,
           ) || 0;
-        const previousYearHumanOut =
-          previousYearStats.reduce(
-            (n, { extinguishedHumanCausedFires }) =>
-              n + extinguishedHumanCausedFires,
-            0,
-          ) || 0;
 
         const currentYearNatural =
           stats.reduce(
@@ -83,12 +77,6 @@ export class FireCauseWidget implements AfterViewInit {
         const previousYearNatural =
           previousYearStats.reduce(
             (n, { activeNaturalCausedFires }) => n + activeNaturalCausedFires,
-            0,
-          ) || 0;
-        const previousYearNaturalOut =
-          previousYearStats.reduce(
-            (n, { extinguishedNaturalCausedFires }) =>
-              n + extinguishedNaturalCausedFires,
             0,
           ) || 0;
 
@@ -109,26 +97,15 @@ export class FireCauseWidget implements AfterViewInit {
             (n, { activeUnknownCausedFires }) => n + activeUnknownCausedFires,
             0,
           ) || 0;
-        const previousYearUnknownOut =
-          previousYearStats.reduce(
-            (n, { extinguishedUnknownCausedFires }) =>
-              n + extinguishedUnknownCausedFires,
-            0,
-          ) || 0;
 
         const totalCurrentYear =
           currentYearHuman + currentYearNatural + currentYearUnknown;
-        const totalPreviousYear =
-          previousYearHuman + previousYearNatural + previousYearUnknown;
 
         const currentYearOut = humanOut + naturalOut + unknownOut;
-        const previousYearOut = previousYearHumanOut + previousYearNaturalOut + previousYearUnknownOut;
-        const totalOut = currentYearOut + previousYearOut;
 
         const totalFires =
           totalCurrentYear +
-          Number(this.yearly ? 0 : totalPreviousYear);
-          Number(this.yearly ? totalOut : 0);
+          Number(this.yearly ? currentYearOut : 0);
 
         // If this is a yearly totals sum, then we need to include outfires
         this.lightningFires =
