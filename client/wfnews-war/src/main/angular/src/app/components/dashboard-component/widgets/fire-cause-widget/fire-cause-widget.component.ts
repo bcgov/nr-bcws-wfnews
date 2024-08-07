@@ -100,11 +100,14 @@ export class FireCauseWidget implements AfterViewInit {
 
         const totalCurrentYear =
           currentYearHuman + currentYearNatural + currentYearUnknown;
+        const totalPreviousYear =
+          previousYearHuman + previousYearNatural + previousYearUnknown;
 
         const currentYearOut = humanOut + naturalOut + unknownOut;
 
         const totalFires =
           totalCurrentYear +
+          Number(this.yearly ? 0 : totalPreviousYear) +
           Number(this.yearly ? currentYearOut : 0);
 
         // If this is a yearly totals sum, then we need to include outfires
