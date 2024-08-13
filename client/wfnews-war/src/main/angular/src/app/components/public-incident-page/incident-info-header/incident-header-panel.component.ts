@@ -20,6 +20,7 @@ import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
+import * as esri from 'esri-leaflet';
 import * as L from 'leaflet';
 import * as moment from 'moment';
 import { toCanvas } from 'qrcode';
@@ -28,14 +29,13 @@ import { WatchlistService } from '../../../services/watchlist-service';
 import {
   ResourcesRoutes,
   convertFireNumber,
-  convertToDateTimeTimeZone,
+  convertToDateYear,
   convertToFireCentreDescription,
   getStageOfControlLabel,
   isMobileView,
   setDisplayColor
 } from '../../../utils';
 import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
-
 
 @Component({
   selector: 'incident-header-panel',
@@ -58,7 +58,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
 
   convertToFireCentreDescription = convertToFireCentreDescription;
   convertFireNumber = convertFireNumber;
-  convertToDateTimeTimeZone = convertToDateTimeTimeZone;
+  convertToDateYear = convertToDateYear;
   getStageOfControlLabel = getStageOfControlLabel;
   isMobileView = isMobileView;
 
@@ -72,6 +72,41 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   };
 
   private map: any;
+
+  private perimeterLayer = esri.featureLayer({
+    url: this.appConfigService.getConfig()['externalAppConfig']['AGOLperimetres'].toString(),
+    ignoreRenderer: true,
+    precision: 3,
+    style: (feature) => ({
+      fillColor: '#e60000',
+      color: '#e60000',
+      weight: 2,
+      fillOpacity: 0.5
+    })
+  })
+
+  private evacOrdersLayer = esri.featureLayer({
+    url: this.appConfigService.getConfig()['externalAppConfig']['AGOLevacOrders'].toString(),
+    ignoreRenderer: true,
+    precision: 10,
+    style: (feature) => {
+      if (feature.properties.ORDER_ALERT_STATUS === 'Order') {
+        return {
+          fillColor: '#ff3a35',
+          color: '#ff3a35',
+          weight: 2.25,
+          fillOpacity: 0.5
+        };
+      } else if (feature.properties.ORDER_ALERT_STATUS === 'Alert') {
+        return {
+          fillColor: '#fa9600',
+          color: '#fa9600',
+          weight: 2.25,
+          fillOpacity: 0.5
+        };
+      }
+    }
+  })
 
 
   constructor(
@@ -131,14 +166,14 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         Number(this.evac.centroid?.y),
         Number(this.evac.centroid?.x),
       ];
-
       const response = await this.agolService
-        .getEvacOrdersByEventNumber(this.params['eventNumber'], {
+        .getEvacOrdersById(this.params['id'], {
           returnGeometry: true,
         }).toPromise();
 
       if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
-        const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
+        const matchingFeature = response.features.find(feature => feature.attributes.EVENT_NUMBER === this.params['eventNumber']);
+        const polygonData = this.commonUtilityService.extractPolygonData(matchingFeature.geometry.rings);
         if (polygonData?.length) {
           this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
         }
@@ -206,17 +241,20 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           const btn = L.DomUtil.create('button', '', container);
           this.createZoomIcon(btn);
           btn.style.backgroundColor = 'white';
-          btn.style.width = '34px';
-          btn.style.height = '34px';
+          btn.style.backgroundClip = 'padding-box';
+          btn.style.boxSizing = 'content-box';
+          btn.style.width = '30px';
+          btn.style.height = '30px';
+          btn.style.padding = '0px';
           btn.style.cursor = 'pointer';
-          btn.style.border = '2px solid rgba(0, 0, 0, 0.35)';
+          btn.style.border = '2px solid rgba(0, 0, 0, 0.2)';
           btn.style.borderBottomLeftRadius = '4px';
           btn.style.borderBottomRightRadius = '4px';
           btn.style.display = 'flex';
           btn.style.alignItems = 'center';
           btn.style.justifyContent = 'center';
           btn.style.marginTop = '-3px';
-          btn.style.borderTopWidth = '1px';
+          btn.style.borderTop = '1px solid #CCC';
           btn.onclick = () => {
             if (this.bounds) {
               this.map.fitBounds(this.bounds);
@@ -253,28 +291,8 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     ['mapServices']['openmapsBaseUrl'].toString();
 
     if (this.evac) {
-      L.tileLayer
-        .wms(databcUrl, {
-          layers: 'WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
-          styles: '6885',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          tileSize: 1000,
-          bounds: bounds,
-        })
-        .addTo(this.map);
-      L.tileLayer
-        .wms(databcUrl, {
-          layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP',
-          styles: '1751_1752',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          tileSize: 1000,
-          bounds: bounds,
-        })
-        .addTo(this.map);
+      this.perimeterLayer.addTo(this.map);
+      this.evacOrdersLayer.addTo(this.map);
     }
 
     if (this.areaRestriction) {
@@ -377,18 +395,26 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     }
 
     if (this.dangerRating) {
-      L.tileLayer
-        .wms(databcUrl, {
-          layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          opacity: 0.8,
-          tileSize: 1000,
-          bounds: bounds,
-          style: '7734',
+      const rating = this.convertDangerRating(this.dangerRating.attributes?.DANGER_RATING_DESC);
+
+      this.http
+        .get('assets/js/smk/' + rating + '-danger-rating.sld', { responseType: 'text' })
+        .toPromise()
+        .then((dangerRating) => {
+          L.tileLayer
+            .wms(databcUrl, {
+              layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
+              format: 'image/png',
+              transparent: true,
+              version: '1.1.1',
+              opacity: 0.8,
+              tileSize: 1000,
+              bounds: bounds,
+              style: '7734',
+              sld_body: dangerRating,
+            })
+            .addTo(this.map);
         })
-        .addTo(this.map);
     }
     const icon = L.icon({
       iconUrl: '/assets/images/local_fire_department.png',
@@ -398,34 +424,40 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       shadowSize: [41, 41],
     });
 
-    if (this.incident.fireOfNoteInd) {
-      L.marker(location, { icon }).addTo(this.map);
-    } else {
-      let colorToDisplay;
-      switch (this.incident.stageOfControlCode) {
-        case 'OUT_CNTRL':
-          colorToDisplay = '#FF0000';
-          break;
-        case 'HOLDING':
-          colorToDisplay = '#ffff00';
-          break;
-        case 'UNDR_CNTRL':
-          colorToDisplay = '#98E600';
-          break;
-        case 'OUT':
-          colorToDisplay = '#999999';
-          break;
-        default:
-          colorToDisplay = 'white';
+    if (this.incident) {
+      if (this.incident.fireOfNoteInd) {
+        L.marker(location, { icon }).addTo(this.map);
+      } else {
+        let colorToDisplay;
+        switch (this.incident.stageOfControlCode) {
+          case 'OUT_CNTRL':
+            colorToDisplay = '#FF0000';
+            break;
+          case 'HOLDING':
+            colorToDisplay = '#ffff00';
+            break;
+          case 'UNDR_CNTRL':
+            colorToDisplay = '#98E600';
+            break;
+          case 'OUT':
+            colorToDisplay = '#999999';
+            break;
+          default:
+            colorToDisplay = 'white';
+        }
+        L.circleMarker(location, {
+          radius: 15,
+          fillOpacity: 1,
+          color: 'black',
+          fillColor: colorToDisplay,
+        }).addTo(this.map);
       }
-      L.circleMarker(location, {
-        radius: 15,
-        fillOpacity: 1,
-        color: 'black',
-        fillColor: colorToDisplay,
-      }).addTo(this.map);
+
+      this.perimeterLayer.addTo(this.map);
+      this.evacOrdersLayer.addTo(this.map);
+
+      this.cdr.detectChanges();
     }
-    this.cdr.detectChanges();
 
     // fetch incidents in surrounding area and add to map
     this.addSurroundingIncidents();
@@ -464,6 +496,23 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       return '(Mapped)';
     } else {
       return null;
+    }
+  }
+
+  convertDangerRating(rating) {
+    switch (rating) {
+      case 'Very Low':
+        return 'very-low';
+      case 'Low':
+        return 'low';
+      case 'Moderate':
+        return 'moderate';
+      case 'High':
+        return 'high';
+      case 'Extreme':
+        return 'extreme';
+      default:
+        return null;
     }
   }
 
@@ -573,7 +622,8 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           },
         });
       } else {
-        this.router.navigate([this.params['source']]);
+        const destination = Array.isArray(this.params['source']) ? this.params['source'] : [this.params['source']];
+        this.router.navigate(destination);
       }
     } else {
       this.router.navigate([ResourcesRoutes.DASHBOARD]);
@@ -671,16 +721,13 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   }
 
   private createZoomIcon(btn: HTMLElement): void {
-    const svgPath = 'assets/images/svg-icons/zoom-to-extent.svg';
-
     const icon = L.DomUtil.create('div', '', btn);
-    
-    icon.style.maskImage = 'url(' + svgPath + ')';
-    icon.style.width = '24px';
-    icon.style.height = '24px';
-    icon.style.backgroundColor = 'black';
+    icon.style.width = '20px';
+    icon.style.height = '20px';
+    icon.style.maskImage = 'url("/assets/images/svg-icons/zoom-to-extent.svg")';
     icon.style.maskSize = 'contain';
     icon.style.maskRepeat = 'no-repeat';
     icon.style.maskPosition = 'center';
+    icon.style.backgroundColor = 'black';
   }
 }

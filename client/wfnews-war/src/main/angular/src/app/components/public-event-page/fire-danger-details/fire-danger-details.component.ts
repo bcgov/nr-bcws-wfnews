@@ -17,5 +17,13 @@ export class FireDangerDetailsComponent {
       text: 'Current Fire Bans and Restrictions', 
       url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions' 
     },
+    { 
+      text: 'Fire Danger Class', 
+      url: 'https://wfapps.nrs.gov.bc.ca/pub/wfwx-danger-summary-war/dangerSummary' 
+    },
+    { 
+      text: 'High Risk Activities', 
+      url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/for-industry-commercial-operators/high-risk-activities' 
+    },
   ];
 }

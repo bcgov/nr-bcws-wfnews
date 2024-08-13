@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ca.bc.gov.nrs.wfnews</groupId>
 	<artifactId>wfnews-parent</artifactId>
-	<version>2.3.0</version>
+	<version>2.3.6</version>
 	<packaging>pom</packaging>
 	<name>wfnews-parent</name>
 	<modules>

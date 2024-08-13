@@ -3,14 +3,14 @@
     <div class="full-details-title">Evacuation Alert for {{evacData.name}}</div>
     <div class="alert-panel"><img class="icon" src="/assets/images/svg-icons/evacuation_alert.svg"
         alt="evacuation_alert" />Alert</div>
-    <p class="info">An evacuation alert is a warning about a potential threat to life and/or property. It is intended to give you time to be ready for a possible evacuation.</p>
+    <p class="info">An evacuation alert is a warning about a potential threat to life and/or property. It is intended to give you time to be ready for a possible evacuation. Follow instructions from your local government or First Nation.</p>
     <button (click)="navToMap()" mat-button class="map-button"><img class="tertiary-icon" src="/assets/images/svg-icons/map.svg"
         alt="Map" />View on Map</button>
   </div>
   <hr>
   <div class="info-container">
-    <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar" />Issued on
-      {{convertToDateTime(evacData.issuedDate)}}</div>
+    <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar" />Updated on
+      {{convertToDateYear(evacData.issuedDate)}}</div>
     <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/local_authority.svg" alt="local_authority" />Issued by
       {{evacData.issuingAgency}}</div>
     <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/carbon_layers.svg" alt="Layers" />Fire Evacuation
@@ -40,10 +40,10 @@
   <div class="info-container">
     <div class="full-details-secondary-title">Connect with Local Authorities</div>
     <div class="full-details-tertiary-title"><img class="tertiary-icon" src="/assets/images/svg-icons/local_authority.svg"
-        alt="local_authority" />{{evacData.issuingAgency}}</div>
+        alt="local_authority" />{{evacData?.issuingAgency}}</div>
     <p class="info">Evacuation notices are authorized and implemented by local authorities. The local
       authority for this
-      evacuation notice is Central Coast Regional District. Please contact them or visit their website for more details.
+      evacuation notice is {{evacData?.issuingAgency}}. Please contact them or visit their website for more details.
     </p>
     <div class="full-details-tertiary-title">Contact information</div>
     <p class="info">

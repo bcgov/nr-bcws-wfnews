@@ -316,13 +316,18 @@ export class IncidentInfoPanelComponent implements AfterViewInit, OnChanges {
 
   navigateToEvac(event) {
     if (event?.externalUri) {
-      this.capacitorService.redirect(event.uri);
+      let uri = event.uri;
+      if (!uri.startsWith('http://') && !uri.startsWith('https://')) {
+        uri = 'https://' + uri;
+      }
+      this.capacitorService.redirect(uri);
     } else {
       const url = this.route.serializeUrl(
         this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
           queryParams: {
             eventType: event.orderAlertStatus,
             eventNumber: event.eventNumber,
+            id: event.emrgOAAsysID,
             eventName: event.eventName,
             source: [ResourcesRoutes.PUBLIC_INCIDENT],
             fireYear: this.incident.fireYear,

@@ -26,6 +26,9 @@ jobs:
     runs-on: ubuntu-22.04
     environment: TEST
 
+    env:
+      branch-name: ${{ github.event_name == 'release' && github.event.release.target_commitish || github.ref_name }} 
+
     outputs:
       tag-value: ${{ steps.get-release-tag.outputs.tag-value }}
 
@@ -47,44 +50,44 @@ jobs:
 
       - name: Tag client image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ github.ref_name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ github.ref_name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.branch-name }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.IMAGE_TAG }}
           docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.IMAGE_TAG }}
 
       - name: Tag server image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ github.ref_name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ github.ref_name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.branch-name }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.IMAGE_TAG }}
           docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.IMAGE_TAG }}
 
       - name: Tag liquibase image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ github.ref_name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ github.ref_name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.branch-name }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.IMAGE_TAG }}
           docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.IMAGE_TAG }}
 
       - name: Tag nginx image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ github.ref_name  }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ github.ref_name  }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.branch-name  }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.branch-name  }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
           docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
 
       - name: Tag notifications-api image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ github.ref_name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ github.ref_name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.branch-name }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.IMAGE_TAG }}
           docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.IMAGE_TAG }}
 
       - name: Tag notification-push-api image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ github.ref_name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ github.ref_name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.branch-name }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.IMAGE_TAG }}
           docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.IMAGE_TAG }}
 
       - name: Tag wfss-pointid-api image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ github.ref_name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ github.ref_name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.branch-name }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.IMAGE_TAG }}
           docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.IMAGE_TAG }}
 
       - run: echo ::set-output name=tag-value::${{ env.IMAGE_TAG }}

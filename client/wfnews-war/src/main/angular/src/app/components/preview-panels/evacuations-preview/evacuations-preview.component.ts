@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { ResourcesRoutes, convertToDateTimeTimeZone, hidePanel, showPanel } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, hidePanel, showPanel } from '@app/utils';
 import { MapUtilityService } from '../map-share-service';
 
 @Component({
@@ -14,7 +14,7 @@ import { MapUtilityService } from '../map-share-service';
 export class EvacuationsPreviewComponent {
 
   public data;
-  convertToDateTimeTimeZone = convertToDateTimeTimeZone;
+  convertToDateYear = convertToDateYear;
 
   constructor(
     private router: Router,
@@ -66,15 +66,17 @@ export class EvacuationsPreviewComponent {
 
   zoomIn() {
     this.agolService
-      .getEvacOrdersByEventNumber(this.data.EVENT_NUMBER, {
+      .getEvacOrdersById(this.data.EMRG_OAA_SYSID, {
         returnGeometry: true,
       })
       .toPromise()
       .then((response) => {
         if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
-          const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
+          // testing purpose: EMRG_OAA_SYSID (id) is supposed to be unique ID. However in AGOL TEST, all the evacucation orders and alerts' id are 0 (bad data), so we need to use the event number to filter them ou
+          const matchingFeature = response.features.find(feature => feature.attributes.EVENT_NUMBER === this.data.EVENT_NUMBER);
+          const polygonData = this.commonUtilityService.extractPolygonData(matchingFeature.geometry.rings);
           if (polygonData?.length) {
-            this.mapUtilityService.fixPolygonToMap(polygonData, response.features[0].geometry.rings);
+            this.mapUtilityService.fixPolygonToMap(polygonData, matchingFeature.geometry.rings);
           }
         }
       });

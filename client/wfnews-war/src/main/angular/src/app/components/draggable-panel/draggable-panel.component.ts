@@ -24,7 +24,8 @@ import {
   displayItemTitle,
   addMarker,
   getStageOfControlDescription,
-  hidePanel
+  hidePanel,
+  displayDangerRatingDescription
 } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
@@ -82,6 +83,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   displayItemTitle = displayItemTitle;
   addMarker = addMarker;
   getStageOfControlDescription = getStageOfControlDescription;
+  displayDangerRatingDescription = displayDangerRatingDescription;
   
   removeIdentity = false;
 
@@ -476,8 +478,8 @@ return 'Unknown';
               });
           } else if (layerId.includes('evacuation-orders-and-alerts')) {
             this.agolService
-              .getEvacOrdersByEventNumber(
-                this.identifyItem.properties.EVENT_NUMBER,
+              .getEvacOrdersById(
+                this.identifyItem.properties.EMRG_OAA_SYSID,
                 {
                   returnGeometry: true,
                 },
@@ -485,9 +487,10 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                   if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-                    const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
+                    const matchingFeature = response.features.find(feature => feature.attributes.EVENT_NUMBER === this.identifyItem.properties.EVENT_NUMBER);
+                    const polygonData = this.commonUtilityService.extractPolygonData(matchingFeature.geometry.rings);
                     if (polygonData?.length) {
-                      this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
+                      this.fixPolygonToMap(polygonData,matchingFeature.geometry.rings);
                     }
                   }
               });
@@ -641,14 +644,15 @@ return 'Unknown';
         case 'active-wildfires-holding':
         case 'active-wildfires-under-control':
         case 'active-wildfires-out':
-          if (
-            item.properties.fire_year &&
-            item.properties.incident_number_label
-          ) {
+        case 'fire-perimeters' :
+          const fireYear = item.properties?.fire_year || item.properties?.FIRE_YEAR;
+          const incidentNumber = item.properties?.incident_number_label || item.properties?.FIRE_NUMBER;
+        
+          if (fireYear && incidentNumber) {
             this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
               queryParams: {
-                fireYear: item.properties.fire_year,
-                incidentNumber: item.properties.incident_number_label,
+                fireYear: fireYear,
+                incidentNumber: incidentNumber,
                 source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
               },
             });
@@ -707,21 +711,6 @@ return 'Unknown';
       prefix = 'Evacuation Order for ';
     }
     return prefix + item.properties.EVENT_NAME;
-  }
-
-  displayDangerRatingDes(danger) {
-    switch (danger) {
-      case 'Extreme':
-        return 'Extremely dry forest fuels and the fire risk is very serious. New fires will start easily, spread rapidly, and challenge fire suppression efforts.';
-      case 'High':
-        return 'Forest fuels are very dry and the fire risk is serious.  Extreme caution must be used in any forest activities.';
-      case 'Moderate':
-        return 'Forest fuels are drying and there is an increased risk of surface fires starting. Carry out any forest activities with caution.';
-      case 'Low':
-        return 'Fires may start easily and spread quickly but there will be minimal involvement of deeper fuel layers or larger fuels.';
-      case 'Very Low':
-        return 'Dry forest fuels are at a very low risk of catching fire.';
-    }
   }
 
   shareableLayers() {

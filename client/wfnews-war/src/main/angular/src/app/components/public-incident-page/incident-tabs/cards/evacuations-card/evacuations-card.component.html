@@ -5,11 +5,12 @@
   <div class="content-container" *ngIf="!evacuations.length">
     <div class="content">
       <div class="content-pretext">
-        <span class="content-text">Evacuation orders and alerts are put into place by your local authority, government
-          or First Nation. BC Wildfire Service displays this information when it becomes available.
-          <br><br>
+        <span class="content-text">
           There are no current evacuation orders or alerts available to display for this incident. For the latest
-          evacuation information, contact your local authority.</span>
+          evacuation information, contact your local authority.
+          <br><br>
+          Evacuation orders and alerts are put into place by your local authority, government
+          or First Nation. BC Wildfire Service displays this information when it becomes available.</span>
       </div>
     </div>
   </div>
@@ -25,7 +26,7 @@
         <event-info *ngFor="let order of orders" [headerIconPath]="'assets/images/svg-icons/evacuation-order.svg'"
           [headerText]="'Evacuation Order for ' + (incident.incidentName ? incident.incidentName :
                   incident.incidentNumberLabel)" [fireCentreText]="'Issued by ' + order.issuingAgency"
-          [issueDateText]="'Issued on ' + order.issuedOn" [componentStyle]="eventInfoOrderStyle"
+          [issueDateText]="'Updated on ' + order.issuedOn" [componentStyle]="eventInfoOrderStyle"
           (viewDetailsClicked)="handleButtonClick(order)"></event-info>
       </div>
     </div>
@@ -43,7 +44,7 @@
         <event-info *ngFor="let alert of alerts" [headerIconPath]="'assets/images/svg-icons/evacuation-alert.svg'"
           [headerText]="'Evacuation Alert for ' + (incident.incidentName ? incident.incidentName :
                   incident.incidentNumberLabel)" [fireCentreText]="'Issued by ' + alert.issuingAgency"
-          [issueDateText]="'Issued on ' + alert.issuedOn" [componentStyle]="eventInfoAlertStyle"
+          [issueDateText]="'Updated on ' + alert.issuedOn" [componentStyle]="eventInfoAlertStyle"
           (viewDetailsClicked)="handleButtonClick(alert)"></event-info>
       </div>
     </div>

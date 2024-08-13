@@ -53,24 +53,24 @@
               <span class="label">Fire Number&nbsp;{{convertFireNumber(incident)}}</span>
             </div>
             <div class="info-panel-row">
-              <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_ruler.svg">
+              <img class="icon" alt="ruler" height="24" width="24" src="/assets/images/svg-icons/carbon_ruler.svg">
               <span class="label">{{incident.incidentSizeEstimatedHa ?
                 incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span>
             </div>
             <div class="info-panel-row" *ngIf="incident.discoveryDate">
-              <img class="icon" height="24" width="24" src="/assets/images/svg-icons/calendar.svg">
+              <img class="icon" alt="calendar" height="24" width="24" src="/assets/images/svg-icons/calendar.svg">
               <span class="label">Discovered On&nbsp;{{incident.discoveryDate}}</span>
             </div>
             <div class="info-panel-row" *ngIf="incident.updateDate">
-              <img class="icon" height="24" width="24" src="/assets/images/svg-icons/edit.svg">
+              <img class="icon" alt="edit" height="24" width="24" src="/assets/images/svg-icons/edit.svg">
               <span class="label">Updated&nbsp;{{incident.updateDate}}</span>
             </div>
             <div class="info-panel-row" *ngIf="incident.stageOfControlCode === 'OUT'">
-              <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_crop-growth.svg">
+              <img class="icon" alt="out" height="24" width="24" src="/assets/images/svg-icons/carbon_crop-growth.svg">
               <span class="label">Declared Out on&nbsp;{{incident.declaredOutDate}}</span>
             </div>
             <div class="info-panel-row">
-              <img class="icon" height="24" width="24" src="/assets/images/svg-icons/location-pin.svg">
+              <img class="icon" alt="location" height="24" width="24" src="/assets/images/svg-icons/location-pin.svg">
               <span class="label">{{convertToFireCentreDescription(this.incident.fireCentreName || incident.fireCentre ||incident.fireCentreCode)}}</span>
             </div>
             <div class="info-panel-row">
@@ -118,8 +118,8 @@
         </div>
         <div class="info-panel">
           <div class="info-panel-row" *ngIf="evac.attributes.DATE_MODIFIED">
-            <img class="icon" height="24" width="24" src="/assets/images/svg-icons/calendar.svg">
-            <span class="label">Issued on&nbsp;{{convertToDateTimeTimeZone(evac.attributes.DATE_MODIFIED)}}</span>
+            <img class="icon" height="24" width="24" alt="calendar "src="/assets/images/svg-icons/calendar.svg">
+            <span class="label">Updated on&nbsp;{{convertToDateYear(evac.attributes.DATE_MODIFIED)}}</span>
           </div>
           <div class="info-panel-row" *ngIf="evac.attributes.ISSUING_AGENCY">
             <img class="icon" height="24" width="24" src="/assets/images/svg-icons/local_authority.svg" alt="local_authority" />
@@ -132,13 +132,13 @@
           <hr>
           <div class="info-panel-row">
             <span class="label" *ngIf="evac.attributes.ORDER_ALERT_STATUS == 'Order' ">
-              People in this area are at risk and should leave the area immediately.<br>
-              Local authorities will not ask you to leave without good reason.<br>
-              Failing to leave puts you and others at risk.
+              People in this area are at risk and should leave the area immediately.
+              Follow instructions from your local government or First Nation.
             </span>
             <span class="label" *ngIf="evac.attributes.ORDER_ALERT_STATUS == 'Alert' ">
-              An evacuation alert is a warning about a potential threat to life and/or property.<br>
-              It is intended to give you time to be ready for a possible evacuation. 
+              An evacuation alert is a warning about a potential threat to life and/or property.
+              It is intended to give you time to be ready for a possible evacuation.
+              Follow instructions from your local government or First Nation.
             </span>
           </div>
           <div class="info-panel-button-row" *ngIf="!isMobileView()">

@@ -29,7 +29,7 @@ export class ActiveFiresWidget implements AfterViewInit {
 
   public chartSize = 180;
 
-  constructor(private publishedIncidentService: PublishedIncidentService) {}
+  constructor(private publishedIncidentService: PublishedIncidentService) { }
 
   ngAfterViewInit(): void {
     this.queryData();
@@ -40,7 +40,7 @@ export class ActiveFiresWidget implements AfterViewInit {
     const fireCentre =
       this.selectedFireCentreCode && this.selectedFireCentreCode !== ''
         ? FireCentres.find((fc) => fc.code === this.selectedFireCentreCode)
-            .description
+          .description
         : 'BC';
 
     Promise.all([
@@ -58,14 +58,20 @@ export class ActiveFiresWidget implements AfterViewInit {
               n,
               {
                 activeBeingHeldFires,
+                activeBeingHeldFiresOfNote,
                 activeOutOfControlFires,
+                activeOutOfControlFiresOfNote,
                 activeUnderControlFires,
+                activeUnderControlFiresOfNote,
               },
             ) =>
               n +
               activeBeingHeldFires +
+              activeBeingHeldFiresOfNote +
               activeOutOfControlFires +
-              activeUnderControlFires,
+              activeOutOfControlFiresOfNote +
+              activeUnderControlFires +
+              activeUnderControlFiresOfNote,
             0,
           ) || 0;
         const previousYearActive =
@@ -74,16 +80,23 @@ export class ActiveFiresWidget implements AfterViewInit {
               n,
               {
                 activeBeingHeldFires,
+                activeBeingHeldFiresOfNote,
                 activeOutOfControlFires,
+                activeOutOfControlFiresOfNote,
                 activeUnderControlFires,
+                activeUnderControlFiresOfNote,
               },
             ) =>
               n +
               activeBeingHeldFires +
+              activeBeingHeldFiresOfNote +
               activeOutOfControlFires +
-              activeUnderControlFires,
+              activeOutOfControlFiresOfNote +
+              activeUnderControlFires +
+              activeUnderControlFiresOfNote,
             0,
           ) || 0;
+
         const currentYearActiveFoN =
           stats.reduce(
             (
@@ -121,35 +134,35 @@ export class ActiveFiresWidget implements AfterViewInit {
         this.activeFireOfNote = currentYearActiveFoN + previousYearActiveFoN;
         this.activeOutOfControl =
           (stats.reduce(
-            (n, { activeOutOfControlFires }) => n + activeOutOfControlFires,
+            (n, { activeOutOfControlFires, activeOutOfControlFiresOfNote }) => n + activeOutOfControlFires + activeOutOfControlFiresOfNote,
             0,
           ) || 0) +
           (previousYearStats.reduce(
-            (n, { activeOutOfControlFires }) => n + activeOutOfControlFires,
+            (n, { activeOutOfControlFires, activeOutOfControlFiresOfNote }) => n + activeOutOfControlFires + activeOutOfControlFiresOfNote,
             0,
           ) || 0);
         this.activeBeingHeld =
           (stats.reduce(
-            (n, { activeBeingHeldFires }) => n + activeBeingHeldFires,
+            (n, { activeBeingHeldFires, activeBeingHeldFiresOfNote }) => n + activeBeingHeldFires + activeBeingHeldFiresOfNote,
             0,
           ) || 0) +
           (previousYearStats.reduce(
-            (n, { activeBeingHeldFires }) => n + activeBeingHeldFires,
+            (n, { activeBeingHeldFires, activeBeingHeldFiresOfNote }) => n + activeBeingHeldFires + activeBeingHeldFiresOfNote,
             0,
           ) || 0);
         this.activeUnderControl =
           (stats.reduce(
-            (n, { activeUnderControlFires }) => n + activeUnderControlFires,
+            (n, { activeUnderControlFires, activeUnderControlFiresOfNote }) => n + activeUnderControlFires + activeUnderControlFiresOfNote,
             0,
           ) || 0) +
           (previousYearStats.reduce(
-            (n, { activeUnderControlFires }) => n + activeUnderControlFires,
+            (n, { activeUnderControlFires, activeUnderControlFiresOfNote }) => n + activeUnderControlFires + activeUnderControlFiresOfNote,
             0,
           ) || 0);
 
         this.outOfControlData = [
           { name: 'Out of Control', value: this.activeOutOfControl },
-          { name: 'All Fires Minus', value: this.activeFires - this.activeOutOfControl},
+          { name: 'All Fires Minus', value: this.activeFires - this.activeOutOfControl },
         ];
         this.beingHeldData = [
           { name: 'Being Held', value: this.activeBeingHeld },
