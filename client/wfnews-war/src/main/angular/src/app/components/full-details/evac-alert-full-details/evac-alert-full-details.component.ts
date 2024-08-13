@@ -72,8 +72,8 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     ];
     let bounds = null;
     this.agolService
-      .getEvacOrdersByEventNumber(
-        this.eventNumber,
+      .getEvacOrdersById(
+        this.id,
         {
           returnGeometry: true,
         },
@@ -81,7 +81,8 @@ export class EvacAlertFullDetailsComponent implements OnInit {
       .toPromise()
       .then((response) => {
         if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
-          const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
+          const matchingFeature = response.features.find(feature => feature.attributes.EVENT_NUMBER === this.eventNumber);
+          const polygonData = this.commonUtilityService.extractPolygonData(matchingFeature.geometry.rings);
           if (polygonData?.length) {
             bounds = this.commonUtilityService.getPolygonBond(polygonData);
             this.createMap(location, bounds);

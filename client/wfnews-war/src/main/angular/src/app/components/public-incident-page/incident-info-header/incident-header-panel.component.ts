@@ -166,14 +166,14 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         Number(this.evac.centroid?.y),
         Number(this.evac.centroid?.x),
       ];
-
       const response = await this.agolService
-        .getEvacOrdersByEventNumber(this.params['eventNumber'], {
+        .getEvacOrdersById(this.params['id'], {
           returnGeometry: true,
         }).toPromise();
 
       if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
-        const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
+        const matchingFeature = response.features.find(feature => feature.attributes.EVENT_NUMBER === this.params['eventNumber']);
+        const polygonData = this.commonUtilityService.extractPolygonData(matchingFeature.geometry.rings);
         if (polygonData?.length) {
           this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
         }

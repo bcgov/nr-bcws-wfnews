@@ -478,8 +478,8 @@ return 'Unknown';
               });
           } else if (layerId.includes('evacuation-orders-and-alerts')) {
             this.agolService
-              .getEvacOrdersByEventNumber(
-                this.identifyItem.properties.EVENT_NUMBER,
+              .getEvacOrdersById(
+                this.identifyItem.properties.EMRG_OAA_SYSID,
                 {
                   returnGeometry: true,
                 },
@@ -487,9 +487,10 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                   if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-                    const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
+                    const matchingFeature = response.features.find(feature => feature.attributes.EVENT_NUMBER === this.identifyItem.properties.EVENT_NUMBER);
+                    const polygonData = this.commonUtilityService.extractPolygonData(matchingFeature.geometry.rings);
                     if (polygonData?.length) {
-                      this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
+                      this.fixPolygonToMap(polygonData,matchingFeature.geometry.rings);
                     }
                   }
               });
