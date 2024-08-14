@@ -8,7 +8,7 @@ import {
   SimpleIncident,
 } from '@app/services/published-incident-service';
 import { WatchlistService } from '@app/services/watchlist-service';
-import { ResourcesRoutes, convertToDateTime, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel, openLink, currentFireYear } from '@app/utils';
+import { ResourcesRoutes, convertToDateTime, convertToDateYear, currentFireYear, getStageOfControlIcon, getStageOfControlLabel, openLink } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import * as esri from 'esri-leaflet';
 import L from 'leaflet';
@@ -111,12 +111,12 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     esri.featureLayer({
       url: this.appConfigService.getConfig()['externalAppConfig']['AGOLperimetres'].toString(),
       ignoreRenderer: true,
-      precision: 3,
+      precision: 10,
       style: (feature) => ({
         fillColor: '#e60000',
         color: '#e60000',
         weight: 2,
-        fillOpacity: 0.5
+        fillOpacity: 0
       })
     })
       .addTo(this.map);
