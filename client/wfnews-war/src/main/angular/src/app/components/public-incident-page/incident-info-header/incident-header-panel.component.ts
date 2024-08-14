@@ -76,12 +76,12 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   private perimeterLayer = esri.featureLayer({
     url: this.appConfigService.getConfig()['externalAppConfig']['AGOLperimetres'].toString(),
     ignoreRenderer: true,
-    precision: 3,
+    precision: 10,
     style: (feature) => ({
       fillColor: '#e60000',
       color: '#e60000',
       weight: 2,
-      fillOpacity: 0.5
+      fillOpacity: 0
     })
   })
 
