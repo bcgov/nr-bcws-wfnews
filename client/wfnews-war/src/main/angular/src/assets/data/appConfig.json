@@ -2,7 +2,7 @@
   "application": {
     "wfnewsApiKey": "fake-api-key",
     "acronym": "WFNEWS",
-    "version": "2.3.7-SNAPSHOT",
+    "version": "2.3.8-SNAPSHOT",
     "buildNumber": ".0000",
     "environment": "LOCAL",
     "baseUrl": "http://localhost:6200/",
@@ -82,7 +82,7 @@
     "wfdmProxy": "wfdmProxy.jsp",
     "currentRestrictions": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions",
     "dangerSummary": "https://wfapps.nrs.gov.bc.ca/pub/wfwx-danger-summary-war/dangerSummary",
-    "highRiskActivities": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/for-industry-commercial-operators/high-risk-activities", 
+    "highRiskActivities": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/for-industry-commercial-operators/high-risk-activities",
     "recSiteTrailsClosures": "http://www.sitesandtrailsbc.ca/closures.aspx",
     "parksClosures": "https://bcparks.ca/active-advisories/?type=wildfire",
     "localAuthoritiesUrl": "https://www.civicinfo.bc.ca/directories",
