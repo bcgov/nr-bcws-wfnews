@@ -116,10 +116,6 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 	EmailNotificationService emailNotificationService;
 
 	private Date codeTableRefresh;
-	private String visibleFlameString = "Visible Flames = Yes; ";
-	private String noVisibleFlameString = "Visible Flames = No; ";
-	private String noCommentVisibleFlameString = "Visible Flames = N/C; ";
-	private String noCommentString = "No comments";
 	private FileService fileService;
 	private CodeTableListRsrc codeTables;
 	private Properties applicationProperties;
@@ -574,26 +570,18 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 			rof.setSubmittedTimestamp(Date.from(submittedDateTime.atZone(ZoneId.systemDefault()).toInstant()));
 		}
 
-		// set default visible flame string as No Comment
-		String visibleFlame = noCommentVisibleFlameString;
+		Boolean visibleFlame = rofFormDataJson.has("visibleFlame")
+				&& rofFormDataJson.optJSONArray("visibleFlame") != null
+				&& rofFormDataJson.getJSONArray("visibleFlame").toString()
+					.replace("[", "").replace("]", "")
+					.replace("\"", "")
+				.equalsIgnoreCase("YES");
+		rof.setFlamesVisibleInd(visibleFlame);
 
-		if (rofFormDataJson.has("visibleFlame") && rofFormDataJson.optJSONArray("visibleFlame") != null) {
-			if (rofFormDataJson.optJSONArray("visibleFlame").isEmpty()) {
-				visibleFlame = noCommentVisibleFlameString;
-			} else if (rofFormDataJson.getJSONArray("visibleFlame").toString().replace("[", "").replace("]", "")
-					.replace("\"", "").equalsIgnoreCase("YES")) {
-				visibleFlame = visibleFlameString;
-			} else if (rofFormDataJson.getJSONArray("visibleFlame").toString().replace("[", "").replace("]", "")
-					.replace("\"", "").equalsIgnoreCase("NO")) {
-				visibleFlame = noVisibleFlameString;
-			}
+
+		if (rofFormDataJson.has("otherInfo") && !rofFormDataJson.optString("otherInfo", "").isEmpty()) {
+			rof.setCallerReportDetails(rofFormDataJson.optString("otherInfo"));
 		}
-
-
-		if (rofFormDataJson.has("otherInfo") && !rofFormDataJson.optString("otherInfo", "").equals(""))
-			rof.setCallerReportDetails(visibleFlame + rofFormDataJson.optString("otherInfo"));
-		else if (rofFormDataJson.has("otherInfo") && rofFormDataJson.optString("otherInfo", "").equals(""))
-			rof.setCallerReportDetails(visibleFlame + noCommentString);
 
 		logger.info(" ### START POST - Serializing and executing RoF POST...");
 		mapper.activateDefaultTyping(mapper.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT,

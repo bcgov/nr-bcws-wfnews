@@ -2,7 +2,7 @@
   "application": {
     "wfnewsApiKey": "fake-api-key",
     "acronym": "WFNEWS",
-    "version": "2.3.8-SNAPSHOT",
+    "version": "2.3.9-SNAPSHOT",
     "buildNumber": ".0000",
     "environment": "LOCAL",
     "baseUrl": "http://localhost:6200/",
