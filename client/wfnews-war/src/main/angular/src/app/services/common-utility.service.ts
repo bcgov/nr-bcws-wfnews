@@ -350,6 +350,10 @@ export class CommonUtilityService {
       };
   }
 
+  sharePage(pageUrl: string): void {
+    
+  }
+
   private deg2rad(deg: number): number {
     return deg * (Math.PI / 180);
   }

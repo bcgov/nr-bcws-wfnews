@@ -13,7 +13,6 @@ export class BanHeaderComponent {
 
   constructor(
     private router: Router,
-
   ) {}
 
 
@@ -35,6 +34,10 @@ export class BanHeaderComponent {
       return description.replace("Category 1", "Category 1 (Campfires)");
     }
     return description;
+  }
+
+  openShareWindow(mode: string | null) {
+
   }
 
 }

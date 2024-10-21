@@ -36,6 +36,7 @@ import {
   setDisplayColor
 } from '../../../utils';
 import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
+import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
 
 @Component({
   selector: 'incident-header-panel',
@@ -531,6 +532,18 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       width: mode === 'desktop' ? '500px' : undefined,  // Set width based on mode
       data: {
         incident: this.incident,
+      },
+    });
+  }
+
+  openShareWindow() {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
+    this.dialog.open(ShareDialogComponent, {
+      panelClass: 'contact-us-dialog',
+      width: '500px',
+      data: {
+        currentUrl: url,
+        name: this.incident.incidentName
       },
     });
   }
