@@ -10,6 +10,8 @@ import { IonicStorageService } from './ionic-storage.service';
 import { ReportOfFireService } from './report-of-fire-service';
 import { Router } from '@angular/router';
 import { Share } from '@capacitor/share';
+import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 const MAX_CACHE_AGE = 30 * 1000;
 
@@ -44,7 +46,8 @@ export class CommonUtilityService {
     private injector: Injector,
     private ionicStorageService: IonicStorageService,
     private capacitorService: CapacitorService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog,
   ) {
     setTimeout(() => (this.rofService = injector.get(ReportOfFireService)));
   }
@@ -365,6 +368,19 @@ export class CommonUtilityService {
       console.log('Sharing successful');
     }).catch(err => {
       console.error('Error sharing:', err);
+    });
+  }
+
+  openShareWindow(type: string, incidentName: string) {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
+    this.dialog.open(ShareDialogComponent, {
+      panelClass: 'contact-us-dialog',
+      width: '500px',
+      data: {
+        incidentType: type,
+        currentUrl: url,
+        name: incidentName
+      },
     });
   }
 

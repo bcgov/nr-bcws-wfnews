@@ -2,6 +2,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 
@@ -17,8 +18,7 @@ export class AreaRestrictionHeaderComponent {
 
   constructor(
     private router: Router,
-    private appConfigService: AppConfigService,
-    private dialog: MatDialog,
+    private commonUtilityService: CommonUtilityService
   ) {}
 
 
@@ -37,16 +37,7 @@ export class AreaRestrictionHeaderComponent {
   }
 
   openShareWindow() {
-    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
-    this.dialog.open(ShareDialogComponent, {
-      panelClass: 'contact-us-dialog',
-      width: '500px',
-      data: {
-        incidnetType: 'Area restriction',
-        currentUrl: url,
-        name: this.areaRestriction.attributes.NAME
-      },
-    });
+    const name = this.areaRestriction.attributes.NAME;
+    this.commonUtilityService.openShareWindow('Area restriction',name);
   }
-
 }

@@ -537,21 +537,13 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   }
 
   openShareWindow(evac: string | null) {
-    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
     const incidentType = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS}` : 'Wildfire';
-    const name = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS} for ${this.evac.attributes.EVENT_NAME}` 
+    const name = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS} for ${this.evac.attributes.EVENT_NAME}`
     : this.incident?.incidentName;
-    // Evacuation {{evac.attributes.ORDER_ALERT_STATUS}} for {{evac.attributes.EVENT_NAME}}
-    this.dialog.open(ShareDialogComponent, {
-      panelClass: 'contact-us-dialog',
-      width: '500px',
-      data: {
-        incidentType: incidentType,
-        currentUrl: url,
-        name: name
-      },
-    });
+    this.commonUtilityService.openShareWindow(incidentType,name);
   }
+
+  
 
   backToMap() {
     const navigateToMap = (longitude: number, latitude: number, queryParamKey: string) => {
