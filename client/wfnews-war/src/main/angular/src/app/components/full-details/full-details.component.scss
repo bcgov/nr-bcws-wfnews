@@ -32,6 +32,13 @@
     line-height: 21px;
     margin-bottom: 8px;
   }
+
+  .button-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    align-self: stretch;
+  }
 }
 
 .map-button {

@@ -535,6 +535,15 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     });
   }
 
+  openShareWindow(evac: string | null) {
+    const incidentType = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS}` : 'Wildfire';
+    const name = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS} for ${this.evac.attributes.EVENT_NAME}`
+    : this.incident?.incidentName;
+    this.commonUtilityService.openShareWindow(incidentType,name);
+  }
+
+  
+
   backToMap() {
     const navigateToMap = (longitude: number, latitude: number, queryParamKey: string) => {
       setTimeout(() => {
@@ -718,6 +727,10 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         },
       });
     }, 200);
+  }
+
+  shareMobile() {
+    this.commonUtilityService.shareMobile(this.incident.incidentName);
   }
 
   private createZoomIcon(btn: HTMLElement): void {

@@ -4,8 +4,12 @@
     <div class="alert-panel"><img class="icon" src="/assets/images/svg-icons/evacuation_alert.svg"
         alt="evacuation_alert" />Alert</div>
     <p class="info">An evacuation alert is a warning about a potential threat to life and/or property. It is intended to give you time to be ready for a possible evacuation. Follow instructions from your local government or First Nation.</p>
-    <button (click)="navToMap()" mat-button class="map-button"><img class="tertiary-icon" src="/assets/images/svg-icons/map.svg"
+    <div class="button-row">
+      <button (click)="navToMap()" mat-button class="map-button"><img class="tertiary-icon" src="/assets/images/svg-icons/map.svg"
         alt="Map" />View on Map</button>
+    <button (click)="shareMobile('Alert')" mat-button class="map-button"><img class="tertiary-icon" src="/assets/images/svg-icons/share.svg"
+      alt="Share" />Share</button>
+    </div>
   </div>
   <hr>
   <div class="info-container">

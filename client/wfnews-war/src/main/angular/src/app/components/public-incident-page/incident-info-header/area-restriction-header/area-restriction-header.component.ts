@@ -1,5 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 
 @Component({
@@ -14,7 +15,7 @@ export class AreaRestrictionHeaderComponent {
 
   constructor(
     private router: Router,
-
+    private commonUtilityService: CommonUtilityService
   ) {}
 
 
@@ -32,4 +33,8 @@ export class AreaRestrictionHeaderComponent {
     }, 200);
   }
 
+  openShareWindow() {
+    const name = this.areaRestriction.attributes.NAME;
+    this.commonUtilityService.openShareWindow('Area restriction',name);
+  }
 }

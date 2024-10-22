@@ -18,6 +18,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "pipeline": "file:",
     "pipeline-cli": "git+https://github.com/BCDevOps/pipeline-cli.git#v1.1"
   }
 }

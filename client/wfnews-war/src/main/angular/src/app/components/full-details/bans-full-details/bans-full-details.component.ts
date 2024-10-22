@@ -7,6 +7,7 @@ import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils'
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
 import { HttpClient } from '@angular/common/http';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 
 export class BanProhibition {
   public id: string;
@@ -40,6 +41,7 @@ export class BansFullDetailsComponent implements OnInit {
     private publishedIncidentService: PublishedIncidentService,
     private httpClient: HttpClient,
     private route: Route,
+    private commonUtilityService: CommonUtilityService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -263,5 +265,9 @@ export class BansFullDetailsComponent implements OnInit {
 
   navToBulletinUrl() {
     window.open(this.banData.bulletinUrl ? this.banData.bulletinUrl : this.appConfigService.getConfig().externalAppConfig['currentRestrictions'] as unknown as string, '_blank');
+  }
+
+  shareMobile() {
+    this.commonUtilityService.shareMobile(`Fire Ban on ${this.banData.description} Open Fires`);
   }
 }

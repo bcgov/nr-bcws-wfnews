@@ -1,5 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 
 @Component({
@@ -13,7 +14,7 @@ export class BanHeaderComponent {
 
   constructor(
     private router: Router,
-
+    private commonUtilityService: CommonUtilityService
   ) {}
 
 
@@ -35,6 +36,11 @@ export class BanHeaderComponent {
       return description.replace("Category 1", "Category 1 (Campfires)");
     }
     return description;
+  }
+
+  openShareWindow() {
+    const name = `Fire Ban on ${this.replaceCategoryDescription(this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION)} Open Fires`;
+    this.commonUtilityService.openShareWindow('Fire Ban',name);
   }
 
 }
