@@ -1,0 +1,20 @@
+<div class="media-gallery-item">
+  <div class="header">
+    <div class="title">{{item?.title}}</div>
+    <div class="date">{{item?.uploadedDate | date:'mediumDate'}}</div>
+  </div>
+  <div class="media">
+    <lightgallery [settings]="settings"  [onInit]="onInit">
+      <a *ngIf="item?.type === 'image'" [attr.data-index]="index" data-lg-size="480-475-480, 800-791-800, 1406-1390"
+        class="gallery-item" [href]="item.href" [data-src]="item.href" [data-responsive]="item.href + ' 800'">
+        <img [id]="index + '-img-thumb'" [src]="item.thumbnail" [alt]="item.title" (error)="handleError()">
+      </a>
+    </lightgallery>
+
+    <iframe *ngIf="item?.type === 'video'" [src]="bypassUrlSecurity(item.href)" [title]="item.title"
+      sandbox="allow-scripts allow-same-origin allow-presentation"
+      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+    </iframe>
+  </div>
+</div>

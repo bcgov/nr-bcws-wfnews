@@ -1,0 +1,38 @@
+<div *ngIf="data">
+    <div class="panel-container">
+        <div class="draggable-panel-title">
+            <mat-icon svgIcon="back-icon-panel" (click) = "goBack()"></mat-icon>
+            <span class="preview-title">
+                <img class="incident-icon-title" src="/assets/images/svg-icons/area-restriction.svg" alt="Area Restrictions">
+                Area Restrictions
+            </span>
+            <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+        </div>
+        <div class="identify-card">
+            <div class="identify-card-title">{{data.NAME}}</div>
+            <div class="identify-card-item">
+                <img alt="icon" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon" >
+                <span>{{data.FIRE_CENTRE_NAME ? data.FIRE_CENTRE_NAME : null}}</span>
+            </div>
+            <div class="identify-card-item">
+                <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+                <span>Issued on {{formatDate(data.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+            </div>
+            <div class="identify-card-item">
+                <span>Public access is restricted due to ongoing fire suppression activity, to ensure public safety, or to prevent fires.</span>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <div class="buttons">
+                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                    <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                    Full Details
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

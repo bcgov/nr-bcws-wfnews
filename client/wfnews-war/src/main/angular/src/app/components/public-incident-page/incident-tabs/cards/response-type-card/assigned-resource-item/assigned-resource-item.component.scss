@@ -1,0 +1,62 @@
+:host {
+  display: block;
+}
+
+.assigned-resource-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  align-self: stretch;
+
+  .icon-container {
+    width: 70px;
+    height: 70px;
+    background-color: #146FB4;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .icon {
+      background-color: #FFF;
+      width: 70px;
+      height: 70px;
+      mask-position: center;
+      mask-size: contain;
+      mask-repeat: no-repeat;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 8px;
+    flex: 1 0 0;
+
+    .header {
+      color: #484848;
+
+      /* 16 SB */
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 26px; /* 162.5% */
+    }
+
+    .text {
+      color: #5B5B5B;
+
+      /* 16 Reg */
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px; /* 150% */
+    }
+  }
+
+}

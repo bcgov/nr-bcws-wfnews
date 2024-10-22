@@ -8,7 +8,9 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLConnection;
 import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -114,16 +116,11 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 	EmailNotificationService emailNotificationService;
 
 	private Date codeTableRefresh;
-	private String visibleFlameString = "Visible Flames = Yes; ";
-	private String noVisibleFlameString = "Visible Flames = No; ";
-	private String noCommentVisibleFlameString = "Visible Flames = N/C; ";
-	private String noCommentString = "No comments";
-
+	private FileService fileService;
+	private CodeTableListRsrc codeTables;
 	private Properties applicationProperties;
 	private RoFFormDao rofFormDao;
 	private RoFImageDao rofImageDao;
-	private FileService fileService;
-	private CodeTableListRsrc codeTables;
 	
 	// Time since degredation was detected, or a notification was last sent
 	Optional<LocalDateTime> stuckSince = Optional.empty();
@@ -274,8 +271,6 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		ObjectMapper mapper = new ObjectMapper();
 		rofFormDao = recordRoFService.getRofFormDao();
 
-		LocalDateTime submittedTimestamp = LocalDateTime.now(clock);
-
 		RoFFormDto rofFormDto = new RoFFormDto();
 		rofFormDto.setReportOfFireCacheGuid(reportOfFireCacheGuid);
 		RoFEntryForm newForm = new RoFEntryForm();
@@ -284,7 +279,16 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		newForm.setForm(reportOfFire);
 
 		rofFormDto.setReportOfFire(mapper.writeValueAsString(newForm));
-		rofFormDto.setSubmittedTimestamp(submittedTimestamp);
+		
+		LocalDateTime currentTimestamp = LocalDateTime.now(clock);
+		JSONObject rofJson = new JSONObject(reportOfFire);
+		String rofTimestamp = null;
+		
+		if(rofJson != null && rofJson.optString("submittedTimestamp") != null) {
+			rofTimestamp = rofJson.optString("submittedTimestamp");
+			LocalDateTime submittedTimestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(rofTimestamp)), ZoneId.systemDefault());
+			rofFormDto.setSubmittedTimestamp(submittedTimestamp);
+		}else rofFormDto.setSubmittedTimestamp(currentTimestamp);
 
 		this.rofFormDao.insert(rofFormDto);
 	}
@@ -560,26 +564,24 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		if (rofFormDataJson.has("signsOfResponse") && rofFormDataJson.optJSONArray("signsOfResponse") != null)
 			rof.setFireFightingProgressNote(rofFormDataJson.getJSONArray("signsOfResponse").toString().replace("[", "")
 					.replace("]", "").replace("\"", "").replace(",", ", "));
-
-		// set default visible flame string as No Comment
-		String visibleFlame = noCommentVisibleFlameString;
-
-		if (rofFormDataJson.has("visibleFlame") && rofFormDataJson.optJSONArray("visibleFlame") != null) {
-			if (rofFormDataJson.optJSONArray("visibleFlame").isEmpty()) {
-				visibleFlame = noCommentVisibleFlameString;
-			} else if (rofFormDataJson.getJSONArray("visibleFlame").toString().replace("[", "").replace("]", "")
-					.replace("\"", "").equalsIgnoreCase("YES")) {
-				visibleFlame = visibleFlameString;
-			} else if (rofFormDataJson.getJSONArray("visibleFlame").toString().replace("[", "").replace("]", "")
-					.replace("\"", "").equalsIgnoreCase("NO")) {
-				visibleFlame = noVisibleFlameString;
-			}
+		if (rofFormDataJson.has("submittedTimestamp") && !rofFormDataJson.optString("submittedTimestamp", "").equals("")) {
+			String rofTimestamp = rofFormDataJson.optString("submittedTimestamp");
+			LocalDateTime submittedDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(rofTimestamp)), ZoneId.systemDefault());
+			rof.setSubmittedTimestamp(Date.from(submittedDateTime.atZone(ZoneId.systemDefault()).toInstant()));
 		}
 
-		if (rofFormDataJson.has("otherInfo") && !rofFormDataJson.optString("otherInfo", "").equals(""))
-			rof.setCallerReportDetails(visibleFlame + rofFormDataJson.optString("otherInfo"));
-		else if (rofFormDataJson.has("otherInfo") && rofFormDataJson.optString("otherInfo", "").equals(""))
-			rof.setCallerReportDetails(visibleFlame + noCommentString);
+		Boolean visibleFlame = rofFormDataJson.has("visibleFlame")
+				&& rofFormDataJson.optJSONArray("visibleFlame") != null
+				&& rofFormDataJson.getJSONArray("visibleFlame").toString()
+					.replace("[", "").replace("]", "")
+					.replace("\"", "")
+				.equalsIgnoreCase("YES");
+		rof.setFlamesVisibleInd(visibleFlame);
+
+
+		if (rofFormDataJson.has("otherInfo") && !rofFormDataJson.optString("otherInfo", "").isEmpty()) {
+			rof.setCallerReportDetails(rofFormDataJson.optString("otherInfo"));
+		}
 
 		logger.info(" ### START POST - Serializing and executing RoF POST...");
 		mapper.activateDefaultTyping(mapper.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT,

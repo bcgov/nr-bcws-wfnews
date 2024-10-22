@@ -1,0 +1,103 @@
+@import "../../../../styles/variables";
+
+:host ::ng-deep .mat-ripple { display: none; }
+
+::ng-deep {
+  .mat-mdc-button-ripple,
+  .mdc-button__ripple {
+    display: none !important;
+  }
+}
+
+:host ::ng-deep .mat-mdc-tab-label-container {
+  border-radius: 100px;
+}
+
+:host ::ng-deep .mat-mdc-tab.mdc-tab {
+  height: 53px;
+
+  border-radius: 100px;
+  border: 2px solid transparent; 
+  text-decoration-line: none !important;
+  box-sizing: content-box;
+}
+
+:host ::ng-deep .mdc-tab--active {
+  @media (min-width: $mobile-max-width){
+    font-weight: 500 !important;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    border-radius: 100px;
+    border: 2px solid #38598A !important; 
+    background: #E9F0F8 !important;
+    text-decoration-line: none !important;
+    box-sizing: content-box;
+  }
+}
+
+:host ::ng-deep .mat-mdc-tab-labels{
+  @media (min-width: $mobile-max-width){
+    border-radius: 100px;
+    border: 1.5px solid #CCC !important;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.12);
+    background: #FFF;
+    overflow: hidden;
+  }
+}
+
+:host ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  @media (min-width: $mobile-max-width) {
+    color: var(--Black-24, #242424) !important;
+    font-size: 18px !important;
+    font-style: normal;
+    font-weight: 500;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    line-height: normal;
+    letter-spacing: normal;
+    opacity: 1 !important;
+  }
+}
+
+.tab-group{
+  background-color: white;
+  border-top: 1.5px solid #DDD;
+  align-items: center;
+}
+
+:host ::ng-deep .mat-mdc-tab-header{
+  @media (min-width: $mobile-max-width){
+    padding: 32px 0px !important;
+    background-color: rgba(255, 255, 255, 0.00001); //transparent
+    width: 640px;
+  }
+}
+
+:host ::ng-deep .mat-mdc-tab-body-wrapper{
+  @media (min-width: $mobile-max-width){
+    width: 90vw;
+    max-width: 1600px;
+  }
+}
+
+:host
+  ::ng-deep
+  .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs
+  > .mat-mdc-tab-header
+  .mat-mdc-tab {
+    @media (min-width: $mobile-max-width){
+      background: white;
+      width: 10px;
+    }
+}
+
+.button-face {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  .icon-tab {
+    height: 20px;
+    width: 20px;
+  }
+}
+
+

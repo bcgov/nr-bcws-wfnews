@@ -1,27 +1,27 @@
 import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnInit,
 } from '@angular/core';
-import moment from 'moment';
-import { AGOLService } from '../../../services/AGOL-service';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { haversineDistance } from '@app/services/wfnews-map.service/util';
-import {
-  BreakpointObserver,
-  BreakpointState,
-  Breakpoints,
-} from '@angular/cdk/layout';
-import { MatDialog } from '@angular/material/dialog';
+import { ResourcesRoutes, convertToDateTime } from '@app/utils';
 import { Observable } from 'rxjs';
+import { AGOLService } from '../../../services/AGOL-service';
 import {
   FilterByLocationDialogComponent,
   LocationData,
 } from '../filter-by-location/filter-by-location-dialog.component';
-import { Router } from '@angular/router';
-import { ResourcesRoutes, convertToDateTime } from '@app/utils';
 
 @Component({
   selector: 'wf-area-restriction-list',
@@ -51,6 +51,8 @@ export class AreaRestrictionListComponent implements OnInit {
     'distance',
     'viewMap',
   ];
+  hoveredItem: any = null;
+
 
   public locationData: LocationData;
   convertToDateTime = convertToDateTime;
@@ -65,7 +67,8 @@ export class AreaRestrictionListComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
     protected router: Router,
-  ) {}
+    private capacitorService: CapacitorService,
+  ) { }
 
   ngOnInit(): void {
     this.search();
@@ -86,72 +89,72 @@ export class AreaRestrictionListComponent implements OnInit {
         : null;
 
     try {
-    this.agolService
-      .getAreaRestrictions(
-        whereString,
-        location
-          ? {
+      this.agolService
+        .getAreaRestrictions(
+          whereString,
+          location
+            ? {
               x: location.longitude,
               y: location.latitude,
               radius: location.radius,
             }
-          : null,
-        { returnCentroid: true, returnGeometry: false },
-      )
-      .subscribe((areaRestrictions) => {
-        const areaRestrictionData = [];
-        if (areaRestrictions && areaRestrictions.features) {
-          for (const element of areaRestrictions.features) {
-            let distance = null;
-            if (userLocation) {
-              const currentLat = Number(userLocation.coords.latitude);
-              const currentLong = Number(userLocation.coords.longitude);
+            : null,
+          { returnCentroid: true, returnGeometry: false },
+        )
+        .subscribe((areaRestrictions) => {
+          const areaRestrictionData = [];
+          if (areaRestrictions && areaRestrictions.features) {
+            for (const element of areaRestrictions.features) {
+              let distance = null;
+              if (userLocation) {
+                const currentLat = Number(userLocation.coords.latitude);
+                const currentLong = Number(userLocation.coords.longitude);
 
-              if (element.centroid) {
-                distance = (
-                  haversineDistance(
-                    element.centroid.y,
-                    currentLat,
-                    element.centroid.x,
-                    currentLong,
-                  ) / 1000
-                ).toFixed(2);
+                if (element.centroid) {
+                  distance = (
+                    haversineDistance(
+                      element.centroid.y,
+                      currentLat,
+                      element.centroid.x,
+                      currentLong,
+                    ) / 1000
+                  ).toFixed(2);
+                }
               }
+              areaRestrictionData.push({
+                protRsSysID: element.attributes.PROT_RA_SYSID,
+                name: element.attributes.NAME,
+                issuedOn: this.convertToDateTime(
+                  element.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
+                ),
+                fireCentre: element.attributes.FIRE_CENTRE_NAME,
+                fireZone: element.attributes.FIRE_ZONE_NAME,
+                bulletinUrl: element.attributes.BULLETIN_URL,
+                distance,
+                latitude: element.centroid.y,
+                longitude: element.centroid.x,
+              });
             }
-            areaRestrictionData.push({
-              protRsSysID: element.attributes.PROT_RA_SYSID,
-              name: element.attributes.NAME,
-              issuedOn: this.convertToDateTime(
-                element.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
-              ),
-              fireCentre: element.attributes.FIRE_CENTRE_NAME,
-              fireZone: element.attributes.FIRE_ZONE_NAME,
-              bulletinUrl: element.attributes.BULLETIN_URL,
-              distance,
-              latitude: element.centroid.y,
-              longitude: element.centroid.x,
-            });
           }
-        }
-        if (this.selectedSortValue !== '') {
-          this.selectedSortOrder =
-            this.selectedSortOrder === 'asc' ? 'desc' : 'asc';
-          const sortVal = this.selectedSortOrder === 'asc' ? 1 : -1;
-          areaRestrictionData.sort((a, b) =>
-            a[this.selectedSortValue] > b[this.selectedSortValue]
-              ? sortVal
-              : b[this.selectedSortValue] > a[this.selectedSortValue]
-                ? sortVal * -1
-                : 0,
-          );
-          this.selectedSortValue = '';
-        }
-        this.dataSource.data = areaRestrictionData;
-        this.searchingComplete = true;
-        this.cdr.detectChanges();
-      });
-    }catch(error) {
-      console.error('Error retrieving area restrictions: ' + error)
+          if (this.selectedSortValue !== '') {
+            this.selectedSortOrder =
+              this.selectedSortOrder === 'asc' ? 'desc' : 'asc';
+            const sortVal = this.selectedSortOrder === 'asc' ? 1 : -1;
+            areaRestrictionData.sort((a, b) =>
+              a[this.selectedSortValue] > b[this.selectedSortValue]
+                ? sortVal
+                : b[this.selectedSortValue] > a[this.selectedSortValue]
+                  ? sortVal * -1
+                  : 0,
+            );
+            this.selectedSortValue = '';
+          }
+          this.dataSource.data = areaRestrictionData;
+          this.searchingComplete = true;
+          this.cdr.detectChanges();
+        });
+    } catch (error) {
+      console.error('Error retrieving area restrictions: ' + error);
     }
   }
 
@@ -210,5 +213,19 @@ export class AreaRestrictionListComponent implements OnInit {
     this.searchTimer = setTimeout(() => {
       this.search();
     }, 1000);
+  }
+
+  selectItem(event) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+        queryParams: {
+          eventType: 'area-restriction',
+          eventNumber: event.protRsSysID,
+          eventName: event.name,
+          source: [ResourcesRoutes.WILDFIRESLIST]
+        },
+      }),
+    );
+    this.capacitorService.redirect(url, true);
   }
 }

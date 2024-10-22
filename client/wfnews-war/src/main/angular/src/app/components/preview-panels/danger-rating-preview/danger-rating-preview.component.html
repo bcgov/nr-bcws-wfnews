@@ -1,0 +1,30 @@
+<div *ngIf="data">
+    <div class="panel-container">
+        <div class="draggable-panel-title">
+            <mat-icon svgIcon="back-icon-panel" (click) = "goBack()"></mat-icon>
+            <span class="preview-title">
+                <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_gauge.svg" alt="Danger Rating">
+                Wildfire Danger Rating
+            </span>
+            <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+        </div>
+        <div class="identify-card">
+            <div class="identify-card-title">{{data.DANGER_RATING_DESC}} Fire Danger</div>
+            <div class="identify-card-item">
+                <span>{{displayDangerRatingDescription(data.DANGER_RATING_DESC)}}</span>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <div class="buttons">
+                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                    <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                    Full Details
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

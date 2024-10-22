@@ -43,7 +43,7 @@ resource "aws_alb_target_group" "wfnews_server" {
     interval            = "300"
     protocol            = "HTTP"
     matcher             = "200"
-    timeout             = "3"
+    timeout             = "60"
     path                = var.api_health_check_path
     unhealthy_threshold = "2"
   }
@@ -149,7 +149,7 @@ resource "aws_alb_target_group" "wfss_pointid" {
     interval            = "300"
     protocol            = "HTTP"
     matcher             = "200"
-    timeout             = "3"
+    timeout             = "60"
     port                = var.health_check_port
     path                = var.pointid_health_check_path
     unhealthy_threshold = "2"
@@ -171,7 +171,7 @@ resource "aws_alb_target_group" "wfone_notifications_api" {
     interval            = "300"
     protocol            = "HTTP"
     matcher             = "200"
-    timeout             = "3"
+    timeout             = "60"
     port                = var.health_check_port
     path                = var.api_health_check_path
     unhealthy_threshold = "2"

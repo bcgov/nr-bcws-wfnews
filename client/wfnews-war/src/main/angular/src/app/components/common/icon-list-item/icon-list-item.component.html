@@ -1,0 +1,8 @@
+<div class="icon-list-item"  (keypress)="directToLink()" (click)="directToLink()"
+  [ngStyle]="{'gap': gapSize ? gapSize + 'px' : '16px'}"
+  [style.cursor]="link ? 'pointer': 'auto'">
+  <img class="icon"
+    [ngStyle]="{'width': iconSize ? iconSize + 'px' : '24px', 'height': iconSize ? iconSize + 'px' : '24px'}"
+    [src]="iconPath" [alt]="iconPath" />
+  <span class="text">{{text}}</span>
+</div>

@@ -1,4 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { hidePanel, showPanel } from '@app/utils';
 
 @Component({
   selector: 'weather-panel',
@@ -13,6 +14,12 @@ export class WeatherPanelComponent implements OnDestroy {
   public precipHumidityData;
   public latitude;
   public longitude;
+
+  constructor(
+    protected cdr: ChangeDetectorRef,
+  ) {}
+
+  isDetailView = false;
 
   ngOnDestroy(): void {
     (
@@ -85,6 +92,7 @@ export class WeatherPanelComponent implements OnDestroy {
     // Workaround to force update
     this.tempWindData = [...tempWindDataHolder];
     this.precipHumidityData = [...precipHumidityDataHolder];
+    this.cdr.detectChanges()
   }
 
   convertName(name: string) {
@@ -96,5 +104,53 @@ export class WeatherPanelComponent implements OnDestroy {
       name.substring(8, 10) +
       ':00'
     );
+  }
+
+  formatHourlyData() {
+    if (this.hourly?.hour){
+      const year = parseInt(this.hourly.hour.substring(0, 4));
+      const month = parseInt(this.hourly.hour.substring(4, 6)) - 1;
+      const day = parseInt(this.hourly.hour.substring(6, 8));
+      const hour = parseInt(this.hourly.hour.substring(8, 10));
+      // JavaScript months are 0-based
+    
+      const date = new Date(year, month, day, hour);
+      const now = new Date();
+    
+      // Calculate the difference in days
+      const diffTime = Math.abs(now.getTime() - date.getTime());
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+      let formattedDate = `${this.hourly.hour.substring(8, 10)}:00`;
+    
+      if (diffDays === 0) {
+        formattedDate = `Today at ${formattedDate}`;
+      } else if (diffDays === 1) {
+        formattedDate = `Yesterday at ${formattedDate}`;
+      } else {
+        formattedDate = `${year}-${month + 1}-${day} at ${formattedDate}`;
+      }
+    
+      return formattedDate;
+    }
+  }
+
+  closePanel() {
+    this.isDetailView = false;
+    hidePanel('desktop-preview');
+    this.cdr.detectChanges();
+  }
+  goBack(){
+    if (this.isDetailView){
+      this.isDetailView = !this.isDetailView
+    }
+    else{
+      showPanel('identify-panel-wrapper')
+      hidePanel('desktop-preview');
+    }
+  }
+
+  enterFullDetail(){
+    this.isDetailView = true;
   }
 }

@@ -1,0 +1,30 @@
+<content-card-container class="other-burning-restrictions-card">
+  <div class="header">
+    <span class="title">Other Burning Restrictions</span>
+  </div>
+  <div class="content-container">
+    <div class="content">
+      <div class="content-title"><img class="icon" src="/assets/images/svg-icons/authorities.svg" alt="authorities">
+        Talk to your Local Authority</div>
+      <div class="content-list">
+        <span class="content-text">Please check with local government authorities for any other restrictions or bylaws and assess conditions before lighting any fire.</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content-title"><img class="icon" src="/assets/images/svg-icons/campfire.svg" alt="authorities">
+        Campgrounds</div>
+      <div class="content-list">
+        <span class="content-text">Before lighting a campfire it is also important to check the campfire policy for the campground you are staying in. For BC Parks campgrounds, see Active Advisories page or search for the campground you’re interested in.</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content-list">
+        <wfnews-button class="max-width-300" [componentStyle]="defaultSlimButtonStyle" label="BC Parks Active Advisories"
+          (buttonClicked)="directToLink()"></wfnews-button>
+      </div>
+    </div>
+  </div>
+
+</content-card-container>

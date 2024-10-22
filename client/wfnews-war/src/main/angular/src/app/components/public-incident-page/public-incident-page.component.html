@@ -4,22 +4,16 @@
       <incident-header-panel [incident]="incident" [evacOrders]="evacOrders" [extent]="extent"></incident-header-panel>
     </div>
     <div *ngIf="!hideOnMobileView()">
-      <mat-tab-group mat-stretch-tabs [headerPosition]="above" (selectedTabChange)="onTabChange($event)">
-        <mat-tab label="Details">
-          <incident-info-panel [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
-        </mat-tab>
-        <mat-tab label="Response">
-          <incident-overview-panel [incident]="incident"></incident-overview-panel>
-        </mat-tab>
-        <mat-tab label="Gallery">
-          <ng-template matTabContent>
-            <incident-gallery-panel [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel>
-          </ng-template>
-        </mat-tab>
-        <mat-tab label="Maps">
-          <incident-maps-panel [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel>
-        </mat-tab>
-      </mat-tab-group>
+      <app-incident-tabs 
+        [incident]="incident" 
+        [evacOrders]="evacOrders" 
+        [areaRestrictions]="areaRestrictions" 
+        [showImageWarning]="showImageWarning" 
+        [showMapsWarning]="showMapsWarning"
+        (tabChange)="onTabChange($event)"
+        [selectedTabIndex]="selectedTabIndex"
+        >
+      </app-incident-tabs>
     </div>
     <div *ngIf="hideOnMobileView()">
       <mat-tab-group mat-stretch-tabs-mobile [headerPosition]="above">
@@ -41,12 +35,12 @@
       <div class="content-panel-stack">
         <h1>Contact Us</h1>
         <div>
-            <div class="contact-info"><img class="icon-bottom" src="/assets/images/centre.png"
+            <div class="contact-buttons"><img class="icon-bottom" src="/assets/images/centre.png"
                     alt="centre" />{{incident.fireCentreName}}</div>
-            <div class="contact-info"> <img class="icon-bottom"
+            <div class="contact-buttons"> <img class="icon-bottom"
                     src="/assets/images/svg-icons/carbon_email.svg"
                     alt="carbon_email" />{{incident.contactEmailAddress}}</div>
-            <div class="contact-info"><img class="icon-bottom"
+            <div class="contact-buttons"><img class="icon-bottom"
                     src="/assets/images/svg-icons/carbon_phone.svg"
                     alt="carbon_phone" />{{incident.contactPhoneNumber}}</div>
         </div>

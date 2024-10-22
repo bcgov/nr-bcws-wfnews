@@ -1,0 +1,24 @@
+<div class="evac-alert-details">
+  <advisory-section 
+    title="Evacuation Information"
+    message="Go to Emergency Info BC for up-to-date evacuation information."
+    [componentStyle]="advisorySectionComponentStyle" [buttonArgs]="advisorySectionButtonArgs"
+    (advisoryClicked)="handleAdvisoryClick()">
+  </advisory-section>
+
+  <two-column-content-cards-container>
+    <ng-container column-1>
+      <get-prepared-card></get-prepared-card>
+      <what-to-expect-alert-to-order-card></what-to-expect-alert-to-order-card>
+    </ng-container>
+    <ng-container column-2>
+      <connect-with-local-authorities-card *ngIf="evacuation?.attributes?.ISSUING_AGENCY"
+        [localAuthority]="evacuation?.attributes?.ISSUING_AGENCY"></connect-with-local-authorities-card>
+      <associated-wildfire-card *ngIf="incident" [incident]="incident" [isBookmarked]="isBookmarked"
+        (bookmarkClicked)="handleBookmarkClicked($event)"
+        (viewDetailsClicked)="handleViewDetailsClicked()"></associated-wildfire-card>
+      <other-sources-of-information-card></other-sources-of-information-card>
+      <related-topics-card></related-topics-card>
+    </ng-container>
+  </two-column-content-cards-container>
+</div>

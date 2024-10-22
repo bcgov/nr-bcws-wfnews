@@ -47,11 +47,11 @@ import {
   snowPlowHelper,
 } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
-import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
 import { AGOLService } from '@app/services/AGOL-service';
 import { MapConfigService } from '@app/services/map-config.service';
 import moment from 'moment';
+import { WildfirePreviewComponent } from '@app/components/preview-panels/wildfire-preview/wildfire-preview.component';
 const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
 
 @Directive()
@@ -150,6 +150,8 @@ export class PanelWildfireStageOfControlComponent
     );
     this.zone = this.injector.get(NgZone);
   }
+
+  @ViewChild('wildfirePanelContainer', { read: ViewContainerRef }) wildfirePanelContainer: ViewContainerRef;
 
   ngOnDestroy(): void {
     const panel = document.getElementsByClassName('incident-details');
@@ -466,6 +468,7 @@ message = err.message;
     );
     this.marker.on('add', function() {
       const icon: any = document.querySelector('.animated-icon');
+      
 
       if (incident.fireOfNoteInd) {
         icon.style.backgroundColor = '#aa0d0d';
@@ -550,29 +553,15 @@ message = err.message;
       text: incident.incidentName,
       id: incident.incidentNumberLabel,
     });
-
-    incident.incident_number_label = incident.incidentNumberLabel;
-    const self = this;
-    this.zone.run(function() {
-      const compRef = self.makeComponent(IncidentIdentifyPanelComponent);
-      (compRef.instance as any).setIncident(incident, {});
-      const panel = document
-        .getElementsByClassName('identify-panel')
-        .item(0) as HTMLElement;
-      panel.appendChild(compRef.location.nativeElement);
-      self.cdr.detectChanges();
-      (
-        document.getElementsByClassName('identify-panel').item(0) as HTMLElement
-      ).style.display = 'block';
-      setTimeout(() => {
-        const identifyPanel = document
-          .getElementsByClassName('smk-panel')
-          .item(0) as HTMLElement;
-        if (identifyPanel) {
-          identifyPanel.remove();
-        }
-      }, 200);
-    });
+    this.wildfirePanelContainer.clear();
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(WildfirePreviewComponent);
+    const componentRef = this.wildfirePanelContainer.createComponent(componentFactory);
+    componentRef.instance.setContent(incident);
+  
+    const panel = document.getElementsByClassName('desktop-preview').item(0) as HTMLElement;
+    panel.innerHTML = '';
+    panel.appendChild(componentRef.location.nativeElement);
+    panel.style.display = 'block';
   }
 
   makeComponent<C>(component: Type<C>): ComponentRef<C> {

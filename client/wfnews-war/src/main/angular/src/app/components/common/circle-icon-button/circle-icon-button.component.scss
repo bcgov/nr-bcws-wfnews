@@ -1,0 +1,25 @@
+@import "../../../../styles/variables.scss";
+
+:host { display: block; }
+
+.button-container {
+  padding: 6px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 64px;
+  width: max-content;
+  
+  background: #FFFFFF;
+  border: 1px solid #dedede;
+
+  .icon {
+    width: 20px;
+    height: 20px;
+    align-self: center;
+
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+  }
+}

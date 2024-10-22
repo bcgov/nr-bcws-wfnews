@@ -67,13 +67,21 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Issued On </th>
         <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.issuedOn}} </td>
       </ng-container>
-      <ng-container matColumnDef = "viewMap">
-          <th mat-header-cell *matHeaderCellDef>View Map</th>
-          <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="viewMap(item)"><span #el ><mat-icon style="color:#1A5A96; height: 20px; width: 20px;" svgIcon="map"></mat-icon></span><span class="cell-label"></span></td>
+      <ng-container matColumnDef="viewMap">
+        <th mat-header-cell *matHeaderCellDef>View Map</th>
+        <td mat-cell style="cursor: pointer;" *matCellDef="let item" 
+            (mouseover)="hoveredItem = item" 
+            (mouseleave)="hoveredItem = null" 
+            (click)="viewMap(item); $event.stopPropagation()">
+            <span #el>
+                <mat-icon style="height: 20px; width: 20px;" [svgIcon]="hoveredItem === item ? 'map-hover' : 'map'"></mat-icon>
+            </span>
+            <span class="cell-label"></span>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" (click)="selectItem(row)"></tr>
     </table>
     <div *ngIf="dataSource.data.length === 0">No records to display</div>
 </div>

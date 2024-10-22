@@ -1,7 +1,7 @@
 <div class="button-container" (click)="openLink()">
   <div class="labels">
     <div class="text">{{ text }}</div>
-    <div class="subtext">{{ subtext }}</div>
+    <div class="subtext" *ngIf="subtext">{{ subtext }}</div>
   </div>
-  <div class="icon"></div>
+  <div class="icon" [ngStyle]="iconColor ? {'backgroundColor': iconColor} : null"></div>
 </div>

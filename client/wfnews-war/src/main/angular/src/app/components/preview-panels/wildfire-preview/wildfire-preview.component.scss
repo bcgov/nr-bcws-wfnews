@@ -1,0 +1,23 @@
+@import "../../draggable-panel/draggable-panel.component.scss";
+
+.identify-card {
+    min-height: auto !important;
+    margin: 16px 20px 24px 20px;
+}
+
+.button-row {
+    overflow: hidden !important;
+    padding: 12px 20px 12px 20px !important; 
+}
+
+.panel-container {
+    border-radius: 5px;
+}
+
+.identify-card {
+    margin: 16px 20px 0px !important;
+} 
+
+.prev-panel {
+    max-height: calc(65vh - env(safe-area-inset-bottom, 0px) - env(safe-area-inset-top, 20px) - 10px) !important;
+  }

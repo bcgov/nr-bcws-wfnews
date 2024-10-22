@@ -1,7 +1,7 @@
 <div class="title-panel">
   <div class="full-details-title">{{restrictionData?.name}}</div>
-  <p class="info">A legal order that prohibits access to certain areas in order to limit the risk of fire, address a
-    public safety concern or avoid interference with fire control.</p>
+  <p class="info">An Area Restriction is a legal order that prohibits access to certain areas in order to limit the risk of fire,
+    address a public safety concern or avoid interference with fire control.</p>
   <button (click)="navToMap()" mat-button class="map-button"><img height="20" width="20" class="tertiary-icon"
       src="/assets/images/svg-icons/map.svg" alt="Map" />View on Map</button>
 </div>
@@ -9,8 +9,8 @@
 <div class="info-container">
   <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
       alt="Calendar" />Issued on {{restrictionData?.issuedDate}}</div>
-  <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/location-pin.svg"
-      alt="Location Pin" />{{restrictionData?.fireCentre}}</div>
+  <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/local_authority.svg"
+      alt="Location Pin" />Issued by {{restrictionData?.fireCentre}}</div>
   <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_layers.svg"
       alt="Layers" />BC Wildfire Area Restrictions Layer</div>
 </div>
@@ -32,20 +32,28 @@
         alt="icon" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
   </div>
 </div>
-<hr>
-<div class="info-container">
-  <div class="full-details-secondary-title">Excluded Areas</div>
-  <p class="info">Restrictions do not include areas which are within the boundaries of local government and subject to
-    local bylaws. You should check with local government authorities before lighting any fires.</p>
-</div>
-<hr>
 <div class="info-container">
   <div class="full-details-secondary-title">Warning</div>
-  <p class="info">The Wildfires Act and the Wildfire Regulation grant authority to government officials engaged in fire
-    control (including firefighters) to order all people to leave active fire areas.</p>
-  <p class="info">A person must not remain in or enter the restricted area without the prior written authorization of an
-    official designated for the purposes of the Wildfire Act.</p>
+  <p class="info">When a Restricted Area Order, or area restriction, is established under section 11(2) of the Wildfire Act, a person
+    must not remain in or enter the restricted area
+    without the prior written authorization of an official designated for the purposes of the Wildfire Act, unless the
+    person enters the area only in the course of:
+    <ul>
+      <li>Travelling to or from his or her residence</li>
+      <li>Using a highway as defined in the Transportation Act</li>
+      <li>Travelling through or entering the area as a person
+        acting in an official capacity that is connected or
+        involved in incident operations</li>
+      <li>Travelling through or entering the area for a
+        purpose approved by an official of supporting
+        wildfire suppression activities.</li>
+    </ul>
 </div>
+  <div class="links-relative">
+    <link-button link="https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/04031_01#section11"
+      text="Wildfire Act" iconColor="#909090"></link-button>
+  </div>
+<br> 
 <hr>
 <div class="info-container">
   <div class="full-details-secondary-title">Related Topics</div>
@@ -53,13 +61,13 @@
 </div>
 <div class="links">
   <div class="links-relative">
-    <p>Current Area Restrictions<img (click)="navToCurrentRestrictions()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+    <p>Current Area Restrictions<img (click)="navToCurrentRestrictions()" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
   </div>
   <div class="links-relative">
-    <p>Recreational Sites and Trail Closures<img (click)="navToRecClosures()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+    <p>Recreational Sites and Trail Closures<img (click)="navToRecClosures()" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
   </div>
   <div class="links-relative">
-    <p>BC Parks Closures<img (click)="navToParksClosures()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+    <p>BC Parks Closures<img (click)="navToParksClosures()" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
   </div>
 </div>
 <div class="bulletin">

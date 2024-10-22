@@ -1,4 +1,4 @@
-<div class="top">
+<div id="top" class="top">
   <a class="link" routerLink="../admin" ><mat-icon svgIcon="back-icon" style="height:13px; width: 15px;"></mat-icon> Back to Admin Front Page</a>
   <div class="title">
     <div>
@@ -43,14 +43,6 @@
         </mat-expansion-panel-header>
         <contacts-details-panel [incident]="incident" [formGroup]="incidentForm"></contacts-details-panel>
       </mat-expansion-panel>
-      <mat-expansion-panel #ResponseDetailsPanel class="response-details-panel" expanded>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-              <span class="panel-title">Response</span>
-            </mat-panel-title>
-        </mat-expansion-panel-header>
-        <response-details-panel [incident]="incident" [formGroup]="incidentForm"></response-details-panel>
-      </mat-expansion-panel>
       <mat-expansion-panel #EvacuationDetailsPanel class="evacuation-details-panel" expanded>
         <mat-expansion-panel-header>
             <mat-panel-title>
@@ -70,7 +62,20 @@
     </mat-accordion>
   </mat-tab>
   <mat-tab label="Incident Response">
+    <mat-panel-title id="info-title">
+      <span class="section-title">Response Update</span>
+    </mat-panel-title>
+    <div id="ck-doc" class="ck-doc">
     <ckeditor [editor]="Editor" [(ngModel)]="incident.incidentOverview" (ready)="onReady($event)"></ckeditor>
+    <img class="expand-button" (click)="toggleFullScreen()" src="/assets/images/svg-icons/iconoir_expand.svg" alt="expand-editor" /></div>
+    <mat-expansion-panel #ResponseDetailsPanel class="response-details-panel" expanded>
+      <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="section-title">Additional response (MOTI, RCMP, other agencies)</span>
+          </mat-panel-title>
+      </mat-expansion-panel-header>
+      <response-details-panel [incident]="incident" [formGroup]="incidentForm"></response-details-panel>
+      </mat-expansion-panel>
   </mat-tab>
   <mat-tab label="Image Gallery">
     <image-gallery-panel [incident]="currentAdminIncident"></image-gallery-panel>

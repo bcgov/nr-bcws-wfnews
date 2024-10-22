@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -5,11 +6,10 @@ import {
   ElementRef,
   OnInit,
 } from '@angular/core';
-import * as L from 'leaflet';
-import { AppConfigService } from '@wf1/core-ui';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ResourcesRoutes } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'bans-widget',
@@ -88,6 +88,7 @@ export class BansWidget implements OnInit, AfterViewInit {
           version: '1.1.1',
           sld_body: cat3sld,
           cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 3%\'',
+          tileSize: 1000,
           opacity: 0.5,
         })
         .addTo(this.map);
@@ -101,6 +102,7 @@ export class BansWidget implements OnInit, AfterViewInit {
           version: '1.1.1',
           sld_body: cat2sld,
           cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 2%\'',
+          tileSize: 1000,
           opacity: 0.5,
         })
         .addTo(this.map);
@@ -115,6 +117,7 @@ export class BansWidget implements OnInit, AfterViewInit {
           sld_body: cat1sld,
           cql_filter:
             'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 1%\' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfire%\'',
+          tileSize: 1000,
           opacity: 0.5,
         })
         .addTo(this.map);

@@ -1,0 +1,72 @@
+:host { display: block; }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 8px;
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .title {
+      color: var(--Black-24, #242424);
+      font-feature-settings: 'clig' off, 'liga' off;
+      /* Header/Header 1 SB */
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-size: 26px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 35px; /* 134.615% */
+      letter-spacing: 0.35px;
+    }
+
+    .date {
+      display: flex;
+      gap: 8px;
+
+      color: var(--Black-36, #363636);
+      /* 16 Reg */
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px; /* 150% */
+    }
+
+  }
+
+  .content {
+    
+    &.columns {
+      ::ng-deep {
+        .ck-read-only {
+          columns: 490px 2;
+          column-gap: 72px;
+          column-fill: balance;
+        }
+      }
+    }
+    
+    /* 16 Reg */
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+
+    ::ng-deep {
+      figure {
+        margin: 0;
+        width: 100%;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    } 
+  }
+}

@@ -52,3 +52,5 @@ server/wfss-pointid-api/wfss-pointid-api-rest-fireweather-common/target
 server/wfss-pointid-api/wfss-pointid-api-rest-wfnews-common/target
 server/wfss-pointid-api/wfss-pointid-swagger-java-client/target
 client/wfnews-war/src/main/angular/.npmrc
+client/wfnews-war/src/main/angular/documentation.json
+client/wfnews-war/src/main/angular/android/app/google-services.json

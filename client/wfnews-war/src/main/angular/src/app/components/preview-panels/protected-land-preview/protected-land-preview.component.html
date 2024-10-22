@@ -1,0 +1,34 @@
+<div *ngIf="data">
+    <div class="panel-container">
+        <div class="draggable-panel-title">
+            <mat-icon svgIcon="back-icon-panel" (click) = "goBack()"></mat-icon>
+            <span class="preview-title">
+                <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/carbon_layers.svg">
+                Protected Lands
+            </span>
+            <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+        </div>
+        <div class="identify-card">
+            <div class="identify-card-title">{{data.PROTECTED_LANDS_NAME}}</div>
+            <div class="identify-card-item">
+                <span>{{data.ACCESS_STATUS}}</span>
+            </div>
+            <div class="identify-card-item" *ngIf="data.ACCESS_STATUS_EFFECTIVE_DATE">
+                <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+                <span>Effective on {{formatDate(data.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+            </div>
+            <div class="identify-card-item">
+                <span>{{data.ACCESS_DETAILS ? data.ACCESS_DETAILS : 'This park is currently closed due to wildfire.'}}</span>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <div class="buttons">
+                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                    <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<content-card-container class="associated-wildfire-card">
+  <div class="header">
+    <span class="subtitle">Associated Wildfire</span>
+    <div class="title-bar">
+      <span class="title">{{getIncidentName()}}</span>
+      <img class="bookmark-icon"
+        [src]="getBookmarkIconPath()"
+        (keypress)="toggleBookmark()"
+        (click)="toggleBookmark()"
+        alt="Bookmark" />
+    </div>
+  </div>
+  
+  <icon-info-chip *ngIf="incident?.fireOfNoteInd" iconPath="/assets/images/svg-icons/fire-note.svg" label="Wildfire of Note"
+    [componentStyle]="wildfireOfNoteChipStyle"></icon-info-chip>
+  
+  <div class="content">
+    <div class="wildfire-info">
+      <icon-list-item iconSize="16" gapSize="8" [iconPath]="getStageOfControlIconPath()" [text]="getStageOfControlLabelText()"></icon-list-item>
+      <icon-list-item iconSize="16" gapSize="8" iconPath="/assets/images/svg-icons/location-pin.svg" [text]="getFireCenter()"></icon-list-item>
+      <icon-list-item iconSize="16" gapSize="8" iconPath="/assets/images/svg-icons/calendar.svg" [text]="getDiscoveryDate()"></icon-list-item>
+    </div>
+    <circle-icon-button iconPath="/assets/images/svg-icons/forward-arrow-grey.svg" [componentStyle]="circleButtonStyle" (buttonClicked)="viewDetails()"></circle-icon-button>
+  </div>
+
+</content-card-container>

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectorRef,
   Component,
+  ComponentFactoryResolver,
   Input,
   OnChanges,
   OnDestroy,
@@ -15,9 +16,16 @@ import {
   ResourcesRoutes,
   convertToDateYear,
   getActiveMap,
-  setDisplayColor,
   convertToDateTime,
   snowPlowHelper,
+  formatDate,
+  showPanel,
+  displayLocalAuthorityType,
+  displayItemTitle,
+  addMarker,
+  getStageOfControlDescription,
+  hidePanel,
+  displayDangerRatingDescription
 } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
@@ -70,6 +78,13 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   ];
   convertToDateYear = convertToDateYear;
   convertToDateTime = convertToDateTime;
+  formatDate = formatDate;
+  displayLocalAuthorityType = displayLocalAuthorityType;
+  displayItemTitle = displayItemTitle;
+  addMarker = addMarker;
+  getStageOfControlDescription = getStageOfControlDescription;
+  displayDangerRatingDescription = displayDangerRatingDescription;
+  
   removeIdentity = false;
 
   private previousZoom: number;
@@ -84,7 +99,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     private router: Router,
     private agolService: AGOLService,
     private commonUtilityService: CommonUtilityService,
-    private appConfigService: AppConfigService
+    private appConfigService: AppConfigService,
+    public componentFactoryResolver: ComponentFactoryResolver,
   ) {}
 
   ngOnDestroy(): void {
@@ -159,6 +175,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     if (this.currentIncidentRefs.length === 1 && this.allowBackToIncidentsPanel) {
       // only show preview detial if it is through openPreviewPanel(). We will always the preview list page by clicking on map, even there is only single item.
       this.showPanel = true;
+      showPanel('identify-panel-wrapper')
+      hidePanel('desktop-preview')
       const viewer = getActiveMap().$viewer;
       for (const polygon of this.highlightPolygons) {
         viewer.map.removeLayer(polygon);
@@ -169,6 +187,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
 
       // single feature within clicked area
       this.showPanel = true;
+      showPanel('identify-panel-wrapper')
+      hidePanel('desktop-preview')
       this.identifyItem = this.currentIncidentRefs[0];
       let incidentNumber = null;
       let fireYear = null;
@@ -223,6 +243,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       // multiple features within clicked area
       this.identifyItem = null;
       this.showPanel = true;
+      showPanel('identify-panel-wrapper')
+      hidePanel('desktop-preview')
       this.filteredWildfires = this.currentIncidentRefs.filter((item) =>
         this.wildfireLayerIds.includes(item.layerId),
       );
@@ -272,49 +294,10 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       );
       if (this.weatherStations) {
         this.showPanel = true;
+        showPanel('identify-panel-wrapper')
+        hidePanel('desktop-preview')
       }
     }
-  }
-
-  addMarker(incident: any) {
-    if (this.marker) {
-      this.marker.remove();
-      this.marker = null;
-    }
-
-    if (this.markerAnimation) {
-      clearInterval(this.markerAnimation);
-    }
-
-    const pointerIcon = L.divIcon({
-      iconSize: [20, 20],
-      iconAnchor: [12, 12],
-      popupAnchor: [10, 0],
-      shadowSize: [0, 0],
-      className: 'animated-icon',
-    });
-    this.marker = L.marker(
-      [Number(incident.latitude), Number(incident.longitude)],
-      { icon: pointerIcon },
-    );
-    this.marker.on('add', function() {
-      const icon: any = document.querySelector('.animated-icon');
-      icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
-
-      this.markerAnimation = setInterval(() => {
-        icon.style.width = icon.style.width === '10px' ? '20px' : '10px';
-        icon.style.height = icon.style.height === '10px' ? '20px' : '10px';
-        icon.style.marginLeft = icon.style.width === '20px' ? '-10px' : '-5px';
-        icon.style.marginTop = icon.style.width === '20px' ? '-10px' : '-5px';
-        icon.style.boxShadow =
-          icon.style.width === '20px'
-            ? '4px 4px 4px rgba(0, 0, 0, 0.65)'
-            : '0px 0px 0px transparent';
-      }, 1000);
-    });
-
-    const viewer = getActiveMap().$viewer;
-    this.marker.addTo(viewer.map);
   }
 
   displayWildfireName(wildfire) {
@@ -379,19 +362,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  displayItemTitle(identifyItem) {
-    switch (identifyItem.layerId) {
-      case 'active-wildfires-fire-of-note':
-        return 'Wildfire of Note';
-      case 'active-wildfires-out-of-control':
-      case 'active-wildfires-under-control':
-      case 'bcws-activefires-publicview-inactive':
-      case 'active-wildfires-holding':
-      case 'active-wildfires-out':
-        return 'Wildfire';
-    }
-  }
-
   displayTitleIcon(identifyItem) {
     switch (identifyItem.layerId) {
       case 'active-wildfires-out-of-control':
@@ -428,22 +398,6 @@ return 'active-wildfires-out-of-control';
 return 'active-wildfires-holding';
 } else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
 return 'active-wildfires-under-control';
-} else {
-return 'Unknown';
-}
-    }
-  }
-
-  getDescription(code: string) {
-    if (code) {
-      if (code.toUpperCase().trim() === 'OUT') {
-return 'This wildfire is extinguished. Suppression efforts are complete.';
-} else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
-return 'This wildfire is continuing to spread and is not responding to suppression efforts.';
-} else if (code.toUpperCase().trim() === 'HOLDING') {
-return 'This wildfire is not likely to spread beyond predetermined boundaries under current conditions.';
-} else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
-return 'This wildfire will not spread any further due to suppression efforts.';
 } else {
 return 'Unknown';
 }
@@ -524,8 +478,8 @@ return 'Unknown';
               });
           } else if (layerId.includes('evacuation-orders-and-alerts')) {
             this.agolService
-              .getEvacOrdersByEventNumber(
-                this.identifyItem.properties.EVENT_NUMBER,
+              .getEvacOrdersById(
+                this.identifyItem.properties.EMRG_OAA_SYSID,
                 {
                   returnGeometry: true,
                 },
@@ -533,9 +487,10 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                   if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-                    const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
+                    const matchingFeature = response.features.find(feature => feature.attributes.EVENT_NUMBER === this.identifyItem.properties.EVENT_NUMBER);
+                    const polygonData = this.commonUtilityService.extractPolygonData(matchingFeature.geometry.rings);
                     if (polygonData?.length) {
-                      this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
+                      this.fixPolygonToMap(polygonData,matchingFeature.geometry.rings);
                     }
                   }
               });
@@ -591,6 +546,13 @@ return 'Unknown';
             window['turf'].point([long, lat]),
             this.defaultZoomLevel,
           );
+        } else if (layerId.includes('protected-lands-access-restrictions')) {
+          if (this.identifyItem?.geometry?.coordinates.length > 0) {
+            const coordinates = this.commonUtilityService.extractPolygonData(this.identifyItem.geometry.coordinates);
+            if (coordinates.length) {
+              this.fixPolygonToMap(coordinates);
+            }
+          }
         }
       });
     }
@@ -682,14 +644,15 @@ return 'Unknown';
         case 'active-wildfires-holding':
         case 'active-wildfires-under-control':
         case 'active-wildfires-out':
-          if (
-            item.properties.fire_year &&
-            item.properties.incident_number_label
-          ) {
+        case 'fire-perimeters' :
+          const fireYear = item.properties?.fire_year || item.properties?.FIRE_YEAR;
+          const incidentNumber = item.properties?.incident_number_label || item.properties?.FIRE_NUMBER;
+        
+          if (fireYear && incidentNumber) {
             this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
               queryParams: {
-                fireYear: item.properties.fire_year,
-                incidentNumber: item.properties.incident_number_label,
+                fireYear: fireYear,
+                incidentNumber: incidentNumber,
                 source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
               },
             });
@@ -748,21 +711,6 @@ return 'Unknown';
       prefix = 'Evacuation Order for ';
     }
     return prefix + item.properties.EVENT_NAME;
-  }
-
-  displayDangerRatingDes(danger) {
-    switch (danger) {
-      case 'Extreme':
-        return 'Extremely dry forest fuels and the fire risk is very serious. New fires will start easily, spread rapidly, and challenge fire suppression efforts.';
-      case 'High':
-        return 'Forest fuels are very dry and the fire risk is serious.  Extreme caution must be used in any forest activities.';
-      case 'Moderate':
-        return 'Forest fuels are drying and there is an increased risk of surface fires starting. Carry out any forest activities with caution.';
-      case 'Low':
-        return 'Fires may start easily and spread quickly but there will be minimal involvement of deeper fuel layers or larger fuels.';
-      case 'Very Low':
-        return 'Dry forest fuels are at a very low risk of catching fire.';
-    }
   }
 
   shareableLayers() {
@@ -830,18 +778,6 @@ return 'Unknown';
     }
   }
 
-  displayLocalAuthorityType(layerId: string) {
-    if (layerId === 'abms-regional-districts') {
-      return 'Regional District';
-    }
-    if (layerId === 'clab-indian-reserves') {
-      return 'Indian Reserve';
-    }
-    if (layerId === 'abms-municipalities') {
-      return 'Municipality';
-    }
-  }
-
   decode(text: string): string {
     return decodeURIComponent(escape(text));
   }
@@ -860,19 +796,6 @@ return 'Unknown';
         0,
       ) || 0;
     return `${precip.toFixed(1)}mm`;
-  }
-
-  formatDate(timestamp: string | number): string {
-    if (timestamp) {
-      const date = new Date((typeof timestamp === 'string' ? timestamp.slice(0, 10) : timestamp));
-      const options: Intl.DateTimeFormatOptions = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      };
-
-      return date.toLocaleDateString('en-US', options);
-    } else return '';
   }
 
   fixPolygonToMap(polygonData,response?) {

@@ -13,6 +13,6 @@
       "crypto": ["./node_modules/crypto-browserify"]
     }
   },
-  "files": ["main.ts", "globals.ts"],
+  "files": ["main.ts"],
   "include": ["src/**/*.d.ts", "**/*.ts"]
 }

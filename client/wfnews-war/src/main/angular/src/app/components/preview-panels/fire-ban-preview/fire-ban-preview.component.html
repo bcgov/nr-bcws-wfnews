@@ -1,0 +1,38 @@
+<div *ngIf="data">
+    <div class="panel-container">
+        <div class="draggable-panel-title">
+            <mat-icon svgIcon="back-icon-panel" (click) = "goBack()"></mat-icon>
+            <span class="preview-title">
+                <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/ban.svg">
+                Fire Bans
+            </span>
+            <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+        </div>
+        <div class="identify-card">
+            <div class="identify-card-title">Fire Ban on {{replaceCategoryDescription(data.ACCESS_PROHIBITION_DESCRIPTION)}} Open Fires</div>
+            <div *ngIf="data.FIRE_CENTRE_NAME" class="identify-card-item">
+                <img alt="icon" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon">
+                <span>{{ data.FIRE_CENTRE_NAME }} Fire Centre</span>
+            </div>
+            <div class="identify-card-item">
+                <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+                <span>Issued on {{formatDate(data.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+            </div>
+            <div class="identify-card-item">
+                <span>Decisions on when and where to implement fire bans and restrictions are made by BC's regional fire centres.</span>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <div class="buttons">
+                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                    <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                    Full Details
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

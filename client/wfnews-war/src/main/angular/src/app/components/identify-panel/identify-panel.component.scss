@@ -1,0 +1,108 @@
+@import "../draggable-panel/draggable-panel.component.scss";
+
+.identify-card{
+  margin: 16px 20px 24px 20px;
+}
+
+.identify-panel {
+    position: absolute;
+    background-color: white;
+    width: 340px;
+    max-width: 600px;
+    overflow-y: auto;
+    border: 1px solid #dddddd;
+    top: 110px;
+    left: 5px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
+    max-height: calc(65vh - env(safe-area-inset-bottom, 0px) - env(safe-area-inset-top, 20px) - 10px) !important;
+    border-top: 1px solid #ccc;
+    z-index: 100000000 !important;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.23);
+    padding-bottom: 24px;
+}
+
+.panel-container {
+    font-weight: 600;
+    overflow: auto;
+    height: 90%;
+    border-radius: 20px;
+
+    .identify-panel-title {
+        background-color: white;
+        position: sticky;
+        top: 0;
+        font-size: 18px;
+        color: #242424;
+        padding: 12px 20px;
+        border-bottom: 1px solid #dedede;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.wildfire-icon {
+   display: block;
+}
+
+.circle-icon {
+    &.active-wildfires-holding {
+      background-color: #ffff00;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list {
+        width: 22px;
+        height: 22px;
+        display: block;
+      }
+    }
+    &.active-wildfires-out-of-control {
+      background-color: #ff0000;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list {
+        width: 22px;
+        height: 22px;
+        display: block;
+      }
+    }
+    &.active-wildfires-under-control {
+      background-color: #98e600;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list {
+        width: 22px;
+        height: 22px;
+        display: block;
+      }
+    }
+    &.bcws-activefires-publicview-inactive, &.active-wildfires-out {
+      background-color: #5c6671;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list {
+        width: 22px;
+        height: 22px;
+        display: block;
+      }
+    }
+  }
+
+  .widget-card{
+    &:hover {
+      cursor: pointer !important;
+    } 
+  }

@@ -2,12 +2,12 @@ import { NumberFormatStyle } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { App } from '@capacitor/app';
 import { Geolocation } from '@capacitor/geolocation';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
+import { CapacitorService } from './capacitor-service';
+import { IonicStorageService } from './ionic-storage.service';
 import { ReportOfFireService } from './report-of-fire-service';
-import { LocalStorageService } from './local-storage-service';
 
 const MAX_CACHE_AGE = 30 * 1000;
 
@@ -40,7 +40,8 @@ export class CommonUtilityService {
     private http: HttpClient,
     private appConfigService: AppConfigService,
     private injector: Injector,
-    private storageService: LocalStorageService
+    private ionicStorageService: IonicStorageService,
+    private capacitorService: CapacitorService,
   ) {
     setTimeout(() => (this.rofService = injector.get(ReportOfFireService)));
   }
@@ -113,8 +114,8 @@ export class CommonUtilityService {
       trimmedAddress = result.address;
       valueLength = value.length;
       if (trimmedAddress != null) {
-valueMatch = trimmedAddress.substring(0, valueLength);
-}
+        valueMatch = trimmedAddress.substring(0, valueLength);
+      }
 
       if (
         address != null &&
@@ -174,22 +175,22 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     const promise = new Promise<boolean>((resolve) => {
       Geolocation.getCurrentPosition().then(
         (position) => {
-          resolve(true)
+          resolve(true);
         },
         (error) => {
-          resolve(false)
+          resolve(false);
         },
       );
-    })
+    });
 
     return promise;
   }
 
   async checkLocationServiceStatus(): Promise<boolean> {
     const timeoutDuration = 5000; // 5 seconds limit
-   
-    const locationPromise = await this.checkLocation()
-    const timeoutPromise = this.countdown(timeoutDuration)
+
+    const locationPromise = await this.checkLocation();
+    const timeoutPromise = this.countdown(timeoutDuration);
 
     return Promise.race([timeoutPromise, locationPromise]);
   }
@@ -210,8 +211,8 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     const y =
       Math.cos(this.deg2rad(lat1)) * Math.sin(this.deg2rad(lat2)) -
       Math.sin(this.deg2rad(lat1)) *
-        Math.cos(this.deg2rad(lat2)) *
-        Math.cos(dLon);
+      Math.cos(this.deg2rad(lat2)) *
+      Math.cos(dLon);
     const bearing = Math.atan2(x, y);
     const bearingDegrees = this.rad2deg(bearing);
     return (bearingDegrees + 360) % 360;
@@ -234,8 +235,12 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   async removeInvalidOfflineRoF() {
     try {
+      let offlineReportSaved = null;
       // Fetch locally stored data
-      const offlineReportSaved = this.storageService.getData('offlineReportData');
+      await this.ionicStorageService.get('offlineReportData').then(response => {
+        offlineReportSaved = response;
+      });
+
       if (offlineReportSaved) {
         const offlineReport = JSON.parse(offlineReportSaved);
 
@@ -246,7 +251,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
             resource.submittedTimestamp &&
             this.invalidTimestamp(resource.submittedTimestamp)
           ) {
-            this.storageService.removeData('offlineReportData');
+            this.ionicStorageService.clear();
           }
         }
       }
@@ -263,12 +268,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     return now - submittedTimestamp > oneDay;
   }
 
-  private deg2rad(deg: number): number {
-    return deg * (Math.PI / 180);
-  }
-  private rad2deg(rad: number): number {
-    return rad * (180 / Math.PI);
-  }
+
 
   async checkOnline() {
     try {
@@ -285,14 +285,15 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   checkIfLandscapeMode() {
     // also return true if this is table portrait mode wfnews-2022. 
-    if ((window.innerWidth > window.innerHeight) || (window.innerWidth <= 1024 && window.innerWidth >= 768 && window.innerHeight > window.innerWidth) ) {
+    if (
+      (window.innerWidth > window.innerHeight) || 
+      (window.innerWidth <= 1024 && window.innerWidth >= 768 && window.innerHeight > window.innerWidth)) {
       return true;
     } else {
       return false;
     }
-  } 
+  }
 
-  
   hasSQLKeywords(jsonBlob) {
     //detect standalone sql words
     const sqlKeywords = /\b(SELECT|INSERT|UPDATE|DELETE|ALTER|DROP|CREATE)\b(?!\s*\*)/i;
@@ -301,13 +302,15 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   extractPolygonData(response) {
-    const polygonData = [];
+    let polygonData = [];
+
     for (const element of response) {
-      polygonData.push(...element);
+      polygonData = polygonData.concat(element);
     }
+  
     return polygonData;
   }
-
+  
   createConvex(polygonData) {
     const turfPoints = polygonData.map(coord => window['turf'].point(coord));
     const pointsFeatureCollection = window['turf'].featureCollection(turfPoints);
@@ -326,8 +329,32 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   getMapOptions(bounds: any, location: number[]) {
     return bounds
-      ? { attributionControl: false, zoomControl: false, dragging: false, doubleClickZoom: false, boxZoom: false, trackResize: false, scrollWheelZoom: false }
-      : { attributionControl: false, zoomControl: false, dragging: false, doubleClickZoom: false, boxZoom: false, trackResize: false, scrollWheelZoom: false, center: location, zoom: 9 };
+      ? { 
+        attributionControl: false, 
+        zoomControl: false, 
+        dragging: false, 
+        doubleClickZoom: false, 
+        boxZoom: false, 
+        trackResize: false, 
+        scrollWheelZoom: false 
+      } : { 
+        attributionControl: false, 
+        zoomControl: false, 
+        dragging: false, 
+        doubleClickZoom: false, 
+        boxZoom: false, 
+        trackResize: false, 
+        scrollWheelZoom: false, 
+        center: location, 
+        zoom: 9 
+      };
   }
-  
+
+  private deg2rad(deg: number): number {
+    return deg * (Math.PI / 180);
+  }
+  private rad2deg(rad: number): number {
+    return rad * (180 / Math.PI);
+  }
+
 }

@@ -1,0 +1,23 @@
+<div class="contact-us-banner">
+  <div class="column-1">
+    <span class="title">Contact Us</span>
+    <div class="content">
+      <div class="content-list">
+        <icon-list-item iconPath="/assets/images/svg-icons/identification.svg"
+          [text]="incident.fireCentreName"></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/carbon_email.svg"
+          [text]="incident.contactEmailAddress"></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/carbon_phone.svg"
+          [text]="incident.contactPhoneNumber"></icon-list-item>
+      </div>
+    </div>
+  </div>
+  <div class="column-2">
+    <div class="button-row">
+      <icon-button [componentStyle]="iconButtonStyling" iconPath="/assets/images/svg-icons/carbon_phone.svg"
+        label="Call Us" (buttonClicked)="call()"></icon-button>
+      <icon-button [componentStyle]="iconButtonStyling" iconPath="/assets/images/svg-icons/carbon_email.svg"
+        label="Email Us" (buttonClicked)="email()"></icon-button>
+    </div>
+  </div>
+</div>

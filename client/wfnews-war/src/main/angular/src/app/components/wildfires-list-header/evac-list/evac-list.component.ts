@@ -1,27 +1,27 @@
 import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnInit,
 } from '@angular/core';
-import moment from 'moment';
-import { AGOLService } from '../../../services/AGOL-service';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { haversineDistance } from '@app/services/wfnews-map.service/util';
+import { ResourcesRoutes, convertToDateYear } from '@app/utils';
+import { Observable } from 'rxjs';
+import { AGOLService } from '../../../services/AGOL-service';
 import {
   FilterByLocationDialogComponent,
   LocationData,
 } from '../filter-by-location/filter-by-location-dialog.component';
-import {
-  BreakpointObserver,
-  BreakpointState,
-  Breakpoints,
-} from '@angular/cdk/layout';
-import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { ResourcesRoutes, convertToDateTime } from '@app/utils';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'wf-evac-list',
@@ -57,8 +57,9 @@ export class EvacListComponent implements OnInit {
   ];
 
   public locationData: LocationData;
+  hoveredItem: any = null;
 
-  convertToDateTime = convertToDateTime;
+  convertToDateYear = convertToDateYear;
 
   private isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
@@ -70,7 +71,8 @@ export class EvacListComponent implements OnInit {
     private commonUtilityService: CommonUtilityService,
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
-  ) {}
+    private capacitorService: CapacitorService
+  ) { }
 
   ngOnInit(): void {
     this.search();
@@ -88,6 +90,7 @@ export class EvacListComponent implements OnInit {
     let whereString = '';
 
     if (this.searchText && this.searchText.length > 0) {
+      // eslint-disable-next-line max-len
       whereString += `(EVENT_NAME LIKE '%${this.searchText}%' OR ORDER_ALERT_STATUS LIKE '%${this.searchText}%' OR ISSUING_AGENCY LIKE '%${this.searchText}%') AND (`;
     }
 
@@ -104,83 +107,83 @@ export class EvacListComponent implements OnInit {
     }
 
     if (whereString.startsWith(' OR ')) {
-whereString = whereString.substring(3);
-}
+      whereString = whereString.substring(3);
+    }
     if (whereString.endsWith(' AND ()')) {
-whereString = whereString.substring(0, whereString.length - 7);
-}
+      whereString = whereString.substring(0, whereString.length - 7);
+    }
     if (whereString === '') {
-whereString = null;
-}
+      whereString = null;
+    }
 
-  try {
-    this.agolService
-      .getEvacOrders(
-        whereString,
-        location
-          ? {
+    try {
+      this.agolService
+        .getEvacOrders(
+          whereString,
+          location
+            ? {
               x: location.longitude,
               y: location.latitude,
               radius: location.radius,
             }
-          : null,
-        { returnCentroid: userLocation !== null, returnGeometry: false })
-      .subscribe((evacs) => {
-        const evacData = [];
-        if (evacs && evacs.features) {
-          for (const element of evacs.features.filter(
-            (e) => e.attributes.EVENT_TYPE.toLowerCase() === 'wildfire' || e.attributes.EVENT_TYPE.toLowerCase() === 'fire',
-          )) {
-            let distance = null;
-            if (userLocation) {
-              const currentLat = Number(userLocation.coords.latitude);
-              const currentLong = Number(userLocation.coords.longitude);
+            : null,
+          { returnCentroid: userLocation !== null, returnGeometry: false })
+        .subscribe((evacs) => {
+          const evacData = [];
+          if (evacs && evacs.features) {
+            for (const element of evacs.features.filter(
+              (e) => e.attributes.EVENT_TYPE.toLowerCase() === 'wildfire' || e.attributes.EVENT_TYPE.toLowerCase() === 'fire',
+            )) {
+              let distance = null;
+              if (userLocation) {
+                const currentLat = Number(userLocation.coords.latitude);
+                const currentLong = Number(userLocation.coords.longitude);
 
-              if (element.centroid) {
-                distance = (
-                  haversineDistance(
-                    element.centroid.y,
-                    currentLat,
-                    element.centroid.x,
-                    currentLong,
-                  ) / 1000
-                ).toFixed(2);
+                if (element.centroid) {
+                  distance = (
+                    haversineDistance(
+                      element.centroid.y,
+                      currentLat,
+                      element.centroid.x,
+                      currentLong,
+                    ) / 1000
+                  ).toFixed(2);
+                }
               }
+              evacData.push({
+                name: element.attributes.EVENT_NAME,
+                eventType: element.attributes.EVENT_TYPE,
+                status: element.attributes.ORDER_ALERT_STATUS,
+                agency: element.attributes.ISSUING_AGENCY,
+                preOcCode: element.attributes.PREOC_CODE,
+                emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
+                issuedOn: this.convertToDateYear(element.attributes.DATE_MODIFIED),
+                distance,
+                latitude: element.centroid.y,
+                longitude: element.centroid.x,
+                eventNumber: element.attributes.EVENT_NUMBER
+              });
             }
-            evacData.push({
-              name: element.attributes.EVENT_NAME,
-              eventType: element.attributes.EVENT_TYPE,
-              status: element.attributes.ORDER_ALERT_STATUS,
-              agency: element.attributes.ISSUING_AGENCY,
-              preOcCode: element.attributes.PREOC_CODE,
-              emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
-              issuedOn: this.convertToDateTime(element.attributes.DATE_MODIFIED),
-              distance,
-              latitude: element.centroid.y,
-              longitude: element.centroid.x,
-              eventNumber: element.attributes.EVENT_NUMBER
-            });
           }
-        }
-        if (this.selectedSortValue !== '') {
-          this.selectedSortOrder =
-            this.selectedSortOrder === 'asc' ? 'desc' : 'asc';
-          const sortVal = this.selectedSortOrder === 'asc' ? 1 : -1;
-          evacData.sort((a, b) =>
-            a[this.selectedSortValue] > b[this.selectedSortValue]
-              ? sortVal
-              : b[this.selectedSortValue] > a[this.selectedSortValue]
-                ? sortVal * -1
-                : 0,
-          );
-          this.selectedSortValue = '';
-        }
-        this.dataSource.data = evacData;
-        this.searchingComplete = true;
-        this.cdr.detectChanges();
-      });
-    }catch(error) {
-      console.error('Error retrieving evac orders: ' + error)
+          if (this.selectedSortValue !== '') {
+            this.selectedSortOrder =
+              this.selectedSortOrder === 'asc' ? 'desc' : 'asc';
+            const sortVal = this.selectedSortOrder === 'asc' ? 1 : -1;
+            evacData.sort((a, b) =>
+              a[this.selectedSortValue] > b[this.selectedSortValue]
+                ? sortVal
+                : b[this.selectedSortValue] > a[this.selectedSortValue]
+                  ? sortVal * -1
+                  : 0,
+            );
+            this.selectedSortValue = '';
+          }
+          this.dataSource.data = evacData;
+          this.searchingComplete = true;
+          this.cdr.detectChanges();
+        });
+    } catch (error) {
+      console.error('Error retrieving evac orders: ' + error);
     }
   }
 
@@ -239,5 +242,20 @@ whereString = null;
     this.searchTimer = setTimeout(() => {
       this.search();
     }, 1000);
+  }
+
+  selectItem(event) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+        queryParams: {
+          eventType: event.status,
+          id: event.emrgOAAsysID,
+          eventNumber: event.eventNumber,
+          eventName: event.eventName,
+          source: [ResourcesRoutes.WILDFIRESLIST]
+        },
+      }),
+    );
+    this.capacitorService.redirect(url, true);
   }
 }

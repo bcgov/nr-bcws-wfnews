@@ -1,6 +1,6 @@
 # BCWS Situation Report (WFNEWS)
 
-[![Lifecycle](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
+[![Lifecycle](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
 ![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 ### Sonar Status
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=bcgov_nr-bcws-wfnews&metric=bugs)](https://sonarcloud.io/summary/new_code?id=bcgov_nr-bcws-wfnews)
@@ -54,6 +54,21 @@ docker run --rm liquibase --url=jdbc:postgresql://<your instance ip>:5432/wfnews
 
 Similar docker scripts are provided for running the WFNEWS API and UI respectively. Local development configurations are provided for running the Angular application outside of the Java Spring container.
 
+### Storybook
+
+For UI/UX development we have Storybook for developers. You can run storybook using the following command:
+```
+ng run WFNEWS:storybook
+```
+
+Create stories for any new or rewritten compoenents.
+
+Node 18+ is required.
+
 ### CI/CD for DEV/TEST/PROD Deployments
 
 The WFNEWS project is built and deployed via Github actions. A Terraform cloud team server handles running the Terraform. A CI pipeline is setup to run static analysis of the Typescript.
+
+### Testing
+
+This project is tested with BrowserStack

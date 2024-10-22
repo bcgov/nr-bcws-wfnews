@@ -1,84 +1,128 @@
 <div class="container">
-    <div class="bottom">
-        <div id="panel-details" [ngClass]="showAccordion ? 'details' : 'details close'">
-            <desktop-legend-panel [selectedPanel]="selectedPanel"></desktop-legend-panel>
+  <div class="bottom">
+    <div id="panel-details" [ngClass]="showAccordion ? 'details' : 'details close'">
+      <desktop-legend-panel [selectedPanel]="selectedPanel"></desktop-legend-panel>
+    </div>
+    <div id="map-container" class="map">
+      <div class="identify-panel"></div>
+      <wfnews-identify-panel *ngIf="!isMobileView() && showPanel" [incidentRefs]="incidentRefs"></wfnews-identify-panel>
+      <div class="desktop-preview"></div>
+      <div class="search-row">
+        <div class="search-bar">
+          <input type="text" placeholder="Search" aria-label="Search" matInput [formControl]="searchByLocationControl"
+            [matAutocomplete]="auto" #inputAutoComplete class="search-location">
+          <button matSuffix mat-icon-button aria-label="Clear" class="input-clear-button"
+            (click)="clearSearchLocationControl()"><mat-icon>close</mat-icon></button>
+          <!-- Autocomplete will be updated to also support incidents/evacs -->
+          <mat-autocomplete class="location-results" #auto="matAutocomplete"
+            (optionSelected)="onLocationSelected($event.option.value)">
+            <mat-option class="location-mat-option" *ngFor="let option of filteredOptions" [value]="option">
+              <div class="location-option" #locationOptions [attr.data-loc-long]="option.location[0]"
+                [attr.data-loc-lat]="option.location[1]">
+                <div class="search-icon">
+                  <img *ngIf="option.type === 'address'" alt="search" class="icon"
+                    src="/assets/images/svg-icons/location-pin.svg">
+                  <img *ngIf="option.type === 'incident'" alt="search" class="icon"
+                    src="/assets/images/svg-icons/wildfire-grey.svg">
+                  <img *ngIf="option.type === 'order'" alt="search" class="icon"
+                    src="/assets/images/svg-icons/order-filled-grey.svg">
+                  <img *ngIf="option.type === 'alert'" alt="search" class="icon"
+                    src="/assets/images/svg-icons/alert-filled-grey.svg">
+                </div>
+                <div class="search-data">
+                  <div><span class="address">{{option.title}}</span></div>
+                  <div class="locality">{{option.subtitle}}</div>
+                </div>
+              </div>
+            </mat-option>
+          </mat-autocomplete>
         </div>
-        <div id="map-container" class="map">
-        <div class="identify-panel"></div>
-        <div class="search-row">
-          <div class="search-bar">
-              <input type="text" placeholder="Search" aria-label="Search" matInput [formControl]="searchByLocationControl" [matAutocomplete]="auto" #inputAutoComplete class="search-location">
-              <button matSuffix mat-icon-button aria-label="Clear" class="input-clear-button" (click)="clearSearchLocationControl()"><mat-icon>close</mat-icon></button>
-              <!-- Autocomplete will be updated to also support incidents/evacs -->
-              <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
-                  <mat-option class="location-mat-option" *ngFor="let option of filteredOptions" [value]="option">
-                      <div class="location-option" #locationOptions [attr.data-loc-long]="option.location[0]" [attr.data-loc-lat]="option.location[1]">
-                        <div class="search-icon">
-                          <img *ngIf="option.type === 'address'" alt="search" class="icon" src="/assets/images/svg-icons/location-pin.svg" >
-                          <img *ngIf="option.type === 'incident'" alt="search" class="icon" src="/assets/images/svg-icons/fire-search-icon-grey.svg" >
-                          <img *ngIf="option.type === 'order'" alt="search" class="icon" src="/assets/images/svg-icons/order-filled-grey.svg" >
-                          <img *ngIf="option.type === 'alert'" alt="search" class="icon" src="/assets/images/svg-icons/alert-filled-grey.svg" >
-                        </div>
-                        <div class="search-data">
-                          <div><span class="address">{{option.title}}</span></div>
-                          <div class="locality">{{option.subtitle}}</div>
-                        </div>
-                      </div>
-                  </mat-option>
-              </mat-autocomplete>
-          </div>
-          <button class="button" mat-raised-button (click)="useMyCurrentLocation()"><mat-icon class="button-icon">my_location</mat-icon><span class="button-label">Find Me</span></button>
+        <button class="button" mat-raised-button (click)="useMyCurrentLocation()"><mat-icon
+            class="button-icon">my_location</mat-icon><span class="button-label">Find Me</span></button>
       </div>
-            <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)" ></wf-map-container>
-            <div class="layers-container" *ngIf="this.isMapLoaded" (mouseover)="setupScrollForLayersComponent()">
-              <button *ngIf="!isMobileView() && showLeftLayerScroller()" mat-fab class="layer-scroll-button" (mousedown)="sliderButtonHold = true; slideLayerButtons(-40); $event.stopPropagation()" (mouseup)="sliderButtonHold = false"><img alt="left" src="../../../assets/images/svg-icons/chevron-left.svg"></button>
-                <mat-button-toggle-group id="layer-buttons" class="layer-buttons disable-scrollbars" multiple="false">
-                    <map-toggle-button labelText="Wildfires" value="wildfire-stage-of-control" [checked]="isChecked('wildfire-stage-of-control')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/wildfire.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Evacuations" value="evacuation-orders-and-alerts" [checked]="isChecked('evacuation-orders-and-alerts')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_bullhorn.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Fire Bans" value="bans-and-prohibitions" [checked]="isChecked('bans-and-prohibitions')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_error.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Area Restrictions" value="area-restrictions" [checked]="isChecked('area-restrictions')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_warning-hex.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Fire Danger" value="fire-danger" [checked]="isChecked('fire-danger')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_gauge.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Smoke Forecast" value="smoke-forecast" [checked]="isChecked('smoke-forecast')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_smoke.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Out Fires" value="out-fires" [checked]="isChecked('out-fires')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_crop-growth.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Local Authorities"  value="local-authorities" [checked]="isChecked('local-authorities')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_finance.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Road Events" value="routes-impacted" [checked]="isChecked('routes-impacted')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_car-front.svg'"></map-toggle-button>
-                    <map-toggle-button *ngIf="isMobileView()" labelText="All Layers" value="all-layers" (changeEvent)="openAllLayers()" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
-                </mat-button-toggle-group>
-                <button *ngIf="!isMobileView() && showRightLayerScroller()" mat-fab class="layer-scroll-button right" (mousedown)="sliderButtonHold = true; slideLayerButtons(40); $event.stopPropagation()" (mouseup)="sliderButtonHold = false"><img alt="right" src="../../../assets/images/svg-icons/chevron-right.svg"></button>
-            </div>
-            <!-- worth noting, SMK can support these buttons embedded directly, no need to overlay -->
-            <button mat-fab class="mat-white-40 all-layers-btn" *ngIf="isMapLoaded && isMobileView()" (click)="openAllLayers()">
-                <img alt="All Layers" src="../../../assets/images/svg-icons/carbon_layers.svg">
-            </button>
-            <button mat-fab class="mat-white-40 legend-btn" *ngIf="isMapLoaded && isMobileView()" (click)="showLegend()">
-              <img alt="Legend" src="/assets/images/svg-icons/legend.svg" >
-            </button>
-            <!-- for local testing -->
-            <!-- <button class="notification-test-button" *ngIf="isMapLoaded && isMobileView()" (click)="onPushNotificationClick()">
+      <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
+        (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
+      <div class="layers-container" *ngIf="this.isMapLoaded" (mouseover)="setupScrollForLayersComponent()">
+        <button *ngIf="!isMobileView() && showLeftLayerScroller()" mat-fab class="layer-scroll-button"
+          (mousedown)="sliderButtonHold = true; slideLayerButtons(-40); $event.stopPropagation()"
+          (mouseup)="sliderButtonHold = false"><img alt="left"
+            src="../../../assets/images/svg-icons/chevron-left.svg"></button>
+        <mat-button-toggle-group id="layer-buttons" class="layer-buttons disable-scrollbars" multiple="false">
+          <map-toggle-button labelText="Wildfires" value="wildfire-stage-of-control"
+            [checked]="isChecked('wildfire-stage-of-control')" (changeEvent)="onSelectLayer($event.value)"
+            [labelIconPath]="'../../../assets/images/svg-icons/wildfire.svg'"></map-toggle-button>
+          <map-toggle-button labelText="Evacuations" value="evacuation-orders-and-alerts"
+            [checked]="isChecked('evacuation-orders-and-alerts')" (changeEvent)="onSelectLayer($event.value)"
+            [labelIconPath]="'../../../assets/images/svg-icons/carbon_bullhorn.svg'"></map-toggle-button>
+          <map-toggle-button labelText="Fire Bans" value="bans-and-prohibitions"
+            [checked]="isChecked('bans-and-prohibitions')" (changeEvent)="onSelectLayer($event.value)"
+            [labelIconPath]="'../../../assets/images/svg-icons/carbon_error.svg'"></map-toggle-button>
+          <map-toggle-button labelText="Area Restrictions" value="area-restrictions"
+            [checked]="isChecked('area-restrictions')" (changeEvent)="onSelectLayer($event.value)"
+            [labelIconPath]="'../../../assets/images/svg-icons/carbon_warning-hex.svg'"></map-toggle-button>
+          <map-toggle-button labelText="Fire Danger" value="fire-danger" [checked]="isChecked('fire-danger')"
+            (changeEvent)="onSelectLayer($event.value)"
+            [labelIconPath]="'../../../assets/images/svg-icons/carbon_gauge.svg'"></map-toggle-button>
+          <map-toggle-button labelText="Smoke Forecast" value="smoke-forecast" [checked]="isChecked('smoke-forecast')"
+            (changeEvent)="onSelectLayer($event.value)"
+            [labelIconPath]="'../../../assets/images/svg-icons/carbon_smoke.svg'"></map-toggle-button>
+          <map-toggle-button labelText="Out Fires" value="out-fires" [checked]="isChecked('out-fires')"
+            (changeEvent)="onSelectLayer($event.value)"
+            [labelIconPath]="'../../../assets/images/svg-icons/carbon_crop-growth.svg'"></map-toggle-button>
+          <map-toggle-button labelText="Local Authorities" value="local-authorities"
+            [checked]="isChecked('local-authorities')" (changeEvent)="onSelectLayer($event.value)"
+            [labelIconPath]="'../../../assets/images/svg-icons/carbon_finance.svg'"></map-toggle-button>
+          <map-toggle-button labelText="Road Events" value="routes-impacted" [checked]="isChecked('routes-impacted')"
+            (changeEvent)="onSelectLayer($event.value)"
+            [labelIconPath]="'../../../assets/images/svg-icons/carbon_car-front.svg'"></map-toggle-button>
+          <map-toggle-button *ngIf="isMobileView()" labelText="All Layers" value="all-layers"
+            (changeEvent)="openAllLayers()"
+            [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
+        </mat-button-toggle-group>
+        <button *ngIf="!isMobileView() && showRightLayerScroller()" mat-fab class="layer-scroll-button right"
+          (mousedown)="sliderButtonHold = true; slideLayerButtons(40); $event.stopPropagation()"
+          (mouseup)="sliderButtonHold = false"><img alt="right"
+            src="../../../assets/images/svg-icons/chevron-right.svg"></button>
+      </div>
+      <!-- worth noting, SMK can support these buttons embedded directly, no need to overlay -->
+      <button mat-fab class="mat-white-40 all-layers-btn" *ngIf="isMapLoaded && isMobileView()"
+        (click)="openAllLayers()">
+        <img alt="All Layers" src="../../../assets/images/svg-icons/carbon_layers.svg">
+      </button>
+      <button mat-fab class="mat-white-40 legend-btn" *ngIf="isMapLoaded && isMobileView()" (click)="showLegend()">
+        <img alt="Legend" src="/assets/images/svg-icons/legend.svg">
+      </button>
+      <!-- for local testing -->
+      <!-- <button class="notification-test-button" *ngIf="isMapLoaded && isMobileView()" (click)="onPushNotificationClick()">
               push notification test
             </button> -->
-            <button mat-fab class="mat-white-48 search-fab right-20" *ngIf="isMapLoaded && isMobileView()" (click)="openSearchPage()">
-              <img alt="search" class="search-fab-icon" src="/assets/images/svg-icons/search.svg" >
-            </button>
-            <button mat-fab class="mat-white-48 bottom-77 right-20" *ngIf="isMapLoaded && isMobileView()" (click)="clickedMyLocation ? clearMyLocation() : useMyCurrentLocation()">
-                <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
-                <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
-            </button>
-        </div>
+      <button mat-fab class="mat-white-48 search-fab right-20" *ngIf="isMapLoaded && isMobileView()"
+        (click)="openSearchPage()">
+        <img alt="search" class="search-fab-icon" src="/assets/images/svg-icons/search.svg">
+      </button>
+      <button mat-fab class="mat-white-48 bottom-77 right-20" *ngIf="isMapLoaded && isMobileView()"
+        (click)="clickedMyLocation ? clearMyLocation() : useMyCurrentLocation()">
+        <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
+        <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
+      </button>
+    </div>
+  </div>
+  <wfnews-draggable-panel *ngIf="isMobileView() && showPanel" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
+  <mobile-sliding-drawer *ngIf="isMobileView()" [(isVisible)]="isAllLayersOpen"
+    (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Map Settings'">
+    <div *ngIf="!isDataSourcesOpen">
+      <map-type-picker></map-type-picker>
+      <hr class="drawer-section-divider">
+      <map-layers-section [mapInitialized]="isMapLoaded" [(triggerRefresh)]="refreshAllLayers"
+        (layersChangedEvent)="handleLayerChange()"></map-layers-section>
+      <div class="drawer-footer">
+        <button (click)="isDataSourcesOpen = true">Data Sources</button>
       </div>
-      <wfnews-draggable-panel *ngIf="isMobileView() && showPanel" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
-      <mobile-sliding-drawer *ngIf="isMobileView()" [(isVisible)]="isAllLayersOpen" (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Map Settings'">
-        <div *ngIf="!isDataSourcesOpen">
-            <map-type-picker></map-type-picker>
-            <hr class="drawer-section-divider">
-            <map-layers-section [mapInitialized]="isMapLoaded" [(triggerRefresh)]="refreshAllLayers" (layersChangedEvent)="handleLayerChange()"></map-layers-section>
-            <div class="drawer-footer">
-                <button (click)="isDataSourcesOpen = true">Data Sources</button>
-            </div>
-        </div>
-        <map-layers-datasource-section *ngIf="isDataSourcesOpen"></map-layers-datasource-section>
-      </mobile-sliding-drawer>
-      <mobile-sliding-drawer *ngIf="isMobileView()" [(isVisible)]="isLegendOpen" (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Legend'" [isGreyBackground]="true">
-        <wfnews-base-legend [featureLayerID]="selectedLayer"></wfnews-base-legend>
-      </mobile-sliding-drawer>
+    </div>
+    <map-layers-datasource-section *ngIf="isDataSourcesOpen"></map-layers-datasource-section>
+  </mobile-sliding-drawer>
+  <mobile-sliding-drawer *ngIf="isMobileView()" [(isVisible)]="isLegendOpen"
+    (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Legend'" [isGreyBackground]="true">
+    <wfnews-base-legend [featureLayerID]="selectedLayer"></wfnews-base-legend>
+  </mobile-sliding-drawer>
 </div>

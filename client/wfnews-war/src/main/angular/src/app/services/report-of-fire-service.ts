@@ -6,8 +6,9 @@ import { App } from '@capacitor/app';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Filesystem } from '@capacitor/filesystem';
-import { LocalStorageService } from './local-storage-service';
+import { IonicStorageService } from './ionic-storage.service';
 import { Subscription } from 'rxjs';
+import { LocalStorageService } from './local-storage-service';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -44,7 +45,8 @@ export class ReportOfFireService {
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
-    private storageService: LocalStorageService
+    private ionicStorageService: IonicStorageService,
+    private localStorageService: LocalStorageService
   ) { }
 
   async saveReportOfFire(
@@ -99,26 +101,27 @@ export class ReportOfFireService {
         return;
       }
 
-      let storedOfflineReportData;
       try {
-        storedOfflineReportData = this.storageService.removeData('offlineReportData');
-      } catch (error) {
-        console.error('An error occurred while retrieving offlineReportData:', error);
-      }
-      if (storedOfflineReportData) {
-        // in case the device back online right after user store the report into ionic, 
-        // should always check to avoid submit the duplicate one
-        const offlineReport = JSON.parse(storedOfflineReportData);
-        if (offlineReport.resource) {
-          const offlineResource = JSON.parse(offlineReport.resource);
-          if (offlineResource === resource) {
-            try {
-              this.storageService.removeData('offlineReportData');
-            } catch (error) {
-              console.error('An error occurred while removing offlineReportData:', error);
+        const storedOfflineReportData = this.ionicStorageService.get('offlineReportData').then(response => {
+          if (response) {
+            // in case the device back online right after user store the report into ionic, 
+            // should always check to avoid submit the duplicate one
+            const offlineReport = JSON.parse(response);
+            if (offlineReport.resource) {
+              const offlineResource = JSON.parse(offlineReport.resource);
+              if (offlineResource === resource) {
+                try {
+                  this.ionicStorageService.clear();
+                } catch (error) {
+                  console.error('An error occurred while removing offlineReportData:', error);
+                }
+              }
             }
           }
-        }
+        });
+
+      } catch (error) {
+        console.error('An error occurred while retrieving offlineReportData:', error);
       }
 
       const response = await fetch(rofUrl, {
@@ -135,6 +138,7 @@ export class ReportOfFireService {
         return { success: false, message: JSON.stringify(response) };
       }
     } catch (error) {
+      console.error(error);
       // submit to storage if there is an error
       if (this.formData) await this.submitToStorage(this.formData)
       // An error occurred during the HTTP request
@@ -267,7 +271,7 @@ export class ReportOfFireService {
 
       if (response.ok || response.status == 200) {
         // Remove the locally stored data if sync is successful
-        this.storageService.removeData('offlineReportData');
+        this.ionicStorageService.clear();
         App.removeAllListeners();
         // The server successfully processed the report
         return { success: true, message: 'Report submitted successfully' };
@@ -288,10 +292,12 @@ export class ReportOfFireService {
     const object = {};
     formData.forEach((value, key) => (object[key] = value));
     const json = JSON.stringify(object);
-    const data = this.storageService.getData('offlineReportData')
-    if (data == json) {
-      return;
-    } else this.storageService.saveData('offlineReportData', json);
+    const data = this.ionicStorageService.get('offlineReportData').then(result => {
+      if (result && result == json) {
+        return;
+      } else this.ionicStorageService.set('offlineReportData', json);
+    }
+    );
   }
 
   // could not seem to get this to work for non-JPEG, those will be handled in notifications api.
@@ -329,13 +335,16 @@ export class ReportOfFireService {
 
     try {
       // Fetch and submit locally stored data
-      offlineReport = this.storageService.getData('offlineReportData')
-      submissionIdList = this.storageService.getData('submissionIDList')
+      await this.ionicStorageService.get('offlineReportData').then(response => {
+        offlineReport = response;
+      })
+
+      submissionIdList = this.localStorageService.getData('submissionIDList');
 
       if (offlineReport) {
-        // Check for duplicate, reject if submissionID has already been stored
+         // Check for duplicate, reject if submissionID has already been stored
         const offlineJson = JSON.parse(offlineReport)
-        if (offlineJson?.resource) {
+        if(offlineJson?.resource) {
           const resourceJson = JSON.parse(offlineJson.resource)
           submissionID = resourceJson?.submissionID
           if (submissionID && submissionIdList?.includes(submissionID)) {
@@ -344,19 +353,19 @@ export class ReportOfFireService {
         }
 
         // Reject duplicate if submissionID has already been stored
-        if (duplicateStored) return true;
+        if(duplicateStored) return true;
 
         // Send the report to the server
         const response =
-          await this.submitOfflineReportToServer(offlineReport).then(async response => {
+          await this.submitOfflineReportToServer(offlineReport).then(response => {
             if (response.success) {
               dataSynced = true;
               // Remove the locally stored data if sync is successful
-              this.storageService.removeData('offlineReportData');
+              this.ionicStorageService.clear();
               // store submissionID for duplicate check 
-              if (submissionID) {
-                submissionIdList = submissionIdList ? submissionIdList + ", " + submissionID : submissionID;
-                this.storageService.saveData('submissionIDList', submissionIdList)
+              if(submissionID) {
+                submissionIdList = submissionIdList ? submissionIdList + ", " +  submissionID : submissionID;
+                this.localStorageService.saveData('submissionIDList', submissionIdList)
               }
 
               intervalRef.unsubscribe()
@@ -369,5 +378,6 @@ export class ReportOfFireService {
     }
     return dataSynced;
   }
+
 
 }

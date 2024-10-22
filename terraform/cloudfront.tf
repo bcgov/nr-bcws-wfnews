@@ -33,15 +33,6 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
   is_ipv6_enabled = true
   comment         = "geofencing"
 
-  //	- logging should probably be in a central location (centralized-logging account?) - in an aggregated/shared bucket and perhaps also synced into a bucket within the account where the aws-login app is deployed
-  //	- prefix should follow SEA convention like <account>/<region>/<service name> eg. 12345678/ca-central-1/cloudfront
-  //
-  //  logging_config {
-  //    include_cookies = false
-  //    bucket          = "<mylogs>.s3.amazonaws.com"
-  //    prefix          = "geofencing"
-  //  }
-
   default_cache_behavior {
     allowed_methods = [
       "DELETE",
@@ -60,7 +51,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
       headers      = ["Origin", "Authorization"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
@@ -188,15 +179,6 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
   is_ipv6_enabled = true
   comment         = "geofencing"
 
-  //	- logging should probably be in a central location (centralized-logging account?) - in an aggregated/shared bucket and perhaps also synced into a bucket within the account where the aws-login app is deployed
-  //	- prefix should follow SEA convention like <account>/<region>/<service name> eg. 12345678/ca-central-1/cloudfront
-  //
-  //  logging_config {
-  //    include_cookies = false
-  //    bucket          = "<mylogs>.s3.amazonaws.com"
-  //    prefix          = "geofencing"
-  //  }
-
   default_cache_behavior {
     allowed_methods = [
       "DELETE",
@@ -215,7 +197,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
       headers      = ["Origin"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
@@ -296,15 +278,6 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
   is_ipv6_enabled = true
   comment         = "geofencing"
 
-  //	- logging should probably be in a central location (centralized-logging account?) - in an aggregated/shared bucket and perhaps also synced into a bucket within the account where the aws-login app is deployed
-  //	- prefix should follow SEA convention like <account>/<region>/<service name> eg. 12345678/ca-central-1/cloudfront
-  //
-  //  logging_config {
-  //    include_cookies = false
-  //    bucket          = "<mylogs>.s3.amazonaws.com"
-  //    prefix          = "geofencing"
-  //  }
-
   default_cache_behavior {
     allowed_methods = [
       "DELETE",
@@ -323,7 +296,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
       headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
@@ -348,6 +321,30 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
   }
 
   ordered_cache_behavior {
+    path_pattern           = "/statistics"
+    allowed_methods        = ["GET", "OPTIONS", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    target_origin_id       = "wfnews_nginx_${var.target_env}"
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+    
+    min_ttl                = 3600
+    default_ttl            = 3600
+    max_ttl                = 43200
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin"]
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
+  }
+
+  ordered_cache_behavior {
     path_pattern    = "/static/*"
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
@@ -361,7 +358,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
       headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
@@ -416,14 +413,6 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
   is_ipv6_enabled = true
   comment         = "geofencing"
 
-  //	- logging should probably be in a central location (centralized-logging account?) - in an aggregated/shared bucket and perhaps also synced into a bucket within the account where the aws-login app is deployed
-  //	- prefix should follow SEA convention like <account>/<region>/<service name> eg. 12345678/ca-central-1/cloudfront
-  //
-  //  logging_config {
-  //    include_cookies = false
-  //    bucket          = "<mylogs>.s3.amazonaws.com"
-  //    prefix          = "geofencing"
-  //  }
 
   default_cache_behavior {
     allowed_methods = [
@@ -443,7 +432,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
       headers      = ["Origin", "Authorization"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
@@ -523,15 +512,6 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
   is_ipv6_enabled = true
   comment         = "geofencing"
 
-  //	- logging should probably be in a central location (centralized-logging account?) - in an aggregated/shared bucket and perhaps also synced into a bucket within the account where the aws-login app is deployed
-  //	- prefix should follow SEA convention like <account>/<region>/<service name> eg. 12345678/ca-central-1/cloudfront
-  //
-  //  logging_config {
-  //    include_cookies = false
-  //    bucket          = "<mylogs>.s3.amazonaws.com"
-  //    prefix          = "geofencing"
-  //  }
-
   default_cache_behavior {
     allowed_methods = [
       "DELETE",
@@ -552,7 +532,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
       headers      = ["Origin", "Authorization"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
@@ -570,6 +550,30 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+  }
+
+  ordered_cache_behavior {
+    path_pattern           = "/statistics"
+    allowed_methods        = ["GET", "OPTIONS", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    target_origin_id       = "wfnews_nginx_gov_${var.target_env}"
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+    
+    min_ttl                = 3600
+    default_ttl            = 3600
+    max_ttl                = 43200
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin"]
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
   }
 
   ordered_cache_behavior {
@@ -639,15 +643,6 @@ resource "aws_cloudfront_distribution" "wfss_pointid_api" {
   enabled         = true
   is_ipv6_enabled = true
 
-  //	- logging should probably be in a central location (centralized-logging account?) - in an aggregated/shared bucket and perhaps also synced into a bucket within the account where the aws-login app is deployed
-  //	- prefix should follow SEA convention like <account>/<region>/<service name> eg. 12345678/ca-central-1/cloudfront
-  //
-  //  logging_config {
-  //    include_cookies = false
-  //    bucket          = "<mylogs>.s3.amazonaws.com"
-  //    prefix          = "geofencing"
-  //  }
-
   default_cache_behavior {
     allowed_methods = [
       "DELETE",
@@ -668,7 +663,7 @@ resource "aws_cloudfront_distribution" "wfss_pointid_api" {
       headers      = ["Origin"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
@@ -767,7 +762,7 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
       headers      = ["Origin"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
@@ -844,7 +839,7 @@ resource "aws_cloudfront_distribution" "wfnews_redirect_receiver" {
       headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
@@ -911,7 +906,7 @@ resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
       headers      = ["Origin", "Authorization"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
@@ -978,7 +973,7 @@ resource "aws_cloudfront_distribution" "wfnews_services6_cache" {
       headers      = ["Origin", "Authorization"]
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 

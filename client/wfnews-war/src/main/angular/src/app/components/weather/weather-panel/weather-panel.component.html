@@ -1,77 +1,49 @@
-<div class="smk-popup">
+<div class="smk-popup" *ngIf="stationData">
   <div class="popup-header">
-    <span>Latest Weather Reading: {{convertName(hourly.hour)}} PST</span>
+    <span class="back-button">
+      <mat-icon svgIcon="back-icon-panel" (click)="goBack()"></mat-icon>
+    </span>
+    <span class="title">
+      <img class="desktop-preview-icon" src="/assets/images/svg-icons/carbon_partly-cloudy.svg" width='20' height='20' alt="active weather station">
+      Active Weather Station
+    </span>
+    <span class="close-button">
+      <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+    </span>
   </div>
-  <div class="popup-title">{{stationData.stationName}}</div>
-  <div *ngIf="hourly && hourly.temp" class="popup-attributes">
-    <div class="label">Temperature:</div>
-    <div class="attribute">{{hourly.temp}}°</div>
+  <div *ngIf="!isDetailView; else detailView">
+    <div class="popup-content">
+      <div class="popup-title">Weather Station: {{stationData.stationName}}</div>
+      <div *ngIf="hourly && hourly.hour">
+        <div class="label">{{formatHourlyData()}}</div>
+      </div>
+      <div *ngIf="hourly && hourly.temp">
+        <div class="label">
+          <img class= "desktop-preview-icon" height="20" width="20" src="/assets/images/svg-icons/carbon_temperature-celsius.svg">
+          {{hourly.temp}}° C
+        </div>
+      </div>
+      <div *ngIf="hourly && hourly.precipitation != null && hourly.relativeHumidity != null">
+        <div class="label">
+          <img class="desktop-preview-icon" height="20" width="20" src="/assets/images/svg-icons/carbon_humidity.svg" >
+          Precipitation: {{hourly.precipitation}}mm | Humidity: {{hourly.relativeHumidity}}%
+        </div>
+      </div>
+      <div *ngIf="hourly && hourly.windSpeed && hourly.windCardinalDir">
+        <div class="label">
+          <img class="desktop-preview-icon" height="20" width="20" src="/assets/images/svg-icons/carbon_windy-strong.svg" >
+          Wind: {{hourly.windSpeed}}km/h {{hourly.windCardinalDir}}
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <button mat-flat-button class="desktop-button-primary" (click)="enterFullDetail()">
+          Full Details
+      </button>
+    </div>
   </div>
-  <div *ngIf="hourly && hourly.relativeHumidity" class="popup-attributes">
-    <div class="label">Relative Humidity:</div>
-    <div class="attribute">{{hourly.relativeHumidity}}%</div>
-  </div>
-  <div *ngIf="hourly && hourly.windSpeed" class="popup-attributes">
-    <div class="label">Wind Speed:</div>
-    <div class="attribute">{{hourly.windSpeed}} km/h</div>
-  </div>
-  <div *ngIf="hourly && hourly.windDirection" class="popup-attributes">
-    <div class="label">Wind Direction:</div>
-    <div class="attribute">{{hourly.windDirection}}° {{hourly.windCardinalDir}}</div>
-  </div>
-  <div *ngIf="hourly && hourly.precipitation" class="popup-attributes">
-    <div class="label">Precipitation:</div>
-    <div class="attribute">{{hourly.precipitation}}mm</div>
-  </div>
-  <div *ngIf="!hourly || (!hourly.temp && !hourly.relativeHumidity && !hourly.windSpeed && !hourly.windDirection&& !hourly.precipitation)" class="popup-attributes">
-    No Information Available
-  </div>
-  <div>
-    <div class="label">Fire Weather Indices</div>
-  </div>
-  <div *ngIf="!hourly || (!hourly.fineFuelMoistureCode && !hourly.relativeHumidity && !hourly.fireWeatherIndex && !daily.fineFuelMoistureCode)" class="popup-attributes">
-    No Information Available
-  </div>
-  <div *ngIf="hourly && hourly.fineFuelMoistureCode" class="popup-attributes">
-    <div class="label">Hourly FFMC:</div>
-    <div class="attribute">{{hourly.fineFuelMoistureCode}}</div>
-  </div>
-  <div *ngIf="hourly && hourly.initialSpreadIndex" class="popup-attributes">
-    <div class="label">Hourly ISI:</div>
-    <div class="attribute">{{hourly.initialSpreadIndex}}</div>
-  </div>
-  <div *ngIf="hourly && hourly.fireWeatherIndex" class="popup-attributes">
-    <div class="label">Hourly FWI:</div>
-    <div class="attribute">{{hourly.fireWeatherIndex}}</div>
-  </div>
-  <div *ngIf="hourly && daily && daily.fineFuelMoistureCode" class="popup-attributes">
-    <div class="label">Daily FFMC:</div>
-    <div class="attribute">{{daily.fineFuelMoistureCode}}</div>
-  </div>
-  <div *ngIf="hourly && daily && daily.buildupIndex" class="popup-attributes">
-    <div class="label">Daily BUI:</div>
-    <div class="attribute">{{daily.buildupIndex}}</div>
-  </div>
-  <div *ngIf="hourly && daily && daily.droughtCode" class="popup-attributes">
-    <div class="label">Daily DC:</div>
-    <div class="attribute">{{daily.droughtCode}}</div>
-  </div>
-  <div *ngIf="hourly && daily && daily.duffMoistureCode" class="popup-attributes">
-    <div class="label">Daily DMC:</div>
-    <div class="attribute">{{daily.duffMoistureCode}}</div>
-  </div>
-  <div *ngIf="hourly && daily && daily.initialSpreadIndex" class="popup-attributes">
-    <div class="label">Daily ISI:</div>
-    <div class="attribute">{{daily.initialSpreadIndex}}</div>
-  </div>
-  <div *ngIf="hourly && daily && daily.fireWeatherIndex" class="popup-attributes">
-    <div class="label">Daily FWI:</div>
-    <div class="attribute">{{daily.fireWeatherIndex}}</div>
-  </div>
-
-  <wfnews-weather-history *ngIf="latitude && longitude" [latitude]="latitude" [longitude]="longitude"></wfnews-weather-history>
-
-  <div class="popup-button-container">
-    <a class="popup-button" target="_blank" rel="noopener" href="https://wfapps.nrs.gov.bc.ca/pub/wfwx-danger-summary-war/dangerSummary">Fire Danger Class</a>
-  </div>
+  <ng-template #detailView>
+    <!-- Detail View -->
+    <wfnews-weather-panel-detail [hourly]="hourly" [daily]="daily" [latitude]="latitude" [longitude]="longitude" [stationData]="stationData"></wfnews-weather-panel-detail>
+  </ng-template>
 </div>

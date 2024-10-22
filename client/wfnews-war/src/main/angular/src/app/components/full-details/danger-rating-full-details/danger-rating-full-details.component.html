@@ -21,7 +21,8 @@
 <hr>
 <div class="info-container">
   <div class="full-details-secondary-title">Industrial Activities</div>
-  <p class="info">Please note that the data within the danger class report is only relevant for the geographic location of the weather station. Persons carrying out industrial activities who want to apply the danger class information from this website must determine that the weather station location is representative of their operational area.</p>
+  <p class="info">The fire danger rating map is intended for general public information only. For regulated forest operations, the danger class value must be derived from weather data representative of the site on which operations are being conducted.</p>
+  <p class="info">Where discrepancies exist between the colour display on the weather maps and the numerical values posted for the weather stations, the posted numerical values shall take precedence for the purpose of implementing the Wildfire Regulation.</p>
 </div>
 <hr>
 <div class="info-container">
@@ -30,10 +31,16 @@
 </div>
 <div class="links">
   <div class="links-relative">
-    <p>Fire Danger Rating<img (click)="navToDangerSummary()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+    <p>Fire Danger Rating<img (click)="navToDangerSummary()" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
   </div>
   <div class="links-relative">
-    <p>Current Bans and Restrictions<img (click)="navToCurrentRestrictions()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+    <p>Current Bans and Restrictions<img (click)="navToCurrentRestrictions()" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+  </div>
+  <div class="links-relative">
+    <p>Fire Danger Class<img (click)="navToDangerClass()" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+  </div>
+  <div class="links-relative">
+    <p>High Risk Activities<img (click)="navToHighRiskActivities()" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
   </div>
 </div>
 <div class="spacer"></div>

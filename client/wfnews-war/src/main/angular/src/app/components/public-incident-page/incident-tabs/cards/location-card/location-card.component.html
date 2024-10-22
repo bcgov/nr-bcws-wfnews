@@ -1,0 +1,27 @@
+<content-card-container class="location-card">
+  <div class="header">
+    <span class="title">Location</span>
+  </div>
+  <div class="content-container">
+    <div class="content" *ngIf="traditionalTerritory">
+      <div class="content-title"><img class="icon" src="assets/images/svg-icons/carbon_map.svg" alt="map">
+        Traditional Territory</div>
+      <div class="content-list">
+        <span class="content-text">{{ traditionalTerritory }}</span>
+      </div>
+    </div>
+
+    <div class="content" *ngIf="description">
+      <div class="content-title">Description</div>
+      <div class="content-list">
+        <span class="content-text">{{ description }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="button">
+    <icon-button iconPath="/assets/images/svg-icons/map.svg" label="View Full Map" [componentStyle]="iconButtonStyle"
+    (buttonClicked)="clickHandler()"></icon-button>
+  </div>
+
+</content-card-container>

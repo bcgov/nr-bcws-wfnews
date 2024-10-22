@@ -1,0 +1,63 @@
+:host { display: block; }
+
+.advisory-section {
+  padding: 16px 32px;
+  border-top: 2px solid #DDDDDD;
+  border-bottom: 2px solid #DDDDDD;
+  background: #FFFFFF;
+
+  hr { 
+    background-color: #e2e2e2; 
+    height: 1px; 
+    border: 0;
+    margin: 8px 0;
+  }
+
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 8px;
+
+    .content-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .icon-container {
+        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 30px;
+        background: #DDDDDD;
+        width: 24px;
+        height: 24px;
+  
+        .icon {
+          width: 24px;
+          height: 24px;
+        }
+  
+      }
+  
+      .message-container {
+        display: flex;
+        flex-direction: column;
+  
+        .title {
+          font-size: 20px;
+          font-weight: 500;
+          color: #1a1a1a;
+          font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+        }
+  
+        .message {
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 400;
+          color: #484848;
+          font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+        }
+      }
+    }
+  }
+}

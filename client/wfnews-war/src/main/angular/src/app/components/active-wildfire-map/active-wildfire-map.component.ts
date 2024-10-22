@@ -412,6 +412,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         .then(() => {
           const deviceConfig = { viewer: { device: 'desktop' } };
           this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
+          this.isMapLoaded = true;
+        })
+        .catch((error) => {
+          console.error('Error loading map:', error);
+          this.isMapLoaded = false;
         });
     });
     this.activedRouter.queryParams.subscribe((params: ParamMap) => {
@@ -822,75 +827,84 @@ async onSelectIncidents(incidentRefs) {
   }
 }
 
-  async initializeLayers() {
+async initializeLayers() {
+  try {
     const selectedLayer = await Preferences.get({ key: 'selectedLayer' });
-    this.selectedLayer =
-      (selectedLayer.value as SelectedLayer) || 'wildfire-stage-of-control';
+    this.selectedLayer = (selectedLayer.value as SelectedLayer) || 'wildfire-stage-of-control';
     this.onSelectLayer(this.selectedLayer);
     this.isMapLoaded = true;
     this.notificationService
       .getUserNotificationPreferences()
       .then((response) => {
-        const SMK = window['SMK'];
-        const map = getActiveMap(SMK).$viewer.map;
+        try {
+          const SMK = window['SMK'];
+          const map = getActiveMap(SMK).$viewer.map;
 
-        if (!response.notifications) {
-          return;
-        }
+          if (!response.notifications) {
+            return;
+          }
 
-        map.on('zoomend', () => {
-          this.updateSavedLocationLabelVisibility();
-        });
+          map.on('zoomend', () => {
+            this.updateSavedLocationLabelVisibility();
+          });
 
-        this.resizeObserver = new ResizeObserver(() => {
-          map.invalidateSize();
-        });
+          this.resizeObserver = new ResizeObserver(() => {
+            map.invalidateSize();
+          });
 
-        this.resizeObserver.observe(map._container);
+          this.resizeObserver.observe(map._container);
 
-        for (const smkMap in SMK.MAP) {
-          if (Object.hasOwn(SMK.MAP, smkMap)) {
-            const savedLocationMarker = {
-              icon: L.icon({
-                iconUrl:
-                  '/assets/images/svg-icons/blue-white-location-icon.svg',
-                iconSize: [32, 32],
-                iconAnchor: [16, 32],
-                popupAnchor: [0, -32],
-              }),
-              draggable: false,
-            };
-            for (const item of response.notifications) {
-              L.marker(
-                [item.point.coordinates[1], item.point.coordinates[0]],
-                savedLocationMarker,
-              ).addTo(getActiveMap(this.SMK).$viewer.map);
-              const label = L.marker(
-                [item.point.coordinates[1], item.point.coordinates[0]],
-                {
-                  icon: L.divIcon({
-                    className: 'marker-label',
-                    html: `<div class="custom-marker"
+          for (const smkMap in SMK.MAP) {
+            if (Object.hasOwn(SMK.MAP, smkMap)) {
+              const savedLocationMarker = {
+                icon: L.icon({
+                  iconUrl: '/assets/images/svg-icons/blue-white-location-icon.svg',
+                  iconSize: [32, 32],
+                  iconAnchor: [16, 32],
+                  popupAnchor: [0, -32],
+                }),
+                draggable: false,
+              };
+              for (const item of response.notifications) {
+                try {
+                  L.marker(
+                    [item.point.coordinates[1], item.point.coordinates[0]],
+                    savedLocationMarker,
+                  ).addTo(getActiveMap(this.SMK).$viewer.map);
+                  const label = L.marker(
+                    [item.point.coordinates[1], item.point.coordinates[0]],
+                    {
+                      icon: L.divIcon({
+                        className: 'marker-label',
+                        html: `<div class="custom-marker"
                   style="margin-top: -20px; margin-left: 25px; height: 1.2em; text-wrap: nowrap; display:flex; align-items: center; justify-content: left; text-align: center; color: #000; font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif; font-size: 16px; font-style: normal; font-weight: 600;">
                   ${item.notificationName}
                 </div>`,
-                  }),
-                },
-              );
-              label.addTo(getActiveMap(this.SMK).$viewer.map);
-              this.savedLocationlabels.push(label);
-              this.savedLocationlabelsToShow.push(label);
+                      }),
+                    },
+                  );
+                  label.addTo(getActiveMap(this.SMK).$viewer.map);
+                  this.savedLocationlabels.push(label);
+                  this.savedLocationlabelsToShow.push(label);
+                } catch (markerError) {
+                  console.error('Error adding marker or label:', markerError);
+                }
+              }
             }
           }
+          map.invalidateSize();
+        } catch (smkError) {
+          console.error('Error in SMK setup:', smkError);
         }
-        map.invalidateSize();
       })
-      .catch((error) => {
-        console.error(error);
+      .catch((notificationError) => {
+        console.error('Error fetching user notification preferences:', notificationError);
       });
     this.cdr.detectChanges();
+  } catch (initializationError) {
+    console.error('Error during layer initialization:', initializationError);
   }
-
+}
   private updateSavedLocationLabelVisibility() {
     // showing the savedLocation label only start with zoom level 5
     const map = getActiveMap(this.SMK).$viewer.map;
@@ -977,61 +991,63 @@ async onSelectIncidents(incidentRefs) {
       { itemId: 'radar-1km-rrai--radarurpprecipr14-linear', visible: false },
       { itemId: 'weather-stations', visible: true },
     ];
-
-    switch (this.selectedLayer) {
-      case 'evacuation-orders-and-alerts':
-        layers[1].visible = true;
-        layers[2].visible = true;
-        break;
-
-      case 'area-restrictions':
-        layers[6].visible = true;
-        // gives a 404 error from SMK
-        // layers[7].visible = true;
-        break;
-
-      case 'bans-and-prohibitions':
-        layers[5].visible = true;
-        layers[19].visible = true;
-        layers[20].visible = true;
-        layers[21].visible = true;
-        break;
-
-      case 'smoke-forecast':
-        layers[14].visible = true;
-        break;
-
-      case 'fire-danger':
-        layers[0].visible = true;
-        layers[3].visible = true;
-        break;
-
-      case 'local-authorities':
-        layers[15].visible = true;
-        layers[16].visible = true;
-        layers[17].visible = true;
-        layers[18].visible = true;
-        break;
-
-      case 'routes-impacted':
-        layers[11].visible = true;
-        break;
-
-      case 'out-fires':
-        layers[9].visible = true;
-        break;
-
-      case 'all-layers':
-        break;
-
-      default:
-        layers[0].visible = true;
-        layers[22].visible = true;
-        layers[23].visible = true;
-        layers[24].visible = true;
-        layers[25].visible = true;
+    try {
+      switch (this.selectedLayer) {
+        case 'evacuation-orders-and-alerts':
+          layers[1].visible = true;
+          layers[2].visible = true;
+          break;
+    
+        case 'area-restrictions':
+          layers[6].visible = true;
+          // gives a 404 error from SMK
+          // layers[7].visible = true;
+          break;
+    
+        case 'bans-and-prohibitions':
+          layers[5].visible = true;
+          layers[19].visible = true;
+          layers[20].visible = true;
+          layers[21].visible = true;
+          break;
+    
+        case 'smoke-forecast':
+          layers[14].visible = true;
+          break;
+    
+        case 'fire-danger':
+          layers[0].visible = true;
+          layers[3].visible = true;
+          break;
+    
+        case 'local-authorities':
+          layers[15].visible = true;
+          layers[16].visible = true;
+          layers[17].visible = true;
+          layers[18].visible = true;
+          break;
+    
+        case 'routes-impacted':
+          layers[11].visible = true;
+          break;
+    
+        case 'out-fires':
+          layers[9].visible = true;
+          break;
+    
+        case 'all-layers':
+          break;
+    
+        default:
+          layers[0].visible = true;
+          layers[22].visible = true;
+          layers[23].visible = true;
+          layers[24].visible = true;
+          layers[25].visible = true;
+      }
+    } catch (error) {
+      console.error('Error activating layers:', error);
     }
-
     // initialize smkApi if undefined
     if (!this.smkApi) {
       let event: Event;

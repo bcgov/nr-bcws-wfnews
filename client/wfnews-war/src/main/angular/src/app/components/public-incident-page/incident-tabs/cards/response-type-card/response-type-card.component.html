@@ -1,0 +1,23 @@
+<content-card-container class="response-type-card" [ngSwitch]="responseTypeCode">
+  <div class="header">
+    <span class="title">Response Type</span>
+  </div>
+
+  <div class="content">
+    <div *ngSwitchCase="responseTypes.full" class="content-title"><img class="icon"
+        src="/assets/images/svg-icons/full_response.svg" alt="full response">
+      Full Response
+    </div>
+    <div *ngSwitchCase="responseTypes.monitored" class="content-title"><img class="icon"
+        src="/assets/images/svg-icons/monitored_response.svg" alt="monitored response">
+      Monitored Response
+    </div>
+    <div *ngSwitchCase="responseTypes.modified" class="content-title"><img class="icon"
+        src="/assets/images/svg-icons/modified_response.svg" alt="modified response">
+      Modified Response
+    </div>
+
+    <span class="content-text">{{ responseText }}</span>
+  </div>
+
+</content-card-container>

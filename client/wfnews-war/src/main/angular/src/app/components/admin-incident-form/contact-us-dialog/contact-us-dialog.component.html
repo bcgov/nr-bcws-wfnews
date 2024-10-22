@@ -1,31 +1,7 @@
 <div class="contact-us-container">
   <div class="header">
-    <h1>Contact Us 
-      <span class="material-icons-outlined" [mat-dialog-close]="false">clear</span> 
-    </h1>
+    <span class="title">Contact Us</span>
+    <span class="material-icons-outlined" [mat-dialog-close]="false">clear</span> 
   </div>
-  <div class="content" >
-    <div class="fire-centre">
-      {{data.fireCentre}}
-    </div>
-    <div class="contact-method">
-      <div class="icon-label"><span class="material-icons-outlined icon">email</span><span>Email Address</span></div>
-      <span class="value">{{data.email}}</span>
-    </div>
-    <div class="contact-method">
-      <div class="icon-label"><span class="material-icons icon">call</span><span>Phone Number</span></div>
-      <span class="value">{{data.phoneNumber}}</span>
-    </div>
-
-    <div class="buttons-row">
-      <button mat-button class="mobile-button">
-          <span class="material-icons">call</span>
-          <a [href]="'tel:' + data.phoneNumber" style="text-decoration: none; color: inherit;">Call Us</a>
-      </button>
-      <button mat-button class="mobile-button" (click)="emailFireCentre(data.email)">
-          <span class="material-icons-outlined">email</span>
-          Email Us
-      </button>
-    </div>
-  </div>
+  <contact-us-core [incident]="data.incident"></contact-us-core>
 </div>

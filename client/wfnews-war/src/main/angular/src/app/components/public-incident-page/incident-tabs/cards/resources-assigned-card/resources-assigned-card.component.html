@@ -1,0 +1,21 @@
+<content-card-container class="resources-assigned-card">
+  <div class="header">
+    <span class="title">Resources Assigned</span>
+  </div>
+  <div class="content-container">
+
+    <div class="content">
+      <div class="content-list">
+        <div class="resource" *ngFor="let resource of resources; let lastItem = last;">
+          <assigned-resource-item [iconPath]="resource.iconPath" [headerText]="resource.headerText"
+            [description]="resource.description" />
+          <hr *ngIf="!lastItem">
+        </div>
+      </div>
+      <icon-button class="max-width-340" [componentStyle]="defaultSlimIconButtonStyle"
+        iconPath="/assets/images/svg-icons/launch_black.svg" label="Learn about Wildfire Resources"
+        (buttonClicked)="directToLink()"></icon-button>
+    </div>
+  </div>
+
+</content-card-container>

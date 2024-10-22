@@ -1,0 +1,11 @@
+<div class="download-item" (keypress)="clickHandler()" (click)="clickHandler()">
+
+  <div class="icon" [style.mask-image]="'url('+ iconPath +')'" [style.-webkit-mask-image]="'url('+ iconPath +')'">
+    &nbsp;
+  </div>
+
+  <div class="labels">
+    <div class="file-name">{{fileName}}</div>
+    <div class="date">{{date | date:'mediumDate'}}</div>
+  </div>
+</div>

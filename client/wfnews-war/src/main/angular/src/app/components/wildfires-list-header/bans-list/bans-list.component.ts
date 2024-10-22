@@ -1,25 +1,25 @@
 import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnInit,
 } from '@angular/core';
-import moment from 'moment';
-import { AGOLService } from '../../../services/AGOL-service';
-import { MatTableDataSource } from '@angular/material/table';
-import {
-  BreakpointState,
-  Breakpoints,
-  BreakpointObserver,
-} from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { CapacitorService } from '@app/services/capacitor-service';
+import { ResourcesRoutes, convertToDateTime } from '@app/utils';
 import { Observable } from 'rxjs';
+import { AGOLService } from '../../../services/AGOL-service';
 import {
   FilterByLocationDialogComponent,
   LocationData,
 } from '../filter-by-location/filter-by-location-dialog.component';
-import { ResourcesRoutes, convertToDateTime } from '@app/utils';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'wf-bans-list',
@@ -55,6 +55,8 @@ export class BansListComponent implements OnInit {
   ];
 
   public locationData: LocationData;
+  hoveredItem: any = null;
+
   convertToDateTime = convertToDateTime;
   private isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
@@ -65,7 +67,8 @@ export class BansListComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
-  ) {}
+    private capacitorService: CapacitorService,
+  ) { }
 
   ngOnInit(): void {
     this.search();
@@ -77,6 +80,7 @@ export class BansListComponent implements OnInit {
     let whereString = '';
 
     if (this.searchText && this.searchText.length > 0) {
+      // eslint-disable-next-line max-len
       whereString += `(ACCESS_PROHIBITION_DESCRIPTION LIKE '%${this.searchText}%' OR FIRE_CENTRE_NAME LIKE '%${this.searchText}%' OR TYPE LIKE '%${this.searchText}%') AND (`;
     }
 
@@ -98,24 +102,24 @@ export class BansListComponent implements OnInit {
     }
 
     if (whereString.startsWith(' OR ')) {
-whereString = whereString.substring(3);
-}
+      whereString = whereString.substring(3);
+    }
     if (whereString.endsWith(' AND ()')) {
-whereString = whereString.substring(0, whereString.length - 7);
-}
+      whereString = whereString.substring(0, whereString.length - 7);
+    }
     if (whereString === '') {
-whereString = null;
-}
+      whereString = null;
+    }
 
     this.agolService
       .getBansAndProhibitions(
         whereString,
         location
           ? {
-              x: location.longitude,
-              y: location.latitude,
-              radius: location.radius,
-            }
+            x: location.longitude,
+            y: location.latitude,
+            radius: location.radius,
+          }
           : null,
         { returnCentroid: true, returnGeometry: false },
       )
@@ -212,5 +216,19 @@ whereString = null;
     this.searchTimer = setTimeout(() => {
       this.search();
     }, 1000);
+  }
+
+  selectItem(event) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+        queryParams: {
+          eventType: 'ban',
+          eventNumber: event.id,
+          eventName: event.details,
+          source: [ResourcesRoutes.WILDFIRESLIST]
+        },
+      }),
+    );
+    this.capacitorService.redirect(url, true);
   }
 }

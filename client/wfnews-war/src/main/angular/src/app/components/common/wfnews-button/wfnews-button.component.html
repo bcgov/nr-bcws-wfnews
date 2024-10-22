@@ -1,0 +1,6 @@
+<div class="button-container" [ngClass]="{'slim': componentStyle?.slim, 'hide': !isVisible}"
+  [ngStyle]="componentStyle ? {'background': componentStyle.backgroundColor, 'border': componentStyle.border} : null"
+  (keypress)="clickHandler()" (click)="clickHandler()">
+  <div class="label" [ngClass]="{'slim': componentStyle?.slim}"
+    [ngStyle]="componentStyle ? {'color': componentStyle.labelColor } : null">{{ label }}</div>
+</div>

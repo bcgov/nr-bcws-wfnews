@@ -1,29 +1,41 @@
+import { HttpClient } from '@angular/common/http';
 import {
-  Component,
-  ChangeDetectionStrategy,
-  Input,
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { CauseOptionDisclaimer } from '@app/components/admin-incident-form/incident-details-panel/incident-details-panel.constants';
+import { CapacitorService } from '@app/services/capacitor-service';
+import { YouTubeService } from '@app/services/youtube-service';
+import { AppConfigService } from '@wf1/core-ui';
+import lightGallery from 'lightgallery';
+import { toCanvas } from 'qrcode';
+import { Observable } from 'rxjs';
 import {
   AreaRestrictionsOption,
   EvacOrderOption,
 } from '../../../conversion/models';
-import { toCanvas } from 'qrcode';
-import {
-  convertToFireCentreDescription,
-  findFireCentreByName,
-  convertToYoutubeId,
-  isMobileView,
-  getResponseTypeDescription
-} from '../../../utils';
 import { PublishedIncidentService } from '../../../services/published-incident-service';
-import { AppConfigService } from '@wf1/core-ui';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { YouTubeService } from '@app/services/youtube-service';
+import {
+  ResourcesRoutes,
+  convertToDateYear,
+  convertToFireCentreDescription,
+  convertToYoutubeId,
+  findFireCentreByName,
+  getResponseTypeDescription,
+  getStageOfControlDescription,
+  isMobileView
+} from '../../../utils';
 
 @Component({
   selector: 'incident-info-panel',
@@ -31,19 +43,27 @@ import { YouTubeService } from '@app/services/youtube-service';
   styleUrls: ['./incident-info-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IncidentInfoPanel implements AfterViewInit {
+export class IncidentInfoPanelComponent implements AfterViewInit, OnChanges {
   @Input() public incident: any;
   @Input() public evacOrders: EvacOrderOption[] = [];
   @Input() public areaRestrictions: AreaRestrictionsOption[] = [];
+  @Output() public tabChangeRequired = new EventEmitter<number>();
+  @ViewChild('lightGalleryRef', { static: false }) lightGalleryRef: ElementRef;
 
   showWarning: boolean;
   public primaryMedia = null;
+  public mediaCollection: any[];
   public convertToFireCentreDescription = convertToFireCentreDescription;
   public findFireCentreByName = findFireCentreByName;
   public convertToYoutubeId = convertToYoutubeId;
   public isMobileView = isMobileView;
   getResponseTypeDescription = getResponseTypeDescription;
-  public areaRestrictionLink : string;
+  convertToDateYear = convertToDateYear;
+  getStageOfControlDescription = getStageOfControlDescription;
+
+  public areaRestrictionLink: string;
+  desktopEvacOrders = [];
+  desktopEvacAlerts = [];
 
   public constructor(
     private publishedIncidentService: PublishedIncidentService,
@@ -53,13 +73,27 @@ export class IncidentInfoPanel implements AfterViewInit {
     private router: ActivatedRoute,
     private http: HttpClient,
     protected route: Router,
-    private youtubeService: YouTubeService
-  ) {}
+    private youtubeService: YouTubeService,
+    private capacitorService: CapacitorService
+  ) { }
 
   handleImageFallback(href: string) {
     const imgComponent = document.getElementById('primary-image-container');
     if (imgComponent) {
       (imgComponent as any).src = href;
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes?.evacOrders?.currentValue.length) {
+      const evacs = changes.evacOrders.currentValue;
+      for (const evac of evacs) {
+        if (evac.orderAlertStatus === 'Order') {
+          this.desktopEvacOrders.push(evac);
+        } else if (evac.orderAlertStatus === 'Alert') {
+          this.desktopEvacAlerts.push(evac);
+        }
+      }
     }
   }
 
@@ -72,26 +106,26 @@ export class IncidentInfoPanel implements AfterViewInit {
         const fc = findFireCentreByName(
           convertToFireCentreDescription(
             this.incident.fireCentreName ||
-              this.incident.fireCentre ||
-              this.incident.fireCentreCode,
+            this.incident.fireCentre ||
+            this.incident.fireCentreCode,
           ),
         );
         if (!this.incident.contactEmailAddress) {
-this.incident.contactEmailAddress = data[+fc.code].url;
-}
+          this.incident.contactEmailAddress = data[+fc.code].url;
+        }
         if (!this.incident.contactPhoneNumber) {
-this.incident.contactPhoneNumber = data[+fc.code].phone;
-}
+          this.incident.contactPhoneNumber = data[+fc.code].phone;
+        }
         this.cdr.detectChanges();
       });
     }
 
     const canvas = document.getElementById('qr-code');
     if (canvas) {
-      toCanvas(canvas, window.location.href, function(error) {
+      toCanvas(canvas, window.location.href, (error) => {
         if (error) {
-console.error(error);
-}
+          console.error(error);
+        }
       });
     }
 
@@ -101,79 +135,47 @@ console.error(error);
 
     this.fetchPrimaryImage();
     this.areaRestrictionLink = this.appConfigService.getConfig().externalAppConfig[
-      'currentRestrictions' 
-    ] as unknown as string
+      'currentRestrictions'
+    ] as unknown as string;
   }
 
   public getStageOfControlLabel(code: string) {
     if (code.toUpperCase().trim() === 'OUT') {
-return 'Out';
-} else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
-return 'Out of Control';
-} else if (code.toUpperCase().trim() === 'HOLDING') {
-return 'Being Held';
-} else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
-return 'Under Control';
-} else {
-return 'Unknown';
-}
-  }
-
-  public getStageOfControlDescription(code: string) {
-    if (code.toUpperCase().trim() === 'OUT') {
-return 'The wildfire has been extinguished or winter conditions are present, and the Wildfire will not spread.';
-} else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
-return 'A wildfire that is spreading or it is anticipated to spread beyond the current perimeter, or control line.';
-} else if (code.toUpperCase().trim() === 'HOLDING') {
-return 'A wildfire that is projected, based on fuel and weather conditions and resource availability, to remain within the current perimeter, control line or boundary.';
-} else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
-return 'A wildfire that is not projected to spread beyond the current perimeter.';
-} else {
-return 'Unknown stage of control';
-}
+      return 'Out';
+    } else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
+      return 'Out of Control';
+    } else if (code.toUpperCase().trim() === 'HOLDING') {
+      return 'Being Held';
+    } else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
+      return 'Under Control';
+    } else {
+      return 'Unknown';
+    }
   }
 
   public getCauseLabel(code: number) {
     if (code === 1) {
-return 'Human';
-} else if (code === 2) {
-return 'Lightning';
-} else if (code === 3) {
-return 'Under Investigation';
-} else {
-return 'Unknown';
-}
+      return 'Human';
+    } else if (code === 2) {
+      return 'Lightning';
+    } else if (code === 3) {
+      return 'Under Investigation';
+    } else {
+      return 'Unknown';
+    }
   }
 
   public getCauseDescription(code: number) {
-    if (code === 1) {
-return 'A wildfire started by humans or human activity.';
-} else if (code === 2) {
-return 'This fire was caused by a dry lightning strike which means it occurred without rain nearby. The cause of a wildfire is determined by professional investigations in accordance with international standards. Wildfire investigations can be complex and may take weeks or even months to complete.';
-} else {
-return 'A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.';
-}
-  }
-
-  public printPage() {
-    const printContents =
-      document.getElementsByClassName('page-container')[0].innerHTML;
-
-    const appRoot = document.body.removeChild(
-      document.getElementById('app-root'),
-    );
-
-    document.body.innerHTML = printContents;
-
-    const canvas = document.getElementById('qr-code');
-    toCanvas(canvas, window.location.href, function(error) {
-      if (error) {
-console.error(error);
-}
-      window.print();
-      document.body.innerHTML = '';
-      document.body.appendChild(appRoot);
-    });
+    switch (code) {
+      case 1:
+        return CauseOptionDisclaimer[1];
+      case 2:
+        return CauseOptionDisclaimer[2];
+      case 3:
+        return CauseOptionDisclaimer[3];
+      default:
+        return CauseOptionDisclaimer[0];
+    }
   }
 
   public copyToClipboard() {
@@ -225,12 +227,46 @@ console.error(error);
                 : this.incident.incidentNumberLabelFull,
             )
             .toPromise()
-            .then((results) => {
+            .then((attachments) => {
               // Loop through the attachments, for each one, create a ref, and set href to the bytes
-              if (results?.collection?.length > 0) {
-                for (const attachment of results.collection) {
+              this.mediaCollection = [];
+              if (attachments?.collection?.length > 0) {
+                for (const attachment of attachments.collection) {
+
                   // do a mime type check here
-                  if (attachment.primary) {
+                  // Light gallery does not really support direct download on mimetype
+                  // image/bmp && image/tiff, which will returns 500 error.
+                  if (
+                    attachment.mimeType &&
+                    [
+                      'image/jpg',
+                      'image/jpeg',
+                      'image/png',
+                      'image/gif',
+                      'image/bmp',
+                      'image/tiff',
+                    ].includes(attachment.mimeType.toLowerCase())
+                  ) {
+                    this.mediaCollection.push({
+                      title: attachment.attachmentTitle,
+                      uploadedDate: new Date(
+                        attachment.createdTimestamp,
+                      ).toLocaleDateString(),
+                      fileName: attachment.attachmentFileName,
+                      type: 'image',
+                      href: `${this.appConfigService.getConfig().rest['wfnews']
+                        }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+                        }/attachments/${attachment.attachmentGuid}/bytes`,
+                      thumbnail: `${this.appConfigService.getConfig().rest['wfnews']
+                        }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+                        }/attachments/${attachment.attachmentGuid
+                        }/bytes?thumbnail=true`,
+                      loaded: false,
+                    });
+                  }
+
+                  // do a mime type check here
+                  if (attachment.primary && !this.primaryMedia) {
                     this.primaryMedia = {
                       title: attachment.attachmentTitle,
                       uploadedDate: new Date(
@@ -238,20 +274,14 @@ console.error(error);
                       ).toLocaleDateString(),
                       fileName: attachment.attachmentFileName,
                       type: 'image',
-                      href: `${
-                        this.appConfigService.getConfig().rest['wfnews']
-                      }/publicPublishedIncidentAttachment/${
-                        this.incident.incidentNumberLabel
-                      }/attachments/${attachment.attachmentGuid}/bytes`,
-                      thumbnail: `${
-                        this.appConfigService.getConfig().rest['wfnews']
-                      }/publicPublishedIncidentAttachment/${
-                        this.incident.incidentNumberLabel
-                      }/attachments/${
-                        attachment.attachmentGuid
-                      }/bytes?thumbnail=true`,
+                      href: `${this.appConfigService.getConfig().rest['wfnews']
+                        }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+                        }/attachments/${attachment.attachmentGuid}/bytes`,
+                      thumbnail: `${this.appConfigService.getConfig().rest['wfnews']
+                        }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+                        }/attachments/${attachment.attachmentGuid
+                        }/bytes?thumbnail=true`,
                     };
-                    break;
                   }
                 }
               }
@@ -268,5 +298,83 @@ console.error(error);
     return this.http.get(
       '../../../../assets/data/fire-center-contacts-agol.json',
     );
+  }
+
+  navigateToMap() {
+    if (this.incident) {
+      setTimeout(() => {
+        this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+          queryParams: {
+            longitude: this.incident.longitude,
+            latitude: this.incident.latitude,
+            activeWildfires: true
+          },
+        });
+      }, 200);
+    }
+  }
+
+  navigateToEvac(event) {
+    if (event?.externalUri) {
+      let uri = event.uri;
+      if (!uri.startsWith('http://') && !uri.startsWith('https://')) {
+        uri = 'https://' + uri;
+      }
+      this.capacitorService.redirect(uri);
+    } else {
+      const url = this.route.serializeUrl(
+        this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+          queryParams: {
+            eventType: event.orderAlertStatus,
+            eventNumber: event.eventNumber,
+            id: event.emrgOAAsysID,
+            eventName: event.eventName,
+            source: [ResourcesRoutes.PUBLIC_INCIDENT],
+            fireYear: this.incident.fireYear,
+            incidentNumber: this.incident.incidentNumberLabel
+          },
+        }),
+      );
+      this.capacitorService.redirect(url, true);
+    }
+  }
+
+  navigateToAreaRestriction(event) {
+    const url = this.route.serializeUrl(
+      this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+        queryParams: {
+          eventType: 'area-restriction',
+          eventNumber: event.protRsSysID,
+          eventName: event.name,
+          source: [ResourcesRoutes.PUBLIC_INCIDENT],
+          fireYear: this.incident.fireYear,
+          incidentNumber: this.incident.incidentNumberLabel
+        },
+      }),
+    );
+    this.capacitorService.redirect(url, true);
+  }
+
+  emailFireCentre(recipientEmail: string) {
+    const mailtoUrl = `mailto:${recipientEmail}`;
+    window.location.href = mailtoUrl;
+  }
+
+  openAllPhotos() {
+    const gallery = lightGallery(this.lightGalleryRef.nativeElement, {
+      dynamic: true,
+      dynamicEl: this.mediaCollection.map(item => ({
+        src: item.href,
+        thumb: item.thumbnail,
+        subHtml: `<h4>${item.title}</h4><p>${item.uploadedDate}</p>`,
+      })),
+      thumbnail: true, // Ensure thumbnails are enabled in dynamic mode
+    });
+
+    gallery.openGallery();
+  }
+
+  sendToGalleryTab() {
+    this.tabChangeRequired.emit(2);
   }
 }

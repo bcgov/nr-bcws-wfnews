@@ -1,0 +1,18 @@
+<div class="media-gallery-container">
+  <div class="header">
+    <div class="title">Image/Video Gallery</div>
+    <wfnews-select [options]="options" (selectedValueChange)="filterApplied($event)"></wfnews-select>
+  </div>
+
+  <div *ngIf="!items?.length" class="no-media">
+    There are currently no images or videos associated with this incident.
+  </div>
+
+  <div class="gallery">
+    <media-gallery-item *ngFor="let item of items" [item]="item"></media-gallery-item>
+  </div>
+
+</div>
+<div class="load-more">
+  <wfnews-button label="Load More" [isVisible]="isLoadMoreVisible" (buttonClicked)="loadMore()"></wfnews-button>
+</div>

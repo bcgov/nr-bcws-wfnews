@@ -62,7 +62,7 @@
     <dependency>
       <groupId>ca.bc.gov.nrs.wfim</groupId>
       <artifactId>wfim-incidents-api-rest-common</artifactId>
-      <version>1.6.1</version>
+	  <version>1.9.5-SNAPSHOT</version>
     </dependency>
 
 	</dependencies>

@@ -21,6 +21,7 @@ import { ContactWidgetDialogComponent } from './components/sticky-widget/contact
 import { AddSavedLocationComponent } from '@app/components/saved/add-saved-location/add-saved-location.component';
 import { SavedLocationFullDetailsComponent } from './components/saved/saved-location-full-details/saved-location-full-details.component';
 import { SavedLocationWeatherDetailsComponent } from './components/saved/saved-location-weather-details/saved-location-weather-details.component';
+import { PublicEventPageComponent } from '@app/components/public-event-page/public-event-page.component';
 // Components
 
 const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
@@ -73,6 +74,11 @@ const PANEL_ROUTES: Routes = [
   {
     path: ResourcesRoutes.PUBLIC_INCIDENT,
     component: PublicIncidentPage,
+    pathMatch: 'full',
+  },
+  {
+    path: ResourcesRoutes.PUBLIC_EVENT,
+    component: PublicEventPageComponent,
     pathMatch: 'full',
   },
   {

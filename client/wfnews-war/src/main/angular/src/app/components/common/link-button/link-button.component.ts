@@ -8,8 +8,9 @@ import { Browser } from '@capacitor/browser';
 })
 export class LinkButtonComponent {
   @Input() text: string;
-  @Input() subtext: string;
+  @Input() subtext?: string;
   @Input() link: string;
+  @Input() iconColor?: string;
 
   openLink = async () => {
     await Browser.open({ url: this.link });

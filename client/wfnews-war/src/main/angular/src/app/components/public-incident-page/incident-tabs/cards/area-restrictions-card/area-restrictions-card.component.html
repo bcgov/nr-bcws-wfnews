@@ -1,0 +1,37 @@
+<content-card-container class="area-restrictions-card" >
+  <div class="header">
+    <span class="title">Area Restrictions</span>
+  </div>
+
+  <div class="content-container" *ngIf="showPreviewWarning">
+    <div class="content">
+      <div class="content-pretext">
+        <span class="content-text">Warning: Manually entered Area Restrictions cannot be previewed.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-container" *ngIf="!areaRestrictions.length">
+    <div class="content">
+      <div class="content-pretext">
+        <span class="content-text">There are no current area restrictions near this incident.</span>
+      </div>
+    </div>
+  </div>
+  <div class="content-container" *ngIf="areaRestrictions.length">
+    <div class="content" *ngIf="areaRestrictions.length">
+      <div class="content-pretext">
+        <span class="content-text">An Area Restriction is a legal order that prohibits access to certain areas in order to limit the risk of fire,
+          address a public safety concern or avoid interference with fire control.</span>
+      </div>
+
+      <div class="content-list">
+        <event-info *ngFor="let areaRestriction of areaRestrictions" [headerIconPath]="'assets/images/svg-icons/area-restriction.svg'"
+          [headerText]="areaRestriction.name" [fireCentreText]="areaRestriction.fireCentre"
+          [issueDateText]="'Issued on ' + convertToDateYear(areaRestriction.accessStatusEffectiveDate)" [componentStyle]="eventInfoAreaRestrictionStyle"
+          (viewDetailsClicked)="handleButtonClick(areaRestriction)"></event-info>
+      </div>
+    </div>
+  </div>
+
+</content-card-container>

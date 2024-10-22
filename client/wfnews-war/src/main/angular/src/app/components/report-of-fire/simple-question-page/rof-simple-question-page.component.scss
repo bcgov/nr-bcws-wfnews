@@ -8,6 +8,10 @@
   .mat-icon {
     color: #548adb;
     margin-right: 8px;
+    @media (min-height: 550px) {
+      bottom: 2px;
+      position: inherit;
+    }
   }
   .mat-button-toggle {
     margin-bottom: 24px;

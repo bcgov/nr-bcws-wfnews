@@ -1,0 +1,17 @@
+<content-card-container class="related-topics-card">
+  <div class="header">
+    <span class="title">Related Topics</span>
+    <span class="text">Links will open in your internet browser.</span>
+  </div>
+  <div class="buttons" *ngIf="!links">
+    <link-button link="https://www.emergencyinfobc.gov.bc.ca/" text="Current Evacuation Advisories" iconColor="#909090"></link-button>
+    <link-button link="https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance" text="Evacuee Guidance" iconColor="#909090"></link-button>
+    <link-button link="https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems" text="Local Government Systems in B.C." iconColor="#909090"></link-button>
+    <link-button link="https://www2.gov.bc.ca/gov/content/safety/public-safety/emergency-alerts" text="B.C. Emergency Alerts" iconColor="#909090"></link-button>
+  </div>
+  <div class="buttons" *ngIf="links">
+    <link-button *ngFor="let link of links" [link]="link.url" [text]="link.text" iconColor="#909090"></link-button>
+  </div>
+
+</content-card-container>
+

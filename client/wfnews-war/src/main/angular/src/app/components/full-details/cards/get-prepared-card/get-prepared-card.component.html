@@ -1,0 +1,37 @@
+<content-card-container class="get-prepared-card">
+  <div class="header">
+    <span class="title">Get Prepared</span>
+  </div>
+  <div class="content-container">
+    <div class="content">
+      <div class="content-title">Prepare your home</div>
+      <div class="content-list">
+        <span class="content-text">Be prepared to leave your home in case of an evacuation order. Residents will be given as much advance notice as possible prior to an evacuation, however, you may receive limited notice due to changing conditions.</span>
+        <icon-list-item iconPath="/assets/images/svg-icons/fuel.svg" text="Ensure your vehicle has fuel. The tank should always be at least half-full."></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/patio_furniture.svg" text="Move patio furniture, cushions and door mats indoors."></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/curtains.svg" text="Take down flammable curtains and window treatments."></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/hose.svg" text="Connect garden hoses and fill large containers with water, such as pools, hot tubs and garbage cans. This can assist firefighters and help slow advancing flames."></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/home_black.svg" text="Ensure your house number is visible. This will help firefighters locate your home quickly."></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/garage.svg" text="Disconnect automatic garage door openers so doors can be opened by hand if you lose power."></icon-list-item>
+        <icon-list-item iconPath="/assets/images/svg-icons/door.svg" text="Close all windows, vents, doors and other openings in the house with duct tape and/or precut pieces of plywood. Close and latch gates, but do not lock them.  "></icon-list-item>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content-title">Read the Wildfire Preparedness Guide</div>
+      <div class="content-list">
+        <span class="content-text">This guide will help you prepare your household, protect your property and learn what to do if a wildfire is close to your community.</span>
+        <icon-button class="max-width-300" [componentStyle]="defaultSlimButtonStyle" iconPath="/assets/images/svg-icons/carbon_download.svg" label="Download PDF" (buttonClicked)="directToDownloadPdf()"></icon-button>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content-title">Prepare your Emergency Kit</div>
+      <div class="content-list">
+        <span class="content-text">Make an emergency kit and a grab-and-go bag so you are ready to leave on short notice. Open the link below for a basic supply list.</span>
+        <wfnews-button class="max-width-300" [componentStyle]="defaultSlimButtonStyle" label="Build Your Kit" (buttonClicked)="directToBuildKit()"></wfnews-button>
+      </div>
+    </div>
+  </div>
+</content-card-container>
+

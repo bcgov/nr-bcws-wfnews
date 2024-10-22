@@ -1,0 +1,43 @@
+<div class="prev-panel" *ngIf="data && data.properties">
+    <div class="panel-container">
+        <div class="draggable-panel-title">
+            <mat-icon svgIcon="back-icon-panel" (click)="goBack()"></mat-icon>
+            <span class="preview-title">
+                <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/road-event.svg">
+                Road Events
+            </span>
+            <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+        </div>
+        <div class="identify-card">
+            <div class="identify-card-title">{{data.title}}</div>
+            <div class="identify-card-item">
+                {{data.properties.SEVERITY[0].toUpperCase() + data.properties.SEVERITY.slice(1).toLowerCase()}} Severity
+            </div>
+            <div class="identify-card-item">
+                <img alt="icon" src="/assets/images/svg-icons/carbon_finance.svg" class="incident-icon">
+                <span>{{data.properties.AREA}}</span>
+            </div>
+            <div class="identify-card-item">
+                <img alt="icon" src="/assets/images/svg-icons/calendar.svg" class="incident-icon">
+                <span>Created on {{convertToDateYear(data.properties.CREATED_TIME)}}</span>
+            </div>
+            <div class="description-section">
+                <div class="identify-card-description">
+                    <span>{{data.properties.DESCRIPTION}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="button-row">
+            <div class="buttons">
+                <button mat-flat-button class="mobile-button" (click)="zoomInWithLocationPin()">
+                    <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+                <button mat-flat-button class="mobile-button-primary" (click)="openDriveBC()">
+                    <mat-icon class="launch-icon" svgIcon='launch_white'></mat-icon>
+                    Drive BC
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

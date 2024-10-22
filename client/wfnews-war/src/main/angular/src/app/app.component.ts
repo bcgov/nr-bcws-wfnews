@@ -53,6 +53,7 @@ export const ICON = {
   INCIDENT: 'incident',
   MAP_SIGNS: 'map-signs',
   MAP: 'map',
+  MAP_HOVER: 'map-hover',
   TWITTER: 'twitter',
   CAMPING: 'camping',
   LARGER: 'larger',
@@ -95,6 +96,7 @@ export const ICON = {
   CARBON_CALENDAR: 'carbon-calendar',
   ARROW_LEFT: 'carbon-calendar',
   CARBON_LAYER: 'carbon-layer',
+  LAUNCH_WHITE: 'launch_white'
 };
 
 @Component({
@@ -601,6 +603,13 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     );
 
     this.matIconRegistry.addSvgIcon(
+      ICON.MAP_HOVER,
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/images/svg-icons/map-hover.svg',
+      ),
+    );
+
+    this.matIconRegistry.addSvgIcon(
       ICON.BACK_ICON,
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/images/svg-icons/back-icon.svg',
@@ -864,6 +873,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ICON.CARBON_LAYER,
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/images/svg-icons/carbon_layers.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.LAUNCH_WHITE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/images/svg-icons/launch_white.svg',
       ),
     );
   }

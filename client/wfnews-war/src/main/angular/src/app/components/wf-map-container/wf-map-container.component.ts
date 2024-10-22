@@ -18,7 +18,6 @@ import {
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
-import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
 
 let mapIndexAuto = 0;
@@ -222,36 +221,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
           ].includes(feature.layerId)
         ) {
           lastFeature = feature;
-          feature.properties.createContent = function(el) {
-            self.zone.run(function() {
-              const compRef = self.makeComponent(IncidentIdentifyPanelComponent);
-              (compRef.instance as any).setIncident(
-                feature.properties,
-                identified.featureSet,
-              );
-              const panel = document
-                .getElementsByClassName('identify-panel')
-                .item(0) as HTMLElement;
-              panel.appendChild(compRef.location.nativeElement);
-              self.cdr.detectChanges();
-              // display the panel
-              (
-                document
-                  .getElementsByClassName('identify-panel')
-                  .item(0) as HTMLElement
-              ).style.display = 'block';
-              // apply a slight debounce to clear the identify and destroy the panel
-              setTimeout(() => {
-                const identifyPanel = document
-                  .getElementsByClassName('smk-panel')
-                  .item(0) as HTMLElement;
-                if (identifyPanel) {
-                  identifyPanel.remove();
-                }
-                // use smk.$viewer.identified to reset the form?
-              }, 200);
-            });
-          };
         }
       }
     }
@@ -300,9 +269,20 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
               createContent(el) {
                 self.zone.run(function() {
                   const compRef = self.makeComponent(WeatherPanelComponent);
-                  (compRef.instance as any).setWeatherStation(station);
-                  el.appendChild(compRef.location.nativeElement);
+                  (compRef.instance as any).setWeatherStation(
+                    station
+                  );
+                  const panel = document
+                    .getElementsByClassName('desktop-preview')
+                    .item(0) as HTMLElement;
+                  panel.appendChild(compRef.location.nativeElement);
                   self.cdr.detectChanges();
+                  // display the panel
+                  (
+                    document
+                      .getElementsByClassName('desktop-preview')
+                      .item(0) as HTMLElement
+                  ).style.display = 'block';
                 });
               },
             },

@@ -30,7 +30,7 @@ export class SituationWidget implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.publishedIncidentService
-      .fetchSituationReportList(0, 10, true, true)
+      .fetchSituationReportList(0, 10, true)
       .toPromise()
       .then((sitrep) => {
         if (sitrep?.collection?.length > 0) {

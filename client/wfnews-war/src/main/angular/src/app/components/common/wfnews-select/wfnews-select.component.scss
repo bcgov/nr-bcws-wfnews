@@ -1,0 +1,38 @@
+.wfnews-select {
+  border-radius: 30px;
+  border: 1px solid #a7a9ac;
+
+  min-width: 194px;
+  padding: 6px 16px;
+  height: 36px;
+  padding-left: 10px;
+
+  color: #242424;
+  /* 16 Reg */
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url("../../../../assets/images/svg-icons/carbon_down-arrow.svg")
+    96% / 10% no-repeat;
+
+  option {
+    .option-label {
+      /* 16 Reg */
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px; /* 150% */
+    }
+  }
+}
+
+select:focus-visible {
+  outline-color: rgba(0, 0, 0, 0.3);
+}

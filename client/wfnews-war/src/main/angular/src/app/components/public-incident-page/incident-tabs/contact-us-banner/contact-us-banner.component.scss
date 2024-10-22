@@ -1,0 +1,73 @@
+:host {
+  display: block;
+}
+
+.contact-us-banner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: space-between;
+
+  padding: 24px 40px;
+  border-radius: 16px;
+  background: #F0F1F4;
+
+  .column-1 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .title {
+      color: var(--Black-24, #242424);
+      /* 22 SB */
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-size: 22px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 33px; /* 150% */
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 100%;
+      column-count: 2;
+  
+      .content-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+  
+        .content-text {
+          color: var(--Grey-5B, #5b5b5b);
+  
+          /* 16 Reg */
+          font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+            sans-serif;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 24px; /* 150% */
+        }
+      }
+    }
+  }
+
+  .column-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-self: flex-end;
+
+    .button-row {
+      display: flex;
+      gap: 24px;
+    }
+  }
+}
+
+.max-width-164 {
+  max-width: 164px;
+}

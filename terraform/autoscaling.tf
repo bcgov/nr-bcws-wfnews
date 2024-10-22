@@ -106,7 +106,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_high" {
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "50"
 
   dimensions = {
@@ -126,7 +126,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_nginx_service_cpu_high" {
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "50"
 
   dimensions = {
@@ -147,7 +147,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_low" {
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "10"
 
   dimensions = {
@@ -167,7 +167,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_nginx_service_cpu_low" {
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "10"
 
   dimensions = {
@@ -238,7 +238,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_client_service_cpu_low" {
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "10"
 
   dimensions = {
@@ -259,7 +259,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_client_service_cpu_high" {
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "50"
 
   dimensions = {
@@ -282,7 +282,7 @@ resource "aws_appautoscaling_target" "wfss_pointid_target" {
   resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.pointid.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   min_capacity       = var.app_count
-  max_capacity       = 10
+  max_capacity       = 16
 }
 
 # Automatically scale capacity up by one
@@ -335,7 +335,7 @@ resource "aws_cloudwatch_metric_alarm" "wfss_pointid_service_cpu_low" {
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "10"
 
   dimensions = {
@@ -356,7 +356,7 @@ resource "aws_cloudwatch_metric_alarm" "wfss_pointid_service_cpu_high" {
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "50"
 
   dimensions = {
@@ -432,7 +432,7 @@ resource "aws_cloudwatch_metric_alarm" "wfone_notifications_api_service_cpu_low"
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "10"
 
   dimensions = {
@@ -453,7 +453,7 @@ resource "aws_cloudwatch_metric_alarm" "wfone_notifications_api_service_cpu_high
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "50"
 
   dimensions = {

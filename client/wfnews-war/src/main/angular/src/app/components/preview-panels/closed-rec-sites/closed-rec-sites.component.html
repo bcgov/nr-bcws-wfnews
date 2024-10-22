@@ -1,0 +1,36 @@
+<div  class="prev-panel" *ngIf="data && data.properties">
+    <div class="panel-container" >
+        <div class="draggable-panel-title">
+            <mat-icon svgIcon="back-icon-panel" (click)="goBack()"></mat-icon>
+            <span class="preview-title">
+                <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/carbon_layers.svg">
+                Closed Recreational Sites
+            </span>
+            <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+        </div>
+        <div class="identify-card">
+            <div class="identify-card-title">{{data.properties.PROJECT_NAME}}</div>
+            <div class="identify-card-item">
+                <img alt="icon" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon">
+                <span>{{data.properties.RECREATION_DISTRICT_NAME}}</span>
+            </div>
+            <div class="identify-card-item">
+                <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+                <span>Closed on {{convertToDateYear(data.properties.CLOSURE_DATE)}}</span>
+            </div>
+            <div class="description-section">
+                <div class="identify-card-description">
+                    <span>{{data.properties.CLOSURE_COMMENT}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="button-row">
+            <div class="buttons">
+                <button mat-flat-button class="mobile-button" (click)="zoomInWithLocationPin()" >
+                    <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

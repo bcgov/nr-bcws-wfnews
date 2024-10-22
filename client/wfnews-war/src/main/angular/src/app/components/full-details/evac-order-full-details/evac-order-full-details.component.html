@@ -3,16 +3,16 @@
         <div class="full-details-title">Evacuation Order for {{evacData.name}}</div>
         <div class="order-panel"><img class="icon" src="/assets/images/svg-icons/evacuation_order.svg"
                 alt="evacuation_alert" />Order</div>
-        <p class="info">People in this area are at risk and should leave the area immediately. Local authorities will not
-            ask you to leave without good reason. Failing to leave puts you and others at risk.</p>
+        <p class="info">People in this area are at risk and should leave the area immediately. Follow instructions from your
+            local government or First Nation.</p>
         <button (click)="navToMap()" mat-button class="map-button"><img class="tertiary-icon"
                 src="/assets/images/svg-icons/map.svg" alt="Map" />View on Map</button>
     </div>
     <hr>
     <div class="info-container">
         <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
-                alt="Calendar" />Issued on
-            {{convertToDateTime(evacData.issuedDate)}}</div>
+                alt="Calendar" />Updated on
+            {{convertToDateYear(evacData.issuedDate)}}</div>
         <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/local_authority.svg"
                 alt="local_authority" />Issued by
             {{evacData.issuingAgency}}</div>
@@ -48,7 +48,7 @@
                 src="/assets/images/svg-icons/local_authority.svg" alt="local_authority" />{{evacData.issuingAgency}}</div>
         <p class="info">Evacuation notices are authorized and implemented by local authorities. The local
             authority for this
-            evacuation notice is Central Coast Regional District. Please contact them or visit their website for more
+            evacuation notice is {{evacData.issuingAgency}}. Please contact them or visit their website for more
             details.
         </p>
         <div class="full-details-tertiary-title">Contact information</div>
@@ -91,7 +91,7 @@
     </div>
     <hr>
     <div class="info-container">
-        <div class="full-details-secondary-title">Where should I go?</div>
+        <div class="full-details-secondary-title">Where should I Go?</div>
         <div class="full-details-tertiary-title">Reception Centres</div>
         <p class="info">Travel to a reception centre designated by your Indigenous governing body or local government.
             Supports will not be available if you travel to a non-designated location.</p>

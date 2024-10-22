@@ -1,0 +1,31 @@
+<div  class="prev-panel" *ngIf="data && data.properties">
+    <div class="panel-container" >
+        <div class="draggable-panel-title">
+            <mat-icon svgIcon="back-icon-panel" (click)="goBack()"></mat-icon>
+            <span class="preview-title">
+                <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_finance.svg" alt="Local Authorities">
+                Local Authorities
+            </span>
+            <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+        </div>
+        <div class="identify-card">
+            <div class="identify-card-title">{{data.title}} </div>
+            <div class="identify-subtitle">
+                {{displayLocalAuthorityType(data.layerId)}}
+            </div>
+            <div class="description-section">
+                <div class="identify-card-description">
+                    <span>The best information sources related to evacuations are your municipality, regional district, First Nation or local authority.</span>
+                </div>
+            </div>
+        </div>
+        <div class="button-row">
+            <div class="buttons">
+                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                    <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

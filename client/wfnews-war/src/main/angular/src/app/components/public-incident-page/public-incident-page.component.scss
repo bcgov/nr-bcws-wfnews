@@ -103,7 +103,6 @@
 }
 
 .page-container {
-  max-width: 1185px;
   margin: auto;
   background-color: white;
 }
@@ -161,6 +160,7 @@
     align-items: flex-start;
     gap: 16px;
     align-self: stretch;
+    word-break: break-all;
 
     .mobile-buttons {
       display: flex;

@@ -1,4 +1,4 @@
-FROM tomcat:9.0.85-jdk17-openjdk
+FROM tomcat:9.0.91-jdk17-openjdk
 
 COPY /wfnews-war/target/wfnews-war-1.0.0.war .
 

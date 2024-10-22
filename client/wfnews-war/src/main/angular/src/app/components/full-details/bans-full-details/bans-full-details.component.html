@@ -1,6 +1,6 @@
 <div *ngIf="banData">
   <div class="title-panel">
-    <div class="full-details-title">Fire Ban on {{banData.description}} Open Burning</div>
+    <div class="full-details-title">Fire Ban on {{banData.description}} Open Fires</div>
     <p class="info">Decisions on when and where to implement fire bans and restrictions are made by B.C.’s regional fire centres depending on local fire hazards or dangers, forecasted weather conditions and the type and level of fire activity occurring.</p>
     <button (click)="navToMap()" mat-button class="map-button"><img height="20" width="20" class="tertiary-icon" src="/assets/images/svg-icons/map.svg" alt="Map" />View on Map</button>
   </div>
@@ -14,7 +14,7 @@
   <div class="info-container">
     <div class="full-details-secondary-title">Other Burning Restrictions</div>
     <div class="info-container-section-title"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/authorities.svg" alt="Calendar" />Talk to your Local Authority</div>
-    <p class="info">Local governments may have their own fire bans in place that are enforced in your region. Always check with local government authorities for open burning restrictions.</p>
+    <p class="info">Please check with local government authorities for any other restrictions or bylaws and assess conditions before lighting any fire.</p>
     <div class="info-container-section-title"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/campfire.svg" alt="Calendar" />Campgrounds</div>
     <p class="info">Before lighting a campfire it is also important to check the campfire policy for the campground you are staying in. For BC Parks campgrounds, see Active Advisories page or search for the campground you’re interested in.</p>
     <button onclick="window.open('https://bcparks.ca/active-advisories/', '_blank')" mat-button class="panel-button">BC Parks Active Advisories</button>

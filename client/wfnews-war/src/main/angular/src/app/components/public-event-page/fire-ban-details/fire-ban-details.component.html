@@ -1,0 +1,20 @@
+<div class="fire-ban-details">
+  <advisory-section
+    title="Information Bulletin"
+    message="View the bulletin on our website for more information."
+    [componentStyle]="advisorySectionComponentStyle" [buttonArgs]="advisorySectionButtonArgs"
+    (advisoryClicked)="handleAdvisoryClick()">
+  </advisory-section>
+
+  <two-column-content-cards-container>
+    <ng-container column-1>
+      <category-1-fires-card *ngIf="category[1]"></category-1-fires-card>
+      <category-2-fires-card *ngIf="category[2]"></category-2-fires-card>
+      <category-3-fires-card *ngIf="category[3]"></category-3-fires-card>
+    </ng-container>
+    <ng-container column-2>
+      <other-burning-restrictions-card></other-burning-restrictions-card>
+      <related-topics-card [links]="relatedTopicLinks"></related-topics-card>
+    </ng-container>
+  </two-column-content-cards-container>
+</div>

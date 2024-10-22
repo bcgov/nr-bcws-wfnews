@@ -1,0 +1,53 @@
+<content-card-container class="evacuations-card">
+  <div class="header">
+    <span class="title">Evacuations</span>
+  </div>
+  <div class="content-container" *ngIf="!evacuations.length">
+    <div class="content">
+      <div class="content-pretext">
+        <span class="content-text">
+          There are no current evacuation orders or alerts available to display for this incident. For the latest
+          evacuation information, contact your local authority.
+          <br><br>
+          Evacuation orders and alerts are put into place by your local authority, government
+          or First Nation. BC Wildfire Service displays this information when it becomes available.</span>
+      </div>
+    </div>
+  </div>
+  <div class="content-container" *ngIf="evacuations.length">
+    <div class="content" *ngIf="orders.length">
+      <div class="content-pretext">
+        <div class="content-title"><img class="icon" src="assets/images/svg-icons/order-filled-grey.svg" alt="map">
+          Evacuation Orders</div>
+        <span class="content-text">People in this area are at risk and should leave the area immediately.</span>
+      </div>
+
+      <div class="content-list">
+        <event-info *ngFor="let order of orders" [headerIconPath]="'assets/images/svg-icons/evacuation-order.svg'"
+          [headerText]="'Evacuation Order for ' + (incident.incidentName ? incident.incidentName :
+                  incident.incidentNumberLabel)" [fireCentreText]="'Issued by ' + order.issuingAgency"
+          [issueDateText]="'Updated on ' + order.issuedOn" [componentStyle]="eventInfoOrderStyle"
+          (viewDetailsClicked)="handleButtonClick(order)"></event-info>
+      </div>
+    </div>
+
+    <div class="content" *ngIf="alerts.length">
+      <div class="content-pretext">
+        <div class="content-title"><img class="icon" src="assets/images/svg-icons/alert-filled-grey.svg" alt="map">
+          Evacuation Alerts</div>
+        <span class="content-text">An evacuation alert is a warning about a potential threat to life and/or property.
+          It
+          is intended to give you time to be ready for a possible evacuation.</span>
+      </div>
+      <div class="content-list">
+
+        <event-info *ngFor="let alert of alerts" [headerIconPath]="'assets/images/svg-icons/evacuation-alert.svg'"
+          [headerText]="'Evacuation Alert for ' + (incident.incidentName ? incident.incidentName :
+                  incident.incidentNumberLabel)" [fireCentreText]="'Issued by ' + alert.issuingAgency"
+          [issueDateText]="'Updated on ' + alert.issuedOn" [componentStyle]="eventInfoAlertStyle"
+          (viewDetailsClicked)="handleButtonClick(alert)"></event-info>
+      </div>
+    </div>
+  </div>
+
+</content-card-container>

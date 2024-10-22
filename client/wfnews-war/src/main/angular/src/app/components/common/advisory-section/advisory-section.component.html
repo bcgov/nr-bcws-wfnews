@@ -1,0 +1,28 @@
+<div class="advisory-section" [ngStyle]="componentStyle ? {'background': componentStyle.backgroundColor, 'border-color': componentStyle.outerBorderColor} : null">
+
+  <div class="top">
+    <img class="logo" [src]="componentStyle.logo.logoPath" [width]="componentStyle.logo.width" [height]="componentStyle.logo.height" alt="logo" />
+  </div>
+
+  <hr [ngStyle]="componentStyle ? {'background': componentStyle.dividerColor} : null" />
+
+  <div class="bottom">
+
+    <div class="content-container">
+      <div class="icon-container" [ngStyle]="componentStyle ? {'background': componentStyle.icon.iconCircleColor} : null">
+        <img class="icon" [src]="componentStyle.icon.iconPath" alt="icon" />
+      </div>
+  
+      <div class="message-container">
+        <span class="title">{{ title }}</span>
+        <span class="message">{{ message }}</span>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <icon-button [iconPath]="buttonArgs.iconPath" [label]="buttonArgs.label" [componentStyle]="buttonArgs.componentStyle"
+        (buttonClicked)="handleAdvisoryClick()"></icon-button>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,30 @@
+<div class="public-event-page" *ngIf="!isLoading && !loadingFailed">
+    <div class="header">
+        <incident-header-panel [evac]="evac" [areaRestriction]="areaRestriction" [ban]="ban" [dangerRating]="dangerRating"></incident-header-panel>
+    </div>
+
+    <div class="event-details" [ngSwitch]="eventType">
+        <evac-alert-details *ngSwitchCase="'Alert'"
+            [incident]="incident"
+            [evacuation]="evac"
+            [isBookmarked]="isAssociatedWildfireBookmarked"
+            (bookmarkClicked)="handleBookmarkClicked($event)"
+            (viewDetailsClicked)="handleViewDetailsClicked()"
+        ></evac-alert-details>
+        <evac-order-details *ngSwitchCase="'Order'"
+            [incident]="incident"
+            [evacuation]="evac"
+            [isBookmarked]="isAssociatedWildfireBookmarked"
+            (bookmarkClicked)="handleBookmarkClicked($event)"
+            (viewDetailsClicked)="handleViewDetailsClicked()"
+        ></evac-order-details>
+        <area-restriction-details *ngSwitchCase="'area-restriction'"
+            [areaRestriction]="areaRestriction"
+        ></area-restriction-details>
+        <fire-ban-details *ngSwitchCase="'ban'"
+            [fireBan]="ban"
+        ></fire-ban-details>
+        <fire-danger-details *ngSwitchCase="'danger-rating'">
+        </fire-danger-details>
+    </div>
+</div>

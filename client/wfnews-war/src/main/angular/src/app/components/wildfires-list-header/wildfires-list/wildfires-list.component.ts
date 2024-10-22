@@ -1,3 +1,8 @@
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -14,9 +19,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CapacitorService } from '@app/services/capacitor-service';
 import { Store } from '@ngrx/store';
 import { AppConfigService, TokenService } from '@wf1/core-ui';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { PagedCollection } from '../../../conversion/models';
 import { ApplicationStateService } from '../../../services/application-state.service';
@@ -26,31 +33,24 @@ import { PlaceData } from '../../../services/wfnews-map.service/place-data';
 import { RootState } from '../../../store';
 import { searchWildfires } from '../../../store/wildfiresList/wildfiresList.action';
 import {
-  initWildfiresListPaging,
   SEARCH_WILDFIRES_COMPONENT_ID,
+  initWildfiresListPaging,
 } from '../../../store/wildfiresList/wildfiresList.stats';
 import {
-  convertFromTimestamp,
-  convertToStageOfControlDescription,
   FireCentres,
-  convertToFireCentreDescription,
   ResourcesRoutes,
-  snowPlowHelper,
   convertFireNumber,
+  convertFromTimestamp,
+  convertToFireCentreDescription,
+  convertToStageOfControlDescription,
+  snowPlowHelper,
 } from '../../../utils';
 import { CollectionComponent } from '../../common/base-collection/collection.component';
-import { WildFiresListComponentModel } from './wildfires-list.component.model';
-import {
-  BreakpointObserver,
-  BreakpointState,
-  Breakpoints,
-} from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
 import {
   FilterByLocationDialogComponent,
   LocationData,
 } from '../filter-by-location/filter-by-location-dialog.component';
-import { CapacitorService } from '@app/services/capacitor-service';
+import { WildFiresListComponentModel } from './wildfires-list.component.model';
 
 @Directive()
 export class WildFiresListComponent
@@ -85,6 +85,7 @@ export class WildFiresListComponent
   fireCentreOptions = FireCentres;
   locationName: string;
   sortedAddressList: string[];
+  hoveredItem: any = null;
 
   public locationData: LocationData;
 
@@ -287,27 +288,17 @@ export class WildFiresListComponent
     }
   }
 
-  async selectIncident(incident: any) {
-    const device = await this.capacitorService.checkDeviceSystem();
-    // IOS standalone app can not open url in blank page.
-    if (device.operatingSystem === 'ios') {
-      this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
+  selectIncident(incident: any) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], {
         queryParams: {
           fireYear: incident.fireYear,
           incidentNumber: incident.incidentNumberLabel,
+          source: ResourcesRoutes.WILDFIRESLIST,
         },
-      });
-    } else {
-      const url = this.router.serializeUrl(
-        this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], {
-          queryParams: {
-            fireYear: incident.fireYear,
-            incidentNumber: incident.incidentNumberLabel,
-          },
-        }),
-      );
-      window.open(url, '_blank');
-    }
+      }),
+    );
+    this.capacitorService.redirect(url, true);
   }
 
   onWatchlist(incident: any): boolean {

@@ -56,6 +56,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   public publishDisabled = false;
 
+  toggled = false;
+
   public incident = {
     aviationComments: undefined,
     aviationInd: false,
@@ -83,6 +85,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     incidentManagementComments: undefined,
     incidentManagementInd: false,
     incidentNumberSequence: 0,
+    incidentLabel: undefined,
     incidentOverview: '',
     lastPublished: undefined,
     location: undefined,
@@ -216,159 +219,162 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         let publishedWFIM = false;
 
         this.publishedIncidentService
-          .fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce)
-          .subscribe(
-            async (incidentResponse) => {
-              self.currentAdminIncident = incidentResponse.response;
-              this.currentIncidentName = self.currentAdminIncident.incidentName;
-              this.publishedIncidentType = self.currentAdminIncident.type;
-              (self.incident as any).discoveryDate = new Date(
-                self.currentAdminIncident.discoveryTimestamp,
-              ).toLocaleString();
-              (self.incident as any).fireCentreOrgUnitName =
-                self.currentAdminIncident.fireCentreOrgUnitName;
-              (self.incident as any).incidentStatusCode =
-                self.currentAdminIncident.incidentStatusCode;
-              self.incident.incidentData = self.currentAdminIncident;
-              self.incident.geometry.x =
-                self.currentAdminIncident.incidentLocation.longitude;
-              self.incident.geometry.y =
-                self.currentAdminIncident.incidentLocation.latitude;
-              self.incident.fireNumber =
-                self.currentAdminIncident.incidentNumberSequence;
-              self.incident.wildfireYear =
-                self.currentAdminIncident.wildfireYear;
-              self.incident.fireOfNote =
-                self.currentAdminIncident.fireOfNotePublishedInd;
-              self.incident.wasFireOfNote =
-                self.currentAdminIncident.wasFireOfNotePublishedInd;
-              self.incident.incidentNumberSequence =
-                self.currentAdminIncident.incidentNumberSequence;
-              self.incident.fireName =
-                self.currentAdminIncident.incidentName ||
+        .fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce)
+        .subscribe(
+          async (incidentResponse) => {
+            self.currentAdminIncident = incidentResponse.response;
+            this.currentIncidentName = self.currentAdminIncident.incidentName;
+            this.publishedIncidentType = self.currentAdminIncident.type;
+            (self.incident as any).discoveryDate = new Date(
+              self.currentAdminIncident.discoveryTimestamp,
+            ).toLocaleString();
+            (self.incident as any).fireCentreOrgUnitName =
+              self.currentAdminIncident.fireCentreOrgUnitName;
+            (self.incident as any).incidentStatusCode =
+              self.currentAdminIncident.incidentStatusCode;
+            self.incident.incidentData = self.currentAdminIncident;
+            self.incident.geometry.x =
+              self.currentAdminIncident.incidentLocation.longitude;
+            self.incident.geometry.y =
+              self.currentAdminIncident.incidentLocation.latitude;
+            self.incident.fireNumber =
+              self.currentAdminIncident.incidentNumberSequence;
+            self.incident.incidentLabel =
                 self.currentAdminIncident.incidentLabel;
-              self.incident.publishedStatus = 'DRAFT';
-              self.incident.location =
-                self.currentAdminIncident.incidentLocation.geographicDescription;
-              self.incident.wildfireIncidentGuid =
-                self.currentAdminIncident.wildfireIncidentGuid;
-              self.incident.signOffSignatureGuid = self.currentAdminIncident.signOffSignatureGuid
+            self.incident.wildfireYear =
+              self.currentAdminIncident.wildfireYear;
+            self.incident.fireOfNote =
+              self.currentAdminIncident.fireOfNotePublishedInd;
+            self.incident.wasFireOfNote =
+              self.currentAdminIncident.wasFireOfNotePublishedInd;
+            self.incident.incidentNumberSequence =
+              self.currentAdminIncident.incidentNumberSequence;
+            self.incident.fireName =
+              self.currentAdminIncident.incidentName ||
+              self.currentAdminIncident.incidentLabel;
+            self.incident.publishedStatus = 'DRAFT';
+            self.incident.location =
+              self.currentAdminIncident.incidentLocation.geographicDescription;
+            self.incident.wildfireIncidentGuid =
+              self.currentAdminIncident.wildfireIncidentGuid;
+            self.incident.signOffSignatureGuid = self.currentAdminIncident.signOffSignatureGuid
 
-              self.incident.sizeType = 2;
-              self.incident.sizeHectares =
-                self.currentAdminIncident.incidentSituation.fireSizeHectares;
-              self.incident.sizeComments =
-                'Fire size is based on most current information available.';
+            self.incident.sizeType = 2;
+            self.incident.sizeHectares =
+              self.currentAdminIncident.incidentSituation.fireSizeHectares;
+            self.incident.sizeComments =
+              'Fire size is based on most current information available.';
 
-              self.detailsPanelComponent.setCauseDisclaimer(
-                self.incident.cause,
+            self.detailsPanelComponent.setCauseDisclaimer(
+              self.incident.cause,
+            );
+            self.incident.causeComments =
+              self.detailsPanelComponent.causeOptions.find(
+                (c) => c.id === self.incident.cause,
+              ).disclaimer;
+
+            self.incident.contact.isPrimary = true;
+
+            self.incident.contact.fireCentre =
+              self.currentAdminIncident.fireCentreOrgUnitIdentifier;
+
+            self.incident.responseTypeCode = self.currentAdminIncident.responseTypeCode;
+
+            this.areaRestrictionsDetailsPanel.getAreaRestrictions();
+
+            if (self.incident.signOffSignatureGuid) {
+              this.incidentForm.get('cause').disable();
+              this.incidentForm.get('fireName').disable();
+              this.incidentForm.get('sizeHectares').disable();
+            }
+
+
+            this.http
+              .get('../../../../assets/data/fire-center-contacts-agol.json')
+              .subscribe((data) => {
+                self.incident.contact.phoneNumber =
+                  data[self.incident.contact.fireCentre].phone;
+                self.incident.contact.emailAddress =
+                  data[self.incident.contact.fireCentre].url;
+                this.incidentForm.patchValue(this.incident);
+                this.cdr.detectChanges();
+              });
+
+            const publishedIncident = new Promise((resolve, reject) => {
+              incidentResponse.getPublishedIncident.toPromise().then(
+                (result) => {
+                  if (result) {
+                    publishedWFIM = true;
+                    resolve(result)
+                  } else reject(result)
+                }, (err) => {
+                  console.log('No published data found...');
+                  console.error(err);
+                  self.publishedIncidentDetailGuid = null;
+                  publishedWFIM = false;
+                  reject(err)
+                }
               );
-              self.incident.causeComments =
-                self.detailsPanelComponent.causeOptions.find(
-                  (c) => c.id === self.incident.cause,
-                ).disclaimer;
-
-              self.incident.contact.isPrimary = true;
-
-              self.incident.contact.fireCentre =
-                self.currentAdminIncident.fireCentreOrgUnitIdentifier;
-
-              self.incident.responseTypeCode = self.currentAdminIncident.responseTypeCode;
-
-              this.areaRestrictionsDetailsPanel.getAreaRestrictions();
-
-              if (self.incident.signOffSignatureGuid) {
-                this.incidentForm.get('cause').disable();
-                this.incidentForm.get('fireName').disable();
-                this.incidentForm.get('sizeHectares').disable();
-              }
+            });
 
 
-              this.http
-                .get('../../../../assets/data/fire-center-contacts-agol.json')
-                .subscribe((data) => {
-                  self.incident.contact.phoneNumber =
-                    data[self.incident.contact.fireCentre].phone;
-                  self.incident.contact.emailAddress =
-                    data[self.incident.contact.fireCentre].url;
-                  this.incidentForm.patchValue(this.incident);
-                  this.cdr.detectChanges();
-                });
-
-              const publishedIncident = new Promise((resolve, reject) => {
-                incidentResponse.getPublishedIncident.toPromise().then(
-                  (result) => {
-                    if (result) {
-                      publishedWFIM = true;
-                      resolve(result)
-                    } else reject(result)
+            // If WFIM returns a 404 for the incident, fetch the published incident from the WFNEWS public API
+            // set cause fields that should be specific to the public side
+            // give the admin screen default cause comments, as they should be null in the public API at this point
+            const publicPublishedIncident = new Promise((resolve, reject) => {
+              this.publishedIncidentService.fetchPublishedIncident(self.currentAdminIncident.incidentLabel, this.wildFireYear)
+                .toPromise().then(
+                  (response) => {
+                    // resolve only if the incident has not been published in WFIM
+                    if (!publishedWFIM) resolve(response)
+                    else reject(response)
                   }, (err) => {
-                    console.log('No published data found...');
+                    console.log('No public published data found...');
                     console.error(err);
-                    self.publishedIncidentDetailGuid = null;
-                    publishedWFIM = false;
                     reject(err)
                   }
                 );
-              });
+            });
 
+            const results = await Promise.allSettled([publishedIncident, publicPublishedIncident]);
 
-              // If WFIM returns a 404 for the incident, fetch the published incident from the WFNEWS public API
-              // set cause fields that should be specific to the public side
-              // give the admin screen default cause comments, as they should be null in the public API at this point
-              const publicPublishedIncident = new Promise((resolve, reject) => {
-                this.publishedIncidentService.fetchPublishedIncident(self.currentAdminIncident.incidentLabel, this.wildFireYear)
-                  .toPromise().then(
-                    (response) => {
-                      // resolve only if the incident has not been published in WFIM
-                      if (!publishedWFIM) resolve(response)
-                      else reject(response)
-                    }, (err) => {
-                      console.log('No public published data found...');
-                      console.error(err);
-                      reject(err)
-                    }
-                  );
-              });
-
-              const results = await Promise.allSettled([publishedIncident, publicPublishedIncident]);
-
-              results.forEach((result) => {
-                let iterate = true;
-                if (result?.status == 'fulfilled') {
-                  if (iterate) {
-                    const res = result?.value;
-                    if (!publishedWFIM) {
-                      this.populatePublicFields(res)
-                    } else {
-                      this.populatePublishedIMFields(res)
-                    }
-                    this.populateCommonFields(res)
-                    iterate = false;
+            results.forEach((result) => {
+              let iterate = true;
+              if (result?.status == 'fulfilled') {
+                if (iterate) {
+                  const res = result?.value;
+                  if (!publishedWFIM) {
+                    this.populatePublicFields(res)
+                  } else {
+                    this.populatePublishedIMFields(res)
                   }
+                  this.populateCommonFields(res)
+                  iterate = false;
                 }
-              });
+              }
+            });
 
 
 
-              this.incidentForm.patchValue(this.incident);
-              this.incidentForm.markAsPristine();
-              this.cdr.detectChanges();
-              this.evacOrdersDetailsPanel.getEvacOrders();
-            },
-            (incidentResponseError) => {
-              console.error(incidentResponseError);
-              this.snackbarService.open(
-                'Failed to fetch Incident: ' +
-                JSON.stringify(incidentResponseError),
-                'OK',
-                { duration: 10000, panelClass: 'snackbar-error' },
-              );
-            },
-          );
-      }
-    });
-  }
+            this.incidentForm.patchValue(this.incident);
+            this.incidentForm.markAsPristine();
+            this.cdr.detectChanges();
+            this.evacOrdersDetailsPanel.getEvacOrders();
+          },
+          (incidentResponseError) => {
+            console.error(incidentResponseError);
+            this.snackbarService.open(
+              'Failed to fetch Incident: ' +
+              JSON.stringify(incidentResponseError),
+              'OK',
+              { duration: 10000, panelClass: 'snackbar-error' },
+            );
+          },
+        );
+    }
+  });
+}
+
 
   ngOnChanges(changes: SimpleChanges) {
     // TODO: This can be removed once the onInit is updated to map the form correctly
@@ -581,8 +587,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     try {
       const doc = await self.publishIncident(publishedIncidentResource);
       if (doc) {
-        this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid;
+        this.publishedIncidentDetailGuid = doc?.publishedIncidentDetailGuid;
       }
+
       // Handle evac orders
       await this.evacOrdersDetailsPanel.persistEvacOrders();
       if (doc) {
@@ -757,4 +764,45 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) =>
       new CustomImageUploader(loader);
   }
+
+  toggleFullScreen() {
+    try {
+      if (!this.toggled) {
+        if(document.getElementById('ck-doc')) document.getElementById('ck-doc').style.height = '92vh'
+        if(document.getElementById('info-title')) document.getElementById('info-title').style.display = 'none'
+        if(document.getElementById('menu-bar')) document.getElementById('menu-bar').style.display = 'none'
+        if(document.getElementById('top')) document.getElementById('top').style.display = 'none'
+        if(document.getElementById('mat-tab-label-0-0')) document.getElementById('mat-tab-label-0-0').style.display = 'none'
+        if(document.getElementById('mat-tab-label-0-1')) document.getElementById('mat-tab-label-0-1').style.display = 'none'
+        if(document.getElementById('mat-tab-label-0-2')) document.getElementById('mat-tab-label-0-2').style.display = 'none'
+        if(document.getElementById('mat-tab-label-0-3')) document.getElementById('mat-tab-label-0-3').style.display = 'none'
+        if(document.getElementById('mat-tab-label-0-4')) document.getElementById('mat-tab-label-0-4').style.display = 'none'
+        if(document.getElementById('mat-tab-label-1-0')) document.getElementById('mat-tab-label-1-0').style.display = 'none'
+        if(document.getElementById('mat-tab-label-1-1')) document.getElementById('mat-tab-label-1-1').style.display = 'none'
+        if(document.getElementById('mat-tab-label-1-2')) document.getElementById('mat-tab-label-1-2').style.display = 'none'
+        if(document.getElementById('mat-tab-label-1-3')) document.getElementById('mat-tab-label-1-3').style.display = 'none'
+        if(document.getElementById('mat-tab-label-1-4')) document.getElementById('mat-tab-label-1-4').style.display = 'none'
+        this.toggled =true;
+      } else {
+        if(document.getElementById('ck-doc')) document.getElementById('ck-doc').style.height = '345px'
+        if(document.getElementById('top')) document.getElementById('top').style.display = 'flex'
+        if(document.getElementById('info-title')) document.getElementById('info-title').style.display = 'flex'
+        if(document.getElementById('menu-bar')) document.getElementById('menu-bar').style.display = 'flex'
+        if(document.getElementById('mat-tab-label-0-0')) document.getElementById('mat-tab-label-0-0').style.display = 'unset'
+        if(document.getElementById('mat-tab-label-0-1')) document.getElementById('mat-tab-label-0-1').style.display = 'unset'
+        if(document.getElementById('mat-tab-label-0-2')) document.getElementById('mat-tab-label-0-2').style.display = 'unset'
+        if(document.getElementById('mat-tab-label-0-3')) document.getElementById('mat-tab-label-0-3').style.display = 'unset'
+        if(document.getElementById('mat-tab-label-0-4')) document.getElementById('mat-tab-label-0-4').style.display = 'unset'
+        if(document.getElementById('mat-tab-label-1-0')) document.getElementById('mat-tab-label-1-0').style.display = 'unset'
+        if(document.getElementById('mat-tab-label-1-1')) document.getElementById('mat-tab-label-1-1').style.display = 'unset'
+        if(document.getElementById('mat-tab-label-1-2')) document.getElementById('mat-tab-label-1-2').style.display = 'unset'
+        if(document.getElementById('mat-tab-label-1-3')) document.getElementById('mat-tab-label-1-3').style.display = 'unset'
+        if(document.getElementById('mat-tab-label-1-4')) document.getElementById('mat-tab-label-1-4').style.display = 'unset'
+        this.toggled = false;
+      }
+    }catch(error) {
+      console.error("Error while toggling editor to full screen", error)
+    }
+  }
+
 }

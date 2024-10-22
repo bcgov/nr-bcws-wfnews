@@ -1,0 +1,13 @@
+<div class="incident-response-panel">
+  <response-update-card [updateDate]="incident.lastUpdatedTimestamp"><ckeditor *ngIf="incident?.incidentOverview" id="ck-doc" [editor]="editor" [data]="incident?.incidentOverview" (ready)="onReady($event)"></ckeditor></response-update-card>
+  <two-column-content-cards-container>
+    <ng-container column-1>
+      <resources-assigned-card [incident]="incident"></resources-assigned-card>
+    </ng-container>
+    <ng-container column-2>
+      <text-card *ngIf="responseDisclaimer" [text]="responseDisclaimer" backgroundColor="#F5F5F5" textColor="#5B5B5B"></text-card>
+      <response-type-card [responseTypeCode]="incident.responseTypeCode"></response-type-card>
+      <contact-us-card [incident]="incident"></contact-us-card>
+    </ng-container>
+  </two-column-content-cards-container>
+</div>

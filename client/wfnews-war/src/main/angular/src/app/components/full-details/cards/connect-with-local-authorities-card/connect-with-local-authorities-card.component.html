@@ -1,0 +1,32 @@
+<content-card-container class="connect-with-local-authorities-card">
+  <div class="header">
+    <span class="title">Connect with Local Authorities</span>
+  </div>
+  <div class="content-container">
+    <div class="content">
+      <div class="content-title"><img class="icon" src="/assets/images/svg-icons/authorities.svg" alt="authorities">
+        {{ localAuthority }}</div>
+      <div class="content-list">
+        <span class="content-text">Evacuation notices are authorized and implemented by local authorities. The local
+          authority for this evacuation notice is {{ localAuthority }}. Please contact them or visit their
+          website for more details.</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content-title">Contact Information</div>
+      <div class="content-list">
+        <span class="content-text">Local Authorities are the best information sources related to evacuations. Search
+          Civic Info’s directory to find local authority contact and website information.</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content-list">
+        <icon-button class="max-width-300" [componentStyle]="defaultSlimIconButtonStyle" iconPath="/assets/images/svg-icons/search.svg" label="Find Contact Information"
+        (buttonClicked)="directToLink()"></icon-button>
+      </div>
+    </div>
+  </div>
+
+</content-card-container>

@@ -1,109 +1,24 @@
 <incident-overview-panel [incident]="incident" class="show-print"></incident-overview-panel>
-<div class="panel forPrint" id="toprint">
-  <div class="header-row no-print">
-    <h4>Wildfire Information</h4>
-    <div class="header-button-container no-print">
-      <a style="text-decoration: none;" href="https://www.facebook.com/BCForestFireInfo/" target="_blank" rel="noopener"><svg class="icon facebook" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#3b5998" d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"/></svg></a>
-      <a style="text-decoration: none;" href="https://mobile.twitter.com/bcgovfireinfo" target="_blank" rel="noopener">
-        <img alt="Twitter Icon" src="/assets/images/svg-icons/twitter-x.svg" class="icon twitter">
-      </a>
-      <mat-icon (click)="copyToClipboard()" class="button no-print">share</mat-icon>
-      <button class="print-button no-print" (click)="printPage()"><span>Print</span>
-        <mat-icon class="button">print</mat-icon>
-      </button>
-    </div>
-  </div>
-  <div class="content-panel">
-    <div class="content-panel-stack">
-      <div>
-        <h1>Stage of Control</h1>
-        <div *ngIf="incident.fireOfNoteInd" class="content-panel-subtitle">Wildfire Of Note</div>
-        <div *ngIf="incident.fireOfNoteInd" class="content-panel-body">This wildfire is highly visible or poses a potential threat to public safety.</div>
-        <div class="content-panel-subtitle">{{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
-        <div class="content-panel-body">{{getStageOfControlDescription(incident.stageOfControlCode)}}</div>
-        <div id="spacer" style="padding: 12px;"></div>
-        <h1>Suspected Cause</h1>
-        <div class="content-panel-subtitle">{{getCauseLabel(incident.generalIncidentCauseCatId)}}</div>
-        <div class="content-panel-body">
-          <div [innerHTML]="incident.incidentCauseDetail || getCauseDescription(incident.generalIncidentCauseCatId)"></div>
-        </div>
-      </div>
-      <div>
-        <!-- Image/video section: fetch from aws cache -->
-        <div *ngIf="primaryMedia !== null">
-          <div *ngIf="showWarning; else primaryImage" class="preview-warning">Warning: Primary Video/Image selection cannot be previewed</div>
-          <ng-template #primaryImage>
-            <div style="text-align: center;">
-              <img alt="icon" id="primary-image-container" *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; max-height: 500px; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="500" height="500" (error)="handleImageFallback(primaryMedia.href)" />
-              <iframe class="no-print" *ngIf="primaryMedia.type === 'video'"
-                width="400" 
-                height="250" 
-                [src]="primaryMedia.href" 
-                sandbox="allow-scripts allow-same-origin allow-presentation" 
-                frameborder="0" 
-                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerpolicy="strict-origin-when-cross-origin" 
-                allowfullscreen>
-              </iframe>          
-            </div>
-          </ng-template>
-        </div>
-        <!-- contact section-->
-        <h1>Incident Contact Information</h1>
-        <div style="display: flex;"><mat-icon style="padding-right: 10px;">contact_mail</mat-icon><span>{{convertToFireCentreDescription(incident.contactOrgUnitIdentifer || incident.fireCentreName || incident.fireCentreCode || incident.fireCentre)}}</span></div>
-        <div style="display: flex;"><mat-icon style="padding-right: 10px;">mail</mat-icon><span>{{incident.contactEmailAddress}}</span></div>
-        <div style="display: flex;"><mat-icon style="padding-right: 10px;">phone_in_talk</mat-icon><span>{{incident.contactPhoneNumber}}</span></div>
-      </div>
-    </div>
-    <div class="spacer-bottom"></div>
-  </div>
-  <div class="content-panel" style="border-bottom: none;">
-    <div class="spacer-top"></div>
-    <div class="content-panel-stack">
-      <div>
-        <h1>Evacuation Orders and Alerts
-          <div *ngIf="showWarning" class="preview-warning">Warning: Manually entered Evacuation Orders and Alerts cannot be previewed</div>
-        </h1>
-        <div class="content-panel-subtitle">Evacuation Information</div>
-        <div *ngFor="let evac of evacOrders">
-          <a *ngIf="evac.uri" [href]="evac.uri ? evac.uri && evac.uri !== '' : ''" target="_blank" rel="noopener" class="content-panel-link">{{ evac.orderAlertStatus }}: {{evac.eventName}} ({{evac.issuingAgency}})</a>
-          <div *ngIf="!evac.uri" class="content-panel-link">{{ evac.orderAlertStatus }}: {{evac.eventName}} ({{evac.issuingAgency}})</div>
-        </div>
-        <div *ngIf="!evacOrders || evacOrders.length <= 0">
-          Evacuation Orders and Alerts are put into place by your local authority, government or First Nation. BC Wildfire Service displays this information when it becomes available. There are no current evacuation Orders or Alerts available to display for this incident. For the latest evacuation information, contact your local authority.
-        </div>
-        <div style="padding: 10px;"></div>
-        <div class="content-panel-subtitle">What is an Evacuation Order?</div>
-        <div class="content-panel-body">You are at risk. Leave the area immediately. Follow instructions from your local government or First Nation.</div>
-        <div class="learn-more-button-container">
-          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance#stages" target="_blank" rel="noopener">Learn More</a>
-          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance#stages">https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance#stages</a></p>
-        </div>
-      </div>
-      <div>
-        <h1>Area Restrictions
-          <div *ngIf="showWarning" class="preview-warning" style="text-align: left !important;">Warning: Manually entered Area Restrictions cannot be previewed</div>
-        </h1>
-        <div class="content-panel-subtitle">Area Restriction Information</div>
-        <div *ngFor="let area of areaRestrictions">
-          <a [href]="area.bulletinUrl || areaRestrictionLink" target="_blank" rel="noopener" class="content-panel-link no-print">{{area.name}}</a>
-          <p class="show-print">{{area.name}} Link: <a [href]="area.bulletinUrl || areaRestrictionLink" target="_blank" rel="noopener" class="content-panel-link show-print">{{area.bulletinUrl || areaRestrictionLink}}</a></p>
-        </div>
-        <div *ngIf="!areaRestrictions || areaRestrictions.length <= 0">There are no current area restrictions near this incident.</div>
-        <div style="padding: 10px;"></div>
-        <div class="content-panel-subtitle">What is an Area Restriction?</div>
-        <div class="content-panel-body">Area restrictions or forest use restrictions refer to area closures or restrictions and activity restrictions necessary or desirable to limit the risk of a fire, to address a public safety concern or to avoid interference with fire control.</div>
-        <div class="learn-more-button-container">
-          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/forest-use-restrictions" target="_blank" rel="noopener">Learn More</a>
-          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/forest-use-restrictions">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/forest-use-restrictions</a></p>
-        </div>
-      </div>
-    </div>
-    <div class="spacer-bottom"></div>
-  </div>
-  <div id="qr-code-panel" class="qr-code" style="text-align: center;">
-    <h5 style="padding: 0px; margin: 0px;">View in your browser</h5>
-    <canvas id="qr-code"></canvas>
-    <p>Scan this QR Code to view this information in your web browser</p>
-  </div>
+
+<div class="incident-info-panel">
+  <two-column-content-cards-container>
+    <ng-container column-1>
+      <stage-of-control-card [isFireOfNote]="incident.fireOfNoteInd" [stageOfControlCode]="incident.stageOfControlCode"></stage-of-control-card>
+      <fire-size-card [fireSize]="incident.incidentSizeEstimatedHa" [description]="incident.incidentSizeDetail" ></fire-size-card>
+      <location-card [traditionalTerritory]="incident.traditionalTerritoryDetail" [description]="incident.incidentLocation" (buttonClicked)="navigateToMap()" ></location-card>
+      <evacuations-card [evacuations]="evacOrders" [incident]="incident" (viewDetailsClicked)="navigateToEvac($event)" ></evacuations-card>
+    </ng-container>
+    <ng-container column-2>
+      <primary-media-card *ngIf="primaryMedia" [showPreviewWarning]="showWarning" [item]="primaryMedia" (imageError)="handleImageFallback(primaryMedia.href)" (openAllPhotosClicked)="sendToGalleryTab()" ></primary-media-card>
+      <area-restrictions-card [showPreviewWarning]="showWarning" [areaRestrictions]="areaRestrictions" (viewDetailsClicked)="navigateToAreaRestriction($event)" ></area-restrictions-card>
+      <suspected-cause-card [incident]="incident"></suspected-cause-card>
+      <contact-us-card [incident]="incident"></contact-us-card>
+    </ng-container>
+  </two-column-content-cards-container>
+</div>
+
+<div id="qr-code-panel" class="qr-code" style="text-align: center;">
+  <h5 style="padding: 0px; margin: 0px;">View in your browser</h5>
+  <canvas id="qr-code"></canvas>
+  <p>Scan this QR Code to view this information in your web browser</p>
 </div>

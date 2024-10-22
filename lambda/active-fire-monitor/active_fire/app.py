@@ -30,7 +30,7 @@ def lambda_handler(event, context):
         try:
             ip = requests.get(news_api + "/publicPublishedIncident?stageOfControlList=OUT_CNTRL"
                               "&stageOfControlList=HOLDING&stageOfControlList=UNDR_CNTRL&fromCreateDate=" +
-                              last_fetched_time_stamp_string + "&orderBy=createDate ASC")
+                              last_fetched_time_stamp_string + "&orderBy=createDate ASC", timeout=15)
 
         except requests.RequestException as e:
             # Send some context about this error to Lambda Logs
@@ -72,8 +72,13 @@ def lambda_handler(event, context):
                 "statusCode": responses[0]["ResponseMetadata"]["HTTPStatusCode"],
                 "body": json.dumps(responses[0]["ResponseMetadata"])
             }
+        # Handle case where successful, but no new messages
+        elif "collection" in message_body and message_body["collection"] == []:
+            return {
+                "statusCode": "204"
+            }
         else:
             return {
                 "statusCode": 400,
-                "body": "Bad Request or no new data in past monitor cycle"
+                "body": "Bad Request"
             }

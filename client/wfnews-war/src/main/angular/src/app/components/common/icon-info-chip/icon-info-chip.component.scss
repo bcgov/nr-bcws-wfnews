@@ -1,0 +1,40 @@
+@import "../../../../styles/variables.scss";
+
+:host { display: block; }
+
+.chip-container {
+  display: flex;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  border-radius: 4px;
+  width: max-content;
+  background: #FFFFFF;
+  border: 1px solid #dedede;
+
+  &.slim {
+    padding: 4px 6px;
+  }
+
+  .label {
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+      sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    color: #000000;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+    align-self: center;
+
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+  }
+}

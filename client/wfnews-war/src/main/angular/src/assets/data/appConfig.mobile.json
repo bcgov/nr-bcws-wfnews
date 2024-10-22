@@ -56,7 +56,9 @@
         "localGovUrl": "#{LOCAL_GOV_URL}#",
         "emergencyAlertUrl": "#{EMERGENCY_ALERT_URL}#",
         "driveBCUrl": "#{DRIVE_BC_URL}#",
-        "evacServicesUrl": "#{EVAC_SERVICES_URL}#"
+        "evacServicesUrl": "#{EVAC_SERVICES_URL}#",
+        "dangerSummary": "#{DANGER_SUMMARY}#",
+        "highRiskActivities": "#{HIGH_RISK_ACTIVITIES}#"
        
     },
 
@@ -81,7 +83,8 @@
         "wfdm": "#{WFDM_API_URL}#",
         "pointId": "#{POINT_ID_URL}#",
         "fire-report-api": "#{FIRE_REPORT_API_URL}#",
-        "notification-api": "#{NOTIFICATION_API_URL}#"
+        "notification-api": "#{NOTIFICATION_API_URL}#",
+        "wfrmSchedule": "#{WFRM_RESOURCE_API_URL}#"
 
     },
 

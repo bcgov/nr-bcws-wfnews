@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.contact-us-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .title {
+    color: var(--Black-24, #242424);
+    /* 22 SB */
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 33px; /* 150% */
+  }
+}
