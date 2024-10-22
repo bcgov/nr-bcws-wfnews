@@ -8,8 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.1605.0",
-    "axios": "0.21.1",
-    "wfnews-cache-invalidator": "file:"
+    "axios": "0.21.1"
   },
   "scripts": {
     "test": "mocha tests/unit/"
