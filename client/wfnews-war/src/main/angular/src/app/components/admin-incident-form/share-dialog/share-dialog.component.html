@@ -12,4 +12,8 @@
     <icon-button [componentStyle]="iconButtonStyling" iconPath="/assets/images/svg-icons/carbon_email.svg"
       label="Email" (buttonClicked)="email()"></icon-button>
   </div>
+  <div class="link-copied-block" *ngIf="isLinkCopied">
+    <img alt="icon" src="/assets/images/svg-icons/black-check-circle.svg">
+    <span>Link Copied</span>
+  </div>
 </div>

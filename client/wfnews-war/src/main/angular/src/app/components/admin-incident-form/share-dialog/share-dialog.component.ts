@@ -14,6 +14,7 @@ export class DialogData {
 })
 export class ShareDialogComponent {
   public title = 'Share';
+  isLinkCopied = false; 
   iconButtonStyling = { ...defaultSlimIconButtonStyle, backgroundColor: '#FFF' };
 
   constructor(
@@ -22,10 +23,27 @@ export class ShareDialogComponent {
   ) {}
 
   copyLink() {
-    console.log(this.data.currentUrl);
+    navigator.clipboard.writeText(this.data.currentUrl).then(() => {
+      console.log('URL copied to clipboard: ', this.data.currentUrl);
+      this.showLinkCopiedMesage();  // Show the "Link Copied" message
+    }).catch(err => {
+      console.error('Could not copy URL: ', err);
+    });
   }
 
   email() {
+    const subject = `${this.data.name}`;
+    const body = `${this.data.currentUrl}`;
+    // Construct the mailto link
+    const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    // Open the default email client with the constructed mailto link
+    window.location.href = mailtoLink;
+  }
 
+  showLinkCopiedMesage() {
+    this.isLinkCopied = true;
+    setTimeout(() => {
+      this.isLinkCopied = false;  // Hide the message after 5 seconds
+    }, 5000);
   }
 }

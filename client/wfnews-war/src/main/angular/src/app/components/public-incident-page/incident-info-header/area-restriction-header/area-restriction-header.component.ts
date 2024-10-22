@@ -19,7 +19,6 @@ export class AreaRestrictionHeaderComponent {
     private router: Router,
     private appConfigService: AppConfigService,
     private dialog: MatDialog,
-
   ) {}
 
 
@@ -43,6 +42,7 @@ export class AreaRestrictionHeaderComponent {
       panelClass: 'contact-us-dialog',
       width: '500px',
       data: {
+        incidnetType: 'Area restriction',
         currentUrl: url,
         name: this.areaRestriction.attributes.NAME
       },
