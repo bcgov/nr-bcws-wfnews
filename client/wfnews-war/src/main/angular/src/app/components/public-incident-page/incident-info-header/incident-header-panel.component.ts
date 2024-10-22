@@ -36,7 +36,6 @@ import {
   setDisplayColor
 } from '../../../utils';
 import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
-import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
 
 @Component({
   selector: 'incident-header-panel',

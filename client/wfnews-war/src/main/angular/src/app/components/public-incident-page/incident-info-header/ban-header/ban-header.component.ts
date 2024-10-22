@@ -1,10 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ResourcesRoutes, convertToDateYear } from '@app/utils';
-import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'wfnews-ban-header',
