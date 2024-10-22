@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import { CapacitorService } from './capacitor-service';
 import { IonicStorageService } from './ionic-storage.service';
 import { ReportOfFireService } from './report-of-fire-service';
+import { Router } from '@angular/router';
+import { Share } from '@capacitor/share';
 
 const MAX_CACHE_AGE = 30 * 1000;
 
@@ -42,6 +44,7 @@ export class CommonUtilityService {
     private injector: Injector,
     private ionicStorageService: IonicStorageService,
     private capacitorService: CapacitorService,
+    private router: Router
   ) {
     setTimeout(() => (this.rofService = injector.get(ReportOfFireService)));
   }
@@ -350,8 +353,19 @@ export class CommonUtilityService {
       };
   }
 
-  sharePage(pageUrl: string): void {
-    
+  shareMobile(shareTitle: string) {
+    const currentUrl = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
+    // contents of the share is out of scope for wfnews-2403. Enhancment should be available in wfnews-2422
+    Share.share({
+      title: shareTitle,
+      text: 'Share the incident update!',
+      url: currentUrl,
+      dialogTitle: 'Share Wildfire News Link'
+    }).then(() => {
+      console.log('Sharing successful');
+    }).catch(err => {
+      console.error('Error sharing:', err);
+    });
   }
 
   private deg2rad(deg: number): number {

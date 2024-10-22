@@ -295,4 +295,8 @@ export class EvacAlertFullDetailsComponent implements OnInit {
       );
     }
   }
+
+  shareMobile(status: string) {
+    this.commonUtilityService.shareMobile(`Evacuation ${status} for ${this.evacData.name}`);
+  }
 }

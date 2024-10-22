@@ -5,8 +5,12 @@
                 alt="evacuation_alert" />Order</div>
         <p class="info">People in this area are at risk and should leave the area immediately. Follow instructions from your
             local government or First Nation.</p>
-        <button (click)="navToMap()" mat-button class="map-button"><img class="tertiary-icon"
+        <div class="button-row">
+            <button (click)="navToMap()" mat-button class="map-button"><img class="tertiary-icon"
                 src="/assets/images/svg-icons/map.svg" alt="Map" />View on Map</button>
+            <button (click)="shareMobile('Order')" mat-button class="map-button"><img class="tertiary-icon" src="/assets/images/svg-icons/share.svg"
+                alt="Share" />Share</button>
+        </div>
     </div>
     <hr>
     <div class="info-container">

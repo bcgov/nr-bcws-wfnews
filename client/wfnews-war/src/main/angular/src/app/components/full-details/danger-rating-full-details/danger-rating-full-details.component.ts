@@ -185,4 +185,8 @@ export class DangerRatingFullDetailsComponent implements OnInit {
       '_blank',
     );
   }
+
+  shareMobile() {
+    this.commonUtilityService.shareMobile(`${this.rating} Danger Rating`);
+  }
 }

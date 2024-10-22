@@ -280,4 +280,8 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
       );
     }
   }
+
+  shareMobile() {
+    this.commonUtilityService.shareMobile(this.restrictionData?.name);
+  }
 }

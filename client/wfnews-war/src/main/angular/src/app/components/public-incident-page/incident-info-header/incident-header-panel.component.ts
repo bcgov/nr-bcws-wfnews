@@ -739,6 +739,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   }
 
   shareMobile() {
+    this.commonUtilityService.shareMobile(this.incident.incidentName);
   }
 
   private createZoomIcon(btn: HTMLElement): void {
