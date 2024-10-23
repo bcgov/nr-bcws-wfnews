@@ -88,7 +88,7 @@ variable "api_key" {
 
 variable "app_count" {
   description = "Number of docker containers to run"
-  default     = 2
+  default     = 1
 }
 
 variable "server_container_name" {
