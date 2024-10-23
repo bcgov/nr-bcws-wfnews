@@ -56,12 +56,10 @@ export class HighlightsWidgetComponent implements OnInit {
   populateTags() {
     try {
       this.getAllAppPosts().subscribe(result => {
-        console.log('result');
-        console.log(result)
         this.posts = result;
       })
     } catch (error) {
-      console.log("Error retrieving blog posts: " + error)
+      console.error("Error retrieving blog posts: " + error)
     }
   }
 
