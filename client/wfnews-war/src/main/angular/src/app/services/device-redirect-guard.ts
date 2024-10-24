@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { isMobileView } from '@app/utils';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeviceRedirectGuard implements CanActivate {
+  public isMobileView = isMobileView;
 
   constructor(private router: Router) {}
 
@@ -13,20 +15,18 @@ export class DeviceRedirectGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const isMobile = (window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768);
-
     // Split the URL into path and query string
     const [path, queryString] = state.url.split('?');
     const queryParams = new URLSearchParams(queryString || '');
 
-    if (isMobile && path.includes('events')) {
+    if (isMobileView() && path.includes('events')) {
       // Perform query parameter transformations
       this.transformQueryParams(queryParams);
 
       return this.router.parseUrl(`full-details?${queryParams.toString()}`);
     }
 
-    if (!isMobile && path.includes('full-details')) {
+    if (!isMobileView() && path.includes('full-details')) {
       this.reverseTransformQueryParams(queryParams);
       return this.router.parseUrl(`events?${queryParams.toString()}`);
     }
