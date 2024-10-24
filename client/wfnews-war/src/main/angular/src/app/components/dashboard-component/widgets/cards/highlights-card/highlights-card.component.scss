@@ -1,13 +1,7 @@
 @import "../../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
-.highlights-card-container {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    width: 100%;
-    overflow-x: auto;
-}
+:host { display: block; }
 
 .highlight-card {
     border-radius: var(--8, 8px);

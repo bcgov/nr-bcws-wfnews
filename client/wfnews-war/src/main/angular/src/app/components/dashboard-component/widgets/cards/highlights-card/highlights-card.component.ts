@@ -7,7 +7,7 @@ import { ProcessedPost } from '../../highlights-widget/highlights-widget.compone
   styleUrls: ['./highlights-card.component.scss']
 })
 export class HighlightsCardComponent {
-  @Input() posts: ProcessedPost[]
+  @Input() post: ProcessedPost
 
   openLink(link: string){
     if (link) {

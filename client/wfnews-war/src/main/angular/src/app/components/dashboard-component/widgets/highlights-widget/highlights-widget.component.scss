@@ -1,6 +1,8 @@
 @import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
+:host { display: block; }
+
 .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -21,7 +23,7 @@
     width: 100%;
     display: flex;
     align-items: flex-start;
-    gap: var(--24, 24px);
+    gap: 16px;
     align-self: stretch;
     overflow-x: auto;
     overflow-y: hidden;

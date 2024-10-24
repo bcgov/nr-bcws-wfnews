@@ -63,7 +63,7 @@ type Story = StoryObj<HighlightsCardComponent>;
 
 export const SingleFireCentres: Story = {
   args: {
-    posts: [{
+    post: {
       id: 1,
       title: 'Smoke from pile burning visible in Kamloops Fire Centre',
       date: 'October 21, 2024',
@@ -77,13 +77,13 @@ export const SingleFireCentres: Story = {
         { name: 'app' },
         { name: 'KFC' }
       ]
-    }]
+    }
   }
 };
 
 export const MultipleFireCentres: Story = {
   args: {
-    posts: [
+    post: 
       {
         id: 2,
         title: 'Super prescribed burn across multiple provinces',
@@ -101,13 +101,12 @@ export const MultipleFireCentres: Story = {
           { name: 'SEFC' },
         ]
       }
-    ]
   }
 };
 
 export const NoThumbnail: Story = {
   args: {
-    posts: [
+    post: 
       {
         id: 5,
         title: 'Important Alert: prescribed burn smoke visible near Lac Le Jeune',
@@ -123,6 +122,5 @@ export const NoThumbnail: Story = {
           { name: 'KFC' }
         ]
       }
-    ]
   }
 };
