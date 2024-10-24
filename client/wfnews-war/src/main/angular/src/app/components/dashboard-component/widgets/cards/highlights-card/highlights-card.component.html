@@ -1,0 +1,22 @@
+
+<div class="highlight-card" (click)="openLink(post.link)">
+        <div class="highlight-info">
+            <div class="highlight-thumbnail">
+                <img [src]="post.thumbnail.url" [alt]="post.thumbnail.alt" *ngIf="post.thumbnail.url">
+            </div>
+            <div class="highlight-tags">
+                <div class="highlight-tag">
+                    Prevention
+                </div>
+                <div class="highlight-tag" *ngFor="let fireCentre of post.fireCentres">
+                    {{fireCentre}}
+                </div>
+            </div>
+            <div class="highlight-info-title">
+                {{post.title}}
+            </div>
+            <div class="highlight-date">
+                posted on {{post.date}}
+            </div>
+        </div>
+    </div>
