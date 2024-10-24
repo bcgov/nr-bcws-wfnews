@@ -27,7 +27,7 @@ type Tag = {
   name: string;
 }
 
-type ProcessedPost = {
+export type ProcessedPost = {
   id: number;
   date: string;
   title: string;
@@ -138,11 +138,5 @@ export class HighlightsWidgetComponent implements OnInit {
       })),
       fireCentres: fireCentreTags.map(tag => tag.name)  // Array of fire centre names
     };
-  }
-
-  openLink(link: string){
-    if (link) {
-      window.open(link, '_blank');
-    } 
   }
 }

@@ -322,6 +322,7 @@ import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
 import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
 import { HighlightsWidgetComponent } from './components/dashboard-component/widgets/highlights-widget/highlights-widget.component';
+import { HighlightsCardComponent } from './components/dashboard-component/widgets/cards/highlights-card/highlights-card.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -555,6 +556,7 @@ export const DATE_FORMATS = {
     PrimaryMediaCardComponent,
     ContactUsCoreComponent,
     HighlightsWidgetComponent,
+    HighlightsCardComponent,
   ],
   imports: [
     MatSortModule,
