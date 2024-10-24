@@ -38,6 +38,10 @@ on:
         required: false
         type: number
         default: 1
+      NOTIFICATIONS_API_INSTANCE_COUNT:
+        required: false
+        type: number
+        default: 1
       LOGGING_LEVEL:
         required: false
         type: string
@@ -202,6 +206,7 @@ jobs:
           DB_INSTANCE_TYPE: ${{inputs.DB_INSTANCE_TYPE}}
           LOGGING_LEVEL: ${{inputs.LOGGING_LEVEL}}
           INSTANCE_COUNT: ${{inputs.INSTANCE_COUNT}}
+          NOTIFICATIONS_API_INSTANCE_COUNT: ${{inputs.NOTIFICATIONS_API_INSTANCE_COUNT}}
           CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER }}
 
           API_KEY: ${{ secrets.API_KEY }}
