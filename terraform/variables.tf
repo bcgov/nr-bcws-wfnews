@@ -88,8 +88,14 @@ variable "api_key" {
 
 variable "app_count" {
   description = "Number of docker containers to run"
+  default     = 2
+}
+
+variable "notifications_api_app_count" {
+  description = "Number of docker containers to run in notifications api"
   default     = 1
 }
+
 
 variable "server_container_name" {
   description = "Server container name"

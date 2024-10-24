@@ -1500,7 +1500,7 @@ resource "aws_ecs_service" "wfone_notifications_api" {
   name                              = "wfone-notifications-api-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfone_notifications_api.arn
-  desired_count                     = 1
+  desired_count                     = var.notifications_api_app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
   health_check_grace_period_seconds = 60
