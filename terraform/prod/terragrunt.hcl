@@ -24,6 +24,7 @@ locals {
   server_memory = get_env("SERVER_MEMORY")
   db_instance_type = get_env("DB_INSTANCE_TYPE")
   app_count = get_env("INSTANCE_COUNT")
+  notifications_api_app_count = = get_env("NOTIFICATIONS_API_INSTANCE_COUNT")
 
   logging_level = get_env("LOGGING_LEVEL")
 
@@ -140,6 +141,7 @@ generate "prod_tfvars" {
     db_size = "${local.db_size}"
     logging_level = "${local.logging_level}"
     app_count = "${local.app_count}"
+    notifications_api_app_count = "${local.notifications_api_app_count}"
     api_key = "${local.api_key}"
     db_pass = "${local.db_pass}"
     max_upload_size ="${local.max_upload_size}"
