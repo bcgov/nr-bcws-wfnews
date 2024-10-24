@@ -266,6 +266,22 @@ export const FireZones = [
   },
 ];
 
+export const EventTypes = {
+  ORDER: 'Order',
+  ALERT: 'Alert',
+  AREA_RESTRICTION: 'area-restriction',
+  BAN: 'ban',
+  DANGER_RATING: 'danger-rating'
+};
+
+export const Types = {
+  EVAC_ORDER: 'evac-order',
+  EVAC_ALERT: 'evac-alert',
+  AREA_RESTRICTION: 'area-restriction',
+  BANS_PROHIBITIONS: 'bans-prohibitions',
+  DANGER_RATING: 'danger-rating'
+};
+
 export function getPageInfoRequestForSearchState(
   searchState: any,
 ): PagingInfoRequest {

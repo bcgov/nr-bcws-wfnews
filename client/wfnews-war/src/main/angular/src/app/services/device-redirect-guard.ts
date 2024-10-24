@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { isMobileView } from '@app/utils';
+import { isMobileView,EventTypes, Types } from '@app/utils';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -38,25 +38,25 @@ export class DeviceRedirectGuard implements CanActivate {
   // Function to handle query parameter transformations
   private transformQueryParams(queryParams: URLSearchParams): void {
     const eventType = queryParams.get('eventType');
-    
+
     switch (eventType) {
-      case 'Order':
-        queryParams.set('type', 'evac-order'); // Change 'eventType=Order' to 'type=evac-order'
+      case EventTypes.ORDER:
+        queryParams.set('type', Types.EVAC_ORDER);
         break;
-      case 'Alert':
-        queryParams.set('type', 'evac-alert'); // Change 'eventType=Alert' to 'type=evac-alert'
+      case EventTypes.ALERT:
+        queryParams.set('type', Types.EVAC_ALERT);
         break;
-      case 'area-restriction':
-        queryParams.set('type', 'area-restriction'); // Change 'eventType=area-restriction' to 'type=area-restriction'
+      case EventTypes.AREA_RESTRICTION:
+        queryParams.set('type', Types.AREA_RESTRICTION);
         this.renameQueryParams(queryParams, 'eventNumber', 'id');
         this.renameQueryParams(queryParams, 'eventName', 'name');
         break;
-      case 'ban':
-        queryParams.set('type', 'bans-prohibitions'); // Change 'eventType=ban' to 'type=bans-prohibitions'
+      case EventTypes.BAN:
+        queryParams.set('type', Types.BANS_PROHIBITIONS);
         this.renameQueryParams(queryParams, 'eventNumber', 'id');
         break;
-      case 'danger-rating':
-        queryParams.set('type', 'danger-rating'); // Change 'eventType=ban' to 'type=bans-prohibitions'
+      case EventTypes.DANGER_RATING:
+        queryParams.set('type', Types.DANGER_RATING);
         this.renameQueryParams(queryParams, 'eventNumber', 'sysid');
         this.renameQueryParams(queryParams, 'eventName', 'id');
         break;
@@ -65,35 +65,34 @@ export class DeviceRedirectGuard implements CanActivate {
     }
   }
 
-    // Reverse the query parameter transformations (for desktop)
-    private reverseTransformQueryParams(queryParams: URLSearchParams): void {
-      const type = queryParams.get('type');
-      
-      switch (type) {
-        case 'evac-order':
-          queryParams.set('eventType', 'Order'); // Reverse 'type=evac-order' to 'eventType=Order'
-          break;
-        case 'evac-alert':
-          queryParams.set('eventType', 'Alert'); // Reverse 'type=evac-alert' to 'eventType=Alert'
-          break;
-        case 'area-restriction':
-          queryParams.set('eventType', 'area-restriction'); // Reverse 'type=area-restriction' to 'eventType=area-restriction'
-          this.renameQueryParams(queryParams, 'id', 'eventNumber');
-          this.renameQueryParams(queryParams, 'name', 'eventName');
-          break;
-        case 'bans-prohibitions':
-          queryParams.set('eventType', 'ban'); // Reverse 'type=bans-prohibitions' to 'eventType=ban'
-          this.renameQueryParams(queryParams, 'id', 'eventNumber');
-          break;
-        case 'danger-rating':
-          queryParams.set('eventType', 'danger-rating'); // Reverse 'type=danger-rating' to 'eventType=danger-rating'
-          this.renameQueryParams(queryParams, 'sysid', 'eventNumber');
-          this.renameQueryParams(queryParams, 'id', 'eventName');
-          break;
-        default:
-          break;
-      }
+  private reverseTransformQueryParams(queryParams: URLSearchParams): void {
+    const type = queryParams.get('type');
+
+    switch (type) {
+      case Types.EVAC_ORDER:
+        queryParams.set('eventType', EventTypes.ORDER);
+        break;
+      case Types.EVAC_ALERT:
+        queryParams.set('eventType', EventTypes.ALERT);
+        break;
+      case Types.AREA_RESTRICTION:
+        queryParams.set('eventType', EventTypes.AREA_RESTRICTION);
+        this.renameQueryParams(queryParams, 'id', 'eventNumber');
+        this.renameQueryParams(queryParams, 'name', 'eventName');
+        break;
+      case Types.BANS_PROHIBITIONS:
+        queryParams.set('eventType', EventTypes.BAN);
+        this.renameQueryParams(queryParams, 'id', 'eventNumber');
+        break;
+      case Types.DANGER_RATING:
+        queryParams.set('eventType', EventTypes.DANGER_RATING);
+        this.renameQueryParams(queryParams, 'sysid', 'eventNumber');
+        this.renameQueryParams(queryParams, 'id', 'eventName');
+        break;
+      default:
+        break;
     }
+  }
 
   // Helper function to rename query parameters
   private renameQueryParams(queryParams: URLSearchParams, oldKey: string, newKey: string): void {
