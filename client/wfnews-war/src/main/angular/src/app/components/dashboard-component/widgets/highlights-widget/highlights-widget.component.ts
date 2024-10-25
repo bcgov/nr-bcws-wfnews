@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { readableDate } from '@app/utils';
 import { Observable, of } from 'rxjs';
@@ -86,7 +86,12 @@ export class HighlightsWidgetComponent implements OnInit {
 
   // Helper to get tag ID from slug
   private getTagBySlug(slug: string): Observable<number | null> {
-    return this.http.get<any[]>(`${this.apiUrl}/tags?slug=${slug}`).pipe(
+    const headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Accept', '*/*');
+    const url = `${this.apiUrl}/tags?slug=${slug}`;
+
+    return this.http.get<any[]>(encodeURI(url), { headers }).pipe(
       map(tags => tags[0]?.id || null),
       catchError(error => {
         console.error('Error fetching tag:', error);
@@ -97,9 +102,14 @@ export class HighlightsWidgetComponent implements OnInit {
 
   // Helper to fetch all posts at once with tags
   private fetchAllPostsWithTag(tagId: number): Observable<ProcessedPost[]> {
+    const headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Accept', '*/*');
+    const url = `${this.apiUrl}/posts?tags=${tagId}&_embed&per_page=100`;
+
     // Include _embed to get tag information and set per_page to get all posts
     return this.http.get<WordPressPost[]>(
-      `${this.apiUrl}/posts?tags=${tagId}&_embed&per_page=100`
+      encodeURI(url), { headers }
     ).pipe(
       map(posts => posts.map(post => this.processPost(post))),
       catchError(error => {
