@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { readableDate } from '@app/utils';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 type WordPressPost = {
@@ -91,7 +91,14 @@ export class HighlightsWidgetComponent implements OnInit {
     headers.append('Accept', '*/*');
     const url = `${this.apiUrl}/tags?slug=${slug}`;
 
-    return this.http.get<any[]>(encodeURI(url), { headers }).pipe(
+    return from(fetch(encodeURI(url))
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+    ).pipe(
       map(tags => tags[0]?.id || null),
       catchError(error => {
         console.error('Error fetching tag:', error);
@@ -108,10 +115,15 @@ export class HighlightsWidgetComponent implements OnInit {
     const url = `${this.apiUrl}/posts?tags=${tagId}&_embed&per_page=100`;
 
     // Include _embed to get tag information and set per_page to get all posts
-    return this.http.get<WordPressPost[]>(
-      encodeURI(url), { headers }
+    return from(fetch(encodeURI(url))
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
     ).pipe(
-      map(posts => posts.map(post => this.processPost(post))),
+      map((posts: WordPressPost[]) => posts.map(post => this.processPost(post))),
       catchError(error => {
         console.error('Error fetching posts:', error);
         return of([]);
