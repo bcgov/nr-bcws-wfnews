@@ -22,10 +22,10 @@ import { AddSavedLocationComponent } from '@app/components/saved/add-saved-locat
 import { SavedLocationFullDetailsComponent } from './components/saved/saved-location-full-details/saved-location-full-details.component';
 import { SavedLocationWeatherDetailsComponent } from './components/saved/saved-location-weather-details/saved-location-weather-details.component';
 import { PublicEventPageComponent } from '@app/components/public-event-page/public-event-page.component';
+import { DeviceRedirectGuard } from '@app/services/device-redirect-guard';
 // Components
 
 const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
-
 const PANEL_ROUTES: Routes = [
   // { path: '', component: ActionsPanelComponent, pathMatch: 'full', canActivate: [AuthGuard] },
   {
@@ -80,6 +80,7 @@ const PANEL_ROUTES: Routes = [
     path: ResourcesRoutes.PUBLIC_EVENT,
     component: PublicEventPageComponent,
     pathMatch: 'full',
+    canActivate: [DeviceRedirectGuard],  // Apply the guard
   },
   {
     path: ResourcesRoutes.SIGN_OUT,
@@ -95,6 +96,7 @@ const PANEL_ROUTES: Routes = [
     path: ResourcesRoutes.FULL_DETAILS,
     component: FullDetailsComponent,
     pathMatch: 'full',
+    canActivate: [DeviceRedirectGuard],  // Apply the guard
   },
   {
     path: ResourcesRoutes.WEATHER_DETAILS,

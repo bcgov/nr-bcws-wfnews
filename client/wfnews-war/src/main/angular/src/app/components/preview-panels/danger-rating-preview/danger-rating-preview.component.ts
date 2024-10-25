@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MapUtilityService } from '@app/components/preview-panels/map-share-service';
+import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
@@ -39,12 +40,14 @@ export class DangerRatingPreviewComponent {
   }
 
   enterFullDetail() {
+    const location = new LocationData();
     const url = this.router.serializeUrl(
       this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
         queryParams: {
           eventType: 'danger-rating',
           eventNumber: this.data.PROT_DR_SYSID,
           eventName: this.data.DANGER_RATING_DESC,
+          location: JSON.stringify(location),
           source: [ResourcesRoutes.ACTIVEWILDFIREMAP]
         },
       }),
