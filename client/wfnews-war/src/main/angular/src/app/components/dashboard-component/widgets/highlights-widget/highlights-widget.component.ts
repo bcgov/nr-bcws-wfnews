@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { readableDate } from '@app/utils';
+import { Capacitor, CapacitorHttp } from '@capacitor/core';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
@@ -86,25 +87,9 @@ export class HighlightsWidgetComponent implements OnInit {
 
   // Helper to get tag ID from slug
   private getTagBySlug(slug: string): Observable<number | null> {
-    const headers = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Accept', '*/*');
     const url = `${this.apiUrl}/tags?slug=${slug}`;
 
-    return from(fetch(encodeURI(url), {
-      method: 'GET',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Accept': '*/*'
-      }
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-    ).pipe(
+    return this.processRequest<any[]>(url).pipe(
       map(tags => tags[0]?.id || null),
       catchError(error => {
         console.error('Error fetching tag:', error);
@@ -115,27 +100,10 @@ export class HighlightsWidgetComponent implements OnInit {
 
   // Helper to fetch all posts at once with tags
   private fetchAllPostsWithTag(tagId: number): Observable<ProcessedPost[]> {
-    const headers = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Accept', '*/*');
     const url = `${this.apiUrl}/posts?tags=${tagId}&_embed&per_page=100`;
 
-    // Include _embed to get tag information and set per_page to get all posts
-    return from(fetch(encodeURI(url), {
-      method: 'GET',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Accept': '*/*'
-      }
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-    ).pipe(
-      map((posts: WordPressPost[]) => posts.map(post => this.processPost(post))),
+    return this.processRequest<WordPressPost[]>(url).pipe(
+      map(posts => posts.map(post => this.processPost(post))),
       catchError(error => {
         console.error('Error fetching posts:', error);
         return of([]);
@@ -172,5 +140,22 @@ export class HighlightsWidgetComponent implements OnInit {
       })),
       fireCentres: fireCentreTags.map(tag => tag.name)  // Array of fire centre names
     };
+  }
+
+  private processRequest<T>(url: string): Observable<T> {
+    if (Capacitor.isNativePlatform()) {
+      return from(CapacitorHttp.request({
+        method: 'GET',
+        url: encodeURI(url),
+        headers: {
+          'Accept': '*',
+          'Access-Control-Allow-Origin': '*'
+        }
+      })).pipe(
+        map(response => JSON.parse(response.data))
+      );
+    } else {
+      return this.http.get<T>(encodeURI(url));
+    }
   }
 }
