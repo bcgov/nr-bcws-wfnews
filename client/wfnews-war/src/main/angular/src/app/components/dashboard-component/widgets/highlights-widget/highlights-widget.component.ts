@@ -91,7 +91,13 @@ export class HighlightsWidgetComponent implements OnInit {
     headers.append('Accept', '*/*');
     const url = `${this.apiUrl}/tags?slug=${slug}`;
 
-    return from(fetch(encodeURI(url))
+    return from(fetch(encodeURI(url), {
+      method: 'GET',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Accept': '*/*'
+      }
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -115,7 +121,13 @@ export class HighlightsWidgetComponent implements OnInit {
     const url = `${this.apiUrl}/posts?tags=${tagId}&_embed&per_page=100`;
 
     // Include _embed to get tag information and set per_page to get all posts
-    return from(fetch(encodeURI(url))
+    return from(fetch(encodeURI(url), {
+      method: 'GET',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Accept': '*/*'
+      }
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
