@@ -4,7 +4,7 @@ import { Injectable, Injector } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Geolocation } from '@capacitor/geolocation';
 import { AppConfigService } from '@wf1/core-ui';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { CapacitorService } from './capacitor-service';
 import { IonicStorageService } from './ionic-storage.service';
 import { ReportOfFireService } from './report-of-fire-service';
@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import { Share } from '@capacitor/share';
 import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Capacitor, CapacitorHttp } from '@capacitor/core';
+import { map } from 'rxjs/operators';
 
 const MAX_CACHE_AGE = 30 * 1000;
 
@@ -292,7 +294,7 @@ export class CommonUtilityService {
   checkIfLandscapeMode() {
     // also return true if this is table portrait mode wfnews-2022. 
     if (
-      (window.innerWidth > window.innerHeight) || 
+      (window.innerWidth > window.innerHeight) ||
       (window.innerWidth <= 1024 && window.innerWidth >= 768 && window.innerHeight > window.innerWidth)) {
       return true;
     } else {
@@ -313,10 +315,10 @@ export class CommonUtilityService {
     for (const element of response) {
       polygonData = polygonData.concat(element);
     }
-  
+
     return polygonData;
   }
-  
+
   createConvex(polygonData) {
     const turfPoints = polygonData.map(coord => window['turf'].point(coord));
     const pointsFeatureCollection = window['turf'].featureCollection(turfPoints);
@@ -335,24 +337,24 @@ export class CommonUtilityService {
 
   getMapOptions(bounds: any, location: number[]) {
     return bounds
-      ? { 
-        attributionControl: false, 
-        zoomControl: false, 
-        dragging: false, 
-        doubleClickZoom: false, 
-        boxZoom: false, 
-        trackResize: false, 
-        scrollWheelZoom: false 
-      } : { 
-        attributionControl: false, 
-        zoomControl: false, 
-        dragging: false, 
-        doubleClickZoom: false, 
-        boxZoom: false, 
-        trackResize: false, 
-        scrollWheelZoom: false, 
-        center: location, 
-        zoom: 9 
+      ? {
+        attributionControl: false,
+        zoomControl: false,
+        dragging: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        trackResize: false,
+        scrollWheelZoom: false
+      } : {
+        attributionControl: false,
+        zoomControl: false,
+        dragging: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        trackResize: false,
+        scrollWheelZoom: false,
+        center: location,
+        zoom: 9
       };
   }
 
@@ -382,6 +384,22 @@ export class CommonUtilityService {
         name: incidentName
       },
     });
+  }
+
+  getRequest<T>(url: string): Observable<T> {
+    if (Capacitor.isNativePlatform()) {
+      return from(CapacitorHttp.request({
+        method: 'GET',
+        url: encodeURI(url),
+        headers: {
+          accept: '*/*',
+        }
+      })).pipe(
+        map(response => response.data)
+      );
+    } else {
+      return this.http.get<T>(encodeURI(url));
+    }
   }
 
   private deg2rad(deg: number): number {

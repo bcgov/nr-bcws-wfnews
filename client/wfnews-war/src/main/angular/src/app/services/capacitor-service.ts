@@ -572,19 +572,6 @@ export class CapacitorService {
     await Preferences.remove({ key });
   }
 
-  get<T>(url: string): Observable<T> {
-    return from(CapacitorHttp.request({
-      method: 'GET',
-      url: encodeURI(url),
-      headers: {
-        accept: '*/*',
-      }
-    })).pipe(
-      map(response => response.data)
-    );
-  }
-
-
   private async checkTwitterAppInstalled(): Promise<boolean> {
     if (this.isMobilePlatform()) {
       const scheme = this.isIOSPlatform ? 'twitter://' : 'com.twitter.android';

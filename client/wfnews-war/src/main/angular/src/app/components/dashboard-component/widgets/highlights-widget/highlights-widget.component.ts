@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CapacitorService } from '@app/services/capacitor-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { readableDate } from '@app/utils';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -56,7 +55,7 @@ export class HighlightsWidgetComponent implements OnInit {
   apiUrl = 'https://blog.gov.bc.ca/bcwildfire/wp-json/wp/v2';
   appTagSlug = 'app';
 
-  constructor(private capacitorService: CapacitorService) { }
+  constructor(private commonUtilityService: CommonUtilityService) { }
 
   ngOnInit(): void {
     this.populateTags();
@@ -92,7 +91,7 @@ export class HighlightsWidgetComponent implements OnInit {
   private getTagBySlug(slug: string): Observable<number | null> {
     const url = `${this.apiUrl}/tags?slug=${slug}`;
 
-    return this.capacitorService.get<any[]>(url).pipe(
+    return this.commonUtilityService.getRequest<any[]>(url).pipe(
       map(tags => tags[0]?.id || null),
       catchError(error => {
         console.error('Error fetching tag:', error);
@@ -105,7 +104,7 @@ export class HighlightsWidgetComponent implements OnInit {
   private fetchAllPostsWithTag(tagId: number): Observable<ProcessedPost[]> {
     const url = `${this.apiUrl}/posts?tags=${tagId}&_embed&per_page=100`;
 
-    return this.capacitorService.get<WordPressPost[]>(url).pipe(
+    return this.commonUtilityService.getRequest<WordPressPost[]>(url).pipe(
       map(posts => posts.map(post => this.processPost(post))),
       catchError(error => {
         console.error('Error fetching posts:', error);
