@@ -12,7 +12,7 @@ import {
   PushNotifications,
 } from '@capacitor/push-notifications';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, fromEvent } from 'rxjs';
+import { BehaviorSubject, from, fromEvent, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { RootState } from '../store';
 import { ApplicationStateService } from './application-state.service';
@@ -21,20 +21,22 @@ import { EventEmitterService } from './event-emitter.service';
 import { ResourcesRoutes } from '@app/utils';
 import { Preferences } from '@capacitor/preferences';
 import { NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
+import { CapacitorHttp } from '@capacitor/core';
+import { map } from 'rxjs/operators';
 
 export interface CompassHeading {
   //The heading in degrees from 0-359.99 at a single moment in time. (Number)
-  magneticHeading?: number; 
+  magneticHeading?: number;
 
   // The heading relative to the geographic North Pole in degrees 0-359.99 at a single moment in time. 
   // A negative value indicates that the true heading can't be determined. (Number)
-  trueHeading?: number; 
-  
+  trueHeading?: number;
+
   //The deviation in degrees between the reported heading and the true heading. (Number)
-  headingAccuracy?: number; 
-  
+  headingAccuracy?: number;
+
   //The time at which this heading was determined. (DOMTimeStamp)
-  timestamp?: string; 
+  timestamp?: string;
   error?: string;
 }
 
@@ -570,6 +572,18 @@ export class CapacitorService {
     await Preferences.remove({ key });
   }
 
+  get<T>(url: string): Observable<T> {
+    return from(CapacitorHttp.request({
+      method: 'GET',
+      url: encodeURI(url),
+      headers: {
+        accept: '*/*',
+      }
+    })).pipe(
+      map(response => response.data)
+    );
+  }
+
 
   private async checkTwitterAppInstalled(): Promise<boolean> {
     if (this.isMobilePlatform()) {
@@ -593,6 +607,7 @@ export class CapacitorService {
     const ret = await AppLauncher.canOpenUrl({ url: scheme });
     return ret.value;
   }
+
 }
 
 

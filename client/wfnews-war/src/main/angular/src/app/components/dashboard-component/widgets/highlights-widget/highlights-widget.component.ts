@@ -1,34 +1,38 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { CapacitorService } from '@app/services/capacitor-service';
 import { readableDate } from '@app/utils';
-import { Capacitor, CapacitorHttp } from '@capacitor/core';
-import { from, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-type WordPressPost = {
+interface WordPressPost {
   id: number;
   date: string;
   title: {
     rendered: string;
   };
   link: string;
-  tags: number[]; 
+  tags: number[];
   _embedded?: {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     'wp:featuredmedia'?: [{
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       source_url: string;
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       alt_text?: string;
     }];
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     'wp:term'?: Array<Array<{
       name: string;
     }>>;
   };
 }
 
-type Tag = {
+interface Tag {
   name: string;
 }
 
-export type ProcessedPost = {
+export interface ProcessedPost {
   id: number;
   date: string;
   title: string;
@@ -37,7 +41,7 @@ export type ProcessedPost = {
     url: string | null;
     alt: string;
   };
-  tags: Tag[]; 
+  tags: Tag[];
   fireCentres: string[];
 }
 
@@ -49,6 +53,10 @@ export type ProcessedPost = {
 export class HighlightsWidgetComponent implements OnInit {
   posts: ProcessedPost[] = [];
   readableDate = readableDate;
+  apiUrl = 'https://blog.gov.bc.ca/bcwildfire/wp-json/wp/v2';
+  appTagSlug = 'app';
+
+  constructor(private capacitorService: CapacitorService) { }
 
   ngOnInit(): void {
     this.populateTags();
@@ -58,16 +66,11 @@ export class HighlightsWidgetComponent implements OnInit {
     try {
       this.getAllAppPosts().subscribe(result => {
         this.posts = result;
-      })
+      });
     } catch (error) {
-      console.error("Error retrieving blog posts: " + error)
+      console.error('Error retrieving blog posts: ' + error);
     }
   }
-
-  private apiUrl = 'https://blog.gov.bc.ca/bcwildfire/wp-json/wp/v2';
-  private appTagSlug = 'app';
-
-  constructor(private http: HttpClient) { }
 
   // Get all posts with the app tag
   getAllAppPosts(): Observable<ProcessedPost[]> {
@@ -89,7 +92,7 @@ export class HighlightsWidgetComponent implements OnInit {
   private getTagBySlug(slug: string): Observable<number | null> {
     const url = `${this.apiUrl}/tags?slug=${slug}`;
 
-    return this.processRequest<any[]>(url).pipe(
+    return this.capacitorService.get<any[]>(url).pipe(
       map(tags => tags[0]?.id || null),
       catchError(error => {
         console.error('Error fetching tag:', error);
@@ -102,7 +105,7 @@ export class HighlightsWidgetComponent implements OnInit {
   private fetchAllPostsWithTag(tagId: number): Observable<ProcessedPost[]> {
     const url = `${this.apiUrl}/posts?tags=${tagId}&_embed&per_page=100`;
 
-    return this.processRequest<WordPressPost[]>(url).pipe(
+    return this.capacitorService.get<WordPressPost[]>(url).pipe(
       map(posts => posts.map(post => this.processPost(post))),
       catchError(error => {
         console.error('Error fetching posts:', error);
@@ -140,23 +143,5 @@ export class HighlightsWidgetComponent implements OnInit {
       })),
       fireCentres: fireCentreTags.map(tag => tag.name)  // Array of fire centre names
     };
-  }
-
-  // Use CapacitorHttp if on mobile to avoid CORS issues
-  private processRequest<T>(url: string): Observable<T> {   
-    if (Capacitor.isNativePlatform()) {
-      return from(CapacitorHttp.request({
-        method: 'GET',
-        url: encodeURI(url),
-        headers: {
-          'Accept': '*/*',
-          'Access-Control-Allow-Origin': '*'
-        }
-      })).pipe(
-        map(response => response.data)
-      );
-    } else {
-      return this.http.get<T>(encodeURI(url));
-    }
   }
 }
