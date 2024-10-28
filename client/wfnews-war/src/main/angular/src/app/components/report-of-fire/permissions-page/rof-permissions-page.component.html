@@ -11,6 +11,6 @@
   </div>
   <div class="rof-button-container">
     <button mat-flat-button class="rof-button" (click)="close()">Cancel</button>
-	  <button mat-flat-button [class]="'rof-button' + (!dataShareAccepted ? '-disabled' : '-primary')" (click)="next()" [disabled]="!dataShareAccepted">Continue</button>
+	  <button mat-flat-button [class]="'rof-button' + (!dataShareAccepted ? '-disabled' : '-primary')" (click)="nextPage()" [disabled]="!dataShareAccepted">Continue</button>
   </div>
 </div>

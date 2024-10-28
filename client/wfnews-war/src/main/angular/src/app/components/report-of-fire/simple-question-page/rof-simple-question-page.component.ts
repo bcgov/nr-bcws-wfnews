@@ -2,11 +2,13 @@ import {
   Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  ViewChild,
 } from '@angular/core';
 import { RoFPage } from '../rofPage';
 import { ReportOfFire } from '../reportOfFireModel';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 
 @Component({
   selector: 'rof-simple-question-page',
@@ -15,6 +17,8 @@ import { CommonUtilityService } from '@app/services/common-utility.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoFSimpleQuestionPage extends RoFPage {
+  @ViewChild('questionOptions') questionOptions: MatButtonToggleGroup; // This captures questionOptions
+
   public allowIDontKnowButton: boolean;
   public localVal: any;
   public optionSelected: string;
@@ -45,6 +49,7 @@ export class RoFSimpleQuestionPage extends RoFPage {
   }
 
   processToNext() {
+    console.log("WTF WHERE AM I")
     if (this.id === 'callback-page') {
 this.reportOfFire.headingDetectionActive = true;
 }
@@ -121,10 +126,42 @@ this.reportOfFire.headingDetectionActive = true;
       if (this.reportOfFire.motionSensor !== 'no' && !this.commonUtilityService.checkIfLandscapeMode()) {
         this.skip();
       } else {
-        this.reportOfFirePage.selectPage('distance-page', null, false);
+        this.reportOfFirePage.selectPage('review-page', null, false);
       }
     } else {
       this.skip();
     }
   }
+
+    getButtonText(): string {
+      if (this.showProgress || this.id === 'callback-page' || this.id === 'contact-page') {
+        return 'Next';
+      }
+      return 'Continue';
+    }
+  
+    handleConfirmButtonClick(): void {
+      if (this.id === 'callback-page' || this.id === 'contact-page') {
+        // Special handling for callback-page and contact-page
+        if (this.questionOptions?.value === 'no') {
+          this.skipPage();  // Skip the page if 'no' is selected
+        } else if (this.questionOptions?.value === 'yes') {
+          this.nextPage();  // Proceed to the next page if 'yes' is selected
+        } else {
+          this.processToNext();  // If any other value or no value is selected
+        }
+      } else if (!this.showProgress) {
+        // Handle 'Continue' behavior for other pages
+        if (this.questionOptions?.value === 'yes') {
+          this.nextPage();
+        } else {
+          this.skipPage();
+        }
+      } else {
+        // Handle 'Next' behavior if showProgress is true
+        this.processToNext();
+      }
+    }
+    
+  
 }

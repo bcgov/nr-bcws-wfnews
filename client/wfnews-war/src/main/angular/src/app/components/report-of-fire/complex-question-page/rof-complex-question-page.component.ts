@@ -144,7 +144,7 @@ export class RoFComplexQuestionPage extends RoFPage {
       if (this.reportOfFire.motionSensor === 'yes' && !this.commonUtilityService.checkIfLandscapeMode()) {
         this.previous();
       } else {
-        this.reportOfFirePage.selectPage('callback-page', null, false);
+        this.reportOfFirePage.selectPage('permissions-page', null, false);
         this.reportOfFirePage.currentStep--;
       }
     } else {

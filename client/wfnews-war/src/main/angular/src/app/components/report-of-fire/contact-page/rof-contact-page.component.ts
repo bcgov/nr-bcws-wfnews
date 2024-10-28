@@ -59,11 +59,26 @@ export class RoFContactPage extends RoFPage {
     }
   }
 
+  get iconType(): string {
+    return this.isFormValid ? 'arrow-forward-enabled' : 'arrow-forward-disabled';
+  }
+
+  get isFormValid(): boolean {
+    return !!this.reportOfFire.fullName && 
+          !!this.reportOfFire.phoneNumber && 
+          this.validatePhoneNumber(this.reportOfFire.phoneNumber);
+  }
+
+  get buttonClass(): string {
+    return this.isFormValid ? 'rof-button-primary' : 'rof-button-disabled';
+  }
+
   nextPage() {
     if (this.reportOfFire.motionSensor !== 'no' && !this.commonUtilityService.checkIfLandscapeMode()) {
       this.next();
     } else {
-      this.reportOfFirePage.selectPage('distance-page', null, false);
+      this.reportOfFirePage.selectPage('review-page', null, false);
     }
   }
+  
 }
