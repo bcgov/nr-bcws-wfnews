@@ -1,3 +1,5 @@
+@import '../../../styles/variables';
+
 .header {
   border-top: 1px solid var(--grays-gray-7, #dedede);
   border-bottom: 1px solid var(--grays-gray-7, #dedede);
@@ -402,6 +404,22 @@
   background-color: white !important;
   max-width: 1500px;
   margin: auto;
+}
+
+@media (min-width: $desktop-md-min-width) {
+  .section {
+    padding: 20px 8px !important; 
+  }
+
+  .section-header-row {
+    padding-top: 26px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .section-header {
+    font-size: 24px !important;
+    font-weight: 500 !important;
+  }
 }
 
 // :host ::ng-deep .mat-mdc-tab.mdc-tab--active{
