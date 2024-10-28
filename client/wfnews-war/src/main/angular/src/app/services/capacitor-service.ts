@@ -8,11 +8,11 @@ import { Browser } from '@capacitor/browser';
 import { Device } from '@capacitor/device';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import {
-  PushNotificationSchema,
   PushNotifications,
+  PushNotificationSchema,
 } from '@capacitor/push-notifications';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, from, fromEvent, Observable } from 'rxjs';
+import { BehaviorSubject, fromEvent } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { RootState } from '../store';
 import { ApplicationStateService } from './application-state.service';
@@ -21,8 +21,6 @@ import { EventEmitterService } from './event-emitter.service';
 import { ResourcesRoutes } from '@app/utils';
 import { Preferences } from '@capacitor/preferences';
 import { NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
-import { CapacitorHttp } from '@capacitor/core';
-import { map } from 'rxjs/operators';
 
 export interface CompassHeading {
   //The heading in degrees from 0-359.99 at a single moment in time. (Number)
