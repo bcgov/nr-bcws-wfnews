@@ -142,17 +142,17 @@ export class HighlightsWidgetComponent implements OnInit {
     };
   }
 
-  private processRequest<T>(url: string): Observable<T> {
+  private processRequest<T>(url: string): Observable<T> {   
     if (Capacitor.isNativePlatform()) {
       return from(CapacitorHttp.request({
         method: 'GET',
         url: encodeURI(url),
         headers: {
-          'Accept': '*',
+          'Accept': '*/*',
           'Access-Control-Allow-Origin': '*'
         }
       })).pipe(
-        map(response => JSON.parse(response.data))
+        map(response => response.data)
       );
     } else {
       return this.http.get<T>(encodeURI(url));
