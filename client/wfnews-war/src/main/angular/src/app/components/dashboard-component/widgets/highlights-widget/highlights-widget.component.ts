@@ -142,6 +142,7 @@ export class HighlightsWidgetComponent implements OnInit {
     };
   }
 
+  // Use CapacitorHttp if on mobile to avoid CORS issues
   private processRequest<T>(url: string): Observable<T> {   
     if (Capacitor.isNativePlatform()) {
       return from(CapacitorHttp.request({
