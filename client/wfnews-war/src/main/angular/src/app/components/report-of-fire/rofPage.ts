@@ -25,6 +25,8 @@ export class RoFPage {
   public reportOfFire: ReportOfFire;
   public title: string;
   public offLineTitle: string;
+  public subtitle: string;
+  public offLineSubtitle: string;
   public message: string;
   public offLineMessage: string;
   public updateAttribute: string;
@@ -39,6 +41,8 @@ export class RoFPage {
     this.offLineMessage = data.offLineMessage;
     this.title = data.title;
     this.offLineTitle = data.offLineTitle;
+    this.subtitle = data.subtitle;
+    this.offLineSubtitle = data.offLineSubtitle;
     this.showProgress = data.showProgress;
     this.allowMultiSelect = data.allowMultiSelect;
     this.updateAttribute = data.updateAttribute || '';

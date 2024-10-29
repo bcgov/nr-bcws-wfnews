@@ -13,7 +13,10 @@
 
   <div class="rof-button-container" *ngIf="!isEditMode">
     <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-	  <button class="rof-button-primary-review" mat-flat-button (click)="next()"><mat-icon class="review-icon">visibility</mat-icon>Review</button>
+	  <button class="rof-button-primary" mat-flat-button (click)="next()">
+      Next
+      <mat-icon svgIcon="arrow-forward-enabled" class="left-padding" style="width: 24px; height: 24px;"></mat-icon>
+    </button>
   </div>
 
   <div class="rof-button-container" *ngIf="isEditMode">

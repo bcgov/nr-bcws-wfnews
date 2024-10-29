@@ -22,3 +22,16 @@
 ::ng-deep .mdc-notched-outline {
   opacity: 0;
 }
+
+.review-icon {
+  padding-right: 12px !important;
+  margin-right: -4px;
+}
+
+@media screen and (max-width: 380px) {
+  .review-icon {
+    padding-right: 12px !important;
+    margin-right: -4px;
+    transform: translate(-15px);
+  }
+}

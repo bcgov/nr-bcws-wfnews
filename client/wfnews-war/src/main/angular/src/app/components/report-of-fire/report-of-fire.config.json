@@ -46,37 +46,37 @@
       "allowExit": true,
       "showProgress": false,
       "previousId": "first-page",
-      "nextId": "callback-page"
+      "nextId": "compass-page"
     },
     {
       "id": "callback-page",
       "type": "RoFSimpleQuestionPage",
-      "title": "Are you available for a call back in the next 20 minutes?",
+      "title": "Are you available for a call back if we have further inquiries about your report?",
       "offLineTitle": "Are you available for a call back?",
-      "message": "If you’re not comfortable sharing your contact information, tap skip.",
+      "message": "",
       "offLineMessage": "We may want to speak with you to follow up on your submission. Is it okay if we call you once we’ve received your report?",
       "allowSkip": true,
       "allowExit": true,
       "allowIDontKnowButton": false,
       "updateAttribute": "consentToCall",
       "showProgress": false,
-      "previousId": "permissions-page",
+      "previousId": "comments-page",
       "nextId": "contact-page",
-      "skipId": "compass-page"
+      "skipId": "review-page"
     },
     {
       "id": "contact-page",
       "type": "RoFContactPage",
-      "title": "Are you available for a call back in the next 20 minutes?",
+      "title": "Are you available for a call back if we have further inquiries about your report?",
       "offLineTitle": "Are you available for a call back?",
-      "message": "If you’re not comfortable sharing your contact information, tap skip.",
+      "message": "",
       "offLineMessage": "We may want to speak with you to follow up on your submission. Is it okay if we call you once we’ve received your report?",
       "allowSkip": true,
       "allowExit": true,
       "updateAttribute": ["fullName", "phoneNumber"],
       "showProgress": false,
       "previousId": "callback-page",
-      "nextId": "compass-page"
+      "nextId": "review-page"
     },
     {
       "id": "compass-page",
@@ -89,7 +89,7 @@
       "showProgress": true,
       "compassFaceUrl": "../../../assets/images/compassface.png",
       "compassHandUrl": "../../../assets/images/compasshand.png",
-      "previousId": "callback-page",
+      "previousId": "permissions-page",
       "nextId": "distance-page"
     },
     {
@@ -154,7 +154,7 @@
       "id": "photo-page",
       "type": "RoFPhotoPage",
       "title": "Add up to 3 photos",
-      "message": "Photos help us identify the type of fire and find it faster. If you are no longer near the fire or can’t take a photo, tap skip.",
+      "message": "Photos submitted are incredibly helpful. They allow our operational staff to see what is burning, where it is burning, how intensely it is burning, how quickly it is spreading, and what the local conditions are like. If the fire is no longer visible to you or you can't to take a photo, tap skip.",
       "allowSkip": true,
       "allowExit": true,
       "showProgress": true,
@@ -463,7 +463,7 @@
       "updateAttribute": "otherInfo",
       "showProgress": false,
       "previousId": "infrastructure-page",
-      "nextId": "review-page"
+      "nextId": "callback-page"
     },
     {
       "id": "review-page",
@@ -473,15 +473,17 @@
       "allowSkip": false,
       "allowExit": true,
       "showProgress": false,
-      "previousId": "comments-page",
+      "previousId": "callback-page",
       "nextId": "final-page"
     },
     {
       "id": "final-page",
       "type": "RoFTitlePage",
       "title": "Thank you!",
-      "message": "Thank you for reporting signs of wildfire. The Provincial Wildfire Reporting Centre has received your report and is sharing it with the appropriate fire centre for response. \nThe information provided in these reports allows us to respond quickly and effectively to wildfires, and helps protect the lands and people of British Columbia.",
-      "offLineMessage": "Thank you for reporting signs of wildfire. \nThe information you provided in this report will be sent to the Provincial Wildfire Reporting Centre as soon as your device connects to Wi-Fi or cellular data. Once the reporting centre has received your report, they will share it with the appropriate fire centre.",
+      "subtitle": "Your report has been received.",
+      "offLineSubtitle": "Your report will automatically be received once your device connects to Wi-Fi or cellular data.",
+      "message": "The Provincial Wildfire Reporting Centre has received your report and is sharing it with the appropriate fire centre for response. \nThe information provided in these reports allows us to respond quickly and effectively to wildfires, and helps protect the lands and people of British Columbia.",
+      "offLineMessage": "The information you provided in this report will be sent to the Provincial Wildfire Reporting Centre. Once the reporting centre has received your report, they will share it with the appropriate fire centre for response.",
       "allowSkip": false,
       "allowExit": false,
       "imageUrl": "../../../assets/images/rofthankyou.svg",
