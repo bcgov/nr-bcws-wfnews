@@ -160,7 +160,9 @@
                     </div>
                 </div>
             </div>
-            <div class="version-number"> {{versionNumber}}</div>
+          <div class="version-number" (click)="toggleVersionDisplay()">
+            {{ showVersion ? versionNumber : buildNumber }}
+          </div>
         </div>
     </div>
 </ng-container>
