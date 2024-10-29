@@ -9,7 +9,7 @@ class MockHttpClient {
   get(): Observable<any> {
     // Mock tag response
     const tagResponse = [{ id: 1, name: 'app' }];
-    
+
     // Mock posts response
     const postsResponse = [
       {
@@ -19,10 +19,14 @@ class MockHttpClient {
         link: 'https://example.com/post1',
         tags: [1],
         _embedded: {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           'wp:featuredmedia': [{
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             source_url: 'https://placeholder.com/200x100',
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             alt_text: 'Test Image 1'
           }],
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           'wp:term': [
             [], // First array is empty (categories)
             [  // Second array contains tags
