@@ -1,7 +1,9 @@
 @import "../../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
-:host { display: block; }
+:host {
+    display: block;
+}
 
 .highlight-card {
     border-radius: var(--8, 8px);
@@ -42,7 +44,6 @@
     .thumbnail-image {
         width: 100%;
         height: 135px;
-        object-fit: cover;
         border-radius: var(--8, 8px);
     }
 }
