@@ -34,11 +34,11 @@ export class RoFPermissionsPage extends RoFPage {
       this.next();
     } else {
       this.reportOfFirePage.selectPage('distance-page', null, false);
-      this.reportOfFirePage.currentStep++;
+      // this.reportOfFirePage.currentStep++;
     }
   }
 
   isMotionSensorActive(): boolean {
-    return this.reportOfFire.motionSensor === 'yes';
+    return this.reportOfFire.motionSensor !== 'no';
   }
 }
