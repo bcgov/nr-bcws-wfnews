@@ -410,8 +410,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
               opacity: 0.8,
               tileSize: 1000,
               bounds: bounds,
-              style: '7734',
-              sld_body: dangerRating,
+              style: '7734'            
             })
             .addTo(this.map);
         })
