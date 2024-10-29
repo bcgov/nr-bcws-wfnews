@@ -1,7 +1,9 @@
 @import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
-:host { display: block; }
+:host {
+    display: block;
+}
 
 .container {
     overflow: hidden;
@@ -11,11 +13,18 @@
     border-radius: 20px;
     background: #fff;
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
-    max-width: min(1460px, calc(100dvw - 104px));
     padding: var(--24, 24px);
     flex-direction: column;
     align-items: flex-start;
     gap: var(--24, 24px);
+
+    @media (max-width: $mobile-max-width) {
+        max-width: min(1460px, calc(100dvw - 90px));
+    }
+
+    @media (min-width: $desktop-sm-min-width) {
+        max-width: min(1460px, calc(100dvw - 104px));
+    }
 }
 
 .content {
