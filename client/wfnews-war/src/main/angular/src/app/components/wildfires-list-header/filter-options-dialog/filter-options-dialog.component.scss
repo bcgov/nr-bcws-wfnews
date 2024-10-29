@@ -100,3 +100,8 @@
   padding-bottom: 20px;
   padding-top: 20px;
 }
+
+::ng-deep .mdc-button__label {
+  display: flex !important;
+  align-items: center !important;
+}

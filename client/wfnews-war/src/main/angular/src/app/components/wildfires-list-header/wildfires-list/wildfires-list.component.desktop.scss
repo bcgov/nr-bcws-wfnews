@@ -312,7 +312,7 @@ table tr:nth-child(even) td {
 }
 
 .mat-column-fireName {
-  width: 24%;
+  width: 25%;
   font-size: 15px !important;
   font-weight: 600 !important;
   line-height: 16px !important;
@@ -320,28 +320,28 @@ table tr:nth-child(even) td {
   text-align: left !important;
 }
 
-.mat-column-lastUpdated {
-  width: 11%;
-}
-
 .mat-column-stageOfControl {
   width: 15%;
 }
 
 .mat-column-fireCentre {
-  width: 18%;
+  width: 13%;
 }
 
 .mat-column-location {
-  width: 24%;
+  width: 13%;
 }
 
-.mat-column-addToWatchlist {
-  width: 5%;
+.mat-column-lastUpdated {
+  width: 12%;
+}
+
+.mat-column-discoveryDate {
+  width: 12%;
 }
 
 .mat-column-viewMap {
-  width: 8%;
+  width:10%;
 }
 
 .cell-button {

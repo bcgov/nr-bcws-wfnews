@@ -15,6 +15,7 @@ export class WildFiresListComponentDesktop extends WildFiresListComponent {
     'stageOfControl',
     'fireCentreName',
     'location',
+    'discoveryDate',
     'lastUpdated',
     'viewMap',
   ];

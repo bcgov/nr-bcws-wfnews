@@ -71,6 +71,7 @@ export class WildFiresListComponent
     { description: 'Fire Centre', code: 'fireCentreName' },
     { description: 'Name', code: 'incidentName' },
     { description: 'Stage of Control', code: 'stageOfControlCode' },
+    { description: 'Discovey Date', code: 'discoveryDate' },
     { description: 'Last Updated', code: 'lastUpdatedTimestamp' },
   ];
   public selectedSortValue = '';
