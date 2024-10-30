@@ -102,7 +102,7 @@ export class HighlightsWidgetComponent implements OnInit {
 
   // Helper to fetch all posts at once with tags
   private fetchAllPostsWithTag(tagId: number): Observable<ProcessedPost[]> {
-    const url = `${this.apiUrl}/posts?tags=${tagId}&_embed&per_page=100`;
+    const url = `${this.apiUrl}/posts?tags=${tagId}&_embed&per_page=15`;
 
     return this.commonUtilityService.getRequest<WordPressPost[]>(url).pipe(
       map(posts => posts.map(post => this.processPost(post))),
