@@ -598,8 +598,8 @@ export function getStageOfControlIcon(code: string) {
   }
 }
 
-export function convertToDateTimeTimeZone(date) {
-  // e.g. July 19, 2022 at 10:22 a.m. PST
+export function convertToDateTimeTimeZone(date: Date | string): string {
+  // e.g. July 19, 2022 at 10:22 a.m. PST/PDT
   const updateOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
@@ -607,11 +607,13 @@ export function convertToDateTimeTimeZone(date) {
     hour: 'numeric',
     minute: 'numeric',
     second: undefined, // this removes the seconds
+    timeZoneName: 'short', // Automatically handles PDT/PST
   };
-  let convertedDate: string;
-  convertedDate = date
-    ? new Date(date).toLocaleTimeString('en-US', updateOptions) + ' PST'
+
+  let convertedDate = date
+    ? new Date(date).toLocaleString('en-US', updateOptions)
     : 'Pending';
+
   if (convertedDate !== 'Pending') {
     // add full stops and lowercase
     convertedDate = convertedDate.replace('AM', 'a.m.');
