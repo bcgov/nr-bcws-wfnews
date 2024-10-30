@@ -63,6 +63,11 @@
                 "glob": "bc-sans/**/*",
                 "input": "node_modules/@wf1/wfcc-application-ui",
                 "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/.well-known",
+                "output": ".well-known/"
               }
             ],
             "styles": [
