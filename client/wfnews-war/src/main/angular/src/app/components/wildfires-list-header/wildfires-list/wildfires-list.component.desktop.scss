@@ -109,7 +109,7 @@ tr {
 
 table {
   border: 1;
-  width: 96%;
+  table-layout: fixed;
 }
 
 td {
@@ -312,7 +312,7 @@ table tr:nth-child(even) td {
 }
 
 .mat-column-fireName {
-  width: 25%;
+  width: 24%;
   font-size: 15px !important;
   font-weight: 600 !important;
   line-height: 16px !important;
@@ -325,15 +325,15 @@ table tr:nth-child(even) td {
 }
 
 .mat-column-fireCentre {
-  width: 13%;
+  width: 15%;
 }
 
 .mat-column-location {
-  width: 13%;
+  width: 18%;
 }
 
 .mat-column-lastUpdated {
-  width: 12%;
+  width: 10%;
 }
 
 .mat-column-discoveryDate {
@@ -341,7 +341,7 @@ table tr:nth-child(even) td {
 }
 
 .mat-column-viewMap {
-  width:10%;
+  width:6%;
 }
 
 .cell-button {
