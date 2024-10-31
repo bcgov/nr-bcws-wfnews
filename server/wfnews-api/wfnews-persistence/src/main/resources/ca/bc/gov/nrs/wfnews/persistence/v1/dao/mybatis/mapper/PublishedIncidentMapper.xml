@@ -412,54 +412,42 @@
 		SELECT COUNT(*)
 		FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
 		WHERE stage_of_control_code IS NOT NULL
-		  <if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty()">
-			  <choose>
-				  <when test="stageOfControlList.contains('OUT')">
-					  AND (stage_of_control_code = 'OUT' AND fire_year = #{currentFireYear, javaType=java.lang.Integer, jdbcType=NUMERIC}
-						   <if test="stageOfControlList.size() &gt; 1">
-							   OR stage_of_control_code IN
-							   <foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
-								   <if test="soc != 'OUT'">
-									   #{soc}
-								   </if>
-							   </foreach>
-						   </if>)
-				  </when>
-				  <otherwise>
-					  AND stage_of_control_code IN
-					  <foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
-						  #{soc}
-					  </foreach>
-				  </otherwise>
-			  </choose>
+		  <if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty() &amp;&amp; stageOfControlList.contains('OUT')">
+		      AND (stage_of_control_code = 'OUT' AND fire_year = #{currentFireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}
+					<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty() &amp;&amp; stageOfControlList.size() &gt; 1">
+						OR stage_of_control_code IN
+					<foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
+						<if test="soc != 'OUT'">
+							#{soc}
+						</if>
+					</foreach>
+				</if>)
 		  </if>
+			<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty() &amp;&amp; !stageOfControlList.contains('OUT')">
+					AND stage_of_control_code IN
+				<foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
+					#{soc}
+				</foreach>
+			</if>
 		<if test="xmin != null &amp;&amp; ymin != null &amp;&amp; xmax != null &amp;&amp; ymax != null">
-			AND geometry &amp;&amp; ST_MakeEnvelope(#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN},
-												  #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN},
-												  #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN},
-												  #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN},
-												  <include refid="latLonSrid"/>)
+			AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, <include refid="latLonSrid"/>)
 		</if>
 		<if test="latitude != null &amp;&amp; longitude != null &amp;&amp; radius != null">
-			AND ST_DWithin(ST_Transform(geometry, <include refid="distanceCalcSrid"/>),
-						   ST_Transform(ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN},
-																 #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}),
-													 <include refid="latLonSrid"/>),
-										<include refid="distanceCalcSrid"/>), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
+			AND ST_DWithin(ST_Transform(geometry, <include refid="distanceCalcSrid"/>), ST_Transform(ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), <include refid="latLonSrid"/>), <include refid="distanceCalcSrid"/>), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
 		</if>
-		<if test="newFires == true">
+		<if test="newFires == true">  
 			AND DISCOVERY_DATE BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()
 		</if>
-		<if test="fireOfNote == true">
+		<if test="fireOfNote == true">  
 			AND fire_of_note_ind = 'Y'
 		</if>
-		<if test="fireOfNote == false">
+		<if test="fireOfNote == false">  
 			AND fire_of_note_ind = 'N'
 		</if>
-		<if test="fireCentreCode != null &amp;&amp; fireCentreCode != ''">
+		<if test="fireCentreCode != null &amp;&amp; fireCentreCode != ''">  
 			AND fire_centre_code = #{fireCentreCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 		</if>
-		<if test="fireCentreName != null &amp;&amp; fireCentreName != ''">
+		<if test="fireCentreName != null &amp;&amp; fireCentreName != ''">  
 			AND fire_centre_name = #{fireCentreName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 		</if>
 		<if test="fromCreateDate != null">
@@ -474,13 +462,11 @@
 		<if test="toDiscoveryDate != null">
 			AND DISCOVERY_DATE &lt;= #{toDiscoveryDate, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN}
 		</if>
-		<if test="searchText != null &amp;&amp; searchText.length &gt; 0">
+		<if test="searchText!=null &amp;&amp; searchText.length>0">
 			AND UPPER(CONCAT(incident_location, '', CONCAT(fire_centre_code, '', CONCAT(incident_number_label, '', incident_name))))
-			LIKE '%' || UPPER(#{searchText}) || '%'
+			LIKE '%'||UPPER(#{searchText})||'%' 
 		</if>
 	</select>
-	
-	
 
 	<select id="selectAsJson" resultType="string">
               SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(features.feature)) AS fc
