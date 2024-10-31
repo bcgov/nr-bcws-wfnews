@@ -11,6 +11,8 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="wfnews-client.dev.bcwildfireservices.com" />
+                <data android:scheme="https" android:host="wfnews-client.test.bcwildfireservices.com" />
                 <data android:scheme="https" android:host="wildfiresituation.nrs.gov.bc.ca" />
             </intent-filter>
         </activity>
