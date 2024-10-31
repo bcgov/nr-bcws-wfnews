@@ -36,6 +36,7 @@ import {
   LocationNotification,
 } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { App, URLOpenListenerEvent } from '@capacitor/app';
 
 export const ICON = {
   ADVISORIES: 'advisories',
@@ -170,6 +171,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.isMobileView()) {
+      this.initializeDeepLinks();
       if (typeof (window.screen.orientation as any).lock === 'function') {
         const lock = (window.screen.orientation as any).lock('portrait');
         (lock as Promise<any>)
@@ -267,6 +269,25 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         },
       );
     }
+  }
+
+  initializeDeepLinks() {
+    // add listener to enable Capacitor deep links functionality
+    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      this.zone.run(() => {
+        // remove https:// and http:// from baseUrl
+        const domain = this.appConfigService.getConfig().application.baseUrl.replace(/^https?:\/\//i, '');
+
+        // The pathArray is now like ['wildfiresituation.nrs.gov.bc.ca', '/map?longitude=-124.62025&latitude=53.231&activeWildfires=true']
+        const pathArray = event.url.split(domain);
+
+        // Get the last element with pop()
+        const appPath = pathArray.pop();
+        if (appPath) {
+          this.router.navigateByUrl(appPath);
+        }
+      });
+    });
   }
 
   isIncidentsPage() {
@@ -370,52 +391,52 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   initFooterMenu() {
     this.footerMenu = (this.applicationConfig.device == 'desktop'
       ? [
-          new RouterLink(
-            'Home',
-            'https://www2.gov.bc.ca/gov/content/home',
-            'home',
-            'expanded',
-            this.router,
-          ),
-          new RouterLink(
-            'Disclaimer',
-            'https://www2.gov.bc.ca/gov/content?id=DE91907CDB3E4B5EB2F0363569079B85',
-            'home',
-            'expanded',
-            this.router,
-          ),
-          new RouterLink(
-            'Privacy',
-            'https://www2.gov.bc.ca/gov/content/home/privacy',
-            'home',
-            'expanded',
-            this.router,
-          ),
-          new RouterLink(
-            'Accessibility',
-            'https://www2.gov.bc.ca/gov/content/home/accessible-government',
-            'home',
-            'expanded',
-            this.router,
-          ),
-          new RouterLink(
-            'Copyright',
-            'https://www2.gov.bc.ca/gov/content/home/copyright',
-            'home',
-            'expanded',
-            this.router,
-          ),
-          new RouterLink(
-            'Contact Us',
-            'https://www2.gov.bc.ca/gov/content/home/get-help-with-government-services',
-            'home',
-            'expanded',
-            this.router,
-          ),
-        ]
+        new RouterLink(
+          'Home',
+          'https://www2.gov.bc.ca/gov/content/home',
+          'home',
+          'expanded',
+          this.router,
+        ),
+        new RouterLink(
+          'Disclaimer',
+          'https://www2.gov.bc.ca/gov/content?id=DE91907CDB3E4B5EB2F0363569079B85',
+          'home',
+          'expanded',
+          this.router,
+        ),
+        new RouterLink(
+          'Privacy',
+          'https://www2.gov.bc.ca/gov/content/home/privacy',
+          'home',
+          'expanded',
+          this.router,
+        ),
+        new RouterLink(
+          'Accessibility',
+          'https://www2.gov.bc.ca/gov/content/home/accessible-government',
+          'home',
+          'expanded',
+          this.router,
+        ),
+        new RouterLink(
+          'Copyright',
+          'https://www2.gov.bc.ca/gov/content/home/copyright',
+          'home',
+          'expanded',
+          this.router,
+        ),
+        new RouterLink(
+          'Contact Us',
+          'https://www2.gov.bc.ca/gov/content/home/get-help-with-government-services',
+          'home',
+          'expanded',
+          this.router,
+        ),
+      ]
       : [
-          new RouterLink('Home', '/', 'home', 'hidden', this.router),
-        ]) as unknown as WfMenuItems;
+        new RouterLink('Home', '/', 'home', 'hidden', this.router),
+      ]) as unknown as WfMenuItems;
   }
 
   ngAfterViewInit() {
@@ -956,7 +977,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  private updateMapSize = function() {
+  private updateMapSize = function () {
     this.storeViewportSize();
   };
 }

@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "ca.bc.gov.WildfireInformation",
+            "sha256_cert_fingerprints": [
+                "46:C7:E0:F6:C1:DF:BA:D8:93:E8:E7:09:A7:B6:D1:5D:ED:01:D0:DA:32:E7:2A:58:1B:14:E4:5F:23:57:A2:94"
+            ]
+        }
+    }
+]
