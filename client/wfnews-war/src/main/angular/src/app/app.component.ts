@@ -275,7 +275,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     // add listener to enable Capacitor deep links functionality
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
-        const domain = 'wildfiresituation.nrs.gov.bc.ca';
+        // remove https:// and http:// from baseUrl
+        const domain = this.appConfigService.getConfig().application.baseUrl.replace(/^https?:\/\//i, '');
 
         // The pathArray is now like ['wildfiresituation.nrs.gov.bc.ca', '/map?longitude=-124.62025&latitude=53.231&activeWildfires=true']
         const pathArray = event.url.split(domain);
