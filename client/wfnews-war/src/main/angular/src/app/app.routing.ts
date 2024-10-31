@@ -9,7 +9,7 @@ import { IncidentContainerDesktop } from './containers/incident/incident-contain
 import { SignOutPageComponent } from './components/sign-out-page/sign-out-page.component';
 import { WildfirewResourcesComponent } from './components/wildfire-resources/wf-resources.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
-import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
+import { PublicIncidentPageComponent } from './components/public-incident-page/public-incident-page.component';
 import { WildfiresListHeaderComponent } from './components/wildfires-list-header/wildfires-list-header.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { ReportOfFirePage } from './components/report-of-fire/report-of-fire.component';
@@ -73,7 +73,7 @@ const PANEL_ROUTES: Routes = [
   },
   {
     path: ResourcesRoutes.PUBLIC_INCIDENT,
-    component: PublicIncidentPage,
+    component: PublicIncidentPageComponent,
     pathMatch: 'full',
   },
   {
