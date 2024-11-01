@@ -87,7 +87,7 @@
                   Print
                 </button>
                 <button mat-button class="desktop-buttons" (click)="openShareWindow()">
-                  <img class="icon-contact" src="/assets/images/svg-icons/share.svg" alt="print" />
+                  <img class="icon-share" src="/assets/images/svg-icons/share.svg" alt="print" />
                   Share
                 </button>
             </div>
@@ -107,7 +107,7 @@
                 Contact Us
             </button>
             <button mat-button class="mobile-buttons" (click)="shareMobile()">
-              <img class="icon-contact" src="/assets/images/svg-icons/share.svg"
+              <img class="icon-share" src="/assets/images/svg-icons/share.svg"
                 alt="share" />
               Share  
             </button>
@@ -118,10 +118,10 @@
       <div *ngIf="evac" class="evac">
         <div class="title">Evacuation {{evac.attributes.ORDER_ALERT_STATUS}} for {{evac.attributes.EVENT_NAME}}</div>
         <div class="evac-cards">
-          <div class="order-count evac " *ngIf="evac.attributes.ORDER_ALERT_STATUS == 'Order' ">
+          <div class="order-count evac " *ngIf="evac.attributes.ORDER_ALERT_STATUS === 'Order' ">
             <img class="icon" src="/assets/images/svg-icons/evacuation_order.svg" alt="evacuation_order" />Order
           </div>
-          <div class="alert-count evac" *ngIf="evac.attributes.ORDER_ALERT_STATUS == 'Alert' ">
+          <div class="alert-count evac" *ngIf="evac.attributes.ORDER_ALERT_STATUS === 'Alert' ">
             <img class="icon" src="/assets/images/svg-icons/evacuation_alert.svg" alt="evacuation_order" />Alert
           </div>
         </div>
@@ -140,11 +140,11 @@
           </div>
           <hr>
           <div class="info-panel-row">
-            <span class="label" *ngIf="evac.attributes.ORDER_ALERT_STATUS == 'Order' ">
+            <span class="label" *ngIf="evac.attributes.ORDER_ALERT_STATUS === 'Order' ">
               People in this area are at risk and should leave the area immediately.
               Follow instructions from your local government or First Nation.
             </span>
-            <span class="label" *ngIf="evac.attributes.ORDER_ALERT_STATUS == 'Alert' ">
+            <span class="label" *ngIf="evac.attributes.ORDER_ALERT_STATUS === 'Alert' ">
               An evacuation alert is a warning about a potential threat to life and/or property.
               It is intended to give you time to be ready for a possible evacuation.
               Follow instructions from your local government or First Nation.
