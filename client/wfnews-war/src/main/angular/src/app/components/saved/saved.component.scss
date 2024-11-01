@@ -53,6 +53,7 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    min-width: 100px;
   }
 
   .section-card {
@@ -68,7 +69,8 @@
     justify-content: center;
 
     .add-location-content {
-      padding: 72px 0;
+      padding: 72px 26px;
+      display: flex;
 
       span {
         padding-left: 9px;
@@ -87,8 +89,9 @@
     }
 
     .saved-wildfires-content {
-      padding: 72px 0;
-
+      padding: 72px 26px;
+      display: flex;
+      
       span {
         padding-left: 9px;
         color: var(--Gray-1, #242424);
