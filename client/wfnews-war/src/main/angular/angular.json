@@ -44,6 +44,8 @@
               "src/refresh-token.html",
               "src/robots.txt",
               "src/wfnews-service-worker.js",
+              "src/.well-known/apple-app-site-association",
+              "src/.well-known/assetlinks.json",
               {
                 "glob": "**/*",
                 "input": "src/assets",
