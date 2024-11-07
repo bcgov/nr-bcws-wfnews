@@ -85,7 +85,6 @@ export class CapacitorService {
   rofNotifications = new EventEmitter<ReportOfFireNotification>();
   inactiveStart: number;
   refreshTimer;
-  locationNotificationsDelay = 5000;
   rofNotificationsDelay = 5000;
   notificationSnackbarPromise = Promise.resolve();
   registeredForNotifications = false;
@@ -383,11 +382,10 @@ export class CapacitorService {
           featureType: data['topicKey'],
         });
 
-        this.locationNotificationsDelay = 0;
       } catch (e) {
         console.warn('push notification not handled:', e, data);
       }
-    }, this.locationNotificationsDelay);
+    }, 0);
   }
 
   showNotificationSnackbar(notification: any) {
