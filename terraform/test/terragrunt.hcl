@@ -24,7 +24,7 @@ locals {
   server_memory = get_env("SERVER_MEMORY")
   db_instance_type = get_env("DB_INSTANCE_TYPE")
   app_count = get_env("INSTANCE_COUNT")
-  notifications_api_app_count = = get_env("NOTIFICATIONS_API_INSTANCE_COUNT")
+  notifications_api_app_count = get_env("NOTIFICATIONS_API_INSTANCE_COUNT")
 
   logging_level = get_env("LOGGING_LEVEL")
 
