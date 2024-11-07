@@ -36,7 +36,7 @@ export class DangerRatingFullDetailsComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.initMap();
     this.metaService.updateTag({ property: 'og:title', content: `${this.rating} Danger Rating`});
-    this.metaService.updateTag({ name: 'description', content: `${this.rating} Danger Rating` });
+    this.metaService.updateTag({ property: 'og:description', content: `${this.rating} Danger Rating` });
   }
 
   dangerDescription() {

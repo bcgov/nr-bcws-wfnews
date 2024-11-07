@@ -150,7 +150,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       }
     }
     this.metaService.updateTag({ property: 'og:title', content: `${this.incident?.incidentName}`});
-    this.metaService.updateTag({ name: 'description', content: `${this.incident?.incidentName}` });
+    this.metaService.updateTag({ property: 'og:description', content: `${this.incident?.incidentName}` });
 
   }
 

@@ -286,9 +286,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.metaService.updateTag({ property: 'og:title', content: 'BC Wildfire Service' });
     this.metaService.updateTag({ property: 'og:image', content: imageUrl });
     this.metaService.updateTag({ property: 'og:site_name', content: 'BC Wildfire Service' });
-    this.metaService.updateTag({ name: 'description', content: `BC Wildfire Service App` });
+    this.metaService.updateTag({ property: 'og:description', content: `BC Wildfire Service App` });
     this.metaService.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.metaService.updateTag({ name: 'twitter:site', content: '@BCGovFireInfo' });
+    this.metaService.updateTag({ property: 'twitter:image', content: imageUrl });
   }
 
   initializeDeepLinks() {

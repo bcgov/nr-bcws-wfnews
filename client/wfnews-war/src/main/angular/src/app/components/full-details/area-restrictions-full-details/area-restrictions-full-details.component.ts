@@ -71,7 +71,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
     });
     this.initMap();
     this.metaService.updateTag({ property: 'og:title', content: this.restrictionData?.name });
-    this.metaService.updateTag({ name: 'description', content: this.restrictionData?.name });
+    this.metaService.updateTag({ property: 'og:description', content: this.restrictionData?.name });
 
   }
 

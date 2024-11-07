@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ResourcesRoutes, snowPlowHelper } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
+import { BUILD_NUMBER } from '../../../environments/build-info';
+
 
 @Component({
   selector: 'wfnews-more',
@@ -10,7 +12,10 @@ import { AppConfigService } from '@wf1/core-ui';
 })
 export class MoreComponent implements OnInit{
   public versionNumber;
-  public snowPlowHelper = snowPlowHelper
+  public snowPlowHelper = snowPlowHelper;
+  public buildNumber: string;
+  public showVersion = true;
+
   constructor(
     private router: Router,
     private appConfig: AppConfigService) {}
@@ -19,6 +24,9 @@ export class MoreComponent implements OnInit{
     const version = this.appConfig.getConfig().application.version;
     if (version) {
       this.versionNumber = 'Version ' + version;
+    }
+    if (BUILD_NUMBER) {
+      this.buildNumber = ' Build: ' + BUILD_NUMBER;
     }
   }
 
@@ -51,5 +59,9 @@ export class MoreComponent implements OnInit{
         window.open('https://twitter.com/BCGovFireInfo', '_blank');
         break;
     }
+  }
+
+  toggleVersionDisplay() {
+    this.showVersion = !this.showVersion;
   }
 }

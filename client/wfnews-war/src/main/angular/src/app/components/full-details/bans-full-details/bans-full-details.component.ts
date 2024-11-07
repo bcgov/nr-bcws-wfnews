@@ -54,7 +54,7 @@ export class BansFullDetailsComponent implements OnInit {
     });
     this.initMap();
     this.metaService.updateTag({ property: 'og:title', content: `Fire Ban on ${this.banData.description} Open Fires`});
-    this.metaService.updateTag({ name: 'description', content: `Fire Ban on ${this.banData.description} Open Fires` });
+    this.metaService.updateTag({ property: 'og:description', content: `Fire Ban on ${this.banData.description} Open Fires` });
   }
 
   async initMap() {
