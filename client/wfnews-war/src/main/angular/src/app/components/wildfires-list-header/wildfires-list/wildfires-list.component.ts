@@ -71,7 +71,7 @@ export class WildFiresListComponent
     { description: 'Fire Centre', code: 'fireCentreName' },
     { description: 'Name', code: 'incidentName' },
     { description: 'Stage of Control', code: 'stageOfControlCode' },
-    { description: 'Discovey Date', code: 'discoveryDate' },
+    { description: 'Discovery Date', code: 'discoveryDate' },
     { description: 'Last Updated', code: 'lastUpdatedTimestamp' },
   ];
   public selectedSortValue = '';
@@ -152,7 +152,7 @@ export class WildFiresListComponent
 
         if (val.length > 2) {
           this.filteredOptions = [];
-          this.placeData.searchAddresses(val).then(function(results) {
+          this.placeData.searchAddresses(val).then(function (results) {
             if (results) {
               results.forEach((result) => {
                 self.sortedAddressList =
