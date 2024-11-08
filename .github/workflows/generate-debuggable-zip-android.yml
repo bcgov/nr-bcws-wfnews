@@ -169,7 +169,7 @@ jobs:
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: zip -qq -r wfnews-android.zip .
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         name: Upload Build Artifact to GitHub
         with:
           name: wfnews-android.zip
