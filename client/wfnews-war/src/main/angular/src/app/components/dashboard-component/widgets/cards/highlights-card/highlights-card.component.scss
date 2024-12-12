@@ -6,6 +6,11 @@
 }
 
 .highlight-card {
+    @media screen and (max-width: 500px) {
+        width: 50vw;
+        min-width: 100px;
+        min-height: 370px;
+    }
     border-radius: var(--8, 8px);
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     background: #f5f6f9;
@@ -58,6 +63,9 @@
 }
 
 .highlight-tags {
+    @media screen and (max-width: 500px) {
+        display: none;
+    }
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -93,4 +101,5 @@
     line-height: 19px;
     position: absolute;
     bottom: 16px;
+    right: 16px;
 }
