@@ -6,7 +6,7 @@
 <div [class]="isMobileView() ? '' : 'desktop-container'">
   <div class="section">
       <div class="section-header-row">
-          <span class="section-header">Saved Locations & Notifications</span>
+          <span class="section-header">{{notificationsTitle}}</span>
         <span class="section-button" (click)="addNewLocation()" *ngIf="savedLocations?.length < 3">
             <img alt="icon" src="/assets/images/svg-icons/Type.svg" class="button-icon">
             Add new
@@ -15,7 +15,7 @@
       <div class="section-card" *ngIf="!savedLocations.length" (click)="addNewLocation()">
           <div class="add-location-content flex-enabled">
               <img alt="icon" class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
-              <span>Add a saved location to receive notifications</span>
+              <span>{{notificationsSubTitle}}</span>
           </div>
       </div>
       <div *ngIf="savedLocations.length">
@@ -113,7 +113,7 @@
       </div>
       <div class="section-card-wildfires" *ngIf="!wildFireWatchlist.length">
           <div class="saved-wildfires-content flex-enabled">
-                <img alt="icon" class="location-icon" src="/assets/images/svg-icons/saved-blue-border.svg">
+            <img alt="icon" class="location-icon" src="/assets/images/svg-icons/saved-blue-border.svg">
               <span>Save a wildfire on the map to easily find here later</span>
           </div>
       </div>
