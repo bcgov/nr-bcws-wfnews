@@ -15,9 +15,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Capacitor, CapacitorHttp } from '@capacitor/core';
 import { map } from 'rxjs/operators';
 import { Meta, Title } from '@angular/platform-browser';
+import { snowPlowHelper } from '@app/utils';
 
 const MAX_CACHE_AGE = 30 * 1000;
-
 export interface Coordinates {
   readonly accuracy: number;
   readonly altitude: number | null;
@@ -37,6 +37,7 @@ export interface Position {
   providedIn: 'root',
 })
 export class CommonUtilityService {
+  snowPlowHelper = snowPlowHelper;
   private myLocation;
   private locationTime;
   private location;
@@ -53,6 +54,7 @@ export class CommonUtilityService {
     private dialog: MatDialog,
     private titleService: Title,
     private metaService: Meta,
+    private currentRouter: Router,
 
   ) {
     setTimeout(() => (this.rofService = injector.get(ReportOfFireService)));
@@ -363,6 +365,13 @@ export class CommonUtilityService {
   }
 
   shareMobile(shareTitle: string) {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.currentRouter.url.slice(1);
+
+    this.snowPlowHelper(url, {
+      action: 'share_from_mobile_device',
+      text: shareTitle
+    });
+
     const currentUrl = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
     // contents of the share is out of scope for wfnews-2403. Enhancment should be available in wfnews-2422
     const imageUrl = this.appConfigService.getConfig().application.baseUrl.toString() + '/assets/images/share-wildfire.png';
@@ -381,6 +390,11 @@ export class CommonUtilityService {
 
   openShareWindow(type: string, incidentName: string) {
     const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
+
+    this.snowPlowHelper(url, {
+      action: 'share_from_desktop',
+      text: `${type}, ${incidentName}`
+    });
     this.dialog.open(ShareDialogComponent, {
       panelClass: 'contact-us-dialog',
       width: '500px',
