@@ -807,7 +807,7 @@ export function formatDate(timestamp: string | number): string {
 
     return date.toLocaleDateString('en-US', options);
   } else {
-return '';
+throw new Error('Unable to apply formatting to date');
 }
 }
 
