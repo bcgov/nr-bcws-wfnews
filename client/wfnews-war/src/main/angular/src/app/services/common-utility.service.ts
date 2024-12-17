@@ -375,10 +375,10 @@ export class CommonUtilityService {
     const currentUrl = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
     // contents of the share is out of scope for wfnews-2403. Enhancment should be available in wfnews-2422
     const imageUrl = this.appConfigService.getConfig().application.baseUrl.toString() + '/assets/images/share-wildfire.png';
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', `${shareTitle}`);
 
     Share.share({
       title: shareTitle,
-      text: 'Share the incident update',
       url: currentUrl,
       dialogTitle: 'Share Wildfire News Link',
     }).then(() => {

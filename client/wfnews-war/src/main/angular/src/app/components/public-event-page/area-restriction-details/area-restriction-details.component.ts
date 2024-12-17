@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AdvisorySectionStyle } from '@app/components/common/advisory-section/advisory-section.component';
 import { IconButtonArgs } from '@app/components/common/icon-button/icon-button.component';
 import { RelatedTopicsLink } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
+import { SimpleIncident } from '@app/services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
@@ -12,6 +13,13 @@ import { AppConfigService } from '@wf1/core-ui';
 export class AreaRestrictionDetailsComponent {
 
   @Input() areaRestriction: any;
+  @Input() incident: SimpleIncident;
+  @Input() isBookmarked: boolean;
+
+  
+  @Output() bookmarkClicked = new EventEmitter<boolean>();
+
+  @Output() viewDetailsClicked = new EventEmitter<void>();
 
   advisorySectionComponentStyle: AdvisorySectionStyle = {
     backgroundColor: '#F0F5FF',
@@ -63,4 +71,13 @@ export class AreaRestrictionDetailsComponent {
   handleAdvisoryClick = () => {
     window.open(this.getBulletinLink(), '_blank');
   };
+
+  handleBookmarkClicked = ($event) => {
+    this.bookmarkClicked.emit($event);
+  };
+
+  handleViewDetailsClicked = () => {
+    this.viewDetailsClicked.emit();
+  };
+
 }
