@@ -19,7 +19,11 @@
             (viewDetailsClicked)="handleViewDetailsClicked()"
         ></evac-order-details>
         <area-restriction-details *ngSwitchCase="'area-restriction'"
+            [incident]="incident"
             [areaRestriction]="areaRestriction"
+            [isBookmarked]="isAssociatedWildfireBookmarked"
+            (bookmarkClicked)="handleBookmarkClicked($event)"
+            (viewDetailsClicked)="handleViewDetailsClicked()"
         ></area-restriction-details>
         <fire-ban-details *ngSwitchCase="'ban'"
             [fireBan]="ban"

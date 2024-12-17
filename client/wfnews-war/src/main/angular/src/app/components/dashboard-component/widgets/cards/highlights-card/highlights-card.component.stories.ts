@@ -3,6 +3,7 @@ import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { AppConfigService } from '@wf1/core-ui';
 
 // Mock HTTP Client
 class MockHttpClient {
@@ -43,6 +44,13 @@ class MockHttpClient {
   }
 }
 
+class MockAppConfigService {
+  // Provide mock methods or data as needed
+  getConfig() {
+    return of({}); // Mock response
+  }
+}
+
 
 const meta: Meta<HighlightsCardComponent> = {
   title: 'Cards/HighlightsCardComponent',
@@ -56,7 +64,8 @@ const meta: Meta<HighlightsCardComponent> = {
       ],
       declarations: [HighlightsCardComponent],
       providers: [
-        { provide: HttpClient, useClass: MockHttpClient }
+        { provide: HttpClient, useClass: MockHttpClient },
+        { provide: AppConfigService, useClass: MockAppConfigService }
       ]
     })
   ]
