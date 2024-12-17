@@ -954,5 +954,3 @@ export function zoomInWithLocationPin(){
       ).addTo(viewer.map);
     }
   }
-
-
