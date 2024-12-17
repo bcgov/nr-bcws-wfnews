@@ -455,7 +455,7 @@ export function convertToFireCentreDescription(code: string): string {
 }
 
 export function isMobileView() {
-  return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
+  return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768));
 }
 
 export async function snowPlowHelper(page: string, data: any = null) {
@@ -666,9 +666,9 @@ export function getResponseTypeDescription(code: string) {
   if (code === 'MONITOR') {
     return 'When a fire is being monitored, this means BC Wildfire Service is observing and analyzing the fire but it\'s not immediately suppressed. It may be allowed to burn to achieve ecological or resource management objectives and is used on remote fires that do not threaten values.';
   } else if (code === 'MODIFIED') {
-    return 'During a modified response, a wildfire is managed using a combination of techniques with the goal to minimize damage while maximizing ecological benefits from the fire. This response method is used when there is no immediate threat to values.';
+    return 'This wildfire is being managed using a combination of techniques with the goal to minimize damage while maximizing ecological benefits from the fire. Suppression or values protection may occur in areas of an otherwise beneficial fire.';
   } else if (code === 'FULL') {
-    return 'The BC Wildfire Service uses a full response when there is threat to public safety and/or property and other values, such as infrastructure or timber. Immediate action is taken. During a full response, a wildfire is suppressed and controlled until it is deemed "out".';
+    return 'Suppression actions are being taken to limit the spread of this unwanted wildfire.';
   }
 }
 
@@ -791,7 +791,7 @@ export function getCurrentCondition(
   if (!conditions?.hourly) {
     return;
   }
-  return conditions.hourly.find(function (hc) {
+  return conditions.hourly.find(function(hc) {
     return hc.temp != null;
   });
 }
@@ -806,7 +806,9 @@ export function formatDate(timestamp: string | number): string {
     };
 
     return date.toLocaleDateString('en-US', options);
-  } else return '';
+  } else {
+throw new Error('Unable to apply formatting to date');
+}
 }
 
 export function hidePanel(panelClass: string) {
@@ -839,8 +841,7 @@ export function displayItemTitle(identifyItem) {
       case 'fire-perimeters': 
         return 'Wildfire';
     }
-  } 
-  else if (identifyItem.fireOfNoteInd !== undefined) {
+  } else if (identifyItem.fireOfNoteInd !== undefined) {
     return identifyItem.fireOfNoteInd ? 'Wildfire of Note' : 'Wildfire';
   }
 }
@@ -877,7 +878,7 @@ export function displayLocalAuthorityType(layerId: string) {
 }
 
 export function formatNumber(number) {
-  return number.toLocaleString('en-US')
+  return number.toLocaleString('en-US');
 }
 
 export function addMarker(incident: any) {
@@ -901,7 +902,7 @@ export function addMarker(incident: any) {
     [Number(incident.latitude), Number(incident.longitude)],
     { icon: pointerIcon },
   );
-  this.marker.on('add', function () {
+  this.marker.on('add', function() {
     const icon: any = document.querySelector('.animated-icon');
     icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
 
@@ -953,5 +954,3 @@ export function zoomInWithLocationPin(){
       ).addTo(viewer.map);
     }
   }
-
-

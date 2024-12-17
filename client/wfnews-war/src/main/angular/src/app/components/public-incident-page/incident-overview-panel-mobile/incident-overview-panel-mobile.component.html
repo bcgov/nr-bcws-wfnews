@@ -4,8 +4,7 @@
             {{incident.resourceDetail}}
         </div>
         <div *ngIf="incident.responseTypeCode" class="content-panel-stack">
-            <h1>Response Type</h1>
-            <h4><img class="icon" src={{getResponseImage(incident.responseTypeCode)}} alt="Response"/>{{getResponseTypeTitle(incident.responseTypeCode)}}</h4>
+            <h1>Response</h1>
             <div class="description">{{getResponseTypeDescription(incident.responseTypeCode)}}</div>
             <hr>
         </div>

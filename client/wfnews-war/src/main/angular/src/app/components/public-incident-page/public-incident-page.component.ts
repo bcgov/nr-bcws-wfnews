@@ -302,7 +302,7 @@ export class PublicIncidentPageComponent implements OnInit {
     } else if (event?.tab?.textLabel === 'Gallery') {
       actionName = 'incident_details_gallery_click';
     } else if (event?.tab?.textLabel === 'Maps') {
-      actionName = 'incident_ details_maps_click';
+      actionName = 'incident_details_maps_click';
     }
     this.snowPlowHelper(url, {
       action: actionName,

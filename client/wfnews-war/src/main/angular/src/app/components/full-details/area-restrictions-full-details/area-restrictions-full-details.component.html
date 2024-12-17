@@ -33,7 +33,7 @@
     <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/location-pin.svg"
         alt="Location Pin" />{{restrictionData?.fireCentre}}</div>
     <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
-        alt="Calendar" />Discovered on {{incident.discoveryDate}}<img height="20" width="20" class="arrow-button"
+        alt="Calendar" />Discovered on {{incident.discoveryDate}}<img height="20" width="20" class="arrow-button" (click)="navToIncident(incident)"
         alt="icon" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
   </div>
 </div>
