@@ -52,10 +52,11 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
         // If the user accessed the full details page from the map, and if the full details page contains one of area restrictions,
         // fire bans, evac orders or evac alerts, use the backToMap function to route back to the map using the same layer and zoom level,
         // along with the appropriate coordinates for that type.
-        if ((this.params['source'] === 'map' || this.params['source']?.[0] === 'map')
-          && (this.params?.['type'] === 'area-restriction' || this.params?.['type'] === 'bans-prohibitions'
-            || this.params?.['type'].includes('evac'))
-        ) {
+        const isMapSource = this.params?.['source'] === 'map' || this.params?.['source']?.[0] === 'map';
+        const validTypes = ['area-restriction', 'bans-prohibitions'];
+        const isValidType = validTypes.includes(this.params?.['type']) || this.params?.['type']?.includes('evac');
+        
+        if (isMapSource && isValidType) {
           this.backToMap();
         } else if (
           this.params['source'] === 'saved-location' &&
@@ -98,10 +99,11 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
     // If the user accessed the full details page from the map, and if the full details page contains one of area restrictions,
     // fire bans, evac orders or evac alerts, use the backToMap function to route back to the map using the same layer and zoom level,
     // along with the appropriate coordinates for that type.
-    if ((this.params?.['source'] === 'map' || this.params?.['source']?.[0] === 'map')
-      && (this.params?.['type'] === 'area-restriction' || this.params?.['type'] === 'bans-prohibitions'
-        || this.params?.['type'].includes('evac'))
-    ) {
+    const isMapSource = this.params?.['source'] === 'map' || this.params?.['source']?.[0] === 'map';
+    const validTypes = ['area-restriction', 'bans-prohibitions'];
+    const isValidType = validTypes.includes(this.params?.['type']) || this.params?.['type']?.includes('evac');
+
+    if (isMapSource && isValidType) {
       this.backToMap();
     } else {
       this.router.navigate([ResourcesRoutes.DASHBOARD]);
@@ -123,7 +125,7 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
       }, 100);
     };
 
-    if(this.params['type'] && this.params['sourceLongitude'] && this.params['sourceLatitude'] && this.params['sourceZoom']) {
+    if (this.params['type'] && this.params['sourceLongitude'] && this.params['sourceLatitude'] && this.params['sourceZoom']) {
       switch (this.params['type']) {
         case 'area-restriction':
           navigateToMap(this.params['sourceLongitude'], this.params['sourceLatitude'], this.params['sourceZoom'], 'areaRestriction');
