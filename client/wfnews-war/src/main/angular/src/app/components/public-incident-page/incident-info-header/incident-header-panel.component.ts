@@ -84,7 +84,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       weight: 2,
       fillOpacity: 0
     })
-  })
+  });
 
   private evacOrdersLayer = esri.featureLayer({
     url: this.appConfigService.getConfig()['externalAppConfig']['AGOLevacOrders'].toString(),
@@ -107,7 +107,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         };
       }
     }
-  })
+  });
 
 
   constructor(
@@ -418,7 +418,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
               style: '7734'            
             })
             .addTo(this.map);
-        })
+        });
     }
     const icon = L.icon({
       iconUrl: '/assets/images/local_fire_department.png',
@@ -549,13 +549,16 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   
 
   backToMap() {
+    const zoom = this.params?.['zoom'];
+
     const navigateToMap = (longitude: number, latitude: number, queryParamKey: string) => {
       setTimeout(() => {
         this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
           queryParams: {
             longitude,
             latitude,
-            [queryParamKey]: true
+            [queryParamKey]: true,
+            zoom
           },
         });
       }, 100);

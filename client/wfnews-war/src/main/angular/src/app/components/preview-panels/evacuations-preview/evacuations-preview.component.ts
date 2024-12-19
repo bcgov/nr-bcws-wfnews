@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { ResourcesRoutes, convertToDateYear, hidePanel, showPanel } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, hidePanel, showPanel, getActiveMap } from '@app/utils';
 import { MapUtilityService } from '../map-share-service';
 
 @Component({
@@ -49,6 +49,7 @@ export class EvacuationsPreviewComponent {
   }
 
   enterFullDetail() {
+    const currentZoomLevel = getActiveMap().$viewer?.map?._zoom;
     if (this.data) {
       const url = this.router.serializeUrl(
         this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
@@ -56,7 +57,8 @@ export class EvacuationsPreviewComponent {
             eventType: this.data.ORDER_ALERT_STATUS,
             id: this.data.EMRG_OAA_SYSID,
             eventNumber: this.data.EVENT_NUMBER,
-            source: [ResourcesRoutes.ACTIVEWILDFIREMAP]
+            source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
+            zoom: currentZoomLevel
           },
         }),
       );
