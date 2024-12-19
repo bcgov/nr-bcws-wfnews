@@ -52,7 +52,8 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
         // If the user accessed the full details page from the map, and if the full details page contains one of area restrictions,
         // fire bans, evac orders or evac alerts, use the backToMap function to route back to the map using the same layer and zoom level,
         // along with the appropriate coordinates for that type.
-        if (this.navigatedfromMapPage() && this.isCurrentlyNavigatedOn()) {
+        if (this.navigatedfromMapPage()
+            && this.isCurrentlyNavigatedOn(['area-restriction', 'bans-prohibitions', 'evac-order', 'evac-alert', 'danger-rating'])) {
           this.backToMap();
         } else if (
           this.params['source'] === 'saved-location' &&
@@ -95,7 +96,8 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
     // If the user accessed the full details page from the map, and if the full details page contains one of area restrictions,
     // fire bans, evac orders or evac alerts, use the backToMap function to route back to the map using the same layer and zoom level,
     // along with the appropriate coordinates for that type
-    if (this.navigatedfromMapPage() && this.isCurrentlyNavigatedOn()) {
+    if (this.navigatedfromMapPage()
+      && this.isCurrentlyNavigatedOn(['area-restriction', 'bans-prohibitions', 'evac-order', 'evac-alert', 'danger-rating'])) {
       this.backToMap();
     } else {
       this.router.navigate([ResourcesRoutes.DASHBOARD]);
@@ -110,13 +112,12 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  isCurrentlyNavigatedOn() {
-    const fullDetailPageTypes = ['area-restriction', 'bans-prohibitions', 'evac-orders', 'evac-alerts', 'danger-rating'];
-    if(fullDetailPageTypes.includes(this.params?.['type'])){
+  isCurrentlyNavigatedOn(pageList) {
+    if (pageList.includes(this.params?.['type'])) {
       return true;
     } else {
       return false;
-    } 
+    }
   }
 
   // use query params to determine the layer, coordinates and zoom level for routing back to the map
