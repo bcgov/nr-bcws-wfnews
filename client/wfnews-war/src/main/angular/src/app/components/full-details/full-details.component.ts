@@ -15,21 +15,21 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private agolService: AGOLService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: ParamMap) => {
       this.params = params;
     });
     if (document.getElementById('mobile-navigation-bar')) {
-document.getElementById('mobile-navigation-bar').style.display = 'none';
-}
+      document.getElementById('mobile-navigation-bar').style.display = 'none';
+    }
   }
 
   ngOnDestroy(): void {
     if (document.getElementById('mobile-navigation-bar')) {
-document.getElementById('mobile-navigation-bar').style.display = 'block';
-}
+      document.getElementById('mobile-navigation-bar').style.display = 'block';
+    }
   }
 
   getTitle() {
@@ -48,8 +48,13 @@ document.getElementById('mobile-navigation-bar').style.display = 'block';
 
   back() {
     try {
-      if (this.params && this.params['source']) {
-        if (
+      if (this.params?.['source']) {
+        if ((this.params['source'] === 'map' || this.params['source']?.[0] === 'map')
+          && (this.params?.['type'] === 'area-restriction' || this.params?.['type'] === 'bans-prohibitions'
+            || this.params?.['type'].includes('evac'))
+        ) {
+          this.backToMap();
+        } else if (
           this.params['source'] === 'saved-location' &&
           this.params['sourceName'] &&
           this.params['sourceLongitude'] &&
@@ -75,18 +80,58 @@ document.getElementById('mobile-navigation-bar').style.display = 'block';
             },
           });
         } else {
-this.router.navigate(this.params['source']);
-}
+          this.router.navigate(this.params['source']);
+        }
       } else {
-throw new Error('No previous screen to route too');
-}
+        throw new Error('No previous screen to route too');
+      }
     } catch (err) {
       console.error(err);
       this.router.navigate([ResourcesRoutes.DASHBOARD]);
     }
   }
 
-  async exit() {
-    this.router.navigate([ResourcesRoutes.DASHBOARD]);
+  exit() {
+    if ((this.params?.['source'] === 'map' || this.params?.['source']?.[0] === 'map')
+      && (this.params?.['type'] === 'area-restriction' || this.params?.['type'] === 'bans-prohibitions'
+        || this.params?.['type'].includes('evac'))
+    ) {
+      this.backToMap();
+    } else {
+      this.router.navigate([ResourcesRoutes.DASHBOARD]);
+    }
+  }
+
+  backToMap() {
+    // use query params to determine the layer, coordinates and zoom level for routing back to the map
+    const navigateToMap = (longitude: number, latitude: number, zoom: string, queryParamKey: string) => {
+      setTimeout(() => {
+        this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+          queryParams: {
+            longitude,
+            latitude,
+            zoom,
+            [queryParamKey]: true
+          },
+        });
+      }, 100);
+    };
+
+    if(this.params['type'] && this.params['sourceLongitude'] && this.params['sourceLatitude'] && this.params['sourceZoom']) {
+      switch (this.params['type']) {
+        case 'area-restriction':
+          navigateToMap(this.params['sourceLongitude'], this.params['sourceLatitude'], this.params['sourceZoom'], 'areaRestriction');
+          break;
+        case 'bans-prohibitions':
+          navigateToMap(this.params['sourceLongitude'], this.params['sourceLatitude'], this.params['sourceZoom'], 'bansProhibitions');
+          break;
+        case 'evac-alert':
+        case 'evac-order':
+          navigateToMap(this.params['sourceLongitude'], this.params['sourceLatitude'], this.params['sourceZoom'], 'evacuationAlert');
+          break;
+      }
+    } else {
+      throw new Error('Error occurred while routing back to map');
+    }
   }
 }

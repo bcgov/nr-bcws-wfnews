@@ -490,9 +490,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           } else if ((params['areaRestriction'] && params['areaRestriction'] === 'true') || 
               (params['evacuationAlert'] && params['evacuationAlert'] === 'true') || 
               (params['activeWildfires'] && params['activeWildfires'] === 'true')){
-            this.panToLocation(long, lat, 12);
+            this.panToLocation(long, lat, params['zoom'] ? params['zoom'] : 12);
           } else if (params['bansProhibitions'] && params['bansProhibitions'] === 'true'){
-            this.panToLocation(long, lat, 6);
+            this.panToLocation(long, lat, params['zoom'] ? params['zoom'] : 6);
           } else if (params['savedLocation'] && params['savedLocation'] === 'true') {
             this.panToLocation(long, lat, 8);
           } else {
