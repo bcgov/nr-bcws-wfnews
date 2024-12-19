@@ -49,6 +49,7 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
   back() {
     try {
       if (this.params?.['source']) {
+        // use query params to determine the layer, coordinates and zoom level for routing back to the map
         if ((this.params['source'] === 'map' || this.params['source']?.[0] === 'map')
           && (this.params?.['type'] === 'area-restriction' || this.params?.['type'] === 'bans-prohibitions'
             || this.params?.['type'].includes('evac'))
@@ -92,6 +93,7 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
   }
 
   exit() {
+    // use query params to determine the layer, coordinates and zoom level for routing back to the map
     if ((this.params?.['source'] === 'map' || this.params?.['source']?.[0] === 'map')
       && (this.params?.['type'] === 'area-restriction' || this.params?.['type'] === 'bans-prohibitions'
         || this.params?.['type'].includes('evac'))
@@ -103,7 +105,6 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
   }
 
   backToMap() {
-    // use query params to determine the layer, coordinates and zoom level for routing back to the map
     const navigateToMap = (longitude: number, latitude: number, zoom: string, queryParamKey: string) => {
       setTimeout(() => {
         this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
