@@ -627,7 +627,10 @@ return 'Unknown';
               id: item.properties.DANGER_RATING_DESC,
               location: JSON.stringify(location),
               source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
-              sysid: item.properties.PROT_DR_SYSID
+              sysid: item.properties.PROT_DR_SYSID,
+              sourceLatitude: location.latitude,
+              sourceLongitude: location.longitude,
+              sourceZoom: currentZoomLevel
             },
           });
           break;

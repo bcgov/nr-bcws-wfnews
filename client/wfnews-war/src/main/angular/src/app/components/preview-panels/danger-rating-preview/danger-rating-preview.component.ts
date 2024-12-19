@@ -5,7 +5,7 @@ import { LocationData } from '@app/components/wildfires-list-header/filter-by-lo
 import { AGOLService } from '@app/services/AGOL-service';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { ResourcesRoutes, formatDate, hidePanel, showPanel, displayDangerRatingDescription } from '@app/utils';
+import { ResourcesRoutes, formatDate, hidePanel, showPanel, displayDangerRatingDescription, getActiveMap } from '@app/utils';
 
 @Component({
   selector: 'wfnews-danger-rating-preview',
@@ -40,6 +40,7 @@ export class DangerRatingPreviewComponent {
   }
 
   enterFullDetail() {
+    const currentZoomLevel = getActiveMap().$viewer?.map?._zoom;
     const location = new LocationData();
     const url = this.router.serializeUrl(
       this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
@@ -48,7 +49,8 @@ export class DangerRatingPreviewComponent {
           eventNumber: this.data.PROT_DR_SYSID,
           eventName: this.data.DANGER_RATING_DESC,
           location: JSON.stringify(location),
-          source: [ResourcesRoutes.ACTIVEWILDFIREMAP]
+          source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
+          zoom: currentZoomLevel
         },
       }),
     );

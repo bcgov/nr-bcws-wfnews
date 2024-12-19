@@ -52,11 +52,7 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
         // If the user accessed the full details page from the map, and if the full details page contains one of area restrictions,
         // fire bans, evac orders or evac alerts, use the backToMap function to route back to the map using the same layer and zoom level,
         // along with the appropriate coordinates for that type.
-        const isMapSource = this.params?.['source'] === 'map' || this.params?.['source']?.[0] === 'map';
-        const validTypes = ['area-restriction', 'bans-prohibitions'];
-        const isValidType = validTypes.includes(this.params?.['type']) || this.params?.['type']?.includes('evac');
-        
-        if (isMapSource && isValidType) {
+        if (this.navigatedfromMapPage() && this.isCurrentlyNavigatedOn()) {
           this.backToMap();
         } else if (
           this.params['source'] === 'saved-location' &&
@@ -98,16 +94,29 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
   exit() {
     // If the user accessed the full details page from the map, and if the full details page contains one of area restrictions,
     // fire bans, evac orders or evac alerts, use the backToMap function to route back to the map using the same layer and zoom level,
-    // along with the appropriate coordinates for that type.
-    const isMapSource = this.params?.['source'] === 'map' || this.params?.['source']?.[0] === 'map';
-    const validTypes = ['area-restriction', 'bans-prohibitions'];
-    const isValidType = validTypes.includes(this.params?.['type']) || this.params?.['type']?.includes('evac');
-
-    if (isMapSource && isValidType) {
+    // along with the appropriate coordinates for that type
+    if (this.navigatedfromMapPage() && this.isCurrentlyNavigatedOn()) {
       this.backToMap();
     } else {
       this.router.navigate([ResourcesRoutes.DASHBOARD]);
     }
+  }
+
+  navigatedfromMapPage() {
+    if (this.params?.['source'] === 'map' || this.params?.['source']?.[0] === 'map') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isCurrentlyNavigatedOn() {
+    const fullDetailPageTypes = ['area-restriction', 'bans-prohibitions', 'evac-orders', 'evac-alerts', 'danger-rating'];
+    if(fullDetailPageTypes.includes(this.params?.['type'])){
+      return true;
+    } else {
+      return false;
+    } 
   }
 
   // use query params to determine the layer, coordinates and zoom level for routing back to the map
@@ -132,6 +141,9 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
           break;
         case 'bans-prohibitions':
           navigateToMap(this.params['sourceLongitude'], this.params['sourceLatitude'], this.params['sourceZoom'], 'bansProhibitions');
+          break;
+        case 'danger-rating':
+          navigateToMap(this.params['sourceLongitude'], this.params['sourceLatitude'], this.params['sourceZoom'], 'dangerRating');
           break;
         case 'evac-alert':
         case 'evac-order':
