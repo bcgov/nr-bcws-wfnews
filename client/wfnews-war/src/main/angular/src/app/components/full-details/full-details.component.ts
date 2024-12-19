@@ -49,7 +49,9 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
   back() {
     try {
       if (this.params?.['source']) {
-        // use query params to determine the layer, coordinates and zoom level for routing back to the map
+        // If the user accessed the full details page from the map, and if the full details page contains one of area restrictions,
+        // fire bans, evac orders or evac alerts, use the backToMap function to route back to the map using the same layer and zoom level,
+        // along with the appropriate coordinates for that type.
         if ((this.params['source'] === 'map' || this.params['source']?.[0] === 'map')
           && (this.params?.['type'] === 'area-restriction' || this.params?.['type'] === 'bans-prohibitions'
             || this.params?.['type'].includes('evac'))
@@ -93,7 +95,9 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
   }
 
   exit() {
-    // use query params to determine the layer, coordinates and zoom level for routing back to the map
+    // If the user accessed the full details page from the map, and if the full details page contains one of area restrictions,
+    // fire bans, evac orders or evac alerts, use the backToMap function to route back to the map using the same layer and zoom level,
+    // along with the appropriate coordinates for that type.
     if ((this.params?.['source'] === 'map' || this.params?.['source']?.[0] === 'map')
       && (this.params?.['type'] === 'area-restriction' || this.params?.['type'] === 'bans-prohibitions'
         || this.params?.['type'].includes('evac'))
@@ -104,6 +108,7 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  // use query params to determine the layer, coordinates and zoom level for routing back to the map
   backToMap() {
     const navigateToMap = (longitude: number, latitude: number, zoom: string, queryParamKey: string) => {
       setTimeout(() => {
