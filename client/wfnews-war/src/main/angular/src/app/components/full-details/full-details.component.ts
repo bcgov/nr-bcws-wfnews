@@ -84,7 +84,7 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
           this.router.navigate(this.params['source']);
         }
       } else {
-        throw new Error('No previous screen to route too');
+        throw new Error('No previous screen to route to');
       }
     } catch (err) {
       console.error(err);
