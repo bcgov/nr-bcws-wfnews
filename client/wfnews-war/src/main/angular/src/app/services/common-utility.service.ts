@@ -369,7 +369,7 @@ export class CommonUtilityService {
 
     this.snowPlowHelper(url, {
       action: 'share_from_mobile_device',
-      text: shareTitle
+      text: `${shareTitle}: ${url}`
     });
 
     const currentUrl = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
@@ -393,7 +393,7 @@ export class CommonUtilityService {
 
     this.snowPlowHelper(url, {
       action: 'share_from_desktop',
-      text: `${type}, ${incidentName}`
+      text: `${type}, ${incidentName}: ${url}`
     });
     this.dialog.open(ShareDialogComponent, {
       panelClass: 'contact-us-dialog',
