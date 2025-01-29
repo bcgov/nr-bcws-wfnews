@@ -64,7 +64,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         },
         {
           name  = "DB_NAME"
-          value = "${aws_db_instance.wfnews_pgsqlDB.name}"
+          value = "${aws_db_instance.wfnews_pgsqlDB.db_name}"
         },
         {
           name  = "AWS_REGION",
@@ -175,7 +175,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         },
         {
           name  = "WFNEWS_DB_URL",
-          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
+          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.db_name}"
         },
         {
           name  = "WFNEWS_USERNAME",
@@ -494,7 +494,7 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
         },   
         {
           name  = "DB_URL",
-          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
+          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.db_name}"
         },
         {
           name  = "DB_USER",
@@ -716,7 +716,7 @@ resource "aws_ecs_task_definition" "notifications_liquibase" {
         },
         {
           name  = "DB_URL",
-          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
+          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.db_name}"
         },
         {
           name  = "DB_USER",
@@ -993,7 +993,7 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
           },
           {
             name  = "DATASOURCE_URL",
-            value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
+            value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.db_name}"
           },
           {
             name  = "DATASOURCE_USER",
@@ -1184,7 +1184,7 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
           },
           {
             name  = "WFONE_PUSH_NOTIFICATION_DATASOURCE_URL",
-            value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
+            value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.db_name}"
           },
           {
             name  = "WFONE_PUSH_NOTIFICATION_DATASOURCE_USERNAME",
