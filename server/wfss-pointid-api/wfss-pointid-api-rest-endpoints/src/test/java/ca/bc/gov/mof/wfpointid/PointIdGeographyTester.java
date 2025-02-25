@@ -3,6 +3,7 @@ package ca.bc.gov.mof.wfpointid;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryResponseChecker.NUMBER;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryResponseChecker.STRING;
 
+import ca.bc.gov.mof.wfpointid.nearby.NearbyService;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +29,15 @@ import ca.bc.gov.mof.wfpointid.test.util.QueryResponseChecker;
 @RunWith(SpringRunner.class)
 @WebMvcTest(PointIdEndpoints.class)
 public class PointIdGeographyTester {
+
+	@MockBean
+	private PointIdServiceParams pointIdServiceParams;
+
+	@MockBean
+	private ServiceContext serviceContext;
+
+	@MockBean
+	private NearbyService nearbyService;
 
 	private static final String RES_GEOGRAPHY = "https://i1bcwsapi.nrs.gov.bc.ca/wfss-pointid-api/geography";
 	

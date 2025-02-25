@@ -3,11 +3,13 @@ package ca.bc.gov.mof.wfpointid;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryResponseChecker.NUMBER;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryResponseChecker.STRING;
 
+import ca.bc.gov.mof.wfpointid.nearby.NearbyService;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.Assert;
@@ -23,6 +25,15 @@ import ca.bc.gov.mof.wfpointid.test.util.Query;
 @RunWith(SpringRunner.class)
 @WebMvcTest(PointIdEndpoints.class)
 public class PointIdWeatherTester {
+
+	@MockBean
+	private PointIdServiceParams pointIdServiceParams;
+
+	@MockBean
+	private ServiceContext serviceContext;
+
+	@MockBean
+	private NearbyService nearbyService;
 	
 	private final String REGEX_TIMESTAMP = "\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d";
 	

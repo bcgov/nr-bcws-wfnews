@@ -69,6 +69,12 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>4.3.7.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>4.2.2.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- Caching -->
 		<dependency>
@@ -178,7 +184,10 @@
 			<groupId>com.mashape.unirest</groupId>
 			<artifactId>unirest-java</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+		</dependency>
 	</dependencies>
 	
 	<build>
