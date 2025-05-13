@@ -74,8 +74,7 @@
       "wildFireInformationLine": "1 888 336-7378",
       "burnRegistrationLine": "1 888 797-1717",
       "socialMedia": {
-        "facebook": "https://www.facebook.com/BCForestFireInfo/",
-        "twitter": "https://twitter.com/bcgovfireinfo"
+        "facebook": "https://www.facebook.com/BCForestFireInfo/"
       },
       "moreInformationLink": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels#:~:text=Immediately%20call%201%20800%20663,wildfire%20regulations%20in%20British%20Columbia."
     },
@@ -90,9 +89,7 @@
     "buildEmergencyKitUrl": "https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/build-an-emergency-kit-and-grab-and-go-bag",
     "preparedBCUrl": "https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc",
     "preparedBCFacebook": "https://www.facebook.com/PreparedBC",
-    "preparedBCTwitter": "https://twitter.com/PreparedBC",
     "embcUrl": "https://www.emergencyinfobc.gov.bc.ca/",
-    "embcTwitter": "http://www.twitter.com/emergencyinfobc",
     "evacGuidanceUrl": "https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance",
     "localGovUrl": "https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems",
     "emergencyAlertUrl": "https://www2.gov.bc.ca/gov/content/safety/public-safety/emergency-alerts",

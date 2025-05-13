@@ -55,9 +55,6 @@ export class MoreComponent implements OnInit{
       case 'youtube':
         window.open('https://www.youtube.com/@BCWildfireService', '_blank');
         break;
-      case 'twitter':
-        window.open('https://twitter.com/BCGovFireInfo', '_blank');
-        break;
     }
   }
 
