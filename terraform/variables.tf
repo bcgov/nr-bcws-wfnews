@@ -488,7 +488,7 @@ variable "db_multi_az" {
 
 variable "db_postgres_version" {
   description = "Which version of Postgres to use"
-  default     = "15.4"
+  default     = "15.10"
   type        = string
 }
 
