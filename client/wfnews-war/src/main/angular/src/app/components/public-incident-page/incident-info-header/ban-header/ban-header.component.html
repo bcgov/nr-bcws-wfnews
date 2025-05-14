@@ -15,11 +15,7 @@
       </div>
       <hr>
       <div class="info-panel-row">
-        <span class="label">
-            Decisions on when and where to implement fire bans and restrictions are
-            made by B.C.’s regional fire centres depending on local fire hazards or dangers,
-            forecasted weather conditions and the type and level of fire activity occurring.
-        </span>
+        <span class="label" [innerHTML]="bansHeaderText"></span>
       </div>
       <div class="info-panel-button-row">
           <button mat-button class="single-button" (click)="navToMap()">

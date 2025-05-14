@@ -1,6 +1,6 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" [(selectedIndex)]="tabIndex" (selectedTabChange)="onTabChanged($event);">
         <mat-tab label="Legend">
-          <section>
+          <section class="legend-section">
             <!-- Show the selected feature layer on the top -->
             <wfnews-fire-legend *ngIf="selectedPanel === 'wildfire-stage-of-control' && checkLayerVisible(['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'])"></wfnews-fire-legend>
             <wfnews-evac-legend *ngIf="selectedPanel === 'evacuation-orders-and-alerts' && checkLayerVisible('evacuation-orders-and-alerts-wms')"></wfnews-evac-legend>

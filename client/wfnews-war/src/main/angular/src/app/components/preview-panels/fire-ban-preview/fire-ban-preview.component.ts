@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MapUtilityService } from '@app/components/preview-panels/map-share-service';
+import { INFORMATION_TEXTS } from '@app/constants';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
@@ -15,6 +16,7 @@ export class FireBanPreviewComponent {
 
   public data;
   formatDate = formatDate;
+  bansApplyLandInfoText = INFORMATION_TEXTS.BCWS_BANS_APPLY_LAND_INFO
 
   constructor(
     private router: Router,
