@@ -1,21 +1,21 @@
 import { NumberFormatStyle } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Meta, Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
+import { snowPlowHelper } from '@app/utils';
+import { Capacitor, CapacitorHttp } from '@capacitor/core';
 import { Geolocation } from '@capacitor/geolocation';
+import { Share } from '@capacitor/share';
 import { AppConfigService } from '@wf1/core-ui';
 import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CapacitorService } from './capacitor-service';
 import { IonicStorageService } from './ionic-storage.service';
 import { ReportOfFireService } from './report-of-fire-service';
-import { Router } from '@angular/router';
-import { Share } from '@capacitor/share';
-import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { Capacitor, CapacitorHttp } from '@capacitor/core';
-import { map } from 'rxjs/operators';
-import { Meta, Title } from '@angular/platform-browser';
-import { snowPlowHelper } from '@app/utils';
 
 const MAX_CACHE_AGE = 30 * 1000;
 export interface Coordinates {
@@ -380,7 +380,8 @@ export class CommonUtilityService {
     Share.share({
       title: shareTitle,
       url: currentUrl,
-      dialogTitle: 'Share Wildfire News Link',
+      text: '',
+      dialogTitle: 'Share',
     }).then(() => {
       console.log('Sharing successful');
     }).catch(err => {

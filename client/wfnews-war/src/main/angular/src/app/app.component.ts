@@ -12,6 +12,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer, Meta, Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
+import {
+  CapacitorService,
+  LocationNotification,
+} from '@app/services/capacitor-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
+import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { AppConfigService, TokenService } from '@wf1/core-ui';
 import {
   RouterLink,
@@ -21,6 +27,7 @@ import {
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
@@ -31,13 +38,6 @@ import {
   isMobileView as mobileView,
   snowPlowHelper,
 } from './utils';
-import {
-  CapacitorService,
-  LocationNotification,
-} from '@app/services/capacitor-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
-import { App, URLOpenListenerEvent } from '@capacitor/app';
-import { filter } from 'rxjs/operators';
 
 export const ICON = {
   ADVISORIES: 'advisories',
@@ -56,7 +56,6 @@ export const ICON = {
   MAP_SIGNS: 'map-signs',
   MAP: 'map',
   MAP_HOVER: 'map-hover',
-  TWITTER: 'twitter',
   CAMPING: 'camping',
   LARGER: 'larger',
   PHONE: 'phone',
@@ -565,13 +564,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   addCustomMaterialIcons() {
-    this.matIconRegistry.addSvgIcon(
-      ICON.TWITTER,
-      this.domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/images/svg-icons/twitter.svg',
-      ),
-    );
-
     this.matIconRegistry.addSvgIcon(
       ICON.FACEBOOK,
       this.domSanitizer.bypassSecurityTrustResourceUrl(

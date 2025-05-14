@@ -3,6 +3,7 @@ import { AdvisorySectionStyle } from '@app/components/common/advisory-section/ad
 import { IconButtonArgs } from '@app/components/common/icon-button/icon-button.component';
 import { RelatedTopicsLink } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
 import { AppConfigService } from '@wf1/core-ui';
+import { INFORMATION_TEXTS } from '../../../constants';
 
 @Component({
   selector: 'fire-ban-details',
@@ -10,6 +11,8 @@ import { AppConfigService } from '@wf1/core-ui';
   styleUrls: ['./fire-ban-details.component.scss']
 })
 export class FireBanDetailsComponent implements OnInit {
+
+  infoBulletinText = INFORMATION_TEXTS.LEGAL_ORDERS_INFO_BULLETIN;
 
   @Input() fireBan: any;
 

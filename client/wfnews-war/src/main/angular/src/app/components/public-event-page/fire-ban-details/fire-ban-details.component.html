@@ -1,7 +1,7 @@
 <div class="fire-ban-details">
   <advisory-section
     title="Information Bulletin"
-    message="View the bulletin on our website for more information."
+    [message]="infoBulletinText"
     [componentStyle]="advisorySectionComponentStyle" [buttonArgs]="advisorySectionButtonArgs"
     (advisoryClicked)="handleAdvisoryClick()">
   </advisory-section>

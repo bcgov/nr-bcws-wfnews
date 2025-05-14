@@ -58,7 +58,6 @@ export interface DeviceProperties {
   isWebPlatform: boolean;
   isMobilePlatform: boolean;
   deviceId: string;
-  isTwitterInstalled: boolean;
 }
 
 const UPDATE_AFTER_INACTIVE_MILLIS = 1000 * 60; // 1 minute
@@ -71,7 +70,6 @@ export class CapacitorService {
   resume: BehaviorSubject<boolean>;
   initialized: Promise<any>;
   fbAppInstalled: boolean;
-  twitterAppInstalled: boolean;
   appState: AppState;
   isIOSPlatform: boolean;
   isAndroidPlatform: boolean;
@@ -109,7 +107,6 @@ export class CapacitorService {
     this.isAndroidPlatform = false;
     this.isWebPlatform = false;
     this.fbAppInstalled = false;
-    this.twitterAppInstalled = false;
     this.deviceId = '';
 
     this.initialized = this.checkDevice().then(() => {
@@ -144,20 +141,8 @@ export class CapacitorService {
               p === 'android' ||
               !!environment['is_mobile_platform'],
             deviceId: deviceId.identifier,
-            isTwitterInstalled: false,
           };
-          const scheme = prop.isIOSPlatform
-            ? 'twitter://'
-            : 'com.twitter.android';
-          return AppLauncher.canOpenUrl({ url: scheme })
-            .then((canOpen) => {
-              prop.isTwitterInstalled = canOpen.value;
-              return prop;
-            })
-            .catch((e) => {
-              console.warn(e);
-              return prop;
-            });
+          return prop;
         }))
         .catch((e) => {
           console.warn(e);
@@ -167,7 +152,6 @@ export class CapacitorService {
             isWebPlatform: false,
             isMobilePlatform: false,
             deviceId: '',
-            isTwitterInstalled: false,
           };
         });
     }
@@ -427,15 +411,6 @@ export class CapacitorService {
   }
 
   checkInstalledApps() {
-    this.checkTwitterAppInstalled().then(
-      (result) => {
-        this.twitterAppInstalled = result;
-      },
-      (error) => {
-        this.twitterAppInstalled = false;
-      },
-    );
-
     this.checkFbAppInstalled().then(
       (result) => {
         this.fbAppInstalled = result;
@@ -489,11 +464,6 @@ export class CapacitorService {
   openUrlInApp(url: string) {
     let scheme;
     let schemeUrl;
-    // twitter
-    if (url.indexOf('twitter.com/') !== -1) {
-      scheme = this.isIOSPlatform ? 'twitter://' : 'com.twitter.android';
-      schemeUrl = 'twitter://user?screen_name=' + url.split('twitter.com/')[1];
-    }
 
     if (scheme && schemeUrl) {
       AppLauncher.openUrl({ url: schemeUrl }).catch((error) => {
@@ -566,15 +536,6 @@ export class CapacitorService {
 
   async removeData(key: string) {
     await Preferences.remove({ key });
-  }
-
-  private async checkTwitterAppInstalled(): Promise<boolean> {
-    if (this.isMobilePlatform()) {
-      const scheme = this.isIOSPlatform ? 'twitter://' : 'com.twitter.android';
-      const ret = await AppLauncher.canOpenUrl({ url: scheme });
-      return ret.value;
-    }
-    return false;
   }
 
   private async checkFbAppInstalled(): Promise<boolean> {

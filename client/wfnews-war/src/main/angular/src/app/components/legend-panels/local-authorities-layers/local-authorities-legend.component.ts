@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { INFORMATION_TEXTS } from '@app/constants';
 import { checkLayerVisible } from '@app/utils';
 
 @Component({
@@ -8,6 +9,7 @@ import { checkLayerVisible } from '@app/utils';
 })
 export class LocalAuthoritiesLegendComponent {
   public checkLayerVisible = checkLayerVisible;
+  localAuthoritiesInfoText = INFORMATION_TEXTS.BEST_SOURCE_EVAC_BANS_LOCAL_AUTHORITY;
 
   constructor() {}
 }

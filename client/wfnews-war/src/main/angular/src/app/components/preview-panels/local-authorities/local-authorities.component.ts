@@ -1,7 +1,8 @@
 import { AfterContentInit, Component } from '@angular/core';
 import { MapUtilityService } from '@app/components/preview-panels/map-share-service';
+import { INFORMATION_TEXTS } from '@app/constants';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { convertToDateYear, hidePanel, showPanel, displayLocalAuthorityType } from '@app/utils';
+import { convertToDateYear, displayLocalAuthorityType, hidePanel, showPanel } from '@app/utils';
 
 @Component({
   selector: 'wfnews-local-authorities',
@@ -17,6 +18,7 @@ export class LocalAuthoritiesComponent implements AfterContentInit{
   convertToDateYear = convertToDateYear;
   displayLocalAuthorityType = displayLocalAuthorityType;
   public data;
+  infoText: String;
 
   ngAfterContentInit(): void {
     try {
@@ -28,6 +30,7 @@ export class LocalAuthoritiesComponent implements AfterContentInit{
 
   setContent(data) {
     this.data = data;
+    this.infoText = this.getInfoText(this.data.layerId);
   }
 
   closePanel() {
@@ -52,5 +55,20 @@ export class LocalAuthoritiesComponent implements AfterContentInit{
  isNumberArray(array) {
   return typeof array[0][0] === 'number';
  }
+
+ getInfoText(layerId: string) {
+  if (layerId === 'abms-regional-districts') {
+    return INFORMATION_TEXTS.REGIONAL_DISTRICTS_BANS_INFO;
+  }
+  if (layerId === 'clab-indian-reserves') {
+    return INFORMATION_TEXTS.BEST_SOURCE_EVAC_BANS_LOCAL_AUTHORITY;
+  }
+  if (layerId === 'abms-municipalities') {
+    return INFORMATION_TEXTS.MUNICIPALITY_INFO;
+  }
+  if (layerId === 'fnt-treaty-land') {
+    return INFORMATION_TEXTS.BEST_SOURCE_EVAC_BANS_LOCAL_AUTHORITY;
+  }
+}
 
 }

@@ -58,6 +58,8 @@
   line-height: normal;
   box-shadow: none !important;
   &-title {
+    display: flex;
+    align-items: center;
     color: var(--grays-gray-1, #242424);
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 16px;

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AppConfigService } from '@wf1/core-ui';
 import { openLink } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'wfnews-evac-other-info',
@@ -17,15 +17,6 @@ export class EvacOtherInfoComponent {
       this.appConfigService.getConfig().externalAppConfig['contactInformation'][
         'socialMedia'
       ]['facebook'] as unknown as string,
-      '_blank',
-    );
-  }
-
-  bcwsTwitter() {
-    window.open(
-      this.appConfigService.getConfig().externalAppConfig['contactInformation'][
-        'socialMedia'
-      ]['twitter'] as unknown as string,
       '_blank',
     );
   }

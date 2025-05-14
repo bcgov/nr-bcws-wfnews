@@ -7,7 +7,7 @@
       <div class="content-title"><img class="icon" src="/assets/images/svg-icons/authorities.svg" alt="authorities">
         Talk to your Local Authority</div>
       <div class="content-list">
-        <span class="content-text">Please check with local government authorities for any other restrictions or bylaws and assess conditions before lighting any fire.</span>
+        <span class="content-text" [innerHTML]="talkToYourLocalAuthorityText"></span>
       </div>
     </div>
 
@@ -15,7 +15,7 @@
       <div class="content-title"><img class="icon" src="/assets/images/svg-icons/campfire.svg" alt="authorities">
         Campgrounds</div>
       <div class="content-list">
-        <span class="content-text">Before lighting a campfire it is also important to check the campfire policy for the campground you are staying in. For BC Parks campgrounds, see Active Advisories page or search for the campground you’re interested in.</span>
+        <span class="content-text" [innerHTML]="campgroundsText"></span>
       </div>
     </div>
 
