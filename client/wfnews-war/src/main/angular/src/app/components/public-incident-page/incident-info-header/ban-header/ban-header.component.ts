@@ -1,5 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { INFORMATION_TEXTS } from '@app/constants';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 
@@ -11,6 +12,8 @@ import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 })
 export class BanHeaderComponent {
   convertToDateYear = convertToDateYear;
+
+  bansHeaderText = INFORMATION_TEXTS.BANS_DECISION_INFO
 
   constructor(
     private router: Router,

@@ -99,6 +99,12 @@ mat-tab-group {
   }
 }
 
+.legend-section {
+  display: flex; /* or display: inline-flex; */
+  flex-direction: column; /* or row, depending on your layout */
+  gap: 24px;
+}
+
 section {
   padding: 20px;
   background-color: #f5f6f9;

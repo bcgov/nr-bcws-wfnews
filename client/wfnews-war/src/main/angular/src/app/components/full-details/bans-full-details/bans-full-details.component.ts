@@ -1,14 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
 import { Router as Route } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
+import { INFORMATION_TEXTS } from '@app/constants';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
-import { HttpClient } from '@angular/common/http';
-import { CommonUtilityService } from '@app/services/common-utility.service';
-import { Meta } from '@angular/platform-browser';
 
 export class BanProhibition {
   public id: string;
@@ -34,6 +35,8 @@ export class BansFullDetailsComponent implements OnInit {
 
   public banData: BanProhibition | null;
   public map: any;
+
+  bansDecisionText = INFORMATION_TEXTS.BANS_DECISION_INFO;
 
   constructor(
     private cdr: ChangeDetectorRef,

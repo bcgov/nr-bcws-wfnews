@@ -10,28 +10,29 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { INFORMATION_TEXTS } from '@app/constants';
+import { AGOLService } from '@app/services/AGOL-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { MapConfigService } from '@app/services/map-config.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import {
   ResourcesRoutes,
-  convertToDateYear,
-  getActiveMap,
-  convertToDateTime,
-  snowPlowHelper,
-  formatDate,
-  showPanel,
-  displayLocalAuthorityType,
-  displayItemTitle,
   addMarker,
+  convertToDateTime,
+  convertToDateYear,
+  displayDangerRatingDescription,
+  displayItemTitle,
+  displayLocalAuthorityType,
+  formatDate,
+  getActiveMap,
   getStageOfControlDescription,
   hidePanel,
-  displayDangerRatingDescription
+  showPanel,
+  snowPlowHelper
 } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { AGOLService } from '@app/services/AGOL-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
-import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -41,6 +42,8 @@ import { AppConfigService } from '@wf1/core-ui';
 export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   @Input() incidentRefs: any[];
 
+  public evacInfoText: string = INFORMATION_TEXTS.MUNICIPALITY_INFO;
+  public fireBanText: string = INFORMATION_TEXTS.BCWS_BANS_APPLY_LAND_INFO;
   resizeHeight = '10vh'; // Initial height of the panel
   currentIncidentRefs: any[];
   storedIncidentRefs: any[];

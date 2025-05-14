@@ -88,9 +88,7 @@
       json.append("\"buildEmergencyKitUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/build-an-emergency-kit-and-grab-and-go-bag").append("\",");
       json.append("\"preparedBCUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc").append("\",");
       json.append("\"preparedBCFacebook\":\"").append("https://www.facebook.com/PreparedBC").append("\",");
-      json.append("\"preparedBCTwitter\":\"").append("https://twitter.com/PreparedBC").append("\",");
       json.append("\"embcUrl\":\"").append("https://www.emergencyinfobc.gov.bc.ca").append("\",");
-      json.append("\"embcTwitter\":\"").append("http://www.twitter.com/emergencyinfobc").append("\",");
       json.append("\"evacGuidanceUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance").append("\",");
       json.append("\"localGovUrl\":\"").append("https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems").append("\",");
       json.append("\"emergencyAlertUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/public-safety/emergency-alerts").append("\",");
@@ -105,8 +103,7 @@
       json.append("\"wildFireInformationLine\":\"1 888 336-7378\",");
       json.append("\"burnRegistrationLine\":\"1 888 797-1717\",");
 	   json.append("\"socialMedia\":{");
-			json.append("\"facebook\":\"https://www.facebook.com/BCForestFireInfo/\",");
-			json.append("\"twitter\":\"https://twitter.com/bcgovfireinfo/\"");
+			json.append("\"facebook\":\"https://www.facebook.com/BCForestFireInfo/\"");
 	   json.append("},");
 	   json.append("\"moreInformationLink\":\"https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels#:~:text=Immediately%20call%201%20800%20663,wildfire%20regulations%20in%20British%20Columbia.\"");
 	   json.append("},");
