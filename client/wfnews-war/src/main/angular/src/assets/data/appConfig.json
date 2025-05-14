@@ -2,7 +2,7 @@
   "application": {
     "wfnewsApiKey": "fake-api-key",
     "acronym": "WFNEWS",
-    "version": "2.3.9-SNAPSHOT",
+    "version": "2.4.0-SNAPSHOT",
     "buildNumber": ".0000",
     "environment": "LOCAL",
     "baseUrl": "http://localhost:6200/",
@@ -56,7 +56,7 @@
     },
     "bcWildfirePage": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status",
     "bcWildfireResponsePage": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools",
-    "bcWildFireSupportPage": "https://intranet.gov.bc.ca/bcws/provincial-programs/strategic-initiatives-and-innovation/wildfire-one/wildfire-one-training",
+    "bcWildFireSupportPage": "https://intranet.gov.bc.ca/bcws/corporate-governance/strategic-initiatives-and-innovation/wildfire-one/wildfire-one-training",
     "appStoreUrl": "https://apps.apple.com/ca/app/bc-wildfire-service/id1477675008",
     "googlePlayUrl": "https://play.google.com/store/apps/details?id=ca.bc.gov.WildfireInformation&hl=en_CA&gl=US",
     "AGOLfireCentres": "https://services6.dev.bcwildfireservices.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=",
@@ -128,7 +128,7 @@
   },
 
   "mapServices": {
-    "openmapsBaseUrl": "https://maps.dev.bcwildfireservices.com/geo/pub/ows",
+    "openmapsBaseUrl": "https://maps.dev.bcwildfireservices.com",
     "services6BaseUrl": "https://services6.dev.bcwildfireservices.com",
     "#openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
     "drivebcBaseUrl": "https://dev-maps.th.gov.bc.ca/geoV05/ows",

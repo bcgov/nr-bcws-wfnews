@@ -18,7 +18,7 @@ export class PublicEventPageComponent {
   public id : string;
   public eventName: string;
   public evac: string;
-  public areaRestriction: string;
+  public areaRestriction: any;
   public ban: string;
   public dangerRating: string;
   public incident: SimpleIncident;
@@ -88,10 +88,27 @@ export class PublicEventPageComponent {
       },
     )
       .toPromise()
-      .then((response) => {
+      .then(async (response) => {
         if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
           this.areaRestriction = response.features[0];
           this.isLoading = false;
+            if (this.areaRestriction) {
+              const restrictionPolygon = this.areaRestriction.geometry.rings;
+              try {
+                this.incident =
+                  await this.publishedIncidentService.populateIncidentByPoint(
+                    restrictionPolygon,
+                  );
+                  this.isAssociatedWildfireBookmarked = this.onWatchlist(this.incident);
+                  this.cdr.detectChanges();
+              } catch (error) {
+                console.error(
+                  'Error while populating associated incident for area restriction: ' +
+                    error,
+                );
+              }
+            
+            }
         }
       });
   }

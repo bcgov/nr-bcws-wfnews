@@ -1,0 +1,19 @@
+<div class="share-container">
+  <div class="header">
+    <span class="title">{{title}}</span>
+    <span class="material-icons-outlined" [mat-dialog-close]="false">clear</span> 
+  </div>
+  <div class="incident-name">
+    {{data?.name}}
+  </div>
+  <div class="button-row">
+    <icon-button [componentStyle]="iconButtonStyling" iconPath="/assets/images/svg-icons/ph_link.svg"
+      label="Copy Link" (buttonClicked)="copyLink()"></icon-button>
+    <icon-button [componentStyle]="iconButtonStyling" iconPath="/assets/images/svg-icons/carbon_email.svg"
+      label="Email" (buttonClicked)="email()"></icon-button>
+  </div>
+  <div class="link-copied-block" *ngIf="isLinkCopied">
+    <img alt="icon" src="/assets/images/svg-icons/black-check-circle.svg">
+    <span>Link Copied</span>
+  </div>
+</div>

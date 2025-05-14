@@ -9,7 +9,7 @@ import { IncidentContainerDesktop } from './containers/incident/incident-contain
 import { SignOutPageComponent } from './components/sign-out-page/sign-out-page.component';
 import { WildfirewResourcesComponent } from './components/wildfire-resources/wf-resources.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
-import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
+import { PublicIncidentPageComponent } from './components/public-incident-page/public-incident-page.component';
 import { WildfiresListHeaderComponent } from './components/wildfires-list-header/wildfires-list-header.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { ReportOfFirePage } from './components/report-of-fire/report-of-fire.component';
@@ -20,12 +20,13 @@ import { MoreComponent } from '@app/components/more/more.component';
 import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
 import { AddSavedLocationComponent } from '@app/components/saved/add-saved-location/add-saved-location.component';
 import { SavedLocationFullDetailsComponent } from './components/saved/saved-location-full-details/saved-location-full-details.component';
-import { SavedLocationWeatherDetailsComponent } from './components/saved/saved-location-weather-details/saved-location-weather-details.component';
+import { SavedLocationWeatherDetailsComponent } 
+  from './components/saved/saved-location-weather-details/saved-location-weather-details.component';
 import { PublicEventPageComponent } from '@app/components/public-event-page/public-event-page.component';
+import { DeviceRedirectGuard } from '@app/services/device-redirect-guard';
 // Components
 
 const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
-
 const PANEL_ROUTES: Routes = [
   // { path: '', component: ActionsPanelComponent, pathMatch: 'full', canActivate: [AuthGuard] },
   {
@@ -73,13 +74,14 @@ const PANEL_ROUTES: Routes = [
   },
   {
     path: ResourcesRoutes.PUBLIC_INCIDENT,
-    component: PublicIncidentPage,
+    component: PublicIncidentPageComponent,
     pathMatch: 'full',
   },
   {
     path: ResourcesRoutes.PUBLIC_EVENT,
     component: PublicEventPageComponent,
     pathMatch: 'full',
+    canActivate: [DeviceRedirectGuard],  // Apply the guard
   },
   {
     path: ResourcesRoutes.SIGN_OUT,
@@ -95,6 +97,7 @@ const PANEL_ROUTES: Routes = [
     path: ResourcesRoutes.FULL_DETAILS,
     component: FullDetailsComponent,
     pathMatch: 'full',
+    canActivate: [DeviceRedirectGuard],  // Apply the guard
   },
   {
     path: ResourcesRoutes.WEATHER_DETAILS,

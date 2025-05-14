@@ -1,5 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ResourcesRoutes, convertToDateTimeTimeZone, displayDangerRatingDescription} from '@app/utils';
 
 @Component({
@@ -16,6 +17,7 @@ export class DangerRatingHeaderComponent {
   
   constructor(
     private router: Router,
+    private commonUtilityService: CommonUtilityService
   ) {}
 
   navToMap() {
@@ -34,4 +36,8 @@ export class DangerRatingHeaderComponent {
      return displayDangerRatingDescription(this.dangerRating?.attributes?.DANGER_RATING_DESC);  
   }
 
+  openShareWindow() {
+    const name = `${this.dangerRating.attributes.DANGER_RATING_DESC} Danger Rating`;
+    this.commonUtilityService.openShareWindow('Danger Rating',name);
+  }
 }

@@ -15,6 +15,8 @@ import {
   isMobileView,
 } from '@app/utils';
 import { SpatialUtilsService } from '@wf1/core-ui';
+import { Capacitor } from '@capacitor/core';
+
 
 @Component({
   selector: 'wfnews-saved',
@@ -27,6 +29,8 @@ export class SavedComponent implements OnInit {
   public distanceInKm = 1;
   public wildFireWatchlist: any[] = [];
   public errorString: string;
+  public notificationsTitle: string;
+  public notificationsSubTitle: string;
   convertToStageOfControlDescription = convertToStageOfControlDescription;
   convertToDateYear = convertToDateYear;
   isMobileView = isMobileView;
@@ -63,6 +67,10 @@ export class SavedComponent implements OnInit {
       });
 
     this.loadWatchlist();
+
+    const isNative = Capacitor.isNativePlatform();
+    this.notificationsTitle = isNative ? 'Saved Locations & Notifications' : 'Saved Locations';
+    this.notificationsSubTitle = isNative ? 'Add a saved location to receive notifications' : 'Add a saved location';
   }
 
   addNewLocation() {

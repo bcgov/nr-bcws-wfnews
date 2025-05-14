@@ -1,0 +1,61 @@
+@import "../../../../../styles/variables";
+@import "notosans-fontface/scss/notosans-fontface";
+
+:host {
+    display: block;
+}
+
+.container {
+    overflow: hidden;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    display: flex;
+    flex: 1 0 0;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+    padding: var(--24, 24px);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--24, 24px);
+
+    @media (max-width: $mobile-max-width) {
+        max-width: min(1460px, calc(100dvw - 90px));
+    }
+
+    @media (min-width: $desktop-sm-min-width) {
+        max-width: min(1460px, calc(100dvw - 104px));
+    }
+}
+
+.content {
+    height: calc(100% - 78px);
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 15px;
+}
+
+.widget-title {
+    color: #242424;
+    font-feature-settings:
+        "clig" off,
+        "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 34px;
+    letter-spacing: 0.35px;
+    width: 100%;
+    margin: 12px 0px 14px 0px;
+}
+
+.widget-header {
+    border-bottom: 1px solid #c4c4c4;
+    width: 100%;
+    display: flex;
+}

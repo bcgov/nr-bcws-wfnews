@@ -281,7 +281,7 @@
                     </div>
                     <div class="identify-card-item">
                         <img alt="icon" class="preview-icon" src="/assets/images/svg-icons/carbon_ruler.svg" class="incident-icon">
-                        {{ identifyIncident.incidentSizeEstimatedHa }} {{ identifyIncident.incidentSizeEstimatedHa == 1 ? 'Hectare' : 'Hectares' }}
+                        {{ identifyIncident.incidentSizeEstimatedHa }} {{ identifyIncident.incidentSizeEstimatedHa === 1 ? 'Hectare' : 'Hectares' }}
                     </div>
                     <div class="identify-card-item">
                         <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
@@ -289,7 +289,7 @@
                     </div>
                     <div class="description-section">
                         <div class="identify-card-description" style="padding:0;" *ngIf="identifyItem.layerId === 'active-wildfires-fire-of-note'">
-                            This wildfire is highly visible or poses a potential threat to public safety.
+                            An incident that is creating an increased level of interest.  We use this designation to make it easier to find and access response information on the wildfire map.
                         </div>
                         <div class="identify-card-description">
                             {{getStageOfControlDescription(identifyIncident.stageOfControlCode)}}

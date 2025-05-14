@@ -266,6 +266,22 @@ export const FireZones = [
   },
 ];
 
+export const EventTypes = {
+  ORDER: 'Order',
+  ALERT: 'Alert',
+  AREA_RESTRICTION: 'area-restriction',
+  BAN: 'ban',
+  DANGER_RATING: 'danger-rating'
+};
+
+export const Types = {
+  EVAC_ORDER: 'evac-order',
+  EVAC_ALERT: 'evac-alert',
+  AREA_RESTRICTION: 'area-restriction',
+  BANS_PROHIBITIONS: 'bans-prohibitions',
+  DANGER_RATING: 'danger-rating'
+};
+
 export function getPageInfoRequestForSearchState(
   searchState: any,
 ): PagingInfoRequest {
@@ -439,7 +455,7 @@ export function convertToFireCentreDescription(code: string): string {
 }
 
 export function isMobileView() {
-  return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
+  return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768));
 }
 
 export async function snowPlowHelper(page: string, data: any = null) {
@@ -582,8 +598,8 @@ export function getStageOfControlIcon(code: string) {
   }
 }
 
-export function convertToDateTimeTimeZone(date) {
-  // e.g. July 19, 2022 at 10:22 a.m. PST
+export function convertToDateTimeTimeZone(date: Date | string): string {
+  // e.g. July 19, 2022 at 10:22 a.m. PST/PDT
   const updateOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
@@ -591,11 +607,13 @@ export function convertToDateTimeTimeZone(date) {
     hour: 'numeric',
     minute: 'numeric',
     second: undefined, // this removes the seconds
+    timeZoneName: 'short', // Automatically handles PDT/PST
   };
-  let convertedDate: string;
-  convertedDate = date
-    ? new Date(date).toLocaleTimeString('en-US', updateOptions) + ' PST'
+
+  let convertedDate = date
+    ? new Date(date).toLocaleString('en-US', updateOptions)
     : 'Pending';
+
   if (convertedDate !== 'Pending') {
     // add full stops and lowercase
     convertedDate = convertedDate.replace('AM', 'a.m.');
@@ -648,9 +666,9 @@ export function getResponseTypeDescription(code: string) {
   if (code === 'MONITOR') {
     return 'When a fire is being monitored, this means BC Wildfire Service is observing and analyzing the fire but it\'s not immediately suppressed. It may be allowed to burn to achieve ecological or resource management objectives and is used on remote fires that do not threaten values.';
   } else if (code === 'MODIFIED') {
-    return 'During a modified response, a wildfire is managed using a combination of techniques with the goal to minimize damage while maximizing ecological benefits from the fire. This response method is used when there is no immediate threat to values.';
+    return 'This wildfire is being managed using a combination of techniques with the goal to minimize damage while maximizing ecological benefits from the fire. Suppression or values protection may occur in areas of an otherwise beneficial fire.';
   } else if (code === 'FULL') {
-    return 'The BC Wildfire Service uses a full response when there is threat to public safety and/or property and other values, such as infrastructure or timber. Immediate action is taken. During a full response, a wildfire is suppressed and controlled until it is deemed "out".';
+    return 'Suppression actions are being taken to limit the spread of this unwanted wildfire.';
   }
 }
 
@@ -773,7 +791,7 @@ export function getCurrentCondition(
   if (!conditions?.hourly) {
     return;
   }
-  return conditions.hourly.find(function (hc) {
+  return conditions.hourly.find(function(hc) {
     return hc.temp != null;
   });
 }
@@ -788,7 +806,9 @@ export function formatDate(timestamp: string | number): string {
     };
 
     return date.toLocaleDateString('en-US', options);
-  } else return '';
+  } else {
+throw new Error('Unable to apply formatting to date');
+}
 }
 
 export function hidePanel(panelClass: string) {
@@ -821,8 +841,7 @@ export function displayItemTitle(identifyItem) {
       case 'fire-perimeters': 
         return 'Wildfire';
     }
-  } 
-  else if (identifyItem.fireOfNoteInd !== undefined) {
+  } else if (identifyItem.fireOfNoteInd !== undefined) {
     return identifyItem.fireOfNoteInd ? 'Wildfire of Note' : 'Wildfire';
   }
 }
@@ -859,7 +878,7 @@ export function displayLocalAuthorityType(layerId: string) {
 }
 
 export function formatNumber(number) {
-  return number.toLocaleString('en-US')
+  return number.toLocaleString('en-US');
 }
 
 export function addMarker(incident: any) {
@@ -883,7 +902,7 @@ export function addMarker(incident: any) {
     [Number(incident.latitude), Number(incident.longitude)],
     { icon: pointerIcon },
   );
-  this.marker.on('add', function () {
+  this.marker.on('add', function() {
     const icon: any = document.querySelector('.animated-icon');
     icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
 
@@ -935,5 +954,3 @@ export function zoomInWithLocationPin(){
       ).addTo(viewer.map);
     }
   }
-
-

@@ -6,7 +6,6 @@ Disallow: /
 
 User-agent: *
 Disallow: /admin
-Disallow: /incident
 
 User-agent: *
 Allow: /map
@@ -14,3 +13,4 @@ Allow: /dashboard
 Allow: /list
 Allow: /resources
 Allow: /reportOfFire
+Allow: /incident

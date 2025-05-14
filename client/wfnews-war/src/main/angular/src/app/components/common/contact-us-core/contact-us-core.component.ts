@@ -17,7 +17,12 @@ export class ContactUsCoreComponent {
   };
 
   email = () => {
-    window.open('mailto:' + this.incident.contactEmailAddress, '_blank');
+
+    window.open(
+      'mailto:' + this.incident?.contactEmailAddress + 
+      '?subject=' + encodeURIComponent(this.incident?.incidentName),
+      '_blank'
+    );
   };
   
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>aps-environment</key>
+		<string>development</string>
+		<key>com.apple.developer.associated-domains</key>
+		<array>
+			<string>applinks://wfnews-client.dev.bcwildfireservices.com</string>
+			<string>applinks://wfnews-client.test.bcwildfireservices.com</string>
+			<string>applinks://wildfiresituation.nrs.gov.bc.ca</string>
+		</array>
+	</dict>
+</plist>

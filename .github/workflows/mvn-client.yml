@@ -47,7 +47,15 @@ jobs:
       
       - name: Add .npmrc file
         run: echo -e $NPMRC > ~/.npmrc
-          
+
+      - name: Inject GitHub Build Number and Display Directory
+        run: |
+          echo "Current working directory:"
+          pwd
+          echo "export const BUILD_NUMBER = '${{ github.run_number }}';" > client/wfnews-war/src/main/angular/src/environments/build-info.ts
+          echo "Contents: "
+          ls -lah 
+
       - name: Build with Maven
         run: |
           export MAVEN_OPTS="-Xmx3072m -XX:MaxMetaspaceSize=512m"
@@ -57,7 +65,7 @@ jobs:
       - name: Copy files to neccessary folders
         run: mkdir staging && cp client/wfnews-war/target/*.war staging
       
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Package-client
           path: staging
@@ -84,7 +92,7 @@ jobs:
           ref: ${{ inputs.BRANCH }}
       
       - name: download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Package-client
           path: .

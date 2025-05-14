@@ -84,7 +84,7 @@
             aria-label="Incident Table">
         <ng-container matColumnDef = "fireName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Wildfire Name</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" >
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="item.incidentName">
               <div class="fire-label-container">
                 <img *ngIf="item.fireOfNoteInd" height="24" width="24" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon fire-label-icon">
                 <div class="fire-label-holder">
@@ -97,7 +97,7 @@
 
         <ng-container matColumnDef = "stageOfControl">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Stage of Control</th>
-          <td mat-cell style="cursor: pointer;" *matCellDef="let item" >
+          <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToStageOfControlDescription(item.stageOfControlCode)">
             <img *ngIf="item.stageOfControlCode === 'OUT_CNTRL'" height="10" width="10" src="/assets/images/svg-icons/out-of-control.svg" alt="Out of Control" class="list-icon">
             <img *ngIf="item.stageOfControlCode === 'HOLDING'" height="10" width="10" src="/assets/images/svg-icons/being-held.svg" alt="Being Held" class="list-icon">
             <img *ngIf="item.stageOfControlCode === 'UNDR_CNTRL'" height="10" width="10" src="/assets/images/svg-icons/under-control.svg" alt="under control" class="list-icon">
@@ -108,17 +108,22 @@
 
         <ng-container matColumnDef = "fireCentreName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre</th>
-          <td mat-cell style="cursor: pointer;" *matCellDef="let item" ><span #el >{{item.fireCentreName}}</span></td>
+          <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="item.fireCentreName"><span #el >{{item.fireCentreName}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "location">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Location</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" ><span #el >{{item.incidentLocation}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="item.incidentLocation"><span #el >{{item.incidentLocation}}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "discoveryDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Discovery Date</th>
+          <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertFromTimestamp(item.discoveryDate)"><span #el >{{convertFromTimestamp(item.discoveryDate)}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "lastUpdated">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" ><span #el >{{convertFromTimestamp(item.lastUpdatedTimestamp)}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertFromTimestamp(item.lastUpdatedTimestamp)"><span #el >{{convertFromTimestamp(item.lastUpdatedTimestamp)}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef="viewMap">

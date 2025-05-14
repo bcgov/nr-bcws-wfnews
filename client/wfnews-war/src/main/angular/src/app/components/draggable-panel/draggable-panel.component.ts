@@ -74,7 +74,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     'active-wildfires-under-control',
     'bcws-activefires-publicview-inactive',
     'fire-perimeters',
-    "active-wildfires-out"
+    'active-wildfires-out'
   ];
   convertToDateYear = convertToDateYear;
   convertToDateTime = convertToDateTime;
@@ -90,7 +90,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   private previousZoom: number;
   private marker: any;
   private markerAnimation;
-  public snowPlowHelper = snowPlowHelper
+  public snowPlowHelper = snowPlowHelper;
   constructor(
     private publishedIncidentService: PublishedIncidentService,
     protected cdr: ChangeDetectorRef,
@@ -175,8 +175,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     if (this.currentIncidentRefs.length === 1 && this.allowBackToIncidentsPanel) {
       // only show preview detial if it is through openPreviewPanel(). We will always the preview list page by clicking on map, even there is only single item.
       this.showPanel = true;
-      showPanel('identify-panel-wrapper')
-      hidePanel('desktop-preview')
+      showPanel('identify-panel-wrapper');
+      hidePanel('desktop-preview');
       const viewer = getActiveMap().$viewer;
       for (const polygon of this.highlightPolygons) {
         viewer.map.removeLayer(polygon);
@@ -187,8 +187,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
 
       // single feature within clicked area
       this.showPanel = true;
-      showPanel('identify-panel-wrapper')
-      hidePanel('desktop-preview')
+      showPanel('identify-panel-wrapper');
+      hidePanel('desktop-preview');
       this.identifyItem = this.currentIncidentRefs[0];
       let incidentNumber = null;
       let fireYear = null;
@@ -243,8 +243,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       // multiple features within clicked area
       this.identifyItem = null;
       this.showPanel = true;
-      showPanel('identify-panel-wrapper')
-      hidePanel('desktop-preview')
+      showPanel('identify-panel-wrapper');
+      hidePanel('desktop-preview');
       this.filteredWildfires = this.currentIncidentRefs.filter((item) =>
         this.wildfireLayerIds.includes(item.layerId),
       );
@@ -294,8 +294,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       );
       if (this.weatherStations) {
         this.showPanel = true;
-        showPanel('identify-panel-wrapper')
-        hidePanel('desktop-preview')
+        showPanel('identify-panel-wrapper');
+        hidePanel('desktop-preview');
       }
     }
   }
@@ -587,6 +587,9 @@ return 'Unknown';
         location.longitude = Number(this.identifyItem._identifyPoint.longitude);
       }
   
+      // detect current zoom level for routing back from full details page
+      const currentZoomLevel = getActiveMap().$viewer?.map?._zoom;
+      
       switch (this.identifyItem.layerId) {
         case 'area-restrictions':
           if (item.properties.NAME) {
@@ -596,6 +599,9 @@ return 'Unknown';
                 id: item.properties.PROT_RA_SYSID,
                 name: item.properties.NAME,
                 source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
+                sourceLatitude: location.latitude,
+                sourceLongitude: location.longitude,
+                sourceZoom: currentZoomLevel
               },
             });
           }
@@ -607,6 +613,9 @@ return 'Unknown';
                 type: 'bans-prohibitions',
                 id: item.properties.PROT_BAP_SYSID,
                 source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
+                sourceLatitude: location.latitude,
+                sourceLongitude: location.longitude,
+                sourceZoom: currentZoomLevel
               },
             });
           }
@@ -618,7 +627,10 @@ return 'Unknown';
               id: item.properties.DANGER_RATING_DESC,
               location: JSON.stringify(location),
               source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
-              sysid: item.properties.PROT_DR_SYSID
+              sysid: item.properties.PROT_DR_SYSID,
+              sourceLatitude: location.latitude,
+              sourceLongitude: location.longitude,
+              sourceZoom: currentZoomLevel
             },
           });
           break;
@@ -636,6 +648,9 @@ return 'Unknown';
               name: item.properties.EVENT_NAME,
               source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
               eventNumber: item.properties.EVENT_NUMBER,
+              sourceLatitude: location.latitude,
+              sourceLongitude: location.longitude,
+              sourceZoom: currentZoomLevel
             },
           });
           break;
@@ -651,8 +666,8 @@ return 'Unknown';
           if (fireYear && incidentNumber) {
             this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
               queryParams: {
-                fireYear: fireYear,
-                incidentNumber: incidentNumber,
+                fireYear,
+                incidentNumber,
                 source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
               },
             });
@@ -684,6 +699,9 @@ return 'Unknown';
                   type: 'bans-prohibitions',
                   id: item.properties.PROT_BAP_SYSID,
                   source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
+                  sourceLatitude: location.latitude,
+                  sourceLongitude: location.longitude,
+                  sourceZoom: currentZoomLevel
                 },
               });
             }

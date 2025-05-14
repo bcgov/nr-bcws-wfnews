@@ -11,6 +11,10 @@
       <warning-card></warning-card>
     </ng-container>
     <ng-container column-2>
+      <associated-wildfire-card *ngIf="incident" [incident]="incident" [isBookmarked]="isBookmarked"
+        (bookmarkClicked)="handleBookmarkClicked($event)"
+        (viewDetailsClicked)="handleViewDetailsClicked()">
+      </associated-wildfire-card>
       <related-topics-card [links]="relatedTopicLinks"></related-topics-card>
     </ng-container>
   </two-column-content-cards-container>

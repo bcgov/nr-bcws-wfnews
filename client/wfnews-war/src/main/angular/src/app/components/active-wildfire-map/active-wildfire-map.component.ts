@@ -487,37 +487,41 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                 },
               );
             }
-          } else if ((params['areaRestriction'] && params['areaRestriction'] === "true") || 
-              (params['evacuationAlert'] && params['evacuationAlert'] === "true") || 
-              (params['activeWildfires'] && params['activeWildfires'] === "true")){
-            this.panToLocation(long, lat, 12);
-          } else if (params['bansProhibitions'] && params['bansProhibitions'] === "true"){
-            this.panToLocation(long, lat, 6);
+          } else if ((params['areaRestriction'] && params['areaRestriction'] === 'true') || 
+              (params['evacuationAlert'] && params['evacuationAlert'] === 'true') || 
+              (params['activeWildfires'] && params['activeWildfires'] === 'true')){
+            this.panToLocation(long, lat, params['zoom'] ? params['zoom'] : 12);
+          } else if (params['bansProhibitions'] && params['bansProhibitions'] === 'true'){
+            this.panToLocation(long, lat, params['zoom'] ? params['zoom'] : 6);
+          } else if (params['dangerRating'] && params['dangerRating'] === 'true'){
+            this.panToLocation(long, lat, params['zoom'] ? params['zoom'] : 5);
+          } else if (params['savedLocation'] && params['savedLocation'] === 'true') {
+            this.panToLocation(long, lat, 8);
           } else {
             this.panToLocation(long, lat);
           } 
 
           // turn on layers
           if (params['featureType'] === 'British_Columbia_Area_Restrictions' || 
-              (params['areaRestriction'] && params['areaRestriction'] === "true")) {
+              (params['areaRestriction'] && params['areaRestriction'] === 'true')) {
             this.onSelectLayer('area-restrictions');
           }
 
           if (
             params['featureType'] ===
             'British_Columbia_Bans_and_Prohibition_Areas' || 
-              (params['bansProhibitions'] && params['bansProhibitions'] === "true")
+              (params['bansProhibitions'] && params['bansProhibitions'] === 'true')
           ) {
             this.onSelectLayer('bans-and-prohibitions');
           }
 
           if (params['featureType'] === 'Evacuation_Orders_and_Alerts' || 
-              (params['evacuationAlert'] && params['evacuationAlert'] === "true")) {
+              (params['evacuationAlert'] && params['evacuationAlert'] === 'true')) {
             this.onSelectLayer('evacuation-orders-and-alerts');
           }
 
           if (params['featureType'] === 'BCWS_ActiveFires_PublicView' || 
-              (params['activeWildfires'] && params['activeWildfires'] === "true")) {
+              (params['activeWildfires'] && params['activeWildfires'] === 'true')) {
             this.onSelectLayer('wildfire-stage-of-control');
           }
 
@@ -787,18 +791,20 @@ return;
 
 async onSelectIncidents(incidentRefs) {
   this.showPanel = true;
-  let tempIncidentRefs = Object.keys(incidentRefs).map((key) => incidentRefs[key]);
+  const tempIncidentRefs = Object.keys(incidentRefs).map((key) => incidentRefs[key]);
 
-  if (this.useNearMe && getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'] && getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'][0].isVisible) {
+  if (this.useNearMe && getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'] 
+    && getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'][0].isVisible) {
     try {
-      const station = await this.pointIdService.fetchNearestWeatherStation(this.userLocation?.coords.latitude, this.userLocation?.coords.longitude);
+      const station = await 
+        this.pointIdService.fetchNearestWeatherStation(this.userLocation?.coords.latitude, this.userLocation?.coords.longitude);
       for (const hours of station.hourly) {
         if (hours.temp !== null) {
           station.validHour = hours;
           break;
         }
       }
-      let weatherStation = {
+      const weatherStation = {
         type: 'Feature',
         layerId: 'weather-stations',
         title: station.stationName,

@@ -1,6 +1,6 @@
 <div class="rof" [style]="currentPage.instance.id === 'review-page' ? 'height: unset' : ''">
   <div class="mobile-header">
-    <span class="mobile-header-button"><span *ngIf="allowExit" (click)="exit()"><mat-icon style="transform: translatey(5px);">chevron_left</mat-icon>{{exitText()}}</span></span>
+    <span class="mobile-header-button"><span (click)="exit()"><mat-icon style="transform: translatey(5px);">chevron_left</mat-icon>{{exitText()}}</span></span>
     <span class="mobile-header-button"><span *ngIf="allowSkip" (click)="skip()" class="skip">Skip</span></span>
   </div>
   <div #dynamic class="page-container">

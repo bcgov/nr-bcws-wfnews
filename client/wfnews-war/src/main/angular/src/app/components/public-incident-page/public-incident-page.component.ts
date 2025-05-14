@@ -16,7 +16,8 @@ import { findFireCentreByName, hideOnMobileView } from '../../utils';
   templateUrl: './public-incident-page.component.html',
   styleUrls: ['./public-incident-page.component.scss'],
 })
-export class PublicIncidentPage implements OnInit {
+
+export class PublicIncidentPageComponent implements OnInit {
   public isLoading = true;
   public loadingFailed = false;
 
@@ -35,7 +36,6 @@ export class PublicIncidentPage implements OnInit {
 
   findFireCentreByName = findFireCentreByName;
   hideOnMobileView = hideOnMobileView;
-
   constructor(
     private router: ActivatedRoute,
     protected cdr: ChangeDetectorRef,
@@ -44,7 +44,7 @@ export class PublicIncidentPage implements OnInit {
     protected http: HttpClient,
     private appConfigService: AppConfigService,
     private currentRouter: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.router.queryParams.subscribe((params: ParamMap) => {
@@ -76,9 +76,9 @@ export class PublicIncidentPage implements OnInit {
             // set date strings
             this.incident.declaredOutDate = this.incident.declaredOutDate
               ? new Date(this.incident.declaredOutDate).toLocaleTimeString(
-                  'en-US',
-                  options,
-                )
+                'en-US',
+                options,
+              )
               : 'Pending';
             this.incident.lastUpdatedTimestamp = this.incident
               .lastUpdatedTimestamp
@@ -109,9 +109,9 @@ export class PublicIncidentPage implements OnInit {
                 });
             }
             if (this.incident.incidentSizeEstimatedHa) {
-this.incident.incidentSizeEstimatedHa =
+              this.incident.incidentSizeEstimatedHa =
                 this.incident.incidentSizeEstimatedHa.toLocaleString();
-}
+            }
             // fetch the fire perimetre
             await this.getFirePerimetre();
             // load evac orders and area restrictions nearby
@@ -269,7 +269,7 @@ this.incident.incidentSizeEstimatedHa =
       .getAreaRestrictions(null, {
         x: +this.incident.longitude,
         y: +this.incident.latitude,
-        radius: 25,
+        radius: .5,
       })
       .toPromise()
       .then((response) => {
@@ -294,21 +294,31 @@ this.incident.incidentSizeEstimatedHa =
     window.location.href = mailtoUrl;
   }
 
-  onTabChange( event: MatTabChangeEvent) {
+  onTabChange(event: MatTabChangeEvent | number): void {
+    const TAB_ACTIONS = [
+      'incident_details_details_click',
+      'incident_details_response_click',
+      'incident_details_gallery_click',
+      'incident_details_maps_click',
+    ];
+  
+    const tabLabels = ['Details', 'Response', 'Gallery', 'Maps'];
     const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.currentRouter.url.slice(1);
-    let actionName;
-    if (event?.tab?.textLabel === 'Response'){
-      actionName = 'incident_details_response_click'
+  
+    // Determine the index based on the type of event
+    const index = typeof event === 'number' ? event : event.index;
+  
+    // Validate the index to avoid accessing undefined values
+    if (index < 0 || index >= TAB_ACTIONS.length) {
+      console.warn('Invalid tab index:', index);
+      return;
     }
-    else if (event?.tab?.textLabel === 'Gallery'){
-      actionName = 'incident_details_gallery_click'
-    }
-    else if (event?.tab?.textLabel === 'Maps'){
-      actionName = 'incident_ details_maps_click'
-    }
+  
+    const actionName = TAB_ACTIONS[index];
     this.snowPlowHelper(url, {
       action: actionName,
-      text: event?.tab?.textLabel
+      text: tabLabels[index],
     });
   }
+  
 }

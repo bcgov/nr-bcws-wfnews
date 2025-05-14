@@ -9,6 +9,8 @@
       <button [class]="'radius-button' + (filterData.sortColumn === 'incidentName' ? '-selected' : '')" (click)="setSortColumn('incidentName')" mat-flat-button ><span class="list-button-label">Wildfire Name</span></button>
       <button [class]="'radius-button' + (filterData.sortColumn === 'fireCentreName' ? '-selected' : '')" (click)="setSortColumn('fireCentreName')" mat-flat-button ><span class="list-button-label">Fire Centre</span></button>
       <button [class]="'radius-button' + (filterData.sortColumn === 'lastUpdatedTimestamp' ? '-selected' : '')" (click)="setSortColumn('lastUpdatedTimestamp')" mat-flat-button ><span class="list-button-label">Last Update</span></button>
+      <button [class]="'radius-button' + (filterData.sortColumn === 'discoveryDate' ? '-selected' : '')" (click)="setSortColumn('discoveryDate')" mat-flat-button ><span class="list-button-label">Discovery Date</span></button>
+
     </div>
     <div class="radius-panel">
       <div class="dialog-title">Sort By Direction</div>

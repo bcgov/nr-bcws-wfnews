@@ -10,8 +10,8 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { DomSanitizer, Meta, Title } from '@angular/platform-browser';
+import { NavigationEnd, Router } from '@angular/router';
 import { AppConfigService, TokenService } from '@wf1/core-ui';
 import {
   RouterLink,
@@ -36,6 +36,8 @@ import {
   LocationNotification,
 } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { App, URLOpenListenerEvent } from '@capacitor/app';
+import { filter } from 'rxjs/operators';
 
 export const ICON = {
   ADVISORIES: 'advisories',
@@ -138,7 +140,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   public url;
   public snowPlowHelper = snowPlowHelper;
   public isMobileView = mobileView;
-  public TOOLTIP_DELAY = 500;
 
   constructor(
     protected appConfigService: AppConfigService,
@@ -155,6 +156,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     protected capacitorService: CapacitorService,
     protected commonUtilityService: CommonUtilityService,
     protected zone: NgZone,
+    protected titleService: Title,
+    protected metaService: Meta,
   ) {
   }
 
@@ -170,6 +173,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.isMobileView()) {
+      this.initializeDeepLinks();
       if (typeof (window.screen.orientation as any).lock === 'function') {
         const lock = (window.screen.orientation as any).lock('portrait');
         (lock as Promise<any>)
@@ -267,6 +271,56 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         },
       );
     }
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.setDefaultMetaTags();
+      });
+  }
+
+  setDefaultMetaTags() {
+    const imageUrl = this.appConfigService.getConfig().application.baseUrl.toString() + 'assets/images/share-wildfire.png';
+    this.titleService.setTitle('BC Wildfire Service');
+
+    this.metaService.updateTag({ property: 'og:title', content: 'BC Wildfire Service' });
+    this.metaService.updateTag({ property: 'og:image', content: imageUrl });
+    this.metaService.updateTag({ property: 'og:site_name', content: 'BC Wildfire Service' });
+    this.metaService.updateTag({ property: 'og:description', content: `BC Wildfire Service App` });
+    this.metaService.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.metaService.updateTag({ name: 'twitter:site', content: '@BCGovFireInfo' });
+    this.metaService.updateTag({ property: 'twitter:image', content: imageUrl });
+  }
+
+  initializeDeepLinks() {
+    // add listener to enable Capacitor deep links functionality
+    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      console.log('appUrlOpen: initializing: ', JSON.stringify(event));
+      this.zone.run(() => {
+        try {
+          // remove https:// and http:// from baseUrl
+          const domain = this.appConfigService.getConfig().application.baseUrl.replace(/^https?:\/\//i, '');
+
+          // reject if event URL is invalid
+          if (!event.url.includes(domain) && !domain.includes('localhost')) {
+            console.log('appUrlOpen: returning from initializeDeepLinks function');
+            return;
+          }
+
+          // form path from URL's path + query parameters
+          const url = new URL(event.url);
+          const path = url.pathname + url.search;
+
+          // navigate to deep link
+          if (path) {
+            console.log('appUrlOpen appPath: ', path);
+            this.router.navigateByUrl(path);
+          }
+        } catch (error) {
+          console.error('appUrlOpen: error initializing deep links', error);
+        }
+      });
+    });
   }
 
   isIncidentsPage() {
@@ -368,54 +422,54 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   initFooterMenu() {
-    this.footerMenu = (this.applicationConfig.device == 'desktop'
+    this.footerMenu = (this.applicationConfig.device === 'desktop'
       ? [
-          new RouterLink(
-            'Home',
-            'https://www2.gov.bc.ca/gov/content/home',
-            'home',
-            'expanded',
-            this.router,
-          ),
-          new RouterLink(
-            'Disclaimer',
-            'https://www2.gov.bc.ca/gov/content?id=DE91907CDB3E4B5EB2F0363569079B85',
-            'home',
-            'expanded',
-            this.router,
-          ),
-          new RouterLink(
-            'Privacy',
-            'https://www2.gov.bc.ca/gov/content/home/privacy',
-            'home',
-            'expanded',
-            this.router,
-          ),
-          new RouterLink(
-            'Accessibility',
-            'https://www2.gov.bc.ca/gov/content/home/accessible-government',
-            'home',
-            'expanded',
-            this.router,
-          ),
-          new RouterLink(
-            'Copyright',
-            'https://www2.gov.bc.ca/gov/content/home/copyright',
-            'home',
-            'expanded',
-            this.router,
-          ),
-          new RouterLink(
-            'Contact Us',
-            'https://www2.gov.bc.ca/gov/content/home/get-help-with-government-services',
-            'home',
-            'expanded',
-            this.router,
-          ),
-        ]
+        new RouterLink(
+          'Home',
+          'https://www2.gov.bc.ca/gov/content/home',
+          'home',
+          'expanded',
+          this.router,
+        ),
+        new RouterLink(
+          'Disclaimer',
+          'https://www2.gov.bc.ca/gov/content?id=DE91907CDB3E4B5EB2F0363569079B85',
+          'home',
+          'expanded',
+          this.router,
+        ),
+        new RouterLink(
+          'Privacy',
+          'https://www2.gov.bc.ca/gov/content/home/privacy',
+          'home',
+          'expanded',
+          this.router,
+        ),
+        new RouterLink(
+          'Accessibility',
+          'https://www2.gov.bc.ca/gov/content/home/accessible-government',
+          'home',
+          'expanded',
+          this.router,
+        ),
+        new RouterLink(
+          'Copyright',
+          'https://www2.gov.bc.ca/gov/content/home/copyright',
+          'home',
+          'expanded',
+          this.router,
+        ),
+        new RouterLink(
+          'Contact Us',
+          'https://www2.gov.bc.ca/gov/content/home/get-help-with-government-services',
+          'home',
+          'expanded',
+          this.router,
+        ),
+      ]
       : [
-          new RouterLink('Home', '/', 'home', 'hidden', this.router),
-        ]) as unknown as WfMenuItems;
+        new RouterLink('Home', '/', 'home', 'hidden', this.router),
+      ]) as unknown as WfMenuItems;
   }
 
   ngAfterViewInit() {
@@ -956,7 +1010,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  private updateMapSize = function() {
+  private updateMapSize = function () {
     this.storeViewportSize();
   };
 }

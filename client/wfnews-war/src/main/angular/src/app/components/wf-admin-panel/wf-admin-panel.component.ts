@@ -23,7 +23,7 @@ export class WfAdminPanelComponent
 
   displayLabel = 'Simple Incidents Search';
   selectedFireCentreCode = '';
-  fireOfNotePublishedInd = true;
+  fireOfNotePublishedInd = false;
   fireCentreOptions = FireCentres;
 
   initModels() {

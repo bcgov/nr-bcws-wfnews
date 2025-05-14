@@ -138,6 +138,11 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
       },
     });
     const map = smk.$viewer.map;
+    
+    const toolbar = document.querySelector('.smk-toolbar') as HTMLElement;
+    if (toolbar) {
+      toolbar.style.display = 'none';
+    }
 
     map.on('zoom', () => {
       connector();

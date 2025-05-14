@@ -10,8 +10,17 @@
 
   <div class="rof-button-container" *ngIf="!isEditMode">
     <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-    <button *ngIf="!showProgress" [class]="'rof-button' + (!questionOptions.value ? '-disabled' : '-primary')" [disabled]="!questionOptions.value" mat-flat-button (click)="questionOptions.value === 'yes' ? nextPage() : skipPage()">Continue</button>
-    <button *ngIf="showProgress" [class]="'rof-button' + (!questionOptions.value ? '-disabled' : '-primary')" [disabled]="!questionOptions.value" mat-flat-button color="primary" (click)="processToNext()">Next<mat-icon [svgIcon]="!questionOptions.value? 'arrow-forward-disabled' : 'arrow-forward-enabled'" class="left-padding" style="width: 24px; height: 24px;"></mat-icon></button>
+    <button [class]="'rof-button' + (!questionOptions.value ? '-disabled' : '-primary')" 
+            [disabled]="!questionOptions.value" 
+            mat-flat-button 
+            color="primary"
+            (click)="handleConfirmButtonClick()">
+      {{ getButtonText() }}
+      <mat-icon [svgIcon]="!questionOptions.value ? 'arrow-forward-disabled' : 'arrow-forward-enabled'" 
+                class="left-padding" 
+                style="width: 24px; height: 24px;">
+      </mat-icon>
+    </button>
   </div>
 
   <div class="rof-button-container" *ngIf="isEditMode">

@@ -32,6 +32,13 @@
     line-height: 21px;
     margin-bottom: 8px;
   }
+
+  .button-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    align-self: stretch;
+  }
 }
 
 .map-button {
@@ -375,6 +382,11 @@ hr {
   height: 24px;
   width: 24px;
   top: 5px;
+}
+
+.map-icon{
+  height: 20px;
+  width: 20px;
 }
 
 .bulletin {

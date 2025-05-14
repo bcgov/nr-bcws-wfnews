@@ -10,7 +10,7 @@
       <img height="24" width="24" src="/assets/images/local_fire_department.png" alt="Order" class="count-panel-mobile-icon" />
       <div class="count-panel-mobile-data">{{activeFireOfNote}}</div>
     </div>
-    <div class="count-panel-mobile-text">Wildfires of Note are wildfires that are highly visible or pose a potential threat to public safety.</div>
+    <div class="count-panel-mobile-text">A Wildfire of Note is an incident that is creating an increased level of interest.</div>
   </div>
   <div class="content" *ngIf="startupComplete; else loading">
     <div class="count-panel">
@@ -19,7 +19,7 @@
         <img height="24" width="24" src="/assets/images/local_fire_department.png" alt="Order" class="count-panel-icon" />
         <div class="count-panel-data">{{activeFireOfNote}}</div>
       </div>
-      <div class="count-panel-text">Wildfires of Note are wildfires that are highly visible or pose a potential threat to public safety.</div>
+      <div class="count-panel-text">A Wildfire of Note is an incident that is creating an increased level of interest.</div>
     </div>
     <div class="fire-of-note-card" *ngFor="let incident of activeFiresList">
       <div class="fire-of-note-card-title">{{incident.incidentName}}</div>

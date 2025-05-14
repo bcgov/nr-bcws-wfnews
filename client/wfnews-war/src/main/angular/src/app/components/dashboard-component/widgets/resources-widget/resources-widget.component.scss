@@ -3,6 +3,7 @@
 
 @media (min-width: $desktop-md-min-width) {
   .container {
+    height: 640px;
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;

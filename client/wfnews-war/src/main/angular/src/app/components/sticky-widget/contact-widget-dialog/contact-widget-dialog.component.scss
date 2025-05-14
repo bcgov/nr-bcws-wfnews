@@ -22,9 +22,9 @@
         "liga" off;
       font-family: "Noto Sans", "BCSans", "Open Sans", Verdana, Arial,
         sans-serif;
-      font-size: 26px;
+      font-size: 24px;
       font-style: normal;
-      font-weight: 600;
+      font-weight: 500;
       line-height: 35px; /* 134.615% */
       letter-spacing: 0.35px;
     }
@@ -70,6 +70,8 @@
         .title {
           font-weight: bold;
           color: #000;
+          font-size: 24px;
+          font-weight: 500;
         }
 
         .detail {

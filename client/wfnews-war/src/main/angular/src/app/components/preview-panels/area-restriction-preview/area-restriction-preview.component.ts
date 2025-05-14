@@ -38,13 +38,15 @@ export class AreaRestrictionPreviewComponent {
 
 
   enterFullDetail() {
+    const currentZoomLevel = getActiveMap().$viewer?.map?._zoom;
     const url = this.router.serializeUrl(
       this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
         queryParams: {
           eventType: 'area-restriction',
           eventNumber: this.data.PROT_RA_SYSID,
           eventName: this.data.NAME,
-          source: [ResourcesRoutes.ACTIVEWILDFIREMAP]
+          source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
+          zoom: currentZoomLevel
         },
       }),
     );
@@ -52,7 +54,6 @@ export class AreaRestrictionPreviewComponent {
   }
 
   zoomIn(level?: number, polygon?: boolean) {
-    const viewer = getActiveMap().$viewer;
     this.agolService
       .getAreaRestrictions(
         `NAME='${this.data.NAME}'`,

@@ -13,6 +13,7 @@ import { AppConfigService } from '@wf1/core-ui';
 import * as esri from 'esri-leaflet';
 import L from 'leaflet';
 import { setDisplayColor } from '../../../utils';
+import { Meta } from '@angular/platform-browser';
 
 export class EvacData {
   public name: string;
@@ -52,7 +53,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     protected router: Router,
     private watchlistService: WatchlistService,
     private commonUtilityService: CommonUtilityService,
-
+    private metaService: Meta,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -62,6 +63,9 @@ export class EvacAlertFullDetailsComponent implements OnInit {
       returnExtent: false,
     });
     this.initMap();
+    this.metaService.updateTag({ property: 'og:title', content: `Evacuation Alert for ${this.evacData.name}`});
+    this.metaService.updateTag({ property: 'og:description', content: `Evacuation Alert for ${this.evacData.name}` });
+
   }
 
   async initMap() {
@@ -294,5 +298,9 @@ export class EvacAlertFullDetailsComponent implements OnInit {
         incident.incidentNumberLabel,
       );
     }
+  }
+
+  shareMobile(status: string) {
+    this.commonUtilityService.shareMobile(`Evacuation ${status} for ${this.evacData.name}`);
   }
 }

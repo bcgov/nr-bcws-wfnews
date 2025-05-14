@@ -38,13 +38,15 @@ export class FireBanPreviewComponent {
   }
 
   enterFullDetail() {
+    const currentZoomLevel = getActiveMap().$viewer?.map?._zoom;
     const url = this.router.serializeUrl(
       this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
         queryParams: {
           eventType: 'ban',
           eventNumber: this.data.PROT_BAP_SYSID,
           eventName: this.data.ACCESS_PROHIBITION_DESCRIPTION,
-          source: [ResourcesRoutes.ACTIVEWILDFIREMAP]
+          source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
+          zoom: currentZoomLevel
         },
       }),
     );
@@ -52,7 +54,6 @@ export class FireBanPreviewComponent {
   }
 
   zoomIn(level?: number, polygon?: boolean) {
-    const viewer = getActiveMap().$viewer;
     this.agolService
       .getBansAndProhibitionsById(
         this.data.PROT_BAP_SYSID,

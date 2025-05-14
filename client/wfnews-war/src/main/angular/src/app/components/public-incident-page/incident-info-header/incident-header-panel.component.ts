@@ -36,6 +36,7 @@ import {
   setDisplayColor
 } from '../../../utils';
 import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
+import { Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'incident-header-panel',
@@ -83,7 +84,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       weight: 2,
       fillOpacity: 0
     })
-  })
+  });
 
   private evacOrdersLayer = esri.featureLayer({
     url: this.appConfigService.getConfig()['externalAppConfig']['AGOLevacOrders'].toString(),
@@ -106,7 +107,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         };
       }
     }
-  })
+  });
 
 
   constructor(
@@ -121,6 +122,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     private commonUtilityService: CommonUtilityService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
+    private metaService: Meta,
 
   ) {
     /* Empty, just here for injection */
@@ -147,6 +149,9 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         }
       }
     }
+    this.metaService.updateTag({ property: 'og:title', content: `${this.incident?.incidentName}`});
+    this.metaService.updateTag({ property: 'og:description', content: `${this.incident?.incidentName}` });
+
   }
 
   ngAfterViewInit(): void {
@@ -410,11 +415,10 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
               opacity: 0.8,
               tileSize: 1000,
               bounds: bounds,
-              style: '7734',
-              sld_body: dangerRating,
+              style: '7734'            
             })
             .addTo(this.map);
-        })
+        });
     }
     const icon = L.icon({
       iconUrl: '/assets/images/local_fire_department.png',
@@ -535,14 +539,26 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     });
   }
 
+  openShareWindow(evac: string | null) {
+    const incidentType = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS}` : 'Wildfire';
+    const name = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS} for ${this.evac.attributes.EVENT_NAME}`
+    : this.incident?.incidentName;
+    this.commonUtilityService.openShareWindow(incidentType,name);
+  }
+
+  
+
   backToMap() {
+    const zoom = this.params?.['zoom'];
+
     const navigateToMap = (longitude: number, latitude: number, queryParamKey: string) => {
       setTimeout(() => {
         this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
           queryParams: {
             longitude,
             latitude,
-            [queryParamKey]: true
+            [queryParamKey]: true,
+            zoom
           },
         });
       }, 100);
@@ -679,10 +695,6 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     }
   }
 
-  // printPage(){
-  //   this.requestPrint.emit();
-  // }
-
   public printPage() {
     const twoColumnContent = document.getElementsByClassName('two-column-content-cards-container')[0];
     twoColumnContent.classList.add('print');
@@ -718,6 +730,10 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         },
       });
     }, 200);
+  }
+
+  shareMobile() {
+    this.commonUtilityService.shareMobile(this.incident.incidentName);
   }
 
   private createZoomIcon(btn: HTMLElement): void {

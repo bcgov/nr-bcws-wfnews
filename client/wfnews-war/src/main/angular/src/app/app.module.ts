@@ -251,7 +251,7 @@ import { SuspectedCauseCardComponent } from './components/public-incident-page/i
 import { TextCardComponent } from './components/public-incident-page/incident-tabs/cards/text-card/text-card.component';
 import { ContactUsBannerComponent } from './components/public-incident-page/incident-tabs/contact-us-banner/contact-us-banner.component';
 import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
-import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
+import { PublicIncidentPageComponent } from './components/public-incident-page/public-incident-page.component';
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
 import { LocationServicesDialogComponent } from './components/report-of-fire/compass-page/location-services-dialog/location-services-dialog.component';
 import { RoFCompassPage } from './components/report-of-fire/compass-page/rof-compass-page.component';
@@ -320,6 +320,9 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
+import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
+import { HighlightsWidgetComponent } from './components/dashboard-component/widgets/highlights-widget/highlights-widget.component';
+import { HighlightsCardComponent } from './components/dashboard-component/widgets/cards/highlights-card/highlights-card.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -369,7 +372,7 @@ export const DATE_FORMATS = {
     WildFiresListComponentDesktop,
     WildfiresListContainerDesktop,
     PanelWildfireStageOfControlContainerDesktop,
-    PublicIncidentPage,
+    PublicIncidentPageComponent,
     IncidentGalleryPanel,
     IncidentHeaderPanelComponent,
     IncidentInfoPanelComponent,
@@ -399,6 +402,7 @@ export const DATE_FORMATS = {
     IncidentOverviewPanelMobileComponent,
     IncidentMapsPanelMobileComponent,
     ContactUsDialogComponent,
+    ShareDialogComponent,
     IncidentGalleryPanelMobileComponent,
     IncidentGalleryAllMediaMobileComponent,
     IncidentGalleryImagesMobileComponent,
@@ -551,6 +555,8 @@ export const DATE_FORMATS = {
     AreaRestrictionsCardComponent,
     PrimaryMediaCardComponent,
     ContactUsCoreComponent,
+    HighlightsWidgetComponent,
+    HighlightsCardComponent,
   ],
   imports: [
     MatSortModule,
@@ -726,4 +732,4 @@ export const DATE_FORMATS = {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

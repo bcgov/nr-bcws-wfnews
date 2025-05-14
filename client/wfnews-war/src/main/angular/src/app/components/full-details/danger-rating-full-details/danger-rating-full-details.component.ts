@@ -7,6 +7,7 @@ import * as L from 'leaflet';
 import { ResourcesRoutes, setDisplayColor, displayDangerRatingDescription } from '@app/utils';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'wfnews-danger-rating-full-details',
@@ -28,11 +29,14 @@ export class DangerRatingFullDetailsComponent implements OnInit {
     private publishedIncidentService: PublishedIncidentService,
     private route: Route,
     private agolService: AGOLService,
-    private commonUtilityService: CommonUtilityService
+    private commonUtilityService: CommonUtilityService,
+    private metaService: Meta,
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.initMap();
+    this.metaService.updateTag({ property: 'og:title', content: `${this.rating} Danger Rating`});
+    this.metaService.updateTag({ property: 'og:description', content: `${this.rating} Danger Rating` });
   }
 
   dangerDescription() {
@@ -184,5 +188,9 @@ export class DangerRatingFullDetailsComponent implements OnInit {
       ] as unknown as string,
       '_blank',
     );
+  }
+
+  shareMobile() {
+    this.commonUtilityService.shareMobile(`${this.rating} Danger Rating`);
   }
 }

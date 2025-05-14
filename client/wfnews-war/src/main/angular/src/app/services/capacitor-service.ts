@@ -8,8 +8,8 @@ import { Browser } from '@capacitor/browser';
 import { Device } from '@capacitor/device';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import {
-  PushNotificationSchema,
   PushNotifications,
+  PushNotificationSchema,
 } from '@capacitor/push-notifications';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, fromEvent } from 'rxjs';
@@ -24,17 +24,17 @@ import { NotificationSnackbarComponent } from '../components/notification-snackb
 
 export interface CompassHeading {
   //The heading in degrees from 0-359.99 at a single moment in time. (Number)
-  magneticHeading?: number; 
+  magneticHeading?: number;
 
   // The heading relative to the geographic North Pole in degrees 0-359.99 at a single moment in time. 
   // A negative value indicates that the true heading can't be determined. (Number)
-  trueHeading?: number; 
-  
+  trueHeading?: number;
+
   //The deviation in degrees between the reported heading and the true heading. (Number)
-  headingAccuracy?: number; 
-  
+  headingAccuracy?: number;
+
   //The time at which this heading was determined. (DOMTimeStamp)
-  timestamp?: string; 
+  timestamp?: string;
   error?: string;
 }
 
@@ -85,7 +85,6 @@ export class CapacitorService {
   rofNotifications = new EventEmitter<ReportOfFireNotification>();
   inactiveStart: number;
   refreshTimer;
-  locationNotificationsDelay = 5000;
   rofNotificationsDelay = 5000;
   notificationSnackbarPromise = Promise.resolve();
   registeredForNotifications = false;
@@ -383,11 +382,10 @@ export class CapacitorService {
           featureType: data['topicKey'],
         });
 
-        this.locationNotificationsDelay = 0;
       } catch (e) {
         console.warn('push notification not handled:', e, data);
       }
-    }, this.locationNotificationsDelay);
+    }, 0);
   }
 
   showNotificationSnackbar(notification: any) {
@@ -570,7 +568,6 @@ export class CapacitorService {
     await Preferences.remove({ key });
   }
 
-
   private async checkTwitterAppInstalled(): Promise<boolean> {
     if (this.isMobilePlatform()) {
       const scheme = this.isIOSPlatform ? 'twitter://' : 'com.twitter.android';
@@ -593,6 +590,7 @@ export class CapacitorService {
     const ret = await AppLauncher.canOpenUrl({ url: scheme });
     return ret.value;
   }
+
 }
 
 

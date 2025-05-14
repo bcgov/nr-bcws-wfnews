@@ -3,11 +3,17 @@
   <img alt="Report of Fire Banner" [src]="imageUrl"  class="rof-image"/>
   <div class="rof-text-secondary-header">
     <div *ngIf="!offLine">
+      <div class="subtitle">
+        {{subtitle}}
+      </div>
       <p *ngFor="let message of messages">
         {{ message }}    
       </p>
     </div>
     <div *ngIf="offLine">
+      <div class="subtitle">
+        {{offLineSubtitle}}
+      </div>
       <p *ngFor="let message of offLineMessages">
         {{ message }}    
       </p>
