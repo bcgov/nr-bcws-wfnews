@@ -179,6 +179,10 @@ jobs:
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: ionic capacitor sync ios --configuration=mobile
 
+      - name: Install CocoaPods dependencies
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}/ios/App
+        run: pod install
+
       - name: Add Google Services file
         working-directory: "${{ env.ANGULAR_DIRECTORY }}/ios/App/App"
         env:
