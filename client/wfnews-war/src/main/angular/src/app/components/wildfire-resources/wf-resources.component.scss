@@ -24,11 +24,11 @@
     flex-direction: column;
     width: 100%;
     .icon-container {
+      display: flex;
+      align-items: center;
       margin-left: auto;
       padding-right: 22px;
       .icon {
-        position: relative;
-        top: 5px;
         height: 20px;
         padding-right: 10px;
         .facebook {

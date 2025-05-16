@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EXTERNAL_LINKS } from '@app/constants';
 import { ResourcesRoutes, snowPlowHelper } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import { BUILD_NUMBER } from '../../../environments/build-info';
@@ -47,14 +48,16 @@ export class MoreComponent implements OnInit{
         this.router.navigate([ResourcesRoutes.CONTACT_US]);
         break;
       case 'blog':
-        window.open('https://blog.gov.bc.ca/bcwildfire/', '_blank');
+        window.open(EXTERNAL_LINKS.BCWS_BLOG, '_blank');
         break;
       case 'facebook':
-        window.open('https://www.facebook.com/BCForestFireInfo/', '_blank');
+        window.open(EXTERNAL_LINKS.BCWS_FACEBOOK, '_blank');
         break;
       case 'youtube':
-        window.open('https://www.youtube.com/@BCWildfireService', '_blank');
+        window.open(EXTERNAL_LINKS.BCWS_YOUTUBE, '_blank');
         break;
+      case 'faq':
+        window.open(EXTERNAL_LINKS.FAQ, '_blank');
     }
   }
 
