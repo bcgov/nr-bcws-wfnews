@@ -8,7 +8,7 @@
         </button>
       </div>
       <button mat-fab matTooltip="Filter by Location" [class]="'filter-button' + (locationData ? '-selected' : '')" aria-label="By Location" (click)="openLocationFilter()">
-        <span class="button-wrapper"><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /></span>
+        <span class="button-wrapper"><img class="list-icon image-size" [src]="'/assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /></span>
       </button>
   </div>
 </div>
@@ -16,9 +16,9 @@
 <div *ngFor="let item of dataSource.data" class="panel-card-container">
   <div class="panel-card" (click)="navigateToFullDetails(item)">
     <div class="card-header">{{item.type}}</div>
-    <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/location-pin.svg'" alt="Fire Centre Icon" height="16" width="16" />{{item.fireCentre}} Fire Centre</div>
-    <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/ban-icon.svg'" alt="Issued On Icon" height="16" width="16" />{{item.details}}</div>
-    <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/calendar-pin.svg'" alt="Issued On Icon" height="16" width="16" />Issued On {{item.issuedOn}}</div>
+    <div class="card-item"><img class="card-icon image-size" [src]="'/assets/images/svg-icons/location-pin.svg'" alt="Fire Centre Icon" height="16" width="16" />{{item.fireCentre}} Fire Centre</div>
+    <div class="card-item"><img class="card-icon image-size" [src]="'/assets/images/svg-icons/ban-icon.svg'" alt="Issued On Icon" height="16" width="16" />{{item.details}}</div>
+    <div class="card-item"><img class="card-icon image-size" [src]="'/assets/images/svg-icons/calendar-pin.svg'" alt="Issued On Icon" height="16" width="16" />Issued On {{item.issuedOn}}</div>
     <div class="padding"></div>
   </div>
 </div>
