@@ -1,23 +1,23 @@
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import {
-  Component,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  AfterViewInit,
+  Component,
   ElementRef,
 } from '@angular/core';
-import { RoFPage } from '../rofPage';
-import { ReportOfFire } from '../reportOfFireModel';
-import { HttpClient } from '@angular/common/http';
-import { CompassHeading } from '@app/services/capacitor-service';
-import { LatLon, LonLat } from '@app/services/wfnews-map.service/util';
-import { SmkApi } from '@app/utils/smk';
-import { MapConfigService } from '@app/services/map-config.service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
-import { LocationStrategy, PathLocationStrategy } from '@angular/common';
-import offlineMapJson from '../../../../assets/maps/british-columbia.json';
-import * as L from 'leaflet';
+import { CompassHeading } from '@app/services/capacitor-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
+import { MapConfigService } from '@app/services/map-config.service';
+import { LatLon, LonLat } from '@app/services/wfnews-map.service/util';
 import { getActiveMap } from '@app/utils';
+import { SmkApi } from '@app/utils/smk';
+import * as L from 'leaflet';
+import offlineMapJson from '../../../../assets/maps/british-columbia.json';
+import { ReportOfFire } from '../reportOfFireModel';
+import { RoFPage } from '../rofPage';
 
 @Component({
   selector: 'rof-location-page',

@@ -10,7 +10,7 @@
       "allowExit": true,
       "closeButton": false,
       "showProgress": false,
-      "imageUrl": "../../../assets/images/rofbanner.svg",
+      "imageUrl": "/assets/images/rofbanner.svg",
       "nextId": "permissions-page",
       "isStartPage": true
     },
@@ -33,7 +33,7 @@
       "allowSkip": false,
       "allowExit": true,
       "showProgress": false,
-      "imageUrl": "../../../assets/images/offlineicon.png",
+      "imageUrl": "/assets/images/offlineicon.png",
       "previousId": "first-page",
       "nextId": "permissions-page"
     },
@@ -87,8 +87,8 @@
       "allowExit": true,
       "updateAttribute": "compassHeading",
       "showProgress": true,
-      "compassFaceUrl": "../../../assets/images/compassface.png",
-      "compassHandUrl": "../../../assets/images/compasshand.png",
+      "compassFaceUrl": "/assets/images/compassface.png",
+      "compassHandUrl": "/assets/images/compasshand.png",
       "previousId": "permissions-page",
       "nextId": "distance-page"
     },
@@ -225,22 +225,22 @@
         {
           "label": "The size of a Campfire",
           "value": "Campfire",
-          "customIcon": "../../../assets/images/svg-icons/camping.svg"
+          "customIcon": "/assets/images/svg-icons/camping.svg"
         },
         {
           "label": "The size of a House",
           "value": "House",
-          "customIcon": "../../../assets/images/svg-icons/home.svg"
+          "customIcon": "/assets/images/svg-icons/home.svg"
         },
         {
           "label": "The size of a Football Field",
           "value": "Football Field",
-          "customIcon": "../../../assets/images/svg-icons/american-football.svg"
+          "customIcon": "/assets/images/svg-icons/american-football.svg"
         },
         {
           "label": "Larger than a Football Field",
           "value": "Larger than Football Field",
-          "customIcon": "../../../assets/images/svg-icons/larger.svg"
+          "customIcon": "/assets/images/svg-icons/larger.svg"
         }
       ]
     },
@@ -486,7 +486,7 @@
       "offLineMessage": "The information you provided in this report will be sent to the Provincial Wildfire Reporting Centre. Once the reporting centre has received your report, they will share it with the appropriate fire centre for response.",
       "allowSkip": false,
       "allowExit": false,
-      "imageUrl": "../../../assets/images/rofthankyou.svg",
+      "imageUrl": "/assets/images/rofthankyou.svg",
       "closeButton": true,
       "showProgress": false
     }

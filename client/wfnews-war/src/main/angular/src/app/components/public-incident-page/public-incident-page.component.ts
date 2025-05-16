@@ -93,7 +93,7 @@ export class PublicIncidentPageComponent implements OnInit {
             // check the contact info
             if (!this.incident.contactOrgUnitIdentifer) {
               this.http
-                .get('../../../../assets/data/fire-center-contacts-agol.json')
+                .get('/assets/data/fire-center-contacts-agol.json')
                 .subscribe((data) => {
                   if (!this.incident.fireCentreCode) {
                     this.incident.fireCentreCode = findFireCentreByName(

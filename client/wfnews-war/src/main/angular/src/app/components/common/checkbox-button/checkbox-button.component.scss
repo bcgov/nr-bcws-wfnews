@@ -33,11 +33,11 @@
   .checkmark {
     width: 22px;
     height: 22.089px;
-    background-image: url("../../../../assets/images/svg-icons/checkbox-unfilled.svg");
+    background-image: url("/assets/images/svg-icons/checkbox-unfilled.svg");
 
     &.checked {
-      background-image: url("../../../../assets/images/svg-icons/checkbox-filled.svg"),
-        url("../../../../assets/images/svg-icons/checkbox-unfilled.svg");
+      background-image: url("/assets/images/svg-icons/checkbox-filled.svg"),
+        url("/assets/images/svg-icons/checkbox-unfilled.svg");
     }
   }
 }

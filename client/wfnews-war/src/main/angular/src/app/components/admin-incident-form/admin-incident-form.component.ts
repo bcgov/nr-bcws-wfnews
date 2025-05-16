@@ -290,7 +290,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
 
             this.http
-              .get('../../../../assets/data/fire-center-contacts-agol.json')
+              .get('/assets/data/fire-center-contacts-agol.json')
               .subscribe((data) => {
                 self.incident.contact.phoneNumber =
                   data[self.incident.contact.fireCentre].phone;
