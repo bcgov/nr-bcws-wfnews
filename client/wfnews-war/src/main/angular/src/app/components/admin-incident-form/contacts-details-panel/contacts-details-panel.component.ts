@@ -42,7 +42,7 @@ export class ContactsDetailsPanel implements OnInit {
 
   public getFireCentreContacts(): Observable<any> {
     return this.http.get(
-      '../../../../assets/data/fire-center-contacts-agol.json',
+      '/assets/data/fire-center-contacts-agol.json',
     );
   }
 

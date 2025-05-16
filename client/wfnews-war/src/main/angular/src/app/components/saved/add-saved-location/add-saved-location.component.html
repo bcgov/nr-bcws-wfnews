@@ -47,7 +47,7 @@
                 </div>
             <div (click)="useUserLocation()" [class]="'location-button-box' + (locationData.useUserLocation ? '-selected' : '')">
                 <button mat-flat-button class="location-button">
-                    <img src="../../../assets/images/svg-icons/location-button-blue.svg" alt="Use your location" />
+                    <img src="/assets/images/svg-icons/location-button-blue.svg" alt="Use your location" />
                     <span >Use your location</span>
                     <span (click)="closeUserLocation($event)" *ngIf="locationData.useUserLocation">
                         <mat-icon class="location-clear">close</mat-icon>
@@ -56,7 +56,7 @@
             </div>
             <div (click)="chooseOnMap()" [class]="'location-button-box' + (locationData.chooseLocationOnMap ? '-selected' : '')">
                 <button mat-flat-button class="location-button">
-                    <img src="../../../assets/images/svg-icons/carbon_map.svg" alt="Choose on map" />
+                    <img src="/assets/images/svg-icons/carbon_map.svg" alt="Choose on map" />
                     <span >Choose on map</span>
                     <span (click)="closeLocationOnMap($event)" *ngIf="locationData.chooseLocationOnMap">
                         <mat-icon class="location-clear">close</mat-icon>
@@ -112,7 +112,7 @@
             </div>
             <div class="location-button-box" style="width: 100%;">
                 <button mat-flat-button class="location-button" [disabled] = "!locationData.latitude || !locationData.longitude" (click)="chooseRadiusOnMap()">
-                    <img src="../../../assets/images/svg-icons/carbon_map.svg" alt="Choose on map" />
+                    <img src="/assets/images/svg-icons/carbon_map.svg" alt="Choose on map" />
                     <span >Choose on map</span>
                 </button>
             </div>

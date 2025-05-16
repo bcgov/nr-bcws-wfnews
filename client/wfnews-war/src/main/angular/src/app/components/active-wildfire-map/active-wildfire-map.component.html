@@ -46,48 +46,48 @@
         <button *ngIf="!isMobileView() && showLeftLayerScroller()" mat-fab class="layer-scroll-button"
           (mousedown)="sliderButtonHold = true; slideLayerButtons(-40); $event.stopPropagation()"
           (mouseup)="sliderButtonHold = false"><img alt="left"
-            src="../../../assets/images/svg-icons/chevron-left.svg"></button>
+            src="/assets/images/svg-icons/chevron-left.svg"></button>
         <mat-button-toggle-group id="layer-buttons" class="layer-buttons disable-scrollbars" multiple="false">
           <map-toggle-button labelText="Wildfires" value="wildfire-stage-of-control"
             [checked]="isChecked('wildfire-stage-of-control')" (changeEvent)="onSelectLayer($event.value)"
-            [labelIconPath]="'../../../assets/images/svg-icons/wildfire.svg'"></map-toggle-button>
+            [labelIconPath]="'/assets/images/svg-icons/wildfire.svg'"></map-toggle-button>
           <map-toggle-button labelText="Evacuations" value="evacuation-orders-and-alerts"
             [checked]="isChecked('evacuation-orders-and-alerts')" (changeEvent)="onSelectLayer($event.value)"
-            [labelIconPath]="'../../../assets/images/svg-icons/carbon_bullhorn.svg'"></map-toggle-button>
+            [labelIconPath]="'/assets/images/svg-icons/carbon_bullhorn.svg'"></map-toggle-button>
           <map-toggle-button labelText="Fire Bans" value="bans-and-prohibitions"
             [checked]="isChecked('bans-and-prohibitions')" (changeEvent)="onSelectLayer($event.value)"
-            [labelIconPath]="'../../../assets/images/svg-icons/carbon_error.svg'"></map-toggle-button>
+            [labelIconPath]="'/assets/images/svg-icons/carbon_error.svg'"></map-toggle-button>
           <map-toggle-button labelText="Area Restrictions" value="area-restrictions"
             [checked]="isChecked('area-restrictions')" (changeEvent)="onSelectLayer($event.value)"
-            [labelIconPath]="'../../../assets/images/svg-icons/carbon_warning-hex.svg'"></map-toggle-button>
+            [labelIconPath]="'/assets/images/svg-icons/carbon_warning-hex.svg'"></map-toggle-button>
           <map-toggle-button labelText="Fire Danger" value="fire-danger" [checked]="isChecked('fire-danger')"
             (changeEvent)="onSelectLayer($event.value)"
-            [labelIconPath]="'../../../assets/images/svg-icons/carbon_gauge.svg'"></map-toggle-button>
+            [labelIconPath]="'/assets/images/svg-icons/carbon_gauge.svg'"></map-toggle-button>
           <map-toggle-button labelText="Smoke Forecast" value="smoke-forecast" [checked]="isChecked('smoke-forecast')"
             (changeEvent)="onSelectLayer($event.value)"
-            [labelIconPath]="'../../../assets/images/svg-icons/carbon_smoke.svg'"></map-toggle-button>
+            [labelIconPath]="'/assets/images/svg-icons/carbon_smoke.svg'"></map-toggle-button>
           <map-toggle-button labelText="Out Fires" value="out-fires" [checked]="isChecked('out-fires')"
             (changeEvent)="onSelectLayer($event.value)"
-            [labelIconPath]="'../../../assets/images/svg-icons/carbon_crop-growth.svg'"></map-toggle-button>
+            [labelIconPath]="'/assets/images/svg-icons/carbon_crop-growth.svg'"></map-toggle-button>
           <map-toggle-button labelText="Local Authorities" value="local-authorities"
             [checked]="isChecked('local-authorities')" (changeEvent)="onSelectLayer($event.value)"
-            [labelIconPath]="'../../../assets/images/svg-icons/carbon_finance.svg'"></map-toggle-button>
+            [labelIconPath]="'/assets/images/svg-icons/carbon_finance.svg'"></map-toggle-button>
           <map-toggle-button labelText="Road Events" value="routes-impacted" [checked]="isChecked('routes-impacted')"
             (changeEvent)="onSelectLayer($event.value)"
-            [labelIconPath]="'../../../assets/images/svg-icons/carbon_car-front.svg'"></map-toggle-button>
+            [labelIconPath]="'/assets/images/svg-icons/carbon_car-front.svg'"></map-toggle-button>
           <map-toggle-button *ngIf="isMobileView()" labelText="All Layers" value="all-layers"
             (changeEvent)="openAllLayers()"
-            [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
+            [labelIconPath]="'/assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
         </mat-button-toggle-group>
         <button *ngIf="!isMobileView() && showRightLayerScroller()" mat-fab class="layer-scroll-button right"
           (mousedown)="sliderButtonHold = true; slideLayerButtons(40); $event.stopPropagation()"
           (mouseup)="sliderButtonHold = false"><img alt="right"
-            src="../../../assets/images/svg-icons/chevron-right.svg"></button>
+            src="/assets/images/svg-icons/chevron-right.svg"></button>
       </div>
       <!-- worth noting, SMK can support these buttons embedded directly, no need to overlay -->
       <button mat-fab class="mat-white-40 all-layers-btn" *ngIf="isMapLoaded && isMobileView()"
         (click)="openAllLayers()">
-        <img alt="All Layers" src="../../../assets/images/svg-icons/carbon_layers.svg">
+        <img alt="All Layers" src="/assets/images/svg-icons/carbon_layers.svg">
       </button>
       <button mat-fab class="mat-white-40 legend-btn" *ngIf="isMapLoaded && isMobileView()" (click)="showLegend()">
         <img alt="Legend" src="/assets/images/svg-icons/legend.svg">

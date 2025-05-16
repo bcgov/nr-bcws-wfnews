@@ -33,7 +33,7 @@ type Story = StoryObj<MapToggleButtonComponent>;
 export const fullWidth: Story = {
   args: {
     labelText: 'Map',
-    labelIconPath: '../../../../assets/images/svg-icons/map.svg',
+    labelIconPath: '/assets/images/svg-icons/map.svg',
     value: 'map',
     checked: false,
   },

@@ -296,7 +296,7 @@ export class IncidentInfoPanelComponent implements AfterViewInit, OnChanges {
 
   public getFireCentreContacts(): Observable<any> {
     return this.http.get(
-      '../../../../assets/data/fire-center-contacts-agol.json',
+      '/assets/data/fire-center-contacts-agol.json',
     );
   }
 
