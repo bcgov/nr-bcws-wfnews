@@ -8,6 +8,7 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { EXTERNAL_LINKS } from '@app/constants';
 import { ResourcesRoutes, isMobileView } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import { BUILD_NUMBER } from '../../../../environments/build-info';
@@ -27,6 +28,8 @@ export class ContactWidgetDialogComponent implements OnInit {
   public versionNumber;
   public buildNumber: string;
   public showVersion = true; // Flag to track which value to display
+
+  faqLink = EXTERNAL_LINKS.FAQ;
 
   isMobileView = isMobileView;
 

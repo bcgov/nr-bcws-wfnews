@@ -49,3 +49,10 @@ export const CARD_TEXTS = {
   TALK_TO_YOUR_LOCAL_AUTHORITY: 'Regardless of whether a BC Wildfire Service fire ban is in effect, you must always check with local government authorities for local fire bans. <br><br> Municipalities, some regional districts and some land managed by First Nations’ governments have bylaws related to fire and other activities.',
   CAMPGROUNDS: 'BC Wildfire Service fire bans (prohibitions) apply within BC Parks. Search the BC Parks Active Advisories webpage for park-specific information and advisories. <br><br> Always check the local campfire policy for the campground you are visiting.',
 };
+
+export const EXTERNAL_LINKS = {
+  FAQ: 'https://www2.gov.bc.ca/gov/content?id=B36D58C33BBC41CEA5C89C2C13F238E4',
+  BCWS_FACEBOOK: 'https://www.facebook.com/BCForestFireInfo/',
+  BCWS_YOUTUBE: 'https://www.youtube.com/@BCWildfireService',
+  BCWS_BLOG: 'https://blog.gov.bc.ca/bcwildfire/',
+};

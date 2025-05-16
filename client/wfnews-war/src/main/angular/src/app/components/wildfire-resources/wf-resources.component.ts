@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EXTERNAL_LINKS } from '@app/constants';
 import { AppConfigService } from '@wf1/core-ui';
 import { ResourcePanel } from '../../models/ResourcePanel';
 import { isMobileView, snowPlowHelper } from '../../utils';
@@ -12,6 +13,8 @@ import { isMobileView, snowPlowHelper } from '../../utils';
 export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
   public url;
   public snowPlowHelper = snowPlowHelper;
+
+  public EXTERNAL_LINKS = EXTERNAL_LINKS;
 
   isMobileView = isMobileView;
 

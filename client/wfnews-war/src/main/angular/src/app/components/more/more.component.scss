@@ -37,6 +37,28 @@
     background: var(--blues-blue-8, #dfe5ee);
   }
 
+  .mask-icon {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    padding: 8px;
+    border-radius: 54.001px;
+    background: var(--blues-blue-8, #dfe5ee);
+
+    .question-icon {
+      background: #1A5A96;
+      width: 28px;
+      height: 28px;
+      -webkit-mask-image: url("../../../assets/images/svg-icons/question.svg");
+      mask-image: url("../../../assets/images/svg-icons/question.svg");
+
+      mask-position: center;
+      mask-size: contain;
+      mask-repeat: no-repeat;
+    }
+  }
+
   .frame {
     display: flex;
     flex-direction: column;

@@ -2,32 +2,31 @@
   <div class="widget-header">
     <span>Latest News</span>
   </div>
-  <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
+  <ng-template #loading>
+    <mat-spinner [diameter]="80" class="spinner-position"></mat-spinner>
+  </ng-template>
   <div class="content" *ngIf="startupComplete; else loading">
-    <div class="blog-card" onclick="window.open('https://blog.gov.bc.ca/bcwildfire/', '_blank')">
+    <div *ngFor="let card of blogCards" class="blog-card" (click)="openLink(card.link)">
       <div class="blog-card-header">
-        <img height="55" width="59" src="/assets/images/svg-icons/bc-logo.svg" alt="BC logo" class="blog-card-header-icon">
-        <div class="blog-card-header-title">BC Wildfire Blog</div>
-        <img onclick="window.open('https://blog.gov.bc.ca/bcwildfire/', '_blank')" height="24" width="24" src="/assets/images/svg-icons/link.svg" alt="BC logo" class="blog-card-header-link">
+        <img *ngIf="!card.useMask" 
+            [height]="card.height || 28"
+            [width]="card.width || 28"
+            [src]="card.icon"
+            [alt]="card.title + ' logo'"
+            [ngClass]="card.iconClass">
+        <div *ngIf="card.useMask" class="mask-icon">
+          <div [ngClass]="card.iconClass"></div>
+        </div>
+        <div class="blog-card-header-title">{{ card.title }}</div>
+        <img [height]="24"
+             [width]="24"
+             [src]="linkIcon"
+             [alt]="card.title + ' link'"
+             class="blog-card-header-link"
+             (click)="$event.stopPropagation(); openLink(card.link)">
       </div>
-      <div class="divider"></div>
-      <div class="blog-card-footer">Explore publicly issued bulletins, updates on wildfire activity across B.C. and other wildfire information.</div>
-    </div>
-
-    <div class="blog-card" onclick="window.open('https://www.facebook.com/BCForestFireInfo/', '_blank')">
-      <div class="blog-card-header">
-        <img height="28" width="28" src="/assets/images/svg-icons/facebook-blue.svg" alt="BC logo" class="blog-card-header-icon-blue">
-        <div class="blog-card-header-title">Facebook</div>
-        <img onclick="window.open('https://www.facebook.com/BCForestFireInfo/', '_blank')" height="24" width="24" src="/assets/images/svg-icons/link.svg" alt="BC logo" class="blog-card-header-link">
-      </div>
-    </div>
-
-    <div class="blog-card" onclick="window.open('https://www.youtube.com/@BCWildfireService', '_blank')">
-      <div class="blog-card-header">
-        <img height="28" width="28" src="/assets/images/svg-icons/youtube.svg" alt="BC logo" class="blog-card-header-icon-blue">
-        <div class="blog-card-header-title">Youtube</div>
-        <img height="24" width="24" onclick="window.open('https://www.youtube.com/@BCWildfireService', '_blank')" src="/assets/images/svg-icons/link.svg" alt="BC logo" class="blog-card-header-link">
-      </div>
+      <div class="divider" *ngIf="card.description"></div>
+      <div class="blog-card-footer" *ngIf="card.description">{{ card.description }}</div>
     </div>
   </div>
 </div>
