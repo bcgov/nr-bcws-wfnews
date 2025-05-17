@@ -233,8 +233,7 @@ jobs:
           -sdk iphoneos \
           -configuration Release \
           -destination generic/platform=iOS \
-          clean archive \
-          OTHER_SWIFT_FLAGS="-Xfrontend -enable-experimental-feature AccessLevelOnImports"
+          clean archive
 
       - name: Export IPA
         env:
