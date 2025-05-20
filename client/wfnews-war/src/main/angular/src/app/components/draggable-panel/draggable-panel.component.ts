@@ -42,8 +42,7 @@ import { LocationData } from '../wildfires-list-header/filter-by-location/filter
 export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   @Input() incidentRefs: any[];
 
-  public evacInfoText: string = INFORMATION_TEXTS.MUNICIPALITY_INFO;
-  public fireBanText: string = INFORMATION_TEXTS.BCWS_BANS_APPLY_LAND_INFO;
+  informationalText = INFORMATION_TEXTS;
   resizeHeight = '10vh'; // Initial height of the panel
   currentIncidentRefs: any[];
   storedIncidentRefs: any[];

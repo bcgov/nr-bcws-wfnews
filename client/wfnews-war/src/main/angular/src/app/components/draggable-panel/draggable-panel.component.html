@@ -534,7 +534,7 @@
                                         prohibited in order to limit the risk of a fire, to address a public safety
                                         concern or to avoid interference with fire control.</span>
                                     <span *ngIf="identifyItem.layerId.includes('bans-and-prohibitions')"
-                                        [innerHTML]="fireBanText"></span>
+                                        [innerHTML]="informationalText.BCWS_BANS_APPLY_LAND_INFO"></span>
                                     <span *ngIf="identifyItem.layerId === 'closed-recreation-sites'">The Recreation
                                         Site/Trail is closed due to an active wildfire in the area. Find further
                                         information at www.bcwildfire.ca</span>
@@ -544,8 +544,9 @@
                                         *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions'">{{identifyItem.properties.ACCESS_DETAILS}}</span>
                                     <span
                                         *ngIf="identifyItem.layerId === 'bc-fsr'">{{identifyItem.properties.INFORMATION}}</span>
-                                    <span *ngIf="isLocalAuthoritiesLayer(identifyItem.layerId)"
-                                        [innerHTML]="evacInfoText"></span>
+                                    <span *ngIf="identifyItem.layerId === 'abms-municipalities'" [innerHTML]="informationalText.MUNICIPALITY_INFO"></span>
+                                    <span *ngIf="identifyItem.layerId === 'abms-regional-districts'" [innerHTML]="informationalText.REGIONAL_DISTRICTS_BANS_INFO"></span>
+                                    <span *ngIf="identifyItem.layerId === 'abms-indian-reserve'" [innerHTML]="informationalText.BEST_SOURCE_EVAC_BANS_LOCAL_AUTHORITY"></span>
                                 </div>
                             </div>
                         </div>
