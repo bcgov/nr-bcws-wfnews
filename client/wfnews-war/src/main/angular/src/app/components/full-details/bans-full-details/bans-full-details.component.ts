@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { Router as Route } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { INFORMATION_TEXTS } from '@app/constants';
+import { CARD_TEXTS, INFORMATION_TEXTS } from '@app/constants';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
@@ -37,6 +37,8 @@ export class BansFullDetailsComponent implements OnInit {
   public map: any;
 
   bansDecisionText = INFORMATION_TEXTS.BANS_DECISION_INFO;
+  talkToYourLocalAuthorityText = CARD_TEXTS.TALK_TO_YOUR_LOCAL_AUTHORITY;
+  campgroundsText = CARD_TEXTS.CAMPGROUNDS;
 
   constructor(
     private cdr: ChangeDetectorRef,
