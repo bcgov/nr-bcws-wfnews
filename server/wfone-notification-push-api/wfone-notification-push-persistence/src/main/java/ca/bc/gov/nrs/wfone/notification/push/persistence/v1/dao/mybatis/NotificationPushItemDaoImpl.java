@@ -197,5 +197,26 @@ public class NotificationPushItemDaoImpl extends BaseDao implements Notification
 		logger.debug(">delete");
 	}
 
+	@Override
+	public NotificationPushItemDto fetchByNotificationGuidAndItemIdentifier(String notificationGuid, String itemIdentifier) throws DaoException {
+		logger.debug("<fetchByNotificationGuidAndItemIdentifier");
+
+		NotificationPushItemDto result = null;
+
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("notificationGuid", notificationGuid);
+			parameters.put("itemIdentifier", itemIdentifier);
+
+			result = this.mapper.fetchByNotificationGuidAndItemIdentifier(parameters);
+
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+
+		logger.debug(">fetchByNotificationGuidAndItemIdentifier " + result);
+		return result;
+	}
+
 
 }

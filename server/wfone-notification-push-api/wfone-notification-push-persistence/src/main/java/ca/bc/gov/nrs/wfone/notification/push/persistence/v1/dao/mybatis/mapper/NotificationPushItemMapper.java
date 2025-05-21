@@ -17,4 +17,6 @@ public interface NotificationPushItemMapper {
 	int update(Map<String, Object> parameters);
 
 	int delete(Map<String, Object> parameters);
+
+	NotificationPushItemDto fetchByNotificationGuidAndItemIdentifier(Map<String, Object> parameters);
 }

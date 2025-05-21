@@ -34,5 +34,7 @@ public interface NotificationPushItemDao {
 
 	void delete(String notificationPushItemGuid, String userId) throws DaoException;
 
+	NotificationPushItemDto fetchByNotificationGuidAndItemIdentifier(String notificationGuid, String itemIdentifier) throws DaoException;
+
 
 }
