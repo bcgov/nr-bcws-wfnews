@@ -280,12 +280,15 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		Date expireTimestamp = null;
 
 		expireTimestamp = expirations.get(topicKey);
-		body = ((isTest) ? "TEST: " : "") + String.format(TOPIC_MESSAGE_BODIES.get(topicKey), messageInformation.getMessageId(), notificationDto.getNotificationName());
+		// Using messageInformation.getMessageId() for the event-specific part of the message body
+		// And also as the unique identifier for the event itself.
+		String eventIdentifier = messageInformation.getMessageId();
+		body = ((isTest) ? "TEST: " : "") + String.format(TOPIC_MESSAGE_BODIES.get(topicKey), eventIdentifier, notificationDto.getNotificationName());
 
 		com.google.firebase.messaging.Message message = prepareNearMePushNotification(title, body, notificationSettingsDto.getNotificationToken(), keyValueMapForPN);
 		++pushRecordsCount.toProcess;
 
-		sendNearMePNAndCreateNotifPushItem(notificationSettingsDto, message, notificationDto.getNotificationGuid(), expireTimestamp, currentTimeStamp, topicKey);
+		sendNearMePNAndCreateNotifPushItem(notificationSettingsDto, message, notificationDto.getNotificationGuid(), expireTimestamp, currentTimeStamp, eventIdentifier);
 
 		Map<String, String> pushMap = new HashMap<>();
 		pushMap.put("notificationToken", notificationSettingsDto.getNotificationToken());
@@ -353,34 +356,48 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 	private void sendNearMePNAndCreateNotifPushItem(NotificationSettingsDto notificationSettingsDto,
 			com.google.firebase.messaging.Message message, String notificationGuid, Date expireTimestamp,
-			Date pushTimeStamp, String identifier) throws Throwable {
+			Date pushTimeStamp, String eventIdentifier) throws Throwable {
 
+		// IDEMPOTENCY CHECK:
+		// Check if this notificationGuid for this specific eventIdentifier has already been successfully processed.
+		// If it returns a non-null Dto, the item was already processed and recorded.
 		try {
-			logger.debug("Starting Message Push");
-			// check if this notification subscription still exists
-			NotificationSettingsDto realTimeNotificationSettingsDto = notificationSettingsDao.fetch(notificationSettingsDto.getSubscriberGuid());
+			NotificationPushItemDto existingPushItem = notificationPushItemDao.fetchByNotificationGuidAndItemIdentifier(notificationGuid, eventIdentifier);
 
-			if (realTimeNotificationSettingsDto != null && realTimeNotificationSettingsDto.getNotificationToken() != null && realTimeNotificationSettingsDto.getNotificationToken().length() > 0) {
-				boolean notificationFound = false;
-
-				for (NotificationDto realTimeNotificationDto : realTimeNotificationSettingsDto.getNotifications()) {
-					if (realTimeNotificationDto.getNotificationGuid().equals(notificationGuid) && realTimeNotificationDto.getActiveIndicator() != null && realTimeNotificationDto.getActiveIndicator().booleanValue()) {
-						notificationFound = true;
-						break;
-					}
-				}
-
-				if (notificationFound) {
-					logger.debug("Sending to Firebase");
-					String response = firebaseMessaging.send(message);
-					logger.debug("Complete. Response: " + response);
-
-					logger.debug("Writing transaction log to NotificationPushItemDTO");
-					NotificationPushItemDto notificationPushItemDto = createNotificationPushItemDto(notificationGuid, expireTimestamp, pushTimeStamp, identifier);
-					notificationPushItemDao.insert(notificationPushItemDto, null);
-				}
+			if (existingPushItem != null) {
+				logger.info("Push notification for notificationGuid '{}' and eventIdentifier '{}' already sent and recorded at {}. Skipping.",
+						notificationGuid, eventIdentifier, existingPushItem.getPushTimestamp());
 			} else {
-				throw new Exception("Notification Subscriber removed during processing.");
+				logger.debug("Starting Message Push");
+				// check if this notification subscription still exists
+				NotificationSettingsDto realTimeNotificationSettingsDto = notificationSettingsDao.fetch(notificationSettingsDto.getSubscriberGuid());
+
+				if (realTimeNotificationSettingsDto != null && realTimeNotificationSettingsDto.getNotificationToken() != null && realTimeNotificationSettingsDto.getNotificationToken().length() > 0) {
+					boolean notificationFound = false;
+
+					for (NotificationDto realTimeNotificationDto : realTimeNotificationSettingsDto.getNotifications()) {
+						if (realTimeNotificationDto.getNotificationGuid().equals(notificationGuid) && realTimeNotificationDto.getActiveIndicator() != null && realTimeNotificationDto.getActiveIndicator().booleanValue()) {
+							notificationFound = true;
+							break;
+						}
+					}
+
+					if (notificationFound) {
+						logger.debug("Sending to Firebase");
+						String response = firebaseMessaging.send(message);
+						logger.debug("Complete. Response: " + response);
+
+						logger.debug("Writing transaction log to NotificationPushItemDTO");
+						NotificationPushItemDto notificationPushItemDto = createNotificationPushItemDto(notificationGuid, expireTimestamp, pushTimeStamp, eventIdentifier);
+						notificationPushItemDao.insert(notificationPushItemDto, null);
+					}
+				} else {
+					// Consider if this should be a specific exception type
+					logger.warn("Notification Subscriber {} removed or token invalid during processing for eventIdentifier {}.", notificationSettingsDto.getSubscriberGuid(), eventIdentifier);
+					// Not throwing an exception here to prevent rollback of other successful notifications in the batch
+					// if this is part of a larger loop. However, if each SQS message is one user, throwing might be ok.
+					// For now, just log and this specific notification won't be sent/recorded.
+				}
 			}
 		} catch (FirebaseMessagingException e) {
 			logger.error("subscriberGuid=" + notificationSettingsDto.getSubscriberGuid());
@@ -394,21 +411,12 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 				logger.error("Subscriber " + notificationSettingsDto.getSubscriberGuid() + " excluded from future notifications");
 			}
 		} catch (Throwable e) {
+			logger.error("Error sending push notification: " + e.getMessage());
+			logger.error("Error sending push notification: " + e.getStackTrace());
 			throw e;
 		}
 	}
 
-	private static com.google.firebase.messaging.MulticastMessage prepareTweetForPushNotification(String title,
-			String body, List<String> regTokens, TwitterInformation twitterInformation) {
-
-		Notification.Builder builder = Notification.builder();
-		builder.setBody(body);
-		builder.setTitle(title);
-
-		return com.google.firebase.messaging.MulticastMessage.builder().setNotification(builder.build())
-				.addAllTokens(regTokens).putData("type", "tweet").putData("tweetId", twitterInformation.getIdStr())
-				.build();
-	}
 
 	private static NotificationPushItemDto createNotificationPushItemDto(String notificationGuid, Date expireTimestamp,
 			Date pushTimeStamp, String itemIdentifier) {
