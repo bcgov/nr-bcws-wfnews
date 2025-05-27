@@ -378,7 +378,7 @@ resource "aws_appautoscaling_target" "wfone_notifications_api_target" {
   service_namespace  = "ecs"
   resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfone_notifications_api.name}"
   scalable_dimension = "ecs:service:DesiredCount"
-  min_capacity       = var.app_count
+  min_capacity       = var.notifications_api_app_count
   max_capacity       = 1 # 1 for now, but can be increased later
 }
 
