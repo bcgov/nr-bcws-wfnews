@@ -1287,8 +1287,8 @@ resource "aws_ecs_service" "wfnews_liquibase" {
   }
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
-    subnets          = module.network.aws_subnet_ids.app.ids
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
+    subnets          = module.networking.subnets.app.ids
     assign_public_ip = true
   }
 
@@ -1326,8 +1326,8 @@ resource "aws_ecs_service" "wfnews_main" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
-    subnets          = module.network.aws_subnet_ids.app.ids
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
+    subnets          = module.networking.subnets.app.ids
     assign_public_ip = true
   }
 
@@ -1365,8 +1365,8 @@ resource "aws_ecs_service" "client" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
-    subnets          = module.network.aws_subnet_ids.app.ids
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
+    subnets          = module.networking.subnets.app.ids
     assign_public_ip = true
   }
 
@@ -1404,8 +1404,8 @@ resource "aws_ecs_service" "nginx" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
-    subnets          = module.network.aws_subnet_ids.web.ids
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
+    subnets          = module.networking.subnets.web.ids
     assign_public_ip = true
   }
 
@@ -1440,8 +1440,8 @@ resource "aws_ecs_service" "notifications_liquibase" {
   }
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
-    subnets          = module.network.aws_subnet_ids.app.ids
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
+    subnets          = module.networking.subnets.app.ids
     assign_public_ip = true
   }
 
@@ -1479,8 +1479,8 @@ resource "aws_ecs_service" "pointid" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
-    subnets          = module.network.aws_subnet_ids.web.ids
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
+    subnets          = module.networking.subnets.web.ids
     assign_public_ip = true
   }
 
@@ -1519,8 +1519,8 @@ resource "aws_ecs_service" "wfone_notifications_api" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
-    subnets          = module.network.aws_subnet_ids.web.ids
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
+    subnets          = module.networking.subnets.web.ids
     assign_public_ip = true
   }
 
@@ -1560,8 +1560,8 @@ resource "aws_ecs_service" "wfone_notifications_push_api" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
-    subnets          = module.network.aws_subnet_ids.web.ids
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
+    subnets          = module.networking.subnets.web.ids
     assign_public_ip = true
   }
 

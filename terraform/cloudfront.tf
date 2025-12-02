@@ -8,8 +8,6 @@ locals {
 
 resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
-  count = var.cloudfront ? 1 : 0
-
   aliases = ["wfnews-client.${var.target_env}.bcwildfireservices.com", "wfnews-client-uat-2022.${var.target_env}.bcwildfireservices.com"]
 
   origin {
@@ -153,8 +151,6 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
 resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
 
-  count = var.cloudfront ? 1 : 0
-
   aliases = ["wfnews-server.${var.target_env}.bcwildfireservices.com"]
 
   origin {
@@ -250,8 +246,6 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
 }
 
 resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
-
-  count = var.cloudfront ? 1 : 0
 
   aliases = ["wfnews-api.${var.target_env}.bcwildfireservices.com"]
 
@@ -618,8 +612,6 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
 
 resource "aws_cloudfront_distribution" "wfss_pointid_api" {
 
-  count = var.cloudfront ? 1 : 0
-
   aliases = ["wfss-pointid-api.${var.target_env}.bcwildfireservices.com"]
 
   origin {
@@ -716,8 +708,6 @@ resource "aws_cloudfront_distribution" "wfss_pointid_api" {
 
 resource "aws_cloudfront_distribution" "wfone_notifications_api" {
 
-  count = var.cloudfront ? 1 : 0
-
   aliases = ["wfone-notifications-api.${var.target_env}.bcwildfireservices.com"]
 
   origin {
@@ -795,8 +785,6 @@ resource "aws_cloudfront_distribution" "wfnews_redirect_receiver" {
   #
   #      'IF' statement is because public mobile used 'tst' instead of 'test' for environment name
 
-  count = var.cloudfront ? 1 : 0
-
   aliases = ["wfnews-redirect-${var.target_env}.bcwildfireservices.com", "publicmobile-api-${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"]
 
   origin {
@@ -871,8 +859,6 @@ resource "aws_cloudfront_distribution" "wfnews_redirect_receiver" {
 resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
   #NOTE: This points at the government openmaps service
 
-  count = var.cloudfront ? 1 : 0
-
   aliases = ["maps.${var.target_env}.bcwildfireservices.com"]
 
   origin {
@@ -938,8 +924,6 @@ resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
 resource "aws_cloudfront_distribution" "wfnews_services6_cache" {
   #NOTE: This points at the government openmaps service
 
-  count = var.cloudfront ? 1 : 0
-
   aliases = ["services6.${var.target_env}.bcwildfireservices.com"]
 
   origin {
@@ -1003,15 +987,15 @@ resource "aws_cloudfront_distribution" "wfnews_services6_cache" {
 }
 
 output "wfnews_cloudfront_client_url" {
-  value = "https://${aws_cloudfront_distribution.wfnews_geofencing_client[0].domain_name}"
+  value = "https://${aws_cloudfront_distribution.wfnews_geofencing_client.domain_name}"
 }
 
 output "wfnews_cloudfront_server_url" {
-  value = "https://${aws_cloudfront_distribution.wfnews_geofencing_server[0].domain_name}"
+  value = "https://${aws_cloudfront_distribution.wfnews_geofencing_server.domain_name}"
 }
 
 output "wfnews_cloudfront_nginx_url" {
-  value = "https://${aws_cloudfront_distribution.wfnews_geofencing_nginx[0].domain_name}"
+  value = "https://${aws_cloudfront_distribution.wfnews_geofencing_nginx.domain_name}"
 }
 
 resource "aws_cloudfront_response_headers_policy" "cache_control_response_headers" {

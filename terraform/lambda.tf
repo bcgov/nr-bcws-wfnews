@@ -50,8 +50,8 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
     }
   }
   vpc_config {
-    subnet_ids         = module.network.aws_subnet_ids.web.ids
-    security_group_ids = [data.aws_security_group.app.id]
+    subnet_ids         = module.networking.subnets.web.ids
+    security_group_ids = [module.networking.security_groups.app.id]
   }
 }
 
@@ -75,8 +75,8 @@ resource "aws_lambda_function" "monitor-active-fires" {
     }
   }
   vpc_config {
-    subnet_ids         = module.network.aws_subnet_ids.web.ids
-    security_group_ids = [data.aws_security_group.app.id]
+    subnet_ids         = module.networking.subnets.web.ids
+    security_group_ids = [module.networking.security_groups.app.id]
   }
 }
 
@@ -100,8 +100,8 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
     }
   }
   vpc_config {
-    subnet_ids         = module.network.aws_subnet_ids.web.ids
-    security_group_ids = [data.aws_security_group.app.id]
+    subnet_ids         = module.networking.subnets.web.ids
+    security_group_ids = [module.networking.security_groups.app.id]
   }
 }
 
@@ -125,8 +125,8 @@ resource "aws_lambda_function" "monitor-evacuation" {
     }
   }
   vpc_config {
-    subnet_ids         = module.network.aws_subnet_ids.web.ids
-    security_group_ids = [data.aws_security_group.app.id]
+    subnet_ids         = module.networking.subnets.web.ids
+    security_group_ids = [module.networking.security_groups.app.id]
   }
 }
 
@@ -143,11 +143,11 @@ resource "aws_lambda_function" "wfnews-cache-invalidator" {
     variables = {
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      MAPS_CLOUDFRONT_DISTRIBUTION_IDS = "${aws_cloudfront_distribution.wfnews_openmaps_cache[0].id},${aws_cloudfront_distribution.wfnews_services6_cache[0].id}"
+      MAPS_CLOUDFRONT_DISTRIBUTION_IDS = "${aws_cloudfront_distribution.wfnews_openmaps_cache.id},${aws_cloudfront_distribution.wfnews_services6_cache.id}"
     }
   }
   vpc_config {
-    subnet_ids         = module.network.aws_subnet_ids.web.ids
-    security_group_ids = [data.aws_security_group.app.id]
+    subnet_ids         = module.networking.subnets.web.ids
+    security_group_ids = [module.networking.security_groups.app.id]
   }
 }

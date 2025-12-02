@@ -100,10 +100,11 @@ jobs:
           terragrunt_version: ${{ env.TG_VERSION }}
       
       - name: Terragrunt Apply
-        working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
+        working-directory: ${{env.TG_SRC_PATH}}
         env:
           # AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID }}
           # AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
 
 
           UNIQUE_DEPLOY_ID: ${{ github.run_id }}

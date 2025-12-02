@@ -5,12 +5,6 @@ variable "target_env" {
   type        = string
 }
 
-variable "github_release_name" {
-  description = "Name of github release, if it exists"
-  type        = string
-  default     = ""
-}
-
 #Access key ID and secret access key are not used with container-based authentication
 variable "aws_access_key_id" {
   type    = string
@@ -268,17 +262,6 @@ variable "alb_name" {
   type        = string
 }
 
-variable "cloudfront" {
-  description = "enable or disable the cloudfront distrabution creation"
-  type        = bool
-}
-
-variable "cloudfront_origin_domain" {
-  description = "domain name of the ssp"
-  default     = ""
-  type        = string
-}
-
 variable "gov_client_url" {
   description = "domain name if using *.nrs.gov.bc.ca url"
   default     = ""
@@ -321,16 +304,6 @@ variable "cloudfront_header" {
   type        = string
 }
 
-/*variable "cf_origin_id" {
-  description = "id"
-  type        = string
-}*/
-
-variable "aws_sec_group" {
-  description = "Security group limiting access to app"
-  type        = string
-}
-
 variable "db_pass" {
   description = "db password, passed in as env variable at runtime"
   type        = string
@@ -340,11 +313,6 @@ variable "db_size" {
   description = "size of db, in GB"
   type        = number
   default     = 10
-}
-
-variable "vpc_name" {
-  description = "name of VPC to use"
-  type        = string
 }
 
 variable "subnet_filter" {

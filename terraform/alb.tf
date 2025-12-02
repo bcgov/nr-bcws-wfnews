@@ -1,21 +1,45 @@
 # alb.tf
 
-# Must use a pre-existing ALB, such as default that is pre-provisioned as part of the account creation
 # This ALB has all traffic on *.LICENSE-PLATE-ENV.nimbus.cloud.gob.bc.ca routed to it
 
-data "aws_lb" "wfnews_main" {
-  name = var.alb_name
+resource "aws_lb" "wfnews_main" {
+  name               = var.alb_name
+  internal           = true
+  load_balancer_type = "application"
+  security_groups    = [module.networking.security_groups.web.id]
+  subnets            = module.networking.subnets.web.ids
+
+  tags = {
+    Environment = "${var.target_env}",
+    Public = "True"
+  }
+
 }
 
 
 # Redirect all traffic from the ALB to the target group
-data "aws_alb_listener" "wfnews_server_front_end" {
-  load_balancer_arn = data.aws_lb.wfnews_main.id
+resource "aws_alb_listener" "wfnews_server_front_end" {
+  load_balancer_arn = aws_lb.wfnews_main.id
   port              = 443
+  protocol          = "HTTPS"
+  ssl_policy         = "ELBSecurityPolicy-2016-08"
+  certificate_arn = "TODO: ADD CERT ARN"
+
+  default_action {
+    type             = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      status_code = 404
+    }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_alb_listener" "wfnews_backend_listener" {
-  load_balancer_arn = data.aws_lb.wfnews_main.id
+  load_balancer_arn = aws_lb.wfnews_main.id
   port              = "80"
   protocol          = "HTTP"
 
@@ -34,7 +58,7 @@ resource "aws_alb_target_group" "wfnews_server" {
   name                 = "wfnews-server-${var.target_env}"
   port                 = var.server_port
   protocol             = "HTTP"
-  vpc_id               = module.network.aws_vpc.id
+  vpc_id               = module.networking.vpc.id.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -55,7 +79,7 @@ resource "aws_alb_target_group" "wfnews_client" {
   name                 = "wfnews-client-${var.target_env}"
   port                 = var.client_port
   protocol             = "HTTP"
-  vpc_id               = module.network.aws_vpc.id
+  vpc_id               = module.networking.vpc.id.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -76,7 +100,7 @@ resource "aws_alb_target_group" "wfnews_liquibase" {
   name                 = "wfnews-liquibase-${var.target_env}"
   port                 = var.client_port
   protocol             = "HTTP"
-  vpc_id               = module.network.aws_vpc.id
+  vpc_id               = module.networking.vpc.id.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -97,7 +121,7 @@ resource "aws_alb_target_group" "notifications_liquibase" {
   name                 = "notifications-liquibase-${var.target_env}"
   port                 = var.client_port
   protocol             = "HTTP"
-  vpc_id               = module.network.aws_vpc.id
+  vpc_id               = module.networking.vpc.id.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -118,7 +142,7 @@ resource "aws_alb_target_group" "wfnews_nginx" {
   name                 = "wfnews-nginx-${var.target_env}"
   port                 = var.nginx_ports[0]
   protocol             = "HTTP"
-  vpc_id               = module.network.aws_vpc.id
+  vpc_id               = module.networking.vpc.id.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -140,7 +164,7 @@ resource "aws_alb_target_group" "wfss_pointid" {
   name                 = "wfss-pointid-api-${var.target_env}"
   port                 = var.pointid_port
   protocol             = "HTTP"
-  vpc_id               = module.network.aws_vpc.id
+  vpc_id               = module.networking.vpc.id.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -162,7 +186,7 @@ resource "aws_alb_target_group" "wfone_notifications_api" {
   name                 = "wfone-notifications-api-${var.target_env}"
   port                 = var.wfone_notifications_api_port
   protocol             = "HTTP"
-  vpc_id               = module.network.aws_vpc.id
+  vpc_id               = module.networking.vpc.id.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -186,7 +210,7 @@ resource "aws_alb_target_group" "wfone_notifications_push_api" {
   name                 = "${each.key}-${var.target_env}"
   port                 = var.wfone_notifications_push_api_port
   protocol             = "HTTP"
-  vpc_id               = module.network.aws_vpc.id
+  vpc_id               = module.networking.vpc.id.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -207,7 +231,7 @@ resource "aws_alb_target_group" "wfone_notifications_push_api" {
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_notifications_liquibase" {
 
-  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
 
   action {
     type             = "forward"
@@ -229,7 +253,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_notification
 }
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
-  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
 
   action {
     type             = "forward"
@@ -251,7 +275,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_client" {
 
-  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
 
   action {
     type             = "forward"
@@ -273,7 +297,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_client" {
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_liquibase" {
 
-  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
 
   action {
     type             = "forward"
@@ -296,7 +320,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_liquibase" {
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_nginx" {
 
-  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
 
   action {
     type             = "forward"
@@ -318,7 +342,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_nginx" {
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfss_pointid" {
 
-  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
 
   action {
     type             = "forward"
@@ -340,7 +364,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfss_pointid
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifications_api" {
 
-  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
 
   action {
     type             = "forward"
@@ -363,7 +387,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifi
 #Creation is mandatory when using ecs service
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_push_api" {
   for_each = var.WFONE_MONITORS_NAME_MAP
-  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
 
   action {
     type             = "forward"
