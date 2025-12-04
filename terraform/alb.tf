@@ -58,7 +58,7 @@ resource "aws_alb_target_group" "wfnews_server" {
   name                 = "wfnews-server-${var.target_env}"
   port                 = var.server_port
   protocol             = "HTTP"
-  vpc_id               = module.networking.vpc.id.id
+  vpc_id               = module.networking.vpc.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -79,7 +79,7 @@ resource "aws_alb_target_group" "wfnews_client" {
   name                 = "wfnews-client-${var.target_env}"
   port                 = var.client_port
   protocol             = "HTTP"
-  vpc_id               = module.networking.vpc.id.id
+  vpc_id               = module.networking.vpc.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -100,7 +100,7 @@ resource "aws_alb_target_group" "wfnews_liquibase" {
   name                 = "wfnews-liquibase-${var.target_env}"
   port                 = var.client_port
   protocol             = "HTTP"
-  vpc_id               = module.networking.vpc.id.id
+  vpc_id               = module.networking.vpc.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -121,7 +121,7 @@ resource "aws_alb_target_group" "notifications_liquibase" {
   name                 = "notifications-liquibase-${var.target_env}"
   port                 = var.client_port
   protocol             = "HTTP"
-  vpc_id               = module.networking.vpc.id.id
+  vpc_id               = module.networking.vpc.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -142,7 +142,7 @@ resource "aws_alb_target_group" "wfnews_nginx" {
   name                 = "wfnews-nginx-${var.target_env}"
   port                 = var.nginx_ports[0]
   protocol             = "HTTP"
-  vpc_id               = module.networking.vpc.id.id
+  vpc_id               = module.networking.vpc.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -164,7 +164,7 @@ resource "aws_alb_target_group" "wfss_pointid" {
   name                 = "wfss-pointid-api-${var.target_env}"
   port                 = var.pointid_port
   protocol             = "HTTP"
-  vpc_id               = module.networking.vpc.id.id
+  vpc_id               = module.networking.vpc.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -186,7 +186,7 @@ resource "aws_alb_target_group" "wfone_notifications_api" {
   name                 = "wfone-notifications-api-${var.target_env}"
   port                 = var.wfone_notifications_api_port
   protocol             = "HTTP"
-  vpc_id               = module.networking.vpc.id.id
+  vpc_id               = module.networking.vpc.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -210,7 +210,7 @@ resource "aws_alb_target_group" "wfone_notifications_push_api" {
   name                 = "${each.key}-${var.target_env}"
   port                 = var.wfone_notifications_push_api_port
   protocol             = "HTTP"
-  vpc_id               = module.networking.vpc.id.id
+  vpc_id               = module.networking.vpc.id
   target_type          = "ip"
   deregistration_delay = 30
 

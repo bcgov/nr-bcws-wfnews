@@ -3,7 +3,7 @@
 resource "aws_security_group" "wfnews_ecs_tasks" {
   name        = "wfnews-ecs-tasks-security-group"
   description = "Allow access"
-  vpc_id      = module.networking.vpc.id.id
+  vpc_id      = module.networking.vpc.id
 
   ingress {
     protocol        = "tcp"
