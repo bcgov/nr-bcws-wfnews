@@ -23,7 +23,7 @@ resource "aws_alb_listener" "wfnews_server_front_end" {
   port              = 443
   protocol          = "HTTPS"
   ssl_policy         = "ELBSecurityPolicy-2016-08"
-  certificate_arn = "TODO: ADD CERT ARN"
+  certificate_arn = aws_acm_certificate.wfnews_ca_certificate.arn
 
   default_action {
     type             = "fixed-response"
