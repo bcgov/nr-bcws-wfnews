@@ -79,7 +79,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
-          role-session-name: wfnews-push-lambda
+          role-session-name: wfnews-terraform-s3
           aws-region: ca-central-1
 
       #requires a wfnews-lambda-env bucket
