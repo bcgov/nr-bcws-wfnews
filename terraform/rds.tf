@@ -39,11 +39,13 @@ resource "aws_db_parameter_group" "wfnews_parameter_group" {
   parameter {
     name = "MAX_CONNECTIONS"
     value = "LEAST({DBInstanceClassMemory/2382848},5000)"
+    apply_method = "pending-reboot"
   }
 
   parameter {
     name = "rds.force_ssl"
     value = 0
+    apply_method = "pending-reboot"
   }
 
   lifecycle {
