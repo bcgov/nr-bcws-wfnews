@@ -143,7 +143,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
   tags = local.common_tags
 
   viewer_certificate {
-    acm_certificate_arn = var.certificate_arn
+    acm_certificate_arn = aws_acm_certificate.wfnews_us_certificate.arn
     ssl_support_method  = "sni-only"
   }
 
@@ -240,7 +240,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
   tags = local.common_tags
 
   viewer_certificate {
-    acm_certificate_arn = var.certificate_arn
+    acm_certificate_arn = aws_acm_certificate.wfnews_us_certificate.arn
     ssl_support_method  = "sni-only"
   }
 }
@@ -374,7 +374,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
   tags = local.common_tags
 
   viewer_certificate {
-    acm_certificate_arn = var.certificate_arn
+    acm_certificate_arn = aws_acm_certificate.wfnews_us_certificate.arn
     ssl_support_method  = "sni-only"
   }
 }
@@ -701,7 +701,7 @@ resource "aws_cloudfront_distribution" "wfss_pointid_api" {
   tags = local.common_tags
 
   viewer_certificate {
-    acm_certificate_arn = var.certificate_arn
+    acm_certificate_arn = aws_acm_certificate.wfnews_us_certificate.arn
     ssl_support_method  = "sni-only"
   }
 }
@@ -774,7 +774,7 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
   tags = local.common_tags
 
   viewer_certificate {
-    acm_certificate_arn = var.certificate_arn
+    acm_certificate_arn = aws_acm_certificate.wfnews_us_certificate.arn
     ssl_support_method  = "sni-only"
   }
 }
@@ -916,7 +916,7 @@ resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
   tags = local.common_tags
 
   viewer_certificate {
-    acm_certificate_arn = var.certificate_arn
+    acm_certificate_arn = aws_acm_certificate.wfnews_us_certificate.arn
     ssl_support_method  = "sni-only"
   }
 }
@@ -981,7 +981,7 @@ resource "aws_cloudfront_distribution" "wfnews_services6_cache" {
   tags = local.common_tags
 
   viewer_certificate {
-    acm_certificate_arn = var.certificate_arn
+    acm_certificate_arn = aws_acm_certificate.wfnews_us_certificate.arn
     ssl_support_method  = "sni-only"
   }
 }
