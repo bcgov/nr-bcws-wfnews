@@ -25,9 +25,28 @@ resource "aws_db_instance" "wfnews_pgsqlDB" {
   tags                            = local.common_tags
   db_subnet_group_name            = aws_db_subnet_group.wfnews_db_subnet_group.name
   enabled_cloudwatch_logs_exports = ["postgresql"]
-  parameter_group_name            = "wfnews-manual-postgres15"
+  parameter_group_name            = aws_db_parameter_group.wfnews_parameter_group.name
 
   lifecycle {
     prevent_destroy = true
+  }
+}
+
+resource "aws_db_parameter_group" "wfnews_parameter_group" {
+  name = "wfnews${var.target_env}-parameter-group"
+  family = "postgres15"
+
+  parameter {
+    name = "MAX_CONNECTIONS"
+    value = "LEAST({DBInstanceClassMemory/2382848},5000)"
+  }
+
+  parameter {
+    name = "rds.force_ssl"
+    value = 0
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
