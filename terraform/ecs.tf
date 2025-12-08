@@ -549,6 +549,21 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
       volumesFrom = []
     }
   ])
+  lifecycle {
+    replace_triggered_by = [
+      null_resource.always_run
+    ]
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOF
+    aws ecs run-task \
+      --task-definition wfnews-liquibase-task-${var.target_env} \
+      --cluster ${aws_ecs_cluster.wfnews_main.id} \
+      --count 1 \
+      --network-configuration awsvpcConfiguration={securityGroups=[${module.networking.security_groups.app.id}],subnets=${module.networking.subnets.app.ids[0]},assignPublicIp=DISABLED}
+EOF
+  }
 }
 
 resource "aws_ecs_task_definition" "wfnews_nginx" {
@@ -666,6 +681,13 @@ resource "aws_ecs_task_definition" "wfnews_nginx" {
   ])
 }
 
+// Used to ensure liquibase always runs
+resource "null_resource" "always_run" {
+  triggers = {
+    timestamp = "${timestamp()}"
+  }
+}
+
 resource "aws_ecs_task_definition" "notifications_liquibase" {
   family                   = "notifications-liquibase-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
@@ -771,6 +793,20 @@ resource "aws_ecs_task_definition" "notifications_liquibase" {
       volumesFrom = []
     }
   ])
+    lifecycle {
+    replace_triggered_by = [
+      null_resource.always_run
+    ]
+  }
+  provisioner "local-exec" {
+    command = <<-EOF
+    aws ecs run-task \
+      --task-definition notifications-liquibase-task-${var.target_env} \
+      --cluster ${aws_ecs_cluster.wfnews_main.id} \
+      --count 1 \
+      --network-configuration awsvpcConfiguration={securityGroups=[${module.networking.security_groups.app.id}],subnets=${module.networking.subnets.app.ids[0]},assignPublicIp=DISABLED}
+EOF
+  }
 }
 
 resource "aws_ecs_task_definition" "wfss_pointid" {
@@ -1268,41 +1304,6 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
 ////    SERVICES          ////
 //////////////////////////////
 
-resource "aws_ecs_service" "wfnews_liquibase" {
-  count                             = 1
-  name                              = "wfnews-liquibase-service-${var.target_env}"
-  cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_liquibase.arn
-  desired_count                     = 1
-  enable_ecs_managed_tags           = true
-  propagate_tags                    = "TASK_DEFINITION"
-  health_check_grace_period_seconds = 60
-  wait_for_steady_state             = false
-
-
-  capacity_provider_strategy {
-    capacity_provider = "FARGATE"
-    weight            = 100
-    base              = 1
-  }
-
-  network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
-    subnets          = module.networking.subnets.app.ids
-    assign_public_ip = true
-  }
-
-  load_balancer {
-    target_group_arn = aws_alb_target_group.wfnews_liquibase.id
-    container_name   = var.liquibase_container_name
-    container_port   = var.db_port
-  }
-
-  depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
-
-  tags = local.common_tags
-}
-
 resource "aws_ecs_service" "wfnews_main" {
   name                              = "wfnews-server-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
@@ -1414,41 +1415,6 @@ resource "aws_ecs_service" "nginx" {
     target_group_arn = aws_alb_target_group.wfnews_nginx.id
     container_name   = var.nginx_container_name
     container_port   = var.nginx_ports[0]
-  }
-
-  depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
-
-  tags = local.common_tags
-}
-
-resource "aws_ecs_service" "notifications_liquibase" {
-  count                             = 1
-  name                              = "notifications-liquibase-service-${var.target_env}"
-  cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.notifications_liquibase.arn
-  desired_count                     = 1
-  enable_ecs_managed_tags           = true
-  propagate_tags                    = "TASK_DEFINITION"
-  health_check_grace_period_seconds = 60
-  wait_for_steady_state             = false
-
-
-  capacity_provider_strategy {
-    capacity_provider = "FARGATE"
-    weight            = 100
-    base              = 1
-  }
-
-  network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
-    subnets          = module.networking.subnets.app.ids
-    assign_public_ip = true
-  }
-
-  load_balancer {
-    target_group_arn = aws_alb_target_group.notifications_liquibase.id
-    container_name   = var.notifications_liquibase_container_name
-    container_port   = var.db_port
   }
 
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
