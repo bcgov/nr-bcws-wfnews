@@ -58,7 +58,6 @@ resource "aws_route53_record" "wfnews_ca_certificate_validation" {
 resource "aws_acm_certificate_validation" "wfnews_ca_certificate_validation" {
   certificate_arn = aws_acm_certificate.wfnews_ca_certificate.arn
   validation_record_fqdns = [ for record in aws_route53_record.wfnews_ca_certificate_validation : record.fqdn]
-  provider = aws.aws-us
   timeouts {
     create = "15m"
   }
