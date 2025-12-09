@@ -78,8 +78,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
-          role-session-name: wfnews-push-lambda
+          role-to-assume: ${{ secrets.AWS_TERRAFORM_ROLE_TO_ASSUME }}
+          role-session-name: wfnews-terraform-s3
           aws-region: ca-central-1
 
       #requires a wfnews-lambda-env bucket
@@ -87,4 +87,12 @@ jobs:
         id: S3
         run: |
           export enviro=${{ inputs.ENVIRONMENT }}
-          aws s3 cp ./staging s3://wfnews-lambda-$(echo ${enviro,,}) --recursive
+          S3_BUCKET_EXISTS=$(aws s3 ls | grep wfnews-lambda-${{secrets.LICENSE_PLATE}})
+          if [[ $S3_BUCKET_EXISTS ]]; 
+          then
+            echo "---S3 BUCKET ALREADY EXISTS---"
+          else
+            echo "---CREATING S3 BUCKET---"
+            aws s3api create-bucket --bucket wfnews-lambda-${{secrets.LICENSE_PLATE}}-$(echo ${enviro,,}) --region ca-central-1 --create-bucket-configuration LocationConstraint=ca-central-1
+          fi
+          aws s3 cp ./staging s3://wfnews-lambda-${{secrets.LICENSE_PLATE}}-$(echo ${enviro,,}) --recursive

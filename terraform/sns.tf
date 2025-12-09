@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "wfnews_topic_policy_document" {
       test     = "StringLike"
       variable = "aws:SourceVpc"
       values = [
-        "${module.network.aws_vpc.id}"
+        "${module.networking.vpc.id}"
       ]
     }
 

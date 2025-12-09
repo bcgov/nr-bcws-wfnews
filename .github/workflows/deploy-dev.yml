@@ -24,6 +24,10 @@ on:
         description: 'Is this a hotfix?'
         required: false
         default: 'false'
+      IMAGE_TAG:
+        description: Image tag to use if not driggered my PR
+        required: false
+        default: latest
 
 jobs:
   call-lambda-zip:
@@ -99,7 +103,7 @@ jobs:
     needs: [call-lambda-zip, call-mvn-client, wfnews-api-server-build, wfone-notifications-api-server-build, liquibase-build, nginx-build, wfss-pointid-api-server-build, wfone-notification-push-api-server-build]
     with:
       DEFAULT_APPLICATION_ENVIRONMENT: DEV
-      IMAGE_TAG: ${{ inputs.IS_HOTFIX == 'true' && format('hotfix-{0}', inputs.BRANCH) || format( 'pr-{0}', github.event.pull_request.number) }}
+      IMAGE_TAG: ${{ inputs.IS_HOTFIX == 'true' && format('hotfix-{0}', inputs.BRANCH) || (inputs.IMAGE_TAG && inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number)) }}
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       TARGET_ENV: dev
 
