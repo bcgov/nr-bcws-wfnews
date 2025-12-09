@@ -218,141 +218,215 @@ create_iam_policy() {
     policy_file=$(create_temp_file)
     cat > "$policy_file" << 'EOF'
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "IAM",
-      "Effect": "Allow",
-      "Action": ["iam:*"],
-      "Resource": ["*"]
-    },
-    {
-      "Sid": "S3",
-      "Effect": "Allow",
-      "Action": ["s3:*"],
-      "Resource": ["*"]
-    },
-    {
-      "Sid": "Cloudfront",
-      "Effect": "Allow",
-      "Action": ["cloudfront:*"],
-      "Resource": ["*"]
-    },
-    {
-      "Sid": "ecs",
-      "Effect": "Allow",
-      "Action": ["ecs:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "ecr",
-      "Effect": "Allow",
-      "Action": ["ecr:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "Dynamodb",
-      "Effect": "Allow",
-      "Action": ["dynamodb:*"],
-      "Resource": ["*"]
-    },
-    {
-      "Sid": "APIgateway",
-      "Effect": "Allow",
-      "Action": ["apigateway:*"],
-      "Resource": ["*"]
-    },
-    {
-      "Sid": "RDS",
-      "Effect": "Allow",
-      "Action": ["rds:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "Cloudwatch",
-      "Effect": "Allow",
-      "Action": ["cloudwatch:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "EC2",
-      "Effect": "Allow",
-      "Action": ["ec2:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "Autoscaling",
-      "Effect": "Allow",
-      "Action": ["autoscaling:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "KMS",
-      "Effect": "Allow",
-      "Action": ["kms:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "SecretsManager",
-      "Effect": "Allow",
-      "Action": ["secretsmanager:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "CloudWatchLogs",
-      "Effect": "Allow",
-      "Action": ["logs:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "WAF",
-      "Effect": "Allow",
-      "Action": ["wafv2:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "ELB",
-      "Effect": "Allow",
-      "Action": ["elasticloadbalancing:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "AppAutoScaling",
-      "Effect": "Allow",
-      "Action": ["application-autoscaling:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "SNS",
-      "Effect": "Allow",
-      "Action": ["sns:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "Lambda",
-      "Effect": "Allow",
-      "Action": ["lambda:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "Route53",
-      "Effect": "Allow",
-      "Action": ["route53:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "ACM",
-      "Effect": "Allow",
-      "Action": ["acm:*"],
-      "Resource": "*"
-    },
-    {
-      "Sid": "SSM",
-      "Effect": "Allow",
-      "Action": ["ssm:*Parameter"],
-      "Resource": "*"
-    }
-  ]
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "IAM",
+            "Effect": "Allow",
+            "Action": [
+                "iam:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "S3",
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "Cloudfront",
+            "Effect": "Allow",
+            "Action": [
+                "cloudfront:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "ecs",
+            "Effect": "Allow",
+            "Action": [
+                "ecs:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ecr",
+            "Effect": "Allow",
+            "Action": [
+                "ecr:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "Dynamodb",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "APIgateway",
+            "Effect": "Allow",
+            "Action": [
+                "apigateway:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "RDS",
+            "Effect": "Allow",
+            "Action": [
+                "rds:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "Cloudwatch",
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "EC2",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "Autoscaling",
+            "Effect": "Allow",
+            "Action": [
+                "autoscaling:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "KMS",
+            "Effect": "Allow",
+            "Action": [
+                "kms:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "SecretsManager",
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "CloudWatchLogs",
+            "Effect": "Allow",
+            "Action": [
+                "logs:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "WAF",
+            "Effect": "Allow",
+            "Action": [
+                "wafv2:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ELB",
+            "Effect": "Allow",
+            "Action": [
+                "elasticloadbalancing:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AppAutoScaling",
+            "Effect": "Allow",
+            "Action": [
+                "application-autoscaling:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "SNS",
+            "Effect": "Allow",
+            "Action": [
+                "sns:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "Lambda",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "Route53",
+            "Effect": "Allow",
+            "Action": [
+                "route53:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ACM",
+            "Effect": "Allow",
+            "Action": [
+                "acm:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "SSM",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:*Parameter"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "EventBridge",
+            "Effect": "Allow",
+            "Action": [
+                "events:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "SQS",
+            "Effect": "Allow",
+            "Action": [
+                "sqs:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
 }
 EOF
 
