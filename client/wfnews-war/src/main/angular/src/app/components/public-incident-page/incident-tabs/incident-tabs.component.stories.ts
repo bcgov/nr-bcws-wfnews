@@ -17,7 +17,7 @@ const mockIncident = {
     links: [
         {
             rel: 'self',
-            href: 'http://wfnews-server.pp93w9-dev.nimbus.cloud.gov.bc.ca/publishedIncident',
+            href: 'http://wfnews-server.d6797f-dev.stratus.cloud.gov.bc.ca/publishedIncident',
             method: 'GET',
             _type: null
         }
@@ -81,7 +81,7 @@ const mockIncident = {
     publishedIncidentRevisionCount: 116,
     createUser: 'SCL\\WFNEWS_SYNC',
     updateUser: 'SCL\\WFNEWS_SYNC',
-    selfLink: 'http://wfnews-server.pp93w9-dev.nimbus.cloud.gov.bc.ca/publishedIncident',
+    selfLink: 'http://wfnews-server.d6797f-dev.stratus.cloud.gov.bc.ca/publishedIncident',
     quotedETag: '"471f04b0-c6e4-da9f-20be-895b9a064b30"',
     unquotedETag: '471f04b0-c6e4-da9f-20be-895b9a064b30',
     _type: null

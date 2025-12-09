@@ -34,8 +34,8 @@ public class PushNearMeNotificationEndpointsTest extends EndpointsTest {
 
 	static IMocksControl control;
 	static FirebaseMessaging firebase;
-	
-	@BeforeClass 
+
+	@BeforeClass
 	static public void injectMockFirebaseMessaging() throws Exception {
 		control = EasyMock.createControl(MockType.NICE);
 		control.makeThreadSafe(true);
@@ -43,7 +43,7 @@ public class PushNearMeNotificationEndpointsTest extends EndpointsTest {
 		control.replay();
 		((WildfirePushNotificationServiceV2Impl)webApplicationContext.getBean(WildfirePushNotificationServiceV2.class)).setFirebaseMessaging(firebase);
 	}
-	
+
 
 	@Test
 	public void testNoAuthorization() throws WildfireNotificationPushServiceException, UnsupportedEncodingException {
@@ -65,7 +65,7 @@ public class PushNearMeNotificationEndpointsTest extends EndpointsTest {
 	private static void testPushNearMeNotifications(WildfireNotificationPushService service)
 			throws WildfireNotificationPushServiceException, UnsupportedEncodingException {
 		logger.debug("<testPushNearMeNotifications");
-		
+
 		EndpointsRsrc topLevel = service.getTopLevelEndpoints();
 
 		String testMessage = "{\n" +
@@ -73,7 +73,7 @@ public class PushNearMeNotificationEndpointsTest extends EndpointsTest {
 			"            \"links\": [\n" +
 			"                {\n" +
 			"                    \"rel\": \"self\",\n" +
-			"                    \"href\": \"http://wfnews-server.pp93w9-dev.nimbus.cloud.gov.bc.ca/publishedIncident\",\n" +
+			"                    \"href\": \"http://wfnews-server.d6797f-dev.stratus.cloud.gov.bc.ca/publishedIncident\",\n" +
 			"                    \"method\": \"GET\",\n" +
 			"                    \"_type\": null\n" +
 			"                }\n" +
@@ -111,7 +111,7 @@ public class PushNearMeNotificationEndpointsTest extends EndpointsTest {
 			"            \"fireYear\": 2022,\n" +
 			"            \"responseTypeCode\": null,\n" +
 			"            \"responseTypeDetail\": null,\n" +
-			"            \"selfLink\": \"http://wfnews-server.pp93w9-dev.nimbus.cloud.gov.bc.ca/publishedIncident\",\n" +
+			"            \"selfLink\": \"http://wfnews-server.d6797f-dev.stratus.cloud.gov.bc.ca/publishedIncident\",\n" +
 			"            \"quotedETag\": null,\n" +
 			"            \"unquotedETag\": null,\n" +
 			"            \"_type\": null\n" +

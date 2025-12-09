@@ -1,6 +1,6 @@
 # alb.tf
 
-# This ALB has all traffic on *.LICENSE-PLATE-ENV.nimbus.cloud.gob.bc.ca routed to it
+# This ALB has all traffic on *.LICENSE-PLATE-ENV.stratus.cloud.gob.bc.ca routed to it
 
 resource "aws_lb" "wfnews_main" {
   name               = var.alb_name

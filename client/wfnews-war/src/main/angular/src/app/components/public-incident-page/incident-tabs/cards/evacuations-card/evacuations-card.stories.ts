@@ -13,9 +13,9 @@ const meta: Meta<EvacuationsCardComponent> = {
     moduleMetadata({
       declarations: [
         EvacuationsCardComponent,
-        ContentCardContainerComponent, 
-        EventInfoComponent, 
-        CircleIconButtonComponent, 
+        ContentCardContainerComponent,
+        EventInfoComponent,
+        CircleIconButtonComponent,
         IconListItemComponent
       ]
     })
@@ -83,7 +83,7 @@ export const example: Story = {
       links: [
         {
           rel: 'self',
-          href: 'http://wfnews-server.pp93w9-dev.nimbus.cloud.gov.bc.ca/publishedIncident',
+          href: 'http://wfnews-server.d6797f-dev.stratus.cloud.gov.bc.ca/publishedIncident',
           method: 'GET',
           _type: null
         }
@@ -147,7 +147,7 @@ export const example: Story = {
       publishedIncidentRevisionCount: 140,
       createUser: 'SCL\\WFNEWS_SYNC',
       updateUser: 'SCL\\WFNEWS_SYNC',
-      selfLink: 'http://wfnews-server.pp93w9-dev.nimbus.cloud.gov.bc.ca/publishedIncident',
+      selfLink: 'http://wfnews-server.d6797f-dev.stratus.cloud.gov.bc.ca/publishedIncident',
       quotedETag: '"d21e7507-6f25-fa0a-9d37-39f9aee2bdcc"',
       unquotedETag: 'd21e7507-6f25-fa0a-9d37-39f9aee2bdcc',
       _type: null,

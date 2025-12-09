@@ -67,7 +67,7 @@ const mockIncident = {
     publishedIncidentRevisionCount: 48,
     createUser: 'SCL\\WFNEWS_SYNC',
     updateUser: 'SCL\\WFNEWS_SYNC',
-    selfLink: 'http://wfnews-server.pp93w9-dev.nimbus.cloud.gov.bc.ca/publishedIncident',
+    selfLink: 'http://wfnews-server.d6797f-dev.stratus.cloud.gov.bc.ca/publishedIncident',
     quotedETag: '"7f54005e-f4de-23af-d7bd-2bbed28a808d"',
     unquotedETag: '7f54005e-f4de-23af-d7bd-2bbed28a808d',
     _type: null

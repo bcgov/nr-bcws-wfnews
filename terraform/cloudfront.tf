@@ -797,7 +797,7 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
 #       ]
 #     }
 
-#     domain_name = "wfnews-redirect.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+#     domain_name = "wfnews-redirect.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
 #     origin_id   = "wfnews_redirect_${var.target_env}"
 
 #     custom_header {
