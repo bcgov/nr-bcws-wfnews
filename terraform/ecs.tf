@@ -451,24 +451,6 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.liquibase_cpu
-  volume {
-    name = "cache"
-  }
-  volume {
-    name = "run"
-  }
-  volume {
-    name = "logging"
-  }
-  volume {
-    name = "nginx"
-  }
-  volume {
-    name = "nginx-lib"
-  }
-  volume {
-    name = "local"
-  }
   memory                   = var.liquibase_memory
   tags                     = local.common_tags
   container_definitions = jsonencode([
@@ -480,13 +462,7 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
       cpu         = var.liquibase_cpu
       memory      = var.liquibase_memory
       networkMode = "awsvpc"
-      portMappings = [
-        {
-          protocol      = "tcp"
-          containerPort = var.db_port
-          hostPort      = var.db_port
-        }
-      ]
+      portMappings = []
       environment = [
         {
           name = "CHANGELOG_FOLDER",
@@ -514,39 +490,6 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
           awslogs-stream-prefix = "ecs"
         }
       }
-      mountPoints = [
-        {
-          sourceVolume = "logging"
-          containerPath = "/var/log"
-          readOnly = false
-        },
-        {
-          sourceVolume = "cache"
-          containerPath = "/var/cache/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "run"
-          containerPath = "/var/run"
-          readOnly = false
-        },
-        {
-          sourceVolume = "nginx"
-          containerPath = "/etc/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "nginx-lib"
-          containerPath = "/var/lib/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "local"
-          containerPath = "/liquibase"
-          readOnly = false
-        }
-      ]
-      volumesFrom = []
     }
   ])
   lifecycle {
@@ -695,24 +638,6 @@ resource "aws_ecs_task_definition" "notifications_liquibase" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.liquibase_cpu
-  volume {
-    name = "cache"
-  }
-  volume {
-    name = "run"
-  }
-  volume {
-    name = "logging"
-  }
-  volume {
-    name = "nginx"
-  }
-  volume {
-    name = "nginx-lib"
-  }
-  volume {
-    name = "local"
-  }
   memory = var.liquibase_memory
   tags   = local.common_tags
   container_definitions = jsonencode([
@@ -725,11 +650,6 @@ resource "aws_ecs_task_definition" "notifications_liquibase" {
       memory      = var.liquibase_memory
       networkMode = "awsvpc"
       portMappings = [
-        {
-          protocol      = "tcp"
-          containerPort = var.db_port
-          hostPort      = var.db_port
-        }
       ]
       environment = [
         {
@@ -758,39 +678,6 @@ resource "aws_ecs_task_definition" "notifications_liquibase" {
           awslogs-stream-prefix = "ecs"
         }
       }
-      mountPoints = [
-        {
-          sourceVolume = "logging"
-          containerPath = "/var/log"
-          readOnly = false
-        },
-        {
-          sourceVolume = "cache"
-          containerPath = "/var/cache/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "run"
-          containerPath = "/var/run"
-          readOnly = false
-        },
-        {
-          sourceVolume = "nginx"
-          containerPath = "/etc/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "nginx-lib"
-          containerPath = "/var/lib/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "local"
-          containerPath = "/liquibase"
-          readOnly = false
-        }
-      ]
-      volumesFrom = []
     }
   ])
     lifecycle {
