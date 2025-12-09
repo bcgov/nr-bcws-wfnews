@@ -4,7 +4,8 @@ FROM liquibase/liquibase:5.0
 ADD database /liquibase
 EXPOSE 8080
 USER root
-COPY --chmod=755 docker/runLiquibase.sh . 
-RUN lpm add postgresql
+RUN lpm add postgresql --global
+
+COPY --chmod=755 ./docker/runLiquibase.sh . 
 
 ENTRYPOINT [ "sh", "-c", "./runLiquibase.sh"]

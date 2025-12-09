@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize, reopened]
   push:
     branches:
-      - '2.4.1'
+      - '2.4.2'
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
