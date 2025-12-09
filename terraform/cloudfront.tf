@@ -19,7 +19,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
       "TLSv1.2"]
     }
 
-    domain_name = "wfnews-client.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    domain_name = "wfnews-client.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
     origin_id   = "wfnews_client_${var.target_env}"
     custom_header {
       name  = "X-Cloudfront-Header"
@@ -162,7 +162,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
       "TLSv1.2"]
     }
 
-    domain_name = "wfnews-server.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    domain_name = "wfnews-server.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
     origin_id   = "wfnews_server_${var.target_env}"
 
     custom_header {
@@ -259,7 +259,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
       ]
     }
 
-    domain_name = "${var.nginx_names[0]}.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    domain_name = "${var.nginx_names[0]}.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
     origin_id   = "wfnews_nginx_${var.target_env}"
 
     custom_header {
@@ -395,7 +395,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
       "TLSv1.2"]
     }
 
-    domain_name = "wfnews-client.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    domain_name = "wfnews-client.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
     origin_id   = "wfnews_client_gov_${var.target_env}"
     custom_header {
       name  = "X-Cloudfront-Header"
@@ -494,7 +494,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
       "TLSv1.2"]
     }
 
-    domain_name = "${var.nginx_names[0]}.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    domain_name = "${var.nginx_names[0]}.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
     origin_id   = "wfnews_nginx_gov_${var.target_env}"
     custom_header {
       name  = "X-Cloudfront-Header"
@@ -623,7 +623,7 @@ resource "aws_cloudfront_distribution" "wfss_pointid_api" {
       "TLSv1.2"]
     }
 
-    domain_name = "wfss-pointid-api.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    domain_name = "wfss-pointid-api.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
     origin_id   = "wfss_pointid_api_${var.target_env}"
 
     custom_header {
@@ -719,7 +719,7 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
       "TLSv1.2"]
     }
 
-    domain_name = "wfone-notifications-api.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    domain_name = "wfone-notifications-api.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
     origin_id   = "wfone_notifications_api_${var.target_env}"
 
     custom_header {
