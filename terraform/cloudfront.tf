@@ -777,7 +777,7 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
 #   #
 #   #      'IF' statement is because public mobile used 'tst' instead of 'test' for environment name
 
-#   aliases = ["wfnews-redirect-${var.target_env}.bcwildfireservices.com", "publicmobile-api-${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"]
+#   aliases = ["wfnews-redirect-${local.PMNamesMap[var.target_env]}.bcwildfireservices.com", "publicmobile-api-${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"]
 
 #   origin {
 #     custom_origin_config {
@@ -851,7 +851,7 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
 resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
   #NOTE: This points at the government openmaps service
 
-  aliases = ["maps.${var.target_env}.bcwildfireservices.com"]
+  aliases = ["maps.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
@@ -916,7 +916,7 @@ resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
 resource "aws_cloudfront_distribution" "wfnews_services6_cache" {
   #NOTE: This points at the government openmaps service
 
-  aliases = ["services6.${var.target_env}.bcwildfireservices.com"]
+  aliases = ["services6.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
@@ -1090,8 +1090,7 @@ resource "aws_cloudfront_response_headers_policy" "cache_control_response_header
         "capacitor://localhost",
         "http://localhost",
         "https://localhost",
-        "https://wfnews-client.dev.bcwildfireservices.com",
-        "https://wfnews-client.test.bcwildfireservices.com",
+        "https://wfnews-client.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com",
         "https://wildfiresituation.nrs.gov.bc.ca"
       ]
     }
