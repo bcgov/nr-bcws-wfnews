@@ -822,7 +822,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WFNEWS_BASEURL",
-            value = "https://wfnews-api.${var.target_env}.bcwildfireservices.com"
+            value = "https://wfnews-api.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
           },
           {
             name  = "WFNEWS_QUEUESIZE",
