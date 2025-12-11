@@ -1,10 +1,10 @@
 data "aws_route53_zone" "zone" {
-  name = "${var.target_env}.bcwildfireservices.com"
+  name = "${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
 }
 
 resource "aws_route53_record" "wfnews_server" {
   zone_id = data.aws_route53_zone.zone.id
-  name    = "wfnews-server.${var.target_env}.bcwildfireservices.com"
+  name    = "wfnews-server.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
   type    = "A"
   alias {
     name                   = aws_cloudfront_distribution.wfnews_geofencing_server.domain_name
@@ -19,7 +19,7 @@ resource "aws_route53_record" "wfnews_client" {
   //count = var.target_env == "prod" ? 0 : 1
 
   zone_id = data.aws_route53_zone.zone.id
-  name    = "wfnews-client.${var.target_env}.bcwildfireservices.com"
+  name    = "wfnews-client.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
   type    = "A"
   alias {
     name                   = aws_cloudfront_distribution.wfnews_geofencing_client.domain_name
@@ -33,7 +33,7 @@ resource "aws_route53_record" "wfnews_client_uat" {
   //count = var.target_env == "prod" ? 0 : 1
 
   zone_id = data.aws_route53_zone.zone.id
-  name    = "wfnews-client-uat-2022.${var.target_env}.bcwildfireservices.com"
+  name    = "wfnews-client-uat-2022.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
   type    = "A"
   alias {
     name                   = aws_cloudfront_distribution.wfnews_geofencing_client.domain_name
@@ -47,7 +47,7 @@ resource "aws_route53_record" "wfnews_nginx" {
   //count = var.target_env == "prod" ? 0 : 1
 
   zone_id = data.aws_route53_zone.zone.id
-  name    = "wfnews-api.${var.target_env}.bcwildfireservices.com"
+  name    = "wfnews-api.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
   type    = "A"
   alias {
     name                   = aws_cloudfront_distribution.wfnews_geofencing_nginx.domain_name
@@ -61,7 +61,7 @@ resource "aws_route53_record" "wfss_pointid" {
   //count = var.target_env == "prod" ? 0 : 1
 
   zone_id = data.aws_route53_zone.zone.id
-  name    = "wfss-pointid-api.${var.target_env}.bcwildfireservices.com"
+  name    = "wfss-pointid-api.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
   type    = "A"
   alias {
     name                   = aws_cloudfront_distribution.wfss_pointid_api.domain_name
@@ -75,7 +75,7 @@ resource "aws_route53_record" "wfone-notifications-api" {
   //count = var.target_env == "prod" ? 0 : 1
 
   zone_id = data.aws_route53_zone.zone.id
-  name    = "wfone-notifications-api.${var.target_env}.bcwildfireservices.com"
+  name    = "wfone-notifications-api.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
   type    = "A"
   alias {
     name                   = aws_cloudfront_distribution.wfone_notifications_api.domain_name
@@ -89,7 +89,7 @@ resource "aws_route53_record" "wfnews_openmaps_cache" {
   //count = var.target_env == "prod" ? 0 : 1
 
   zone_id = data.aws_route53_zone.zone.id
-  name    = "maps.${var.target_env}.bcwildfireservices.com"
+  name    = "maps.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
   type    = "A"
   alias {
     name                   = aws_cloudfront_distribution.wfnews_openmaps_cache.domain_name
@@ -103,7 +103,7 @@ resource "aws_route53_record" "wfnews_services6_cache" {
   //count = var.target_env == "prod" ? 0 : 1
 
   zone_id = data.aws_route53_zone.zone.id
-  name    = "services6.${var.target_env}.bcwildfireservices.com"
+  name    = "services6.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
   type    = "A"
   alias {
     name                   = aws_cloudfront_distribution.wfnews_services6_cache.domain_name

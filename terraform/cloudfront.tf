@@ -1,14 +1,6 @@
-locals {
-  PMNamesMap = {
-    dev = "int"
-    test = "tst"
-    prod = "prod"
-  }
-} 
-
 resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
-  aliases = ["wfnews-client.${var.target_env}.bcwildfireservices.com", "wfnews-client-uat-2022.${var.target_env}.bcwildfireservices.com"]
+  aliases = ["wfnews-client.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com", "wfnews-client-uat-2022.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
@@ -151,7 +143,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
 resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
 
-  aliases = ["wfnews-server.${var.target_env}.bcwildfireservices.com"]
+  aliases = ["wfnews-server.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
@@ -247,7 +239,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
 
 resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
 
-  aliases = ["wfnews-api.${var.target_env}.bcwildfireservices.com"]
+  aliases = ["wfnews-api.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
@@ -612,7 +604,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
 
 resource "aws_cloudfront_distribution" "wfss_pointid_api" {
 
-  aliases = ["wfss-pointid-api.${var.target_env}.bcwildfireservices.com"]
+  aliases = ["wfss-pointid-api.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
@@ -708,7 +700,7 @@ resource "aws_cloudfront_distribution" "wfss_pointid_api" {
 
 resource "aws_cloudfront_distribution" "wfone_notifications_api" {
 
-  aliases = ["wfone-notifications-api.${var.target_env}.bcwildfireservices.com"]
+  aliases = ["wfone-notifications-api.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
