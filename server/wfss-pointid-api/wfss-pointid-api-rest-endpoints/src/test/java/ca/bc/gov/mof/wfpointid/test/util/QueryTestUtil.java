@@ -34,7 +34,7 @@ public class QueryTestUtil {
 	public static  final String FIREWEATHER_CLIENT_OAUTH_SCOPES = "WFSS.* WFWX.*";
 	public static  final String FIREWEATHER_CLIENT_URL = "https://d1wfapi.vividsolutions.com/wfwx-fireweather-api/";
 
-	private static final String WFNEWS_CLIENT_URL = "https://wfnews-api.dev.bcwildfireservices.com/";
+	private static final String WFNEWS_CLIENT_URL = "https://wfnews-api.int.bcwildfireservices.com/";
 	
 	static {
 		Properties p = new Properties();

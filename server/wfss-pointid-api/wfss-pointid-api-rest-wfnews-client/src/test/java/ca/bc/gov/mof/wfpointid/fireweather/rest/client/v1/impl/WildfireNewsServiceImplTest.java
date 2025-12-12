@@ -30,7 +30,7 @@ public class WildfireNewsServiceImplTest {
 	public static void setup() {
 		
 		// TO-DO
-		String topLevelRestURL = "https://wfnews-api.test.bcwildfireservices.com/";
+		String topLevelRestURL = "https://wfnews-api.tst.bcwildfireservices.com/";
 		
 		service = new WildfireNewsServiceImpl();
 		service.setTopLevelRestURL(topLevelRestURL);

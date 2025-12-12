@@ -6,8 +6,8 @@
 		<string>development</string>
 		<key>com.apple.developer.associated-domains</key>
 		<array>
-			<string>applinks://wfnews-client.dev.bcwildfireservices.com</string>
-			<string>applinks://wfnews-client.test.bcwildfireservices.com</string>
+			<string>applinks://wfnews-client.int.bcwildfireservices.com</string>
+			<string>applinks://wfnews-client.tst.bcwildfireservices.com</string>
 			<string>applinks://wildfiresituation.nrs.gov.bc.ca</string>
 		</array>
 	</dict>
