@@ -96,48 +96,6 @@ resource "aws_alb_target_group" "wfnews_client" {
   tags = local.common_tags
 }
 
-resource "aws_alb_target_group" "wfnews_liquibase" {
-  name                 = "wfnews-liquibase-${var.target_env}"
-  port                 = var.client_port
-  protocol             = "HTTP"
-  vpc_id               = module.networking.vpc.id
-  target_type          = "ip"
-  deregistration_delay = 30
-
-  health_check {
-    healthy_threshold   = "2"
-    interval            = "300"
-    protocol            = "HTTP"
-    matcher             = "200"
-    timeout             = "3"
-    path                = var.health_check_path
-    unhealthy_threshold = "2"
-  }
-
-  tags = local.common_tags
-}
-
-resource "aws_alb_target_group" "notifications_liquibase" {
-  name                 = "notifications-liquibase-${var.target_env}"
-  port                 = var.client_port
-  protocol             = "HTTP"
-  vpc_id               = module.networking.vpc.id
-  target_type          = "ip"
-  deregistration_delay = 30
-
-  health_check {
-    healthy_threshold   = "2"
-    interval            = "300"
-    protocol            = "HTTP"
-    matcher             = "200"
-    timeout             = "3"
-    path                = var.health_check_path
-    unhealthy_threshold = "2"
-  }
-
-  tags = local.common_tags
-}
-
 resource "aws_alb_target_group" "wfnews_nginx" {
   name                 = "wfnews-nginx-${var.target_env}"
   port                 = var.nginx_ports[0]
@@ -228,30 +186,6 @@ resource "aws_alb_target_group" "wfone_notifications_push_api" {
   tags = local.common_tags
 }
 
-
-resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_notifications_liquibase" {
-
-  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.notifications_liquibase.arn
-  }
-
-  condition {
-    host_header {
-      values = [for sn in var.notifications_liquibase_names : "${sn}.*"]
-    }
-  }
-
-  condition {
-    http_header {
-      http_header_name = "X-Cloudfront-Header"
-      values           = ["${var.cloudfront_header}"]
-    }
-  }
-}
-
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
   listener_arn = aws_alb_listener.wfnews_server_front_end.arn
 
@@ -261,8 +195,8 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
   }
 
   condition {
-    host_header {
-      values = [for sn in var.server_names : "${sn}.*"]
+    path_pattern {
+      values = [for sn in var.server_names : "/${sn}"]
     }
   }
   condition {
@@ -281,35 +215,6 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_client" {
     type             = "forward"
     target_group_arn = aws_alb_target_group.wfnews_client.arn
   }
-
-  condition {
-    host_header {
-      values = [for sn in var.client_names : "${sn}.*"]
-    }
-  }
-  condition {
-    http_header {
-      http_header_name = "X-Cloudfront-Header"
-      values           = ["${var.cloudfront_header}"]
-    }
-  }
-}
-
-resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_liquibase" {
-
-  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.wfnews_liquibase.arn
-  }
-
-  condition {
-    host_header {
-      values = [for sn in var.liquibase_names : "${sn}.*"]
-    }
-  }
-
   condition {
     http_header {
       http_header_name = "X-Cloudfront-Header"
@@ -328,8 +233,8 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_nginx" {
   }
 
   condition {
-    host_header {
-      values = [for sn in concat(var.nginx_names, var.redirect_names) : "${sn}.*"]
+    path_pattern {
+      values = [for sn in concat(var.nginx_names, var.redirect_names) : "/${sn}"]
     }
   }
   condition {
@@ -350,8 +255,8 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfss_pointid
   }
 
   condition {
-    host_header {
-      values = [for sn in var.pointid_names : "${sn}.*"]
+    path_pattern {
+      values = [for sn in var.pointid_names : "/${sn}"]
     }
   }
   condition {
@@ -372,8 +277,8 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifi
   }
 
   condition {
-    host_header {
-      values = [for sn in var.wfone_notifications_api_names : "${sn}.*"]
+    path_pattern {
+      values = [for sn in var.wfone_notifications_api_names : "/${sn}"]
     }
   }
   condition {
@@ -395,8 +300,8 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_push_api" {
   }
 
   condition {
-    host_header {
-      values = ["wfone-notifications-push-api-${each.key}.*"]
+    path_pattern {
+      values = ["/wfone-notifications-push-api-${each.key}"]
     }
   }
   condition {
