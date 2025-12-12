@@ -56,6 +56,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - shell: bash
+        id: map-environment
+        run: |
+          if [ "${{ inputs.build_environment }}" == "DEV" ]; then
+            echo "URL_ENV=int" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.build_environment }}" == "TEST" ]; then
+            echo "URL_ENV=tst" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.build_environment }}" == "PROD" ]; then
+            echo "URL_ENV=prd" >> $GITHUB_OUTPUT
+          fi
+
       - name: Set short git commit SHA
         id: vars
         if: always()
@@ -97,13 +108,13 @@ jobs:
           files: ${{ env.APP_CONFIG_FILE }}
         env:
           # From config.jsp
-          AGOL_ACTIVE_FIRES: https://services6.${{ vars.TARGET_ENV }}.bcwildfireservices.com${{ vars.AGOL_ACTIVE_FIRES }}
+          AGOL_ACTIVE_FIRES: https://services6.${{ steps.map-environment.outputs.URL_ENV }}.bcwildfireservices.com${{ vars.AGOL_ACTIVE_FIRES }}
           AGOL_AREA_RESTRICTIONS: ${{ vars.AGOL_AREA_RESTRICTIONS }}
           AGOL_BANS_AND_PROHIBITIONS: ${{ vars.AGOL_BANS_AND_PROHIBITIONS }}
           AGOL_DANGER_RATINGS: ${{ vars.AGOL_DANGER_RATINGS }}
           AGOL_EVAC_ORDERS: ${{ vars.AGOL_EVAC_ORDERS }}
-          AGOL_FIRE_CENTRES: https://services6.${{ vars.TARGET_ENV }}.bcwildfireservices.com${{ vars.AGOL_FIRE_CENTRES }}
-          AGOL_PERIMETRES: https://services6.${{ vars.TARGET_ENV }}.bcwildfireservices.com${{ vars.AGOL_PERIMETRES }}
+          AGOL_FIRE_CENTRES: https://services6.${{ steps.map-environment.outputs.URL_ENV }}.bcwildfireservices.com${{ vars.AGOL_FIRE_CENTRES }}
+          AGOL_PERIMETRES: https://services6.${{ steps.map-environment.outputs.URL_ENV }}.bcwildfireservices.com${{ vars.AGOL_PERIMETRES }}
           AGOL_URL: ${{ vars.AGOL_URL }}
           APP_STORE_URL: ${{ vars.APP_STORE_URL }}
           APPLICATION_ACRONYM: ${{ vars.APPLICATION_ACRONYM }}
@@ -123,8 +134,8 @@ jobs:
           # MAP_ICONS_SHADOW_SIZE: ${{ vars.MAP_ICONS_SHADOW_SIZE }}
           # MAP_ICONS_TOOLTIP_OFFSET: ${{ vars.MAP_ICONS_TOOLTIP_OFFSET }}
           MORE_INFORMATION_LINK: ${{ vars.MORE_INFORMATION_LINK }}
-          OPENMAPS_BASE_URL: https://maps.${{ vars.TARGET_ENV }}.bcwildfireservices.com
-          SERVICES6_BASE_URL: https://services6.${{ vars.TARGET_ENV }}.bcwildfireservices.com
+          OPENMAPS_BASE_URL: https://maps.${{ steps.map-environment.outputs.URL_ENV }}.bcwildfireservices.com
+          SERVICES6_BASE_URL: https://services6.${{ steps.map-environment.outputs.URL_ENV }}.bcwildfireservices.com
           POINT_ID_URL: ${{ vars.POINT_ID_URL }}
           PROJECT_VERSION: ${{ steps.version.outputs.info }}
           REPORT_A_WILDFIRE_PHONE_LINE: ${{ vars.REPORT_A_WILDFIRE_PHONE_LINE }}
