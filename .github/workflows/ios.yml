@@ -51,6 +51,8 @@ jobs:
         run: |
           if [ "${{ inputs.build_environment }}" == "DEV" ]; then
             echo "URL_ENV=int" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.build_environment }}" == "DLVR" ]; then
+            echo "URL_ENV=dlv" >> $GITHUB_OUTPUT
           elif [ "${{ inputs.build_environment }}" == "TEST" ]; then
             echo "URL_ENV=tst" >> $GITHUB_OUTPUT
           elif [ "${{ inputs.build_environment }}" == "PROD" ]; then
