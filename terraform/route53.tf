@@ -4,13 +4,13 @@ data "aws_route53_zone" "zone" {
 
 
 
-resource "aws_route53_record" "wfnews_server" {
+resource "aws_route53_record" "wfnews_record" {
   zone_id = data.aws_route53_zone.zone.id
   name    = data.aws_route53_zone.zone.name
   type    = "A"
   alias {
-    name                   = aws_cloudfront_distribution.wfnews_geofencing_server.domain_name
-    zone_id                = aws_cloudfront_distribution.wfnews_geofencing_server.hosted_zone_id
+    name                   = aws_cloudfront_distribution.wfnews_distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.wfnews_distribution.hosted_zone_id
     evaluate_target_health = true
   }
 }
