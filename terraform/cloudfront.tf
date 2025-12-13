@@ -111,7 +111,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
     response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
-    target_origin_id       = "wfnews_client_${var.target_env}"
+    target_origin_id       = "wfnews_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
@@ -122,7 +122,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
     response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
-    target_origin_id       = "wfnews_client_${var.target_env}"
+    target_origin_id       = "wfnews_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
@@ -133,7 +133,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
     response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
-    target_origin_id       = "wfnews_client_${var.target_env}"
+    target_origin_id       = "wfnews_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
@@ -143,7 +143,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     path_pattern           = "/youtube.jsp"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "OPTIONS", "HEAD"]
-    target_origin_id       = "wfnews_client_${var.target_env}"
+    target_origin_id       = "wfnews_${var.target_env}"
     response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
@@ -158,7 +158,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_client_${var.target_env}"
+    target_origin_id = "wfnews_${var.target_env}"
 
     response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
@@ -180,7 +180,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_server_${var.target_env}"
+    target_origin_id = "wfnews_${var.target_env}"
     response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
     forwarded_values {
@@ -201,7 +201,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     path_pattern           = "/wfnews-api/publicPublishedIncidentAttachment/*/attachments/*"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "wfnews_nginx_${var.target_env}"
+    target_origin_id       = "wfnews_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
@@ -213,7 +213,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     path_pattern           = "/wfnews-api/statistics"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "wfnews_nginx_${var.target_env}"
+    target_origin_id       = "wfnews_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
     
@@ -245,7 +245,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_nginx_${var.target_env}"
+    target_origin_id = "wfnews_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -265,11 +265,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
   }
 
   ordered_cache_behavior {
-    path_pattern    = "/wfss-pointid-api/static/*"
+    path_pattern    = "/pointid-api/static/*"
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfss_pointid_api_${var.target_env}"
+    target_origin_id = "wfnews_${var.target_env}"
 
     response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
@@ -289,7 +289,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
   }
 
   ordered_cache_behavior {
-    path_pattern = "/wfss-pointid-api/*"
+    path_pattern = "/pointid-api/*"
     allowed_methods = [
       "DELETE",
       "GET",
@@ -300,7 +300,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfss_pointid_api_${var.target_env}"
+    target_origin_id = "wfnews_${var.target_env}"
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
@@ -332,7 +332,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     ]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfone_notifications_api_${var.target_env}"
+    target_origin_id = "wfnews_${var.target_env}"
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
@@ -591,8 +591,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
       "TLSv1.2"]
     }
 
-    domain_name = "wfnews-client.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
-    origin_id   = "wfnews_client_gov_${var.target_env}"
+    domain_name = "${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
+    origin_id   = "wfnews_gov_${var.target_env}"
     custom_header {
       name  = "X-Cloudfront-Header"
       value = var.cloudfront_header
@@ -674,20 +674,20 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/api/publicPublishedIncidentAttachment/*/attachments/*"
+    path_pattern           = "/wfnews-api/publicPublishedIncidentAttachment/*/attachments/*"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "wfnews_nginx_gov_${var.target_env}"
+    target_origin_id       = "wfnews_gov_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/api/statistics"
+    path_pattern           = "/wfnews-api/statistics"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "wfnews_nginx_gov_${var.target_env}"
+    target_origin_id       = "wfnews_gov_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
     
@@ -708,11 +708,11 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
   }
 
   ordered_cache_behavior {
-    path_pattern    = "/api/static/*"
+    path_pattern    = "/wfnews-api/static/*"
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_nginx_gov_${var.target_env}"
+    target_origin_id = "wfnews_gov_${var.target_env}"
 
     response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
@@ -731,7 +731,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/api"
+    path_pattern           = "/wfnews-api"
     allowed_methods = [
       "DELETE",
       "GET",
@@ -742,7 +742,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_nginx_gov_${var.target_env}"
+    target_origin_id = "wfnews_gov_${var.target_env}"
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 

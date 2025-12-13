@@ -245,13 +245,13 @@ variable "redirect_names" {
 
 variable "pointid_names" {
   description = "List of service names to use as subdomains"
-  default     = ["wfss-pointid-api"]
+  default     = ["pointid-api"]
   type        = list(string)
 }
 
 variable "wfone_notifications_api_names" {
   description = "List of service names to use as subdomains"
-  default     = ["wfone-notifications-api"]
+  default     = ["notifications-api"]
   type        = list(string)
 }
 

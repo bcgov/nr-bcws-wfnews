@@ -1,0 +1,31 @@
+name: Manual Terraform Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      IMAGE_TAG:
+        description: Image tag to use
+        required: false
+        default: latest
+
+jobs:
+  terragrunt-deploy-dev:
+    uses: ./.github/workflows/terragrunt-deploy.yml
+    with:
+      DEFAULT_APPLICATION_ENVIRONMENT: DEV
+      IMAGE_TAG: ${{ inputs.IMAGE_TAG }}
+      IS_HOTFIX: false
+      TARGET_ENV: dev
+
+      MAX_RECEIVED_COUNT: 10
+      VISIBILITY_TIMEOUT_SECONDS: 100
+      PUSH_NOTIFICATION_AWS_USER: ""
+      EVENT_BRIDGE_ARN: ""
+      WFNEWS_URL: ""
+      BAN_PROHIBITION_MONITOR_KEY: ""
+      ACTIVE_FIRE_MONITOR_KEY: ""
+      AREA_RESTRICTIONS_MONITOR_KEY: ""
+      EVACUATION_MONITOR_KEY: ""
+      LAMBDA_LAYER_KEY: ""
+
+    secrets: inherit
