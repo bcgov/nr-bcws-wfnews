@@ -1,6 +1,6 @@
 //NOTE: US certificate is needed for cloudfront
 resource "aws_acm_certificate" "wfnews_us_certificate" {
-  domain_name = "*.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
+  domain_name = "wfnews-${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
   validation_method = "DNS"
   provider = aws.aws-us
 }
@@ -33,7 +33,7 @@ resource "aws_acm_certificate_validation" "wfnews_us_certificate_validation" {
 
 //NOTE: CA certificate is needed for ALB listener
 resource "aws_acm_certificate" "wfnews_ca_certificate" {
-  domain_name = "*.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
+  domain_name = "wfnews-${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
   validation_method = "DNS"
   provider = aws
 }

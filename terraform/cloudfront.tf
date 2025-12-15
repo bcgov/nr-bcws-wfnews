@@ -1,19 +1,14 @@
-resource "aws_cloudfront_function" "normalize_trailing_slash" {
-  name    = "NormalizeTrailingSlash"
+resource "aws_cloudfront_function" "trim_path" {
+  name    = "TrimPath"
   runtime = "cloudfront-js-1.0"
 
-  comment = "Normalize request path to always have a trailing slash for -api endpoints"
+  comment = "Remove '/services6' or '/maps' from path"
 
   code = <<EOF
     function handler(event) {
-        const noTrailRegex = /.*-api$/g;
+        const pathToRemove = /(\/services6|\/maps)/g;
         var request = event.request;
-        var noTrailUri = request.uri.match(noTrailRegex);
-
-        if (noTrailUri) {
-            request.uri = request.uri + "/"
-        }
-
+        request.uri.replace(pathToRemove,"")
         return request;
     }
   EOF
@@ -370,6 +365,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       }
     }
 
+    function_association {
+      event_type = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
+    }
+
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers_no_auth_cors.id
 
     viewer_protocol_policy = "redirect-to-https"
@@ -394,6 +394,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       cookies {
         forward = "none"
       }
+    }
+
+    function_association {
+      event_type = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
     }
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
