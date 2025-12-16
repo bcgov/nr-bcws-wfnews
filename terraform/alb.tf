@@ -195,7 +195,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
   }
 
   condition {
-    path_pattern {
+    host_header {
       values = ["wfnews-server.*"]
     }
   }
