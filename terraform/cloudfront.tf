@@ -6,9 +6,9 @@ resource "aws_cloudfront_function" "trim_path" {
 
   code = <<EOF
     function handler(event) {
-        const pathToRemove = /(\/services6|\/maps)/g;
+        var pathToRemove = /(\/services6|\/maps)/g;
         var request = event.request;
-        request.uri.replace(pathToRemove,"")
+        request.uri = request.uri.replace(pathToRemove,"")
         return request;
     }
   EOF
@@ -29,7 +29,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       "TLSv1.2"]
     }
 
-    domain_name = "${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
+    domain_name = "default.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
     origin_id   = "wfnews_${var.target_env}"
     custom_header {
       name  = "X-Cloudfront-Header"
