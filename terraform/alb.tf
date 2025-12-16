@@ -111,7 +111,7 @@ resource "aws_alb_target_group" "wfnews_nginx" {
     matcher             = "200"
     timeout             = "3"
     port                = var.health_check_port
-    path                = var.api_health_check_path
+    path                = "/wfnews-api${var.api_health_check_path}"
     unhealthy_threshold = "2"
   }
 
