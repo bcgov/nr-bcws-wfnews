@@ -111,7 +111,7 @@ resource "aws_alb_target_group" "wfnews_nginx" {
     matcher             = "200"
     timeout             = "3"
     port                = var.health_check_port
-    path                = "/wfnews-api${var.api_health_check_path}"
+    path                = "${var.api_health_check_path}"
     unhealthy_threshold = "2"
   }
 
@@ -196,7 +196,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
 
   condition {
     path_pattern {
-      values = [for sn in var.server_names : "/${sn}"]
+      values = ["wfnews-server.*"]
     }
   }
   condition {
@@ -223,28 +223,6 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_client" {
   }
 }
 
-resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_nginx" {
-
-  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.wfnews_nginx.arn
-  }
-
-  condition {
-    path_pattern {
-      values = [for sn in concat(var.nginx_names, var.redirect_names) : "/${sn}"]
-    }
-  }
-  condition {
-    http_header {
-      http_header_name = "X-Cloudfront-Header"
-      values           = ["${var.cloudfront_header}"]
-    }
-  }
-}
-
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfss_pointid" {
 
   listener_arn = aws_alb_listener.wfnews_server_front_end.arn
@@ -255,8 +233,8 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfss_pointid
   }
 
   condition {
-    path_pattern {
-      values = [for sn in var.pointid_names : "/${sn}"]
+    host_header {
+      values = ["wfss-pointid-api.*"]
     }
   }
   condition {
@@ -277,8 +255,8 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifi
   }
 
   condition {
-    path_pattern {
-      values = [for sn in var.wfone_notifications_api_names : "/${sn}"]
+    host_header {
+      values = ["wfone-notifications-api.*"]
     }
   }
   condition {
@@ -307,6 +285,28 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_push_api" {
   condition {
     source_ip {
       values           = ["127.0.0.1/32"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_nginx" {
+
+  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.wfnews_nginx.arn
+  }
+
+  condition {
+    host_header {
+      values = ["wfnews-api.*"]
+    }
+  }
+  condition {
+    http_header {
+      http_header_name = "X-Cloudfront-Header"
+      values           = ["${var.cloudfront_header}"]
     }
   }
 }

@@ -2,11 +2,11 @@ resource "aws_cloudfront_function" "trim_path" {
   name    = "TrimPath"
   runtime = "cloudfront-js-1.0"
 
-  comment = "Remove '/services6' or '/maps' from path"
+  comment = "Remove '-api, services6' or 'maps' from path"
 
   code = <<EOF
     function handler(event) {
-        var pathToRemove = /(\/services6|\/maps)/g;
+        var pathToRemove = /(\/services6|\/maps|\/[^\/]+-api)/;
         var request = event.request;
         request.uri = request.uri.replace(pathToRemove,"")
         return request;
@@ -31,6 +31,57 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     domain_name = "default.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
     origin_id   = "wfnews_${var.target_env}"
+    custom_header {
+      name  = "X-Cloudfront-Header"
+      value = var.cloudfront_header
+    }
+  }
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"]
+    }
+
+    domain_name = "wfnews-api.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
+    origin_id   = "wfnews_nginx_${var.target_env}"
+    custom_header {
+      name  = "X-Cloudfront-Header"
+      value = var.cloudfront_header
+    }
+  }
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"]
+    }
+
+    domain_name = "pointid-api.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
+    origin_id   = "pointid_api_${var.target_env}"
+    custom_header {
+      name  = "X-Cloudfront-Header"
+      value = var.cloudfront_header
+    }
+  }
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"]
+    }
+
+    domain_name = "notifications-api.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
+    origin_id   = "notifications_api_${var.target_env}"
     custom_header {
       name  = "X-Cloudfront-Header"
       value = var.cloudfront_header
@@ -187,6 +238,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       }
     }
 
+    function_association {
+      event_type = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
+    }
+
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
     default_ttl            = 300
@@ -196,19 +252,24 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     path_pattern           = "/wfnews-api/publicPublishedIncidentAttachment/*/attachments/*"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "wfnews_${var.target_env}"
+    target_origin_id       = "wfnews_nginx_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
+
+    function_association {
+      event_type = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
+    }
   }
 
   ordered_cache_behavior {
     path_pattern           = "/wfnews-api/statistics"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "wfnews_${var.target_env}"
+    target_origin_id       = "wfnews_nginx_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
     
@@ -223,6 +284,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       cookies {
         forward = "none"
       }
+    }
+
+    function_association {
+      event_type = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
     }
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
@@ -240,7 +306,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_${var.target_env}"
+    target_origin_id = "wfnews_nginx_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -249,6 +315,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       cookies {
         forward = "none"
       }
+    }
+
+    function_association {
+      event_type = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
     }
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
@@ -264,7 +335,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_${var.target_env}"
+    target_origin_id = "pointid_api_${var.target_env}"
 
     response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
@@ -275,6 +346,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       cookies {
         forward = "none"
       }
+    }
+
+    function_association {
+      event_type = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
     }
 
     viewer_protocol_policy = "redirect-to-https"
@@ -295,7 +371,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_${var.target_env}"
+    target_origin_id = "pointid_api_${var.target_env}"
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
@@ -306,6 +382,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       cookies {
         forward = "none"
       }
+    }
+
+    function_association {
+      event_type = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
     }
 
     viewer_protocol_policy = "redirect-to-https"
@@ -327,7 +408,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     ]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_${var.target_env}"
+    target_origin_id = "notifications_api_${var.target_env}"
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
@@ -338,6 +419,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       cookies {
         forward = "none"
       }
+    }
+
+    function_association {
+      event_type = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
     }
 
     viewer_protocol_policy = "redirect-to-https"
