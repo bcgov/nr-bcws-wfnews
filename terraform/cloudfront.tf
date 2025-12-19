@@ -6,9 +6,9 @@ resource "aws_cloudfront_function" "trim_path" {
 
   code = <<EOF
     function handler(event) {
-        var pathToRemove = /(\/services6|\/maps|\/[^\/]+-api)/;
+        var pathToRemove = /(\/services6\/|\/maps\/|\/[^\/]+-api\/?)/;
         var request = event.request;
-        request.uri = request.uri.replace(pathToRemove,"")
+        request.uri = request.uri.replace(pathToRemove,"/")
         return request;
     }
   EOF
@@ -226,7 +226,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_${var.target_env}"
+    target_origin_id = "wfnews_nginx_${var.target_env}"
     response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
     forwarded_values {
@@ -322,6 +322,33 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       function_arn = aws_cloudfront_function.trim_path.arn
     }
 
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 86400
+  }
+
+  ordered_cache_behavior {
+    path_pattern           = "/wfnews-api"
+    allowed_methods = [
+      "GET",
+      "HEAD",
+      "OPTIONS"]
+    cached_methods = ["GET", "HEAD"]
+
+    target_origin_id = "wfnews_nginx_${var.target_env}"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
+
+      cookies {
+        forward = "none"
+      }
+    }
+    
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     viewer_protocol_policy = "redirect-to-https"
