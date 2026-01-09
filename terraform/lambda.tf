@@ -45,7 +45,7 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
       QUEUE_URL   = aws_sqs_queue.queues["bans-prohibitions"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = "https://${aws_route53_record.wfnews_nginx.name}"
+      WFNEWS_API  = "https://${aws_route53_record.wfnews_record.name}/${var.nginx_names[0]}"
       LAYER_URL   = "${var.WFARCGIS_URL}/${var.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS}"
     }
   }
@@ -70,7 +70,7 @@ resource "aws_lambda_function" "monitor-active-fires" {
       QUEUE_URL   = aws_sqs_queue.queues["active-fires"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = "https://${aws_route53_record.wfnews_nginx.name}"
+      WFNEWS_API  = "https://${aws_route53_record.wfnews_record.name}/${var.nginx_names[0]}"
       LAYER_URL   = "${var.WFARCGIS_URL}/${var.WFARCGIS_LAYER_ACTIVE_FIRES}"
     }
   }
@@ -95,7 +95,7 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
       QUEUE_URL   = aws_sqs_queue.queues["area-restrictions"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = "https://${aws_route53_record.wfnews_nginx.name}"
+      WFNEWS_API  = "https://${aws_route53_record.wfnews_record.name}/${var.nginx_names[0]}"
       LAYER_URL   = "${var.WFARCGIS_URL}/${var.WFARCGIS_LAYER_AREA_RESTRICTIONS}"
     }
   }
@@ -120,7 +120,7 @@ resource "aws_lambda_function" "monitor-evacuation" {
       QUEUE_URL   = aws_sqs_queue.queues["evac-orders"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = "https://${aws_route53_record.wfnews_nginx.name}"
+      WFNEWS_API  = "https://${aws_route53_record.wfnews_record.name}/${var.nginx_names[0]}"
       LAYER_URL   = "${var.WFARCGIS_URL}/${var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS}"
     }
   }
@@ -143,7 +143,7 @@ resource "aws_lambda_function" "wfnews-cache-invalidator" {
     variables = {
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      MAPS_CLOUDFRONT_DISTRIBUTION_IDS = "${aws_cloudfront_distribution.wfnews_openmaps_cache.id},${aws_cloudfront_distribution.wfnews_services6_cache.id}"
+      MAPS_CLOUDFRONT_DISTRIBUTION_IDS = "${aws_cloudfront_distribution.wfnews_distribution.id}"
     }
   }
   vpc_config {

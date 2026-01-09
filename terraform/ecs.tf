@@ -306,7 +306,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           #Base URL will use the 
           name  = "BASE_URL",
-          value = var.target_env == "prod" ? "https://${var.gov_client_url}/" : "https://${aws_route53_record.wfnews_client.name}/"
+          value = var.target_env == "prod" ? "https://${var.gov_client_url}/" : "https://${aws_route53_record.wfnews_record.name}/"
         },
         {
           name  = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
@@ -362,7 +362,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         { //Will be phased out from prod eventually, but not yet
           name  = "WFNEWS_API_URL",
-          value = var.target_env == "prod" ? "https://${var.gov_api_url}/" : "https://${aws_route53_record.wfnews_nginx.name}/"
+          value = var.target_env == "prod" ? "https://${var.gov_api_url}/" : "https://${aws_route53_record.wfnews_record.name}/${var.nginx_names[0]}"
         },
         {
           name  = "WFNEWS_API_KEY",
@@ -386,11 +386,11 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {
           name  = "OPENMAPS_BASE_URL",
-          value = "https://${aws_route53_record.wfnews_openmaps_cache.name}"
+          value = "https://${aws_route53_record.wfnews_record.name}/maps"
         },
         {
           name  = "SERVICES6_BASE_URL",
-          value = "https://${aws_route53_record.wfnews_services6_cache.name}"
+          value = "https://${aws_route53_record.wfnews_record.name}/services6"
         },
         {
           name  = "SITEMINDER_URL_PREFIX",

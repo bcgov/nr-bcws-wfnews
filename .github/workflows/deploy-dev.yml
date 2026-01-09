@@ -25,7 +25,7 @@ on:
         required: false
         default: 'false'
       IMAGE_TAG:
-        description: Image tag to use if not driggered my PR
+        description: Image tag to use if not triggered by PR
         required: false
         default: latest
 
@@ -44,7 +44,7 @@ jobs:
       ENVIRONMENT: DEV
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       BRANCH: ${{ vars.PATCH_BRANCH }}
-      TAG: ${{ vars.HOTFIX_TAG }}
+      TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   wfnews-api-server-build:
     uses: ./.github/workflows/mvn-server.yml
@@ -54,7 +54,7 @@ jobs:
       ENVIRONMENT: DEV
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       BRANCH: ${{ vars.PATCH_BRANCH }}
-      TAG: ${{ vars.HOTFIX_TAG }}
+      TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   wfone-notifications-api-server-build:
     uses: ./.github/workflows/mvn-server.yml
@@ -64,7 +64,7 @@ jobs:
       ENVIRONMENT: DEV
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       BRANCH: ${{ vars.PATCH_BRANCH }}
-      TAG: ${{ vars.HOTFIX_TAG }}
+      TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   wfone-notification-push-api-server-build:
     uses: ./.github/workflows/mvn-server.yml
@@ -74,7 +74,7 @@ jobs:
       ENVIRONMENT: DEV
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       BRANCH: ${{ vars.PATCH_BRANCH }}
-      TAG: ${{ vars.HOTFIX_TAG }}
+      TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   wfss-pointid-api-server-build:
     uses: ./.github/workflows/mvn-server.yml
@@ -84,19 +84,21 @@ jobs:
       ENVIRONMENT: DEV
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       BRANCH: ${{ vars.PATCH_BRANCH }}
-      TAG: ${{ vars.HOTFIX_TAG }}
+      TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   liquibase-build:
     uses: ./.github/workflows/liquibase.yml
     secrets: inherit
     with:
       ENVIRONMENT: DEV
+      TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   nginx-build:
     uses: ./.github/workflows/nginx.yml
     secrets: inherit
     with:
       ENVIRONMENT: DEV
+      TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   terragrunt-deploy-dev:
     uses: ./.github/workflows/terragrunt-deploy.yml
