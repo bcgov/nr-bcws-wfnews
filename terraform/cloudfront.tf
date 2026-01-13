@@ -497,6 +497,38 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
   }
 
   ordered_cache_behavior {
+    path_pattern = "/maps"
+    
+    allowed_methods = [
+      "HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"
+    ]
+    cached_methods = ["GET", "HEAD"]
+
+    target_origin_id = "wfnews_openmaps_cache_${var.target_env}"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin", "Authorization"]
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    function_association {
+      event_type = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
+    }
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers_no_auth_cors.id
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 300
+  }
+
+  ordered_cache_behavior {
     path_pattern = "/services6/*"
     allowed_methods = [
       "HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"
