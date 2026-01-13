@@ -6,7 +6,7 @@ resource "aws_cloudfront_function" "trim_path" {
 
   code = <<EOF
     function handler(event) {
-        var pathToRemove = /(\/services6\/|\/maps\/|\/[^\/]+-api\/?)/;
+        var pathToRemove = /(\/services6\/?|\/maps\/?|\/[^\/]+-api\/?)/;
         var request = event.request;
         request.uri = request.uri.replace(pathToRemove,"/")
         return request;
@@ -347,6 +347,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       cookies {
         forward = "none"
       }
+    }
+
+    function_association {
+      event_type = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
     }
     
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
