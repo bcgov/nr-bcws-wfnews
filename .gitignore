@@ -54,3 +54,4 @@ server/wfss-pointid-api/wfss-pointid-swagger-java-client/target
 client/wfnews-war/src/main/angular/.npmrc
 client/wfnews-war/src/main/angular/documentation.json
 client/wfnews-war/src/main/angular/android/app/google-services.json
+performance-qa/apache-jmeter-5.6.2
