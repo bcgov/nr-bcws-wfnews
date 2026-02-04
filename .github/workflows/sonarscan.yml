@@ -7,7 +7,8 @@ on:
     types: [opened, synchronize, reopened]
   push:
     branches:
-      - '2.4.2'
+      - 'main'
+      - 'release/**'
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true

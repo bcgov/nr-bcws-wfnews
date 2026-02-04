@@ -102,7 +102,7 @@ export class ReportOfFireService {
       }
 
       try {
-        const storedOfflineReportData = this.ionicStorageService.get('offlineReportData').then(response => {
+        await this.ionicStorageService.get('offlineReportData').then(async response => {
           if (response) {
             // in case the device back online right after user store the report into ionic, 
             // should always check to avoid submit the duplicate one
@@ -111,7 +111,7 @@ export class ReportOfFireService {
               const offlineResource = JSON.parse(offlineReport.resource);
               if (offlineResource === resource) {
                 try {
-                  this.ionicStorageService.clear();
+                  await this.ionicStorageService.clear();
                 } catch (error) {
                   console.error('An error occurred while removing offlineReportData:', error);
                 }
@@ -292,10 +292,10 @@ export class ReportOfFireService {
     const object = {};
     formData.forEach((value, key) => (object[key] = value));
     const json = JSON.stringify(object);
-    const data = this.ionicStorageService.get('offlineReportData').then(result => {
+    await this.ionicStorageService.get('offlineReportData').then(result => {
       if (result && result == json) {
         return;
-      } else this.ionicStorageService.set('offlineReportData', json);
+      } else return this.ionicStorageService.set('offlineReportData', json);
     }
     );
   }
