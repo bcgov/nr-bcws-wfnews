@@ -40,16 +40,14 @@ import io.swagger.v3.oas.annotations.Parameter;
 @Api(value = "IncidentAttachment")
 @Path("/")
 public interface AttachmentsEndpoint {
-  @ApiOperation(
-		value = "Get Incident Attachment by ID.", 
-		notes = "Get the Incident Attachment by ID.")
+	@ApiOperation(value = "Get Incident Attachment by ID.", notes = "Get the Incident Attachment by ID.")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
+			@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
 	})
 	@ApiResponses(value = {
-		@ApiResponse(code = 200, message = "OK", response = AttachmentResource.class, responseHeaders = @ResponseHeader(name = HeaderConstants.ETAG_HEADER, response = String.class, description = HeaderConstants.ETAG_DESCRIPTION)),
-		@ApiResponse(code = 404, message = "Not Found"),
-		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
+			@ApiResponse(code = 200, message = "OK", response = AttachmentResource.class, responseHeaders = @ResponseHeader(name = HeaderConstants.ETAG_HEADER, response = String.class, description = HeaderConstants.ETAG_DESCRIPTION)),
+			@ApiResponse(code = 404, message = "Not Found"),
+			@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
 	})
 	@GET
 	@Path("/publicPublishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}")
@@ -57,19 +55,16 @@ public interface AttachmentsEndpoint {
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	Response getIncidentAttachment(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
-			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid
-	);
+			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid);
 
-	@ApiOperation(
-		value = "Get Incident Attachment bytes by ID.", 
-		notes = "Get the Incident Attachment by ID.")
+	@ApiOperation(value = "Get Incident Attachment bytes by ID.", notes = "Get the Incident Attachment by ID.")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
+			@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
 	})
 	@ApiResponses(value = {
-		@ApiResponse(code = 200, message = "OK", response = AttachmentResource.class, responseHeaders = @ResponseHeader(name = HeaderConstants.ETAG_HEADER, response = String.class, description = HeaderConstants.ETAG_DESCRIPTION)),
-		@ApiResponse(code = 404, message = "Not Found"),
-		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
+			@ApiResponse(code = 200, message = "OK", response = AttachmentResource.class, responseHeaders = @ResponseHeader(name = HeaderConstants.ETAG_HEADER, response = String.class, description = HeaderConstants.ETAG_DESCRIPTION)),
+			@ApiResponse(code = 404, message = "Not Found"),
+			@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
 	})
 	@GET
 	@Path("/publicPublishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}/bytes")
@@ -77,19 +72,17 @@ public interface AttachmentsEndpoint {
 	Response getIncidentAttachmentBytes(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
 			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid,
-			@ApiParam("Attachment thumbnail") @QueryParam("thumbnail") @DefaultValue("false") Boolean thumbnail
-	) throws IOException;
+			@ApiParam("Attachment thumbnail") @QueryParam("thumbnail") @DefaultValue("false") Boolean thumbnail,
+			@ApiParam("The fire year.") @QueryParam("fireYear") Integer fireYear) throws IOException;
 
-	@ApiOperation(
-		value = "Get Incident Attachment bytes by ID.", 
-		notes = "Get the Incident Attachment by ID.")
+	@ApiOperation(value = "Get Incident Attachment bytes by ID.", notes = "Get the Incident Attachment by ID.")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
+			@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
 	})
 	@ApiResponses(value = {
-		@ApiResponse(code = 200, message = "OK", response = AttachmentResource.class, responseHeaders = @ResponseHeader(name = HeaderConstants.ETAG_HEADER, response = String.class, description = HeaderConstants.ETAG_DESCRIPTION)),
-		@ApiResponse(code = 404, message = "Not Found"),
-		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
+			@ApiResponse(code = 200, message = "OK", response = AttachmentResource.class, responseHeaders = @ResponseHeader(name = HeaderConstants.ETAG_HEADER, response = String.class, description = HeaderConstants.ETAG_DESCRIPTION)),
+			@ApiResponse(code = 404, message = "Not Found"),
+			@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
 	})
 	@POST
 	@Path("/publishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}/bytes")
@@ -97,28 +90,27 @@ public interface AttachmentsEndpoint {
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
 			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid,
 			@ApiParam("Attachment thumbnail") @QueryParam("thumbnail") @DefaultValue("false") Boolean thumbnail,
-			@ApiParam("The file.") @Parameter(name = "file") @FormDataParam("file") FormDataBodyPart file
-	);
+			@ApiParam("The file.") @Parameter(name = "file") @FormDataParam("file") FormDataBodyPart file);
 
-	@ApiOperation(
-		value = "Update Incident Attachment by ID", 
-		notes = "Update Incident Attachment by ID", 
-		authorizations = {
-			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }),
-			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.UPDATE_ATTACHMENT, description = "") })}, 
-		extensions = {
-			@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+	@ApiOperation(value = "Update Incident Attachment by ID", notes = "Update Incident Attachment by ID", authorizations = {
+			@Authorization(value = "Webade-OAUTH2", scopes = {
+					@AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }),
+			@Authorization(value = "Webade-OAUTH2", scopes = {
+					@AuthorizationScope(scope = Scopes.UPDATE_ATTACHMENT, description = "") }) }, extensions = {
+							@Extension(properties = {
+									@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"),
+									@ExtensionProperty(name = "throttling-tier", value = "Unlimited") }) })
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
+			@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
 	})
 	@ApiResponses(value = {
-		@ApiResponse(code = 200, message = "OK", response = AttachmentResource.class, responseHeaders = @ResponseHeader(name = HeaderConstants.ETAG_HEADER, response = String.class, description = HeaderConstants.ETAG_DESCRIPTION)),
-		@ApiResponse(code = 400, message = "Bad Request", response = MessageListRsrc.class),
-		@ApiResponse(code = 403, message = "Forbidden"),
-		@ApiResponse(code = 404, message = "Not Found"),
-		@ApiResponse(code = 409, message = "Conflict"),
-		@ApiResponse(code = 412, message = "Precondition Failed"),
-		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
+			@ApiResponse(code = 200, message = "OK", response = AttachmentResource.class, responseHeaders = @ResponseHeader(name = HeaderConstants.ETAG_HEADER, response = String.class, description = HeaderConstants.ETAG_DESCRIPTION)),
+			@ApiResponse(code = 400, message = "Bad Request", response = MessageListRsrc.class),
+			@ApiResponse(code = 403, message = "Forbidden"),
+			@ApiResponse(code = 404, message = "Not Found"),
+			@ApiResponse(code = 409, message = "Conflict"),
+			@ApiResponse(code = 412, message = "Precondition Failed"),
+			@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
 	})
 	@PUT
 	@Path("/publishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}")
@@ -129,55 +121,54 @@ public interface AttachmentsEndpoint {
 			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid,
 			@ApiParam(name = "attachment", value = "The Incident Attachment resource containing the new values.", required = true) AttachmentResource attachment);
 
-	@ApiOperation(
-		value = "Delete Incident Attachment by ID", 
-		notes = "Delete Incident Attachment by ID", 
-		authorizations = { 
-			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }),
-			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.DELETE_ATTACHMENT, description = "") })}, 
-		extensions = {
-			@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+	@ApiOperation(value = "Delete Incident Attachment by ID", notes = "Delete Incident Attachment by ID", authorizations = {
+			@Authorization(value = "Webade-OAUTH2", scopes = {
+					@AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }),
+			@Authorization(value = "Webade-OAUTH2", scopes = {
+					@AuthorizationScope(scope = Scopes.DELETE_ATTACHMENT, description = "") }) }, extensions = {
+							@Extension(properties = {
+									@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"),
+									@ExtensionProperty(name = "throttling-tier", value = "Unlimited") }) })
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header"),
-		@ApiImplicitParam(name = HeaderConstants.IF_MATCH_HEADER, value = HeaderConstants.IF_MATCH_DESCRIPTION, required = false, dataType = "string", paramType = "header")
+			@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header"),
+			@ApiImplicitParam(name = HeaderConstants.IF_MATCH_HEADER, value = HeaderConstants.IF_MATCH_DESCRIPTION, required = false, dataType = "string", paramType = "header")
 	})
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "No Content"),
-		@ApiResponse(code = 403, message = "Forbidden"),
-		@ApiResponse(code = 404, message = "Not Found"),
-		@ApiResponse(code = 409, message = "Conflict"),
-		@ApiResponse(code = 412, message = "Precondition Failed"),
-		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
+			@ApiResponse(code = 403, message = "Forbidden"),
+			@ApiResponse(code = 404, message = "Not Found"),
+			@ApiResponse(code = 409, message = "Conflict"),
+			@ApiResponse(code = 412, message = "Precondition Failed"),
+			@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
 	})
 	@DELETE
 	@Path("/publishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}")
 	public Response deleteIncidentAttachment(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
-			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid
-	);
-	
-	@ApiOperation(
-		value = "Delete Incident Attachment Bytes by ID", 
-		notes = "Delete Incident Attachment Bytes by ID", 
-		authorizations = { 
-			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }),
-			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.DELETE_ATTACHMENT, description = "") })}, 
-		extensions = {
-			@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid);
+
+	@ApiOperation(value = "Delete Incident Attachment Bytes by ID", notes = "Delete Incident Attachment Bytes by ID", authorizations = {
+			@Authorization(value = "Webade-OAUTH2", scopes = {
+					@AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }),
+			@Authorization(value = "Webade-OAUTH2", scopes = {
+					@AuthorizationScope(scope = Scopes.DELETE_ATTACHMENT, description = "") }) }, extensions = {
+							@Extension(properties = {
+									@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"),
+									@ExtensionProperty(name = "throttling-tier", value = "Unlimited") }) })
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header"),
-		@ApiImplicitParam(name = HeaderConstants.IF_MATCH_HEADER, value = HeaderConstants.IF_MATCH_DESCRIPTION, required = false, dataType = "string", paramType = "header")
+			@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header"),
+			@ApiImplicitParam(name = HeaderConstants.IF_MATCH_HEADER, value = HeaderConstants.IF_MATCH_DESCRIPTION, required = false, dataType = "string", paramType = "header")
 	})
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "No Content"),
-		@ApiResponse(code = 403, message = "Forbidden"),
-		@ApiResponse(code = 404, message = "Not Found"),
-		@ApiResponse(code = 409, message = "Conflict"),
-		@ApiResponse(code = 412, message = "Precondition Failed"),
-		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
+			@ApiResponse(code = 403, message = "Forbidden"),
+			@ApiResponse(code = 404, message = "Not Found"),
+			@ApiResponse(code = 409, message = "Conflict"),
+			@ApiResponse(code = 412, message = "Precondition Failed"),
+			@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
 	})
 	@DELETE
 	@Path("/publishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}/bytes")
 	public Response deleteIncidentAttachmentBytes(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
-			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid
-	);
+			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid,
+			@ApiParam("The fire year.") @QueryParam("fireYear") Integer fireYear);
 }

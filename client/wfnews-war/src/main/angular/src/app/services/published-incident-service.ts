@@ -282,9 +282,9 @@ export class PublishedIncidentService {
     });
   }
 
-  public fetchAttachmentBytes(incidentNumber, attachmentGuid): Observable<any> {
+  public fetchAttachmentBytes(incidentNumber, attachmentGuid, fireYear): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']
-      }/publicPublishedIncidentAttachment/${incidentNumber}/attachments/${attachmentGuid}/bytes`;
+      }/publicPublishedIncidentAttachment/${incidentNumber}/attachments/${attachmentGuid}/bytes?fireYear=${fireYear}`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
