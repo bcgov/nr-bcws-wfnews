@@ -615,14 +615,14 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public ExternalUriListResource getExternalUriList(String sourceObjectUniqueId, Integer pageNumber,
+	public ExternalUriListResource getExternalUriList(String incidentGuid, Integer pageNumber,
 			Integer pageRowCount, FactoryContext factoryContext) {
 		ExternalUriListResource results = null;
 		PagedDtos<ExternalUriDto> externalUriList = null;
 		try {
-			// if sourceObjectUniqueId is null return all
-			if (sourceObjectUniqueId != null) {
-				externalUriList = this.externalUriDao.selectForIncident(sourceObjectUniqueId, pageNumber, pageRowCount);
+			// if incidentGuid is null return all
+			if (incidentGuid != null) {
+				externalUriList = this.externalUriDao.selectForIncident(incidentGuid, pageNumber, pageRowCount);
 			} else
 				externalUriList = this.externalUriDao.select(pageNumber, pageRowCount);
 			results = this.externalUriFactory.getExternalUriList(externalUriList, pageNumber, pageRowCount,

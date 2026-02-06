@@ -77,7 +77,7 @@ public interface IncidentsService {
 			FactoryContext factoryContext) throws DaoException, NotFoundException;
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	ExternalUriListResource getExternalUriList(String sourceObjectUniqueId, Integer pageNumber,
+	ExternalUriListResource getExternalUriList(String incidentGuid, Integer pageNumber,
 			Integer pageRowCount, FactoryContext factoryContext);
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
