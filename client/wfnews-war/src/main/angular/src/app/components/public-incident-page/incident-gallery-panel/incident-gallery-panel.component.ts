@@ -151,7 +151,7 @@ export class IncidentGalleryPanel implements OnInit {
     // fetch image attachments
     try {
       const results = await this.publishedIncidentService
-        .fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel)
+        .fetchPublishedIncidentAttachments(this.incident.incidentGuid)
         .toPromise();
 
       // Loop through the attachments, for each one, create a ref, and set href to the bytes

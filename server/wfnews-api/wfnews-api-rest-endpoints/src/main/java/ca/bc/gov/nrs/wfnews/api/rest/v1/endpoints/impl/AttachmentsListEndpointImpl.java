@@ -25,110 +25,114 @@ import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
 public class AttachmentsListEndpointImpl extends BaseEndpointsImpl implements AttachmentsListEndpoint {
 
   @Autowired
-	private ParameterValidator parameterValidator;
+  private ParameterValidator parameterValidator;
 
   @Autowired
-	private IncidentsService incidentsService;
+  private IncidentsService incidentsService;
 
   @Override
-  public Response getIncidentAttachmentList(String incidentNumberSequence, String primaryIndicator,
+  public Response getIncidentAttachmentList(String incidentGuid, String primaryIndicator,
       List<String> sourceObjectNameCode, List<String> attachmentTypeCode, String pageNumber, String pageRowCount,
       String orderBy) {
-        Response response = null;
-		
-        logRequest();
-        
-        try {
-          
-          PagingQueryParameters parameters = new PagingQueryParameters();
-          parameters.setPageNumber(pageNumber);
-          parameters.setPageRowCount(pageRowCount);
-          
-          List<Message> validation = new ArrayList<>();
-          validation.addAll(this.parameterValidator.validatePagingQueryParameters(parameters));
-          
-          MessageListRsrc validationMessages = new MessageListRsrc(validation);
-          if (validationMessages.hasMessages()) {
-            response = Response.status(Status.BAD_REQUEST).entity(validationMessages).build();
-          } else {
-            AttachmentListResource results = incidentsService.getIncidentAttachmentList(
-                incidentNumberSequence,
-                toBoolean(primaryIndicator),
-                toStringArray(sourceObjectNameCode),
-                toStringArray(attachmentTypeCode),
-                toInteger(pageNumber), 
-                toInteger(pageRowCount), 
-                toStringArray(orderBy),
-                getFactoryContext() );
-    
-            GenericEntity<AttachmentListResource> entity = new GenericEntity<AttachmentListResource>(results) {
-              /* do nothing */
-            };
-    
-            response = Response.ok(entity).tag(results.getUnquotedETag()).build();
-          }
-          
-        } catch (Throwable t) {
-          response = getInternalServerErrorResponse(t);
-        }
-        
-        logResponse(response);
-    
-        return response;
+    Response response = null;
+
+    logRequest();
+
+    try {
+
+      PagingQueryParameters parameters = new PagingQueryParameters();
+      parameters.setPageNumber(pageNumber);
+      parameters.setPageRowCount(pageRowCount);
+
+      List<Message> validation = new ArrayList<>();
+      validation.addAll(this.parameterValidator.validatePagingQueryParameters(parameters));
+
+      MessageListRsrc validationMessages = new MessageListRsrc(validation);
+      if (validationMessages.hasMessages()) {
+        response = Response.status(Status.BAD_REQUEST).entity(validationMessages).build();
+      } else {
+        AttachmentListResource results = incidentsService.getIncidentAttachmentList(
+            incidentGuid,
+            toBoolean(primaryIndicator),
+            toStringArray(sourceObjectNameCode),
+            toStringArray(attachmentTypeCode),
+            toInteger(pageNumber),
+            toInteger(pageRowCount),
+            toStringArray(orderBy),
+            getFactoryContext());
+
+        GenericEntity<AttachmentListResource> entity = new GenericEntity<AttachmentListResource>(results) {
+          /* do nothing */
+        };
+
+        response = Response.ok(entity).tag(results.getUnquotedETag()).build();
+      }
+
+    } catch (Throwable t) {
+      response = getInternalServerErrorResponse(t);
+    }
+
+    logResponse(response);
+
+    return response;
   }
 
   @Override
-  public Response createIncidentAttachment(String incidentNumberSequence, AttachmentResource attachment) {
+  public Response createIncidentAttachment(String incidentGuid, AttachmentResource attachment) {
     Response response = null;
-		
-		logRequest();
-		
-		if(!hasAuthority(Scopes.CREATE_ATTACHMENT)) {
-			return Response.status(Status.FORBIDDEN).build();
-		}
 
-		try {
-      // If the resource has a GUID, check if it exists. If so, this should have been a PUT/update
-			if (attachment.getAttachmentGuid() != null) {
-				try {
-					AttachmentResource existing = incidentsService.getIncidentAttachment(attachment.getAttachmentGuid(), getFactoryContext());
-					if (existing != null) {
-						// Update
-						AttachmentResource savedResource = incidentsService.updateIncidentAttachment(attachment, getWebAdeAuthentication(), getFactoryContext());
-						URI createdUri = URI.create(savedResource.getSelfLink());
-						return Response.created(createdUri).entity(savedResource).tag(savedResource.getUnquotedETag()).build();
-					}
-					// no need to handle the else. If the existing attachment is null, fall out of this
-					// try and move on to the create
-				} catch(Exception e) {
-					// we can ignore the error case and continue
-					// In this situation, getting a NotFound just means the feature doesn't exist so
-					// we dont need to handle it as an update, and can just carry on with the create
-					// Other exceptions may occur, like DAO issues. If so, the create will also
-					// fail, and we can handle the error at that point
-				}
-			}
+    logRequest();
 
-			// there is no existing attachment, so this is definitely a post. Carry on.
-      attachment.setSourceObjectUniqueId(incidentNumberSequence);
-			AttachmentResource result = incidentsService.createIncidentAttachment(
-					attachment,
-					getWebAdeAuthentication(),
-					getFactoryContext());
+    if (!hasAuthority(Scopes.CREATE_ATTACHMENT)) {
+      return Response.status(Status.FORBIDDEN).build();
+    }
 
-			URI createdUri = URI.create(result.getSelfLink());
+    try {
+      // If the resource has a GUID, check if it exists. If so, this should have been
+      // a PUT/update
+      if (attachment.getAttachmentGuid() != null) {
+        try {
+          AttachmentResource existing = incidentsService.getIncidentAttachment(attachment.getAttachmentGuid(),
+              getFactoryContext());
+          if (existing != null) {
+            // Update
+            AttachmentResource savedResource = incidentsService.updateIncidentAttachment(attachment,
+                getWebAdeAuthentication(), getFactoryContext());
+            URI createdUri = URI.create(savedResource.getSelfLink());
+            return Response.created(createdUri).entity(savedResource).tag(savedResource.getUnquotedETag()).build();
+          }
+          // no need to handle the else. If the existing attachment is null, fall out of
+          // this
+          // try and move on to the create
+        } catch (Exception e) {
+          // we can ignore the error case and continue
+          // In this situation, getting a NotFound just means the feature doesn't exist so
+          // we dont need to handle it as an update, and can just carry on with the create
+          // Other exceptions may occur, like DAO issues. If so, the create will also
+          // fail, and we can handle the error at that point
+        }
+      }
 
-			response = Response.created(createdUri).entity(result).tag(result.getUnquotedETag()).build();
+      // there is no existing attachment, so this is definitely a post. Carry on.
+      attachment.setSourceObjectUniqueId(incidentGuid);
+      AttachmentResource result = incidentsService.createIncidentAttachment(
+          attachment,
+          getWebAdeAuthentication(),
+          getFactoryContext());
 
-		} catch(ValidationFailureException e) {
-			response = Response.status(Status.BAD_REQUEST).entity(new MessageListRsrc(e.getValidationErrors())).build();
-		} catch (Throwable t) {
-			response = getInternalServerErrorResponse(t);
-		}
-		
-		logResponse(response);
+      URI createdUri = URI.create(result.getSelfLink());
 
-		return response;
+      response = Response.created(createdUri).entity(result).tag(result.getUnquotedETag()).build();
+
+    } catch (ValidationFailureException e) {
+      response = Response.status(Status.BAD_REQUEST).entity(new MessageListRsrc(e.getValidationErrors())).build();
+    } catch (Throwable t) {
+      response = getInternalServerErrorResponse(t);
+    }
+
+    logResponse(response);
+
+    return response;
   }
-  
+
 }

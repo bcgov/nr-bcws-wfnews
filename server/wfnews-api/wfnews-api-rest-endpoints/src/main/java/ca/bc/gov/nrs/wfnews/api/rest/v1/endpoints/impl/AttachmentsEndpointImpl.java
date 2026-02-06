@@ -55,7 +55,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 	ResponseInputStream<GetObjectResponse> s3Object = null;
 
 	@Override
-	public Response getIncidentAttachment(String incidentNumberSequence, String attachmentGuid) {
+	public Response getIncidentAttachment(String incidentGuid, String attachmentGuid) {
 		Response response = null;
 
 		logRequest();
@@ -79,7 +79,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 	}
 
 	@Override
-	public Response updateIncidentAttachment(String incidentNumberSequence, String attachmentGuid,
+	public Response updateIncidentAttachment(String incidentGuid, String attachmentGuid,
 			AttachmentResource attachment) {
 		Response response = null;
 
@@ -128,7 +128,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 	}
 
 	@Override
-	public Response deleteIncidentAttachment(String incidentNumberSequence, String attachmentGuid) {
+	public Response deleteIncidentAttachment(String incidentGuid, String attachmentGuid) {
 		Response response = null;
 
 		logRequest();
@@ -174,7 +174,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 	}
 
 	@Override
-	public Response createIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail,
+	public Response createIncidentAttachmentBytes(String incidentGuid, String attachmentGuid, Boolean thumbnail,
 			FormDataBodyPart file) {
 		Response response = null;
 
@@ -189,7 +189,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
 
 				// Fetch the incident first to get the fire year
-				PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberSequence, null,
+				PublishedIncidentResource incident = incidentsService.getPublishedIncidentByIncidentGuid(incidentGuid,
 						getWebAdeAuthentication(), getFactoryContext());
 
 				if (incident.getFireYear() == null) {
@@ -198,7 +198,8 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 				// Use a key that includes the incident number and file name. Set mime type. s3
 				// Default is octet stream
-				String key = incident.getFireYear() + FileSystems.getDefault().getSeparator() + incidentNumberSequence
+				String key = incident.getFireYear() + FileSystems.getDefault().getSeparator()
+						+ incident.getIncidentNumberLabel()
 						+ FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
 				if (thumbnail.booleanValue()) {
 					key += "-thumb";
@@ -242,18 +243,18 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 	}
 
 	@Override
-	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail,
+	public Response getIncidentAttachmentBytes(String incidentNumberLabel, String attachmentGuid, Boolean thumbnail,
 			Integer fireYear) {
 		Response bytesResponse = null;
 
 		try {
-			if (incidentNumberSequence == null || attachmentGuid == null) {
+			if (incidentNumberLabel == null || attachmentGuid == null) {
 				return Response.status(400).build();
 			}
 
 			if (fireYear == null) {
 				try {
-					PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberSequence, null,
+					PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberLabel, null,
 							getWebAdeAuthentication(), getFactoryContext());
 					if (incident != null) {
 						fireYear = incident.getFireYear();
@@ -271,7 +272,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 			S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
 
-			String key = fireYear + FileSystems.getDefault().getSeparator() + incidentNumberSequence
+			String key = fireYear + FileSystems.getDefault().getSeparator() + incidentNumberLabel
 					+ FileSystems.getDefault().getSeparator() + attachmentGuid;
 			if (thumbnail.booleanValue()) {
 				key += "-thumb";
@@ -298,7 +299,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 	}
 
 	@Override
-	public Response deleteIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid,
+	public Response deleteIncidentAttachmentBytes(String incidentNumberLabel, String attachmentGuid,
 			Integer fireYear) {
 		Response response = null;
 
@@ -307,7 +308,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 		try {
 			if (fireYear == null) {
 				try {
-					PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberSequence, null,
+					PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberLabel, null,
 							getWebAdeAuthentication(), getFactoryContext());
 					if (incident != null) {
 						fireYear = incident.getFireYear();
@@ -323,7 +324,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				}
 			}
 
-			String key = fireYear + FileSystems.getDefault().getSeparator() + incidentNumberSequence
+			String key = fireYear + FileSystems.getDefault().getSeparator() + incidentNumberLabel
 					+ FileSystems.getDefault().getSeparator() + attachmentGuid;
 
 			DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
@@ -344,5 +345,4 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 		return response;
 	}
-
 }

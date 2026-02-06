@@ -239,9 +239,9 @@ export class PublishedIncidentService {
     }
   }
 
-  public fetchPublishedIncidentAttachments(incidentName): Observable<any> {
+  public fetchPublishedIncidentAttachments(incidentGuid): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']
-      }/publicPublishedIncidentAttachment/${incidentName}/attachments`;
+      }/publicPublishedIncidentAttachment/${incidentGuid}/attachments`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
