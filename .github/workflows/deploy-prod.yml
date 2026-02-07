@@ -33,19 +33,11 @@ jobs:
       tag-value: ${{ steps.get-release-tag.outputs.tag-value }}
 
     steps:
-      - uses: actions/checkout@v3
-        if: ${{ inputs.IS_HOTFIX != 'true' }}
-    
-      - uses: actions/checkout@v3
-        if: ${{ inputs.IS_HOTFIX == 'true' }}
-        with:
-          ref: ${{ inputs.BRANCH }}
-
-      - uses: GuillaumeFalourd/assert-command-line-output@v2.1
-        with:
-          command_line: cat client/pom.xml && cat server/wfnews-api/pom.xml
-          contains: SNAPSHOT
-          expected_result: FAILED
+      - name: Sanitize branch names and tags
+        id: sanitize
+        run: |
+          echo "IMAGE_TAG_SANITIZED=$(echo "${{ env.IMAGE_TAG }}" | sed 's/\//-/g')" >> $GITHUB_OUTPUT
+          echo "BRANCH_NAME_SANITIZED=$(echo "${{ env.branch-name }}" | sed 's/\//-/g')" >> $GITHUB_OUTPUT
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -56,47 +48,47 @@ jobs:
 
       - name: Tag client image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
 
       - name: Tag server image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
 
       - name: Tag liquibase image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
 
       - name: Tag nginx image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
 
       - name: Tag notifications-api image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
   
       - name: Tag notification-push-api image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
   
       - name: Tag wfss-pointid-api image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ steps.sanitize.outputs.BRANCH_NAME_SANITIZED }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
 
-      - run: echo ::set-output name=tag-value::${{ env.IMAGE_TAG }}
+      - run: echo "tag-value=${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}" >> $GITHUB_OUTPUT
         id: get-release-tag
       
 

@@ -100,6 +100,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
         
+      - name: Sanitize branch names
+        id: sanitize
+        run: |
+          echo "BRANCH_SANITIZED=${{ inputs.BRANCH }}" | sed 's/\//-/g' >> $GITHUB_OUTPUT
+          echo "BASE_REF_SANITIZED=${{ github.base_ref }}" | sed 's/\//-/g' >> $GITHUB_OUTPUT
+
       - name: Extract metadata (tags, labels) for Docker
         if: ${{ inputs.TAG || github.event.pull_request.number > 0 || inputs.IS_HOTFIX == 'true' }}
         id: meta_pr
@@ -108,9 +114,9 @@ jobs:
           images: ${{ vars.REGISTRY}}/${{ env.IMAGE_NAME }}
           tags: |
             type=schedule
-            type=raw,value=${{ github.base_ref }}
+            type=raw,value=${{ steps.sanitize.outputs.BASE_REF_SANITIZED }}
             type=ref,event=tag
-            type=raw,value=${{ inputs.TAG || (inputs.IS_HOTFIX && format('hotfix-{0}', inputs.BRANCH)) || format( 'pr-{0}', github.event.pull_request.number) }}
+            type=raw,value=${{ inputs.TAG || (inputs.IS_HOTFIX && format('hotfix-{0}', steps.sanitize.outputs.BRANCH_SANITIZED)) || format( 'pr-{0}', github.event.pull_request.number) }}
           
       - name: Build and push Docker image
         if: ${{ inputs.TAG || github.event.pull_request.number > 0 || inputs.IS_HOTFIX == 'true' }}
