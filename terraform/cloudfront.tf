@@ -200,6 +200,20 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
   }
 
   ordered_cache_behavior {
+    path_pattern           = "/youtube-embed"
+    allowed_methods        = ["GET", "OPTIONS", "HEAD"]
+    cached_methods         = ["GET", "OPTIONS", "HEAD"]
+    target_origin_id       = "wfnews_${var.target_env}"
+    response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 86400
+    max_ttl                = 86400
+    cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+  }
+
+  ordered_cache_behavior {
     path_pattern    = "/static/*"
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
