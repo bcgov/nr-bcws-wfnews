@@ -1,11 +1,5 @@
 package ca.bc.gov.nrs.wfnews.web.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -16,15 +10,21 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 @Controller
 public class YouTubeController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(YouTubeController.class);
 
 	private String youtubeResponseCache;
 	private Long cacheTimestamp;
 
-	@GetMapping(value="/youtube-embed", produce = "text/html")
+	@GetMapping(value = "/youtube-embed", produces = "text/html")
 	@ResponseBody
 	protected String youtubeEmbed(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String videoId = request.getParameter("v");
@@ -55,13 +55,17 @@ public class YouTubeController {
 		html.append("</head>");
 		html.append("<body>");
 		html.append("<iframe id=\"player\" ");
-		html.append("allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen\" ");
+		html.append(
+				"allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen\" ");
 		html.append("allowfullscreen referrerpolicy=\"strict-origin-when-cross-origin\" ");
-		
+
 		String src = "https://www.youtube-nocookie.com/embed/" + videoId + "?enablejsapi=1&rel=0&modestbranding=1";
-		if (autoplay != null) src += "&autoplay=" + autoplay;
-		if (playsinline != null) src += "&playsinline=" + playsinline;
-		else src += "&playsinline=1";
+		if (autoplay != null)
+			src += "&autoplay=" + autoplay;
+		if (playsinline != null)
+			src += "&playsinline=" + playsinline;
+		else
+			src += "&playsinline=1";
 		src += "&origin=" + origin;
 
 		html.append("src=\"" + src + "\">");
@@ -72,7 +76,7 @@ public class YouTubeController {
 		return html.toString();
 	}
 
-	@GetMapping(value="/youtube", headers="Accept=*/*", produces={"application/json", "text/xml"})
+	@GetMapping(value = "/youtube", headers = "Accept=*/*", produces = { "application/json", "text/xml" })
 	@ResponseBody
 	protected String youtubeFetch(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		logger.debug("<youtubeFetch");
@@ -85,11 +89,14 @@ public class YouTubeController {
 			try {
 				String apiKey = System.getenv("YOUTUBE_API_KEY");
 				String channelId = System.getenv("YOUTUBE_CHANNEL_ID");
-				
+
 				// call youtube API, fetch latest video data
-				HttpRequest apiRequest = HttpRequest.newBuilder(new URI("https://www.googleapis.com/youtube/v3/search?channelId=" + channelId + "&maxResults=10&part=id,snippet&type=video&order=date&key=" + apiKey)).GET().build();
+				HttpRequest apiRequest = HttpRequest
+						.newBuilder(new URI("https://www.googleapis.com/youtube/v3/search?channelId=" + channelId
+								+ "&maxResults=10&part=id,snippet&type=video&order=date&key=" + apiKey))
+						.GET().build();
 				HttpResponse<String> apiResponse = HttpClient.newBuilder().build()
-				.send(apiRequest, BodyHandlers.ofString());
+						.send(apiRequest, BodyHandlers.ofString());
 				result = apiResponse.body();
 			} catch (Exception e) {
 				logger.error("Failed to call Youtube API", e);
