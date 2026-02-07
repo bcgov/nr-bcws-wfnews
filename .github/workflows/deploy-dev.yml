@@ -19,10 +19,6 @@ on:
       - "!**/README.md"
   workflow_dispatch:
     inputs:
-      IS_HOTFIX:
-        description: 'Is this a hotfix?'
-        required: false
-        default: 'false'
       IMAGE_TAG:
         description: Image tag to use if not triggered by PR
         required: false
@@ -41,8 +37,6 @@ jobs:
     secrets: inherit
     with:
       ENVIRONMENT: DEV
-      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
-      BRANCH: ${{ vars.PATCH_BRANCH }}
       TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   wfnews-api-server-build:
@@ -51,8 +45,6 @@ jobs:
     with:
       PROJECT_NAME: wfnews-api
       ENVIRONMENT: DEV
-      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
-      BRANCH: ${{ vars.PATCH_BRANCH }}
       TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   wfone-notifications-api-server-build:
@@ -61,8 +53,6 @@ jobs:
     with:
       PROJECT_NAME: wfone-notifications-api
       ENVIRONMENT: DEV
-      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
-      BRANCH: ${{ vars.PATCH_BRANCH }}
       TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   wfone-notification-push-api-server-build:
@@ -71,8 +61,6 @@ jobs:
     with:
       PROJECT_NAME: wfone-notification-push-api
       ENVIRONMENT: DEV
-      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
-      BRANCH: ${{ vars.PATCH_BRANCH }}
       TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   wfss-pointid-api-server-build:
@@ -81,8 +69,6 @@ jobs:
     with:
       PROJECT_NAME: wfss-pointid-api
       ENVIRONMENT: DEV
-      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
-      BRANCH: ${{ vars.PATCH_BRANCH }}
       TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   liquibase-build:
@@ -107,7 +93,7 @@ jobs:
       - name: Sanitize tag
         id: sanitize
         run: |
-          TAG="${{ inputs.IS_HOTFIX == 'true' && format('hotfix-{0}', vars.PATCH_BRANCH) || (inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number)) }}"
+          TAG="${{ inputs.IMAGE_TAG || format('pr-{0}', github.event.pull_request.number) }}"
           echo "tag=$(echo $TAG | sed 's/\//-/g')" >> $GITHUB_OUTPUT
 
   terragrunt-deploy-dev:
@@ -116,7 +102,6 @@ jobs:
     with:
       DEFAULT_APPLICATION_ENVIRONMENT: DEV
       IMAGE_TAG: ${{ needs.sanitize-tag.outputs.image-tag-sanitized }}
-      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       TARGET_ENV: dev
 
       MAX_RECEIVED_COUNT: 10

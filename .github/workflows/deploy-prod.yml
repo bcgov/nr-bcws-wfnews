@@ -1,17 +1,13 @@
 name: Deploy Prod
 
 env:
-  IMAGE_TAG: ${{ inputs.IS_HOTFIX == 'true' && format('hotfix-{0}-{1}', vars.PATCH_BRANCH, vars.HOTFIX_TAG) || github.ref_name }}
+  IMAGE_TAG: ${{ github.ref_name }}
   
 on:
   release:
     types: [released]
   workflow_dispatch:
     inputs:
-      IS_HOTFIX:
-        description: 'Is this a hotfix?'
-        required: false
-        default: 'false'
     
 jobs:
 
@@ -99,7 +95,6 @@ jobs:
     with:
       DEFAULT_APPLICATION_ENVIRONMENT: PROD
       IMAGE_TAG: ${{ needs.tag-images.outputs.tag-value }}
-      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       TARGET_ENV: prod
 
       MAX_RECEIVED_COUNT: 10
