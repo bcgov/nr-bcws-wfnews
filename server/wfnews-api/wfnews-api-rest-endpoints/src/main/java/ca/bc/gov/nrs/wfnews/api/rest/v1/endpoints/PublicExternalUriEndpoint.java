@@ -19,18 +19,22 @@ import io.swagger.annotations.ApiParam;
 
 @Path("/publicExternalUri")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public interface PublicExternalUriEndpoint extends BaseEndpoints{
+public interface PublicExternalUriEndpoint extends BaseEndpoints {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getExternalUriList( @ApiParam("The source object guid for the external URI.") @QueryParam("sourceObjectUniqueId") String sourceObjectUniqueId,
+	public Response getExternalUriList(
+			@ApiParam("The incidentGuid for the external URI.") @QueryParam("incidentGuid") String incidentGuid,
 			@ApiParam("The page number of the results to be returned.") @QueryParam("pageNumber") String pageNumber,
-	        @ApiParam("The number of results per page.") @QueryParam("pageRowCount") String pageRowCount) throws NotFoundException, ForbiddenException, ConflictException;
-	
+			@ApiParam("The number of results per page.") @QueryParam("pageRowCount") String pageRowCount)
+			throws NotFoundException, ForbiddenException, ConflictException;
+
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/external-uri/{externalUriGuid}")
-	public Response getSingleExternalUri( @ApiParam("The guid for the external URI.") @PathParam("externalUriGuid") String externalUriGuid) throws NotFoundException, ForbiddenException, ConflictException;
-	
+	public Response getSingleExternalUri(
+			@ApiParam("The guid for the external URI.") @PathParam("externalUriGuid") String externalUriGuid)
+			throws NotFoundException, ForbiddenException, ConflictException;
+
 }

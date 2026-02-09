@@ -1,13 +1,9 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.file.FileSystems;
 import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Response;
@@ -48,20 +44,20 @@ import software.amazon.awssdk.utils.IoUtils;
 public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements AttachmentsEndpoint {
 	private static final Logger logger = LoggerFactory.getLogger(AttachmentsEndpointImpl.class);
 
-  @Autowired
-  private IncidentsService incidentsService;
+	@Autowired
+	private IncidentsService incidentsService;
 
-  @Autowired
-  private AttachmentsAwsConfig attachmentsAwsConfig;
-  
-  Response bytesResponse = null;
-  
-  ResponseInputStream<GetObjectResponse> s3Object = null;
-  
-  @Override
-  public Response getIncidentAttachment(String incidentNumberSequence, String attachmentGuid) {
-    Response response = null;
-		
+	@Autowired
+	private AttachmentsAwsConfig attachmentsAwsConfig;
+
+	Response bytesResponse = null;
+
+	ResponseInputStream<GetObjectResponse> s3Object = null;
+
+	@Override
+	public Response getIncidentAttachment(String incidentGuid, String attachmentGuid) {
+		Response response = null;
+
 		logRequest();
 
 		try {
@@ -72,23 +68,24 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 		} catch (ForbiddenException e) {
 			response = Response.status(Status.FORBIDDEN).build();
 		} catch (NotFoundException e) {
-			response = Response.status(Status.NOT_FOUND).build();			
+			response = Response.status(Status.NOT_FOUND).build();
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}
-		
+
 		logResponse(response);
 
 		return response;
-  }
+	}
 
-  @Override
-  public Response updateIncidentAttachment(String incidentNumberSequence, String attachmentGuid, AttachmentResource attachment) {
-    Response response = null;
-		
+	@Override
+	public Response updateIncidentAttachment(String incidentGuid, String attachmentGuid,
+			AttachmentResource attachment) {
+		Response response = null;
+
 		logRequest();
-		
-		if(!hasAuthority(Scopes.UPDATE_ATTACHMENT)) {
+
+		if (!hasAuthority(Scopes.UPDATE_ATTACHMENT)) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 
@@ -97,7 +94,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 			AttachmentResource current = this.incidentsService.getIncidentAttachment(
 					attachmentGuid,
 					getFactoryContext());
-			
+
 			EntityTag currentTag = EntityTag.valueOf(current.getQuotedETag());
 
 			ResponseBuilder responseBuilder = this.evaluatePreconditions(currentTag);
@@ -115,7 +112,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 		} catch (ForbiddenException e) {
 			response = Response.status(Status.FORBIDDEN).build();
-		} catch(ValidationFailureException e) {
+		} catch (ValidationFailureException e) {
 			response = Response.status(Status.BAD_REQUEST).entity(new MessageListRsrc(e.getValidationErrors())).build();
 		} catch (ConflictException e) {
 			response = Response.status(Status.CONFLICT).entity(e.getMessage()).build();
@@ -124,24 +121,24 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}
-		
+
 		logResponse(response);
 
 		return response;
-  }
+	}
 
-  @Override
-  public Response deleteIncidentAttachment(String incidentNumberSequence, String attachmentGuid) {
-    Response response = null;
-		
+	@Override
+	public Response deleteIncidentAttachment(String incidentGuid, String attachmentGuid) {
+		Response response = null;
+
 		logRequest();
-		
-		if(!hasAuthority(Scopes.DELETE_ATTACHMENT)) {
+
+		if (!hasAuthority(Scopes.DELETE_ATTACHMENT)) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
-		
+
 		try {
-				
+
 			AttachmentResource current = incidentsService.getIncidentAttachment(
 					attachmentGuid,
 					getFactoryContext());
@@ -170,16 +167,17 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}
-		
+
 		logResponse(response);
 
 		return response;
-  }
+	}
 
 	@Override
-	public Response createIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail, FormDataBodyPart file) {
+	public Response createIncidentAttachmentBytes(String incidentGuid, String attachmentGuid, Boolean thumbnail,
+			FormDataBodyPart file) {
 		Response response = null;
-		
+
 		logRequest();
 
 		InputStream inputStream = null;
@@ -189,21 +187,33 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 			if (result != null) {
 				S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
-        
-				// Use a key that includes the incident number and file name. Set mime type. s3 Default is octet stream
-				String key = incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
+
+				// Fetch the incident first to get the fire year
+				PublishedIncidentResource incident = incidentsService.getPublishedIncidentByIncidentGuid(incidentGuid,
+						getWebAdeAuthentication(), getFactoryContext());
+
+				if (incident.getFireYear() == null) {
+					return Response.status(Status.BAD_REQUEST).build();
+				}
+
+				// Use a key that includes the incident number and file name. Set mime type. s3
+				// Default is octet stream
+				String key = incident.getFireYear() + FileSystems.getDefault().getSeparator()
+						+ incident.getIncidentNumberLabel()
+						+ FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
 				if (thumbnail.booleanValue()) {
 					key += "-thumb";
 				}
-				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName()).key(key).contentType(result.getMimeType()).build();
+				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName())
+						.key(key).contentType(result.getMimeType()).build();
 				inputStream = file.getEntityAs(InputStream.class);
-				final PutObjectResponse s3Object = s3Client.putObject(putObjectRequest, RequestBody.fromBytes(inputStream.readAllBytes()));
+				final PutObjectResponse s3Object = s3Client.putObject(putObjectRequest,
+						RequestBody.fromBytes(inputStream.readAllBytes()));
 
 				response = Response.status(s3Object.sdkHttpResponse().statusCode()).build();
 
 				// Now we should also update the Incident
 				// This will ensure we fetch this on update checks
-				PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberSequence, null, getWebAdeAuthentication(), getFactoryContext());
 				incident.setUpdateDate(new Date());
 				incident.setLastUpdatedTimestamp(new Date());
 				incidentsService.updatePublishedWildfireIncident(incident, getFactoryContext());
@@ -226,112 +236,113 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				}
 			}
 		}
-		
+
 		logResponse(response);
 
 		return response;
 	}
 
 	@Override
-	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail) {
-		
-		Future<Response> futureResponse = null;
-		
-		logRequest();
-		
+	public Response getIncidentAttachmentBytes(String incidentNumberLabel, String attachmentGuid, Boolean thumbnail,
+			Integer fireYear) {
+		Response bytesResponse = null;
+
 		try {
-			
-			futureResponse = Executors.newFixedThreadPool(1).submit(() -> {
-	
-				AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
-	
-				if (result != null) {
-					S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
-	
-					String key = incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
-					if (thumbnail.booleanValue()) {
-						key += "-thumb";
-					}
-					GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-							.bucket(attachmentsAwsConfig.getBucketName())
-							.key(key)
-							.build();	
-	
-					byte[] content;
+			if (incidentNumberLabel == null || attachmentGuid == null) {
+				return Response.status(400).build();
+			}
 
-					s3Object = s3Client.getObject(getObjectRequest);
-					content = IoUtils.toByteArray(s3Object);
-					
-					String thumbnailFilename = result.getAttachmentGuid() + "-thumb";
-					String fullImageFilename = result.getAttachmentTitle();
-
-					bytesResponse = Response.status(200)
-							.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
-							.header("Content-disposition", "attachment; filename=\"" + (thumbnail.booleanValue() ? thumbnailFilename : fullImageFilename) + "\"")
-							.header("Content-Length", content.length)
-							.entity(content)
-							.build();
-					
-				} else {
-					bytesResponse = Response.status(404).build();
-				}
-				
-				return bytesResponse;
-			});
-			
-			return futureResponse.get();
-		
-		} catch (AwsServiceException | SdkClientException e) {
-			return Response.status(404).build();
-		} catch (Throwable t) {
-			return getInternalServerErrorResponse(t);
-		} finally {
-			if (s3Object != null && futureResponse != null && futureResponse.isDone()) {
+			if (fireYear == null) {
 				try {
-					s3Object.close();
-				} catch (IOException e) {
-					logger.error("Failed to close s3Object on image download", e);
+					PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberLabel, null,
+							getWebAdeAuthentication(), getFactoryContext());
+					if (incident != null) {
+						fireYear = incident.getFireYear();
+					}
+					if (fireYear == null) {
+						return Response.status(404).build();
+					}
+				} catch (NotFoundException e) {
+					return Response.status(404).build();
+				} catch (Exception e) {
+					logger.error("Failed to retrieve incident for fire year: " + e.getMessage());
+					return Response.status(500).build();
 				}
 			}
+
+			S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
+
+			String key = fireYear + FileSystems.getDefault().getSeparator() + incidentNumberLabel
+					+ FileSystems.getDefault().getSeparator() + attachmentGuid;
+			if (thumbnail.booleanValue()) {
+				key += "-thumb";
+			}
+
+			GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName())
+					.key(key).build();
+
+			ResponseInputStream<GetObjectResponse> s3Object = s3Client.getObject(getObjectRequest);
+			byte[] content = IoUtils.toByteArray(s3Object);
+
+			bytesResponse = Response.status(200).entity(content).type(s3Object.response().contentType()).build();
+
+		} catch (NoSuchKeyException e) {
+			bytesResponse = Response.status(404).build();
+		} catch (IOException | AwsServiceException | SdkClientException e) {
+			logger.error("Failed to download attachment from S3", e);
+			bytesResponse = Response.status(500).build();
 		}
 
-		
+		logResponse(bytesResponse);
+
+		return bytesResponse;
 	}
-	
+
 	@Override
-	public Response deleteIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid) {
+	public Response deleteIncidentAttachmentBytes(String incidentNumberLabel, String attachmentGuid,
+			Integer fireYear) {
 		Response response = null;
 
 		logRequest();
 
 		try {
-			AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
-
-			if (result != null) {
-				S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
-
-				String key = incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
-				DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
-						.bucket(attachmentsAwsConfig.getBucketName())
-						.key(key)
-						.build();
-
-				s3Client.deleteObject(deleteObjectRequest);
-				response = Response.status(204).build();
-			} else {
-				response = Response.status(404).build();
+			if (fireYear == null) {
+				try {
+					PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberLabel, null,
+							getWebAdeAuthentication(), getFactoryContext());
+					if (incident != null) {
+						fireYear = incident.getFireYear();
+					}
+					if (fireYear == null) {
+						return Response.status(404).build();
+					}
+				} catch (NotFoundException e) {
+					return Response.status(404).build();
+				} catch (Exception e) {
+					logger.error("Failed to retrieve incident for fire year: " + e.getMessage());
+					return Response.status(500).build();
+				}
 			}
-		} catch (NoSuchKeyException e) {
-			response = Response.status(404).build();
-		} catch (IOException e) {
-			response = getInternalServerErrorResponse(e);
-		} catch (Throwable t) {
-			response = getInternalServerErrorResponse(t);
+
+			String key = fireYear + FileSystems.getDefault().getSeparator() + incidentNumberLabel
+					+ FileSystems.getDefault().getSeparator() + attachmentGuid;
+
+			DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+					.bucket(attachmentsAwsConfig.getBucketName())
+					.key(key)
+					.build();
+
+			S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
+			s3Client.deleteObject(deleteObjectRequest);
+
+			response = Response.status(204).build();
+		} catch (AwsServiceException | SdkClientException e) {
+			logger.error("Failed to delete attachment from S3", e);
+			response = Response.status(500).build();
 		}
 
 		logResponse(response);
 
 		return response;
 	}
-
 }

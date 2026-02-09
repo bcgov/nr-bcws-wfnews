@@ -252,14 +252,16 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			if (dto.getCreateUser() == null && webAdeAuthentication != null && webAdeAuthentication.getUserId() != null)
 				dto.setCreateUser(webAdeAuthentication.getUserId());
 			// use createDate from current incident as this should not change.
-			// otherwise use discoveryDate or if that is somehow null, use create date in payload
+			// otherwise use discoveryDate or if that is somehow null, use create date in
+			// payload
 			if (currentPublishedIncidentResource != null) {
 				dto.setCreateDate(currentPublishedIncidentResource.getCreateDate() != null
 						? currentPublishedIncidentResource.getCreateDate()
 						: currentPublishedIncidentResource.getDiscoveryDate());
 			} else if (dto.getCreateDate() != null) {
 				dto.setCreateDate(dto.getCreateDate());
-			} else dto.setCreateDate(new Date());
+			} else
+				dto.setCreateDate(new Date());
 
 			this.publishedIncidentDao.update(dto);
 		} catch (DaoException e) {
@@ -289,10 +291,11 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			// discoveryDate is mandatory in WFIM so it shouldn't be null.
 			if (dto.getDiscoveryDate() != null) {
 				dto.setCreateDate(dto.getDiscoveryDate());
-			}else if(dto.getCreateDate() != null) {
+			} else if (dto.getCreateDate() != null) {
 				dto.setCreateDate(dto.getCreateDate());
-			}else dto.setCreateDate(new Date());
-			
+			} else
+				dto.setCreateDate(new Date());
+
 			this.publishedIncidentDao.insert(dto);
 		} catch (DaoException e) {
 			throw new ServiceException(e.getMessage(), e);
@@ -612,14 +615,14 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public ExternalUriListResource getExternalUriList(String sourceObjectUniqueId, Integer pageNumber,
+	public ExternalUriListResource getExternalUriList(String incidentGuid, Integer pageNumber,
 			Integer pageRowCount, FactoryContext factoryContext) {
 		ExternalUriListResource results = null;
 		PagedDtos<ExternalUriDto> externalUriList = null;
 		try {
-			// if sourceObjectUniqueId is null return all
-			if (sourceObjectUniqueId != null) {
-				externalUriList = this.externalUriDao.selectForIncident(sourceObjectUniqueId, pageNumber, pageRowCount);
+			// if incidentGuid is null return all
+			if (incidentGuid != null) {
+				externalUriList = this.externalUriDao.selectForIncident(incidentGuid, pageNumber, pageRowCount);
 			} else
 				externalUriList = this.externalUriDao.select(pageNumber, pageRowCount);
 			results = this.externalUriFactory.getExternalUriList(externalUriList, pageNumber, pageRowCount,
@@ -632,12 +635,11 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public AttachmentListResource getIncidentAttachmentList(String incidentNumberSequence, boolean primaryIndicator,
+	public AttachmentListResource getIncidentAttachmentList(String incidentGuid, boolean primaryIndicator,
 			String[] sourceObjectNameCodes, String[] attachmentTypeCodes, Integer pageNumber, Integer pageRowCount,
 			String[] orderBy, FactoryContext factoryContext) throws ConflictException, NotFoundException {
 		AttachmentListResource result = new AttachmentListResource();
 
-		PagedDtos<PublishedIncidentDto> publishedIncidentList = new PagedDtos<>();
 		try {
 
 			List<String> orderByList = new ArrayList<>();
@@ -698,7 +700,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 				newOrderBy = orderByList.toArray(new String[0]);
 			}
 
-			PagedDtos<AttachmentDto> list = this.attachmentDao.select(incidentNumberSequence, primaryIndicator,
+			PagedDtos<AttachmentDto> list = this.attachmentDao.select(incidentGuid, primaryIndicator,
 					sourceObjectNameCodes, attachmentTypeCodes, pageNumber, pageRowCount, newOrderBy);
 			result = this.attachmentFactory.getAttachmentList(list, pageNumber, pageRowCount, factoryContext);
 		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
