@@ -32,6 +32,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Sanitize branch names
+        id: sanitize
+        run: |
+          echo "BASE_REF_SANITIZED=${{ github.base_ref }}" | sed 's/\//-/g' >> $GITHUB_OUTPUT
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
@@ -39,7 +44,7 @@ jobs:
           images: ${{ vars.REGISTRY}}/${{ env.IMAGE_NAME }}
           tags: |
             type=schedule
-            type=raw,value=${{ github.base_ref }}
+            type=raw,value=${{ steps.sanitize.outputs.BASE_REF_SANITIZED }}
             type=ref,event=tag
             type=raw,value=${{inputs.TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 

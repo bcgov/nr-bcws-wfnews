@@ -18,7 +18,7 @@ resource "aws_cloudfront_function" "trim_path" {
 
 resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
-  aliases = [ data.aws_route53_zone.zone.name ]
+  aliases = [data.aws_route53_zone.zone.name]
 
   origin {
     custom_origin_config {
@@ -94,11 +94,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       https_port             = 443
       origin_protocol_policy = "https-only"
       origin_ssl_protocols = [
-      "TLSv1.2"
+        "TLSv1.2"
       ]
     }
 
-    domain_name = var.target_env == "prod" ? "openmaps.gov.bc.ca" : "test.openmaps.gov.bc.ca" 
+    domain_name = var.target_env == "prod" ? "openmaps.gov.bc.ca" : "test.openmaps.gov.bc.ca"
     origin_id   = "wfnews_openmaps_cache_${var.target_env}"
     origin_path = "/geo/pub/ows"
   }
@@ -109,11 +109,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
       https_port             = 443
       origin_protocol_policy = "https-only"
       origin_ssl_protocols = [
-      "TLSv1.2"
+        "TLSv1.2"
       ]
     }
 
-    domain_name = "services6.arcgis.com" 
+    domain_name = "services6.arcgis.com"
     origin_id   = "wfnews_services6_cache_${var.target_env}"
 
   }
@@ -153,50 +153,72 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/assets/*"
-    allowed_methods        = ["GET", "OPTIONS", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
-    response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
-    target_origin_id       = "wfnews_${var.target_env}"
-    compress               = true
-    viewer_protocol_policy = "redirect-to-https"
-    cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    path_pattern               = "/assets/*"
+    allowed_methods            = ["GET", "OPTIONS", "HEAD"]
+    cached_methods             = ["GET", "HEAD"]
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    target_origin_id           = "wfnews_${var.target_env}"
+    compress                   = true
+    viewer_protocol_policy     = "redirect-to-https"
+    cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6"
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/*.js"
-    allowed_methods        = ["GET", "OPTIONS", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
-    response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
-    target_origin_id       = "wfnews_${var.target_env}"
-    compress               = true
-    viewer_protocol_policy = "redirect-to-https"
-    cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    path_pattern               = "/*.js"
+    allowed_methods            = ["GET", "OPTIONS", "HEAD"]
+    cached_methods             = ["GET", "HEAD"]
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    target_origin_id           = "wfnews_${var.target_env}"
+    compress                   = true
+    viewer_protocol_policy     = "redirect-to-https"
+    cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6"
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/*.css"
-    allowed_methods        = ["GET", "OPTIONS", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
-    response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
-    target_origin_id       = "wfnews_${var.target_env}"
-    compress               = true
-    viewer_protocol_policy = "redirect-to-https"
-    cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    path_pattern               = "/*.css"
+    allowed_methods            = ["GET", "OPTIONS", "HEAD"]
+    cached_methods             = ["GET", "HEAD"]
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    target_origin_id           = "wfnews_${var.target_env}"
+    compress                   = true
+    viewer_protocol_policy     = "redirect-to-https"
+    cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6"
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/youtube.jsp"
-    allowed_methods        = ["GET", "OPTIONS", "HEAD"]
-    cached_methods         = ["GET", "OPTIONS", "HEAD"]
-    target_origin_id       = "wfnews_${var.target_env}"
-    response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
-    compress               = true
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 86400
-    cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    path_pattern               = "/youtube.jsp"
+    allowed_methods            = ["GET", "OPTIONS", "HEAD"]
+    cached_methods             = ["GET", "OPTIONS", "HEAD"]
+    target_origin_id           = "wfnews_${var.target_env}"
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    compress                   = true
+    viewer_protocol_policy     = "redirect-to-https"
+    min_ttl                    = 0
+    default_ttl                = 86400
+    max_ttl                    = 86400
+    cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+  }
+
+  ordered_cache_behavior {
+    path_pattern               = "/youtube-embed"
+    allowed_methods            = ["GET", "OPTIONS", "HEAD"]
+    cached_methods             = ["GET", "OPTIONS", "HEAD"]
+    target_origin_id           = "wfnews_${var.target_env}"
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    compress                   = true
+    viewer_protocol_policy     = "redirect-to-https"
+    min_ttl                    = 0
+    default_ttl                = 86400
+    max_ttl                    = 86400
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin"]
+
+      cookies {
+        forward = "none"
+      }
+    }
   }
 
   ordered_cache_behavior {
@@ -206,7 +228,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     target_origin_id = "wfnews_${var.target_env}"
 
-    response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
     forwarded_values {
       query_string = false
@@ -226,8 +248,8 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_nginx_${var.target_env}"
-    response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    target_origin_id           = "wfnews_nginx_${var.target_env}"
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
     forwarded_values {
       query_string = false
@@ -239,7 +261,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     }
 
     function_association {
-      event_type = "viewer-request"
+      event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.trim_path.arn
     }
 
@@ -260,7 +282,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     function_association {
-      event_type = "viewer-request"
+      event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.trim_path.arn
     }
   }
@@ -272,10 +294,10 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     target_origin_id       = "wfnews_nginx_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
-    
-    min_ttl                = 3600
-    default_ttl            = 3600
-    max_ttl                = 43200
+
+    min_ttl     = 3600
+    default_ttl = 3600
+    max_ttl     = 43200
 
     forwarded_values {
       query_string = true
@@ -287,15 +309,15 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     }
 
     function_association {
-      event_type = "viewer-request"
+      event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.trim_path.arn
     }
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
   }
 
-    ordered_cache_behavior {
-    path_pattern           = "/wfnews-api/*"
+  ordered_cache_behavior {
+    path_pattern = "/wfnews-api/*"
     allowed_methods = [
       "DELETE",
       "GET",
@@ -318,7 +340,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     }
 
     function_association {
-      event_type = "viewer-request"
+      event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.trim_path.arn
     }
 
@@ -331,11 +353,11 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/wfnews-api"
+    path_pattern = "/wfnews-api"
     allowed_methods = [
       "GET",
       "HEAD",
-      "OPTIONS"]
+    "OPTIONS"]
     cached_methods = ["GET", "HEAD"]
 
     target_origin_id = "wfnews_nginx_${var.target_env}"
@@ -350,10 +372,10 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     }
 
     function_association {
-      event_type = "viewer-request"
+      event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.trim_path.arn
     }
-    
+
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     viewer_protocol_policy = "redirect-to-https"
@@ -369,7 +391,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     target_origin_id = "pointid_api_${var.target_env}"
 
-    response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
     forwarded_values {
       query_string = false
@@ -381,7 +403,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     }
 
     function_association {
-      event_type = "viewer-request"
+      event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.trim_path.arn
     }
 
@@ -417,7 +439,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     }
 
     function_association {
-      event_type = "viewer-request"
+      event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.trim_path.arn
     }
 
@@ -454,7 +476,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     }
 
     function_association {
-      event_type = "viewer-request"
+      event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.trim_path.arn
     }
 
@@ -464,9 +486,9 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     max_ttl                = 0
   }
 
-    ordered_cache_behavior {
+  ordered_cache_behavior {
     path_pattern = "/maps/*"
-    
+
     allowed_methods = [
       "HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"
     ]
@@ -484,7 +506,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     }
 
     function_association {
-      event_type = "viewer-request"
+      event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.trim_path.arn
     }
 
@@ -498,7 +520,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
   ordered_cache_behavior {
     path_pattern = "/maps"
-    
+
     allowed_methods = [
       "HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"
     ]
@@ -516,7 +538,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     }
 
     function_association {
-      event_type = "viewer-request"
+      event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.trim_path.arn
     }
 
@@ -547,7 +569,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     }
 
     function_association {
-      event_type = "viewer-request"
+      event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.trim_path.arn
     }
 
@@ -619,7 +641,7 @@ resource "aws_cloudfront_response_headers_policy" "cache_control_response_header
     access_control_allow_origins {
       items = ["*"]
     }
-    
+
     access_control_max_age_sec = 300
 
     origin_override = true
@@ -682,7 +704,7 @@ resource "aws_cloudfront_response_headers_policy" "cache_control_response_header
         "https://wildfiresituation.nrs.gov.bc.ca"
       ]
     }
-    
+
     access_control_max_age_sec = 300
 
     origin_override = true
@@ -796,7 +818,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
     target_origin_id = "wfnews_client_gov_${var.target_env}"
 
-    response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
     forwarded_values {
       query_string = false
@@ -845,10 +867,10 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     target_origin_id       = "wfnews_gov_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
-    
-    min_ttl                = 3600
-    default_ttl            = 3600
-    max_ttl                = 43200
+
+    min_ttl     = 3600
+    default_ttl = 3600
+    max_ttl     = 43200
 
     forwarded_values {
       query_string = true
@@ -869,7 +891,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
     target_origin_id = "wfnews_gov_${var.target_env}"
 
-    response_headers_policy_id=aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
     forwarded_values {
       query_string = false
@@ -886,7 +908,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/wfnews-api"
+    path_pattern = "/wfnews-api"
     allowed_methods = [
       "DELETE",
       "GET",
