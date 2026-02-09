@@ -13,13 +13,7 @@ on:
         type: string
         description: 'Name of project, as given to the subfolder of /server to build'
         required: true
-      IS_HOTFIX:
-        required: false
-        type: string
-        default: 'false'
-      BRANCH:
-        required: false
-        type: string
+
       TAG:
         required: false
         type: string
@@ -32,12 +26,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        if: ${{ github.event.inputs.IS_HOTFIX != 'true' }}
-      
-      - uses: actions/checkout@v3
-        if: ${{ github.event.inputs.IS_HOTFIX == 'true' }}
-        with:
-          ref: ${{ inputs.BRANCH }}
       
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -70,12 +58,6 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
-        if: ${{ github.event.inputs.IS_HOTFIX != 'true' }}
-      
-      - uses: actions/checkout@v3
-        if: ${{ github.event.inputs.IS_HOTFIX == 'true' }}
-        with:
-          ref: ${{ inputs.BRANCH }}
 
       - name: download artifact
         uses: actions/download-artifact@v4
@@ -84,8 +66,8 @@ jobs:
           path: .
           
       - name: Update image name if PR number present
-        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == 'true' }}
-        run: echo "IMAGE_NAME = ${{env.IMAGE_NAME}}-${{ inputs.IS_HOTFIX == 'true' && 'hotfix' || github.event.pull_request.number }}" >> $GITHUB_ENV
+        if: ${{ github.event.pull_request.number > 0 }}
+        run: echo "IMAGE_NAME = ${{env.IMAGE_NAME}}-${{ github.event.pull_request.number }}" >> $GITHUB_ENV
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -100,20 +82,26 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
         
+      - name: Sanitize branch names
+        id: sanitize
+        run: |
+          echo "BRANCH_SANITIZED=${{ github.ref_name }}" | sed 's/\//-/g' >> $GITHUB_OUTPUT
+          echo "BASE_REF_SANITIZED=${{ github.base_ref }}" | sed 's/\//-/g' >> $GITHUB_OUTPUT
+
       - name: Extract metadata (tags, labels) for Docker
-        if: ${{ inputs.TAG || github.event.pull_request.number > 0 || inputs.IS_HOTFIX == 'true' }}
+        if: ${{ inputs.TAG || github.event.pull_request.number > 0 }}
         id: meta_pr
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ vars.REGISTRY}}/${{ env.IMAGE_NAME }}
           tags: |
             type=schedule
-            type=raw,value=${{ github.base_ref }}
+            type=raw,value=${{ steps.sanitize.outputs.BASE_REF_SANITIZED }}
             type=ref,event=tag
-            type=raw,value=${{ inputs.TAG || (inputs.IS_HOTFIX && format('hotfix-{0}', inputs.BRANCH)) || format( 'pr-{0}', github.event.pull_request.number) }}
+            type=raw,value=${{ inputs.TAG || format( 'pr-{0}', github.event.pull_request.number) }}
           
       - name: Build and push Docker image
-        if: ${{ inputs.TAG || github.event.pull_request.number > 0 || inputs.IS_HOTFIX == 'true' }}
+        if: ${{ inputs.TAG || github.event.pull_request.number > 0 }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .

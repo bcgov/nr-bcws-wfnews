@@ -5,12 +5,13 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import * as moment from 'moment';
-import { DefaultService as ExternalUriService } from '@wf1/incidents-rest-api';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { EditVideoDialogComponent } from '../edit-video-dialog/edit-video-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { YouTubeService } from '@app/services/youtube-service';
+import { DefaultService as ExternalUriService } from '@wf1/incidents-rest-api';
+import * as moment from 'moment';
 import { convertToYoutubeId } from '../../../../utils';
+import { EditVideoDialogComponent } from '../edit-video-dialog/edit-video-dialog.component';
 
 @Component({
   selector: 'video-card-panel',
@@ -36,8 +37,13 @@ export class VideoCardPanel {
     protected snackbarService: MatSnackBar,
     protected dialog: MatDialog,
     protected cdr: ChangeDetectorRef,
+    private youtubeService: YouTubeService
   ) {
     /* Empty */
+  }
+
+  getSafeUrl(url: string) {
+    return this.youtubeService.sanitizeYoutubeUrl(url);
   }
 
   changePrimary() {
