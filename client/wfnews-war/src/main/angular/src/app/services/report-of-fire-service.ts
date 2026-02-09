@@ -40,7 +40,7 @@ export class ReportOfFireService {
   submittedOffline: boolean;
   longitude: number;
   latitude: number;
-  formData: FormData
+  formData: FormData;
 
   constructor(
     private appConfigService: AppConfigService,
@@ -86,13 +86,11 @@ export class ReportOfFireService {
       this.formData = formData
       // if the device is offline save RoF in storage
       try {
-        await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
-          const self = this;
-          if (!result) {
-            await this.submitToStorage(formData);
-            self.submittedOffline = true;
-          }
-        });
+        const onlineStatus = await this.commonUtilityService.checkOnlineStatus();
+        if (!onlineStatus) {
+          await this.submitToStorage(formData);
+          this.submittedOffline = true;
+        }
       } catch (error) {
         console.error('Error checking online status for ROF submission', error);
       }
@@ -102,11 +100,9 @@ export class ReportOfFireService {
       }
 
       try {
-        await this.ionicStorageService.get('offlineReportData').then(async response => {
-          if (response) {
-            // in case the device back online right after user store the report into ionic, 
-            // should always check to avoid submit the duplicate one
-            const offlineReport = JSON.parse(response);
+        const offlineReportDataResponse = await this.ionicStorageService.get('offlineReportData');
+        if (offlineReportDataResponse) {
+          const offlineReport = JSON.parse(offlineReportDataResponse);
             if (offlineReport.resource) {
               const offlineResource = JSON.parse(offlineReport.resource);
               if (offlineResource === resource) {
@@ -117,8 +113,7 @@ export class ReportOfFireService {
                 }
               }
             }
-          }
-        });
+        }
 
       } catch (error) {
         console.error('An error occurred while retrieving offlineReportData:', error);
@@ -133,14 +128,14 @@ export class ReportOfFireService {
         return { success: true, message: 'Report submitted successfully' };
       } else {
         // submit to storage if there is an issue
-        if (this.formData) await this.submitToStorage(this.formData)
+        if (this.formData) await this.submitToStorage(this.formData);
         // The server encountered an error
         return { success: false, message: JSON.stringify(response) };
       }
     } catch (error) {
       console.error(error);
       // submit to storage if there is an error
-      if (this.formData) await this.submitToStorage(this.formData)
+      if (this.formData) await this.submitToStorage(this.formData);
       // An error occurred during the HTTP request
       return {
         success: false,
@@ -177,14 +172,13 @@ export class ReportOfFireService {
       if (image.path) {
         // read binary data (base64 encoded) from plugins that return File URIs, such as
         // the Camera.
-        const contents = await Filesystem.readFile({
+        const file = await Filesystem.readFile({
           path: image.path,
-        }).then(result => {
-          content = result.data;
-        })
+        });
+        content = file.data;
 
         // Filesystem.readFile returns just the content of the base64 string. Detect mimeType from content
-        const identifier = content.charAt(0)
+        const identifier = content.charAt(0);
         switch (identifier) {
           case '/':
             mimeType = 'jpg';
@@ -212,9 +206,7 @@ export class ReportOfFireService {
       }
       // if it does not have base64 string convert it to one
       else if (image.webPath) {
-        await this.blobToBase64(image.webPath).then((result) => {
-          base64 = result;
-        });
+        base64 = await this.blobToBase64(image.webPath);
       }
       // if it does not have a webPath return the dataUrl which should be a base64 string
       else {
@@ -226,9 +218,7 @@ export class ReportOfFireService {
 
       // if not a JPG, metadata will be checked in notifications api and lat/long will be added if not present.
       if (base64?.startsWith('data:image/jpeg')) {
-        await this.checkExifGPS(base64).then((response) => {
-          base64 = response;
-        });
+        base64 = await this.checkExifGPS(base64);
       }
     } catch (error) {
       console.error('Error converting image to base64 string', error);
@@ -292,12 +282,10 @@ export class ReportOfFireService {
     const object = {};
     formData.forEach((value, key) => (object[key] = value));
     const json = JSON.stringify(object);
-    await this.ionicStorageService.get('offlineReportData').then(result => {
-      if (result && result == json) {
-        return;
-      } else return this.ionicStorageService.set('offlineReportData', json);
-    }
-    );
+    const data = await this.ionicStorageService.get('offlineReportData');
+    if (data && data == json) {
+      return;
+    } else this.ionicStorageService.set('offlineReportData', json);
   }
 
   // could not seem to get this to work for non-JPEG, those will be handled in notifications api.
@@ -335,18 +323,16 @@ export class ReportOfFireService {
 
     try {
       // Fetch and submit locally stored data
-      await this.ionicStorageService.get('offlineReportData').then(response => {
-        offlineReport = response;
-      })
+      offlineReport = await this.ionicStorageService.get('offlineReportData');
 
       submissionIdList = this.localStorageService.getData('submissionIDList');
 
       if (offlineReport) {
          // Check for duplicate, reject if submissionID has already been stored
-        const offlineJson = JSON.parse(offlineReport)
+        const offlineJson = JSON.parse(offlineReport);
         if(offlineJson?.resource) {
-          const resourceJson = JSON.parse(offlineJson.resource)
-          submissionID = resourceJson?.submissionID
+          const resourceJson = JSON.parse(offlineJson.resource);
+          submissionID = resourceJson?.submissionID;
           if (submissionID && submissionIdList?.includes(submissionID)) {
             duplicateStored = true;
           }
@@ -356,22 +342,21 @@ export class ReportOfFireService {
         if(duplicateStored) return true;
 
         // Send the report to the server
-        const response =
-          await this.submitOfflineReportToServer(offlineReport).then(response => {
-            if (response.success) {
-              dataSynced = true;
-              // Remove the locally stored data if sync is successful
-              this.ionicStorageService.clear();
-              // store submissionID for duplicate check 
-              if(submissionID) {
-                submissionIdList = submissionIdList ? submissionIdList + ", " +  submissionID : submissionID;
-                this.localStorageService.saveData('submissionIDList', submissionIdList)
-              }
+        const submitResponse = await this.submitOfflineReportToServer(offlineReport);
+        if (submitResponse.success) {
+          dataSynced = true;
+          // Remove the locally stored data if sync is successful
+          this.ionicStorageService.clear();
+          // store submissionID for duplicate check
 
-              intervalRef.unsubscribe()
-              App.removeAllListeners();
-            }
-          });
+          if(submissionID) {
+            submissionIdList = submissionIdList ? submissionIdList + ", " +  submissionID : submissionID;
+            this.localStorageService.saveData('submissionIDList', submissionIdList);
+          }
+
+          intervalRef.unsubscribe();
+          App.removeAllListeners();
+        }
       }
     } catch (error) {
       console.error('Sync failed:', error);
