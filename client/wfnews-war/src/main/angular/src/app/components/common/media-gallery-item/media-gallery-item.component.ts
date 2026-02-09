@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { InitDetail } from 'lightgallery/lg-events';
 import { LightGallery } from 'lightgallery/lightgallery';
@@ -12,10 +12,12 @@ import { YouTubeService } from '../../../services/youtube-service';
   templateUrl: './media-gallery-item.component.html',
   styleUrls: ['./media-gallery-item.component.scss']
 })
-export class MediaGalleryItemComponent {
+export class MediaGalleryItemComponent implements OnChanges {
   @Input() item: MediaGalleryItem;
   @Input() index: number;
   @Input() errorFunction: (item: MediaGalleryItem, index: number) => void;
+
+  safeUrl: SafeResourceUrl;
 
   settings = {
     counter: true,
@@ -29,7 +31,27 @@ export class MediaGalleryItemComponent {
 
   private lightGallery!: LightGallery;
 
-  constructor(private youTubeService: YouTubeService) {}
+  constructor(private youTubeService: YouTubeService) { }
+
+  ngOnInit(): void {
+    this.sanitize();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes && changes.item) {
+      this.sanitize();
+    }
+  }
+
+  sanitize() {
+    if (this.item && this.item.type === 'video') {
+      if (typeof this.item.href === 'string') {
+        this.safeUrl = this.youTubeService.sanitizeYoutubeUrl(this.item.href);
+      } else {
+        this.safeUrl = this.item.href;
+      }
+    }
+  }
 
   onInit = (detail: InitDetail): void => {
     this.lightGallery = detail.instance;
@@ -38,13 +60,6 @@ export class MediaGalleryItemComponent {
   handleError = () => {
     this.errorFunction(this.item, this.index);
   };
-
-  bypassUrlSecurity(url): SafeResourceUrl {
-    if (typeof url === 'string') {
-      return this.youTubeService.sanitizeYoutubeUrl(url);
-    }
-    return url;
-  }
 }
 
 export interface MediaGalleryItem {

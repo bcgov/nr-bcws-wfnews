@@ -1,5 +1,5 @@
 <div class="title-row">{{item.title}}</div>
 <div class="date-row">{{convertToMobileFormat(item.convertedDate)}}</div>
-<iframe style="padding: 5px;" [src]="getSafeUrl(item.href)" [title]="item.title" width="100%" height="250"
+<iframe style="padding: 5px;" [src]="safeUrl" [title]="item.title" width="100%" height="250"
     allowfullscreen>
 </iframe>
