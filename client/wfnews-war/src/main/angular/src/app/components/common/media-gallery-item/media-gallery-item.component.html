@@ -11,7 +11,7 @@
       </a>
     </lightgallery>
 
-    <iframe *ngIf="item?.type === 'video'" [src]="bypassUrlSecurity(item.href)" [title]="item.title" allowfullscreen>
+    <iframe *ngIf="item?.type === 'video'" [src]="safeUrl" [title]="item.title" allowfullscreen>
     </iframe>
   </div>
 </div>
