@@ -222,9 +222,7 @@ export class IncidentInfoPanelComponent implements AfterViewInit, OnChanges {
           // fetch image attachments
           this.publishedIncidentService
             .fetchPublishedIncidentAttachments(
-              this.incident.incidentNumberLabel
-                ? this.incident.incidentNumberLabel
-                : this.incident.incidentNumberLabelFull,
+              this.incident.incidentGuid,
             )
             .toPromise()
             .then((attachments) => {

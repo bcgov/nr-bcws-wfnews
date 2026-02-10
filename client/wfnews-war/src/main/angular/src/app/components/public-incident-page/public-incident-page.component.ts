@@ -148,7 +148,7 @@ export class PublicIncidentPageComponent implements OnInit {
     await this.getAreaRestrictions();
 
     this.publishedIncidentService
-      .fetchPublishedIncidentAttachments(this.incident.incidentNumberLabelFull)
+      .fetchPublishedIncidentAttachments(this.incident.incidentGuid)
       .toPromise()
       .then((results) => {
         if (results?.collection?.length > 0) {
@@ -158,7 +158,7 @@ export class PublicIncidentPageComponent implements OnInit {
       });
 
     this.publishedIncidentService
-      .fetchAttachments(this.incident.incidentNumberLabelFull)
+      .fetchAttachments(this.incident.incidentGuid)
       .toPromise()
       .then((docs) => {
         // remove any non-image types
