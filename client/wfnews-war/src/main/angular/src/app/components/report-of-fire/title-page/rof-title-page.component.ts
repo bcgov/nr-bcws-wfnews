@@ -94,15 +94,12 @@ export class RoFTitlePage extends RoFPage implements OnInit {
     await this.commonUtilityService.removeInvalidOfflineRoF();
 
     // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
-    await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
-      if (result) {
-        await this.reportOfFireService.syncDataWithServer(this.intervalRef).then(response => {
-          if(response) {
-            rofSubmitted = true;
-          }
-        });      
-      };
-    });
+
+    if (await this.commonUtilityService.checkOnlineStatus()) {
+      if (await this.reportOfFireService.syncDataWithServer(this.intervalRef)) {
+        rofSubmitted = true;
+      }
+    };
     return rofSubmitted;
   }
 
