@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { AppConfigService } from '@wf1/core-ui';
-import { PublishedIncidentService } from '../../../../services/published-incident-service';
 import { ActivatedRoute } from '@angular/router';
-import { LightGallery } from 'lightgallery/lightgallery';
-import { convertToMobileFormat, convertToYoutubeId } from '../../../../utils';
+import { AppConfigService } from '@wf1/core-ui';
 import { InitDetail } from 'lightgallery/lg-events';
+import { LightGallery } from 'lightgallery/lightgallery';
+import { PublishedIncidentService } from '../../../../services/published-incident-service';
+import { convertToMobileFormat, convertToYoutubeId } from '../../../../utils';
 
 @Component({
   selector: 'incident-gallery-panel-mobile',
@@ -35,7 +35,7 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
     private appConfigService: AppConfigService,
     private cdr: ChangeDetectorRef,
     private router: ActivatedRoute,
-  ) {}
+  ) { }
 
   ngAfterViewChecked(): void {
     if (this.refreshGallery && this.lightGallery) {
@@ -69,7 +69,7 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
     this.allImagesAndVideosStub = [];
     // fetch the Videos
     this.publishedIncidentService
-      .fetchExternalUri(this.incident.incidentNumberLabel)
+      .fetchExternalUri(this.incident.incidentGuid)
       .toPromise()
       .then((results) => {
         if (results?.collection && results.collection.length > 0) {
@@ -78,7 +78,7 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
 
         // fetch image attachments
         this.publishedIncidentService
-          .fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel)
+          .fetchPublishedIncidentAttachments(this.incident.incidentGuid)
           .toPromise()
           .then((results) => {
             // Loop through the attachments, for each one, create a ref, and set href to the bytes
@@ -169,16 +169,12 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
           fileName: attachment.attachmentFileName,
           primary: attachment.primary.toString(),
           type: 'image',
-          href: `${
-            this.appConfigService.getConfig().rest['wfnews']
-          }/publicPublishedIncidentAttachment/${
-            this.incident.incidentNumberLabel
-          }/attachments/${attachment.attachmentGuid}/bytes`,
-          thumbnail: `${
-            this.appConfigService.getConfig().rest['wfnews']
-          }/publicPublishedIncidentAttachment/${
-            this.incident.incidentNumberLabel
-          }/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true`,
+          href: `${this.appConfigService.getConfig().rest['wfnews']
+            }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+            }/attachments/${attachment.attachmentGuid}/bytes`,
+          thumbnail: `${this.appConfigService.getConfig().rest['wfnews']
+            }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
+            }/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true`,
         });
       }
     }
