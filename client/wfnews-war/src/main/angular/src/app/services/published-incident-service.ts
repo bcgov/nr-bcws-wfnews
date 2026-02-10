@@ -264,7 +264,7 @@ export class PublishedIncidentService {
 
   public fetchExternalUri(incidentGuid): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']
-      }/publicExternalUri?sourceObjectUniqueId=${incidentGuid}&pageNumber=1&pageRowCount=100`;
+      }/publicExternalUri?incidentGuid=${incidentGuid}&pageNumber=1&pageRowCount=100`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
