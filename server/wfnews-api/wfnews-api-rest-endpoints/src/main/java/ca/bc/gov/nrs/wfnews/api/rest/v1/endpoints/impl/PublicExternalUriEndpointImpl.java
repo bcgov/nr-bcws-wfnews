@@ -3,7 +3,6 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -35,8 +34,7 @@ public class PublicExternalUriEndpointImpl extends BaseEndpointsImpl implements 
 	private ParameterValidator parameterValidator;
 
 	@Override
-	public Response getExternalUriList(@QueryParam("incidentGuid") String incidentGuid,
-			@QueryParam("pageNumber") String pageNumber, @QueryParam("pageRowCount") String pageRowCount)
+	public Response getExternalUriList(String incidentGuid, String pageNumber, String pageRowCount)
 			throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 
