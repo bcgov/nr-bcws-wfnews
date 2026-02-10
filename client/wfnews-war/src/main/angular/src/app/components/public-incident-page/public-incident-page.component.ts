@@ -237,7 +237,7 @@ export class PublicIncidentPageComponent implements OnInit {
 
   async getExternalUriEvacOrders() {
     return this.publishedIncidentService
-      .fetchExternalUri(this.incident.incidentNumberLabel)
+      .fetchExternalUri(this.incident.incidentGuid)
       .toPromise()
       .then((results) => {
         if (results?.collection?.length > 0) {
@@ -301,24 +301,24 @@ export class PublicIncidentPageComponent implements OnInit {
       'incident_details_gallery_click',
       'incident_details_maps_click',
     ];
-  
+
     const tabLabels = ['Details', 'Response', 'Gallery', 'Maps'];
     const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.currentRouter.url.slice(1);
-  
+
     // Determine the index based on the type of event
     const index = typeof event === 'number' ? event : event.index;
-  
+
     // Validate the index to avoid accessing undefined values
     if (index < 0 || index >= TAB_ACTIONS.length) {
       console.warn('Invalid tab index:', index);
       return;
     }
-  
+
     const actionName = TAB_ACTIONS[index];
     this.snowPlowHelper(url, {
       action: actionName,
       text: tabLabels[index],
     });
   }
-  
+
 }
