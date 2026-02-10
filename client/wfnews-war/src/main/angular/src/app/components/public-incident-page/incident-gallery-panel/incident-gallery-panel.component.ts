@@ -128,7 +128,7 @@ export class IncidentGalleryPanel implements OnInit {
   async loadVideos() {
     // fetch the Videos
     try {
-      const results = await this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise();
+      const results = await this.publishedIncidentService.fetchExternalUri(this.incident.incidentGuid).toPromise();
       for (const uri of results?.collection) {
         if (!uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
           this.media.push({

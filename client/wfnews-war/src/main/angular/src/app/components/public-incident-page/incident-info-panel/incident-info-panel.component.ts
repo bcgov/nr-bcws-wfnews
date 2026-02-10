@@ -192,7 +192,7 @@ export class IncidentInfoPanelComponent implements AfterViewInit, OnChanges {
     // otherwise, dont show the media box.
     // fetch videos
     this.publishedIncidentService
-      .fetchExternalUri(this.incident.incidentNumberLabel)
+      .fetchExternalUri(this.incident.incidentGuid)
       .toPromise()
       .then((results) => {
         let setMedia = false;
