@@ -115,6 +115,7 @@ resource "aws_iam_role_policy" "wfnews_ssp_bucket_policy" {
                 "s3:PutObject",
                 "s3:GetObject",
                 "s3:DeleteObject",
+                "s3:ListBucket",
                 "kms:Decrypt",
                 "kms:Encrypt",
                 "s3:PutBucketCORS"
@@ -148,6 +149,7 @@ resource "aws_iam_role_policy" "wfnews_task_execution_bucket_policy" {
                 "s3:PutObject",
                 "s3:GetObject",
                 "s3:DeleteObject",
+                "s3:ListBucket",
                 "kms:Decrypt",
                 "kms:Encrypt",
                 "s3:PutBucketCORS"
