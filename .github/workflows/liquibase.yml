@@ -47,7 +47,7 @@ jobs:
             type=schedule
             type=ref,event=branch
             type=ref,event=tag
-            type=sha,format=short
+            type=sha,format=short,prefix=
             type=raw,value=${{inputs.TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
       - name: Build and push Docker image
