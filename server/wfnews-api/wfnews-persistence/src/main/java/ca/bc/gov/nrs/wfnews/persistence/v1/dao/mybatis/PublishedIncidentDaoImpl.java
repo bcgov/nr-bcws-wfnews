@@ -1,7 +1,5 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis;
 
-import java.time.Year;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
 import ca.bc.gov.nrs.common.persistence.dao.NotFoundDaoException;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.utils.CommonUtil;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.BaseDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.PublishedIncidentDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.PublishedIncidentMapper;
@@ -25,13 +24,13 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 		PublishedIncidentDao {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(PublishedIncidentDaoImpl.class);
-	
+
 	public void setPublishedIncidentMapper(PublishedIncidentMapper publishedIncidentMapper) {
 		this.publishedIncidentMapper = publishedIncidentMapper;
 	}
-	
+
 	@Autowired
 	private PublishedIncidentMapper publishedIncidentMapper;
 
@@ -49,21 +48,21 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("publishedIncidentDetailGuid", dto.getPublishedIncidentDetailGuid());
 			int count = this.publishedIncidentMapper.insert(parameters);
 
-			if(count==0) {
-				throw new DaoException("Record not inserted: "+count);
+			if (count == 0) {
+				throw new DaoException("Record not inserted: " + count);
 			}
-			
+
 			publishedIncidentGuid = (String) parameters.get("publishedIncidentDetailGuid");
-			
+
 			dto.setPublishedIncidentDetailGuid(publishedIncidentGuid);
-			
+
 		} catch (RuntimeException e) {
 			handleException(e);
 		}
 
 		logger.debug(">insert " + publishedIncidentGuid);
 	}
-	
+
 	@Override
 	public void update(PublishedIncidentDto dto) throws DaoException {
 		logger.debug("<update");
@@ -78,21 +77,21 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("publishedIncidentDetailGuid", dto.getPublishedIncidentDetailGuid());
 			int count = this.publishedIncidentMapper.update(parameters);
 
-			if(count==0) {
-				throw new DaoException("Record not inserted: "+count);
+			if (count == 0) {
+				throw new DaoException("Record not inserted: " + count);
 			}
-			
+
 			publishedIncidentGuid = (String) parameters.get("publishedIncidentDetailGuid");
-			
+
 			dto.setPublishedIncidentDetailGuid(publishedIncidentGuid);
-			
+
 		} catch (RuntimeException e) {
 			handleException(e);
 		}
 
 		logger.debug(">update " + publishedIncidentGuid);
 	}
-	
+
 	@Override
 	public PublishedIncidentDto fetch(String publishedIncidentDetailGuid, Integer fireYear) throws DaoException {
 		logger.debug("<fetch");
@@ -113,7 +112,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 		logger.debug(">fetch " + result);
 		return result;
 	}
-	
+
 	@Override
 	public PublishedIncidentDto fetchForIncidentGuid(String incidentGuid) throws DaoException {
 		logger.debug("<fetch");
@@ -133,7 +132,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 		logger.debug(">fetch " + result);
 		return result;
 	}
-	
+
 	@Override
 	public void flush() throws DaoException {
 		logger.debug(">flush");
@@ -148,15 +147,15 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	@Override
 	public void delete(String publishedIncidentDetailGuid) throws DaoException, NotFoundDaoException {
 		logger.debug(">delete");
-		
+
 		try {
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("publishedIncidentDetailGuid", publishedIncidentDetailGuid);
 			int count = this.publishedIncidentMapper.delete(parameters);
 
-			if(count==0) {
-				throw new DaoException("Record not deleted: "+count);
+			if (count == 0) {
+				throw new DaoException("Record not deleted: " + count);
 			}
 
 		} catch (RuntimeException e) {
@@ -164,9 +163,9 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 		}
 
 		logger.debug("<delete");
-		
+
 	}
-	
+
 	@Override
 	public String selectAsJson(String stageOfControlCode, String bbox) throws DaoException {
 		String json = "";
@@ -177,7 +176,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
 			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
 			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
-			parameters.put("currentFireYear", getCurrentFireYear());
+			parameters.put("currentFireYear", CommonUtil.getCurrentFireYear());
 
 			json = this.publishedIncidentMapper.selectAsJson(parameters);
 		} catch (RuntimeException e) {
@@ -206,23 +205,28 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, Date fromCreateDate, Date toCreateDate, Date fromDiscoveryDate, Date toDiscoveryDate, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws DaoException{
-		
+	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount,
+			List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires,
+			String fireCentreCode, String fireCentreName, Date fromCreateDate, Date toCreateDate, Date fromDiscoveryDate,
+			Date toDiscoveryDate, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius)
+			throws DaoException {
+
 		PagedDtos<PublishedIncidentDto> results = new PagedDtos<>();
-		
+
 		try {
 
 			Map<String, Object> parameters = new HashMap<>();
-			
+
 			Integer offset = null;
-			
+
 			pageNumber = pageNumber == null ? 0 : pageNumber;
 
-			if (pageRowCount != null) { 
+			if (pageRowCount != null) {
 				offset = Integer.valueOf((pageNumber.intValue() - 1) * pageRowCount.intValue());
 			}
-			//avoid jdbc exception for offset when pageNumber is 0
-			if (offset != null && offset < 0) offset = 0;
+			// avoid jdbc exception for offset when pageNumber is 0
+			if (offset != null && offset < 0)
+				offset = 0;
 
 			parameters.put("offset", offset);
 			parameters.put("pageRowCount", pageRowCount);
@@ -244,8 +248,8 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("longitude", longitude);
 			parameters.put("radius", radius);
 			parameters.put("searchText", searchText);
-			parameters.put("currentFireYear", fireYear != null ? fireYear.intValue() : getCurrentFireYear());
-			
+			parameters.put("currentFireYear", fireYear != null ? fireYear.intValue() : CommonUtil.getCurrentFireYear());
+
 			int totalRowCount = this.publishedIncidentMapper.selectCount(parameters);
 			List<PublishedIncidentDto> dtos = this.publishedIncidentMapper.select(parameters);
 			results.setResults(dtos);
@@ -256,16 +260,8 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 		} catch (RuntimeException e) {
 			handleException(e);
 		}
-		
+
 		return results;
 	}
 
-	private int getCurrentFireYear() {
-		int currentYear = Year.now().getValue();
-		if (Calendar.getInstance().get(Calendar.MONTH) < 3) {
-			currentYear -= 1;
-		}
-		return currentYear;
-	}
 }
-	
