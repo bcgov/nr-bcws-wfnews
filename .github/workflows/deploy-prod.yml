@@ -2,7 +2,7 @@ name: Deploy Prod
 
 env:
   IMAGE_TAG: ${{ github.ref_name }}
-  
+
 on:
   release:
     types: [released]
@@ -12,9 +12,8 @@ on:
         description: Full SHA or tag to promote. Defaults to current commit SHA if 'latest'.
         required: false
         default: latest
-    
-jobs:
 
+jobs:
   call-lambda-zip:
     uses: ./.github/workflows/lambda-zip.yml
     secrets: inherit
@@ -38,7 +37,7 @@ jobs:
         run: |
           IN_TAG="${{ inputs.IMAGE_TAG || github.event.release.tag_name || github.ref_name }}"
           SRC_TAG=$IN_TAG
-          if [ "$SRC_TAG" == "latest" ] || [ -z "$SRC_TAG" ]; then
+          if [ "${{ github.event_name }}" == "release" ] || [ "$SRC_TAG" == "latest" ] || [ -z "$SRC_TAG" ]; then
             SRC_TAG=$(echo ${{ github.sha }} | cut -c1-7)
           elif [ ${#SRC_TAG} -ge 40 ]; then
             SRC_TAG=$(echo $SRC_TAG | cut -c1-7)
@@ -83,13 +82,13 @@ jobs:
           docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ steps.sanitize.outputs.SHORT_SHA }}
           docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ steps.sanitize.outputs.SHORT_SHA }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
           docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
-  
+
       - name: Tag notification-push-api image
         run: |
           docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ steps.sanitize.outputs.SHORT_SHA }}
           docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ steps.sanitize.outputs.SHORT_SHA }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
           docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
-  
+
       - name: Tag wfss-pointid-api image
         run: |
           docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ steps.sanitize.outputs.SHORT_SHA }}
@@ -98,8 +97,6 @@ jobs:
 
       - run: echo "tag-value=${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}" >> $GITHUB_OUTPUT
         id: get-release-tag
-      
-
 
   terragrunt-deploy-prod:
     needs: [tag-images, call-lambda-zip]
@@ -130,7 +127,7 @@ jobs:
       upload_to_app_store: true
       skip_slack_notification: false
     secrets: inherit
-  
+
   android-deploy:
     uses: ./.github/workflows/android.yml
     needs: [tag-images]
