@@ -572,11 +572,11 @@ resource "aws_ecs_task_definition" "wfnews_nginx" {
         {
           name  = "MAX_SIZE",
           value = "${var.max_upload_size}"
+        },
+        {
+          name = "CLOUDFRONT_HEADER",
+          value = "${var.cloudfront_header}"
         }
-        # {
-        #   name: "ETCD_ROOT_PASSWORD",
-        #   value: "${var.etcd_password}"
-        # }
       ]
       logConfiguration = {
         logDriver = "awslogs"
