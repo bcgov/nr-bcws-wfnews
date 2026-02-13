@@ -24,6 +24,7 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.AttachmentsEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.utils.CommonUtil;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
@@ -253,21 +254,8 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 			}
 
 			if (fireYear == null) {
-				try {
-					PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberLabel, null,
-							getWebAdeAuthentication(), getFactoryContext());
-					if (incident != null) {
-						fireYear = incident.getFireYear();
-					}
-					if (fireYear == null) {
-						return Response.status(404).build();
-					}
-				} catch (NotFoundException e) {
-					return Response.status(404).build();
-				} catch (Exception e) {
-					logger.error("Failed to retrieve incident for fire year: " + e.getMessage());
-					return Response.status(500).build();
-				}
+				// Fallback to current fire year
+				fireYear = CommonUtil.getCurrentFireYear();
 			}
 
 			S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
@@ -307,21 +295,8 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 		try {
 			if (fireYear == null) {
-				try {
-					PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberLabel, null,
-							getWebAdeAuthentication(), getFactoryContext());
-					if (incident != null) {
-						fireYear = incident.getFireYear();
-					}
-					if (fireYear == null) {
-						return Response.status(404).build();
-					}
-				} catch (NotFoundException e) {
-					return Response.status(404).build();
-				} catch (Exception e) {
-					logger.error("Failed to retrieve incident for fire year: " + e.getMessage());
-					return Response.status(500).build();
-				}
+				// Fallback to current fire year
+				fireYear = CommonUtil.getCurrentFireYear();
 			}
 
 			String key = fireYear + FileSystems.getDefault().getSeparator() + incidentNumberLabel

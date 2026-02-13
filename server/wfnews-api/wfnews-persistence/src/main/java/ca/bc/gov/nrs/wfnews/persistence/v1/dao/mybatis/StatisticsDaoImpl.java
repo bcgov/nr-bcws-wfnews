@@ -1,7 +1,5 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis;
 
-import java.time.Year;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,23 +9,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.utils.CommonUtil;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.BaseDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.StatisticsDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.StatisticsMapper;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.StatisticsDto;
 
 public class StatisticsDaoImpl extends BaseDao implements StatisticsDao {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(StatisticsDaoImpl.class);
 
-  public void setStatisticsMapper(StatisticsMapper statisticsMapper) {
+	public void setStatisticsMapper(StatisticsMapper statisticsMapper) {
 		this.statisticsMapper = statisticsMapper;
 	}
-	
+
 	@Autowired
 	private transient StatisticsMapper statisticsMapper;
 
-  public List<StatisticsDto> fetch(String fireCentre, Integer fireYear) throws DaoException {
+	public List<StatisticsDto> fetch(String fireCentre, Integer fireYear) throws DaoException {
 		logger.debug("<fetch");
 
 		List<StatisticsDto> result = null;
@@ -36,7 +35,7 @@ public class StatisticsDaoImpl extends BaseDao implements StatisticsDao {
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("fireCentre", fireCentre);
-			parameters.put("fireYear", fireYear != null ? fireYear.intValue() : getCurrentFireYear());
+			parameters.put("fireYear", fireYear != null ? fireYear.intValue() : CommonUtil.getCurrentFireYear());
 			result = this.statisticsMapper.fetch(parameters);
 
 		} catch (RuntimeException e) {
@@ -47,11 +46,4 @@ public class StatisticsDaoImpl extends BaseDao implements StatisticsDao {
 		return result;
 	}
 
-	private int getCurrentFireYear() {
-		int currentYear = Year.now().getValue();
-		if (Calendar.getInstance().get(Calendar.MONTH) < 3) {
-			currentYear -= 1;
-		}
-		return currentYear;
-	}
 }

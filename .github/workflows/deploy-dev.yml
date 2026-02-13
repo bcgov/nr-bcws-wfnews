@@ -20,7 +20,7 @@ on:
   workflow_dispatch:
     inputs:
       IMAGE_TAG:
-        description: Image tag to use if not triggered by PR
+        description: Full SHA or tag to deploy. Defaults to current commit SHA if 'latest'.
         required: false
         default: latest
 
@@ -94,6 +94,11 @@ jobs:
         id: sanitize
         run: |
           TAG="${{ inputs.IMAGE_TAG || format('pr-{0}', github.event.pull_request.number) }}"
+          if [ "$TAG" == "latest" ] || [ -z "$TAG" ]; then
+            TAG=$(echo ${{ github.sha }} | cut -c1-7)
+          elif [ ${#TAG} -ge 40 ]; then
+            TAG=$(echo $TAG | cut -c1-7)
+          fi
           echo "tag=$(echo $TAG | sed 's/\//-/g')" >> $GITHUB_OUTPUT
 
   terragrunt-deploy-dev:

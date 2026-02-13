@@ -171,10 +171,10 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
           type: 'image',
           href: `${this.appConfigService.getConfig().rest['wfnews']
             }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
-            }/attachments/${attachment.attachmentGuid}/bytes`,
+            }/attachments/${attachment.attachmentGuid}/bytes?fireYear=${this.incident.fireYear}`,
           thumbnail: `${this.appConfigService.getConfig().rest['wfnews']
             }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
-            }/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true`,
+            }/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true&fireYear=${this.incident.fireYear}`,
         });
       }
     }
