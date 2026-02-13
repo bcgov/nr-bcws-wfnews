@@ -673,7 +673,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 			// this will use a lock to ensure only one running instance can
 			// acccess selected records
 			logger.debug(" ### START TRANSACTION - Starting Transaction. Query for queued RoFs...");
-			List<RoFFormDto> forms = getRofFormDao().select();
+			List<RoFFormDto> forms = getRofFormDao().duplicateSelect();
 			
 			List<RoFRetryInfo> stuckRofs = new ArrayList<>(forms.size());
 			if (!forms.isEmpty()) {

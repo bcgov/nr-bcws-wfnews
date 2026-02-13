@@ -39,6 +39,12 @@
     WHERE rof.SUBMITTED_TIMESTAMP BETWEEN NOW() - INTERVAL '48 HOURS' AND NOW() FOR UPDATE SKIP LOCKED
 	</select>
 
+	<select id="duplicateSelect" resultMap="RoFFormMap">
+		<include refid="selectColumns"/>
+    <include refid="selectJoins"/>
+    WHERE rof.SUBMITTED_TIMESTAMP BETWEEN NOW() - INTERVAL '48 HOURS' AND NOW()
+	</select>
+
   <select id="fetch" resultMap="RoFFormMap">
 		<include refid="selectColumns"/>
     <include refid="selectJoins"/>
