@@ -8,6 +8,7 @@ import ca.bc.gov.nrs.wfone.persistence.v1.dto.RoFFormDto;
 public interface RoFFormMapper {
     int insert(Map<String, Object> parameters);
     List<RoFFormDto> select();
+    List<RoFFormDto> duplicateSelect();
     RoFFormDto fetch(Map<String, Object> parameters);
     int delete(Map<String, Object> parameters);
     int update(Map<String, Object> parameters);
