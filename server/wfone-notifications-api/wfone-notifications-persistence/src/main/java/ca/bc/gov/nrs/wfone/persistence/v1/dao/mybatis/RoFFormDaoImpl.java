@@ -17,7 +17,7 @@ import ca.bc.gov.nrs.wfone.persistence.v1.dto.RoFFormDto;
 
 @Repository
 public class RoFFormDaoImpl extends BaseDao implements RoFFormDao {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(RoFFormDaoImpl.class);
 
 	@Autowired
@@ -34,10 +34,10 @@ public class RoFFormDaoImpl extends BaseDao implements RoFFormDao {
 			parameters.put("dto", dto);
 			int count = this.mapper.insert(parameters);
 
-			if(count==0) {
-				throw new DaoException("Record not inserted: "+count);
+			if (count == 0) {
+				throw new DaoException("Record not inserted: " + count);
 			}
-			
+
 		} catch (RuntimeException e) {
 			handleException(e);
 		}
@@ -45,9 +45,9 @@ public class RoFFormDaoImpl extends BaseDao implements RoFFormDao {
 		logger.debug(">insert " + dto.getReportOfFireCacheGuid());
 	}
 
-  @Override
-  public List<RoFFormDto> select() throws DaoException {
-    logger.debug("fetch >>");
+	@Override
+	public List<RoFFormDto> select() throws DaoException {
+		logger.debug("fetch >>");
 
 		List<RoFFormDto> result = null;
 
@@ -55,9 +55,9 @@ public class RoFFormDaoImpl extends BaseDao implements RoFFormDao {
 			result = this.mapper.select();
 
 			if (result != null) {
-        for (RoFFormDto dto : result) {
-				  dto.resetDirty();
-        }
+				for (RoFFormDto dto : result) {
+					dto.resetDirty();
+				}
 			}
 		} catch (RuntimeException e) {
 			handleException(e);
@@ -65,12 +65,12 @@ public class RoFFormDaoImpl extends BaseDao implements RoFFormDao {
 
 		logger.debug("<< fetch " + result);
 		return result;
-  }
+	}
 
-  @Override
-  public int delete(RoFFormDto dto) throws DaoException {
-    logger.debug("<delete");
-    int count = 0;
+	@Override
+	public int delete(RoFFormDto dto) throws DaoException {
+		logger.debug("<delete");
+		int count = 0;
 		try {
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
@@ -78,7 +78,7 @@ public class RoFFormDaoImpl extends BaseDao implements RoFFormDao {
 			count = this.mapper.delete(parameters);
 
 			if (count == 0) {
-				throw new DaoException("Record not deleted: "+count);
+				throw new DaoException("Record not deleted: " + count);
 			}
 
 		} catch (RuntimeException e) {
@@ -86,35 +86,35 @@ public class RoFFormDaoImpl extends BaseDao implements RoFFormDao {
 		}
 
 		logger.debug(">delete");
-    return count;
-  }
+		return count;
+	}
 
-  @Override
-  public int update(RoFFormDto dto) throws DaoException {
-    logger.debug("<update");
+	@Override
+	public int update(RoFFormDto dto) throws DaoException {
+		logger.debug("<update");
 		int count = 0;
-    try {
-      Map<String, Object> parameters = new HashMap<String, Object>();
-      parameters.put("reportOfFireCacheGuid", dto.getReportOfFireCacheGuid());
-      parameters.put("dto", dto);
-      count = this.mapper.update(parameters);
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("reportOfFireCacheGuid", dto.getReportOfFireCacheGuid());
+			parameters.put("dto", dto);
+			count = this.mapper.update(parameters);
 
-      if (count == 0) {
-        throw new DaoException("Record not updated: " + count);
-      }
+			if (count == 0) {
+				throw new DaoException("Record not updated: " + count);
+			}
 
-    } catch (RuntimeException e) {
-      handleException(e);
-    }
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
 
 		logger.debug(">update");
-    return 0;
-  }
+		return 0;
+	}
 
-  @Override
-  public RoFFormDto fetch(String guid) throws DaoException {
-    logger.debug("<fetch");
-    RoFFormDto dto = null;
+	@Override
+	public RoFFormDto fetch(String guid) throws DaoException {
+		logger.debug("<fetch");
+		RoFFormDto dto = null;
 
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
@@ -125,6 +125,28 @@ public class RoFFormDaoImpl extends BaseDao implements RoFFormDao {
 		}
 
 		logger.debug(">fetch");
-    return dto;
-  }
+		return dto;
+	}
+
+	@Override
+	public List<RoFFormDto> duplicateSelect() throws DaoException {
+		logger.debug("duplicateSelect >>");
+
+		List<RoFFormDto> result = null;
+
+		try {
+			result = this.mapper.duplicateSelect();
+
+			if (result != null) {
+				for (RoFFormDto dto : result) {
+					dto.resetDirty();
+				}
+			}
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+
+		logger.debug("<< duplicateSelect " + result);
+		return result;
+	}
 }
