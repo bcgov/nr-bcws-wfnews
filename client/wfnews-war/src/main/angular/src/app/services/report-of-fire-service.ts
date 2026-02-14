@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { GalleryPhoto, Photo } from '@capacitor/camera';
+import { Filesystem } from '@capacitor/filesystem';
 import { AppConfigService } from '@wf1/core-ui';
-import { CommonUtilityService } from './common-utility.service';
-import { App } from '@capacitor/app';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
-import { Filesystem } from '@capacitor/filesystem';
-import { IonicStorageService } from './ionic-storage.service';
 import { Subscription } from 'rxjs';
+import { CommonUtilityService } from './common-utility.service';
+import { IonicStorageService } from './ionic-storage.service';
 import { LocalStorageService } from './local-storage-service';
 
 export interface ReportOfFireType {
@@ -41,6 +40,7 @@ export class ReportOfFireService {
   longitude: number;
   latitude: number;
   formData: FormData;
+  isSyncing: boolean = false;
 
   constructor(
     private appConfigService: AppConfigService,
@@ -103,16 +103,16 @@ export class ReportOfFireService {
         const offlineReportDataResponse = await this.ionicStorageService.get('offlineReportData');
         if (offlineReportDataResponse) {
           const offlineReport = JSON.parse(offlineReportDataResponse);
-            if (offlineReport.resource) {
-              const offlineResource = JSON.parse(offlineReport.resource);
-              if (offlineResource === resource) {
-                try {
-                  await this.ionicStorageService.clear();
-                } catch (error) {
-                  console.error('An error occurred while removing offlineReportData:', error);
-                }
+          if (offlineReport.resource) {
+            const offlineResource = JSON.parse(offlineReport.resource);
+            if (offlineResource === resource) {
+              try {
+                await this.ionicStorageService.clear();
+              } catch (error) {
+                console.error('An error occurred while removing offlineReportData:', error);
               }
             }
+          }
         }
 
       } catch (error) {
@@ -262,7 +262,6 @@ export class ReportOfFireService {
       if (response.ok || response.status == 200) {
         // Remove the locally stored data if sync is successful
         this.ionicStorageService.clear();
-        App.removeAllListeners();
         // The server successfully processed the report
         return { success: true, message: 'Report submitted successfully' };
       } else {
@@ -315,6 +314,12 @@ export class ReportOfFireService {
   }
 
   async syncDataWithServer(intervalRef: Subscription) {
+    if (this.isSyncing) {
+      return;
+    }
+
+    this.isSyncing = true;
+
     let dataSynced = false;
     let submissionID = null;
     let duplicateStored = false;
@@ -328,9 +333,9 @@ export class ReportOfFireService {
       submissionIdList = this.localStorageService.getData('submissionIDList');
 
       if (offlineReport) {
-         // Check for duplicate, reject if submissionID has already been stored
+        // Check for duplicate, reject if submissionID has already been stored
         const offlineJson = JSON.parse(offlineReport);
-        if(offlineJson?.resource) {
+        if (offlineJson?.resource) {
           const resourceJson = JSON.parse(offlineJson.resource);
           submissionID = resourceJson?.submissionID;
           if (submissionID && submissionIdList?.includes(submissionID)) {
@@ -339,7 +344,7 @@ export class ReportOfFireService {
         }
 
         // Reject duplicate if submissionID has already been stored
-        if(duplicateStored) return true;
+        if (duplicateStored) return true;
 
         // Send the report to the server
         const submitResponse = await this.submitOfflineReportToServer(offlineReport);
@@ -349,20 +354,19 @@ export class ReportOfFireService {
           this.ionicStorageService.clear();
           // store submissionID for duplicate check
 
-          if(submissionID) {
-            submissionIdList = submissionIdList ? submissionIdList + ", " +  submissionID : submissionID;
+          if (submissionID) {
+            submissionIdList = submissionIdList ? submissionIdList + ", " + submissionID : submissionID;
             this.localStorageService.saveData('submissionIDList', submissionIdList);
           }
 
           intervalRef.unsubscribe();
-          App.removeAllListeners();
         }
       }
     } catch (error) {
       console.error('Sync failed:', error);
+    } finally {
+      this.isSyncing = false;
     }
     return dataSynced;
   }
-
-
 }
