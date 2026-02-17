@@ -14,6 +14,8 @@ public interface RoFFormDao {
 
   int delete(RoFFormDto dto) throws DaoException;
 
+  List<RoFFormDto> selectOldForms() throws DaoException;
+
   int update(RoFFormDto dto) throws DaoException;
 
   List<RoFFormDto> duplicateSelect() throws DaoException;

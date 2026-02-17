@@ -2,6 +2,7 @@ package ca.bc.gov.nrs.wfone.notifications.quartz.scheduler.spring;
 
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
@@ -23,28 +24,30 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.apache.commons.lang3.StringUtils;
+
 import ca.bc.gov.nrs.wfone.notifications.quartz.scheduler.SchedulerConstants;
 import ca.bc.gov.nrs.wfone.notifications.quartz.scheduler.jobs.PushToIncidentManagerJob;
+import ca.bc.gov.nrs.wfone.notifications.quartz.scheduler.jobs.RoFCleanupJob;
 import ca.bc.gov.nrs.wfone.service.api.v1.spring.ServiceApiSpringConfig;
 
 @Configuration
 @Import({
-	ServiceApiSpringConfig.class
+		ServiceApiSpringConfig.class
 })
 public class QuartzSchedulerSpringConfig {
 	private static final Logger logger = LoggerFactory.getLogger(QuartzSchedulerSpringConfig.class);
-  public static final String SCHEDULER_NAME = "PushToIncidentManagerScheduler";
+	public static final String SCHEDULER_NAME = "PushToIncidentManagerScheduler";
+	public static final String CLEANUP_TRIGGER_IDENTITY = "CLEANUP_TRIGGER_IDENTITY";
 
-  @Autowired
+	@Autowired
 	private ServiceApiSpringConfig serviceApiSpringConfig;
 
-  public QuartzSchedulerSpringConfig() {
+	public QuartzSchedulerSpringConfig() {
 		logger.debug("QuartzSchedulerSpringConfig >>");
 		logger.debug("<< QuartzSchedulerSpringConfig");
 	}
 
-  @Bean()
+	@Bean()
 	public SchedulerFactory schedulerFactory() throws SchedulerException {
 		StdSchedulerFactory result = new StdSchedulerFactory();
 
@@ -57,16 +60,17 @@ public class QuartzSchedulerSpringConfig {
 		return result;
 	}
 
-  @Bean(initMethod="start", destroyMethod="shutdown")
+	@Bean(initMethod = "start", destroyMethod = "shutdown")
 	public Scheduler scheduler() throws SchedulerException {
-    Scheduler result = schedulerFactory().getScheduler();
-		
+		Scheduler result = schedulerFactory().getScheduler();
+
 		SchedulerContext context = result.getContext();
 		context.put(SchedulerConstants.SERVICE_API_CONTEXT_KEY, serviceApiSpringConfig.recordRoFService());
 		result.scheduleJob(consumerJob(), jobTrigger());
-		
+		result.scheduleJob(cleanupJob(), cleanupTrigger());
+
 		ListenerManager listenerManager = result.getListenerManager();
-    listenerManager.addSchedulerListener(new SchedulerListener() {
+		listenerManager.addSchedulerListener(new SchedulerListener() {
 			@Override
 			public void jobScheduled(Trigger trigger) {
 				logger.debug("<jobScheduled");
@@ -185,12 +189,13 @@ public class QuartzSchedulerSpringConfig {
 			public void schedulingDataCleared() {
 				logger.debug("<schedulingDataCleared");
 				logger.debug(">schedulingDataCleared");
-			}});
-		
-		return result;
-  }
+			}
+		});
 
-  @Bean
+		return result;
+	}
+
+	@Bean
 	JobDetail consumerJob() {
 		JobDetail result;
 
@@ -202,7 +207,7 @@ public class QuartzSchedulerSpringConfig {
 		return result;
 	}
 
-  @Bean
+	@Bean
 	Trigger jobTrigger() {
 		Trigger result;
 
@@ -210,17 +215,17 @@ public class QuartzSchedulerSpringConfig {
 				.withIdentity(SchedulerConstants.CONSUMER_TRIGGER_IDENTITY)
 				.startNow()
 				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-				.withIntervalInSeconds(consumerIntervalSeconds())
-				.repeatForever())
+						.withIntervalInSeconds(consumerIntervalSeconds())
+						.repeatForever())
 				.build();
-		
+
 		return result;
 	}
 
-  @Value("${QUARTZ_CONSUMER_INTERVAL_SECONDS}")
+	@Value("${QUARTZ_CONSUMER_INTERVAL_SECONDS}")
 	private String eventConsumerInterval;
 
-  @Bean
+	@Bean
 	int consumerIntervalSeconds() {
 		logger.debug("consumerIntervalSeconds >>");
 		int result = 300;
@@ -234,6 +239,34 @@ public class QuartzSchedulerSpringConfig {
 		}
 
 		logger.debug("<< consumerIntervalSeconds " + result);
+		return result;
+	}
+
+	@Bean
+	JobDetail cleanupJob() {
+		JobDetail result;
+
+		result = JobBuilder.newJob(RoFCleanupJob.class)
+				.withIdentity(RoFCleanupJob.class.getName())
+				.storeDurably(true)
+				.build();
+
+		return result;
+	}
+
+	@Bean
+	Trigger cleanupTrigger() {
+		Trigger result;
+
+		// Run every hour
+		result = TriggerBuilder.newTrigger()
+				.withIdentity(CLEANUP_TRIGGER_IDENTITY)
+				.startNow()
+				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
+						.withIntervalInHours(24)
+						.repeatForever())
+				.build();
+
 		return result;
 	}
 }

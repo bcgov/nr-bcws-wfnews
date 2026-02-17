@@ -55,9 +55,16 @@
 		DELETE FROM report_of_fire_cache WHERE REPORT_OF_FIRE_CACHE_GUID 	= #{reportOfFireCacheGuid}
 	</delete>
 
-  <update id="update">
+	<update id="update">
 		UPDATE report_of_fire_cache
 		   SET REPORT_OF_FIRE = #{dto.reportOfFire, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 		 WHERE REPORT_OF_FIRE_CACHE_GUID 	= #{reportOfFireCacheGuid}
 	</update> 
+	
+
+	<select id="selectOldForms" resultMap="RoFFormMap">
+		<include refid="selectColumns"/>
+    <include refid="selectJoins"/>
+    WHERE rof.SUBMITTED_TIMESTAMP <![CDATA[ < ]]> NOW() - INTERVAL '48 HOURS'
+	</select>
 </mapper>

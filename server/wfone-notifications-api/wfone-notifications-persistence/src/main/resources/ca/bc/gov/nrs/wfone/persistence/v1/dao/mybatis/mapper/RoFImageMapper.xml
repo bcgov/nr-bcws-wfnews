@@ -42,4 +42,8 @@
   <delete id="delete">
 		DELETE FROM report_of_fire_attachment_cache WHERE REPORT_OF_FIRE_ATTACHMENT_CACHE_GUID 	= #{reportOfFireAttachmentCacheGuid}
 	</delete>
+
+	<delete id="deleteByReportOfFireCacheGuid">
+		DELETE FROM report_of_fire_attachment_cache WHERE REPORT_OF_FIRE_CACHE_GUID 	= #{reportOfFireCacheGuid}
+	</delete>
 </mapper>
