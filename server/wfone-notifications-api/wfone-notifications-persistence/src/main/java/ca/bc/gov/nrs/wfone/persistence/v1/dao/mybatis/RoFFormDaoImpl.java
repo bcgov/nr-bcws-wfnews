@@ -149,4 +149,21 @@ public class RoFFormDaoImpl extends BaseDao implements RoFFormDao {
 		logger.debug("<< duplicateSelect " + result);
 		return result;
 	}
+
+	@Override
+	public List<RoFFormDto> selectOldForms() throws DaoException {
+		logger.debug("<selectOldForms");
+
+		List<RoFFormDto> result = null;
+
+		try {
+			result = this.mapper.selectOldForms();
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+
+		logger.debug(">selectOldForms " + result);
+		return result;
+	}
+
 }

@@ -1,26 +1,25 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
-  OnInit,
+  Component
 } from '@angular/core';
-import { RoFPage } from '../rofPage';
-import { ReportOfFire } from '../reportOfFireModel';
-import ConfigJson from '../report-of-fire.config.json';
-import * as L from 'leaflet';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   ReportOfFireService,
   ReportOfFireType,
 } from '@app/services/report-of-fire-service';
-import { equalsIgnoreCase } from '../../../utils';
-import offlineMapJson from '../../../../assets/maps/british-columbia.json';
 import { SmkApi } from '@app/utils/smk';
+import * as L from 'leaflet';
 import { LatLng } from 'leaflet';
 import { v5 as uuidv5 } from 'uuid';
+import offlineMapJson from '../../../../assets/maps/british-columbia.json';
+import { equalsIgnoreCase } from '../../../utils';
+import ConfigJson from '../report-of-fire.config.json';
+import { ReportOfFire } from '../reportOfFireModel';
+import { RoFPage } from '../rofPage';
 
 @Component({
   selector: 'rof-review-page',
@@ -34,6 +33,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
   smkApi: SmkApi;
   isOffLine: boolean;
   currentLocation: any;
+  submitting: boolean = false;
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
     private commonUtilityService: CommonUtilityService,
@@ -79,7 +79,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       case 'contact-page':
         return this.reportOfFire.consentToCall
           ? this.reportOfFire.consentToCall.charAt(0).toUpperCase() +
-              this.reportOfFire.consentToCall.slice(1)
+          this.reportOfFire.consentToCall.slice(1)
           : null;
       case 'location-page':
         return this.reportOfFire.fireLocation;
@@ -88,8 +88,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       case 'smoke-color-page':
         return this.reportOfFire.smokeColor
           ? this.reportOfFire.smokeColor
-              .map((item) => this.findLabelByValue(page.id, item))
-              .join(', ')
+            .map((item) => this.findLabelByValue(page.id, item))
+            .join(', ')
           : null;
       case 'fire-size-page':
         return this.reportOfFire.fireSize
@@ -99,12 +99,12 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
         //make the first letter of a string uppercase
         return this.reportOfFire.ifSignsOfResponse
           ? this.reportOfFire.ifSignsOfResponse.charAt(0).toUpperCase() +
-              this.reportOfFire.ifSignsOfResponse.slice(1)
+          this.reportOfFire.ifSignsOfResponse.slice(1)
           : null;
       case 'visible-flame-page':
         return this.reportOfFire.visibleFlame
           ? this.reportOfFire.visibleFlame.charAt(0).toUpperCase() +
-              this.reportOfFire.visibleFlame.slice(1)
+          this.reportOfFire.visibleFlame.slice(1)
           : null;
       case 'fire-spread-page':
         return this.reportOfFire.rateOfSpread
@@ -113,13 +113,13 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       case 'what-is-burning-page':
         return this.reportOfFire.burning
           ? this.reportOfFire.burning
-              .map((item) => this.findLabelByValue(page.id, item))
-              .join(', ')
+            .map((item) => this.findLabelByValue(page.id, item))
+            .join(', ')
           : null;
       case 'infrastructure-details-page':
         return this.reportOfFire.ifAssetsAtRisk
           ? this.reportOfFire.ifAssetsAtRisk.charAt(0).toUpperCase() +
-              this.reportOfFire.ifAssetsAtRisk.slice(1)
+          this.reportOfFire.ifAssetsAtRisk.slice(1)
           : null;
       case 'comments-page':
         return this.reportOfFire.otherInfo;
@@ -152,14 +152,14 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       case 'response-details-page':
         return this.reportOfFire.signsOfResponse
           ? this.reportOfFire.signsOfResponse
-              .map((item) => this.findLabelByValue(page.id, item))
-              .join(', ')
+            .map((item) => this.findLabelByValue(page.id, item))
+            .join(', ')
           : null;
       case 'infrastructure-details-page':
         return this.reportOfFire.assetsAtRisk
           ? this.reportOfFire.assetsAtRisk
-              .map((item) => this.findLabelByValue(page.id, item))
-              .join(', ')
+            .map((item) => this.findLabelByValue(page.id, item))
+            .join(', ')
           : null;
     }
   }
@@ -314,8 +314,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       const newLongitude =
         initialFirePoint.lng +
         (offSet * Math.sin(angleInRadians)) /
-          ((Math.PI * 6378137) / 180) /
-          Math.cos((initialFirePoint.lat * Math.PI) / 180);
+        ((Math.PI * 6378137) / 180) /
+        Math.cos((initialFirePoint.lat * Math.PI) / 180);
       const newFirePoint = [newLatitude, newLongitude];
 
       latlngs.push(newFirePoint);
@@ -419,8 +419,14 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       submissionID: uniqueID
     };
 
+    if (this.submitting) {
+      return;
+    }
+
+    this.submitting = true;
+
     try {
-      this.reportOfFireService.saveReportOfFire(
+      await this.reportOfFireService.saveReportOfFire(
         rofResource,
         this.reportOfFire.image1,
         this.reportOfFire.image2,
@@ -428,6 +434,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       );
       this.next();
     } catch (err) {
+      this.submitting = false;
       this.snackbarService.open(
         'Failed to submit Report Of Fire: ' + JSON.stringify(err.message),
         'OK',
