@@ -390,13 +390,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       }
     });
 
-    // seed string to create submission UUID
-    const fixedFireLocation = [this.reportOfFire.fireLocation[0].toFixed(3), this.reportOfFire.fireLocation[1].toFixed(3)]
-    const seedString = this.reportOfFire.fullName + this.reportOfFire.phoneNumber + fixedFireLocation.toString();
-
-    // uuid library requires custom namespace GUID e.g. 7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62
-    const uniqueID = uuidv5(seedString, "7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62")
-
     const rofResource: ReportOfFireType = {
       fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
       phoneNumber: this.nullEmptyStrings(this.reportOfFire.phoneNumber),
@@ -414,10 +407,46 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       assetsAtRisk: this.reportOfFire.assetsAtRisk,
       signsOfResponse: this.reportOfFire.signsOfResponse,
       otherInfo: this.reportOfFire.otherInfo,
-      submittedTimestamp: new Date().getTime().toString(),
-      visibleFlame: new Array<string>(this.reportOfFire.visibleFlame),
-      submissionID: uniqueID
+      visibleFlame: new Array<string>(this.reportOfFire.visibleFlame)
     };
+
+    // seed string to create submission UUID
+    // use the resource object as the checksum seed to create a unique ID based on content
+    let seedString = JSON.stringify(rofResource);
+
+    if (this.reportOfFire.image1) {
+      try {
+        const base64 = await this.reportOfFireService.convertToBase64(this.reportOfFire.image1);
+        seedString += base64;
+      } catch (e) {
+        console.error('Error converting image1 for checksum', e);
+        seedString += (this.reportOfFire.image1.webPath || this.reportOfFire.image1.path || (this.reportOfFire.image1 as any).dataUrl);
+      }
+    }
+    if (this.reportOfFire.image2) {
+      try {
+        const base64 = await this.reportOfFireService.convertToBase64(this.reportOfFire.image2);
+        seedString += base64;
+      } catch (e) {
+        console.error('Error converting image2 for checksum', e);
+        seedString += (this.reportOfFire.image2.webPath || this.reportOfFire.image2.path || (this.reportOfFire.image2 as any).dataUrl);
+      }
+    }
+    if (this.reportOfFire.image3) {
+      try {
+        const base64 = await this.reportOfFireService.convertToBase64(this.reportOfFire.image3);
+        seedString += base64;
+      } catch (e) {
+        console.error('Error converting image3 for checksum', e);
+        seedString += (this.reportOfFire.image3.webPath || this.reportOfFire.image3.path || (this.reportOfFire.image3 as any).dataUrl);
+      }
+    }
+
+    // uuid library requires custom namespace GUID e.g. 7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62
+    const uniqueID = uuidv5(seedString, "7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62");
+
+    rofResource.submissionID = uniqueID;
+    rofResource.submittedTimestamp = new Date().getTime().toString();
 
     if (this.submitting) {
       return;
