@@ -71,8 +71,10 @@
     </div>
 
     <div class="submit-button-row">
-      <button [disabled]="submitting" mat-flat-button class="action-button" (click)="submitRof()">Submit Report
-        <mat-icon svgIcon="send"></mat-icon>
+      <button [disabled]="submitting" mat-flat-button class="action-button" (click)="submitRof()">
+        <span>Submit Report</span>
+        <mat-icon *ngIf="!submitting" svgIcon="send"></mat-icon>
+        <mat-spinner *ngIf="submitting" [diameter]="20" [color]="'accent'"></mat-spinner>
       </button>
     </div>
   </div>

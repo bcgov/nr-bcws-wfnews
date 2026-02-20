@@ -76,6 +76,14 @@
     height: 24px;
     width: 24px;
   }
+  
+  mat-spinner {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    position: relative;
+    top: -2px;
+  }
 }
 
 .map-container {

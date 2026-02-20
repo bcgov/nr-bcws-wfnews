@@ -380,74 +380,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
   }
 
   async submitRof() {
-    await this.commonUtilityService.checkOnline().then(async (result) => {
-      if (!result) {
-        await this.useMyCurrentLocation();
-        this.reportOfFire.fireLocation = [
-          this.currentLocation.coords.latitude,
-          this.currentLocation.coords.longitude,
-        ];
-      }
-    });
-
-    const rofResource: ReportOfFireType = {
-      fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
-      phoneNumber: this.nullEmptyStrings(this.reportOfFire.phoneNumber),
-      consentToCall: equalsIgnoreCase(this.reportOfFire.consentToCall, 'Yes')
-        ? true
-        : false,
-      estimatedDistance: this.reportOfFire.estimatedDistance,
-      fireLocation: this.reportOfFire.fireLocation,
-      deviceLocation: this.reportOfFire.deviceLocation,
-      fireSize: this.nullEmptyStrings(this.reportOfFire.fireSize),
-      rateOfSpread: this.reportOfFire.rateOfSpread,
-      burning: this.reportOfFire.burning,
-      smokeColor: this.reportOfFire.smokeColor,
-      weather: this.reportOfFire.weather,
-      assetsAtRisk: this.reportOfFire.assetsAtRisk,
-      signsOfResponse: this.reportOfFire.signsOfResponse,
-      otherInfo: this.reportOfFire.otherInfo,
-      visibleFlame: new Array<string>(this.reportOfFire.visibleFlame)
-    };
-
-    // seed string to create submission UUID
-    // use the resource object as the checksum seed to create a unique ID based on content
-    let seedString = JSON.stringify(rofResource);
-
-    if (this.reportOfFire.image1) {
-      try {
-        const base64 = await this.reportOfFireService.convertToBase64(this.reportOfFire.image1);
-        seedString += base64;
-      } catch (e) {
-        console.error('Error converting image1 for checksum', e);
-        seedString += (this.reportOfFire.image1.webPath || this.reportOfFire.image1.path || (this.reportOfFire.image1 as any).dataUrl);
-      }
-    }
-    if (this.reportOfFire.image2) {
-      try {
-        const base64 = await this.reportOfFireService.convertToBase64(this.reportOfFire.image2);
-        seedString += base64;
-      } catch (e) {
-        console.error('Error converting image2 for checksum', e);
-        seedString += (this.reportOfFire.image2.webPath || this.reportOfFire.image2.path || (this.reportOfFire.image2 as any).dataUrl);
-      }
-    }
-    if (this.reportOfFire.image3) {
-      try {
-        const base64 = await this.reportOfFireService.convertToBase64(this.reportOfFire.image3);
-        seedString += base64;
-      } catch (e) {
-        console.error('Error converting image3 for checksum', e);
-        seedString += (this.reportOfFire.image3.webPath || this.reportOfFire.image3.path || (this.reportOfFire.image3 as any).dataUrl);
-      }
-    }
-
-    // uuid library requires custom namespace GUID e.g. 7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62
-    const uniqueID = uuidv5(seedString, "7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62");
-
-    rofResource.submissionID = uniqueID;
-    rofResource.submittedTimestamp = new Date().getTime().toString();
-
     if (this.submitting) {
       return;
     }
@@ -455,6 +387,56 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
     this.submitting = true;
 
     try {
+      await this.commonUtilityService.checkOnline().then(async (result) => {
+        if (!result) {
+          await this.useMyCurrentLocation();
+          this.reportOfFire.fireLocation = [
+            this.currentLocation.coords.latitude,
+            this.currentLocation.coords.longitude,
+          ];
+        }
+      });
+
+      const rofResource: ReportOfFireType = {
+        fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
+        phoneNumber: this.nullEmptyStrings(this.reportOfFire.phoneNumber),
+        consentToCall: equalsIgnoreCase(this.reportOfFire.consentToCall, 'Yes')
+          ? true
+          : false,
+        estimatedDistance: this.reportOfFire.estimatedDistance,
+        fireLocation: this.reportOfFire.fireLocation,
+        deviceLocation: this.reportOfFire.deviceLocation,
+        fireSize: this.nullEmptyStrings(this.reportOfFire.fireSize),
+        rateOfSpread: this.reportOfFire.rateOfSpread,
+        burning: this.reportOfFire.burning,
+        smokeColor: this.reportOfFire.smokeColor,
+        weather: this.reportOfFire.weather,
+        assetsAtRisk: this.reportOfFire.assetsAtRisk,
+        signsOfResponse: this.reportOfFire.signsOfResponse,
+        otherInfo: this.reportOfFire.otherInfo,
+        visibleFlame: new Array<string>(this.reportOfFire.visibleFlame)
+      };
+
+      // seed string to create submission UUID
+      // use the resource object as the checksum seed to create a unique ID based on content
+      let seedString = JSON.stringify(rofResource);
+
+      if (this.reportOfFire.image1) {
+        seedString += (this.reportOfFire.image1.webPath || this.reportOfFire.image1.path || (this.reportOfFire.image1 as any).dataUrl);
+      }
+      if (this.reportOfFire.image2) {
+        seedString += (this.reportOfFire.image2.webPath || this.reportOfFire.image2.path || (this.reportOfFire.image2 as any).dataUrl);
+      }
+      if (this.reportOfFire.image3) {
+        seedString += (this.reportOfFire.image3.webPath || this.reportOfFire.image3.path || (this.reportOfFire.image3 as any).dataUrl);
+      }
+
+      // uuid library requires custom namespace GUID e.g. 7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62
+      const uniqueID = uuidv5(seedString, "7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62");
+
+      rofResource.submissionID = uniqueID;
+      rofResource.submittedTimestamp = new Date().getTime().toString();
+
       await this.reportOfFireService.saveReportOfFire(
         rofResource,
         this.reportOfFire.image1,
@@ -465,7 +447,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
     } catch (err) {
       this.submitting = false;
       this.snackbarService.open(
-        'Failed to submit Report Of Fire: ' + JSON.stringify(err.message),
+        'Failed to submit Report Of Fire: ' + JSON.stringify(err.message || err),
         'OK',
         { duration: 10000, panelClass: 'snackbar-error' },
       );
