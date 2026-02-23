@@ -12,9 +12,9 @@ import {
   ReportOfFireType,
 } from '@app/services/report-of-fire-service';
 import { SmkApi } from '@app/utils/smk';
+import * as fnv from 'fnv-plus';
 import * as L from 'leaflet';
 import { LatLng } from 'leaflet';
-import { v5 as uuidv5 } from 'uuid';
 import offlineMapJson from '../../../../assets/maps/british-columbia.json';
 import { equalsIgnoreCase } from '../../../utils';
 import ConfigJson from '../report-of-fire.config.json';
@@ -431,8 +431,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
         seedString += (this.reportOfFire.image3.webPath || this.reportOfFire.image3.path || (this.reportOfFire.image3 as any).dataUrl);
       }
 
-      // uuid library requires custom namespace GUID e.g. 7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62
-      const uniqueID = uuidv5(seedString, "7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62");
+      // Generate a fast 64-bit FNV-1a hash to use as the submissionID
+      const uniqueID = fnv.hash(seedString, 64).hex();
 
       rofResource.submissionID = uniqueID;
       rofResource.submittedTimestamp = new Date().getTime().toString();
