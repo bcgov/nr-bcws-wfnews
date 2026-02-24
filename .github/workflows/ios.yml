@@ -78,7 +78,7 @@ jobs:
           pwd
           echo "export const BUILD_NUMBER = '${{ github.run_number }}';" > client/wfnews-war/src/main/angular/src/environments/build-info.ts
           echo "Contents: "
-          ls -lah 
+          ls -lah
 
       - name: Get XML Info
         id: version
@@ -160,14 +160,14 @@ jobs:
           DANGER_SUMMARY: ${{ vars.DANGER_SUMMARY }}
           HIGH_RISK_ACTIVITIES: ${{ vars.HIGH_RISK_ACTIVITIES }}
           YOUTUBE_API_KEY: ${{secrets.YOUTUBE_API_KEY}}
-          YOUTUBE_CHANNEL_ID: ${{secrets.YOUTUBE_CHANNEL_ID}}  
+          YOUTUBE_CHANNEL_ID: ${{secrets.YOUTUBE_CHANNEL_ID}}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm'
-          cache-dependency-path: '**/package.json'
+          cache: "npm"
+          cache-dependency-path: "**/package.json"
 
       - name: Configure ruby
         uses: ruby/setup-ruby@v1
@@ -186,7 +186,7 @@ jobs:
         run: |
           export NODE_OPTIONS="--max_old_space_size=4096"
           npm cache clean --force
-          npm install --legacy-peer-deps
+          npm ci
 
       - name: Prepare app for build
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
@@ -276,7 +276,7 @@ jobs:
       - name: "Increment Build Number for next upload"
         uses: action-pack/increment@v2
         with:
-          name: 'APPLE_APP_STORE_BUILD_NUMBER'
+          name: "APPLE_APP_STORE_BUILD_NUMBER"
           token: ${{ secrets.VARIABLE_UPDATE_ACCESS_TOKEN }}
 
       - name: Post to a Slack channel

@@ -88,7 +88,7 @@ jobs:
           pwd
           echo "export const BUILD_NUMBER = '${{ github.run_number }}';" > client/wfnews-war/src/main/angular/src/environments/build-info.ts
           echo "Contents: "
-          ls -lah 
+          ls -lah
 
       - name: Add Google Services file
         working-directory: "${{ env.ANGULAR_DIRECTORY }}/android/app"
@@ -172,8 +172,8 @@ jobs:
           EVAC_GUIDANCE_URL: ${{ vars.EVAC_GUIDANCE_URL }}
           LOCAL_GOV_URL: ${{ vars.LOCAL_GOV_URL }}
           EMERGENCY_ALERT_URL: ${{ vars.EMERGENCY_ALERT_URL }}
-          DRIVE_BC_URL: ${{ vars.DRIVE_BC_URL}}  
-          EVAC_SERVICES_URL: ${{ vars.EVAC_SERVICES_URL }} 
+          DRIVE_BC_URL: ${{ vars.DRIVE_BC_URL}}
+          EVAC_SERVICES_URL: ${{ vars.EVAC_SERVICES_URL }}
           DANGER_SUMMARY: ${{ vars.DANGER_SUMMARY }}
           HIGH_RISK_ACTIVITIES: ${{ vars.HIGH_RISK_ACTIVITIES }}
           YOUTUBE_API_KEY: ${{secrets.YOUTUBE_API_KEY}}
@@ -198,7 +198,7 @@ jobs:
         run: |
           export NODE_OPTIONS="--max_old_space_size=4096"
           npm cache clean --force
-          npm install --legacy-peer-deps
+          npm ci
 
       - name: Prepare app for build
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
