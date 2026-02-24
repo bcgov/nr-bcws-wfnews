@@ -216,7 +216,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>ci</arguments>
+							<arguments>ci --legacy-peer-deps --registry=${npm.url}</arguments>
 						</configuration>
 					</execution>
 					<execution>

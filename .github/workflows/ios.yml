@@ -186,7 +186,7 @@ jobs:
         run: |
           export NODE_OPTIONS="--max_old_space_size=4096"
           npm cache clean --force
-          npm ci
+          npm ci --legacy-peer-deps
 
       - name: Prepare app for build
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
