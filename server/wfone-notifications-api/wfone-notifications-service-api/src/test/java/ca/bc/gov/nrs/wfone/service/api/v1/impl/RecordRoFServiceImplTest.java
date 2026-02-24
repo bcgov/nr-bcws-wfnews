@@ -1,7 +1,7 @@
 package ca.bc.gov.nrs.wfone.service.api.v1.impl;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -18,229 +18,294 @@ import ca.bc.gov.nrs.wfone.service.api.v1.RecordServiceConstants;
 import ca.bc.gov.nrs.wfone.service.api.v1.impl.RecordRoFServiceImpl.FormPushHandler;
 
 public class RecordRoFServiceImplTest {
-	
+
 	@Test
 	public void testRetryWait() {
 		RecordRoFServiceImpl service = new RecordRoFServiceImpl();
 		TestClock clock = TestClock.fixed(OffsetDateTime.of(2018, 10, 19, 9, 27, 55, 0, ZoneOffset.UTC));
 		service.clock = clock;
 		RoFFormDto form = new RoFFormDto();
-		RoFEntryForm rofFormData= new RoFEntryForm();
-		
+		RoFEntryForm rofFormData = new RoFEntryForm();
+
 		form.setSubmittedTimestamp(LocalDateTime.now(clock));
 		rofFormData.setRetries(0);
 		rofFormData.setSubmissionStatus(RecordServiceConstants.WRITING_STATUS);
-		
+
 		FormPushHandler result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.INVALID));
-		
+
 		rofFormData.setSubmissionStatus(RecordServiceConstants.QUEUED_STATUS);
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.RETRY));
-		
+
 		// Wait 1 minute after first try
-		rofFormData.setRetries(rofFormData.getRetries()+1);
+		rofFormData.setRetries(rofFormData.getRetries() + 1);
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
 
-		clock.fastForward(Duration.ofMinutes(1)); 
+		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.RETRY));
-		
+
 		// Wait 2 minutes after second try
-		rofFormData.setRetries(rofFormData.getRetries()+1);
+		rofFormData.setRetries(rofFormData.getRetries() + 1);
 		result = service.howToHandle(form, rofFormData);
 
 		assertThat(result, is(FormPushHandler.WAIT));
 
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
-		
+
 		clock.fastForward(Duration.ofMinutes(1));
-		
+
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.RETRY));
-		
+
 		// Wait 4 minutes after third try
-		rofFormData.setRetries(rofFormData.getRetries()+1);
+		rofFormData.setRetries(rofFormData.getRetries() + 1);
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
 
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
-		
+
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
-		
+
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
-		
+
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.RETRY));
-		
+
 		// Wait 8 minutes after fourth try
-		rofFormData.setRetries(rofFormData.getRetries()+1);
+		rofFormData.setRetries(rofFormData.getRetries() + 1);
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
 
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
-		
+
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
-		
+
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
-		
+
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
 		assertThat(result, is(FormPushHandler.WAIT));
 
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
-		
+
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
-		
+
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.WAIT));
-		
+
 		clock.fastForward(Duration.ofMinutes(1));
 		result = service.howToHandle(form, rofFormData);
-		
+
 		assertThat(result, is(FormPushHandler.RETRY));
-		
-		
+
 		// Wait 16 minutes after fifth try
-		rofFormData.setRetries(rofFormData.getRetries()+1);
-		
-		for(int i = 0; i<16; i++) {
+		rofFormData.setRetries(rofFormData.getRetries() + 1);
+
+		for (int i = 0; i < 16; i++) {
 			result = service.howToHandle(form, rofFormData);
 			assertThat(result, is(FormPushHandler.WAIT));
-			
+
 			clock.fastForward(Duration.ofMinutes(1));
 		}
-		
+
 		result = service.howToHandle(form, rofFormData);
 
 		assertThat(result, is(FormPushHandler.RETRY));
-		
+
 		// Wait 32 minutes after sixth try
-		rofFormData.setRetries(rofFormData.getRetries()+1);
-		
-		for(int i = 0; i<32; i++) {
+		rofFormData.setRetries(rofFormData.getRetries() + 1);
+
+		for (int i = 0; i < 32; i++) {
 			result = service.howToHandle(form, rofFormData);
 			assertThat(result, is(FormPushHandler.WAIT));
-			
+
 			clock.fastForward(Duration.ofMinutes(1));
 		}
-		
+
 		result = service.howToHandle(form, rofFormData);
 
 		assertThat(result, is(FormPushHandler.RETRY));
-		
+
 		// Wait 64 minutes after seventh try
-		rofFormData.setRetries(rofFormData.getRetries()+1);
-		
-		for(int i = 0; i<64; i++) {
+		rofFormData.setRetries(rofFormData.getRetries() + 1);
+
+		for (int i = 0; i < 64; i++) {
 			result = service.howToHandle(form, rofFormData);
 			assertThat(result, is(FormPushHandler.WAIT));
-			
+
 			clock.fastForward(Duration.ofMinutes(1));
 		}
-		
+
 		result = service.howToHandle(form, rofFormData);
 
 		assertThat(result, is(FormPushHandler.RETRY));
-		
+
 		// Wait 128 minutes after eighth try
-		rofFormData.setRetries(rofFormData.getRetries()+1);
-		
-		for(int i = 0; i<128; i++) {
+		rofFormData.setRetries(rofFormData.getRetries() + 1);
+
+		for (int i = 0; i < 128; i++) {
 			result = service.howToHandle(form, rofFormData);
 			assertThat(result, is(FormPushHandler.WAIT));
-			
+
 			clock.fastForward(Duration.ofMinutes(1));
 		}
-		
+
 		result = service.howToHandle(form, rofFormData);
 
 		assertThat(result, is(FormPushHandler.RETRY));
 
-		
 		// Wait 256 minutes after ninth try
-		rofFormData.setRetries(rofFormData.getRetries()+1);
-		
-		for(int i = 0; i<256; i++) {
+		rofFormData.setRetries(rofFormData.getRetries() + 1);
+
+		for (int i = 0; i < 256; i++) {
 			result = service.howToHandle(form, rofFormData);
 			assertThat(result, is(FormPushHandler.WAIT));
-			
+
 			clock.fastForward(Duration.ofMinutes(1));
 		}
-		
+
 		result = service.howToHandle(form, rofFormData);
 
 		assertThat(result, is(FormPushHandler.RETRY));
 
-		
 		// Wait 512 minutes after tenth try
-		rofFormData.setRetries(rofFormData.getRetries()+1);
-		
-		for(int i = 0; i<512; i++) {
+		rofFormData.setRetries(rofFormData.getRetries() + 1);
+
+		for (int i = 0; i < 512; i++) {
 			result = service.howToHandle(form, rofFormData);
 			assertThat(result, is(FormPushHandler.WAIT));
-			
+
 			clock.fastForward(Duration.ofMinutes(1));
 		}
-		
+
 		result = service.howToHandle(form, rofFormData);
 
 		assertThat(result, is(FormPushHandler.RETRY));
 
-		
 		// Wait 1024 minutes after eleventh try
-		rofFormData.setRetries(rofFormData.getRetries()+1);
-		
-		for(int i = 0; i<1024; i++) {
+		rofFormData.setRetries(rofFormData.getRetries() + 1);
+
+		for (int i = 0; i < 1024; i++) {
 			result = service.howToHandle(form, rofFormData);
 			assertThat(result, is(FormPushHandler.WAIT));
-			
+
 			clock.fastForward(Duration.ofMinutes(1));
 		}
-		
+
 		result = service.howToHandle(form, rofFormData);
 
 		assertThat(result, is(FormPushHandler.RETRY));
 
-	
+	}
+
+	@Test
+	public void testCheckAlreadySubmitted() throws Exception {
+		RecordRoFServiceImpl service = new RecordRoFServiceImpl() {
+			@Override
+			public ca.bc.gov.nrs.wfone.persistence.v1.dao.RoFFormDao getRofFormDao() {
+				return new ca.bc.gov.nrs.wfone.persistence.v1.dao.RoFFormDao() {
+					@Override
+					public void insert(RoFFormDto dto) {
+					}
+
+					@Override
+					public java.util.List<RoFFormDto> select() {
+						return java.util.Collections.emptyList();
+					}
+
+					@Override
+					public RoFFormDto fetch(String guid) {
+						return null;
+					}
+
+					@Override
+					public int delete(RoFFormDto dto) {
+						return 0;
+					}
+
+					@Override
+					public java.util.List<RoFFormDto> selectOldForms() {
+						return java.util.Collections.emptyList();
+					}
+
+					@Override
+					public int update(RoFFormDto dto) {
+						return 0;
+					}
+
+					@Override
+					public java.util.List<RoFFormDto> duplicateSelect() {
+						return java.util.Collections.emptyList();
+					}
+
+					@Override
+					public RoFFormDto fetchBySubmissionId(String submissionId) {
+						if ("29a18517f447e510".equals(submissionId)) {
+							RoFFormDto dto = new RoFFormDto();
+							dto.setSubmissionId(submissionId);
+							return dto;
+						}
+						return null;
+					}
+				};
+			}
+		};
+
+		String jsonPayloadTrue = "{\"fullName\":null,\"phoneNumber\":null,\"consentToCall\":false,\"estimatedDistance\":7506.29209650701,\"fireLocation\":[48.522864833135856,-123.504832673093],\"deviceLocation\":[48.45535921975132,-123.5048326730931],\"fireSize\":\"Football Field\",\"rateOfSpread\":\"Unknown\",\"burning\":[\"brush\"],\"smokeColor\":[\"black\"],\"weather\":[],\"assetsAtRisk\":[],\"signsOfResponse\":[\"trucks\"],\"otherInfo\":\"\",\"visibleFlame\":[\"yes\"],\"submissionID\":\"29a18517f447e510\",\"submittedTimestamp\":\"1771891697882\"}";
+		String jsonPayloadFalse = "{\"fullName\":null,\"phoneNumber\":null,\"consentToCall\":false,\"estimatedDistance\":7506.29209650701,\"fireLocation\":[48.522864833135856,-123.504832673093],\"deviceLocation\":[48.45535921975132,-123.5048326730931],\"fireSize\":\"Football Field\",\"rateOfSpread\":\"Unknown\",\"burning\":[\"brush\"],\"smokeColor\":[\"black\"],\"weather\":[],\"assetsAtRisk\":[],\"signsOfResponse\":[\"trucks\"],\"otherInfo\":\"\",\"visibleFlame\":[\"yes\"],\"submissionID\":\"nonexistent789\",\"submittedTimestamp\":\"1771891697882\"}";
+
+		java.lang.reflect.Method method = RecordRoFServiceImpl.class.getDeclaredMethod("checkAlreadySubmitted",
+				String.class);
+		method.setAccessible(true);
+
+		// When the submissionID is 29a18517f447e510, we expect true (duplicate
+		// collision)
+		Boolean resultTrue = (Boolean) method.invoke(service, jsonPayloadTrue);
+		assertThat(resultTrue, is(true));
+
+		// When the submissionID is nonexistent789, we expect false (clean cache)
+		Boolean resultFalse = (Boolean) method.invoke(service, jsonPayloadFalse);
+		assertThat(resultFalse, is(false));
 	}
 }
