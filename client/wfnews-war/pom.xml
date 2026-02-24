@@ -210,23 +210,13 @@
 						</goals>
 					</execution>
 					<execution>
-						<id>npm i package-lock.json update</id>
+						<id>npm install</id>
 						<phase>initialize</phase>
 						<goals>
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>i --package-lock-only --legacy-peer-deps --registry=${npm.url}</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>npm ci</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>ci --legacy-peer-deps --registry=${npm.url}</arguments>
+							<arguments>install --legacy-peer-deps --registry=${npm.url}</arguments>
 						</configuration>
 					</execution>
 					<execution>
