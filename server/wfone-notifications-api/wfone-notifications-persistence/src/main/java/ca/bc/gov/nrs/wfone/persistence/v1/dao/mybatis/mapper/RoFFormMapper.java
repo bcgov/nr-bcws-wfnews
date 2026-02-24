@@ -14,6 +14,8 @@ public interface RoFFormMapper {
 
     RoFFormDto fetch(Map<String, Object> parameters);
 
+    RoFFormDto fetchBySubmissionId(Map<String, Object> parameters);
+
     int delete(Map<String, Object> parameters);
 
     int update(Map<String, Object> parameters);
