@@ -387,16 +387,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
     this.submitting = true;
 
     try {
-      await this.commonUtilityService.checkOnline().then(async (result) => {
-        if (!result) {
-          await this.useMyCurrentLocation();
-          this.reportOfFire.fireLocation = [
-            this.currentLocation.coords.latitude,
-            this.currentLocation.coords.longitude,
-          ];
-        }
-      });
-
       const rofResource: ReportOfFireType = {
         fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
         phoneNumber: this.nullEmptyStrings(this.reportOfFire.phoneNumber),
@@ -417,18 +407,26 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
         visibleFlame: new Array<string>(this.reportOfFire.visibleFlame)
       };
 
-      // seed string to create submission UUID
-      // use the resource object as the checksum seed to create a unique ID based on content
-      let seedString = JSON.stringify(rofResource);
+      // use a modified resource object as the checksum seed to create a unique ID based on content
+      // Round fireLocation coordinates to 4 decimals (approx 11m accuracy) so minor GPS drifts don't break deduplication
+      const seedResource = { ...rofResource };
+      if (seedResource.fireLocation && seedResource.fireLocation.length === 2) {
+        seedResource.fireLocation = [
+          Number(seedResource.fireLocation[0].toFixed(4)),
+          Number(seedResource.fireLocation[1].toFixed(4))
+        ];
+      }
 
-      if (this.reportOfFire.image1) {
-        seedString += (this.reportOfFire.image1.webPath || this.reportOfFire.image1.path || (this.reportOfFire.image1 as any).dataUrl);
+      let seedString = JSON.stringify(seedResource);
+
+      if (this.reportOfFire.image1 && this.reportOfFire.image1.path) {
+        seedString += this.reportOfFire.image1.path;
       }
-      if (this.reportOfFire.image2) {
-        seedString += (this.reportOfFire.image2.webPath || this.reportOfFire.image2.path || (this.reportOfFire.image2 as any).dataUrl);
+      if (this.reportOfFire.image2 && this.reportOfFire.image2.path) {
+        seedString += this.reportOfFire.image2.path;
       }
-      if (this.reportOfFire.image3) {
-        seedString += (this.reportOfFire.image3.webPath || this.reportOfFire.image3.path || (this.reportOfFire.image3 as any).dataUrl);
+      if (this.reportOfFire.image3 && this.reportOfFire.image3.path) {
+        seedString += this.reportOfFire.image3.path;
       }
 
       // Generate a fast 64-bit FNV-1a hash to use as the submissionID

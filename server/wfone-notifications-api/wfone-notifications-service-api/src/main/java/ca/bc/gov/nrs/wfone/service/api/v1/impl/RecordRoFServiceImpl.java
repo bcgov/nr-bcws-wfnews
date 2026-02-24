@@ -213,7 +213,19 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		if (checkAlreadySubmitted(rofFormData))
 			return;
 
-		insertRoFCache(reportOfFireCacheGuid, rofFormData);
+		String submissionId = null;
+		if (rofFormData != null && rofFormData.contains("submissionID")) {
+			try {
+				JSONObject newRofJson = new JSONObject(rofFormData);
+				if (newRofJson.has("submissionID")) {
+					submissionId = newRofJson.optString("submissionID");
+				}
+			} catch (Exception e) {
+				logger.warn("Could not extract submissionId for cache guid " + reportOfFireCacheGuid, e);
+			}
+		}
+
+		insertRoFCache(reportOfFireCacheGuid, rofFormData, submissionId);
 
 		List<byte[]> imageList = new ArrayList<byte[]>();
 		imageList.add(image1);
@@ -235,38 +247,31 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 	}
 
 	private boolean checkAlreadySubmitted(String reportOfFire) throws DaoException {
-		boolean alreadySubmitted = false;
-
-		// reject if there is a duplicate record in the cache already
-		List<RoFFormDto> cachedRofs = getRofFormDao().select();
-
-		if (cachedRofs != null) {
-			for (RoFFormDto rof : cachedRofs) {
-				String RoF = rof.getReportOfFire();
-
-				if (RoF != null && RoF.contains("submissionID")
-						&& reportOfFire != null && reportOfFire.contains("submissionID")) {
-					JSONObject rofJson = new JSONObject(RoF);
-					String formString = rofJson.optString("form");
-					JSONObject formJson = new JSONObject(formString);
-					JSONObject newRofJson = new JSONObject(reportOfFire);
-
-					if (formJson != null && newRofJson != null) {
-						String submissionID = formJson.optString("submissionID");
-						String newSubmissionID = newRofJson.optString("submissionID");
-						if (submissionID != null && newSubmissionID != null && submissionID.equals(newSubmissionID)) {
-							return true;
-						}
-					}
-				}
-			}
+		if (reportOfFire == null || !reportOfFire.contains("submissionID")) {
+			return false;
 		}
 
-		return alreadySubmitted;
+		try {
+			JSONObject newRofJson = new JSONObject(reportOfFire);
+			String newSubmissionID = newRofJson.optString("submissionID");
 
+			if (newSubmissionID != null && !newSubmissionID.isEmpty()) {
+				// Query the database directly for this exact submission ID
+				RoFFormDto existingForm = getRofFormDao().fetchBySubmissionId(newSubmissionID);
+
+				if (existingForm != null) {
+					logger.warn("Dropping duplicate incoming RoF submission with submissionID: " + newSubmissionID);
+					return true;
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error parsing RoF JSON while checking for duplicates", e);
+		}
+
+		return false;
 	}
 
-	private void insertRoFCache(String reportOfFireCacheGuid, String reportOfFire)
+	private void insertRoFCache(String reportOfFireCacheGuid, String reportOfFire, String submissionId)
 			throws JsonParseException, JsonMappingException, IOException, DaoException {
 		RecordRoFService recordRoFService = serviceApiSpringConfig.recordRoFService();
 		ObjectMapper mapper = new ObjectMapper();
@@ -274,6 +279,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 
 		RoFFormDto rofFormDto = new RoFFormDto();
 		rofFormDto.setReportOfFireCacheGuid(reportOfFireCacheGuid);
+		rofFormDto.setSubmissionId(submissionId);
 		RoFEntryForm newForm = new RoFEntryForm();
 		newForm.setSubmissionStatus(RecordServiceConstants.WRITING_STATUS);
 		newForm.setRetries(0);
@@ -674,9 +680,9 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 			boolean stuck = false;
 			// Select all submitted RoF's from the last 48 hours
 			// this will use a lock to ensure only one running instance can
-			// acccess selected records
+			// access selected records.
 			logger.debug(" ### START TRANSACTION - Starting Transaction. Query for queued RoFs...");
-			List<RoFFormDto> forms = getRofFormDao().duplicateSelect();
+			List<RoFFormDto> forms = getRofFormDao().select();
 
 			List<RoFRetryInfo> stuckRofs = new ArrayList<>(forms.size());
 			if (!forms.isEmpty()) {

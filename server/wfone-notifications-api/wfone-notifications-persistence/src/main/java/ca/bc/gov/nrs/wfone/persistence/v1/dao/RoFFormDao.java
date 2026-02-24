@@ -12,6 +12,8 @@ public interface RoFFormDao {
 
   RoFFormDto fetch(String guid) throws DaoException;
 
+  RoFFormDto fetchBySubmissionId(String submissionId) throws DaoException;
+
   int delete(RoFFormDto dto) throws DaoException;
 
   List<RoFFormDto> selectOldForms() throws DaoException;

@@ -129,6 +129,23 @@ public class RoFFormDaoImpl extends BaseDao implements RoFFormDao {
 	}
 
 	@Override
+	public RoFFormDto fetchBySubmissionId(String submissionId) throws DaoException {
+		logger.debug("<fetchBySubmissionId");
+		RoFFormDto dto = null;
+
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("submissionId", submissionId);
+			dto = this.mapper.fetchBySubmissionId(parameters);
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+
+		logger.debug(">fetchBySubmissionId");
+		return dto;
+	}
+
+	@Override
 	public List<RoFFormDto> duplicateSelect() throws DaoException {
 		logger.debug("duplicateSelect >>");
 
