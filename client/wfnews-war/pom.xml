@@ -216,7 +216,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>ci --registry=${npm.url}</arguments>
+							<arguments>ci</arguments>
 						</configuration>
 					</execution>
 					<execution>
