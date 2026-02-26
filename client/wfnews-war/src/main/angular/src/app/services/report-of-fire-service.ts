@@ -74,18 +74,30 @@ export class ReportOfFireService {
       const formData = new FormData();
       formData.append('resource', resource);
 
-      if (image1 || image2 || image3) {
-        const [img1Base64, img2Base64, img3Base64] = await Promise.all([
-          image1 ? this.convertToBase64(image1) : Promise.resolve(null),
-          image2 ? this.convertToBase64(image2) : Promise.resolve(null),
-          image3 ? this.convertToBase64(image3) : Promise.resolve(null)
-        ]);
-
-        if (img1Base64) formData.append('image1', img1Base64);
-        if (img2Base64) formData.append('image2', img2Base64);
-        if (img3Base64) formData.append('image3', img3Base64);
+      if (image1) {
+        formData.append('image1', await this.convertToBase64(image1));
+      }
+      if (image2) {
+        formData.append('image2', await this.convertToBase64(image2));
+      }
+      if (image3) {
+        formData.append('image3', await this.convertToBase64(image3));
       }
       this.formData = formData
+      // if the device is offline save RoF in storage
+      try {
+        const onlineStatus = await this.commonUtilityService.checkOnlineStatus();
+        if (!onlineStatus) {
+          await this.submitToStorage(formData);
+          this.submittedOffline = true;
+        }
+      } catch (error) {
+        console.error('Error checking online status for ROF submission', error);
+      }
+
+      if (this.submittedOffline) {
+        return;
+      }
 
       try {
         const offlineReportDataResponse = await this.ionicStorageService.get('offlineReportData');
@@ -157,20 +169,9 @@ export class ReportOfFireService {
     let content;
     let mimeType;
     try {
-      // if the webPath is already a base64 string, return it - prioritise over filesystem read
-      if (image?.webPath?.startsWith('data:image')) {
-        base64 = image.webPath;
-      }
-      // if it does not have base64 string convert it to one
-      else if (image.webPath) {
-        base64 = await this.blobToBase64(image.webPath);
-      }
-      // if it does not have a webPath return the dataUrl which should be a base64 string
-      else if ((image as Photo).dataUrl) {
-        base64 = (image as Photo).dataUrl;
-      }
-      // Fallback to reading binary data (base64 encoded) from plugins that return File URIs, such as the Camera.
-      else if (image.path) {
+      if (image.path) {
+        // read binary data (base64 encoded) from plugins that return File URIs, such as
+        // the Camera.
         const file = await Filesystem.readFile({
           path: image.path,
         });
@@ -197,6 +198,22 @@ export class ReportOfFireService {
         }
 
         base64 = 'data:image/' + mimeType + ';base64,' + content;
+      }
+
+      // if the webPath is already a base64 string, return it
+      else if (image?.webPath?.startsWith('data:image')) {
+        base64 = image.webPath;
+      }
+      // if it does not have base64 string convert it to one
+      else if (image.webPath) {
+        base64 = await this.blobToBase64(image.webPath);
+      }
+      // if it does not have a webPath return the dataUrl which should be a base64 string
+      else {
+        image = image as Photo;
+        if (image.dataUrl) {
+          base64 = image.dataUrl;
+        }
       }
 
       // if not a JPG, metadata will be checked in notifications api and lat/long will be added if not present.
