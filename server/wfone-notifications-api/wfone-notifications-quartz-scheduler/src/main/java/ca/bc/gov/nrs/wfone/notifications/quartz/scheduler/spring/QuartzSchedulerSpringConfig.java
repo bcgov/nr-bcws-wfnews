@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Import;
 
 import ca.bc.gov.nrs.wfone.notifications.quartz.scheduler.SchedulerConstants;
 import ca.bc.gov.nrs.wfone.notifications.quartz.scheduler.jobs.PushToIncidentManagerJob;
+import ca.bc.gov.nrs.wfone.notifications.quartz.scheduler.jobs.RefreshCodeTablesJob;
 import ca.bc.gov.nrs.wfone.notifications.quartz.scheduler.jobs.RoFCleanupJob;
 import ca.bc.gov.nrs.wfone.service.api.v1.spring.ServiceApiSpringConfig;
 
@@ -66,8 +67,11 @@ public class QuartzSchedulerSpringConfig {
 
 		SchedulerContext context = result.getContext();
 		context.put(SchedulerConstants.SERVICE_API_CONTEXT_KEY, serviceApiSpringConfig.recordRoFService());
+		context.put(SchedulerConstants.MODEL_VALIDATOR_CONTEXT_KEY, serviceApiSpringConfig.modelValidator());
+		
 		result.scheduleJob(consumerJob(), jobTrigger());
 		result.scheduleJob(cleanupJob(), cleanupTrigger());
+		result.scheduleJob(refreshCodeTablesJob(), refreshCodeTablesTrigger());
 
 		ListenerManager listenerManager = result.getListenerManager();
 		listenerManager.addSchedulerListener(new SchedulerListener() {
@@ -264,6 +268,33 @@ public class QuartzSchedulerSpringConfig {
 				.startNow()
 				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
 						.withIntervalInHours(24)
+						.repeatForever())
+				.build();
+
+		return result;
+	}
+	@Bean
+	JobDetail refreshCodeTablesJob() {
+		JobDetail result;
+
+		result = JobBuilder.newJob(RefreshCodeTablesJob.class)
+				.withIdentity(RefreshCodeTablesJob.class.getName())
+				.storeDurably(true)
+				.build();
+
+		return result;
+	}
+
+	@Bean
+	Trigger refreshCodeTablesTrigger() {
+		Trigger result;
+
+		// Run every 10 minutes
+		result = TriggerBuilder.newTrigger()
+				.withIdentity(SchedulerConstants.REFRESH_CODE_TABLES_TRIGGER_IDENTITY)
+				.startNow()
+				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
+						.withIntervalInMinutes(10)
 						.repeatForever())
 				.build();
 

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -57,11 +58,13 @@ public class ModelValidator extends BaseValidator {
 	private String wfimCodeTablesUrl;
 
 	private CodeTableListRsrc codeTables;
+	private Date codeTableRefresh;
 
 	/**
 	 * Helper method for loading and initializing code tables from WFIM
 	 */
-	private void loadCodeTables() {
+	public void refreshCodeTables() {
+		logger.debug("Refreshing code tables [Quartz Scheduled]...");
 		try {
 			HttpResponse<JsonNode> tokenResponse = Unirest.get(webadeOauth2ClientUrl)
 					.header("Authorization",
@@ -75,6 +78,7 @@ public class ModelValidator extends BaseValidator {
 
 			ObjectMapper mapper = new ObjectMapper();
 			codeTables = mapper.readValue(codeResponse.getBody(), CodeTableListRsrc.class);
+			codeTableRefresh = new Date();
 		} catch (Exception e) {
 			logger.error("Failed to load code tables for WFIM", e);
 		}
@@ -299,7 +303,10 @@ public class ModelValidator extends BaseValidator {
 	}
 
 	private boolean checkValuePresentOnCodeTable(String value, String codeTableName) throws Exception {
-		loadCodeTables();
+		if (codeTables == null) {
+			// fallback initialize on first call if the scheduled job hasn't hit yet
+			refreshCodeTables();
+		}
 		boolean present = false;
 		List<CodeTableRsrc> codeTableList = codeTables.getCodeTableList();
 		List<String> codeTableNames = new ArrayList<String>();
