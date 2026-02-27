@@ -400,7 +400,7 @@ export function convertToDateWithDayOfWeek(date: string) {
 export function convertToStageOfControlDescription(code: string) {
   switch (code) {
     case 'OUT_CNTRL':
-      return 'Out Of Control';
+      return 'Out of Control';
     case 'HOLDING':
       return 'Being Held';
     case 'UNDR_CNTRL':
@@ -791,7 +791,7 @@ export function getCurrentCondition(
   if (!conditions?.hourly) {
     return;
   }
-  return conditions.hourly.find(function(hc) {
+  return conditions.hourly.find(function (hc) {
     return hc.temp != null;
   });
 }
@@ -807,8 +807,8 @@ export function formatDate(timestamp: string | number): string {
 
     return date.toLocaleDateString('en-US', options);
   } else {
-throw new Error('Unable to apply formatting to date');
-}
+    throw new Error('Unable to apply formatting to date');
+  }
 }
 
 export function hidePanel(panelClass: string) {
@@ -829,7 +829,7 @@ export function showPanel(panelClass: string) {
 export const isAndroidViaNavigator = () => navigator.platform.includes('Linux') || navigator.platform.includes('Android');
 
 export function displayItemTitle(identifyItem) {
-  if (identifyItem.layerId){
+  if (identifyItem.layerId) {
     switch (identifyItem.layerId) {
       case 'active-wildfires-fire-of-note':
         return 'Wildfire of Note';
@@ -838,7 +838,7 @@ export function displayItemTitle(identifyItem) {
       case 'bcws-activefires-publicview-inactive':
       case 'active-wildfires-holding':
       case 'active-wildfires-out':
-      case 'fire-perimeters': 
+      case 'fire-perimeters':
         return 'Wildfire';
     }
   } else if (identifyItem.fireOfNoteInd !== undefined) {
@@ -902,7 +902,7 @@ export function addMarker(incident: any) {
     [Number(incident.latitude), Number(incident.longitude)],
     { icon: pointerIcon },
   );
-  this.marker.on('add', function() {
+  this.marker.on('add', function () {
     const icon: any = document.querySelector('.animated-icon');
     icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
 
@@ -922,12 +922,12 @@ export function addMarker(incident: any) {
   this.marker.addTo(viewer.map);
 }
 
-export function zoomInWithLocationPin(){
+export function zoomInWithLocationPin() {
   const viewer = getActiveMap().$viewer;
   const long = Number(this.data?.geometry?.coordinates[0]);
   const lat = Number(this.data?.geometry?.coordinates[1]);
 
-  if(long && lat) {
+  if (long && lat) {
     this.mapConfigService.getMapConfig().then(() => {
       getActiveMap().$viewer.panToFeature(
         window['turf'].point([long, lat]),
@@ -944,13 +944,13 @@ export function zoomInWithLocationPin(){
       }),
       draggable: false,
     };
-      if (this.pinDrop) {
-        viewer.map.removeLayer(this.pinDrop);
-      }
-
-      this.pinDrop = L.marker(
-        [lat, long],
-        markerOptions,
-      ).addTo(viewer.map);
+    if (this.pinDrop) {
+      viewer.map.removeLayer(this.pinDrop);
     }
+
+    this.pinDrop = L.marker(
+      [lat, long],
+      markerOptions,
+    ).addTo(viewer.map);
   }
+}

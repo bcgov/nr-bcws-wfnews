@@ -60,8 +60,14 @@
 
 .button-wrapper {
   display: flex;
+  align-items: center;
   margin: 0;
   background-color: #eee;
   border-top: solid 1px #c6c8cb;
   padding: 16px;
+
+  bc-checkbox {
+    flex: 1;
+    text-align: left;
+  }
 }
