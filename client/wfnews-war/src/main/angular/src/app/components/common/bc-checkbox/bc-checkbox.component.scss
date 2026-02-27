@@ -1,0 +1,99 @@
+@import '../../../../styles/variables';
+
+:host {
+  display: inline-block;
+}
+
+.bc-checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px; /* Added padding to increase touch area */
+  margin: -8px; /* Negative margin to keep layout exact */
+  cursor: pointer;
+  user-select: none;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 16px;
+  color: #313132;
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    
+    input {
+      cursor: not-allowed;
+    }
+  }
+
+  .bc-checkbox-container {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+      margin: 0;
+
+      &:checked ~ .bc-checkbox-box {
+        background-color: #013366;
+        border-color: #013366;
+
+        .bc-checkbox-checkmark {
+          display: block;
+        }
+      }
+    }
+
+    .bc-checkbox-box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 18px;
+      width: 18px;
+      background-color: #ffffff;
+      border: 1px solid #898785;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      transition: background-color 0.1s ease, border-color 0.1s ease;
+
+      // Force border visibility on mobile/high contrast
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .bc-checkbox-checkmark {
+      display: none;
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  .bc-checkbox-label-content {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .bc-checkbox-label {
+    line-height: normal;
+  }
+  
+  &:hover:not(.disabled) {
+    .bc-checkbox-box {
+      border-color: #313132;
+    }
+    
+    input:checked ~ .bc-checkbox-box {
+      background-color: #002c56;
+      border-color: #002c56;
+    }
+  }
+}

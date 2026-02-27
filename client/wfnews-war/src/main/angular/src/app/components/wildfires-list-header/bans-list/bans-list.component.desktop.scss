@@ -167,10 +167,10 @@ table tr:nth-child(even) td {
 .checkbox-label {
   font-size: 15px !important;
   font-weight: 600 !important;
-  line-height: 20px !important;
+  line-height: normal !important;
   letter-spacing: 0em !important;
   text-align: left !important;
-  margin-left: 3px;
+  margin-left: 0;
 }
 
 .stage-of-control-checkbox-group {
@@ -183,7 +183,7 @@ table tr:nth-child(even) td {
 
   .checkbox-group {
     display: flex;
-    gap: 12px;
+    gap: 24px;
 
     .mat-mdc-checkbox {
       border: none;

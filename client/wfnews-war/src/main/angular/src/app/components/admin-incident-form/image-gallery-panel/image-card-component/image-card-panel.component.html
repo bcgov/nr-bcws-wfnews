@@ -12,10 +12,10 @@
       <mat-radio-button [checked]="isPrimary" (change)="changePrimary()">Set as Primary Image</mat-radio-button>
     </div>
     <div class="action">
-      <mat-icon (click)="edit()">edit</mat-icon> Edit Image Title
+      <mat-icon (click)="edit()">edit</mat-icon> <span>Edit Image Title</span>
     </div>
     <div class="action">
-      <mat-checkbox [checked]="commsSuitable" (change)="includeInGallery()"><span class="checkbox-label">Include in Public Gallery</span></mat-checkbox>
+      <bc-checkbox [checked]="commsSuitable" (change)="includeInGallery()">Include in Public Gallery</bc-checkbox>
     </div>
   </div>
 </div>
