@@ -345,6 +345,36 @@
           }
         ]
       }
+    },
+    {
+      "changeSet": {
+        "id": "01_01_00_00",
+        "author": "sparmar",
+        "changes": [
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_01_00/00/dml/CLEANUP.SITUATION_REPORT.sql"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "01_01_00_01",
+        "author": "sparmar",
+        "changes": [
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_01_00/00/ddl/tables/ALTER.SITUATION_REPORT.sql"
+            }
+          }
+        ]
+      }
     }
   ]
 }
