@@ -6,6 +6,10 @@ body {
   // min-height: 100dvh;
 }
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 :root {
   --sat: env(safe-area-inset-top, 20px);
   --sar: env(safe-area-inset-right);
