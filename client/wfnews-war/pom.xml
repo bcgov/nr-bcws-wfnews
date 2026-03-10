@@ -133,6 +133,8 @@
 							<directory>${basedir}/target/angular</directory>
 							<includes>
 								<include>assets/**/*.*</include>
+								<include>.well-known/**/*.*</include>
+								<include>.well-known/**/*</include>
 								<include>*.*</include>
 							</includes>
 						</resource>
