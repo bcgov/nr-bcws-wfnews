@@ -155,7 +155,7 @@ generate "prod_tfvars" {
     license_plate = "${local.license_plate}"
     sns_email_targets = "${local.sns_email_targets}"
     base_certificate_arn = "${get_env("BASE_BCWILDFIRE_CERT_ARN")}"
-    gov_certificate_arn = "arn:aws:acm:us-east-1:598317316742:certificate/c127327c-295a-4afd-8545-5b47c4891b91"
+    gov_certificate_arn = "arn:aws:acm:us-east-1:362976989824:certificate/be71099c-a93c-4738-8b70-dd0a37d57250"
     gov_api_certificate_arn = "arn:aws:acm:us-east-1:598317316742:certificate/c9661e46-ee96-40f2-8fe7-de9e0cf1497b"
     WEBADE-OAUTH2_TOKEN_CLIENT_URL = "${local.WEBADE-OAUTH2_TOKEN_CLIENT_URL}"
     YOUTUBE_API_KEY = "${local.YOUTUBE_API_KEY}"
