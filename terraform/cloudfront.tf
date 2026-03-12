@@ -820,14 +820,6 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
       locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
     }
   }
-
-  tags = local.common_tags
-
-  viewer_certificate {
-    acm_certificate_arn = var.gov_certificate_arn
-    ssl_support_method  = "sni-only"
-  }
-
   ordered_cache_behavior {
     path_pattern           = "/wfnews-api/publicPublishedIncidentAttachment/*/attachments/*"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
@@ -915,6 +907,11 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     default_ttl            = 300
     max_ttl                = 86400
   }
-
+  
+  tags = local.common_tags
+  viewer_certificate {
+    acm_certificate_arn = var.gov_certificate_arn
+    ssl_support_method  = "sni-only"
+  }
 
 }
