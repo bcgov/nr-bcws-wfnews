@@ -770,7 +770,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_client_gov_${var.target_env}"
+    target_origin_id = "wfnews_gov_${var.target_env}"
 
     forwarded_values {
       query_string = true
