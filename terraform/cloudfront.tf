@@ -776,8 +776,25 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
       "TLSv1.2"]
     }
 
-    domain_name = "${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
-    origin_id   = "wfnews_gov_${var.target_env}"
+    domain_name = "default.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
+    origin_id   = "wfnews_${var.target_env}"
+    custom_header {
+      name  = "X-Cloudfront-Header"
+      value = var.cloudfront_header
+    }
+  }
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"]
+    }
+
+    domain_name = "wfnews-api.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
+    origin_id   = "wfnews_nginx_${var.target_env}"
     custom_header {
       name  = "X-Cloudfront-Header"
       value = var.cloudfront_header
@@ -800,7 +817,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_gov_${var.target_env}"
+    target_origin_id = "wfnews_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -824,7 +841,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_gov_${var.target_env}"
+    target_origin_id = "wfnews_${var.target_env}"
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
@@ -850,13 +867,32 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
       locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
     }
   }
+
   ordered_cache_behavior {
-    path_pattern           = "/wfnews-api/publicPublishedIncidentAttachment/*/attachments/*"
-    allowed_methods        = ["GET", "OPTIONS", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "wfnews_gov_${var.target_env}"
-    compress               = true
-    viewer_protocol_policy = "redirect-to-https"
+    path_pattern               = "/youtube.jsp"
+    allowed_methods            = ["GET", "OPTIONS", "HEAD"]
+    cached_methods             = ["GET", "OPTIONS", "HEAD"]
+    target_origin_id           = "wfnews_${var.target_env}"
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    compress                   = true
+    viewer_protocol_policy     = "redirect-to-https"
+    min_ttl                    = 0
+    default_ttl                = 86400
+    max_ttl                    = 86400
+    cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+  }
+
+  ordered_cache_behavior {
+    path_pattern               = "/youtube-embed"
+    allowed_methods            = ["GET", "OPTIONS", "HEAD"]
+    cached_methods             = ["GET", "OPTIONS", "HEAD"]
+    target_origin_id           = "wfnews_${var.target_env}"
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    compress                   = true
+    viewer_protocol_policy     = "redirect-to-https"
+    min_ttl                    = 0
+    default_ttl                = 86400
+    max_ttl                    = 86400
 
     forwarded_values {
       query_string = true
@@ -869,10 +905,62 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
   }
 
   ordered_cache_behavior {
+    path_pattern    = "/wfnews-api/static/*"
+    allowed_methods = ["GET", "HEAD"]
+    cached_methods  = ["GET", "HEAD"]
+
+    target_origin_id           = "wfnews_nginx_${var.target_env}"
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+
+    forwarded_values {
+      query_string = false
+      headers      = ["Origin"]
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 86400
+  }
+  ordered_cache_behavior {
+    path_pattern           = "/wfnews-api/publicPublishedIncidentAttachment/*/attachments/*"
+    allowed_methods        = ["GET", "OPTIONS", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    target_origin_id       = "wfnews_nginx_${var.target_env}"
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin"]
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
+    }
+  }
+
+  ordered_cache_behavior {
     path_pattern           = "/wfnews-api/statistics"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "wfnews_gov_${var.target_env}"
+    target_origin_id       = "wfnews_nginx_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
 
@@ -889,34 +977,16 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
       }
     }
 
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
+    }
+
     response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
   }
 
   ordered_cache_behavior {
-    path_pattern    = "/wfnews-api/static/*"
-    allowed_methods = ["GET", "HEAD"]
-    cached_methods  = ["GET", "HEAD"]
-
-    target_origin_id = "wfnews_gov_${var.target_env}"
-
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
-
-    forwarded_values {
-      query_string = false
-      headers      = ["Origin", "Authorization"]
-      cookies {
-        forward = "none"
-      }
-    }
-
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 300
-    max_ttl                = 86400
-  }
-
-  ordered_cache_behavior {
-    path_pattern = "/wfnews-api"
+    path_pattern = "/wfnews-api/*"
     allowed_methods = [
       "DELETE",
       "GET",
@@ -927,18 +997,55 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_gov_${var.target_env}"
-
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
+    target_origin_id = "wfnews_nginx_${var.target_env}"
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin", "Authorization"]
+      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
 
       cookies {
         forward = "none"
       }
     }
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
+    }
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 86400
+  }
+
+  ordered_cache_behavior {
+    path_pattern = "/wfnews-api"
+    allowed_methods = [
+      "GET",
+      "HEAD",
+    "OPTIONS"]
+    cached_methods = ["GET", "HEAD"]
+
+    target_origin_id = "wfnews_nginx_${var.target_env}"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
+    }
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
