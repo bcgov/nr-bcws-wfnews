@@ -306,7 +306,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           #Base URL will use the 
           name  = "BASE_URL",
-          value = var.target_env == "prod" ? "https://${var.gov_client_url}/" : "https://${aws_route53_record.wfnews_record.name}/"
+          value = var.target_env == "prod" ? "https://${var.cloudfront_gov_origin_name}.${var.cloudfront_gov_origin_tail}/" : "https://${aws_route53_record.wfnews_record.name}/"
         },
         {
           name  = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
@@ -362,7 +362,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         { //Will be phased out from prod eventually, but not yet
           name  = "WFNEWS_API_URL",
-          value = var.target_env == "prod" ? "https://${var.gov_api_url}/" : "https://${aws_route53_record.wfnews_record.name}/${var.nginx_names[0]}"
+          value = var.target_env == "prod" ? "https://${var.cloudfront_gov_origin_name}.${var.cloudfront_gov_origin_tail}/${var.nginx_names[0]}" : "https://${aws_route53_record.wfnews_record.name}/${var.nginx_names[0]}"
         },
         {
           name  = "WFNEWS_API_KEY",

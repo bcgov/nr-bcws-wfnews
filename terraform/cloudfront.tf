@@ -800,7 +800,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_client_gov_${var.target_env}"
+    target_origin_id = "wfnews_gov_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -824,7 +824,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_client_gov_${var.target_env}"
+    target_origin_id = "wfnews_gov_${var.target_env}"
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
 
@@ -850,14 +850,6 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
       locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
     }
   }
-
-  tags = local.common_tags
-
-  viewer_certificate {
-    acm_certificate_arn = var.gov_certificate_arn
-    ssl_support_method  = "sni-only"
-  }
-
   ordered_cache_behavior {
     path_pattern           = "/wfnews-api/publicPublishedIncidentAttachment/*/attachments/*"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
@@ -953,6 +945,11 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     default_ttl            = 300
     max_ttl                = 86400
   }
-
+  
+  tags = local.common_tags
+  viewer_certificate {
+    acm_certificate_arn = var.gov_certificate_arn
+    ssl_support_method  = "sni-only"
+  }
 
 }
