@@ -35,6 +35,12 @@ jobs:
       - name: retrieve Amazon TLS cert
         run: wget https://www.amazontrust.com/repository/AmazonRootCA1.pem -O docker/AmazonRootCA1.pem
 
+      - name: Sanitize branch names
+        id: sanitize
+        run: |
+          echo "BRANCH_SANITIZED=${{ github.ref_name }}" | sed 's/\//-/g' >> $GITHUB_OUTPUT
+          echo "BASE_REF_SANITIZED=${{ github.base_ref }}" | sed 's/\//-/g' >> $GITHUB_OUTPUT
+
       #Build nginx image
       - name: Extract metadata (tags, labels) for nginx Docker image
         id: meta-nginx
@@ -43,11 +49,13 @@ jobs:
           images: ${{ vars.REGISTRY }}/${{ env.NGINX_IMAGE_NAME }}
           tags: |
             type=schedule
-            type=raw,value=${{ github.base_ref }}
+            type=ref,event=branch
             type=ref,event=tag
+            type=sha,format=short,prefix=
             type=raw,value=${{inputs.TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
       - name: Build and push nginx Docker image
+        if: ${{ inputs.TAG || github.event.pull_request.number > 0 }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .

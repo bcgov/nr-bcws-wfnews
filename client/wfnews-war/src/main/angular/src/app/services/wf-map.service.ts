@@ -5,7 +5,6 @@ import { getActiveMap, hidePanel, isAndroidViaNavigator } from '@app/utils';
 import { CapacitorHttp } from '@capacitor/core';
 import { AppConfigService } from '@wf1/core-ui';
 import * as esriVector from 'esri-leaflet-vector';
-import * as satelliteStyle from '../../assets/data/vector-basemap-imagery.json';
 import * as navStyle from '../../assets/data/vector-basemap-navigation.json';
 import * as nightStyle from '../../assets/data/vector-basemap-night.json';
 import * as topoStyle from '../../assets/data/vector-basemap-topo.json';
@@ -98,7 +97,7 @@ export class WFMapService {
               option.fullScreen.emit();
             },
           );
-          
+
           SMK.HANDLER.set(
             'measure',
             'triggered',
@@ -180,14 +179,8 @@ export class WFMapService {
                 },
               ]);
 
-              mapService.defineEsriVectorLayer('imagery', 'Imagery', [
-                {
-                  id: 'imagery',
-                  type: 'vector',
-                  url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
-                  style: () => satelliteStyle,
-                },
-                { id: 'Imagery', type: 'tile', url: null, style: null },
+              defineEsriBasemap('imagery', 'Imagery', [
+                { id: 'Imagery', option: { wfnewsId: 'imagery' } },
               ]);
 
               mapService.defineEsriVectorLayer('night', 'Night', [
@@ -203,7 +196,7 @@ export class WFMapService {
                 {
                   id: 'bc-basemap',
                   type: 'vector',
-                  url: 'https://tiles.arcgis.com/tiles/ubm4tcTYICKBpist/arcgis/rest/services/BC_BASEMAP/VectorTileServer',
+                  url: 'https://tiles.arcgis.com/tiles/ubm4tcTYICKBpist/arcgis/rest/services/BC_BASEMAP_20240307/VectorTileServer',
                   style: (style) => style,
                 },
               ]);
@@ -441,7 +434,7 @@ export class WFMapService {
             };
 
             const oldInit = SMK.TYPE.Viewer.leaflet.prototype.initialize;
-            SMK.TYPE.Viewer.leaflet.prototype.initialize = function(smk) {
+            SMK.TYPE.Viewer.leaflet.prototype.initialize = function (smk) {
               // Call the existing initializer
               oldInit.apply(this, arguments);
 
@@ -454,7 +447,7 @@ export class WFMapService {
               this.map.setMaxBounds(maxBounds);
             };
 
-            SMK.TYPE.Viewer.leaflet.prototype.panToFeature = function(
+            SMK.TYPE.Viewer.leaflet.prototype.panToFeature = function (
               feature,
               zoomIn,
             ) {
@@ -506,7 +499,7 @@ export class WFMapService {
             SMK.TYPE.Viewer.leaflet.prototype.identifyState = null;
             const origIdentifyFeatures =
               SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures;
-            SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = function(
+            SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = function (
               location,
               area,
             ) {
@@ -532,13 +525,13 @@ export class WFMapService {
                 });
             };
 
-            SMK.TYPE.Layer['wms'].prototype.canMergeWith = function(other) {
+            SMK.TYPE.Layer['wms'].prototype.canMergeWith = function (other) {
               return (
                 this.config.combiningClass &&
                 this.config.combiningClass === other.config.combiningClass
               );
             };
-            SMK.TYPE.Layer['wms']['leaflet'].prototype.canMergeWith = function(
+            SMK.TYPE.Layer['wms']['leaflet'].prototype.canMergeWith = function (
               other,
             ) {
               return (
@@ -548,7 +541,7 @@ export class WFMapService {
             };
 
             SMK.TYPE.Layer['wms']['leaflet'].prototype.getFeaturesInArea =
-              function(area, view, option) {
+              function (area, view, option) {
                 const prototype = SMK.TYPE.Layer['wms']['leaflet'].prototype;
 
                 let extraFilter = this.config.where || '';

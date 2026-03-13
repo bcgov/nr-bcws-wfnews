@@ -1,19 +1,21 @@
 import {
-  Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
-import { RoFPage } from '../rofPage';
-import { ReportOfFire } from '../reportOfFireModel';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
+import { CommonUtilityService } from '@app/services/common-utility.service';
+import { ReportOfFireService } from '@app/services/report-of-fire-service';
 import { App } from '@capacitor/app';
+import { PluginListenerHandle } from '@capacitor/core';
 import { BackgroundTask } from '@capawesome/capacitor-background-task';
 import { Subscription, interval } from 'rxjs';
-import { ReportOfFireService } from '@app/services/report-of-fire-service';
+import { ReportOfFire } from '../reportOfFireModel';
+import { RoFPage } from '../rofPage';
 
 @Component({
   selector: 'rof-title-page',
@@ -21,13 +23,14 @@ import { ReportOfFireService } from '@app/services/report-of-fire-service';
   styleUrls: ['./rof-title-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoFTitlePage extends RoFPage implements OnInit {
+export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   public imageUrl: string;
   public closeButton: boolean;
   public messages: any;
   public offLineMessages: any;
   offLine = false;
   private intervalRef: Subscription;
+  private appStateListener: PluginListenerHandle;
 
   public constructor(
     protected dialog: MatDialog,
@@ -41,7 +44,9 @@ export class RoFTitlePage extends RoFPage implements OnInit {
 
   ngOnInit(): void {
     if (this.reportOfFirePage.currentPage.instance.id === 'first-page') {
-      App.removeAllListeners();
+      if (this.appStateListener) {
+        this.appStateListener.remove();
+      }
       // run background task
       (async () => {
         await this.backgroundListener();
@@ -59,7 +64,10 @@ export class RoFTitlePage extends RoFPage implements OnInit {
   }
 
   async backgroundListener() {
-    App.addListener('appStateChange', async ({ isActive }) => {
+    if (this.appStateListener) {
+      this.appStateListener.remove();
+    }
+    this.appStateListener = await App.addListener('appStateChange', async ({ isActive }) => {
       if (isActive) {
         return;
       }
@@ -67,9 +75,9 @@ export class RoFTitlePage extends RoFPage implements OnInit {
       // Start the background task by calling `beforeExit`.
       const taskId = await BackgroundTask.beforeExit(async () => {
 
-        if(!this.intervalRef || this.intervalRef.closed) {
+        if (!this.intervalRef || this.intervalRef.closed) {
           this.intervalRef = interval(30000).subscribe(async () => {
-            if(await this.checkStoredRoF()) 
+            if (await this.checkStoredRoF())
               this.unsubscribeInterval();
           });
         }
@@ -83,6 +91,13 @@ export class RoFTitlePage extends RoFPage implements OnInit {
     this.intervalRef?.unsubscribe();
   }
 
+  ngOnDestroy() {
+    this.unsubscribeInterval();
+    if (this.appStateListener) {
+      this.appStateListener.remove();
+    }
+  }
+
   openCallPage() {
     this.reportOfFirePage.selectPage('call-page', null, false);
   }
@@ -94,15 +109,12 @@ export class RoFTitlePage extends RoFPage implements OnInit {
     await this.commonUtilityService.removeInvalidOfflineRoF();
 
     // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
-    await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
-      if (result) {
-        await this.reportOfFireService.syncDataWithServer(this.intervalRef).then(response => {
-          if(response) {
-            rofSubmitted = true;
-          }
-        });      
-      };
-    });
+
+    if (await this.commonUtilityService.checkOnlineStatus()) {
+      if (await this.reportOfFireService.syncDataWithServer(this.intervalRef)) {
+        rofSubmitted = true;
+      }
+    };
     return rofSubmitted;
   }
 

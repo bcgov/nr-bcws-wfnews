@@ -24,12 +24,6 @@ import java.util.UUID;
 import javax.mail.MessagingException;
 
 import org.apache.commons.io.IOUtils;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -48,14 +42,18 @@ import com.drew.lang.Rational;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.GpsDirectory;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
+import ca.bc.gov.nrs.common.wfone.rest.resource.CodeRsrc;
 import ca.bc.gov.nrs.common.wfone.rest.resource.CodeTableListRsrc;
 import ca.bc.gov.nrs.common.wfone.rest.resource.CodeTableRsrc;
-import ca.bc.gov.nrs.common.wfone.rest.resource.CodeRsrc;
-
 import ca.bc.gov.nrs.wfdm.api.rest.client.FileService;
 import ca.bc.gov.nrs.wfdm.api.rest.client.FileServiceException;
 import ca.bc.gov.nrs.wfdm.api.rest.client.ValidationException;
@@ -89,7 +87,8 @@ import kong.unirest.Unirest;
 public class RecordRoFServiceImpl implements RecordRoFService {
 	private static final Logger logger = LoggerFactory.getLogger(RecordRoFServiceImpl.class);
 
-	private static final long DEGRADED_NOTIFICATION_INTERVAL = 15; // Minutes between notifications that there are stuck RoFs.
+	// Minutes between notifications that there are stuck RoFs.
+	private static final long DEGRADED_NOTIFICATION_INTERVAL = 15;
 
 	@Value("${WEBADE_OAUTH2_CLIENT_ID}")
 	private String webadeOauth2ClientId;
@@ -121,7 +120,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 	private Properties applicationProperties;
 	private RoFFormDao rofFormDao;
 	private RoFImageDao rofImageDao;
-	
+
 	// Time since degredation was detected, or a notification was last sent
 	Optional<LocalDateTime> stuckSince = Optional.empty();
 	String lastError = "No Errors yet.  This message should not appear in an email so report it if it does.";
@@ -133,7 +132,8 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		try {
 			HttpResponse<JsonNode> tokenResponse = Unirest.get(webadeOauth2ClientUrl)
 					.header("Authorization",
-							"Basic " + Base64.getEncoder().encodeToString((webadeOauth2ClientId + ":" + webadeOauth2ClientSecret).getBytes()))
+							"Basic " + Base64.getEncoder()
+									.encodeToString((webadeOauth2ClientId + ":" + webadeOauth2ClientSecret).getBytes()))
 					.header("Content-Type", "application/json").asJson();
 			JsonNode tokenBody = tokenResponse.getBody();
 			String token = tokenBody.getObject().getString("access_token");
@@ -209,10 +209,23 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		ObjectMapper mapper = new ObjectMapper();
 
 		String reportOfFireCacheGuid = UUID.randomUUID().toString();
-		
-		if(checkAlreadySubmitted(rofFormData)) return; 
-		
-		insertRoFCache(reportOfFireCacheGuid, rofFormData);
+
+		if (checkAlreadySubmitted(rofFormData))
+			return;
+
+		String submissionId = null;
+		if (rofFormData != null && rofFormData.contains("submissionID")) {
+			try {
+				JSONObject newRofJson = new JSONObject(rofFormData);
+				if (newRofJson.has("submissionID")) {
+					submissionId = newRofJson.optString("submissionID");
+				}
+			} catch (Exception e) {
+				logger.warn("Could not extract submissionId for cache guid " + reportOfFireCacheGuid, e);
+			}
+		}
+
+		insertRoFCache(reportOfFireCacheGuid, rofFormData, submissionId);
 
 		List<byte[]> imageList = new ArrayList<byte[]>();
 		imageList.add(image1);
@@ -232,40 +245,33 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		form.setReportOfFire(mapper.writeValueAsString(updateForm));
 		getRofFormDao().update(form);
 	}
-	
+
 	private boolean checkAlreadySubmitted(String reportOfFire) throws DaoException {
-		boolean alreadySubmitted = false;
-		
-		// reject if there is a duplicate record in the cache already
-		List<RoFFormDto> cachedRofs = getRofFormDao().select();
-		
-		if (cachedRofs != null) {
-			for(RoFFormDto rof: cachedRofs) {
-				String RoF = rof.getReportOfFire();
-				
-				if (RoF != null && RoF.contains("submissionID") 
-						&& reportOfFire != null && reportOfFire.contains("submissionID")) {
-					JSONObject rofJson = new JSONObject(RoF);
-			    	String formString = rofJson.optString("form");
-			    	JSONObject formJson = new JSONObject(formString);
-			    	JSONObject newRofJson = new JSONObject(reportOfFire);
-			    		
-			    	if(formJson != null && newRofJson != null) {
-			    		String submissionID = formJson.optString("submissionID");
-				    	String newSubmissionID = newRofJson.optString("submissionID");
-				    	if (submissionID != null && newSubmissionID != null && submissionID.equals(newSubmissionID)) {
-				    		return true;
-				    	}
-			    	}
-				}
-			}	
+		if (reportOfFire == null || !reportOfFire.contains("submissionID")) {
+			return false;
 		}
-		
-		return alreadySubmitted;
-		
+
+		try {
+			JSONObject newRofJson = new JSONObject(reportOfFire);
+			String newSubmissionID = newRofJson.optString("submissionID");
+
+			if (newSubmissionID != null && !newSubmissionID.isEmpty()) {
+				// Query the database directly for this exact submission ID
+				RoFFormDto existingForm = getRofFormDao().fetchBySubmissionId(newSubmissionID);
+
+				if (existingForm != null) {
+					logger.warn("Dropping duplicate incoming RoF submission with submissionID: " + newSubmissionID);
+					return true;
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error parsing RoF JSON while checking for duplicates", e);
+		}
+
+		return false;
 	}
 
-	private void insertRoFCache(String reportOfFireCacheGuid, String reportOfFire)
+	private void insertRoFCache(String reportOfFireCacheGuid, String reportOfFire, String submissionId)
 			throws JsonParseException, JsonMappingException, IOException, DaoException {
 		RecordRoFService recordRoFService = serviceApiSpringConfig.recordRoFService();
 		ObjectMapper mapper = new ObjectMapper();
@@ -273,22 +279,25 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 
 		RoFFormDto rofFormDto = new RoFFormDto();
 		rofFormDto.setReportOfFireCacheGuid(reportOfFireCacheGuid);
+		rofFormDto.setSubmissionId(submissionId);
 		RoFEntryForm newForm = new RoFEntryForm();
 		newForm.setSubmissionStatus(RecordServiceConstants.WRITING_STATUS);
 		newForm.setRetries(0);
 		newForm.setForm(reportOfFire);
 
 		rofFormDto.setReportOfFire(mapper.writeValueAsString(newForm));
-		
+
 		LocalDateTime currentTimestamp = LocalDateTime.now(clock);
 		JSONObject rofJson = new JSONObject(reportOfFire);
 		String rofTimestamp = null;
-		
-		if(rofJson != null && rofJson.optString("submittedTimestamp") != null) {
+
+		if (rofJson != null && rofJson.optString("submittedTimestamp") != null) {
 			rofTimestamp = rofJson.optString("submittedTimestamp");
-			LocalDateTime submittedTimestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(rofTimestamp)), ZoneId.systemDefault());
+			LocalDateTime submittedTimestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(rofTimestamp)),
+					ZoneId.systemDefault());
 			rofFormDto.setSubmittedTimestamp(submittedTimestamp);
-		}else rofFormDto.setSubmittedTimestamp(currentTimestamp);
+		} else
+			rofFormDto.setSubmittedTimestamp(currentTimestamp);
 
 		this.rofFormDao.insert(rofFormDto);
 	}
@@ -341,7 +350,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 
 		String serializedRof = prepareRoF(rofFormDataJson, mapper);
 		logger.info("Posting serialized ROF to WFIM: " + serializedRof);
-		
+
 		Date postDate = new Date();
 		HttpResponse<String> response = Unirest.post(rofEndpoint).header("Authorization", "Bearer " + token)
 				.header("Content-Type", "application/json").header("Accept", "*/*").body(serializedRof).asString();
@@ -566,18 +575,18 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 					.replace("]", "").replace("\"", "").replace(",", ", "));
 		if (rofFormDataJson.has("submittedTimestamp") && !rofFormDataJson.optString("submittedTimestamp", "").equals("")) {
 			String rofTimestamp = rofFormDataJson.optString("submittedTimestamp");
-			LocalDateTime submittedDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(rofTimestamp)), ZoneId.systemDefault());
+			LocalDateTime submittedDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(rofTimestamp)),
+					ZoneId.systemDefault());
 			rof.setSubmittedTimestamp(Date.from(submittedDateTime.atZone(ZoneId.systemDefault()).toInstant()));
 		}
 
 		Boolean visibleFlame = rofFormDataJson.has("visibleFlame")
 				&& rofFormDataJson.optJSONArray("visibleFlame") != null
 				&& rofFormDataJson.getJSONArray("visibleFlame").toString()
-					.replace("[", "").replace("]", "")
-					.replace("\"", "")
-				.equalsIgnoreCase("YES");
+						.replace("[", "").replace("]", "")
+						.replace("\"", "")
+						.equalsIgnoreCase("YES");
 		rof.setFlamesVisibleInd(visibleFlame);
-
 
 		if (rofFormDataJson.has("otherInfo") && !rofFormDataJson.optString("otherInfo", "").isEmpty()) {
 			rof.setCallerReportDetails(rofFormDataJson.optString("otherInfo"));
@@ -632,25 +641,25 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		RETRY,
 		INVALID
 	}
-	
+
 	long retryAfter(int retries) {
-		return (1L<<retries)-1;
+		return (1L << retries) - 1;
 	}
-	
+
 	FormPushHandler howToHandle(RoFFormDto form, RoFEntryForm rofFormData) {
 		int retries = rofFormData.getRetries();
 		long retryAfter = retryAfter(retries);
 		LocalDateTime retryAt = form.getSubmittedTimestamp().plusMinutes(retryAfter);
-		if(!rofFormData.getSubmissionStatus().equalsIgnoreCase(RecordServiceConstants.QUEUED_STATUS)) {
+		if (!rofFormData.getSubmissionStatus().equalsIgnoreCase(RecordServiceConstants.QUEUED_STATUS)) {
 			return FormPushHandler.INVALID;
-		} else if (! retryAt.isAfter(LocalDateTime.now(clock))) {
+		} else if (!retryAt.isAfter(LocalDateTime.now(clock))) {
 			return FormPushHandler.RETRY;
 		} else {
 			return FormPushHandler.WAIT;
 		}
-		
+
 	}
-	
+
 	/**
 	 * Fetch an RoF from the Cache and push to WFIM This method should only be
 	 * triggered from the Quartz service
@@ -664,17 +673,17 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		// start a transaction
 		TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
 		TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
-		
+
 		Date processStart = new Date();
 		// Fetch all available RoFs from Postgres
 		try {
 			boolean stuck = false;
 			// Select all submitted RoF's from the last 48 hours
 			// this will use a lock to ensure only one running instance can
-			// acccess selected records
+			// access selected records.
 			logger.debug(" ### START TRANSACTION - Starting Transaction. Query for queued RoFs...");
 			List<RoFFormDto> forms = getRofFormDao().select();
-			
+
 			List<RoFRetryInfo> stuckRofs = new ArrayList<>(forms.size());
 			if (!forms.isEmpty()) {
 				logger.debug("Found {} RoFs to process.", forms.size());
@@ -693,8 +702,8 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 				for (RoFFormDto form : forms) {
 					// map the form blob into an RoF Helper class
 					RoFEntryForm rofFormData = mapper.readValue(form.getReportOfFire(), RoFEntryForm.class);
-					
-					if( pushRoFToIncidentManager(mapper, results, token, form, rofFormData)) {
+
+					if (pushRoFToIncidentManager(mapper, results, token, form, rofFormData)) {
 						stuck = true;
 						RoFRetryInfo retryInfo = new RoFRetryInfo();
 						retryInfo.setRofCacheGuid(form.getReportOfFireCacheGuid());
@@ -704,9 +713,9 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 					}
 				}
 			}
-			if(stuck) {
-				stuckSince.ifPresent(since->{
-					if (ChronoUnit.MINUTES.between(since, LocalDateTime.now(clock))>DEGRADED_NOTIFICATION_INTERVAL) {
+			if (stuck) {
+				stuckSince.ifPresent(since -> {
+					if (ChronoUnit.MINUTES.between(since, LocalDateTime.now(clock)) > DEGRADED_NOTIFICATION_INTERVAL) {
 						try {
 							this.emailNotificationService.sendServiceDegradedMessage(stuckRofs, lastError);
 						} catch (UnsupportedEncodingException | MessagingException e) {
@@ -714,11 +723,11 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 						}
 					}
 				});
-				
+
 				stuckSince = Optional.of(LocalDateTime.now(clock));
-				
+
 			} else {
-				stuckSince.ifPresent(since->{
+				stuckSince.ifPresent(since -> {
 					try {
 						this.emailNotificationService.sendServiceRestoredMessage();
 					} catch (UnsupportedEncodingException | MessagingException e) {
@@ -740,7 +749,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 			logger.debug("Transaction completed. Total Duration: {} seconds",
 					((new Date().getTime() - processStart.getTime()) / 1000));
 		}
-		
+
 		logger.debug("<< pushRoFToIncidentManager");
 		return results;
 	}
@@ -749,24 +758,24 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 			RoFFormDto form, RoFEntryForm rofFormData) {
 		boolean stuck = false;
 		try {
-			switch(howToHandle(form, rofFormData)) {
-			case INVALID:
-				logger.debug("Attempting to process form in progress or invalidated. Skipping...");
-				if(rofFormData.getRetries()>0) {
+			switch (howToHandle(form, rofFormData)) {
+				case INVALID:
+					logger.debug("Attempting to process form in progress or invalidated. Skipping...");
+					if (rofFormData.getRetries() > 0) {
+						stuck = true;
+					}
+					break;
+				case RETRY:
+					stuck = doPushRoFToIncidentManagement(mapper, results, token, form, rofFormData);
+					break;
+				case WAIT:
+					logger.debug("Waiting to retry form submission. Skipping...");
 					stuck = true;
-				}
-				break;
-			case RETRY:
-				stuck = doPushRoFToIncidentManagement(mapper, results, token, form, rofFormData);
-				break;
-			case WAIT:
-				logger.debug("Waiting to retry form submission. Skipping...");
-				stuck = true;
-				break;
+					break;
 			}
 		} catch (Exception e) {
 			logger.error("Skipping invalid document", e);
-			stuck=true;
+			stuck = true;
 		}
 		return stuck;
 	}
@@ -798,22 +807,22 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 			// if we recieved an object back, the submission was successful
 			// we can delete the images and form from the cache
 			if (handledForm != null) {
-				// Delete from postgres
+				// Mark for deletion from postgres
 				try {
-					for (RoFImageDto image : imageCache) {
-						getRofImageDao().delete(image);
-					}
-					getRoFFormDao().delete(form);
+					rofFormData.setSubmissionStatus(RecordServiceConstants.SUBMITTED_STATUS);
+					form.setReportOfFire(mapper.writeValueAsString(rofFormData));
+					getRofFormDao().update(form);
+
 					results.add(handledForm);
-					logger.info(" ### Completed submission/cleanup of form "
+					logger.info(" ### Completed submission of form "
 							+ form.getReportOfFireCacheGuid());
 				} catch (Exception e) {
-					logger.error("Failed to delete records from DB", e);
+					logger.error("Failed to update records in DB", e);
 				}
 			}
 		} catch (Exception e) {
 			this.handlePushError(mapper, form, rofFormData, e, "push RoF to WFIM");
-			stuck=true;
+			stuck = true;
 		}
 		logger.debug(" ### END TRANSACTION - Form submit completed. Total Duration: {} seconds",
 				((new Date().getTime() - formStart.getTime()) / 1000));
@@ -821,16 +830,18 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 	}
 
 	private boolean notifyOnRetry(int retry) {
-		return retry==NOTIFY_RETRY; 
+		return retry == NOTIFY_RETRY;
 	}
-	
-	private void handlePushError(ObjectMapper mapper, RoFFormDto form, RoFEntryForm rofFormData, Exception ex, String failedPushAction) throws JsonProcessingException, DaoException {
+
+	private void handlePushError(ObjectMapper mapper, RoFFormDto form, RoFEntryForm rofFormData, Exception ex,
+			String failedPushAction) throws JsonProcessingException, DaoException {
 		// we encountered an error
 		// update the retry count and error message on the cache
 		logger.error(String.format("Failed to %s", failedPushAction), ex);
-		
-		lastError = String.format("%s while trying to %s for RoF %s", ex.getMessage(), failedPushAction, form.getReportOfFireCacheGuid());
-		
+
+		lastError = String.format("%s while trying to %s for RoF %s", ex.getMessage(), failedPushAction,
+				form.getReportOfFireCacheGuid());
+
 		rofFormData.setError(ex.getMessage());
 		rofFormData.setRetries(rofFormData.getRetries() + 1);
 		rofFormData.setSubmissionStatus(
@@ -843,13 +854,14 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 			serializedRof = prepareRoF(new JSONObject(rofFormData.getForm()), new ObjectMapper());
 		} catch (Exception e) {
 			logger.error("Error while serializing RoF for error notification", e);
-			serializedRof = "Error while serializing RoF for error notification: "+e.getMessage();
+			serializedRof = "Error while serializing RoF for error notification: " + e.getMessage();
 		}
 		if (notifyOnRetry(rofFormData.getRetries())) {
 			try {
-				emailNotificationService.sendRoFsStuckMessage(serializedRof, form.getReportOfFireCacheGuid(), ex, failedPushAction);
+				emailNotificationService.sendRoFsStuckMessage(serializedRof, form.getReportOfFireCacheGuid(), ex,
+						failedPushAction);
 			} catch (MessagingException | UnsupportedEncodingException messagingException) {
-				logger.error(String.format("Messaging exception while notifying of error while attempting to %s: %s", 
+				logger.error(String.format("Messaging exception while notifying of error while attempting to %s: %s",
 						failedPushAction, messagingException.getMessage()), messagingException);
 			}
 		}
@@ -986,9 +998,10 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		FileMetadataRsrc metaOwner = new FileMetadataRsrc();
 		metaOwner.setMetadataName("Owner");
 		metaOwner.setMetadataValue("HQK");
-		
+
 		// set coordinates for image if not set by now
-		// device location should be attached to ROF. If for some reason it is not, use fire's location
+		// device location should be attached to ROF. If for some reason it is not, use
+		// fire's location
 		if (form != null && lat == null && lng == null) {
 			JSONObject rof = new JSONObject(form);
 			if (rof.has("form") && rof.optString("form") != null) {
@@ -1000,7 +1013,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 				} else if (rofForm != null && rofForm.optJSONArray("fireLocation") != null) {
 					lat = rofForm.optJSONArray("fireLocation").getDouble(0);
 					lng = rofForm.optJSONArray("fireLocation").getDouble(1);
-				}				
+				}
 			}
 		}
 
@@ -1061,4 +1074,35 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 
 		return coordinatesAsDecimal;
 	}
+
+	@Override
+	public void cleanupOldRoFs() {
+		logger.debug("cleanupOldRoFs >>");
+
+		try {
+			// Delete records older than 48 hours to ensure we don't have infinite growth
+			// 48 hours matches the duplicate check window
+			List<RoFFormDto> oldForms = getRofFormDao().selectOldForms();
+
+			if (oldForms != null && !oldForms.isEmpty()) {
+				logger.info("Found {} old RoF records to clean up", oldForms.size());
+				for (RoFFormDto form : oldForms) {
+					try {
+						// Delete images first
+						getRofImageDao().deleteByReportOfFireCacheGuid(form.getReportOfFireCacheGuid());
+						// Delete form
+						getRofFormDao().delete(form);
+						logger.debug("Deleted old RoF record: {}", form.getReportOfFireCacheGuid());
+					} catch (Exception e) {
+						logger.error("Failed to delete old RoF record: " + form.getReportOfFireCacheGuid(), e);
+					}
+				}
+			}
+		} catch (DaoException e) {
+			logger.error("Failed to cleanup old RoF records", e);
+		}
+
+		logger.debug("<< cleanupOldRoFs");
+	}
+
 }

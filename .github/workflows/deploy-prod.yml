@@ -1,20 +1,19 @@
 name: Deploy Prod
 
 env:
-  IMAGE_TAG: ${{ inputs.IS_HOTFIX == 'true' && format('hotfix-{0}-{1}', vars.PATCH_BRANCH, vars.HOTFIX_TAG) || github.ref_name }}
-  
+  IMAGE_TAG: ${{ github.ref_name }}
+
 on:
   release:
     types: [released]
   workflow_dispatch:
     inputs:
-      IS_HOTFIX:
-        description: 'Is this a hotfix?'
+      IMAGE_TAG:
+        description: Full SHA or tag to promote. Defaults to current commit SHA if 'latest'.
         required: false
-        default: 'false'
-    
-jobs:
+        default: latest
 
+jobs:
   call-lambda-zip:
     uses: ./.github/workflows/lambda-zip.yml
     secrets: inherit
@@ -33,19 +32,19 @@ jobs:
       tag-value: ${{ steps.get-release-tag.outputs.tag-value }}
 
     steps:
-      - uses: actions/checkout@v3
-        if: ${{ inputs.IS_HOTFIX != 'true' }}
-    
-      - uses: actions/checkout@v3
-        if: ${{ inputs.IS_HOTFIX == 'true' }}
-        with:
-          ref: ${{ inputs.BRANCH }}
-
-      - uses: GuillaumeFalourd/assert-command-line-output@v2.1
-        with:
-          command_line: cat client/pom.xml && cat server/wfnews-api/pom.xml
-          contains: SNAPSHOT
-          expected_result: FAILED
+      - name: Sanitize branch names and tags
+        id: sanitize
+        run: |
+          IN_TAG="${{ inputs.IMAGE_TAG || github.event.release.tag_name || github.ref_name }}"
+          SRC_TAG=$IN_TAG
+          if [ "${{ github.event_name }}" == "release" ] || [ "$SRC_TAG" == "latest" ] || [ -z "$SRC_TAG" ]; then
+            SRC_TAG=$(echo ${{ github.sha }} | cut -c1-7)
+          elif [ ${#SRC_TAG} -ge 40 ]; then
+            SRC_TAG=$(echo $SRC_TAG | cut -c1-7)
+          fi
+          echo "SHORT_SHA=$SRC_TAG" >> $GITHUB_OUTPUT
+          echo "IMAGE_TAG_SANITIZED=$(echo "$IN_TAG" | sed 's/\//-/g')" >> $GITHUB_OUTPUT
+          echo "BRANCH_NAME_SANITIZED=$(echo "${{ env.branch-name }}" | sed 's/\//-/g')" >> $GITHUB_OUTPUT
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -56,50 +55,48 @@ jobs:
 
       - name: Tag client image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ steps.sanitize.outputs.SHORT_SHA }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ steps.sanitize.outputs.SHORT_SHA }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
 
       - name: Tag server image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ steps.sanitize.outputs.SHORT_SHA }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ steps.sanitize.outputs.SHORT_SHA }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
 
       - name: Tag liquibase image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ steps.sanitize.outputs.SHORT_SHA }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ steps.sanitize.outputs.SHORT_SHA }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
 
       - name: Tag nginx image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ steps.sanitize.outputs.SHORT_SHA }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ steps.sanitize.outputs.SHORT_SHA }} ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
 
       - name: Tag notifications-api image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.IMAGE_TAG }}
-  
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ steps.sanitize.outputs.SHORT_SHA }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ steps.sanitize.outputs.SHORT_SHA }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+
       - name: Tag notification-push-api image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.IMAGE_TAG }}
-  
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ steps.sanitize.outputs.SHORT_SHA }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ steps.sanitize.outputs.SHORT_SHA }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+
       - name: Tag wfss-pointid-api image
         run: |
-          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.branch-name }}
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.branch-name }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.IMAGE_TAG }}
-          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.IMAGE_TAG }}
+          docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ steps.sanitize.outputs.SHORT_SHA }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ steps.sanitize.outputs.SHORT_SHA }} ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
+          docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}
 
-      - run: echo ::set-output name=tag-value::${{ env.IMAGE_TAG }}
+      - run: echo "tag-value=${{ steps.sanitize.outputs.IMAGE_TAG_SANITIZED }}" >> $GITHUB_OUTPUT
         id: get-release-tag
-      
-
 
   terragrunt-deploy-prod:
     needs: [tag-images, call-lambda-zip]
@@ -107,7 +104,6 @@ jobs:
     with:
       DEFAULT_APPLICATION_ENVIRONMENT: PROD
       IMAGE_TAG: ${{ needs.tag-images.outputs.tag-value }}
-      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       TARGET_ENV: prod
 
       MAX_RECEIVED_COUNT: 10
@@ -131,7 +127,7 @@ jobs:
       upload_to_app_store: true
       skip_slack_notification: false
     secrets: inherit
-  
+
   android-deploy:
     uses: ./.github/workflows/android.yml
     needs: [tag-images]

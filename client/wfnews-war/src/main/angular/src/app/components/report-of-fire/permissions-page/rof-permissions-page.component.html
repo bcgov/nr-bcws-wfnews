@@ -5,12 +5,13 @@
   <div class="divider"></div>
   <div class="rof-text-subheader-black">Do you agree to share information with the BC Wildfire Service?</div>
   <div class="rof-text-body">
-    <mat-checkbox [checked]="dataShareAccepted" (change)="dataShareAcceptedToggle($event.checked)">
+    <bc-checkbox [checked]="dataShareAccepted" (change)="dataShareAcceptedToggle($event.checked)">
       <span>I agree to share information provided in this report with BC Wildfire Service</span>
-    </mat-checkbox>
+    </bc-checkbox>
   </div>
   <div class="rof-button-container">
     <button mat-flat-button class="rof-button" (click)="close()">Cancel</button>
-	  <button mat-flat-button [class]="'rof-button' + (!dataShareAccepted ? '-disabled' : '-primary')" (click)="nextPage()" [disabled]="!dataShareAccepted">Continue</button>
+    <button mat-flat-button [class]="'rof-button' + (!dataShareAccepted ? '-disabled' : '-primary')"
+      (click)="nextPage()" [disabled]="!dataShareAccepted">Continue</button>
   </div>
 </div>

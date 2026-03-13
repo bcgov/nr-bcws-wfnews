@@ -115,6 +115,21 @@
             }
           ]
         }
+      },
+      {
+        "changeSet": {
+          "id": "01_01_00_00",
+          "author": "sparmar",
+          "changes": [
+            {
+              "sqlFile": {
+                "dbms": "postgresql",
+                "endDelimiter": ";",
+                "path": "scripts/01_01_00-notifications/00/ddl/wfone.ddl.add_submission_id_to_rof_cache.sql"
+              }
+            }
+          ]
+        }
       }
     ]
   }

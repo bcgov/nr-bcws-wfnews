@@ -55,8 +55,9 @@
 
 .submit-button-row {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 12vh 0;
   .action-button {
     border-radius: 6px;
@@ -75,6 +76,21 @@
     margin-left: 12px;
     height: 24px;
     width: 24px;
+  }
+  
+  mat-spinner {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    position: relative;
+    top: -2px;
+  }
+
+  .submitting-text {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 14px;
+    color: #313132;
   }
 }
 

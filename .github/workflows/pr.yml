@@ -2,7 +2,7 @@ name: PR Creation Scan
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "release/**" ]
 
 jobs:
   # https://github.com/marketplace/actions/aqua-security-trivy

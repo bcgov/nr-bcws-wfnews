@@ -49,7 +49,7 @@ export class IncidentMapsPanel implements OnInit {
         fileName: doc.attachmentTitle,
         linkUrl: `${this.appConfigService.getConfig().rest['wfnews']
           }/publicPublishedIncidentAttachment/${self.incident.incidentNumberLabel
-          }/attachments/${doc.attachmentGuid}/bytes`,
+          }/attachments/${doc.attachmentGuid}/bytes?fireYear=${self.incident.fireYear}`,
         date: new Date(doc.createdTimestamp).toDateString(),
       }));
       this.cdr.detectChanges();

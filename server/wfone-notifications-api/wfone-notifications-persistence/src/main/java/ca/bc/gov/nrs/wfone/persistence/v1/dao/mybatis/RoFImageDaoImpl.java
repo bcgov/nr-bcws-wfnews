@@ -17,37 +17,37 @@ import ca.bc.gov.nrs.wfone.persistence.v1.dto.RoFImageDto;
 
 @Repository
 public class RoFImageDaoImpl extends BaseDao implements RoFImageDao {
-	
-    private static final Logger logger = LoggerFactory.getLogger(RoFImageDaoImpl.class);
 
-    @Autowired
-    private RoFImageMapper mapper;
+	private static final Logger logger = LoggerFactory.getLogger(RoFImageDaoImpl.class);
 
- 	@Override
- 	public void insert(RoFImageDto dto) throws DaoException {
- 		logger.debug("<insert");
+	@Autowired
+	private RoFImageMapper mapper;
 
- 		try {
+	@Override
+	public void insert(RoFImageDto dto) throws DaoException {
+		logger.debug("<insert");
 
- 			Map<String, Object> parameters = new HashMap<String, Object>();
+		try {
 
- 			parameters.put("dto", dto);
- 			int count = this.mapper.insert(parameters);
+			Map<String, Object> parameters = new HashMap<String, Object>();
 
- 			if(count==0) {
- 				throw new DaoException("Record not inserted: "+count);
- 			}
-			
- 		} catch (RuntimeException e) {
- 			handleException(e);
- 		}
+			parameters.put("dto", dto);
+			int count = this.mapper.insert(parameters);
 
- 		logger.debug(">insert " + dto.getReportOfFireAttachmentCacheGuid());
- 	}
+			if (count == 0) {
+				throw new DaoException("Record not inserted: " + count);
+			}
 
-  @Override
-  public List<RoFImageDto> select(String reportOfFireCacheGuid) throws DaoException {
-    logger.debug("<select");
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+
+		logger.debug(">insert " + dto.getReportOfFireAttachmentCacheGuid());
+	}
+
+	@Override
+	public List<RoFImageDto> select(String reportOfFireCacheGuid) throws DaoException {
+		logger.debug("<select");
 
 		List<RoFImageDto> result = null;
 
@@ -63,12 +63,12 @@ public class RoFImageDaoImpl extends BaseDao implements RoFImageDao {
 
 		logger.debug(">select " + result);
 		return result;
-  }
+	}
 
-  @Override
-  public int delete(RoFImageDto dto) throws DaoException {
-    logger.debug("<delete");
-    int count = 0;
+	@Override
+	public int delete(RoFImageDto dto) throws DaoException {
+		logger.debug("<delete");
+		int count = 0;
 		try {
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
@@ -76,7 +76,7 @@ public class RoFImageDaoImpl extends BaseDao implements RoFImageDao {
 			count = this.mapper.delete(parameters);
 
 			if (count == 0) {
-				throw new DaoException("Record not deleted: "+count);
+				throw new DaoException("Record not deleted: " + count);
 			}
 
 		} catch (RuntimeException e) {
@@ -84,8 +84,25 @@ public class RoFImageDaoImpl extends BaseDao implements RoFImageDao {
 		}
 
 		logger.debug(">delete");
-    return count;
-  }
+		return count;
+	}
 
- }
-	
+	@Override
+	public int deleteByReportOfFireCacheGuid(String reportOfFireCacheGuid) throws DaoException {
+		logger.debug("<deleteByReportOfFireCacheGuid");
+		int count = 0;
+		try {
+
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("reportOfFireCacheGuid", reportOfFireCacheGuid);
+			count = this.mapper.deleteByReportOfFireCacheGuid(parameters);
+
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+
+		logger.debug(">deleteByReportOfFireCacheGuid");
+		return count;
+	}
+
+}

@@ -8,6 +8,7 @@
 		<id 	  property="reportOfFireCacheGuid"    column="REPORT_OF_FIRE_CACHE_GUID" 	    javaType="java.lang.String" 	      jdbcType="VARCHAR" />
 		<result property="reportOfFire"     		    column="REPORT_OF_FIRE" 			          javaType="java.lang.String"       	jdbcType="VARCHAR" />
 		<result property="submittedTimestamp"   		column="SUBMITTED_TIMESTAMP" 			      javaType="java.time.LocalDateTime" 	jdbcType="TIMESTAMP" />
+		<result property="submissionId"         		column="SUBMISSION_ID"         				  javaType="java.lang.String"         jdbcType="VARCHAR" />
 
 	</resultMap>
 	
@@ -16,17 +17,20 @@
 		INSERT INTO report_of_fire_cache  
 			( REPORT_OF_FIRE_CACHE_GUID,
 				REPORT_OF_FIRE,
-				SUBMITTED_TIMESTAMP)
+				SUBMITTED_TIMESTAMP,
+				SUBMISSION_ID)
 		VALUES
 			  (#{dto.reportOfFireCacheGuid},
 			   #{dto.reportOfFire, 		    javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-			   #{dto.submittedTimestamp, 		javaType=java.time.LocalDateTime, jdbcType=TIMESTAMP, mode=IN})
+			   #{dto.submittedTimestamp, 		javaType=java.time.LocalDateTime, jdbcType=TIMESTAMP, mode=IN},
+				 #{dto.submissionId,             javaType=java.lang.String, jdbcType=VARCHAR, mode=IN})
 	</insert> 
 
   <sql id="selectColumns">
 		SELECT rof.REPORT_OF_FIRE_CACHE_GUID,
            rof.REPORT_OF_FIRE,
-           rof.SUBMITTED_TIMESTAMP
+           rof.SUBMITTED_TIMESTAMP,
+           rof.SUBMISSION_ID
 	</sql>
 
   <sql id="selectJoins">
@@ -39,19 +43,38 @@
     WHERE rof.SUBMITTED_TIMESTAMP BETWEEN NOW() - INTERVAL '48 HOURS' AND NOW() FOR UPDATE SKIP LOCKED
 	</select>
 
+	<select id="duplicateSelect" resultMap="RoFFormMap">
+		<include refid="selectColumns"/>
+    <include refid="selectJoins"/>
+    WHERE rof.SUBMITTED_TIMESTAMP BETWEEN NOW() - INTERVAL '48 HOURS' AND NOW()
+	</select>
+
   <select id="fetch" resultMap="RoFFormMap">
 		<include refid="selectColumns"/>
     <include refid="selectJoins"/>
     WHERE rof.REPORT_OF_FIRE_CACHE_GUID = #{reportOfFireCacheGuid}
 	</select>
 
+  <select id="fetchBySubmissionId" resultMap="RoFFormMap">
+		<include refid="selectColumns"/>
+    <include refid="selectJoins"/>
+    WHERE rof.SUBMISSION_ID = #{submissionId}
+	</select>
+
   <delete id="delete">
 		DELETE FROM report_of_fire_cache WHERE REPORT_OF_FIRE_CACHE_GUID 	= #{reportOfFireCacheGuid}
 	</delete>
 
-  <update id="update">
+	<update id="update">
 		UPDATE report_of_fire_cache
 		   SET REPORT_OF_FIRE = #{dto.reportOfFire, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 		 WHERE REPORT_OF_FIRE_CACHE_GUID 	= #{reportOfFireCacheGuid}
 	</update> 
+	
+
+	<select id="selectOldForms" resultMap="RoFFormMap">
+		<include refid="selectColumns"/>
+    <include refid="selectJoins"/>
+    WHERE rof.SUBMITTED_TIMESTAMP <![CDATA[ < ]]> NOW() - INTERVAL '48 HOURS'
+	</select>
 </mapper>

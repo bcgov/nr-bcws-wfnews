@@ -1,88 +1,90 @@
-
 <div class="table-search-header flex-y-fixed">
-    <div class="search-and-filters">
-        <div class="field search-input">
-          <mat-icon class="search-icon" matSuffix>search</mat-icon>
-          <input matInput class="search-input" aria-label="Search" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="searchByText()">
-          <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText"
-                  aria-label="Clear" (click)="searchText=undefined; searchByText(); $event.stopPropagation()"
-                  matTooltip="Clear">
-                  <span class="button-wrapper">
-                      <mat-icon>close</mat-icon>
-                  </span>
-          </button>
-        </div>
-        <button mat-flat-button matTooltip="Filter by Location" [class]="'filter-button' + (locationData ? '-selected' : '')" aria-label="By Location" (click)="openLocationFilter()">
-          <img class="list-icon image-size" [src]="'/assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /><span class="button-wrapper">Filter by Location</span>
-          <button mat-mdc-button matSuffix mat-mdc-icon-button class="filter-clear" *ngIf="locationData"
-                  aria-label="Clear" (click)="locationData=undefined; searchByText(); $event.stopPropagation()"
-                  matTooltip="Clear">
-                  <span class="button-wrapper">
-                      <mat-icon>close</mat-icon>
-                  </span>
-          </button>
-        </button>
-        <div class="field right-align">
-          <select appWFSingleSelect appWFPlaceholder="Sort"
-                  class="rounded-select"
-                  aria-label="Sort"
-                  [options]="sortOptions"
-                  [selected]="selectedSortValue"
-                  [(ngModel)]="selectedSortValue"
-                  (updated)="search()">
-              <option value="">
-                  <span class="placeholder">Sort By</span>
-              </option>
-              <option *ngFor = "let item of sortOptions" value="{{item.code}}">
-                  <span>{{item.description}}</span>
-              </option>
-          </select>
-        </div>
+  <div class="search-and-filters">
+    <div class="field search-input">
+      <mat-icon class="search-icon" matSuffix>search</mat-icon>
+      <input matInput class="search-input" aria-label="Search" placeholder="Search" [(ngModel)]="searchText"
+        (ngModelChange)="searchByText()">
+      <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText"
+        aria-label="Clear" (click)="searchText=undefined; searchByText(); $event.stopPropagation()" matTooltip="Clear">
+        <span class="button-wrapper">
+          <mat-icon>close</mat-icon>
+        </span>
+      </button>
     </div>
-    <div class="stage-of-control-checkbox-group">
-      <section class="checkbox-group">
-        <mat-checkbox [(ngModel)]="category1" [checked]="category1" (change)="search()"><span class="checkbox-label">Category 1 (Campfires)</span></mat-checkbox>
-        <mat-checkbox [(ngModel)]="category2" [checked]="category2" (change)="search()"><span class="checkbox-label">Category 2</span></mat-checkbox>
-        <mat-checkbox [(ngModel)]="category3" [checked]="category3" (change)="search()"><span class="checkbox-label">Category 3</span></mat-checkbox>
-      </section>
+    <button mat-flat-button matTooltip="Filter by Location"
+      [class]="'filter-button' + (locationData ? '-selected' : '')" aria-label="By Location"
+      (click)="openLocationFilter()">
+      <img class="list-icon image-size" [src]="'/assets/images/svg-icons/location-button.svg'" alt="location button"
+        height="24" width="24" /><span class="button-wrapper">Filter by Location</span>
+      <button mat-mdc-button matSuffix mat-mdc-icon-button class="filter-clear" *ngIf="locationData" aria-label="Clear"
+        (click)="locationData=undefined; searchByText(); $event.stopPropagation()" matTooltip="Clear">
+        <span class="button-wrapper">
+          <mat-icon>close</mat-icon>
+        </span>
+      </button>
+    </button>
+    <div class="field right-align">
+      <select appWFSingleSelect appWFPlaceholder="Sort" class="rounded-select" aria-label="Sort" [options]="sortOptions"
+        [selected]="selectedSortValue" [(ngModel)]="selectedSortValue" (updated)="search()">
+        <option value="">
+          <span class="placeholder">Sort By</span>
+        </option>
+        <option *ngFor="let item of sortOptions" value="{{item.code}}">
+          <span>{{item.description}}</span>
+        </option>
+      </select>
     </div>
+  </div>
+  <div class="stage-of-control-checkbox-group">
+    <section class="checkbox-group">
+      <bc-checkbox [(ngModel)]="category1" (change)="search()"><span class="checkbox-label">Category 1
+          (Campfires)</span></bc-checkbox>
+      <bc-checkbox [(ngModel)]="category2" (change)="search()"><span class="checkbox-label">Category
+          2</span></bc-checkbox>
+      <bc-checkbox [(ngModel)]="category3" (change)="search()"><span class="checkbox-label">Category
+          3</span></bc-checkbox>
+    </section>
+  </div>
 </div>
-<p class ="results-count" >{{dataSource ? dataSource.data.length : 0}} Results</p>
+<p class="results-count">{{dataSource ? dataSource.data.length : 0}} Results</p>
 <div *ngIf="searchingComplete; else loading" class="table-wrapper">
-    <table mat-table matSort [matSortActive]="selectedSortValue" [matSortDirection]="selectedSortOrder" (matSortChange)="sortData($event)" [dataSource]="dataSource" aria-label="Bans and Restrictions Table">
+  <table mat-table matSort [matSortActive]="selectedSortValue" [matSortDirection]="selectedSortOrder"
+    (matSortChange)="sortData($event)" [dataSource]="dataSource" aria-label="Bans and Restrictions Table">
 
-      <ng-container matColumnDef="fireCentre">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre </th>
-        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.fireCentre}} </td>
-      </ng-container>
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
-        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.type}} </td>
-      </ng-container>
-      <ng-container matColumnDef="details">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Details </th>
-        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.details}} </td>
-      </ng-container>
-      <ng-container matColumnDef="issuedOn">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Issued On </th>
-        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.issuedOn}} </td>
-      </ng-container>
-      <ng-container matColumnDef="viewMap">
-        <th mat-header-cell *matHeaderCellDef>View Map</th>
-        <td mat-cell style="cursor: pointer;" *matCellDef="let item" 
-            (mouseover)="hoveredItem = item" 
-            (mouseleave)="hoveredItem = null" 
-            (click)="viewMap(item); $event.stopPropagation()">
-            <span #el>
-                <mat-icon style="height: 20px; width: 20px;" [svgIcon]="hoveredItem === item ? 'map-hover' : 'map'"></mat-icon>
-            </span>
-            <span class="cell-label"></span>
-        </td>
-      </ng-container>
+    <ng-container matColumnDef="fireCentre">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre </th>
+      <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.fireCentre}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+      <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.type}} </td>
+    </ng-container>
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Details </th>
+      <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.details}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="issuedOn">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Issued On </th>
+      <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.issuedOn}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="viewMap">
+      <th mat-header-cell *matHeaderCellDef>View Map</th>
+      <td mat-cell style="cursor: pointer;" *matCellDef="let item" (mouseover)="hoveredItem = item"
+        (mouseleave)="hoveredItem = null" (click)="viewMap(item); $event.stopPropagation()">
+        <span #el>
+          <mat-icon style="height: 20px; width: 20px;"
+            [svgIcon]="hoveredItem === item ? 'map-hover' : 'map'"></mat-icon>
+        </span>
+        <span class="cell-label"></span>
+      </td>
+    </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" (click)="selectItem(row)"></tr>
-    </table>
-    <div *ngIf="dataSource.data.length === 0">No records to display</div>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" (click)="selectItem(row)"></tr>
+  </table>
+  <div *ngIf="dataSource.data.length === 0">No records to display</div>
 </div>
 <ng-template #loading><mat-spinner [diameter]="40" class="spinner-position"></mat-spinner></ng-template>

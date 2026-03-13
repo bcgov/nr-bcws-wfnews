@@ -6,14 +6,9 @@
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
             <mat-label class="label required">General Disclaimer and Comments</mat-label>
-            <textarea matInput
-                cdkTextareaAutosize
-                #autosize="cdkTextareaAutosize"
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="5"
-                [(ngModel)]="incident.responseComments"
-                formControlName="responseComments"
-                ></textarea>
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5" [(ngModel)]="incident.responseComments"
+              formControlName="responseComments"></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -26,13 +21,14 @@
     <mat-card-title>
       Firefighting Personnel
       <button mat-button (click)="updateCrews()" class="resource-button"><img class="icon"
-        src="/assets/images/svg-icons/fluent_open-24-regular.svg"
-        alt="sync" />Import data from Resource Manager</button>
+          src="/assets/images/svg-icons/fluent_open-24-regular.svg" alt="sync" />Import data from Resource
+        Manager</button>
     </mat-card-title>
     <fieldset class="field-set">
       <legend style="display: none">Response card</legend>
       <div class="field size-full">
-        <mat-checkbox [(ngModel)]="incident.wildifreCrewsInd" formControlName="wildifreCrewsInd" class="example-margin" (change)="onWildfireCrewsChecked($event)">Display Firefighting Personnel information</mat-checkbox>
+        <bc-checkbox [(ngModel)]="incident.wildifreCrewsInd" formControlName="wildifreCrewsInd" class="example-margin"
+          (change)="onWildfireCrewsChecked($event)">Display Firefighting Personnel information</bc-checkbox>
       </div>
       <div class="news-form">
         <div class="field size-unset">
@@ -52,13 +48,8 @@
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
             <mat-label class="label required">General Disclaimer and Comments</mat-label>
-            <textarea matInput
-                cdkTextareaAutosize
-                #autosize="cdkTextareaAutosize"
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="5"
-                [(ngModel)]="incident.crewsComments"
-                formControlName="crewsComments"></textarea>
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5" [(ngModel)]="incident.crewsComments" formControlName="crewsComments"></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -68,13 +59,14 @@
     <mat-card-title>
       Aviation
       <button mat-button (click)="updateAviation()" class="resource-button"><img class="icon"
-        src="/assets/images/svg-icons/fluent_open-24-regular.svg"
-        alt="sync" />Import data from Resource Manager</button>
+          src="/assets/images/svg-icons/fluent_open-24-regular.svg" alt="sync" />Import data from Resource
+        Manager</button>
     </mat-card-title>
     <fieldset class="field-set">
       <legend style="display: none">Arial Response Card</legend>
       <div class="field size-full">
-        <mat-checkbox [(ngModel)]="incident.aviationInd" formControlName="aviationInd" class="example-margin" (change)="onAviationChecked($event)">Display Wildfire Aviation information</mat-checkbox>
+        <bc-checkbox [(ngModel)]="incident.aviationInd" formControlName="aviationInd" class="example-margin"
+          (change)="onAviationChecked($event)">Display Wildfire Aviation information</bc-checkbox>
       </div>
       <div class="news-form">
         <div class="field size-unset">
@@ -94,13 +86,9 @@
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
             <mat-label class="label required">General Disclaimer and Comments</mat-label>
-            <textarea matInput
-                cdkTextareaAutosize
-                #autosize="cdkTextareaAutosize"
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="5"
-                [(ngModel)]="incident.aviationComments"
-                formControlName="aviationComments"></textarea>
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5" [(ngModel)]="incident.aviationComments"
+              formControlName="aviationComments"></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -110,31 +98,30 @@
     <mat-card-title>
       Incident Management Team
       <button mat-button (click)="updateIMTeam()" class="resource-button"><img class="icon"
-        src="/assets/images/svg-icons/fluent_open-24-regular.svg"
-        alt="sync" />Import data from Resource Manager</button>
+          src="/assets/images/svg-icons/fluent_open-24-regular.svg" alt="sync" />Import data from Resource
+        Manager</button>
     </mat-card-title>
     <fieldset class="field-set">
       <legend style="display: none">Incident Management Response Card</legend>
       <div class="field size-full">
-        <mat-checkbox [(ngModel)]="incident.incidentManagementInd" formControlName="incidentManagementInd" class="example-margin" (change)="onIncidentManagementTeamsChecked($event)">Display Incident Management Team information</mat-checkbox>
+        <bc-checkbox [(ngModel)]="incident.incidentManagementInd" formControlName="incidentManagementInd"
+          class="example-margin" (change)="onIncidentManagementTeamsChecked($event)">Display Incident Management Team
+          information</bc-checkbox>
       </div>
       <div class="news-form">
         <div class="field size-unset">
           <mat-form-field floatLabel="always">
             <mat-label class="label">Incident Management Teams</mat-label>
-            <input matInput type="number" [value]="incident.incidentManagementResourceCount" #imTeams (change)="incidentTeamValueChange()">
+            <input matInput type="number" [value]="incident.incidentManagementResourceCount" #imTeams
+              (change)="incidentTeamValueChange()">
           </mat-form-field>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
             <mat-label class="label required">General Disclaimer and Comments</mat-label>
-            <textarea matInput
-                cdkTextareaAutosize
-                #autosize="cdkTextareaAutosize"
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="5"
-                [(ngModel)]="incident.incidentManagementComments"
-                formControlName="incidentManagementComments"></textarea>
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5" [(ngModel)]="incident.incidentManagementComments"
+              formControlName="incidentManagementComments"></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -144,31 +131,29 @@
     <mat-card-title>
       Heavy Equipment
       <button mat-button (click)="updateEquipment()" class="resource-button"><img class="icon"
-        src="/assets/images/svg-icons/fluent_open-24-regular.svg"
-        alt="sync" />Import data from Resource Manager</button>
+          src="/assets/images/svg-icons/fluent_open-24-regular.svg" alt="sync" />Import data from Resource
+        Manager</button>
     </mat-card-title>
     <fieldset class="field-set">
       <legend style="display: none">Equipment Response Card</legend>
       <div class="field size-full">
-        <mat-checkbox [(ngModel)]="incident.heavyEquipmentInd"  formControlName="heavyEquipmentInd" class="example-margin" (change)="onHeavyEquipmentChecked($event)">Display Heavy Equipment information</mat-checkbox>
+        <bc-checkbox [(ngModel)]="incident.heavyEquipmentInd" formControlName="heavyEquipmentInd" class="example-margin"
+          (change)="onHeavyEquipmentChecked($event)">Display Heavy Equipment information</bc-checkbox>
       </div>
       <div class="news-form">
         <div class="field size-unset">
           <mat-form-field floatLabel="always">
             <mat-label class="label">Heavy Equipment Pieces</mat-label>
-            <input matInput type="number" [value]="incident.heavyEquipmentResourceCount" #pieces (change)="heavyEquipmentValueChange()">
+            <input matInput type="number" [value]="incident.heavyEquipmentResourceCount" #pieces
+              (change)="heavyEquipmentValueChange()">
           </mat-form-field>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
             <mat-label class="label required">General Disclaimer and Comments</mat-label>
-            <textarea matInput
-                cdkTextareaAutosize
-                #autosize="cdkTextareaAutosize"
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="5"
-                [(ngModel)]="incident.heavyEquipmentComments"
-                formControlName="heavyEquipmentComments"></textarea>
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5" [(ngModel)]="incident.heavyEquipmentComments"
+              formControlName="heavyEquipmentComments"></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -178,31 +163,30 @@
     <mat-card-title>
       Structure Protection
       <button mat-button (click)="updateStructureProtection()" class="resource-button"><img class="icon"
-        src="/assets/images/svg-icons/fluent_open-24-regular.svg"
-        alt="sync" />Import data from Resource Manager</button>
+          src="/assets/images/svg-icons/fluent_open-24-regular.svg" alt="sync" />Import data from Resource
+        Manager</button>
     </mat-card-title>
     <fieldset class="field-set">
       <legend style="display: none">Structure Protection Response Card</legend>
       <div class="field size-full">
-        <mat-checkbox [(ngModel)]="incident.structureProtectionInd" formControlName="structureProtectionInd" class="example-margin"  (change)="onStructureProtectionChecked($event)">Display Structure Protection information</mat-checkbox>
+        <bc-checkbox [(ngModel)]="incident.structureProtectionInd" formControlName="structureProtectionInd"
+          class="example-margin" (change)="onStructureProtectionChecked($event)">Display Structure Protection
+          information</bc-checkbox>
       </div>
       <div class="news-form">
         <div class="field size-unset">
           <mat-form-field floatLabel="always">
             <mat-label class="label">Structure protection</mat-label>
-            <input matInput [value]="incident.structureProtectionResourceCount" type="number" #structure (change)="structuretValueChange()">
+            <input matInput [value]="incident.structureProtectionResourceCount" type="number" #structure
+              (change)="structuretValueChange()">
           </mat-form-field>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
             <mat-label class="label required">General Disclaimer and Comments</mat-label>
-            <textarea matInput
-                cdkTextareaAutosize
-                #autosize="cdkTextareaAutosize"
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="5"
-                [(ngModel)]="incident.structureProtectionComments"
-                formControlName="structureProtectionComments"></textarea>
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5" [(ngModel)]="incident.structureProtectionComments"
+              formControlName="structureProtectionComments"></textarea>
           </mat-form-field>
         </div>
       </div>

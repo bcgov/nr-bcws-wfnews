@@ -239,9 +239,9 @@ export class PublishedIncidentService {
     }
   }
 
-  public fetchPublishedIncidentAttachments(incidentName): Observable<any> {
+  public fetchPublishedIncidentAttachments(incidentGuid): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']
-      }/publicPublishedIncidentAttachment/${incidentName}/attachments`;
+      }/publicPublishedIncidentAttachment/${incidentGuid}/attachments`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
@@ -262,9 +262,9 @@ export class PublishedIncidentService {
     });
   }
 
-  public fetchExternalUri(incidentNumber): Observable<any> {
+  public fetchExternalUri(incidentGuid): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']
-      }/publicExternalUri?sourceObjectUniqueId=${incidentNumber}&pageNumber=1&pageRowCount=100`;
+      }/publicExternalUri?incidentGuid=${incidentGuid}&pageNumber=1&pageRowCount=100`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
@@ -282,9 +282,9 @@ export class PublishedIncidentService {
     });
   }
 
-  public fetchAttachmentBytes(incidentNumber, attachmentGuid): Observable<any> {
+  public fetchAttachmentBytes(incidentNumber, attachmentGuid, fireYear): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']
-      }/publicPublishedIncidentAttachment/${incidentNumber}/attachments/${attachmentGuid}/bytes`;
+      }/publicPublishedIncidentAttachment/${incidentNumber}/attachments/${attachmentGuid}/bytes?fireYear=${fireYear}`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],

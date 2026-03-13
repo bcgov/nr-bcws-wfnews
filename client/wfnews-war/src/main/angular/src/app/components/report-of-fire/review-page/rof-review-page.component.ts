@@ -1,26 +1,25 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
-  OnInit,
+  Component
 } from '@angular/core';
-import { RoFPage } from '../rofPage';
-import { ReportOfFire } from '../reportOfFireModel';
-import ConfigJson from '../report-of-fire.config.json';
-import * as L from 'leaflet';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   ReportOfFireService,
   ReportOfFireType,
 } from '@app/services/report-of-fire-service';
-import { equalsIgnoreCase } from '../../../utils';
-import offlineMapJson from '../../../../assets/maps/british-columbia.json';
 import { SmkApi } from '@app/utils/smk';
+import * as fnv from 'fnv-plus';
+import * as L from 'leaflet';
 import { LatLng } from 'leaflet';
-import { v5 as uuidv5 } from 'uuid';
+import offlineMapJson from '../../../../assets/maps/british-columbia.json';
+import { equalsIgnoreCase } from '../../../utils';
+import ConfigJson from '../report-of-fire.config.json';
+import { ReportOfFire } from '../reportOfFireModel';
+import { RoFPage } from '../rofPage';
 
 @Component({
   selector: 'rof-review-page',
@@ -34,6 +33,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
   smkApi: SmkApi;
   isOffLine: boolean;
   currentLocation: any;
+  submitting: boolean = false;
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
     private commonUtilityService: CommonUtilityService,
@@ -79,7 +79,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       case 'contact-page':
         return this.reportOfFire.consentToCall
           ? this.reportOfFire.consentToCall.charAt(0).toUpperCase() +
-              this.reportOfFire.consentToCall.slice(1)
+          this.reportOfFire.consentToCall.slice(1)
           : null;
       case 'location-page':
         return this.reportOfFire.fireLocation;
@@ -88,8 +88,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       case 'smoke-color-page':
         return this.reportOfFire.smokeColor
           ? this.reportOfFire.smokeColor
-              .map((item) => this.findLabelByValue(page.id, item))
-              .join(', ')
+            .map((item) => this.findLabelByValue(page.id, item))
+            .join(', ')
           : null;
       case 'fire-size-page':
         return this.reportOfFire.fireSize
@@ -99,12 +99,12 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
         //make the first letter of a string uppercase
         return this.reportOfFire.ifSignsOfResponse
           ? this.reportOfFire.ifSignsOfResponse.charAt(0).toUpperCase() +
-              this.reportOfFire.ifSignsOfResponse.slice(1)
+          this.reportOfFire.ifSignsOfResponse.slice(1)
           : null;
       case 'visible-flame-page':
         return this.reportOfFire.visibleFlame
           ? this.reportOfFire.visibleFlame.charAt(0).toUpperCase() +
-              this.reportOfFire.visibleFlame.slice(1)
+          this.reportOfFire.visibleFlame.slice(1)
           : null;
       case 'fire-spread-page':
         return this.reportOfFire.rateOfSpread
@@ -113,13 +113,13 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       case 'what-is-burning-page':
         return this.reportOfFire.burning
           ? this.reportOfFire.burning
-              .map((item) => this.findLabelByValue(page.id, item))
-              .join(', ')
+            .map((item) => this.findLabelByValue(page.id, item))
+            .join(', ')
           : null;
       case 'infrastructure-details-page':
         return this.reportOfFire.ifAssetsAtRisk
           ? this.reportOfFire.ifAssetsAtRisk.charAt(0).toUpperCase() +
-              this.reportOfFire.ifAssetsAtRisk.slice(1)
+          this.reportOfFire.ifAssetsAtRisk.slice(1)
           : null;
       case 'comments-page':
         return this.reportOfFire.otherInfo;
@@ -152,14 +152,14 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       case 'response-details-page':
         return this.reportOfFire.signsOfResponse
           ? this.reportOfFire.signsOfResponse
-              .map((item) => this.findLabelByValue(page.id, item))
-              .join(', ')
+            .map((item) => this.findLabelByValue(page.id, item))
+            .join(', ')
           : null;
       case 'infrastructure-details-page':
         return this.reportOfFire.assetsAtRisk
           ? this.reportOfFire.assetsAtRisk
-              .map((item) => this.findLabelByValue(page.id, item))
-              .join(', ')
+            .map((item) => this.findLabelByValue(page.id, item))
+            .join(', ')
           : null;
     }
   }
@@ -314,8 +314,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       const newLongitude =
         initialFirePoint.lng +
         (offSet * Math.sin(angleInRadians)) /
-          ((Math.PI * 6378137) / 180) /
-          Math.cos((initialFirePoint.lat * Math.PI) / 180);
+        ((Math.PI * 6378137) / 180) /
+        Math.cos((initialFirePoint.lat * Math.PI) / 180);
       const newFirePoint = [newLatitude, newLongitude];
 
       latlngs.push(newFirePoint);
@@ -380,47 +380,62 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
   }
 
   async submitRof() {
-    await this.commonUtilityService.checkOnline().then(async (result) => {
-      if (!result) {
-        await this.useMyCurrentLocation();
-        this.reportOfFire.fireLocation = [
-          this.currentLocation.coords.latitude,
-          this.currentLocation.coords.longitude,
-        ];
-      }
-    });
+    if (this.submitting) {
+      return;
+    }
 
-    // seed string to create submission UUID
-    const fixedFireLocation = [this.reportOfFire.fireLocation[0].toFixed(3), this.reportOfFire.fireLocation[1].toFixed(3)]
-    const seedString = this.reportOfFire.fullName + this.reportOfFire.phoneNumber + fixedFireLocation.toString();
-
-    // uuid library requires custom namespace GUID e.g. 7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62
-    const uniqueID = uuidv5(seedString, "7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62")
-
-    const rofResource: ReportOfFireType = {
-      fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
-      phoneNumber: this.nullEmptyStrings(this.reportOfFire.phoneNumber),
-      consentToCall: equalsIgnoreCase(this.reportOfFire.consentToCall, 'Yes')
-        ? true
-        : false,
-      estimatedDistance: this.reportOfFire.estimatedDistance,
-      fireLocation: this.reportOfFire.fireLocation,
-      deviceLocation: this.reportOfFire.deviceLocation,
-      fireSize: this.nullEmptyStrings(this.reportOfFire.fireSize),
-      rateOfSpread: this.reportOfFire.rateOfSpread,
-      burning: this.reportOfFire.burning,
-      smokeColor: this.reportOfFire.smokeColor,
-      weather: this.reportOfFire.weather,
-      assetsAtRisk: this.reportOfFire.assetsAtRisk,
-      signsOfResponse: this.reportOfFire.signsOfResponse,
-      otherInfo: this.reportOfFire.otherInfo,
-      submittedTimestamp: new Date().getTime().toString(),
-      visibleFlame: new Array<string>(this.reportOfFire.visibleFlame),
-      submissionID: uniqueID
-    };
+    this.submitting = true;
 
     try {
-      this.reportOfFireService.saveReportOfFire(
+      const rofResource: ReportOfFireType = {
+        fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
+        phoneNumber: this.nullEmptyStrings(this.reportOfFire.phoneNumber),
+        consentToCall: equalsIgnoreCase(this.reportOfFire.consentToCall, 'Yes')
+          ? true
+          : false,
+        estimatedDistance: this.reportOfFire.estimatedDistance,
+        fireLocation: this.reportOfFire.fireLocation,
+        deviceLocation: this.reportOfFire.deviceLocation,
+        fireSize: this.nullEmptyStrings(this.reportOfFire.fireSize),
+        rateOfSpread: this.reportOfFire.rateOfSpread,
+        burning: this.reportOfFire.burning,
+        smokeColor: this.reportOfFire.smokeColor,
+        weather: this.reportOfFire.weather,
+        assetsAtRisk: this.reportOfFire.assetsAtRisk,
+        signsOfResponse: this.reportOfFire.signsOfResponse,
+        otherInfo: this.reportOfFire.otherInfo,
+        visibleFlame: new Array<string>(this.reportOfFire.visibleFlame)
+      };
+
+      // use a modified resource object as the checksum seed to create a unique ID based on content
+      // Round fireLocation coordinates to 4 decimals (approx 11m accuracy) so minor GPS drifts don't break deduplication
+      const seedResource = { ...rofResource };
+      if (seedResource.fireLocation && seedResource.fireLocation.length === 2) {
+        seedResource.fireLocation = [
+          Number(seedResource.fireLocation[0].toFixed(4)),
+          Number(seedResource.fireLocation[1].toFixed(4))
+        ];
+      }
+
+      let seedString = JSON.stringify(seedResource);
+
+      if (this.reportOfFire.image1 && this.reportOfFire.image1.path) {
+        seedString += this.reportOfFire.image1.path;
+      }
+      if (this.reportOfFire.image2 && this.reportOfFire.image2.path) {
+        seedString += this.reportOfFire.image2.path;
+      }
+      if (this.reportOfFire.image3 && this.reportOfFire.image3.path) {
+        seedString += this.reportOfFire.image3.path;
+      }
+
+      // Generate a fast 64-bit FNV-1a hash to use as the submissionID
+      const uniqueID = fnv.hash(seedString, 64).hex();
+
+      rofResource.submissionID = uniqueID;
+      rofResource.submittedTimestamp = new Date().getTime().toString();
+
+      await this.reportOfFireService.saveReportOfFire(
         rofResource,
         this.reportOfFire.image1,
         this.reportOfFire.image2,
@@ -428,8 +443,9 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       );
       this.next();
     } catch (err) {
+      this.submitting = false;
       this.snackbarService.open(
-        'Failed to submit Report Of Fire: ' + JSON.stringify(err.message),
+        'Failed to submit Report Of Fire: ' + JSON.stringify(err.message || err),
         'OK',
         { duration: 10000, panelClass: 'snackbar-error' },
       );

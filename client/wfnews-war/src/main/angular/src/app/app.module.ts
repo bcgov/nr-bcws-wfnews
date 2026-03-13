@@ -45,7 +45,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { YouTubePlayerModule } from '@angular/youtube-player';
+import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
 import { NotificationSnackbarComponent } from '@app/components/notification-snackbar/notification-snackbar.component';
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { RoFReviewPage } from '@app/components/report-of-fire/review-page/rof-review-page.component';
@@ -116,6 +116,7 @@ import { VideoGalleryPanel } from './components/admin-incident-form/video-galler
 import { BaseDialogComponent } from './components/base-dialog/base-dialog.component';
 import { AdvisorySectionComponent } from './components/common/advisory-section/advisory-section.component';
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
+import { BcCheckboxComponent } from './components/common/bc-checkbox/bc-checkbox.component';
 import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
 import { CircleIconButtonComponent } from './components/common/circle-icon-button/circle-icon-button.component';
 import { ContactUsCoreComponent } from './components/common/contact-us-core/contact-us-core.component';
@@ -142,11 +143,13 @@ import { Dashboard } from './components/dashboard-component/dashboard.component'
 import { ActiveFiresWidget } from './components/dashboard-component/widgets/active-fires-widget/active-fires-widget.component';
 import { BansWidget } from './components/dashboard-component/widgets/bans-widget/bans-widget.component';
 import { BlogWidget } from './components/dashboard-component/widgets/blog-widget/blog-widget.component';
+import { HighlightsCardComponent } from './components/dashboard-component/widgets/cards/highlights-card/highlights-card.component';
 import { EvacuationsWidget } from './components/dashboard-component/widgets/evacuations-widget/evacuations-widget.component';
 import { FireCauseWidget } from './components/dashboard-component/widgets/fire-cause-widget/fire-cause-widget.component';
 import { FireCentreStatsWidget } from './components/dashboard-component/widgets/fire-centre-stats-widget/fire-centre-stats-widget.component';
 import { FireTotalsWidget } from './components/dashboard-component/widgets/fire-totals-widget/fire-totals-widget.component';
 import { FiresOfNoteWidget } from './components/dashboard-component/widgets/fires-of-note-widget/fires-of-note-widget.component';
+import { HighlightsWidgetComponent } from './components/dashboard-component/widgets/highlights-widget/highlights-widget.component';
 import { HistoricalComparisonWidget } from './components/dashboard-component/widgets/historical-comparison-widget/historical-comparison-widget.component';
 import { OverviewWidget } from './components/dashboard-component/widgets/overview-widget/overview-widget.component';
 import { ResourcesWidget } from './components/dashboard-component/widgets/resources-widget/resources-widget.component';
@@ -320,9 +323,6 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
-import { HighlightsWidgetComponent } from './components/dashboard-component/widgets/highlights-widget/highlights-widget.component';
-import { HighlightsCardComponent } from './components/dashboard-component/widgets/cards/highlights-card/highlights-card.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -446,6 +446,7 @@ export const DATE_FORMATS = {
     MobileSlidingDrawerComponent,
     MapTypePickerComponent,
     CheckboxButtonComponent,
+    BcCheckboxComponent,
     MapLayersDrawerSectionComponent,
     MapLayersDataSourceDrawerSectionComponent,
     FullDetailsComponent,
@@ -632,7 +633,6 @@ export const DATE_FORMATS = {
     MatExpansionModule,
     NgxPaginationModule,
     NgxChartsModule,
-    YouTubePlayerModule,
     NgxMaskModule.forRoot(),
     IonicStorageModule.forRoot(),
     IonicModule.forRoot(),

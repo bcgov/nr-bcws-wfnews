@@ -128,7 +128,7 @@ export class IncidentGalleryPanel implements OnInit {
   async loadVideos() {
     // fetch the Videos
     try {
-      const results = await this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise();
+      const results = await this.publishedIncidentService.fetchExternalUri(this.incident.incidentGuid).toPromise();
       for (const uri of results?.collection) {
         if (!uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
           this.media.push({
@@ -151,7 +151,7 @@ export class IncidentGalleryPanel implements OnInit {
     // fetch image attachments
     try {
       const results = await this.publishedIncidentService
-        .fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel)
+        .fetchPublishedIncidentAttachments(this.incident.incidentGuid)
         .toPromise();
 
       // Loop through the attachments, for each one, create a ref, and set href to the bytes
@@ -178,11 +178,11 @@ export class IncidentGalleryPanel implements OnInit {
             type: 'image',
             href: `${this.appConfigService.getConfig().rest['wfnews']
               }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
-              }/attachments/${attachment.attachmentGuid}/bytes`,
+              }/attachments/${attachment.attachmentGuid}/bytes?fireYear=${this.incident.fireYear}`,
             thumbnail: `${this.appConfigService.getConfig().rest['wfnews']
               }/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel
               }/attachments/${attachment.attachmentGuid
-              }/bytes?thumbnail=true`,
+              }/bytes?thumbnail=true&fireYear=${this.incident.fireYear}`,
             loaded: false,
           });
         }

@@ -10,4 +10,5 @@ public class RecordServiceConstants {
 	public static final String RATE_OF_SPREAD_CODE_TABLE = "RATE_OF_SPREAD_CODE";
 	public static final String SMOKE_COLOUR_CODE_TABLE = "SMOKE_COLOUR_CODE";
 	public static final String BURNING_CODE_TABLE = "FOREST_FUEL_CATEGORY_CODE";
+	public static final String SUBMITTED_STATUS = "SUBMITTED";
 }

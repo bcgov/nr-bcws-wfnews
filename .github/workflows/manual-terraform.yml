@@ -14,7 +14,6 @@ jobs:
     with:
       DEFAULT_APPLICATION_ENVIRONMENT: DEV
       IMAGE_TAG: ${{ inputs.IMAGE_TAG }}
-      IS_HOTFIX: false
       TARGET_ENV: dev
 
       MAX_RECEIVED_COUNT: 10

@@ -1,11 +1,4 @@
 <div class="title-row">{{item.title}}</div>
 <div class="date-row">{{convertToMobileFormat(item.convertedDate)}}</div>
-<youtube-player
-    style="padding: 5px;"
-    videoId={{convertToYoutubeId(item.href)}}
-    suggestedQuality="highres"
-    [startSeconds]="1"
-    [height]="250"
-    width="100%"
-    [disableCookies]="true">
-</youtube-player>
+<iframe [src]="safeUrl" [title]="item.title" width="100%" height="250" allowfullscreen>
+</iframe>
