@@ -867,6 +867,43 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
       locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
     }
   }
+
+  ordered_cache_behavior {
+    path_pattern               = "/youtube.jsp"
+    allowed_methods            = ["GET", "OPTIONS", "HEAD"]
+    cached_methods             = ["GET", "OPTIONS", "HEAD"]
+    target_origin_id           = "wfnews_${var.target_env}"
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    compress                   = true
+    viewer_protocol_policy     = "redirect-to-https"
+    min_ttl                    = 0
+    default_ttl                = 86400
+    max_ttl                    = 86400
+    cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+  }
+
+  ordered_cache_behavior {
+    path_pattern               = "/youtube-embed"
+    allowed_methods            = ["GET", "OPTIONS", "HEAD"]
+    cached_methods             = ["GET", "OPTIONS", "HEAD"]
+    target_origin_id           = "wfnews_${var.target_env}"
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+    compress                   = true
+    viewer_protocol_policy     = "redirect-to-https"
+    min_ttl                    = 0
+    default_ttl                = 86400
+    max_ttl                    = 86400
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin"]
+
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+
   ordered_cache_behavior {
     path_pattern    = "/wfnews-api/static/*"
     allowed_methods = ["GET", "HEAD"]
