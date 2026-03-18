@@ -8,6 +8,14 @@ resource "aws_cloudfront_function" "trim_path" {
     function handler(event) {
         var pathToRemove = /(\/services6\/?|\/maps\/?|\/[^\/]+-api\/?)/;
         var request = event.request;
+
+        var match = request.uri.match(pathToRemove);
+        if (match) {
+            request.headers['x-original-path'] = { value: match[0] };
+        } else {
+            request.headers['x-original-path'] = { value: 'unchanged' };
+        }
+
         request.uri = request.uri.replace(pathToRemove,"/")
         return request;
     }
@@ -137,7 +145,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin", "Authorization"]
+      headers      = ["Origin", "Authorization", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -213,7 +221,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin"]
+      headers      = ["Origin", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -232,7 +240,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = false
-      headers      = ["Origin", "Authorization"]
+      headers      = ["Origin", "Authorization", "x-original-path"]
       cookies {
         forward = "none"
       }
@@ -253,7 +261,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = false
-      headers      = ["Origin"]
+      headers      = ["Origin", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -280,7 +288,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin"]
+      headers      = ["Origin", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -309,7 +317,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin"]
+      headers      = ["Origin", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -340,7 +348,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
+      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -372,7 +380,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
+      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -403,7 +411,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = false
-      headers      = ["Origin"]
+      headers      = ["Origin", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -439,7 +447,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin"]
+      headers      = ["Origin", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -476,7 +484,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin"]
+      headers      = ["Origin", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -506,7 +514,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin", "Authorization"]
+      headers      = ["Origin", "Authorization", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -538,7 +546,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin", "Authorization"]
+      headers      = ["Origin", "Authorization", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -569,7 +577,7 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin", "Authorization"]
+      headers      = ["Origin", "Authorization", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -821,7 +829,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin", "Authorization"]
+      headers      = ["Origin", "Authorization", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -847,7 +855,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
     forwarded_values {
       query_string = false
-      headers      = ["Origin", "Authorization"]
+      headers      = ["Origin", "Authorization", "x-original-path"]
       cookies {
         forward = "none"
       }
@@ -896,7 +904,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin"]
+      headers      = ["Origin", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -914,7 +922,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
     forwarded_values {
       query_string = false
-      headers      = ["Origin"]
+      headers      = ["Origin", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -941,7 +949,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin"]
+      headers      = ["Origin", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -970,7 +978,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin"]
+      headers      = ["Origin", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -1001,7 +1009,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
+      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey", "x-original-path"]
 
       cookies {
         forward = "none"
@@ -1033,7 +1041,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
+      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey", "x-original-path"]
 
       cookies {
         forward = "none"
