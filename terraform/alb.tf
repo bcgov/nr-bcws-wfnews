@@ -275,7 +275,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifi
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_push_api" {
   for_each = var.WFONE_MONITORS_NAME_MAP
   listener_arn = aws_alb_listener.wfnews_server_front_end.arn
-  priority = index(var.WFONE_MONITORS_NAME_MAP, each.value) + 200
+  priority = index(keys(var.WFONE_MONITORS_NAME_MAP), each.key) + 200
 
   action {
     type             = "forward"
