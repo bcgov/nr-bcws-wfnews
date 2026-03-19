@@ -12,6 +12,11 @@ on:
         description: Full SHA or tag to promote. Defaults to current commit SHA if 'latest'.
         required: false
         default: latest
+      SKIP_MOBILE:
+        description: 'Skip mobile app deployments (iOS/Android)'
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   call-lambda-zip:
@@ -120,6 +125,7 @@ jobs:
     secrets: inherit
 
   ios-deploy:
+    if: ${{ github.event_name == 'release' || inputs.SKIP_MOBILE != true }}
     uses: ./.github/workflows/ios.yml
     needs: [tag-images]
     with:
@@ -129,6 +135,7 @@ jobs:
     secrets: inherit
 
   android-deploy:
+    if: ${{ github.event_name == 'release' || inputs.SKIP_MOBILE != true }}
     uses: ./.github/workflows/android.yml
     needs: [tag-images]
     with:

@@ -23,6 +23,11 @@ on:
         description: Full SHA or tag to deploy. Defaults to current commit SHA if 'latest'.
         required: false
         default: latest
+      SKIP_MOBILE:
+        description: 'Skip mobile app deployments (iOS/Android)'
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   call-lambda-zip:
@@ -129,6 +134,7 @@ jobs:
       ENVIRONMENT: dev
 
   ios-deploy:
+    if: ${{ github.event_name == 'pull_request_target' || inputs.SKIP_MOBILE != true }}
     uses: ./.github/workflows/ios.yml
     needs: [call-mvn-client]
     with:
@@ -138,6 +144,7 @@ jobs:
     secrets: inherit
 
   android-deploy:
+    if: ${{ github.event_name == 'pull_request_target' || inputs.SKIP_MOBILE != true }}
     uses: ./.github/workflows/android.yml
     needs: [call-mvn-client]
     with:
