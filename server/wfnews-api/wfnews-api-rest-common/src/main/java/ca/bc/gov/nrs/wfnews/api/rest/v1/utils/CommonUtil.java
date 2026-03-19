@@ -22,4 +22,11 @@ public class CommonUtil {
     }
     return currentYear;
   }
+
+  public static boolean isGuid(String id) {
+    if (id == null) {
+      return false;
+    }
+    return id.length() == 36 || id.length() == 32;
+  }
 }

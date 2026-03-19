@@ -32,12 +32,11 @@ public interface IncidentsService {
 			FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	PublishedIncidentResource getPublishedIncidentByIncidentGuid(String incidentGuid,
+	PublishedIncidentResource getPublishedIncident(String incidentIdentifier, Integer fireYear,
 			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, Integer fireYear,
-			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
+	PublishedIncidentResource getPublishedIncidentByLabel(String label, Integer fireYear, FactoryContext factoryContext) throws DaoException, NotFoundException;
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	String getPublishedIncidentsAsJson(String stageOfControl, String bbox, WebAdeAuthentication webAdeAuthentication,
@@ -81,7 +80,7 @@ public interface IncidentsService {
 			Integer pageRowCount, FactoryContext factoryContext);
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	AttachmentListResource getIncidentAttachmentList(String incidentGuid, String sourceObjectUniqueId, boolean primaryIndicator,
+	AttachmentListResource getIncidentAttachmentList(String incidentIdentifier, boolean primaryIndicator,
 			String[] sourceObjectNameCodes, String[] attachmentTypeCodes, Integer pageNumber, Integer pageRowCount,
 			String[] orderBy, FactoryContext factoryContext) throws ConflictException, NotFoundException;
 

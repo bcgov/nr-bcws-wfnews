@@ -30,7 +30,8 @@ public class PublicExternalUriEndpointImpl extends BaseEndpointsImpl implements 
 	private ParameterValidator parameterValidator;
 
 	@Override
-	public Response getExternalUriList(String incidentGuid, String sourceObjectUniqueId, String pageNumber, String pageRowCount)
+	public Response getExternalUriList(String incidentGuid, String sourceObjectUniqueId, String pageNumber,
+			String pageRowCount)
 			throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 
@@ -54,8 +55,10 @@ public class PublicExternalUriEndpointImpl extends BaseEndpointsImpl implements 
 			if (!validation.isEmpty()) {
 				response = Response.status(Status.BAD_REQUEST).entity(validation).build();
 			} else {
-				ExternalUriListResource results = incidentsService.getExternalUriList(incidentGuid, sourceObjectUniqueId, pageNum, rowCount,
-						getFactoryContext());
+				ExternalUriListResource results = incidentsService.getExternalUriList(incidentGuid,
+						sourceObjectUniqueId,
+						toInteger(pageNumber),
+						toInteger(pageRowCount), getFactoryContext());
 				GenericEntity<ExternalUriListResource> entity = new GenericEntity<ExternalUriListResource>(results) {
 					/* do nothing */
 				};

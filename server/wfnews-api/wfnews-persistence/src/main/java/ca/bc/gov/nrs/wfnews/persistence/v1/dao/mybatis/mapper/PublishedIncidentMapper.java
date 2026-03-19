@@ -13,6 +13,8 @@ public interface PublishedIncidentMapper {
 	
 	PublishedIncidentDto fetch(Map<String, Object> parameters);
 	
+	PublishedIncidentDto fetchByIncidentNumberLabel(Map<String, Object> parameters);
+	
 	PublishedIncidentDto fetchForIncidentGuid(Map<String, Object> parameters);
 	
 	List<PublishedIncidentDto> select(Map<String, Object> parameters);

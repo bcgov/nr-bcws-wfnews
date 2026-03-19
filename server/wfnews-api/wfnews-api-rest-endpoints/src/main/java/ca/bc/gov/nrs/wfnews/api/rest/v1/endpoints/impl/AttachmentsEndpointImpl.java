@@ -190,8 +190,8 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
 
 				// Fetch the incident first to get the fire year
-				PublishedIncidentResource incident = incidentsService.getPublishedIncidentByIncidentGuid(incidentGuid,
-						getWebAdeAuthentication(), getFactoryContext());
+				PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentGuid,
+						null, getWebAdeAuthentication(), getFactoryContext());
 
 				if (incident.getFireYear() == null) {
 					return Response.status(Status.BAD_REQUEST).build();

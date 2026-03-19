@@ -159,7 +159,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 		Response response = null;
 				
 		try {
-			PublishedIncidentResource results = incidentsService.getPublishedIncidentByIncidentGuid(incidentGuid, getWebAdeAuthentication(), getFactoryContext());
+			PublishedIncidentResource results = incidentsService.getPublishedIncident(incidentGuid, null, getWebAdeAuthentication(), getFactoryContext());
 			GenericEntity<PublishedIncidentResource> entity = new GenericEntity<PublishedIncidentResource>(results) {
 
 			};

@@ -60,7 +60,7 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 			// If the resource has a GUID, check if it exists. If so, this should have been a PUT/update
 			if (publishedIncidentResource.getPublishedIncidentDetailGuid() != null) {
 				try {
-					PublishedIncidentResource existingIncident = incidentsService.getPublishedIncidentByIncidentGuid(publishedIncidentResource.getIncidentGuid(), getWebAdeAuthentication(), getFactoryContext());
+					PublishedIncidentResource existingIncident = incidentsService.getPublishedIncident(publishedIncidentResource.getIncidentGuid(), null, getWebAdeAuthentication(), getFactoryContext());
 					if (existingIncident != null) {
 						if (!existingIncident.getPublishedIncidentDetailGuid().equalsIgnoreCase(publishedIncidentResource.getPublishedIncidentDetailGuid())) {
 							// We have an existing incident, however the existing record has a different

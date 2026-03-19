@@ -261,12 +261,23 @@
 	<select id="fetch" resultMap="PublishedIncidentDtoMap"> 
 		SELECT *
 		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
-		 WHERE (PUBLISHED_INCIDENT_DETAIL_GUID = #{publishedIncidentDetailGuid}
-	  	  OR INCIDENT_NUMBER_LABEL = #{publishedIncidentDetailGuid}
-				OR INCIDENT_NAME = #{publishedIncidentDetailGuid})
+		 WHERE PUBLISHED_INCIDENT_DETAIL_GUID = #{publishedIncidentDetailGuid}
 		<if test="fireYear != null">
 			 AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}
 		</if>
+		ORDER BY fire_year DESC
+		 LIMIT 1
+	</select>
+	
+	<select id="fetchByIncidentNumberLabel" resultMap="PublishedIncidentDtoMap"> 
+		SELECT *
+		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
+		 WHERE (INCIDENT_NUMBER_LABEL = #{incidentNumberLabel}
+				OR INCIDENT_NAME = #{incidentNumberLabel})
+		<if test="fireYear != null">
+			 AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}
+		</if>
+		ORDER BY fire_year DESC
 		 LIMIT 1
 	</select>
 	

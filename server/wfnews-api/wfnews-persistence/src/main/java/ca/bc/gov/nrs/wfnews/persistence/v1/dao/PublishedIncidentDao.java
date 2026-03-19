@@ -21,6 +21,8 @@ public interface PublishedIncidentDao extends Serializable {
 
 	PublishedIncidentDto fetch(String publishedIncidentDetailGuid, Integer fireYear) throws DaoException;
 
+	PublishedIncidentDto fetchByIncidentNumberLabel(String incidentNumberLabel, Integer fireYear) throws DaoException;
+
 	PublishedIncidentDto fetchForIncidentGuid(
 			String incidentGuid)
 			throws DaoException;

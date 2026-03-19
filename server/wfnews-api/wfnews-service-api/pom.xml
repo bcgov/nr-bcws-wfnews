@@ -69,10 +69,6 @@
 		</dependency>
 		<dependency>
 			<groupId>ca.bc.gov.nrs.common</groupId>
-			<artifactId>nrs-common-service-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ca.bc.gov.nrs.common</groupId>
 			<artifactId>nrs-common-persistence</artifactId>
 		</dependency>
 		<dependency>
@@ -148,10 +144,6 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-		</dependency>
 
 		<!-- Logging -->
     <dependency>

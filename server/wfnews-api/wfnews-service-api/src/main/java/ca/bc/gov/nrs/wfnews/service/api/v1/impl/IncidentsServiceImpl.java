@@ -26,6 +26,7 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.StatisticsResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.utils.CommonUtil;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.AttachmentDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.ExternalUriDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.PublishedIncidentDao;
@@ -321,30 +322,46 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, Integer fireYear,
+	public PublishedIncidentResource getPublishedIncident(String incidentIdentifier, Integer fireYear,
 			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext)
 			throws DaoException, NotFoundException {
 
 		PublishedIncidentResource result = null;
-		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid, fireYear);
+		PublishedIncidentDto fetchedDto = null;
+
+		if (CommonUtil.isGuid(incidentIdentifier)) {
+			// Try fetching by published_incident_detail_guid
+			fetchedDto = this.publishedIncidentDao.fetch(incidentIdentifier, fireYear);
+
+			// If not found, try fetching by incident_guid
+			if (fetchedDto == null) {
+				fetchedDto = this.publishedIncidentDao.fetchForIncidentGuid(incidentIdentifier);
+			}
+		}
+
+		// If still not found, try fetching by incident number label
+		if (fetchedDto == null) {
+			fetchedDto = this.publishedIncidentDao.fetchByIncidentNumberLabel(incidentIdentifier, fireYear);
+		}
+
 		if (fetchedDto != null) {
 			result = this.publishedIncidentFactory.getPublishedWildfireIncident(fetchedDto, factoryContext);
-		} else
-			throw new NotFoundException("Did not find the publishedIncidentDetailGuid: " + publishedIncidentDetailGuid);
+		} else {
+			throw new NotFoundException("Did not find the incident identifier: " + incidentIdentifier);
+		}
+
 		return result;
 	}
 
 	@Override
-	public PublishedIncidentResource getPublishedIncidentByIncidentGuid(String incidentGuid,
-			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext)
-			throws DaoException, NotFoundException {
-
+	public PublishedIncidentResource getPublishedIncidentByLabel(String label, Integer fireYear,
+			FactoryContext factoryContext) throws DaoException, NotFoundException {
 		PublishedIncidentResource result = null;
-		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetchForIncidentGuid(incidentGuid);
+		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetchByIncidentNumberLabel(label, fireYear);
 		if (fetchedDto != null) {
 			result = this.publishedIncidentFactory.getPublishedWildfireIncident(fetchedDto, factoryContext);
 		} else
-			throw new NotFoundException("Did not find the publishedIncidentDetailGuid: " + incidentGuid);
+			throw new NotFoundException("Did not find the incident with label: " + label);
 		return result;
 	}
 
@@ -616,14 +633,17 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
 	@Override
 	public ExternalUriListResource getExternalUriList(String incidentGuid, String sourceObjectUniqueId,
-			Integer pageNumber,
-			Integer pageRowCount, FactoryContext factoryContext) {
-		ExternalUriListResource results = null;
+			Integer pageNumber, Integer pageRowCount, FactoryContext factoryContext) {
+		ExternalUriListResource results = new ExternalUriListResource();
 		PagedDtos<ExternalUriDto> externalUriList = null;
+
+		boolean filterApplied = (incidentGuid != null || sourceObjectUniqueId != null);
+
 		try {
-			if (sourceObjectUniqueId != null) {
+			if (incidentGuid == null && sourceObjectUniqueId != null) {
 				try {
-					PublishedIncidentResource pir = this.getPublishedIncident(sourceObjectUniqueId, null, null, factoryContext);
+					PublishedIncidentResource pir = this.getPublishedIncidentByLabel(sourceObjectUniqueId, null,
+							factoryContext);
 					if (pir != null && pir.getIncidentGuid() != null) {
 						incidentGuid = pir.getIncidentGuid();
 					}
@@ -632,13 +652,24 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 				}
 			}
 
-			// if incidentGuid is null return all
 			if (incidentGuid != null) {
 				externalUriList = this.externalUriDao.selectForIncident(incidentGuid, pageNumber, pageRowCount);
-			} else
+			} else if (!filterApplied) {
 				externalUriList = this.externalUriDao.select(pageNumber, pageRowCount);
-			results = this.externalUriFactory.getExternalUriList(externalUriList, pageNumber, pageRowCount,
-					factoryContext);
+			} else {
+				// Filter was applied but couldn't be resolved or found. Return empty results.
+				externalUriList = new PagedDtos<>();
+				externalUriList.setResults(new ArrayList<>());
+				externalUriList.setPageNumber(pageNumber != null ? pageNumber : 0);
+				externalUriList.setPageRowCount(0);
+				externalUriList.setTotalRowCount(0);
+			}
+
+			if (externalUriList != null) {
+				results = this.externalUriFactory.getExternalUriList(externalUriList, pageNumber, pageRowCount,
+						factoryContext);
+			}
+
 		} catch (DaoException e) {
 			throw new ServiceException(e.getMessage(), e);
 		}
@@ -647,21 +678,42 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public AttachmentListResource getIncidentAttachmentList(String incidentGuid, String sourceObjectUniqueId, boolean primaryIndicator,
+	public AttachmentListResource getIncidentAttachmentList(String incidentIdentifier, boolean primaryIndicator,
 			String[] sourceObjectNameCodes, String[] attachmentTypeCodes, Integer pageNumber, Integer pageRowCount,
 			String[] orderBy, FactoryContext factoryContext) throws ConflictException, NotFoundException {
 		AttachmentListResource result = new AttachmentListResource();
+		String incidentGuid = null;
+		String sourceObjectUniqueId = null;
+		boolean filterApplied = incidentIdentifier != null;
 
 		try {
-			if (sourceObjectUniqueId != null) {
+			if (filterApplied) {
+				if (CommonUtil.isGuid(incidentIdentifier)) {
+					incidentGuid = incidentIdentifier;
+				} else {
+					sourceObjectUniqueId = incidentIdentifier;
+				}
+			}
+
+			if (sourceObjectUniqueId != null && incidentGuid == null) {
 				try {
-					PublishedIncidentResource pir = this.getPublishedIncident(sourceObjectUniqueId, null, null, factoryContext);
+					PublishedIncidentResource pir = this.getPublishedIncidentByLabel(sourceObjectUniqueId, null,
+							factoryContext);
 					if (pir != null && pir.getIncidentGuid() != null) {
 						incidentGuid = pir.getIncidentGuid();
 					}
 				} catch (NotFoundException e) {
-					logger.warn("Could not find incident for label: " + sourceObjectUniqueId);
+					logger.warn("Could not find incident label: " + sourceObjectUniqueId);
 				}
+			}
+
+			// If no incident was found for the provided identifier, return empty results
+			if (filterApplied && incidentGuid == null) {
+				result.setCollection(new ArrayList<>());
+				result.setPageNumber(pageNumber != null ? pageNumber : 0);
+				result.setPageRowCount(0);
+				result.setTotalRowCount(0);
+				return result;
 			}
 
 			List<String> orderByList = new ArrayList<>();

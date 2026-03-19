@@ -114,6 +114,27 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
+	public PublishedIncidentDto fetchByIncidentNumberLabel(String incidentNumberLabel, Integer fireYear) throws DaoException {
+		logger.debug("<fetchByIncidentNumberLabel");
+
+		PublishedIncidentDto result = null;
+
+		try {
+
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("incidentNumberLabel", incidentNumberLabel);
+			parameters.put("fireYear", fireYear);
+			result = this.publishedIncidentMapper.fetchByIncidentNumberLabel(parameters);
+
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+
+		logger.debug(">fetchByIncidentNumberLabel " + result);
+		return result;
+	}
+
+	@Override
 	public PublishedIncidentDto fetchForIncidentGuid(String incidentGuid) throws DaoException {
 		logger.debug("<fetch");
 
