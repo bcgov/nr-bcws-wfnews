@@ -51,8 +51,19 @@ public class AttachmentsListEndpointImpl extends BaseEndpointsImpl implements At
       if (validationMessages.hasMessages()) {
         response = Response.status(Status.BAD_REQUEST).entity(validationMessages).build();
       } else {
+        String serviceIncidentGuid = null;
+        String serviceSourceObjectUniqueId = null;
+        if (incidentGuid != null) {
+          if (incidentGuid.length() == 32 || incidentGuid.length() == 36) {
+            serviceIncidentGuid = incidentGuid;
+          } else {
+            serviceSourceObjectUniqueId = incidentGuid;
+          }
+        }
+
         AttachmentListResource results = incidentsService.getIncidentAttachmentList(
-            incidentGuid,
+            serviceIncidentGuid,
+            serviceSourceObjectUniqueId,
             toBoolean(primaryIndicator),
             toStringArray(sourceObjectNameCode),
             toStringArray(attachmentTypeCode),
