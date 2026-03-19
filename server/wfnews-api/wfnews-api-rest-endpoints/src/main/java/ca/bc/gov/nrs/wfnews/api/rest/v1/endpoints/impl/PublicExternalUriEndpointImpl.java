@@ -7,8 +7,6 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.bc.gov.nrs.common.service.ConflictException;
@@ -25,8 +23,6 @@ import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 
 public class PublicExternalUriEndpointImpl extends BaseEndpointsImpl implements PublicExternalUriEndpoint {
 
-	private static final Logger logger = LoggerFactory.getLogger(PublicExternalUriEndpointImpl.class);
-
 	@Autowired
 	private IncidentsService incidentsService;
 
@@ -34,7 +30,7 @@ public class PublicExternalUriEndpointImpl extends BaseEndpointsImpl implements 
 	private ParameterValidator parameterValidator;
 
 	@Override
-	public Response getExternalUriList(String incidentGuid, String pageNumber, String pageRowCount)
+	public Response getExternalUriList(String incidentGuid, String sourceObjectUniqueId, String pageNumber, String pageRowCount)
 			throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 
@@ -58,7 +54,7 @@ public class PublicExternalUriEndpointImpl extends BaseEndpointsImpl implements 
 			if (!validation.isEmpty()) {
 				response = Response.status(Status.BAD_REQUEST).entity(validation).build();
 			} else {
-				ExternalUriListResource results = incidentsService.getExternalUriList(incidentGuid, pageNum, rowCount,
+				ExternalUriListResource results = incidentsService.getExternalUriList(incidentGuid, sourceObjectUniqueId, pageNum, rowCount,
 						getFactoryContext());
 				GenericEntity<ExternalUriListResource> entity = new GenericEntity<ExternalUriListResource>(results) {
 					/* do nothing */

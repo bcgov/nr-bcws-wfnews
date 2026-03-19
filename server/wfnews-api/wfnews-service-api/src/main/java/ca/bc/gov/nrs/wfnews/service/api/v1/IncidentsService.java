@@ -77,11 +77,11 @@ public interface IncidentsService {
 			FactoryContext factoryContext) throws DaoException, NotFoundException;
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	ExternalUriListResource getExternalUriList(String incidentGuid, Integer pageNumber,
+	ExternalUriListResource getExternalUriList(String incidentGuid, String sourceObjectUniqueId, Integer pageNumber,
 			Integer pageRowCount, FactoryContext factoryContext);
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	AttachmentListResource getIncidentAttachmentList(String incidentGuid, boolean primaryIndicator,
+	AttachmentListResource getIncidentAttachmentList(String incidentGuid, String sourceObjectUniqueId, boolean primaryIndicator,
 			String[] sourceObjectNameCodes, String[] attachmentTypeCodes, Integer pageNumber, Integer pageRowCount,
 			String[] orderBy, FactoryContext factoryContext) throws ConflictException, NotFoundException;
 
