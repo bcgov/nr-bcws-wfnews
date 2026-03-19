@@ -615,11 +615,23 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public ExternalUriListResource getExternalUriList(String incidentGuid, Integer pageNumber,
+	public ExternalUriListResource getExternalUriList(String incidentGuid, String sourceObjectUniqueId,
+			Integer pageNumber,
 			Integer pageRowCount, FactoryContext factoryContext) {
 		ExternalUriListResource results = null;
 		PagedDtos<ExternalUriDto> externalUriList = null;
 		try {
+			if (sourceObjectUniqueId != null) {
+				try {
+					PublishedIncidentResource pir = this.getPublishedIncident(sourceObjectUniqueId, null, null, factoryContext);
+					if (pir != null && pir.getIncidentGuid() != null) {
+						incidentGuid = pir.getIncidentGuid();
+					}
+				} catch (NotFoundException e) {
+					logger.warn("Could not find incident for label: " + sourceObjectUniqueId);
+				}
+			}
+
 			// if incidentGuid is null return all
 			if (incidentGuid != null) {
 				externalUriList = this.externalUriDao.selectForIncident(incidentGuid, pageNumber, pageRowCount);
@@ -635,12 +647,22 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public AttachmentListResource getIncidentAttachmentList(String incidentGuid, boolean primaryIndicator,
+	public AttachmentListResource getIncidentAttachmentList(String incidentGuid, String sourceObjectUniqueId, boolean primaryIndicator,
 			String[] sourceObjectNameCodes, String[] attachmentTypeCodes, Integer pageNumber, Integer pageRowCount,
 			String[] orderBy, FactoryContext factoryContext) throws ConflictException, NotFoundException {
 		AttachmentListResource result = new AttachmentListResource();
 
 		try {
+			if (sourceObjectUniqueId != null) {
+				try {
+					PublishedIncidentResource pir = this.getPublishedIncident(sourceObjectUniqueId, null, null, factoryContext);
+					if (pir != null && pir.getIncidentGuid() != null) {
+						incidentGuid = pir.getIncidentGuid();
+					}
+				} catch (NotFoundException e) {
+					logger.warn("Could not find incident for label: " + sourceObjectUniqueId);
+				}
+			}
 
 			List<String> orderByList = new ArrayList<>();
 			if (orderBy != null && orderBy.length > 0) {
