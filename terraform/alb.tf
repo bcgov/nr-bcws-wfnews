@@ -188,6 +188,7 @@ resource "aws_alb_target_group" "wfone_notifications_push_api" {
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
   listener_arn = aws_alb_listener.wfnews_server_front_end.arn
+  priority = 104
 
   action {
     type             = "forward"
@@ -210,7 +211,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_client" {
 
   listener_arn = aws_alb_listener.wfnews_server_front_end.arn
-  priority     = 100
+  priority     = 50000
 
   action {
     type             = "forward"
@@ -227,6 +228,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_client" {
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfss_pointid" {
 
   listener_arn = aws_alb_listener.wfnews_server_front_end.arn
+  priority = 100
 
   action {
     type             = "forward"
@@ -249,6 +251,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfss_pointid
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifications_api" {
 
   listener_arn = aws_alb_listener.wfnews_server_front_end.arn
+  priority = 101
 
   action {
     type             = "forward"
@@ -272,6 +275,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifi
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_push_api" {
   for_each = var.WFONE_MONITORS_NAME_MAP
   listener_arn = aws_alb_listener.wfnews_server_front_end.arn
+  priority = index(var.WFONE_MONITORS_NAME_MAP, each.value) + 200
 
   action {
     type             = "forward"
@@ -293,6 +297,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_push_api" {
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_nginx" {
 
   listener_arn = aws_alb_listener.wfnews_server_front_end.arn
+  priority = 103
 
   action {
     type             = "forward"
