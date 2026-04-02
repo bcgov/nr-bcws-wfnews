@@ -237,7 +237,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfss_pointid
 
   condition {
     host_header {
-      values = ["wfss-pointid-api.*"]
+      values = ["wfss-pointid-api.*", "pointid-api.*"]
     }
   }
   condition {
