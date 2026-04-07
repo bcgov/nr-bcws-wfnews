@@ -7,8 +7,7 @@
   "author": "Vivid Solutions Inc.",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.1605.0",
-    "axios": "0.21.1"
+    "aws-sdk": "^2.1605.0"
   },
   "scripts": {
     "test": "mocha tests/unit/"
