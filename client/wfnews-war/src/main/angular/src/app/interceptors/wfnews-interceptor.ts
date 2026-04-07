@@ -266,6 +266,7 @@ export class WfnewsInterceptor
       if (
         url.startsWith(config.rest['wfnews']) ||
         url.includes('wfss-pointid-api') ||
+        url.includes('pointid-api') ||
         url.includes('publicmobile-api') ||
         url.includes('notifications-api')
       ) {
