@@ -24,10 +24,6 @@ on:
         required: false
         type: number
         default: 10
-      WFNEWS_URL:
-        required: false
-        type: string
-        default: ""
 
 env:
   TF_VERSION: 1.5.3
@@ -78,8 +74,6 @@ jobs:
 
 
           UNIQUE_DEPLOY_ID: ${{ github.run_id }}
-          BCWILDFIRE_CERT_ARN: ${{secrets.BCWILDFIRE_CERT_ARN}}
-          BASE_BCWILDFIRE_CERT_ARN: ${{secrets.BASE_BCWILDFIRE_CERT_ARN}}
 
           agolAreaRestrictions: ${{vars.AGOL_AREA_RESTRICTIONS}}
           agolBansAndProhibitions: ${{vars.AGOL_BANS_AND_PROHIBITIONS}}
@@ -104,7 +98,6 @@ jobs:
           LIQUIBASE_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.LIQUIBASE_IMAGE }}:${{ inputs.IMAGE_TAG }}
           LOGGING_LEVEL: ${{vars.LOGGING_LEVEL}}
           MAX_UPLOAD_SIZE: ${{ vars.MAX_UPLOAD_SIZE }}
-          openmapsBaseUrl: ${{vars.OPENMAPS_BASE_URL}}
           SERVER_CPU_UNITS: ${{vars.SERVER_CPU_UNITS}}
           SERVER_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.SERVER_IMAGE }}:${{ inputs.IMAGE_TAG }}
           SERVER_MEMORY: ${{vars.SERVER_MEMORY}}
@@ -149,14 +142,7 @@ jobs:
           MAX_RECEIVED_COUNT: ${{inputs.MAX_RECEIVED_COUNT }}
           VISIBILITY_TIMEOUT_SECONDS: ${{inputs.VISIBILITY_TIMEOUT_SECONDS }}
           ACCEPTED_IPS: ${{vars.ACCEPTED_IPS }}
-          PUSH_NOTIFICATION_AWS_USER: ""
-          EVENT_BRIDGE_ARN: ""
           SECRET_NAME: ${{secrets.DB_LAMBDA_SECRET_NAME }}
-          BAN_PROHIBITION_MONITOR_KEY: ""
-          ACTIVE_FIRE_MONITOR_KEY: ""
-          AREA_RESTRICTIONS_MONITOR_KEY: ""
-          EVACUATION_MONITOR_KEY: ""
-          LAMBDA_LAYER_KEY: ""
 
           # POINTID API VARIABLES
           DATABASE_WEATHER_URL: ${{ vars.DATABASE_WEATHER_URL }}
@@ -190,7 +176,6 @@ jobs:
 
           # WFONE NOTIFICATIONS API
           WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS: ${{vars.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS}}
-          WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD: ${{secrets.WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD}}
           WFONE_NOTIFICATIONS_API_DATASOURCE_USER: ${{vars.WFONE_NOTIFICATIONS_API_DATASOURCE_USER}}
           WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL: ${{secrets.WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL}}
           WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL}}
@@ -226,8 +211,6 @@ jobs:
           WFONE_FIREBASE_DB_URL: ${{ vars.WFONE_FIREBASE_DB_URL }}
           WFONE_NOTIFICATIONS_PUSH_PREFIX: ${{ vars.WFONE_PUSH_NOTIFICATION_PREFIX }}
           WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS: ${{ vars.WFONE_PUSH_NOTIFICATION_NEAR_ME_INTERVAL_SECONDS }}
-          WFONE_NOTIFICATIONS_PUSH_AWS_ACCESS_KEY: ${{ secrets.WFONE_PUSH_NOTIFICATION_AWS_ACCESS_KEY }}
-          WFONE_NOTIFICATIONS_PUSH_AWS_SECRET_KEY: ${{ secrets.WFONE_PUSH_NOTIFICATION_AWS_SECRET_KEY }}
           WFONE_DB_PASS: ${{ secrets.WFONE_DB_PASS }}
           WFONE_NOTIFICATIONS_PUSH_API_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.NOTIFICATIONS_PUSH_API_IMAGE }}:${{ inputs.IMAGE_TAG }}
           FIREBASE_CONFIG_JSON: ${{ secrets.FIREBASE_CONFIG_JSON }}
