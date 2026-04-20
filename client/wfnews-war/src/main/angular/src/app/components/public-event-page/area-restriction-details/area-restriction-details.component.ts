@@ -16,7 +16,7 @@ export class AreaRestrictionDetailsComponent {
   @Input() incident: SimpleIncident;
   @Input() isBookmarked: boolean;
 
-  
+
   @Output() bookmarkClicked = new EventEmitter<boolean>();
 
   @Output() viewDetailsClicked = new EventEmitter<void>();
@@ -47,24 +47,24 @@ export class AreaRestrictionDetailsComponent {
   };
 
   relatedTopicLinks: RelatedTopicsLink[] = [
-    { 
-      text: 'Current Area Restrictions', 
-      url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions' 
+    {
+      text: 'Current Area Restrictions',
+      url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions'
     },
-    { 
-      text: 'Recreational Sites and Trail Closures', 
-      url: 'https://www.sitesandtrailsbc.ca/closures.aspx' 
+    {
+      text: 'Recreational Sites and Trail Closures',
+      url: 'https://www.sitesandtrailsbc.ca/search?status=closed&view=list'
     },
-    { 
-      text: 'BC Parks Closures', 
-      url: 'https://bcparks.ca/active-advisories/?type=wildfire' 
+    {
+      text: 'BC Parks Closures',
+      url: 'https://bcparks.ca/active-advisories/?type=wildfire'
     },
   ];
 
-  constructor( private appConfigService: AppConfigService ) {}
+  constructor(private appConfigService: AppConfigService) { }
 
   getBulletinLink() {
-    return this.areaRestriction?.attributes.BULLETIN_URL 
+    return this.areaRestriction?.attributes.BULLETIN_URL
       || this.appConfigService.getConfig().externalAppConfig['currentRestrictions'] as unknown as string;
   }
 
