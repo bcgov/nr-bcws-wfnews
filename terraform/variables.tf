@@ -325,11 +325,6 @@ variable "license_plate" {
   type        = string
 }
 
-variable "base_certificate_arn" {
-  description = "ARN of *.bcwildfireservices.com certificate"
-  type        = string
-}
-
 variable "liquibase_container_name" {
   description = "Name of DB container"
   default     = "wfnews-liquibase-app"
@@ -609,10 +604,6 @@ variable "drivebcBaseUrl" {
   default = ""
 }
 
-variable "openmapsBaseUrl" {
-  type    = string
-  default = ""
-}
 
 variable "siteMinderURLPrefix" {
   type    = string
@@ -673,49 +664,9 @@ variable "ACCEPTED_IPS" {
   default = ""
 }
 
-variable "PUSH_NOTIFICATION_AWS_USER" {
-  type        = string
-  description = "User used by wfone-notification-push-api"
-  default     = ""
-}
-
 #Lambda-related variables
-variable "EVENT_BRIDGE_ARN" {
-  type    = string
-  default = ""
-}
-
-variable "WFNEWS_URL" {
-  type    = string
-  default = ""
-}
 
 variable "SECRET_NAME" {
-  type    = string
-  default = ""
-}
-
-variable "BAN_PROHIBITION_MONITOR_KEY" {
-  type    = string
-  default = ""
-}
-
-variable "ACTIVE_FIRE_MONITOR_KEY" {
-  type    = string
-  default = ""
-}
-
-variable "AREA_RESTRICTIONS_MONITOR_KEY" {
-  type    = string
-  default = ""
-}
-
-variable "EVACUATION_MONITOR_KEY" {
-  type    = string
-  default = ""
-}
-
-variable "LAMBDA_LAYER_KEY" {
   type    = string
   default = ""
 }
@@ -1027,18 +978,6 @@ variable "WFONE_NOTIFICATIONS_PUSH_PREFIX" {
 variable "WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS" {
   type    = number
   default = 300
-
-}
-
-variable "WFONE_NOTIFICATIONS_PUSH_AWS_ACCESS_KEY" {
-  type    = string
-  default = ""
-
-}
-
-variable "WFONE_NOTIFICATIONS_PUSH_AWS_SECRET_KEY" {
-  type    = string
-  default = ""
 
 }
 
