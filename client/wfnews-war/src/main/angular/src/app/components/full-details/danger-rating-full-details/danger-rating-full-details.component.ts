@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
 import { Router as Route } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { AppConfigService } from '@wf1/core-ui';
-import * as L from 'leaflet';
-import { ResourcesRoutes, setDisplayColor, displayDangerRatingDescription } from '@app/utils';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { Meta } from '@angular/platform-browser';
+import { PublishedIncidentService } from '@app/services/published-incident-service';
+import { displayDangerRatingDescription, ResourcesRoutes, setDisplayColor } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'wfnews-danger-rating-full-details',
@@ -31,50 +31,50 @@ export class DangerRatingFullDetailsComponent implements OnInit {
     private agolService: AGOLService,
     private commonUtilityService: CommonUtilityService,
     private metaService: Meta,
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.initMap();
-    this.metaService.updateTag({ property: 'og:title', content: `${this.rating} Danger Rating`});
+    this.metaService.updateTag({ property: 'og:title', content: `${this.rating} Danger Rating` });
     this.metaService.updateTag({ property: 'og:description', content: `${this.rating} Danger Rating` });
   }
 
   dangerDescription() {
-    return displayDangerRatingDescription(this.rating);  
- }
+    return displayDangerRatingDescription(this.rating);
+  }
 
   async initMap() {
     // Create map and append data to the map component
     const locationData = JSON.parse(this.location) as LocationData;
     let bounds = null;
     this.agolService
-    .getDangerRatings(
-      `PROT_DR_SYSID ='${this.sysid}'`,
-      null,
-      {
-        returnGeometry: true,
-      },
-    )
-    .toPromise()
-    .then((response) => {
-      if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-        const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
-        if (polygonData?.length) {
-          bounds = this.commonUtilityService.getPolygonBond(polygonData);
-          this.createMap(locationData, bounds);
-        }                
-      }
-    });
+      .getDangerRatings(
+        `PROT_DR_SYSID ='${this.sysid}'`,
+        null,
+        {
+          returnGeometry: true,
+        },
+      )
+      .toPromise()
+      .then((response) => {
+        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
+          const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
+          if (polygonData?.length) {
+            bounds = this.commonUtilityService.getPolygonBond(polygonData);
+            this.createMap(locationData, bounds);
+          }
+        }
+      });
   }
 
   async createMap(locationData: LocationData, bounds?: any) {
     const location = [locationData.latitude, locationData.longitude];
 
     const mapOptions = this.commonUtilityService.getMapOptions(bounds, location);
-  
+
     // Create the map using the mapOptions
     this.map = L.map('restrictions-map', mapOptions);
-    
+
     // If bounds exist, fit the map to the bounds; otherwise, set the view to the default location and zoom level
     if (bounds) {
       this.map.fitBounds(bounds);
@@ -87,7 +87,7 @@ export class DangerRatingFullDetailsComponent implements OnInit {
 
     const databcUrl = this.appConfigService
       .getConfig()
-      ['mapServices']['openmapsBaseUrl'].toString();
+    ['mapServices']['openmapsBaseUrl'].toString();
     L.tileLayer
       .wms(databcUrl, {
         layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
@@ -159,7 +159,7 @@ export class DangerRatingFullDetailsComponent implements OnInit {
   navToCurrentRestrictions() {
     window.open(
       this.appConfigService.getConfig().externalAppConfig[
-        'currentRestrictions'
+      'currentRestrictions'
       ] as unknown as string,
       '_blank',
     );
@@ -167,7 +167,7 @@ export class DangerRatingFullDetailsComponent implements OnInit {
 
   navToDangerSummary() {
     window.open(
-      'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-situation/fire-danger',
+      'https://www2.gov.bc.ca/gov/content?id=3DDDD01FBF674A619B3178603539E493',
       '_blank',
     );
   }
@@ -175,7 +175,7 @@ export class DangerRatingFullDetailsComponent implements OnInit {
   navToDangerClass() {
     window.open(
       this.appConfigService.getConfig().externalAppConfig[
-        'dangerSummary'
+      'dangerSummary'
       ] as unknown as string,
       '_blank',
     );
@@ -184,7 +184,7 @@ export class DangerRatingFullDetailsComponent implements OnInit {
   navToHighRiskActivities() {
     window.open(
       this.appConfigService.getConfig().externalAppConfig[
-        'highRiskActivities'
+      'highRiskActivities'
       ] as unknown as string,
       '_blank',
     );

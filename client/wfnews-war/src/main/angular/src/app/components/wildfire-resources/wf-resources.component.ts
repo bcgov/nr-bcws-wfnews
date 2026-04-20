@@ -21,7 +21,7 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
   constructor(
     protected appConfigService: AppConfigService,
     protected router: Router,
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.url =
       this.appConfigService.getConfig().application.baseUrl.toString() +
@@ -43,7 +43,7 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
           subtitle: 'EmergencyInfoBC',
           url: 'https://www.emergencyinfobc.gov.bc.ca/',
           description:
-          'Official response and recovery resources and verified event information.'
+            'Official response and recovery resources and verified event information.'
         },
         {
           title: 'Road closures and conditions',
@@ -116,7 +116,7 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'Fire Danger Rating',
           subtitle: 'BC Wildfire Service',
-          url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-situation/fire-danger',
+          url: 'https://www2.gov.bc.ca/gov/content?id=3DDDD01FBF674A619B3178603539E493',
           description:
             'Fire danger rating in your area and other information about fire weather.',
         },
