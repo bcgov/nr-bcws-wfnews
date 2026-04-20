@@ -81,7 +81,7 @@
       json.append("\"evacDefaultUrl\":\"").append("https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023").append("\",");
       json.append("\"evacDefaultBulletin\":\"").append("https://www.emergencyinfobc.gov.bc.ca").append("\",");
       json.append("\"currentRestrictions\":\"").append("https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions").append("\",");
-      json.append("\"recSiteTrailsClosures\":\"").append("http://www.sitesandtrailsbc.ca/closures.aspx").append("\",");
+      json.append("\"recSiteTrailsClosures\":\"").append("https://www.sitesandtrailsbc.ca/search?status=closed&view=list").append("\",");
       json.append("\"parksClosures\":\"").append("https://bcparks.ca/active-advisories/?type=wildfire").append("\",");
       json.append("\"localAuthoritiesUrl\":\"").append("https://www.civicinfo.bc.ca/directories").append("\",");
       json.append("\"wildfirePreparednessUrl\":\"").append("https://www2.gov.bc.ca/assets/gov/public-safety-and-emergency-services/emergency-preparedness-response-recovery/embc/preparedbc/preparedbc-guides/wildfire_preparedness_guide.pdf").append("\",");

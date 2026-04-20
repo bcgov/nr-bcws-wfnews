@@ -34,6 +34,15 @@
     "syncIntervalMinutes": 10
   },
 
+  "causeCodeConfig": {
+    "web": {
+      "url": "https://d1apps.vividsolutions.com/wfnews"
+    },
+    "rest": {
+      "url": "https://d1apps.vividsolutions.com/pub/wfim/wfim-api/v1"
+    }
+  },
+
   "externalAppConfig": {
     "im": {
       "url": "http://localhost:6200/pub/wfim/(root:external)"
@@ -82,7 +91,7 @@
     "currentRestrictions": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions",
     "dangerSummary": "https://wfapps.nrs.gov.bc.ca/pub/wfwx-danger-summary-war/dangerSummary",
     "highRiskActivities": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/for-industry-commercial-operators/high-risk-activities",
-    "recSiteTrailsClosures": "http://www.sitesandtrailsbc.ca/closures.aspx",
+    "recSiteTrailsClosures": "https://www.sitesandtrailsbc.ca/search?status=closed&view=list",
     "parksClosures": "https://bcparks.ca/active-advisories/?type=wildfire",
     "localAuthoritiesUrl": "https://www.civicinfo.bc.ca/directories",
     "wildfirePreparednessUrl": "https://www2.gov.bc.ca/assets/gov/public-safety-and-emergency-services/emergency-preparedness-response-recovery/embc/preparedbc/preparedbc-guides/wildfire_preparedness_guide.pdf",
@@ -95,6 +104,15 @@
     "emergencyAlertUrl": "https://www2.gov.bc.ca/gov/content/safety/public-safety/emergency-alerts",
     "driveBCUrl": "https://www.drivebc.ca/mobile/index.html",
     "evacServicesUrl": "https://ess.gov.bc.ca/"
+  },
+
+  "mapServices": {
+    "openmapsBaseUrl": "https://wfnews-int.bcwildfireservices.com/maps",
+    "services6BaseUrl": "https://wfnews-int.bcwildfireservices.com/services6",
+    "#openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
+    "drivebcBaseUrl": "https://dev-maps.th.gov.bc.ca/geoV05/ows",
+    "#wfnews": "http://localhost:1338",
+    "wfnews": "https://wfnews-int.bcwildfireservices.com/wfnews-api"
   },
 
   "rest": {
@@ -122,23 +140,5 @@
     "enableCheckToken": true,
     "#checkTokenUrl": "assets/data/checktoken-INCIDENT_COMMANDER.json",
     "checkTokenUrl": "./assets/data/checktoken-LULI.json"
-  },
-
-  "mapServices": {
-    "openmapsBaseUrl": "https://wfnews-int.bcwildfireservices.com/maps",
-    "services6BaseUrl": "https://wfnews-int.bcwildfireservices.com/services6",
-    "#openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
-    "drivebcBaseUrl": "https://dev-maps.th.gov.bc.ca/geoV05/ows",
-    "#wfnews": "http://localhost:1338",
-    "wfnews": "https://wfnews-int.bcwildfireservices.com/wfnews-api"
-  },
-
-  "causeCodeConfig": {
-    "web": {
-      "url": "https://d1apps.vividsolutions.com/wfnews"
-    },
-    "rest": {
-      "url": "https://d1apps.vividsolutions.com/pub/wfim/wfim-api/v1"
-    }
   }
 }
