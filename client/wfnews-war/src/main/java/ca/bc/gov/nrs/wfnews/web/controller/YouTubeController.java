@@ -35,9 +35,15 @@ public class YouTubeController {
 			return "<html><body style='background: #000; color: #fff; display: flex; justify-content: center; align-items: center; height: 100%; margin: 0; font-family: sans-serif;'>Video ID missing</body></html>";
 		}
 
-		String origin = request.getScheme() + "://" + request.getServerName();
-		if (request.getServerPort() != 80 && request.getServerPort() != 443) {
-			origin += ":" + request.getServerPort();
+		String origin = System.getenv("BASE_URL");
+		if (origin == null || origin.trim().isEmpty()) {
+			origin = request.getScheme() + "://" + request.getServerName();
+			if (request.getServerPort() != 80 && request.getServerPort() != 443) {
+				origin += ":" + request.getServerPort();
+			}
+		}
+		if (origin.endsWith("/")) {
+			origin = origin.substring(0, origin.length() - 1);
 		}
 
 		StringBuilder html = new StringBuilder();
