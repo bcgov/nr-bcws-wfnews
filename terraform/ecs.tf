@@ -71,6 +71,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.aws_region
         },
         {
+          name  = "BASE_URL",
+          value = var.target_env == "prod" ? "https://${var.cloudfront_gov_origin_name}.${var.cloudfront_gov_origin_tail}/" : "https://${aws_route53_record.wfnews_record.name}/"
+        },
+        {
           name  = "bucketName",
           value = aws_s3_bucket.wfnews_upload_bucket.id
         },

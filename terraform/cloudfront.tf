@@ -204,7 +204,15 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     min_ttl                    = 0
     default_ttl                = 86400
     max_ttl                    = 86400
-    cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin", "x-original-path"]
+
+      cookies {
+        forward = "none"
+      }
+    }
   }
 
   ordered_cache_behavior {
@@ -887,7 +895,15 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     min_ttl                    = 0
     default_ttl                = 86400
     max_ttl                    = 86400
-    cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin", "x-original-path"]
+
+      cookies {
+        forward = "none"
+      }
+    }
   }
 
   ordered_cache_behavior {
@@ -1060,7 +1076,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     default_ttl            = 300
     max_ttl                = 86400
   }
-  
+
   tags = local.common_tags
   viewer_certificate {
     acm_certificate_arn = var.gov_certificate_arn
