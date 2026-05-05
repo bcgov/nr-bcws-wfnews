@@ -74,20 +74,16 @@ resource "aws_acm_certificate" "wfnews_legacy_us_certificate" {
 }
 
 resource "aws_route53_record" "wfnews_legacy_us_certificate_validation" {
-  for_each = {
-    for dvo in aws_acm_certificate.wfnews_legacy_us_certificate[0].domain_validation_options: dvo.domain_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
-    }
-  }
+  count = var.target_env == "prod" ? 1 : 0
+
+  zone_id = data.aws_route53_zone.legacy_zone[0].id
+
+  name = aws_acm_certificate.wfnews_legacy_us_certificate[0].domain_validation_options[0].resource_record_name
+  records = [ aws_acm_certificate.wfnews_legacy_us_certificate[0].domain_validation_options[0].resource_record_value ]
+  type = aws_acm_certificate.wfnews_legacy_us_certificate[0].domain_validation_options[0].resource_record_type
 
   allow_overwrite = true
-  name            = each.value.name
-  records         = [each.value.record]
   ttl             = 60
-  type            = each.value.type
-  zone_id         = data.aws_route53_zone.zone.zone_id
 }
 
 resource "aws_acm_certificate_validation" "wfnews_legacy_us_certificate_validation" {
