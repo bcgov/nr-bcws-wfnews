@@ -22,12 +22,12 @@ data "aws_route53_zone" "legacy_zone" {
 }
 
 resource "aws_route53_record" "wfnews_legacy_record" {
-  zone_id = data.aws_route53_zone.legacy_zone.id
-  name    = data.aws_route53_zone.legacy_zone.name
+  zone_id = data.aws_route53_zone.legacy_zone[0].id
+  name    = data.aws_route53_zone.legacy_zone[0].name
   type    = "A"
   alias {
-    name                   = aws_cloudfront_distribution.wfnews_legacy_nginx.domain_name
-    zone_id                = aws_cloudfront_distribution.wfnews_legacy_nginx.hosted_zone_id
+    name                   = aws_cloudfront_distribution.wfnews_legacy_nginx[0].domain_name
+    zone_id                = aws_cloudfront_distribution.wfnews_legacy_nginx[0].hosted_zone_id
     evaluate_target_health = true
   }
 }
