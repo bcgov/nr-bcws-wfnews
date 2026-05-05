@@ -22,6 +22,7 @@ data "aws_route53_zone" "legacy_zone" {
 }
 
 resource "aws_route53_record" "wfnews_legacy_record" {
+  count = var.target_env == "prod" ? 1 : 0
   zone_id = data.aws_route53_zone.legacy_zone[0].id
   name    = data.aws_route53_zone.legacy_zone[0].name
   type    = "A"
