@@ -105,7 +105,7 @@ jobs:
 
   terragrunt-deploy-test:
     needs: [tag-images, call-lambda-zip]
-    uses: ./.github/workflows/terragrunt-deploy.yml
+    uses: ./.github/workflows/terragrunt.yml
     with:
       DEFAULT_APPLICATION_ENVIRONMENT: TEST
       IMAGE_TAG: ${{ needs.tag-images.outputs.tag-value }}
