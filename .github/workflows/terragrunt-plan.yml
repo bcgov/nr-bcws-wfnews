@@ -15,16 +15,6 @@ on:
         required: true
         default: main
         type: string
-
-      MAX_RECEIVED_COUNT:
-        required: false
-        type: number
-        default: 10
-      VISIBILITY_TIMEOUT_SECONDS:
-        required: false
-        type: number
-        default: 100
-
 env:
   TF_VERSION: 1.5.3
   TG_VERSION: 0.48.4
@@ -40,8 +30,4 @@ jobs:
       COMMAND: plan
       IMAGE_TAG: ${{ inputs.IMAGE_TAG }}
       TARGET_ENV: ${{ inputs.TARGET_ENV }}
-
-      MAX_RECEIVED_COUNT: ${{ inputs.MAX_RECEIVED_COUNT }}
-      VISIBILITY_TIMEOUT_SECONDS: ${{ inputs.VISIBILITY_TIMEOUT_SECONDS }}
-
     secrets: inherit

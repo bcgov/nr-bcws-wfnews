@@ -21,7 +21,7 @@ data "aws_route53_zone" "legacy_zone" {
   name = "prod.bcwildfireservices.com"
 }
 
-resource "aws_route53_record" "wfnews_record" {
+resource "aws_route53_record" "wfnews_legacy_record" {
   zone_id = data.aws_route53_zone.legacy_zone.id
   name    = data.aws_route53_zone.legacy_zone.name
   type    = "A"

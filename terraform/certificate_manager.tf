@@ -74,7 +74,6 @@ resource "aws_acm_certificate" "wfnews_legacy_us_certificate" {
 }
 
 resource "aws_route53_record" "wfnews_legacy_us_certificate_validation" {
-  count = var.target_env == "prod" ? 1 : 0
   for_each = {
     for dvo in aws_acm_certificate.wfnews_legacy_us_certificate[0].domain_validation_options: dvo.domain_name => {
       name   = dvo.resource_record_name

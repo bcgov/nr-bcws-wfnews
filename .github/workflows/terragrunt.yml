@@ -20,7 +20,7 @@ on:
       VISIBILITY_TIMEOUT_SECONDS:
         required: false
         type: number
-        default: 10
+        default: 100
 
       COMMAND:
         required: false
