@@ -78,9 +78,9 @@ resource "aws_route53_record" "wfnews_legacy_us_certificate_validation" {
 
   zone_id = data.aws_route53_zone.legacy_zone[0].id
 
-  name = aws_acm_certificate.wfnews_legacy_us_certificate[0].domain_validation_options[0].resource_record_name
-  records = [ aws_acm_certificate.wfnews_legacy_us_certificate[0].domain_validation_options[0].resource_record_value ]
-  type = aws_acm_certificate.wfnews_legacy_us_certificate[0].domain_validation_options[0].resource_record_type
+  name = tolist(aws_acm_certificate.wfnews_legacy_us_certificate[0].domain_validation_options)[0].resource_record_name
+  records = [ tolist(aws_acm_certificate.wfnews_legacy_us_certificate[0].domain_validation_options)[0].resource_record_value ]
+  type = tolist(aws_acm_certificate.wfnews_legacy_us_certificate[0].domain_validation_options)[0].resource_record_type
 
   allow_overwrite = true
   ttl             = 60
