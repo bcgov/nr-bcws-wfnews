@@ -1089,9 +1089,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
 //Prod-only legacy URLs
 resource "aws_cloudfront_distribution" "wfnews_legacy_nginx" {
-  count = var.target_env == "prod" ? 1 : 0
 
-  aliases = ["wfnews-api.prod.bcwildfireservices.com"]
+  aliases = ["wfnews-api.${var.target_env}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
@@ -1216,7 +1215,7 @@ resource "aws_cloudfront_distribution" "wfnews_legacy_nginx" {
   tags = local.common_tags
 
   viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate.wfnews_legacy_us_certificate[0].arn
+    acm_certificate_arn = aws_acm_certificate.wfnews_legacy_us_certificate.arn
     ssl_support_method  = "sni-only"
   }
 }

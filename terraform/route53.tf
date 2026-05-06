@@ -17,18 +17,16 @@ resource "aws_route53_record" "wfnews_record" {
 
 
 data "aws_route53_zone" "legacy_zone" {
-  count = var.target_env == "prod" ? 1 : 0
-  name = "prod.bcwildfireservices.com"
+  name = "${var.target_env}.bcwildfireservices.com"
 }
 
 resource "aws_route53_record" "wfnews_legacy_record" {
-  count = var.target_env == "prod" ? 1 : 0
-  zone_id = data.aws_route53_zone.legacy_zone[0].id
-  name    = data.aws_route53_zone.legacy_zone[0].name
+  zone_id = data.aws_route53_zone.legacy_zone.id
+  name    = data.aws_route53_zone.legacy_zone.name
   type    = "A"
   alias {
-    name                   = aws_cloudfront_distribution.wfnews_legacy_nginx[0].domain_name
-    zone_id                = aws_cloudfront_distribution.wfnews_legacy_nginx[0].hosted_zone_id
+    name                   = aws_cloudfront_distribution.wfnews_legacy_nginx.domain_name
+    zone_id                = aws_cloudfront_distribution.wfnews_legacy_nginx.hosted_zone_id
     evaluate_target_health = true
   }
 }
