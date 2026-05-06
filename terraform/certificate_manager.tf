@@ -67,7 +67,7 @@ resource "aws_acm_certificate_validation" "wfnews_ca_certificate_validation" {
 
 //Prod-only legacy certificate, wfnews-prod
 resource "aws_acm_certificate" "wfnews_legacy_us_certificate" {
-  domain_name = "${var.target_env}.bcwildfireservices.com"
+  domain_name = "*.${var.target_env}.bcwildfireservices.com"
   validation_method = "DNS"
   provider = aws.aws-us
 }

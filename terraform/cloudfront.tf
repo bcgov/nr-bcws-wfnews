@@ -1087,7 +1087,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
 
 
-//Prod-only legacy URLs
+//Legacy URLs
 resource "aws_cloudfront_distribution" "wfnews_legacy_nginx" {
 
   aliases = ["wfnews-api.${var.target_env}.bcwildfireservices.com"]
