@@ -89,7 +89,7 @@ resource "aws_route53_record" "wfnews_legacy_us_certificate_validation" {
 resource "aws_acm_certificate_validation" "wfnews_legacy_us_certificate_validation" {
   count = var.target_env == "prod" ? 1 : 0
   certificate_arn = aws_acm_certificate.wfnews_legacy_us_certificate[0].arn
-  validation_record_fqdns = [ for record in aws_route53_record.wfnews_us_certificate_validation[0] : record.fqdn]
+  validation_record_fqdns = [ aws_route53_record.wfnews_legacy_us_certificate_validation[0].fqdn ]
   provider = aws.aws-us
   timeouts {
     create = "15m"
