@@ -1220,9 +1220,278 @@ resource "aws_cloudfront_distribution" "wfnews_legacy_nginx" {
   }
 }
 
+resource "aws_cloudfront_distribution" "wfnews_legacy_pointid" {
+  // only generate in prod environment
+  count = var.target_env == "prod" ? 1 : 0
+  aliases = ["wfss-pointid-api.${var.target_env}.bcwildfireservices.com"]
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"]
+    }
+
+    domain_name = "wfnews-api.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
+    origin_id   = "wfnews_pointid_legacy_${var.target_env}"
+    custom_header {
+      name  = "X-Cloudfront-Header"
+      value = var.cloudfront_header
+    }
+  }
+
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = "geofencing"
+
+  default_cache_behavior {
+    allowed_methods = [
+      "DELETE",
+      "GET",
+      "HEAD",
+      "OPTIONS",
+      "PATCH",
+      "POST",
+      "PUT"
+    ]
+    cached_methods  = ["GET", "HEAD"]
+
+    target_origin_id = "wfnews_pointid_legacy_${var.target_env}"
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
+
+    forwarded_values {
+      query_string = false
+      headers      = ["Origin", "Authorization"]
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 86400
+  }
+
+  price_class = "PriceClass_100"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
+      locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
+    }
+  }
+  
+  viewer_certificate {
+    acm_certificate_arn = aws_acm_certificate.wfnews_legacy_us_certificate.arn
+    ssl_support_method  = "sni-only"
+  }
 
 
+}
 
+resource "aws_cloudfront_distribution" "wfnews_legacy_services6" {
+  count = var.target_env == "prod" ? 1 : 0
+  aliases = ["services6.${var.target_env}.bcwildfireservices.com"]
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"]
+    }
+
+    domain_name = "services6.arcgis.com"
+    origin_id   = "wfnews_services6_legacy_${var.target_env}"
+  }
+
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = "geofencing"
+
+  default_cache_behavior {
+    allowed_methods = [
+      "DELETE",
+      "GET",
+      "HEAD",
+      "OPTIONS",
+      "PATCH",
+      "POST",
+      "PUT"
+    ]
+    cached_methods  = ["GET", "HEAD"]
+
+    target_origin_id = "wfnews_services6_legacy_${var.target_env}"
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
+
+    forwarded_values {
+      query_string = false
+      headers      = ["Origin", "Authorization"]
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 300
+  }
+
+  price_class = "PriceClass_100"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
+      locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
+    }
+  }
+  
+  viewer_certificate {
+    acm_certificate_arn = aws_acm_certificate.wfnews_legacy_us_certificate.arn
+    ssl_support_method  = "sni-only"
+  }
+}
+
+resource "aws_cloudfront_distribution" "wfnews_legacy_maps" {
+  count = var.target_env == "prod" ? 1 : 0
+  aliases = ["maps.${var.target_env}.bcwildfireservices.com"]
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"]
+    }
+
+    domain_name = "openmaps.gov.bc.ca"
+    origin_path = "/geo/pub/ows"
+    origin_id   = "wfnews_maps_legacy_${var.target_env}"
+  }
+
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = "geofencing"
+
+  default_cache_behavior {
+    allowed_methods = [
+      "DELETE",
+      "GET",
+      "HEAD",
+      "OPTIONS",
+      "PATCH",
+      "POST",
+      "PUT"
+    ]
+    cached_methods  = ["GET", "HEAD"]
+
+    target_origin_id = "wfnews_maps_legacy_${var.target_env}"
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
+
+    forwarded_values {
+      query_string = false
+      headers      = ["Origin", "Authorization"]
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 300
+  }
+
+  price_class = "PriceClass_100"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
+      locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
+    }
+  }
+  
+  viewer_certificate {
+    acm_certificate_arn = aws_acm_certificate.wfnews_legacy_us_certificate.arn
+    ssl_support_method  = "sni-only"
+  }
+}
+
+resource "aws_cloudfront_distribution" "wfnews_legacy_notifications" {
+  count = var.target_env == "prod" ? 1 : 0
+  aliases = ["wfone-notifications-api.${var.target_env}.bcwildfireservices.com"]
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"]
+    }
+
+    domain_name = "notifications-api.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
+    origin_id   = "wfnews_notifications_legacy_${var.target_env}"
+  }
+
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = "geofencing"
+
+  default_cache_behavior {
+    allowed_methods = [
+      "DELETE",
+      "GET",
+      "HEAD",
+      "OPTIONS",
+      "PATCH",
+      "POST",
+      "PUT"
+    ]
+    cached_methods  = ["GET", "HEAD"]
+
+    target_origin_id = "wfnews_notifications_legacy_${var.target_env}"
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin", "x-original-path"]
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
+  }
+
+  price_class = "PriceClass_100"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
+      locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
+    }
+  }
+  
+  viewer_certificate {
+    acm_certificate_arn = aws_acm_certificate.wfnews_legacy_us_certificate.arn
+    ssl_support_method  = "sni-only"
+  }
+}
 
 
 
@@ -1236,7 +1505,6 @@ resource "aws_cloudfront_distribution" "wfnews_legacy_nginx" {
 resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
   // only generate in prod environment
   count = var.target_env == "prod" ? 1 : 0
-
 
   aliases = ["${var.cloudfront_gov_origin_name}-api.${var.cloudfront_gov_origin_tail}"]
 
@@ -1364,3 +1632,4 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
     ssl_support_method  = "sni-only"
   }
 }
+
