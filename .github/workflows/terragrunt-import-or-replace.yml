@@ -42,6 +42,7 @@ jobs:
       TARGET_ENV: ${{ inputs.TARGET_ENV }}
       MAX_RECEIVED_COUNT: 10
       VISIBILITY_TIMEOUT_SECONDS: 100
+      ALLOW_FAILURE: true
 
     secrets: inherit
 
