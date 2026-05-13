@@ -1,4 +1,4 @@
-name: Plan using terragrunt
+name: Import or Replace Terraform Resource
 
 on:
   workflow_dispatch:
