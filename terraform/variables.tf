@@ -292,7 +292,7 @@ variable "gov_certificate_arn" {
   type        = string
 }
 
-variable "gov_api_certificate_arn" {
+variable "GOV_API_LEGACY_CERTIFICATE_ARN" {
   description = "ARN of certificate to use on -api.nrs.gov.bc.ca certs"
   default     = ""
   type        = string

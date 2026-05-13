@@ -107,7 +107,7 @@ jobs:
           echo "tag=$(echo $TAG | sed 's/\//-/g')" >> $GITHUB_OUTPUT
 
   terragrunt-deploy-dev:
-    uses: ./.github/workflows/terragrunt-deploy.yml
+    uses: ./.github/workflows/terragrunt.yml
     needs: [call-lambda-zip, call-mvn-client, wfnews-api-server-build, wfone-notifications-api-server-build, liquibase-build, nginx-build, wfss-pointid-api-server-build, wfone-notification-push-api-server-build, sanitize-tag]
     with:
       DEFAULT_APPLICATION_ENVIRONMENT: DEV

@@ -20,7 +20,12 @@ on:
       VISIBILITY_TIMEOUT_SECONDS:
         required: false
         type: number
-        default: 10
+        default: 100
+
+      COMMAND:
+        required: false
+        type: string
+        default: apply
 
 env:
   TF_VERSION: 1.5.3
@@ -63,7 +68,7 @@ jobs:
         with:
           terragrunt_version: ${{ env.TG_VERSION }}
       
-      - name: Terragrunt Apply
+      - name: Terragrunt
         working-directory: ${{env.TG_SRC_PATH}}
         env:
           # AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID }}
@@ -73,6 +78,7 @@ jobs:
 
           UNIQUE_DEPLOY_ID: ${{ github.run_id }}
           GOV_CERTIFICATE_ARN: ${{secrets.GOV_CERTIFICATE_ARN}}
+          GOV_API_LEGACY_CERTIFICATE_ARN: ${{secrets.GOV_API_LEGACY_CERTIFICATE_ARN}}
 
           agolAreaRestrictions: ${{vars.AGOL_AREA_RESTRICTIONS}}
           agolBansAndProhibitions: ${{vars.AGOL_BANS_AND_PROHIBITIONS}}
@@ -215,5 +221,9 @@ jobs:
           FIREBASE_CONFIG_JSON: ${{ secrets.FIREBASE_CONFIG_JSON }}
 
 
-        run: terragrunt apply --terragrunt-non-interactive -auto-approve
+        run: |
+          if [ "${{ inputs.COMMAND }}" = "apply" ] || [ "${{ inputs.COMMAND }}" = "apply -destroy" ]; then
+            export RUNTIME_ARG="-auto-approve"
+          fi
+          terragrunt ${{ inputs.COMMAND }} --terragrunt-non-interactive $RUNTIME_ARG
 
