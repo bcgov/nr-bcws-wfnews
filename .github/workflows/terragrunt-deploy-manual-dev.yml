@@ -14,6 +14,10 @@ env:
   TFC_WORKSPACE: wfnews-dev
   REPOSITORY: ghcr.io
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   terragrunt-deploy-dev:
     uses: ./.github/workflows/terragrunt.yml
