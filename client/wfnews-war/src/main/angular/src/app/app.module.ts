@@ -304,6 +304,7 @@ import { IncidentContainerDesktop } from './containers/incident/incident-contain
 import { PanelWildfireStageOfControlContainerDesktop } from './containers/panelWildfireStageOfControl/panelWildfireStageOfControl-container.component.desktop';
 import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfiresList-container.component.desktop';
 import { SingleSelectDirective } from './directives/singleselect.directive';
+import { WfimEtagInterceptor } from './interceptors/wfim-etag-interceptor';
 import { WfnewsInterceptor } from './interceptors/wfnews-interceptor';
 import { SafePipe } from './pipes/safe.pipe';
 import { AGOLService } from './services/AGOL-service';
@@ -710,6 +711,11 @@ export const DATE_FORMATS = {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: WfnewsInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: WfimEtagInterceptor,
       multi: true,
     },
     { provide: MAT_DIALOG_DATA, useValue: {} },

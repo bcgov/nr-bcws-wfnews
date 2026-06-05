@@ -8,7 +8,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { YouTubeService } from '@app/services/youtube-service';
-import { DefaultService as ExternalUriService } from '@wf1/incidents-rest-api';
+import { WfimExternalUriService as ExternalUriService } from '@app/services/wfim-external-uri.service';
 import * as moment from 'moment';
 import { convertToYoutubeId } from '../../../../utils';
 import { EditVideoDialogComponent } from '../edit-video-dialog/edit-video-dialog.component';
@@ -90,9 +90,9 @@ export class VideoCardPanel {
   }
 
   remove() {
-    this.externalUriService
-      .deleteExternalUri(this.video.externalUriGuid, 'response')
-      .toPromise()
+    const guid = this.video.externalUriGuid;
+    const etag = this.video.etag || this.video['@etag'];
+    this.externalUriService.deleteExternalUri(guid, etag)
       .then(() => {
         this.snackbarService.open('Video Deleted Successfully', 'OK', {
           duration: 0,
@@ -116,16 +116,7 @@ export class VideoCardPanel {
     this.video.externalUriDisplayLabel = externalUriDisplayLabel;
 
     this.externalUriService
-      .updateExternalUri(this.video.externalUriGuid, this.video, 'response')
-      .toPromise()
-      .then(() => {
-        this.snackbarService.open('Video Updated Successfully', 'OK', {
-          duration: 0,
-          panelClass: 'snackbar-success',
-        });
-        this.loaded = false;
-        this.loadPage.emit();
-      })
+      .updateExternalUri(this.video.externalUriGuid, this.video)
       .catch((err) => {
         this.snackbarService.open(
           'Failed to Update Video: ' + JSON.stringify(err.message),
@@ -133,6 +124,15 @@ export class VideoCardPanel {
           { duration: 0, panelClass: 'snackbar-error' },
         );
         this.loaded = false;
+        throw err;
+      })
+      .then(() => {
+        this.snackbarService.open('Video Updated Successfully', 'OK', {
+          duration: 0,
+          panelClass: 'snackbar-success',
+        });
+        this.loaded = false;
+        this.loadPage.emit();
       });
   }
 
