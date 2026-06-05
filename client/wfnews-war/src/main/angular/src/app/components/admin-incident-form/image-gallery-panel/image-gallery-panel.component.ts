@@ -8,11 +8,11 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import {
-  DefaultService as ExternalUriService,
   DefaultService as IncidentAttachmentsService,
   DefaultService as IncidentAttachmentService,
   AttachmentResource,
 } from '@wf1/incidents-rest-api';
+import { WfimExternalUriService as ExternalUriService } from '../../../services/wfim-external-uri.service';
 import { BaseComponent } from '../../base/base.component';
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
@@ -168,16 +168,12 @@ return 0;
     this.externalUriService
       .getExternalUriList(
         '' + this.incident.wildfireIncidentGuid,
-        '' + 1,
-        '' + 100,
-        'response',
-        undefined,
-        undefined,
+        1,
+        100
       )
-      .toPromise()
       .then((response) => {
         this.externalUriList = [];
-        const uris = response.body;
+        const uris = response;
         for (const uri of uris.collection) {
           if (
             uri.externalUriCategoryTag.includes('video') &&
@@ -356,7 +352,6 @@ return 0;
         videoLink.primaryInd = false;
         await this.externalUriService
           .updateExternalUri(videoLink.externalUriGuid, videoLink)
-          .toPromise()
           .catch((err) => {
             // Ignore this
             console.error(err);

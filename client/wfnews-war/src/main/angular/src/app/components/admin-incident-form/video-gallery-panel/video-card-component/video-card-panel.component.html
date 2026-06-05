@@ -1,9 +1,7 @@
 <div class="image-panel">
   <div class="image-container">
-    <div style="width: 650px;">
-      <iframe [src]="getSafeUrl(video.externalUri)" style="width: 400px; height: 250px; border: 0;" allowfullscreen>
-      </iframe>
-    </div>
+    <iframe [src]="getSafeUrl(video.externalUri)" style="width: calc(100% - 15px); height: 100%; border: 0; border-radius: 10px;" allowfullscreen>
+    </iframe>
   </div>
   <div class="info-panel">
     <div class="row">Video Title: <strong>{{video.externalUriDisplayLabel}}</strong></div>

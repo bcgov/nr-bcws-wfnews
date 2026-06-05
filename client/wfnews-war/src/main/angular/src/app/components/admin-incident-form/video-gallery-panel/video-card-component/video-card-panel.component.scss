@@ -1,17 +1,16 @@
 .image-panel {
   display: flex;
-  padding: 16px;
+  padding: 1rem;
   width: 650px;
-  margin: 16px;
+  margin: 0 1rem;
 
   .image-container {
     width: 60%;
     height: 250px;
-    padding: 7px;
 
     img {
-      max-width: 350px;
-      height: inherit;
+      width: calc(100% - 15px);
+      height: 100%;
       object-fit: cover;
       border-radius: 10px;
     }
@@ -21,6 +20,9 @@
     font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     padding: 5px;
     width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 
     .row {
       white-space: nowrap;
@@ -29,10 +31,21 @@
     }
 
     .action {
-      padding-top: 5px;
+      padding: 5px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
       mat-icon {
         cursor: pointer;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
       }
+    }
+
+    .checkbox-label {
+      padding-left: 4px;
     }
 
     .divider {

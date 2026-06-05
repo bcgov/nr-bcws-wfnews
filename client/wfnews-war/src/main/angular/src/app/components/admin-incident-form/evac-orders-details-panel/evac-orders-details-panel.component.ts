@@ -7,9 +7,9 @@ import {
 import { EvacOrderOption } from '../../../conversion/models';
 import { AGOLService } from '../../../services/AGOL-service';
 import {
-  DefaultService as ExternalUriService,
   ExternalUriResource,
 } from '@wf1/incidents-rest-api';
+import { WfimExternalUriService as ExternalUriService } from '../../../services/wfim-external-uri.service';
 
 @Component({
   selector: 'evac-orders-details-panel',
@@ -76,12 +76,11 @@ export class EvacOrdersDetailsPanel implements OnInit {
     this.evacOrderForm.removeAt(index);
     // delete from externalUri, if this uri already exists
     if (evac?.externalUri?.externalUriGuid) {
-      this.externalUriService
-        .deleteExternalUri(evac.externalUri.externalUriGuid)
-        .toPromise()
-        .catch((err) => {
-          console.error(err);
-        });
+      const guid = evac.externalUri.externalUriGuid;
+      const etag = evac.externalUri.etag || evac.externalUri['@etag'];
+      this.externalUriService.deleteExternalUri(guid, etag).catch((err) => {
+        console.error(err);
+      });
     }
     this.cdr.detectChanges();
   }
@@ -101,12 +100,10 @@ export class EvacOrdersDetailsPanel implements OnInit {
 
       if (evac.externalUri?.externalUriGuid) {
         await this.externalUriService
-          .updateExternalUri(evac.externalUri.externalUriGuid, evac.externalUri)
-          .toPromise();
+          .updateExternalUri(evac.externalUri.externalUriGuid, evac.externalUri);
       } else {
         await this.externalUriService
-          .createExternalUri(evac.externalUri)
-          .toPromise();
+          .createExternalUri(evac.externalUri);
       }
     }
   }
@@ -133,15 +130,11 @@ export class EvacOrdersDetailsPanel implements OnInit {
     this.externalUriService
       .getExternalUriList(
         '' + this.incident.wildfireIncidentGuid,
-        '' + 1,
-        '' + 100,
-        'response',
-        undefined,
-        undefined,
+        1,
+        100
       )
-      .toPromise()
       .then((response) => {
-        const externalUriList = response.body;
+        const externalUriList = response;
         for (const uri of externalUriList.collection) {
           if (uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
             const evac = {

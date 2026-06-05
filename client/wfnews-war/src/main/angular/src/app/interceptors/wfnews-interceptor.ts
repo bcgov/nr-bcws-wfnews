@@ -129,7 +129,7 @@ export class WfnewsInterceptor
             processedRequest,
             requestId,
           );
-        this.handleError(errorHandlingInstructions);
+        this.handleError(errorHandlingInstructions, response.url);
         throw response;
       }),
     );
@@ -219,12 +219,18 @@ export class WfnewsInterceptor
       }
 
       return this.createErrorHandlingInstructions(null, null, message);
+    } else if (response.status === 412) {
+      return this.createErrorHandlingInstructions(
+        null,
+        null,
+        'This record has been modified by another user. Please refresh and try again.',
+      );
     }
 
     return null;
   }
 
-  handleError(errorHandlingInstructions: ErrorHandlingInstructions) {
+  handleError(errorHandlingInstructions: ErrorHandlingInstructions, errorUrl?: string) {
     if (!errorHandlingInstructions) {
       return;
     }
@@ -232,6 +238,17 @@ export class WfnewsInterceptor
     if (errorHandlingInstructions.redirectToRoute) {
       this.router.navigate([errorHandlingInstructions.redirectToRoute], {
         queryParams: { message: errorHandlingInstructions.redirectToRouteData },
+      });
+    }
+
+    const config = this.appConfig.getConfig();
+    const incidentsUrl = config && config.rest ? config.rest['incidents'] : null;
+    const isWfimApi = incidentsUrl && errorUrl && errorUrl.startsWith(incidentsUrl);
+
+    if (errorHandlingInstructions.snackBarErrorMsg && isWfimApi) {
+      this.snackbarService.open(errorHandlingInstructions.snackBarErrorMsg, 'OK', {
+        duration: 10000,
+        panelClass: 'snackbar-error'
       });
     }
   }
