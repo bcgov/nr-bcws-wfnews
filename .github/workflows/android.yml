@@ -236,7 +236,7 @@ jobs:
           project-path: "${{ env.ANGULAR_DIRECTORY }}/android/"
           output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
           release-status: "completed"
-          ruby-version: "3.3"
+          ruby-version: "3.2"
 
       - uses: actions/upload-artifact@v4
         name: Upload Build Artifact to GitHub
