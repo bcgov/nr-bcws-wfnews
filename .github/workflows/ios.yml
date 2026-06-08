@@ -175,6 +175,9 @@ jobs:
           ruby-version: 2.7
           bundler-cache: true
 
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_26.0.app
+
       - name: Check Xcode version
         run: /usr/bin/xcodebuild -version
 
