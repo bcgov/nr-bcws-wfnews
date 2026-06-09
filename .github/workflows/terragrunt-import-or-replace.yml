@@ -1,4 +1,4 @@
-name: Plan using terragrunt
+name: Import or Replace Terraform Resource
 
 on:
   workflow_dispatch:
@@ -47,6 +47,8 @@ jobs:
 
   terragrunt-import-resource:
     uses: ./.github/workflows/terragrunt.yml
+    needs: [terragrunt-remove-resource]
+    if: ${{ always() }}
     with:
       DEFAULT_APPLICATION_ENVIRONMENT: ${{ inputs.DEFAULT_APPLICATION_ENVIRONMENT }}
       COMMAND: import ${{inputs.RESOURCE_TERRAFORM_TYPE}}.${{ inputs.RESOURCE_TO_UPDATE }} ${{ inputs.NEW_OBJECT_ID }}
@@ -54,3 +56,4 @@ jobs:
       TARGET_ENV: ${{ inputs.TARGET_ENV }}
       MAX_RECEIVED_COUNT: 10
       VISIBILITY_TIMEOUT_SECONDS: 100
+    secrets: inherit
