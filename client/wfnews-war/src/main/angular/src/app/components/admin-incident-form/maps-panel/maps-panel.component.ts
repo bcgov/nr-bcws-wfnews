@@ -1,3 +1,5 @@
+import { Overlay } from '@angular/cdk/overlay';
+import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,15 +9,6 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import {
-  DefaultService as IncidentAttachmentsService,
-  DefaultService as IncidentAttachmentService,
-  AttachmentResource,
-} from '@wf1/incidents-rest-api';
-import { BaseComponent } from '../../base/base.component';
-import * as moment from 'moment';
-import { Overlay } from '@angular/cdk/overlay';
-import { HttpClient } from '@angular/common/http';
 import { UntypedFormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import {
@@ -24,16 +17,23 @@ import {
   TextOnlySnackBar,
 } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppConfigService, TokenService } from '@wf1/core-ui';
+import {
+  AttachmentResource,
+  DefaultService as IncidentAttachmentService,
+  DefaultService as IncidentAttachmentsService,
+} from '@wf1/incidents-rest-api';
+import * as moment from 'moment';
 import { ApplicationStateService } from '../../../services/application-state.service';
+import { DocumentManagementService } from '../../../services/document-management.service';
+import { WatchlistService } from '../../../services/watchlist-service';
 import { RootState } from '../../../store';
+import { BaseComponent } from '../../base/base.component';
 import { MessageDialogComponent } from '../../message-dialog/message-dialog.component';
 import { EditMapDialogComponent } from './edit-map-dialog/edit-map-dialog.component';
 import { UploadMapDialogComponent } from './upload-map-dialog/upload-map-dialog.component';
-import { DocumentManagementService } from '../../../services/document-management.service';
-import { WatchlistService } from '../../../services/watchlist-service';
 
 @Component({
   selector: 'maps-panel',
@@ -132,14 +132,14 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
         docs.collection.sort((a, b) => {
           const dir = this.searchState.sortDirection === 'desc' ? -1 : 1;
           if (a[this.searchState.sortParam] < b[this.searchState.sortParam]) {
-return -dir;
-} else if (
+            return -dir;
+          } else if (
             a[this.searchState.sortParam] > b[this.searchState.sortParam]
           ) {
-return dir;
-} else {
-return 0;
-}
+            return dir;
+          } else {
+            return 0;
+          }
         });
         // remove any non-pdf types
         for (const doc of docs.collection) {
@@ -382,6 +382,8 @@ return 0;
             this.incident.wildfireYear,
             this.incident.incidentNumberSequence,
             item.attachmentGuid,
+            undefined,
+            item.etag || item['@etag'],
           )
           .toPromise()
           .then(() => {
@@ -389,8 +391,15 @@ return 0;
               duration: 10000,
               panelClass: 'snackbar-success',
             });
-            this.loaded = false;
-            this.cdr.detectChanges();
+
+            // Remove from table so it doesn't look like call failed
+            const index = this.attachments.findIndex(a => a.attachmentGuid === item.attachmentGuid);
+            if (index > -1) {
+              this.attachments.splice(index, 1);
+            }
+
+            // Trigger loadPage right away to keep server data synced
+            this.loadPage();
           })
           .catch((err) => {
             this.snackbarService.open(

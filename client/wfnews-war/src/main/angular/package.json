@@ -1,38 +1,10 @@
 {
-  "name": "wildfire",
-  "version": "2.5.1",
-  "license": "MIT",
-  "engines": {
-    "node": "^18.16.0"
-  },
   "browser": {
     "fs": false,
     "path": false,
     "os": false,
     "crypto": false
   },
-  "scripts": {
-    "ng": "ng",
-    "serve": "ng serve",
-    "serve.local.proxy": "ng serve --disableHostCheck true",
-    "start": "ng serve --proxy-config ../dm-proxy/proxy.conf.json",
-    "start.prod": "ng serve --configuration production",
-    "build": "ng build --source-map",
-    "build.prod": "ng build --source-map --configuration production --base-href / && replace-in-file /ngsw:/g ngsw:wfimi: dist/ngsw-worker.js --verbose --isRegex",
-    "build.mobile": "ng build --source-map --configuration mobile --base-href /",
-    "test": "ng test",
-    "lint": "ng lint WFNEWS",
-    "lint-fix": "ng lint WFNEWS --fix",
-    "prettier": "npx prettier . --write",
-    "clean": "npx prettier . --write && ng lint WFNEWS --fix",
-    "e2e": "ng e2e",
-    "cr": "npm run lint && npm start.prod",
-    "mavenbuild": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href / && replace-in-file /ngsw:/g ngsw:wfnewsi: dist/ngsw-worker.js --verbose --isRegex",
-    "mavenbuild-source-map": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href / --source-map && replace-in-file /ngsw:/g ngsw:wfnewsi: ../../../target/angular/ngsw-worker.js --verbose --isRegex",
-    "storybook": "ng run WFNEWS:storybook",
-    "build-storybook": "ng run WFNEWS:build-storybook"
-  },
-  "private": true,
   "dependencies": {
     "@angular/animations": "15.2.9",
     "@angular/cdk": "15.2.9",
@@ -85,7 +57,7 @@
     "@swimlane/ngx-charts": "20.1.0",
     "@types/geojson": "7946.0.8",
     "@wf1/core-ui": "^2.4.5",
-    "@wf1/incidents-rest-api": "^1.9.0-SNAPSHOT",
+    "@wf1/incidents-rest-api": "^1.10.0-SNAPSHOT",
     "@wf1/orgunit-rest-api": "^2.0.2",
     "@wf1/wfcc-application-ui": "^1.2.0-SNAPSHOT",
     "@wf1/wfdm-document-management-api": "^1.2.0-SNAPSHOT",
@@ -177,5 +149,33 @@
     "ts-node": "10.9.1",
     "typescript": "4.9.5",
     "webpack": "^5.91.0"
-  }
+  },
+  "engines": {
+    "node": "^18.16.0"
+  },
+  "license": "MIT",
+  "name": "wildfire",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "serve": "ng serve",
+    "serve.local.proxy": "ng serve --disableHostCheck true",
+    "start": "ng serve --proxy-config ../dm-proxy/proxy.conf.json",
+    "start.prod": "ng serve --configuration production",
+    "build": "ng build --source-map",
+    "build.prod": "ng build --source-map --configuration production --base-href / && replace-in-file /ngsw:/g ngsw:wfimi: dist/ngsw-worker.js --verbose --isRegex",
+    "build.mobile": "ng build --source-map --configuration mobile --base-href /",
+    "test": "ng test",
+    "lint": "ng lint WFNEWS",
+    "lint-fix": "ng lint WFNEWS --fix",
+    "prettier": "npx prettier . --write",
+    "clean": "npx prettier . --write && ng lint WFNEWS --fix",
+    "e2e": "ng e2e",
+    "cr": "npm run lint && npm start.prod",
+    "mavenbuild": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href / && replace-in-file /ngsw:/g ngsw:wfnewsi: dist/ngsw-worker.js --verbose --isRegex",
+    "mavenbuild-source-map": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href / --source-map && replace-in-file /ngsw:/g ngsw:wfnewsi: ../../../target/angular/ngsw-worker.js --verbose --isRegex",
+    "storybook": "ng run WFNEWS:storybook",
+    "build-storybook": "ng run WFNEWS:build-storybook"
+  },
+  "version": "2.5.4"
 }

@@ -221,22 +221,32 @@ jobs:
         with:
           path: ${{ steps.service_account_json_decode.outputs.filePath }}
 
-      - uses: sparkfabrik/android-build-action@v1.5.0
-        name: Build AAB and upload to Play Store
+      - name: Build with Gradle
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}/android
+        run: ./gradlew bundleRelease
+
+      - name: Sign AAB
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
         with:
-          build-type: "bundle"
-          gradle-task: "bundleRelease"
-          increment-build-number: ${{ inputs.increment_version_number }}
-          package-name: ${{ vars.PACKAGE_NAME }}
-          keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
-          keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
-          keystore-alias: ${{ secrets.KEYSTORE_ALIAS }}
-          json-key-data: ${{ steps.service_account_json_read.outputs.content }}
-          upload-to-play-store: ${{ inputs.upload_to_play_store }}
-          project-path: "${{ env.ANGULAR_DIRECTORY }}/android/"
-          output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
-          release-status: "completed"
-          ruby-version: "3.3"
+          releaseDirectory: ${{ env.ANGULAR_DIRECTORY }}/android/app/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.KEYSTORE_CONTENT }}
+          alias: ${{ secrets.KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
+
+      - name: Rename and Move Signed AAB
+        run: cp ${{ steps.sign_app.outputs.signedReleaseFile }} wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
+
+      - name: Upload to Play Store
+        if: ${{ inputs.upload_to_play_store == true || inputs.upload_to_play_store == 'true' }}
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ steps.service_account_json_read.outputs.content }}
+          packageName: ${{ vars.PACKAGE_NAME }}
+          releaseFiles: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
+          track: internal
+          status: completed
 
       - uses: actions/upload-artifact@v4
         name: Upload Build Artifact to GitHub
