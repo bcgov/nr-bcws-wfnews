@@ -29,20 +29,17 @@ data "aws_iam_policy_document" "wfnews_topic_policy_document" {
 
     principals {
       type        = "AWS"
-      identifiers = ["*"]
+      identifiers = ["${data.aws_caller_identity.current.account_id}"]
+    }
+
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
     }
 
     resources = [
       aws_sns_topic.wfnews_sns_topic.arn
     ]
-
-    condition {
-      test     = "StringLike"
-      variable = "aws:SourceVpc"
-      values = [
-        "${module.networking.vpc.id}"
-      ]
-    }
 
     sid = "__default_statement_ID"
   }

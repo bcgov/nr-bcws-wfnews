@@ -80,3 +80,27 @@ resource "aws_lambda_permission" "allow_fast_eventbridge_to_call_invalidator" {
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.wfnews-monitor-schedule.arn
 }
+
+resource "aws_cloudwatch_event_rule" "aws_health_event_rule" {
+  name        = "capture-aws-health-notifications"
+  description = "Capture AWS Health Notifications"
+
+  event_pattern = jsonencode({
+  "$or": [{
+    "source": ["aws.health"],
+    "detail-type": ["AWS Service Event via CloudTrail"],
+    "detail": {
+      "eventSource": ["health.amazonaws.com"]
+    }
+  }, {
+    "source": ["aws.health"],
+    "detail-type": ["AWS Health Event"]
+  }]
+})
+}
+
+resource "aws_cloudwatch_event_target" "aws_health_event_target" {
+  rule      = aws_cloudwatch_event_rule.aws_health_event_rule.name
+  target_id = "aws-health-event-${var.target_env}-target"
+  arn       = aws_sns_topic.wfnews_sns_topic.arn
+}

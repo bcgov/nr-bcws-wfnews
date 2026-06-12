@@ -1233,8 +1233,7 @@ resource "aws_cloudfront_distribution" "wfnews_legacy_pointid" {
       origin_ssl_protocols = [
       "TLSv1.2"]
     }
-
-    domain_name = "wfnews-api.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
+    domain_name = "pointid-api.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
     origin_id   = "wfnews_pointid_legacy_${var.target_env}"
     custom_header {
       name  = "X-Cloudfront-Header"
