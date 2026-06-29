@@ -1257,8 +1257,8 @@ resource "aws_ecs_service" "client" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
-    subnets          = module.networking.subnets.app.ids
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.web.id]
+    subnets          = module.networking.subnets.web.ids
     assign_public_ip = true
   }
 
@@ -1337,7 +1337,7 @@ resource "aws_ecs_service" "pointid" {
 
   network_configuration {
     security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
-    subnets          = module.networking.subnets.web.ids
+    subnets          = module.networking.subnets.app.ids
     assign_public_ip = true
   }
 
@@ -1377,7 +1377,7 @@ resource "aws_ecs_service" "wfone_notifications_api" {
 
   network_configuration {
     security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
-    subnets          = module.networking.subnets.web.ids
+    subnets          = module.networking.subnets.app.ids
     assign_public_ip = true
   }
 
@@ -1418,7 +1418,7 @@ resource "aws_ecs_service" "wfone_notifications_push_api" {
 
   network_configuration {
     security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
-    subnets          = module.networking.subnets.web.ids
+    subnets          = module.networking.subnets.app.ids
     assign_public_ip = true
   }
 
