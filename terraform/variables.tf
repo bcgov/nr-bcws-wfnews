@@ -653,8 +653,8 @@ variable "MAX_RECEIVED_COUNT" {
 
 variable "VISIBILITY_TIMEOUT_SECONDS" {
   type        = number
-  description = "Suffix appended to all managed resource names"
-  default     = 60
+  description = "Time taken for message on queue to become visible after being taken by API"
+  default     = 1800
 }
 
 variable "ACCEPTED_IPS" {
