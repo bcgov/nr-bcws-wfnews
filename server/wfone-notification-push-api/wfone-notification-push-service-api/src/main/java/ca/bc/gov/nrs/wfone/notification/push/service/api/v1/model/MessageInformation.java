@@ -10,6 +10,7 @@ public class MessageInformation {
 	public static final String FIRE_NUMBER = "incidentNumberLabel";
 	public static final String FIRE_YEAR = "fireYear";
 	public static final String IGNITION_DATE = "discoveryDate";
+	public static final String LAST_UPDATED_TIMESTAMP = "lastUpdatedTimestamp";
 	public static final String LONGITUDE = "longitude";
 	public static final String LATITUDE = "latitude";
 	// area-restrictions
@@ -24,14 +25,16 @@ public class MessageInformation {
 	public static final String TYPE = "TYPE";
 
 	private String messageId;
+	private String itemIdentifier;
 	private Date messageDate;
 	private Geometry geometry;
 	private String topic;
 	private Map<String, String> eventInformation;
 
-	public MessageInformation(String messageId, Date messageDate, Geometry geometry, String topic,
+	public MessageInformation(String messageId, String itemIdentifier, Date messageDate, Geometry geometry, String topic,
 			Map<String, String> eventInformation) {
 		this.messageId = messageId;
+		this.itemIdentifier = itemIdentifier;
 		this.messageDate = messageDate;
 		this.geometry = geometry;
 		this.topic = topic;
@@ -44,6 +47,14 @@ public class MessageInformation {
 
 	public void setMessageId(String messageId) {
 		this.messageId = messageId;
+	}
+
+	public String getItemIdentifier() {
+		return itemIdentifier;
+	}
+
+	public void setItemIdentifier(String itemIdentifier) {
+		this.itemIdentifier = itemIdentifier;
 	}
 
 	public Date getMessageDate() {

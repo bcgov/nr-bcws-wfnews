@@ -241,7 +241,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 				logger.error("Message: " + messageInformation.getMessageId());
 				logger.error("Topic: " + messageInformation.getTopic());
 				logger.error("Exception caught : " + e.getLocalizedMessage());
-				logger.error("Exception trace: " + e.getStackTrace());
+				logger.error("Exception trace: ", e);
 
 				failCount++;
 			}
@@ -281,9 +281,10 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 		expireTimestamp = expirations.get(topicKey);
 		// Using messageInformation.getMessageId() for the event-specific part of the message body
-		// And also as the unique identifier for the event itself.
-		String eventIdentifier = messageInformation.getMessageId();
-		body = ((isTest) ? "TEST: " : "") + String.format(TOPIC_MESSAGE_BODIES.get(topicKey), eventIdentifier, notificationDto.getNotificationName());
+		String eventMessageId = messageInformation.getMessageId();
+		// And use getItemIdentifier() as the unique identifier for the event itself for idempotency
+		String eventIdentifier = messageInformation.getItemIdentifier();
+		body = ((isTest) ? "TEST: " : "") + String.format(TOPIC_MESSAGE_BODIES.get(topicKey), eventMessageId, notificationDto.getNotificationName());
 
 		com.google.firebase.messaging.Message message = prepareNearMePushNotification(title, body, notificationSettingsDto.getNotificationToken(), keyValueMapForPN);
 		++pushRecordsCount.toProcess;
@@ -376,7 +377,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 					boolean notificationFound = false;
 
 					for (NotificationDto realTimeNotificationDto : realTimeNotificationSettingsDto.getNotifications()) {
-						if (realTimeNotificationDto.getNotificationGuid().equals(notificationGuid) && realTimeNotificationDto.getActiveIndicator() != null && realTimeNotificationDto.getActiveIndicator().booleanValue()) {
+						if (realTimeNotificationDto.getNotificationGuid() != null && realTimeNotificationDto.getNotificationGuid().equals(notificationGuid) && realTimeNotificationDto.getActiveIndicator() != null && realTimeNotificationDto.getActiveIndicator().booleanValue()) {
 							notificationFound = true;
 							break;
 						}
@@ -411,8 +412,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 				logger.error("Subscriber " + notificationSettingsDto.getSubscriberGuid() + " excluded from future notifications");
 			}
 		} catch (Throwable e) {
-			logger.error("Error sending push notification: " + e.getMessage());
-			logger.error("Error sending push notification: " + e.getStackTrace());
+			logger.error("Error sending push notification: " + e.getMessage(), e);
 			throw e;
 		}
 	}
