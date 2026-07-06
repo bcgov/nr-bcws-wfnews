@@ -1440,6 +1440,10 @@ resource "aws_cloudfront_distribution" "wfnews_legacy_notifications" {
 
     domain_name = "notifications-api.${var.license_plate}-${var.target_env}.stratus.cloud.gov.bc.ca"
     origin_id   = "wfnews_notifications_legacy_${var.target_env}"
+    custom_header {
+      name  = "X-Cloudfront-Header"
+      value = var.cloudfront_header
+    }
   }
 
   enabled         = true
