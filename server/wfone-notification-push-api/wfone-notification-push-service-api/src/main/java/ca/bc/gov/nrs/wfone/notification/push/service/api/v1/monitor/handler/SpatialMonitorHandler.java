@@ -7,9 +7,11 @@ import com.vividsolutions.jts.algorithm.ConvexHull;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import com.google.common.hash.Hashing;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,10 +24,11 @@ public class SpatialMonitorHandler implements MonitorHandler {
 	@Override
 	public MessageInformation handleMessage(Message message) {
 		String monitorType = message.getMessageAttributes().get(MONITOR_ATTRIBUTE).getStringValue();
+		String rawMessageBody = message.getBody();
 
-		JSONObject jsonObject = new JSONObject(message.getBody());
+		JSONObject jsonObject = new JSONObject(rawMessageBody);
 		String messageId = null;
-		String itemIdentifier = null;
+		String itemIdentifier = generateHash(rawMessageBody);
 		Long epoch = null;
 		String topic = null;
 		Map<String, String> eventInformation = new HashMap<>();
@@ -40,13 +43,6 @@ public class SpatialMonitorHandler implements MonitorHandler {
 				epoch = jsonObject.getLong(MessageInformation.IGNITION_DATE);
 			}
 
-			itemIdentifier = messageId;
-			if (jsonObject.has(MessageInformation.LAST_UPDATED_TIMESTAMP) && !jsonObject.isNull(MessageInformation.LAST_UPDATED_TIMESTAMP)) {
-				itemIdentifier += "-" + jsonObject.getLong(MessageInformation.LAST_UPDATED_TIMESTAMP);
-			} else if (jsonObject.has(MessageInformation.FIRE_YEAR) && !jsonObject.isNull(MessageInformation.FIRE_YEAR)) {
-				itemIdentifier += "-" + jsonObject.getInt(MessageInformation.FIRE_YEAR);
-			}
-
 			topic = NotificationTopics.BCWF_ACTIVEFIRES_PUBLIVIEW;
 			eventInformation.put(MessageInformation.FIRE_NUMBER, messageId);
 
@@ -59,7 +55,6 @@ public class SpatialMonitorHandler implements MonitorHandler {
 		case "area-restrictions":
 			messageId = String.valueOf(jsonObject.getJSONObject("attributes").getString("FIRE_CENTRE_NAME"));
 			epoch = jsonObject.getJSONObject("attributes").getLong("ACCESS_STATUS_EFFECTIVE_DATE");
-			itemIdentifier = messageId + "-" + epoch;
 			topic = NotificationTopics.BRITISH_COLUMBIA_AREA_RESTRICTIONS;
 			updateStringAttribute(jsonObject, MessageInformation.FIRE_CENTRE_NAME, eventInformation);
 			updateStringAttribute(jsonObject, MessageInformation.FIRE_ZONE_NAME, eventInformation);
@@ -68,7 +63,6 @@ public class SpatialMonitorHandler implements MonitorHandler {
 		case "bans-prohibitions":
 			messageId = String.valueOf(jsonObject.getJSONObject("attributes").getString("FIRE_CENTRE_NAME"));
 			epoch = jsonObject.getJSONObject("attributes").getLong("ACCESS_STATUS_EFFECTIVE_DATE");
-			itemIdentifier = messageId + "-" + epoch;
 			topic = NotificationTopics.BRITISH_COLUMBIA_BANS_AND_PROHIBITION_AREAS;
 			updateStringAttribute(jsonObject, MessageInformation.FIRE_CENTRE_NAME, eventInformation);
 			updateStringAttribute(jsonObject, MessageInformation.FIRE_ZONE_NAME, eventInformation);
@@ -76,24 +70,16 @@ public class SpatialMonitorHandler implements MonitorHandler {
 			updateStringAttribute(jsonObject, MessageInformation.TYPE, eventInformation);
 			break;
 		case "evacuation-orders-alerts":
-			if (jsonObject.getJSONObject("attributes").has("EMRG_OAA_SYSID")) {
-				itemIdentifier = String.valueOf(jsonObject.getJSONObject("attributes").getInt("EMRG_OAA_SYSID"));
-			}
-
 			if (jsonObject.getJSONObject("attributes").has("EVENT_NAME")) {
 				messageId = jsonObject.getJSONObject("attributes").getString("EVENT_NAME");
 				eventInformation.put(MessageInformation.EVENT_NAME, messageId);
-			} else if (itemIdentifier != null) {
-				messageId = itemIdentifier;
+			} else if (jsonObject.getJSONObject("attributes").has("EMRG_OAA_SYSID")) {
+				messageId = String.valueOf(jsonObject.getJSONObject("attributes").getInt("EMRG_OAA_SYSID"));
 			} else {
 				messageId = "Evacuation";
 			}
 			
 			epoch = jsonObject.getJSONObject("attributes").getLong("DATE_MODIFIED");
-			
-			if (itemIdentifier == null) {
-				itemIdentifier = messageId + "-" + epoch;
-			}
 			topic = NotificationTopics.EVACUATION_ORDERS_AND_ALERTS;
 			updateStringAttribute(jsonObject, MessageInformation.ISSUING_AGENCY, eventInformation);
 			break;
@@ -136,6 +122,10 @@ public class SpatialMonitorHandler implements MonitorHandler {
 		}
 
 		return new MessageInformation(messageId, itemIdentifier, messageDate, geometry, topic, eventInformation);
+	}
+
+	private String generateHash(String input) {
+		return Hashing.murmur3_128().hashString(input, StandardCharsets.UTF_8).toString();
 	}
 
 	private void updateStringAttribute(JSONObject jsonObject, String attributeKey,
