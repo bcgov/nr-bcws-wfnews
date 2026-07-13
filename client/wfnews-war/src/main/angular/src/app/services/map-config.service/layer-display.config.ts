@@ -73,7 +73,7 @@ export function LayerDisplayConfig(mapServices: MapServices) {
       showItem: false,
     },
     {
-      id: 'hourly-currentforecast-firesmoke',
+      id: 'eccc-pm25-smoke-forecast',
       isVisible: false,
     },
     {

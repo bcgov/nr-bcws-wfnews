@@ -150,7 +150,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
         case 'fnt-treaty-land':
           this.treatyLand = true;
           break;
-        case 'hourly-currentforecast-firesmoke':
+        case 'eccc-pm25-smoke-forecast':
           this.smokeForecast = true;
           break;
         case 'precipitation':
@@ -244,7 +244,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
       { itemId: 'fire-perimeters', visible: this.firePerimeters },
       { itemId: 'fnt-treaty-land', visible: this.treatyLand },
       {
-        itemId: 'hourly-currentforecast-firesmoke',
+        itemId: 'eccc-pm25-smoke-forecast',
         visible: this.smokeForecast,
       },
       { itemId: 'precipitation', visible: this.hourlyPrecipitationForecast },
