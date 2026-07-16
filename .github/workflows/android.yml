@@ -221,6 +221,12 @@ jobs:
         with:
           path: ${{ steps.service_account_json_decode.outputs.filePath }}
 
+      - name: Set Android versionCode
+        if: ${{ inputs.increment_version_number == true || inputs.increment_version_number == 'true' }}
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}/android/app
+        run: |
+          sed -i "s/versionCode [0-9]*/versionCode ${{ vars.GOOGLE_PLAY_STORE_BUILD_NUMBER }}/g" build.gradle
+
       - name: Build with Gradle
         working-directory: ${{ env.ANGULAR_DIRECTORY }}/android
         run: ./gradlew bundleRelease
@@ -254,6 +260,13 @@ jobs:
           name: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
           path: "wfnews-release-${{ steps.vars.outputs.short_sha }}.aab"
           retention-days: 3
+
+      - name: "Increment Build Number for next upload"
+        uses: action-pack/increment@v2
+        if: ${{ inputs.increment_version_number == true || inputs.increment_version_number == 'true' }}
+        with:
+          name: "GOOGLE_PLAY_STORE_BUILD_NUMBER"
+          token: ${{ secrets.VARIABLE_UPDATE_ACCESS_TOKEN }}
 
       - name: Post to a Slack channel
         id: slack
