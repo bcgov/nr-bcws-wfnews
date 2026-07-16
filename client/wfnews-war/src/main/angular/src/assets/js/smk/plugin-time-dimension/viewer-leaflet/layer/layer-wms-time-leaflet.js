@@ -19,11 +19,11 @@ include.module("layer-wms-time-leaflet", ["layer-wms-time"], function () {
         // console.log( self.timeRangeMode )
         var tly = L.timeDimension.layer.wms(ly, {
           requestTimeFromCapabilities: true,
-          // updateTimeDimension: true,
-          // updateTimeDimensionMode: self.getTimeRangeMode(),
+          updateTimeDimension: true,
+          updateTimeDimensionMode: 'replace',
           // period: 'PT1H',
 
-          getCapabilitiesUrl: layers[0].config.capabilitiesUrl,
+          getCapabilitiesUrl: layers[0].config.capabilitiesUrl || (layers[0].config.serviceUrl || layers[0].config.baseUrl) + '?service=WMS&version=1.3.0&request=GetCapabilities',
         });
 
         SMK.UTIL.wrapFunction(tly, "_createLayerForTime", function (inner) {

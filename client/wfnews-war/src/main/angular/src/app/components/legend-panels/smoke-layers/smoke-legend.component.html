@@ -1,43 +1,60 @@
 <div class="legend-panel">
   <div class="legend-panel-title">Smoke Forecast</div>
   <div class="legend-layer-description">
-    These numbers indicate how much fine particulate matter from smoke is in the air, with higher numbers meaning more smoke.
+    These numbers indicate how much fine particulate matter from smoke is in the air, with higher numbers meaning more
+    smoke.
   </div>
-  <div class="legend-accordion">
-    <div class="legend-accordion-title">
-      <img alt="1 - 10 µg/m³" class="legend-accordion-icon" src="/assets/images/svg-icons/10ug-legend.svg" >
-      1 - 10 µg/m³
-    </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #540874"></div>
+    500+ µg/m³
   </div>
-  <div class="legend-accordion">
-    <div class="legend-accordion-title">
-      <img alt="10 - 28 µg/m³" class="legend-accordion-icon" src="/assets/images/svg-icons/28ug-legend.svg" >
-      10 - 28 µg/m³
-    </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #995CB4"></div>
+    250 - 500 µg/m³
   </div>
-  <div class="legend-accordion">
-    <div class="legend-accordion-title">
-      <img alt="28 - 60 µg/m³" class="legend-accordion-icon" src="/assets/images/svg-icons/60ug-legend.svg" >
-      28 - 60 µg/m³
-    </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #F406E2"></div>
+    100 - 250 µg/m³
   </div>
-  <div class="legend-accordion">
-    <div class="legend-accordion-title">
-      <img alt="60 - 120 µg/m³" class="legend-accordion-icon" src="/assets/images/svg-icons/120ug-legend.svg" >
-      60 - 120 µg/m³
-    </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #F2A6E0"></div>
+    90 - 100 µg/m³
   </div>
-  <div class="legend-accordion">
-    <div class="legend-accordion-title">
-      <img alt="120 - 250 µg/m³" class="legend-accordion-icon" src="/assets/images/svg-icons/250ug-legend.svg" >
-      120 - 250 µg/m³
-    </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #F60000"></div>
+    80 - 90 µg/m³
   </div>
-  <div class="legend-accordion">
-    <div class="legend-accordion-title">
-      <img alt="250+ µg/m³" class="legend-accordion-icon" src="/assets/images/svg-icons/250+ug-legend.svg" >
-      250+ µg/m³
-    </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #F28A0B"></div>
+    70 - 80 µg/m³
+  </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #F9FC11"></div>
+    60 - 70 µg/m³
+  </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #298187"></div>
+    50 - 60 µg/m³
+  </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #44A405"></div>
+    40 - 50 µg/m³
+  </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #A3CD68"></div>
+    30 - 40 µg/m³
+  </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #0376B0"></div>
+    20 - 30 µg/m³
+  </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #38B3F3"></div>
+    10 - 20 µg/m³
+  </div>
+  <div class="smoke-legend-row">
+    <div class="color-box" style="background-color: #ABD1FA"></div>
+    1 - 10 µg/m³
   </div>
   <div class="spacer"></div>
   <mat-accordion multi>
@@ -47,7 +64,9 @@
           How is smoke measured
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <p class="legend-accordion-content">The unit of measure for smoke is "micrograms of PM2.5 per cubic meter (µg/m³)" at ground level. PM2.5 poses the highest risk to health from smoke, and the Canadian Council of Ministers of the Environment (CCME) has set the following standards for exposure to this carcinogen:</p>
+      <p class="legend-accordion-content">The unit of measure for smoke is "micrograms of PM2.5 per cubic meter (µg/m³)"
+        at ground level. PM2.5 poses the highest risk to health from smoke, and the Canadian Council of Ministers of the
+        Environment (CCME) has set the following standards for exposure to this carcinogen:</p>
       <ul class="legend-accordion-content">
         <li>27 µg/m³ (daily average),</li>
         <li>8.8 µg/m³ (annual mean).</li>
@@ -55,4 +74,3 @@
     </mat-expansion-panel>
   </mat-accordion>
 </div>
-
