@@ -1,1 +1,20 @@
 @import "../base-legend.component.scss";
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 15px;
+  vertical-align: middle;
+}
+
+.smoke-legend-row {
+  display: flex;
+  align-items: center;
+  color: var(--grays-gray-1, #242424);
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 8px 12px;
+  background-color: #ffffff;
+}

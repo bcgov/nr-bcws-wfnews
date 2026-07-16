@@ -18,7 +18,7 @@ import { EvacuationOrdersLayerConfig } from './evacuation-orders-and-alerts-wms.
 import { FirePerimetersLayerConfig } from './fire-perimeters.config';
 import { FntTreatyLandLayerConfig } from './fnt-treaty-land.config';
 import { ForestServiceRoadsLayerConfig } from './fsr-safety.config';
-import { SmokeForecastLayerConfig } from './hourly-currentforecast-firesmoke.config';
+import { SmokeForecastLayerConfig } from './eccc-pm25-smoke-forecast.config';
 import { PrecipitationLayerConfig } from './precipitation.config';
 import { WeatherStationsLayerConfig } from './weather-stations.config';
 import { WeatherLayerConfig } from './weather.config';
