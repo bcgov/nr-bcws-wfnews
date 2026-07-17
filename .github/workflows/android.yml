@@ -12,11 +12,6 @@ on:
         description: "Upload to Play Store"
         type: boolean
         required: true
-      increment_version_number:
-        description: "Increment Version Number"
-        type: boolean
-        default: false
-        required: true
       skip_slack_notification:
         type: boolean
         default: true
@@ -33,10 +28,6 @@ on:
         default: "development"
       upload_to_play_store:
         description: "Upload to Play Store"
-        type: boolean
-        default: false
-      increment_version_number:
-        description: "Increment Version Number"
         type: boolean
         default: false
 
@@ -222,7 +213,6 @@ jobs:
           path: ${{ steps.service_account_json_decode.outputs.filePath }}
 
       - name: Set Android versionCode
-        if: ${{ inputs.increment_version_number == true || inputs.increment_version_number == 'true' }}
         working-directory: ${{ env.ANGULAR_DIRECTORY }}/android/app
         run: |
           sed -i "s/versionCode [0-9]*/versionCode ${{ vars.GOOGLE_PLAY_STORE_BUILD_NUMBER }}/g" build.gradle
@@ -263,7 +253,6 @@ jobs:
 
       - name: "Increment Build Number for next upload"
         uses: action-pack/increment@v2
-        if: ${{ inputs.increment_version_number == true || inputs.increment_version_number == 'true' }}
         with:
           name: "GOOGLE_PLAY_STORE_BUILD_NUMBER"
           token: ${{ secrets.VARIABLE_UPDATE_ACCESS_TOKEN }}
