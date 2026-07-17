@@ -133,6 +133,5 @@ jobs:
     with:
       build_environment: PROD
       upload_to_play_store: true
-      increment_version_number: true
       skip_slack_notification: false
     secrets: inherit
