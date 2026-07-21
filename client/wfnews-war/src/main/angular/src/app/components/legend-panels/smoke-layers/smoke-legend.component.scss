@@ -1,20 +1,72 @@
 @import "../base-legend.component.scss";
 
-.color-box {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  margin-right: 15px;
-  vertical-align: middle;
-}
-
-.smoke-legend-row {
+.smoke-gradient-container-horizontal {
   display: flex;
-  align-items: center;
-  color: var(--grays-gray-1, #242424);
-  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  padding: 8px 12px;
+  flex-direction: column;
   background-color: #ffffff;
+  padding: 16px;
+  border-radius: 6px;
+  border: 1px solid #dedede;
+  gap: 8px;
+
+  .gradient-header {
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--grays-gray-1, #242424);
+    margin-bottom: 2px;
+  }
+
+  .gradient-bar-horizontal {
+    height: 24px;
+    width: 100%;
+    border-radius: 4px;
+    background: linear-gradient(
+      to right,
+      #c8d7e4 0%,
+      #9db8cf 20%,
+      #c79f5a 40%,
+      #c16847 60%,
+      #a0493f 80%,
+      #550c24 100%
+    );
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .gradient-labels-horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--grays-gray-1, #242424);
+    padding: 0 2px;
+
+    .label-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+
+      &:first-child {
+        align-items: flex-start;
+      }
+
+      &:last-child {
+        align-items: flex-end;
+      }
+
+      .tick-mark {
+        width: 1px;
+        height: 6px;
+        background-color: #484848;
+        display: block;
+      }
+
+      .label-text {
+        white-space: nowrap;
+      }
+    }
+  }
 }
