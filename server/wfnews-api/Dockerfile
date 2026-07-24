@@ -1,11 +1,11 @@
-FROM tomcat:9.0.91-jdk17-openjdk
+FROM tomcat:10.1-jdk21-corretto
 
 COPY /wfnews-api-rest-endpoints/target/wfnews-api-rest-endpoints-1.0.0-SNAPSHOT.war .
 
 ENV TOMCAT_HOME=/usr/local/tomcat \
   CATALINA_HOME=/usr/local/tomcat \
   CATALINA_OUT=/usr/local/tomcat/logs \
-  TOMCAT_MAJOR=9 \
+  TOMCAT_MAJOR=10 \
   JAVA_OPTS="$JAVA_OPTS -Xss800" 
 
 
