@@ -20,6 +20,7 @@
     <sonar.organization>bcgov-sonarcloud</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.sources>database,docker,lambda,terraform,client/wfnews-war/src/main/angular/src</sonar.sources>
+    <log4j.version>2.24.3</log4j.version>
   </properties>
   
   <modules>
@@ -30,14 +31,24 @@
     <module>server/wfss-pointid-api</module>
   </modules>
 
-  <!-- <dependencyManagement>
-		<dependencies>
-  		<dependency>
-          <groupId>org.sonarsource.scanner.maven</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.9.1.2184</version>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>${log4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>${log4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-slf4j-impl</artifactId>
+        <version>${log4j.version}</version>
       </dependency>
     </dependencies>
-  </dependencyManagement> -->
+  </dependencyManagement>
 
 </project>
