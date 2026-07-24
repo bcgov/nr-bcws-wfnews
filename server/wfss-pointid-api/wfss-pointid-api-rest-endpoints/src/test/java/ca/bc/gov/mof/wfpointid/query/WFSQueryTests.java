@@ -4,13 +4,13 @@ import static ca.bc.gov.mof.wfpointid.test.util.QueryCheck.hasData;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryCheck.isError;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryCheck.isSuccess;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryCheck.noValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertThat;
-
-import org.junit.Test;
 
 import ca.bc.gov.mof.wfpointid.dataprovider.DataItemDef;
+
+import org.junit.jupiter.api.Test;
 import ca.bc.gov.mof.wfpointid.dataprovider.DataRequestDef;
 import ca.bc.gov.mof.wfpointid.dataprovider.geoserver.GeoserverDataProvider;
 import ca.bc.gov.mof.wfpointid.identify.IdentifyService;

@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.wfone.notification.push.quartz.scheduler;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

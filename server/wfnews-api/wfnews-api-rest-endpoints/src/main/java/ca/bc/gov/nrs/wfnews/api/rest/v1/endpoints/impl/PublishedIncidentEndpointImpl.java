@@ -3,17 +3,17 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 import java.net.URI;
 import java.util.Date;
 
-import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.EntityTag;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.ResponseBuilder;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
-import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
+
 import ca.bc.gov.nrs.wfone.common.service.api.ServiceException;
 import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.ForbiddenException;
@@ -26,7 +26,7 @@ import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.exception.ValidationException;
 
-public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements PublishedIncidentEndpoint {
+public class PublishedIncidentEndpointImpl extends WfNewsBaseEndpointsImpl implements PublishedIncidentEndpoint {
 
 	private static final Logger logger = LoggerFactory.getLogger(PublishedIncidentEndpointImpl.class);
 

@@ -1,5 +1,6 @@
 package ca.bc.gov.mof.wfpointid.fireweather.rest.v1.resource;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
@@ -18,6 +19,7 @@ public class WeatherStationResource implements Serializable {
 	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(WeatherStationResource.class);
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private UUID id;

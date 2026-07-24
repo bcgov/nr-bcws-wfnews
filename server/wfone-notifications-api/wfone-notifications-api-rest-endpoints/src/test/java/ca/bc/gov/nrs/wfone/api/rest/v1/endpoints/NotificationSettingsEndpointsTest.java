@@ -1,15 +1,15 @@
 package ca.bc.gov.nrs.wfone.api.rest.v1.endpoints;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +70,7 @@ private static String testCreateNotificationSettings(NotificationService service
 	try {
 		
 		NotificationSettingsRsrc notificationSettings  = service.getNotificationSettings( subscriberGuid );
-		Assert.assertNotNull(notificationSettings);
+		Assertions.assertNotNull(notificationSettings);
 		
 		notificationSettings.setSubscriberToken(EndpointsTest.getRandomString(65).replace(" " , ""));
 		notificationSettings.setNotificationToken( EndpointsTest.getRandomString(65).replace(" " , ""));
@@ -115,7 +115,7 @@ private static String testCreateNotificationSettings(NotificationService service
 
 		NotificationSettingsRsrc createdNotificationSettings  =  service.updateNotificationSettings(notificationSettings);
 		
-		Assert.assertNotNull(createdNotificationSettings);
+		Assertions.assertNotNull(createdNotificationSettings);
 		assertNotNull( createdNotificationSettings.getSubscriberGuid());
 		
 		compareNotificationSettings(notificationSettings, createdNotificationSettings);

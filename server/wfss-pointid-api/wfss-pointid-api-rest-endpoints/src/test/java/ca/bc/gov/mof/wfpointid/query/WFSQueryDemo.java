@@ -1,6 +1,6 @@
 package ca.bc.gov.mof.wfpointid.query;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import ca.bc.gov.mof.wfpointid.ServiceBusyException;
 import ca.bc.gov.mof.wfpointid.dataprovider.DataRequestDef;

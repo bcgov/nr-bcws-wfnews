@@ -1,9 +1,10 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.resource;
 
+import java.io.Serial;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonSubTypes.Type;
@@ -19,6 +20,7 @@ import ca.bc.gov.nrs.wfnews.api.model.v1.Attachment;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public class AttachmentResource extends BaseResource implements Attachment {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	private String attachmentGuid;
 	private String sourceObjectUniqueId;

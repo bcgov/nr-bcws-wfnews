@@ -136,7 +136,7 @@ public class OwnershipQuery extends IdentifyQuery {
 		try {
 			result.setFireZoneIntegerAlias( Integer.valueOf( integerAliasString) );
 		} catch (NumberFormatException ex) {
-			LOG.warn(String.format("Could not parse integer alias '%s' as integer", integerAliasString),ex);
+			LOG.warn("Could not parse integer alias '%s' as integer".formatted(integerAliasString),ex);
 		}
 
 		result.setResourceDistrict(		(String) queryResult.getValue("RESOURCE_DIST_NAME"));
@@ -204,7 +204,7 @@ public class OwnershipQuery extends IdentifyQuery {
 		}
 		if (tag == null) return DataResult.RESULT_VALUE_EMPTY;
 		
-		return String.format(FMT_TENURE_MAN_FOR, label, clientNum, tag);
+		return FMT_TENURE_MAN_FOR.formatted(label, clientNum, tag);
 	}
 	
 	private static String computeTenureTFL(QueryResult queryResult) {
@@ -216,7 +216,7 @@ public class OwnershipQuery extends IdentifyQuery {
 		if (DataResult.isValueEmpty(num)) 
 			return DataResult.RESULT_VALUE_EMPTY;
 		
-		return String.format(FMT_TENURE_TFL, num, licencee);
+		return FMT_TENURE_TFL.formatted(num, licencee);
 	}
 
 	private static void computeOwnershipCadastre(OwnershipResource result, QueryResult queryResult) {

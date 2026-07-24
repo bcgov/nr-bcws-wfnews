@@ -1,9 +1,11 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dto;
 
+import java.io.Serial;
 import java.util.Date;
 
 public abstract class AuditDto<T> extends BaseDto<T> {
-	
+
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	protected Long revisionCount;

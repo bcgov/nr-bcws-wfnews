@@ -30,31 +30,32 @@ public class GeometryConverters {
 		GeographicCRS geographic = null;
 		MathTransform transformToAlbers = null;
 		try {
-			projected = (ProjectedCRS) CRS.parseWKT("PROJCS[\"NAD83 / BC Albers\",\n"
-					+ "    GEOGCS[\"NAD83\",\n"
-					+ "        DATUM[\"North_American_Datum_1983\",\n"
-					+ "            SPHEROID[\"GRS 1980\",6378137,298.257222101,\n"
-					+ "                AUTHORITY[\"EPSG\",\"7019\"]],\n"
-					+ "            TOWGS84[0,0,0,0,0,0,0],\n"
-					+ "            AUTHORITY[\"EPSG\",\"6269\"]],\n"
-					+ "        PRIMEM[\"Greenwich\",0,\n"
-					+ "            AUTHORITY[\"EPSG\",\"8901\"]],\n"
-					+ "        UNIT[\"degree\",0.0174532925199433,\n"
-					+ "            AUTHORITY[\"EPSG\",\"9122\"]],\n"
-					+ "        AUTHORITY[\"EPSG\",\"4269\"]],\n"
-					+ "    PROJECTION[\"Albers_Conic_Equal_Area\"],\n"
-					+ "    PARAMETER[\"standard_parallel_1\",50],\n"
-					+ "    PARAMETER[\"standard_parallel_2\",58.5],\n"
-					+ "    PARAMETER[\"latitude_of_center\",45],\n"
-					+ "    PARAMETER[\"longitude_of_center\",-126],\n"
-					+ "    PARAMETER[\"false_easting\",1000000],\n"
-					+ "    PARAMETER[\"false_northing\",0],\n"
-					+ "    UNIT[\"metre\",1,\n"
-					+ "        AUTHORITY[\"EPSG\",\"9001\"]],\n"
-					+ "    AXIS[\"Easting\",EAST],\n"
-					+ "    AXIS[\"Northing\",NORTH],\n"
-					+ "    AUTHORITY[\"EPSG\",\"3005\"]]\n"
-					+ "");
+			projected = (ProjectedCRS) CRS.parseWKT("""
+					PROJCS["NAD83 / BC Albers",
+					    GEOGCS["NAD83",
+					        DATUM["North_American_Datum_1983",
+					            SPHEROID["GRS 1980",6378137,298.257222101,
+					                AUTHORITY["EPSG","7019"]],
+					            TOWGS84[0,0,0,0,0,0,0],
+					            AUTHORITY["EPSG","6269"]],
+					        PRIMEM["Greenwich",0,
+					            AUTHORITY["EPSG","8901"]],
+					        UNIT["degree",0.0174532925199433,
+					            AUTHORITY["EPSG","9122"]],
+					        AUTHORITY["EPSG","4269"]],
+					    PROJECTION["Albers_Conic_Equal_Area"],
+					    PARAMETER["standard_parallel_1",50],
+					    PARAMETER["standard_parallel_2",58.5],
+					    PARAMETER["latitude_of_center",45],
+					    PARAMETER["longitude_of_center",-126],
+					    PARAMETER["false_easting",1000000],
+					    PARAMETER["false_northing",0],
+					    UNIT["metre",1,
+					        AUTHORITY["EPSG","9001"]],
+					    AXIS["Easting",EAST],
+					    AXIS["Northing",NORTH],
+					    AUTHORITY["EPSG","3005"]]
+					""");
 			geographic = projected.getBaseCRS();
 			
 			transformToAlbers = CRS.findMathTransform(geographic, projected);

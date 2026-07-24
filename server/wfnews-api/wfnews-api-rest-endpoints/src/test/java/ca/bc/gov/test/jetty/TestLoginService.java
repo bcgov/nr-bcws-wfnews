@@ -1,24 +1,13 @@
 package ca.bc.gov.test.jetty;
 
-import java.security.Principal;
-
-import javax.security.auth.Subject;
-import javax.servlet.ServletRequest;
-
-import org.eclipse.jetty.security.DefaultIdentityService;
+import java.util.function.Function;
 import org.eclipse.jetty.security.IdentityService;
 import org.eclipse.jetty.security.LoginService;
-import org.eclipse.jetty.server.UserIdentity;
-import org.eclipse.jetty.util.component.AbstractLifeCycle;
+import org.eclipse.jetty.security.UserIdentity;
+import org.eclipse.jetty.server.Request;
 
-public class TestLoginService extends AbstractLifeCycle implements LoginService {
-	
-	protected IdentityService _identityService=new DefaultIdentityService();
-	
-	@Override
-	public IdentityService getIdentityService() {
-		return _identityService;
-	}
+@SuppressWarnings("rawtypes")
+public class TestLoginService implements LoginService {
 
 	@Override
 	public String getName() {
@@ -26,37 +15,25 @@ public class TestLoginService extends AbstractLifeCycle implements LoginService 
 	}
 
 	@Override
-	public UserIdentity login(String username, Object credentials, ServletRequest request) {
-		Principal userPrincipal = new Principal() {
-
-			@Override
-			public String getName() {
-				return username;
-			}};
-			
-        Subject subject = new Subject();
-        subject.getPrincipals().add(userPrincipal);
-        subject.getPrivateCredentials().add(credentials);
-		UserIdentity identity=_identityService.newUserIdentity(subject,userPrincipal, new String[]{});
-		
-		return identity;
+	public UserIdentity login(String username, Object credentials, Request request, Function getSession) {
+		return null;
 	}
 
 	@Override
-	public void logout(UserIdentity userIdentity) {
-		// do nothing
-	}
-
-	@Override
-	public void setIdentityService(IdentityService identityService) {
-        if (isRunning())
-            throw new IllegalStateException("Running");
-        _identityService = identityService;
-		
-	}
-
-	@Override
-	public boolean validate(UserIdentity userIdentity) {
+	public boolean validate(UserIdentity user) {
 		return true;
+	}
+
+	@Override
+	public IdentityService getIdentityService() {
+		return null;
+	}
+
+	@Override
+	public void setIdentityService(IdentityService service) {
+	}
+
+	@Override
+	public void logout(UserIdentity user) {
 	}
 }

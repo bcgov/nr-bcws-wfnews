@@ -9,11 +9,18 @@
   <name>wfnews</name>
   <url>http://maven.apache.org</url>
 
- <properties>
-  <sonar.organization>bcgov-sonarcloud</sonar.organization>
-  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-  <sonar.sources>database,docker,lambda,terraform,client/wfnews-war/src/main/angular/src</sonar.sources>
-</properties>
+  <properties>
+    <java.version>21</java.version>
+    <java-source-version>21</java-source-version>
+    <java-target-version>21</java-target-version>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <sonar.organization>bcgov-sonarcloud</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.sources>database,docker,lambda,terraform,client/wfnews-war/src/main/angular/src</sonar.sources>
+  </properties>
   
   <modules>
     <module>client</module>

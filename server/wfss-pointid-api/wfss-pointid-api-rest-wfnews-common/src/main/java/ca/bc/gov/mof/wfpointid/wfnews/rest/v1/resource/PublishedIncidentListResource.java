@@ -1,9 +1,10 @@
 package ca.bc.gov.mof.wfpointid.wfnews.rest.v1.resource;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -18,6 +19,7 @@ import ca.bc.gov.mof.wfpointid.wfnews.rest.v1.resource.types.ResourceTypes;
 @JsonTypeName(ResourceTypes.PUBLISHED_INCIDENT_LIST)
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class PublishedIncidentListResource extends PagedResource {
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private List<SimplePublishedIncidentResource> collection = new ArrayList<SimplePublishedIncidentResource>(0);

@@ -5,8 +5,8 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -26,7 +26,7 @@ public abstract class EndpointsTest {
 
 	protected static ApplicationContext testApplicationContext;
 	
-	@BeforeClass
+	@BeforeAll
 	public static void startServer() throws Exception {
 		logger.debug("<startServer");
 		
@@ -47,7 +47,7 @@ public abstract class EndpointsTest {
 		logger.debug(">startServer");
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void stopServer() throws Exception {
 		EmbeddedServer.stop();
 		logger.debug("stopServer");

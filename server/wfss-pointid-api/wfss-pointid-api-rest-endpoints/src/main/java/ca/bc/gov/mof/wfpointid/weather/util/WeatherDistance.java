@@ -33,7 +33,7 @@ public class WeatherDistance {
 	}
 	
 	public static WeatherStation obfuscateLocation (QueryPt p1, PositionedWeatherStation positioned) throws ServiceErrorException {
-		LOG.info(String.format("Obfuscating weather station location %f, %f", positioned.getLat(), positioned.getLon()));
+		LOG.info("Obfuscating weather station location %f, %f".formatted(positioned.getLat(), positioned.getLon()));
 		WeatherStation result;
 		if(Objects.nonNull(p1)) {
 			LOG.debug("Replacing position with distance to query");

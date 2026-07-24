@@ -1,5 +1,7 @@
 package ca.bc.gov.nrs.wfone.api.rest.v1.spring;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -11,40 +13,47 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity(debug = false)
-public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
+public class SecuritySpringConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(SecuritySpringConfig.class);
-	
+
 	public SecuritySpringConfig() {
-		super(true);
 		logger.info("<SecuritySpringConfig");
-		
+
 		logger.info(">SecuritySpringConfig");
 	}
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		
-		web
-		.ignoring()
-		.antMatchers(HttpMethod.OPTIONS, "/openapi.*")
-		.antMatchers(HttpMethod.GET, "/openapi.*")
-		.antMatchers(HttpMethod.OPTIONS, "/checkHealth")
-		.antMatchers(HttpMethod.GET, "/checkHealth")
-		;
+	@Bean
+	WebSecurityCustomizer webSecurityCustomizer() throws Exception {
+
+		return (web) -> {
+
+			web
+					.ignoring()
+					.requestMatchers(new AntPathRequestMatcher("/openapi.*", HttpMethod.OPTIONS.name()))
+					.requestMatchers(new AntPathRequestMatcher("/openapi.*",
+							HttpMethod.GET.name()))
+					.requestMatchers(new AntPathRequestMatcher("/checkHealth",
+							HttpMethod.OPTIONS.name()))
+					.requestMatchers(new AntPathRequestMatcher("/checkHealth",
+							HttpMethod.GET.name()));
+		};
 	}
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		
-		http.cors().and().csrf().disable();
+
+	@Bean
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+		http.cors(withDefaults()).csrf(csrf -> csrf.disable());
+		return http.build();
 	}
 
 	@Bean

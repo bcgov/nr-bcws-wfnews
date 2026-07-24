@@ -319,8 +319,8 @@ public class ApiClient {
      */
     public void setUsername(String username) {
         for (Authentication auth : authentications.values()) {
-            if (auth instanceof HttpBasicAuth) {
-                ((HttpBasicAuth) auth).setUsername(username);
+            if (auth instanceof HttpBasicAuth basicAuth) {
+                basicAuth.setUsername(username);
                 return;
             }
         }
@@ -334,8 +334,8 @@ public class ApiClient {
      */
     public void setPassword(String password) {
         for (Authentication auth : authentications.values()) {
-            if (auth instanceof HttpBasicAuth) {
-                ((HttpBasicAuth) auth).setPassword(password);
+            if (auth instanceof HttpBasicAuth basicAuth) {
+                basicAuth.setPassword(password);
                 return;
             }
         }
@@ -349,8 +349,8 @@ public class ApiClient {
      */
     public void setApiKey(String apiKey) {
         for (Authentication auth : authentications.values()) {
-            if (auth instanceof ApiKeyAuth) {
-                ((ApiKeyAuth) auth).setApiKey(apiKey);
+            if (auth instanceof ApiKeyAuth keyAuth) {
+                keyAuth.setApiKey(apiKey);
                 return;
             }
         }
@@ -364,8 +364,8 @@ public class ApiClient {
      */
     public void setApiKeyPrefix(String apiKeyPrefix) {
         for (Authentication auth : authentications.values()) {
-            if (auth instanceof ApiKeyAuth) {
-                ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
+            if (auth instanceof ApiKeyAuth keyAuth) {
+                keyAuth.setApiKeyPrefix(apiKeyPrefix);
                 return;
             }
         }
@@ -379,8 +379,8 @@ public class ApiClient {
      */
     public void setAccessToken(String accessToken) {
         for (Authentication auth : authentications.values()) {
-            if (auth instanceof OAuth) {
-                ((OAuth) auth).setAccessToken(accessToken);
+            if (auth instanceof OAuth oAuth) {
+                oAuth.setAccessToken(accessToken);
                 return;
             }
         }
@@ -542,9 +542,9 @@ public class ApiClient {
             //Serialize to json string and remove the " enclosing characters
             String jsonStr = json.serialize(param);
             return jsonStr.substring(1, jsonStr.length() - 1);
-        } else if (param instanceof Collection) {
+        } else if (param instanceof Collection<?> collection) {
             StringBuilder b = new StringBuilder();
-            for (Object o : (Collection<?>)param) {
+            for (Object o : collection) {
                 if (b.length() > 0) {
                     b.append(",");
                 }
@@ -780,12 +780,12 @@ public class ApiClient {
      * @throws ApiException If fail to serialize the given object
      */
     public RequestBody serialize(Object obj, String contentType) throws ApiException {
-        if (obj instanceof byte[]) {
+        if (obj instanceof byte[] bytes) {
             // Binary (byte array) body parameter support.
-            return RequestBody.create(MediaType.parse(contentType), (byte[]) obj);
-        } else if (obj instanceof File) {
+            return RequestBody.create(MediaType.parse(contentType), bytes);
+        } else if (obj instanceof File file) {
             // File body parameter support.
-            return RequestBody.create(MediaType.parse(contentType), (File) obj);
+            return RequestBody.create(MediaType.parse(contentType), file);
         } else if (isJsonMime(contentType)) {
             String content;
             if (obj != null) {

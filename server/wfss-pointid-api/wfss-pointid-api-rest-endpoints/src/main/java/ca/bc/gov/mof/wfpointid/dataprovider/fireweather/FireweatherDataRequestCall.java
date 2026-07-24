@@ -88,11 +88,11 @@ public class FireweatherDataRequestCall implements DataRequestCall {
 							def->{
 								if(def.getAttributeName().startsWith("currentWeather.")) {
 									Function<WeatherBase, ?> accessor = Optional.ofNullable(HOURLY_ACCESSORS.get(def.getAttributeName().substring(15)))
-										.orElseThrow(()->new IllegalArgumentException(String.format("Invalid attribute %s",def.getAttributeName())));
+										.orElseThrow(()->new IllegalArgumentException("Invalid attribute %s".formatted(def.getAttributeName())));
 									return currentWeather.map(accessor).map(Object::toString).orElse("");
 								} else {
 									Function<WeatherStation, ?> accessor = Optional.ofNullable(STATION_ACCESSORS.get(def.getAttributeName()))
-										.orElseThrow(()->new IllegalArgumentException(String.format("Invalid attribute %s",def.getAttributeName())));
+										.orElseThrow(()->new IllegalArgumentException("Invalid attribute %s".formatted(def.getAttributeName())));
 									return accessor.apply(station).toString();
 								}
 							} ))));
@@ -102,8 +102,8 @@ public class FireweatherDataRequestCall implements DataRequestCall {
 				return DataResult.createNoData(req.getDataRequestDef());
 			}
 		} catch (WildfireFireweatherServiceException ex) {
-			LOG.warn(String.format("Error while getting station near %s", p.toText()), ex);
-			return DataResult.createError(req.getDataRequestDef(), String.format("Error while getting station: %s", ex.getMessage()));
+			LOG.warn("Error while getting station near %s".formatted(p.toText()), ex);
+			return DataResult.createError(req.getDataRequestDef(), "Error while getting station: %s".formatted(ex.getMessage()));
 		}
 
 	}

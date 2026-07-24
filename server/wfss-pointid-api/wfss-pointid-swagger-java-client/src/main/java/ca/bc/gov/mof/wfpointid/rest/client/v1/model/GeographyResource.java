@@ -16,8 +16,7 @@ package ca.bc.gov.mof.wfpointid.rest.client.v1.model;
 import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
-
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * GeographyResource
@@ -71,7 +70,7 @@ public class GeographyResource {
    * Get errorCount
    * @return errorCount
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getErrorCount() {
     return errorCount;
   }
@@ -89,7 +88,7 @@ public class GeographyResource {
    * Get errorMsg
    * @return errorMsg
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getErrorMsg() {
     return errorMsg;
   }
@@ -107,7 +106,7 @@ public class GeographyResource {
    * Get errorDetail
    * @return errorDetail
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getErrorDetail() {
     return errorDetail;
   }
@@ -125,7 +124,7 @@ public class GeographyResource {
    * Get lat
    * @return lat
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getLat() {
     return lat;
   }
@@ -143,7 +142,7 @@ public class GeographyResource {
    * Get lon
    * @return lon
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getLon() {
     return lon;
   }
@@ -161,7 +160,7 @@ public class GeographyResource {
    * Get timestamp
    * @return timestamp
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getTimestamp() {
     return timestamp;
   }
@@ -179,7 +178,7 @@ public class GeographyResource {
    * Get fuelType
    * @return fuelType
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getFuelType() {
     return fuelType;
   }
@@ -197,7 +196,7 @@ public class GeographyResource {
    * Get slope
    * @return slope
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getSlope() {
     return slope;
   }
@@ -215,7 +214,7 @@ public class GeographyResource {
    * Get aspect
    * @return aspect
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getAspect() {
     return aspect;
   }
@@ -233,7 +232,7 @@ public class GeographyResource {
    * Get elevation
    * @return elevation
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getElevation() {
     return elevation;
   }
@@ -251,7 +250,7 @@ public class GeographyResource {
    * Get mapsheet
    * @return mapsheet
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getMapsheet() {
     return mapsheet;
   }
@@ -269,7 +268,7 @@ public class GeographyResource {
    * Get vegLabel
    * @return vegLabel
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getVegLabel() {
     return vegLabel;
   }
@@ -287,7 +286,7 @@ public class GeographyResource {
    * Get bioGeoClimaticZone
    * @return bioGeoClimaticZone
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getBioGeoClimaticZone() {
     return bioGeoClimaticZone;
   }

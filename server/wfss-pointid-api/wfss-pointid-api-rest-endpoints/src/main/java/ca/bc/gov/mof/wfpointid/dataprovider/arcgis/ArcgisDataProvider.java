@@ -134,7 +134,7 @@ public class ArcgisDataProvider extends DataProviderBase {
 		this.host = host;
 		// error checking
 		if (StringUtil.isEmpty(host)) {
-			throw new RuntimeException(String.format("DataProvider %s host is empty", name));
+			throw new RuntimeException("DataProvider %s host is empty".formatted(name));
 		}
 
 	}
@@ -145,7 +145,7 @@ public class ArcgisDataProvider extends DataProviderBase {
 
 		// error checking
 		if (StringUtil.isEmpty(host)) {
-			throw new RuntimeException(String.format("DataProvider %s host is empty", name));
+			throw new RuntimeException("DataProvider %s host is empty".formatted(name));
 		}
 	}
 
@@ -158,7 +158,7 @@ public class ArcgisDataProvider extends DataProviderBase {
 	}
 
 	public String toString() {
-		return String.format("Arcgis Data Provider %s: %s (workers = %d)", getName(), host, Integer.valueOf(getWorkerNum()));
+		return "Arcgis Data Provider %s: %s (workers = %d)".formatted(getName(), host, Integer.valueOf(getWorkerNum()));
 	}
 
 }

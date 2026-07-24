@@ -1,11 +1,10 @@
 package ca.bc.gov.mof.wfpointid.query;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayWithSize;
-import static org.junit.Assert.assertThat;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import ca.bc.gov.mof.wfpointid.rest.model.WeatherResource;
 import ca.bc.gov.mof.wfpointid.test.util.QueryTestUtil;
@@ -13,7 +12,7 @@ import ca.bc.gov.mof.wfpointid.weather.WeatherService;
 
 public class FireweatherQueryTest {
 
-	@Before
+	@BeforeEach
 	public void setup() throws Exception {
 
 	}

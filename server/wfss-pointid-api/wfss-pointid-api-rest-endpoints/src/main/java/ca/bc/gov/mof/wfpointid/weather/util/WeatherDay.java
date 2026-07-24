@@ -135,11 +135,11 @@ public class WeatherDay {
 	}
 	
 	static String toDaystamp(Calendar cal) {
-		return String.format("%4d%02d%02d",
+		return "%4d%02d%02d".formatted(
 				Integer.valueOf(cal.get(Calendar.YEAR)),
-				Integer.valueOf(cal.get(Calendar.MONTH)+1),
+				Integer.valueOf(cal.get(Calendar.MONTH) + 1),
 				Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH))
-				);
+		);
 	}
 
 	public static String fromMillis(long millis) {

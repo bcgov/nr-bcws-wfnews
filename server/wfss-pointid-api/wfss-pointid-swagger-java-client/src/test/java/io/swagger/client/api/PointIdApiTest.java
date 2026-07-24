@@ -12,13 +12,13 @@
 
 package io.swagger.client.api;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import ca.bc.gov.mof.wfpointid.rest.client.v1.ApiException;
 import ca.bc.gov.mof.wfpointid.rest.client.v1.api.PointIdApi;
@@ -64,7 +64,7 @@ public class PointIdApiTest {
      *          if the Api call fails
      */
     @Test
-    @Ignore
+    @Disabled
     public void getNearbyTest() throws ApiException {
         String radius = "10";
         NearbyResource response = api.getNearby(lat, lon, radius);

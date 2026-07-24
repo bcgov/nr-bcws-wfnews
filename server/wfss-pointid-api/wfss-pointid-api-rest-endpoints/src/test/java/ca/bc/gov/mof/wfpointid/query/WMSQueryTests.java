@@ -3,12 +3,12 @@ package ca.bc.gov.mof.wfpointid.query;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryCheck.hasData;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryCheck.isSuccess;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryCheck.noValue;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ca.bc.gov.mof.wfpointid.dataprovider.DataItemDef;
+
+import org.junit.jupiter.api.Test;
 import ca.bc.gov.mof.wfpointid.dataprovider.DataRequestDef;
 import ca.bc.gov.mof.wfpointid.dataprovider.geoserver.GeoserverDataProvider;
 import ca.bc.gov.mof.wfpointid.identify.IdentifyQuery;

@@ -28,12 +28,12 @@ public class Stat {
 	}
 	
 	public synchronized String report() {
-		return String.format("Total: %d  Complete: %d Err: %d -- Duration Avg: %d  Min: %d  Max: %d", 
-				Long.valueOf(taskTotal), 
-				Long.valueOf(complete), 
+		return "Total: %d  Complete: %d Err: %d -- Duration Avg: %d  Min: %d  Max: %d".formatted(
+				Long.valueOf(taskTotal),
+				Long.valueOf(complete),
 				Long.valueOf(error),
-				Long.valueOf(durTotal/taskTotal), 
-				Long.valueOf(durMin), 
+				Long.valueOf(durTotal / taskTotal),
+				Long.valueOf(durMin),
 				Long.valueOf(durMax));
 	}
 	

@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfone.persistence.v1.dto;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import ca.bc.gov.nrs.wfone.common.persistence.utils.DtoUtils;
 
 public class RoFFormDto extends BaseDto<RoFFormDto> {
 
+	@Serial
 	private static final long serialVersionUID = 8046437433239434771L;
 	private static final Logger logger = LoggerFactory.getLogger(RoFImageDto.class);
 

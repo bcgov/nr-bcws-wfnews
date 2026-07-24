@@ -5,10 +5,10 @@ import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.util.Date;
 
-import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.EntityTag;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.ResponseBuilder;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.utils.CommonUtil;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
-import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
+
 import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.ResponseInputStream;
@@ -42,7 +42,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.awssdk.utils.IoUtils;
 
-public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements AttachmentsEndpoint {
+public class AttachmentsEndpointImpl extends WfNewsBaseEndpointsImpl implements AttachmentsEndpoint {
 	private static final Logger logger = LoggerFactory.getLogger(AttachmentsEndpointImpl.class);
 
 	@Autowired

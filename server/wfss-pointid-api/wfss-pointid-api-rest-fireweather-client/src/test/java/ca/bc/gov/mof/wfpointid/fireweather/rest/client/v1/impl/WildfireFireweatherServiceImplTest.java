@@ -1,17 +1,16 @@
 package ca.bc.gov.mof.wfpointid.fireweather.rest.client.v1.impl;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +24,7 @@ public class WildfireFireweatherServiceImplTest {
 	private static final Logger logger = LoggerFactory.getLogger(WildfireFireweatherServiceImplTest.class);
 	private static WildfireFireweatherServiceImpl service;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setup() {
 		// TO-DO hide these
 		String webadeOauth2ClientId = "WFSS_POINTID_REST"; 
@@ -49,7 +48,7 @@ public class WildfireFireweatherServiceImplTest {
 		String stationId = "b94e0202-ba11-3afa-e053-e60a0a0a9fb2";
 		
 		WeatherStationResource station = service.getWeatherStation(stationId).get();
-		logger.info(String.format("%s (%d) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
+		logger.info("%s (%d) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
 		assertThat(station, hasProperty("displayLabel", is("HOPE AP (EC)")));
 		
 		logger.debug(">test");
@@ -73,7 +72,7 @@ public class WildfireFireweatherServiceImplTest {
 		int stationCode = 129;
 		
 		WeatherStationResource station = service.getWeatherStationByCode(stationCode).get();
-		logger.info(String.format("%s (%d) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
+		logger.info("%s (%d) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
 		assertThat(station, hasProperty("displayLabel", is("PINK MOUNTAIN")));
 		
 		logger.debug(">test");
@@ -127,25 +126,25 @@ public class WildfireFireweatherServiceImplTest {
 		Point point = GeometryConverters.latLon(57.0875278, -122.5909722-insideLatOffset);
 
 		Collection<WeatherStationResource> stations = service.getNearbyWeatherStations(point,50*1000);
-		logger.info(stations.stream().map(station->String.format("%s (%d) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
+		logger.info(stations.stream().map(station->"%s (%d) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
 		assertThat(stations, hasItem(hasProperty("displayLabel", is("PINK MOUNTAIN"))));
 		
 		point = GeometryConverters.latLon(57.0875278, -122.5909722+insideLatOffset);
 
 		stations = service.getNearbyWeatherStations(point,50*1000);
-		logger.info(stations.stream().map(station->String.format("%s (%d) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
+		logger.info(stations.stream().map(station->"%s (%d) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
 		assertThat(stations, hasItem(hasProperty("displayLabel", is("PINK MOUNTAIN"))));
 		
 		point = GeometryConverters.latLon(57.0875278, -122.5909722-outsideLatOffset);
 
 		stations = service.getNearbyWeatherStations(point,50*1000);
-		logger.info(stations.stream().map(station->String.format("%s (%d) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
+		logger.info(stations.stream().map(station->"%s (%d) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
 		assertThat(stations, not(hasItem(hasProperty("displayLabel", is("PINK MOUNTAIN")))));
 		
 		point = GeometryConverters.latLon(57.0875278, -122.5909722+outsideLatOffset);
 
 		stations = service.getNearbyWeatherStations(point,50*1000);
-		logger.info(stations.stream().map(station->String.format("%s (%d) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));		
+		logger.info(stations.stream().map(station->"%s (%d) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));		
 		assertThat(stations, not(hasItem(hasProperty("displayLabel", is("PINK MOUNTAIN")))));
 		
 		// Long 
@@ -153,25 +152,25 @@ public class WildfireFireweatherServiceImplTest {
 		point = GeometryConverters.latLon(57.0875278-insideLonOffset, -122.5909722);
 
 		stations = service.getNearbyWeatherStations(point,50*1000);
-		logger.info(stations.stream().map(station->String.format("%s (%s) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
+		logger.info(stations.stream().map(station->"%s (%s) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
 		assertThat(stations, hasItem(hasProperty("displayLabel", is("PINK MOUNTAIN"))));
 		
 		point = GeometryConverters.latLon(57.0875278+insideLonOffset, -122.5909722);
 
 		stations = service.getNearbyWeatherStations(point,50*1000);
-		logger.info(stations.stream().map(station->String.format("%s (%s) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
+		logger.info(stations.stream().map(station->"%s (%s) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
 		assertThat(stations, hasItem(hasProperty("displayLabel", is("PINK MOUNTAIN"))));
 		
 		point = GeometryConverters.latLon(57.0875278-outsideLonOffset, -122.5909722);
 
 		stations = service.getNearbyWeatherStations(point,50*1000);
-		logger.info(stations.stream().map(station->String.format("%s (%s) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
+		logger.info(stations.stream().map(station->"%s (%s) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
 		assertThat(stations, not(hasItem(hasProperty("displayLabel", is("PINK MOUNTAIN")))));
 		
 		point = GeometryConverters.latLon(57.0875278+outsideLonOffset, -122.5909722);
 		
 		stations = service.getNearbyWeatherStations(point,50*1000);
-		logger.info(stations.stream().map(station->String.format("%s (%s) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
+		logger.info(stations.stream().map(station->"%s (%s) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude())).collect(Collectors.joining(", ", "[", "]")));
 		assertThat(stations, not(hasItem(hasProperty("displayLabel", is("PINK MOUNTAIN")))));
 
 		logger.debug(">test");
@@ -186,17 +185,17 @@ public class WildfireFireweatherServiceImplTest {
 		Point point = GeometryConverters.latLon(56.77026, -122.37741);
 
 		WeatherStationResource station = service.getNearestWeatherStation(point);
-		logger.info(String.format("%s (%d) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
+		logger.info("%s (%d) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
 		assertThat(station, hasProperty("displayLabel", is("PINK MOUNTAIN")));
 
 		point = GeometryConverters.latLon(56.76927, -122.37453);
 		station = service.getNearestWeatherStation(point);
-		logger.info(String.format("%s (%d) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
+		logger.info("%s (%d) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
 		assertThat(station, hasProperty("displayLabel", is("WONOWON")));
 		
 		point = GeometryConverters.latLon(56.76817, -122.37684);
 		station = service.getNearestWeatherStation(point);
-		logger.info(String.format("%s (%d) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
+		logger.info("%s (%d) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
 		assertThat(station, hasProperty("displayLabel", is("GRAHAM")));
 
 		logger.debug(">test");
@@ -214,17 +213,17 @@ public class WildfireFireweatherServiceImplTest {
 		Point point = GeometryConverters.latLon(56.77026, -122.37741);
 
 		WeatherStationResource station = service.getNearestWeatherStationWithin(point, 50*1000).get();
-		logger.info(String.format("%s (%d) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
+		logger.info("%s (%d) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
 		assertThat(station, hasProperty("displayLabel", is("PINK MOUNTAIN")));
 
 		point = GeometryConverters.latLon(56.76927, -122.37453);
 		station = service.getNearestWeatherStationWithin(point, 50*1000).get();
-		logger.info(String.format("%s (%d) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
+		logger.info("%s (%d) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
 		assertThat(station, hasProperty("displayLabel", is("WONOWON")));
 		
 		point = GeometryConverters.latLon(56.76817, -122.37684);
 		station = service.getNearestWeatherStationWithin(point, 50*1000).get();
-		logger.info(String.format("%s (%d) <%f, %f>", station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
+		logger.info("%s (%d) <%f, %f>".formatted(station.getDisplayLabel(), station.getStationCode(), station.getLatitude(), station.getLongitude()));
 		assertThat(station, hasProperty("displayLabel", is("GRAHAM")));
 		
 		// Point not near any station 

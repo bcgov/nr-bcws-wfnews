@@ -11,8 +11,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
@@ -23,7 +23,7 @@ public class NearbyTests extends EndpointsTest {
 
 	protected RestTemplate restTemplate;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 
 		restTemplate = new RestTemplate();

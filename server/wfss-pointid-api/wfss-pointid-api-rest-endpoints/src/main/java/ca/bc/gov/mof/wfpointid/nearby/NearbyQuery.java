@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -451,8 +451,7 @@ public class NearbyQuery {
 					}
 					return Optional.<String>empty();
 				})
-			.filter(Optional::isPresent)
-			.map(Optional::get)
+			.flatMap(Optional::stream)
 			.findAny();
 	}
 

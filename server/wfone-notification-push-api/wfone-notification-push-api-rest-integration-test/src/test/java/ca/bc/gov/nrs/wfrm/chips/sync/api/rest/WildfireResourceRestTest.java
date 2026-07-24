@@ -10,6 +10,7 @@ import java.security.cert.X509Certificate;
 import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -18,10 +19,10 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -63,7 +64,7 @@ public class WildfireResourceRestTest {
 
 	private static final String INTERNAL = "Internal";
 
-	@BeforeClass
+	@BeforeAll
 	public static void beforeClass() throws Exception {
 		logger.debug("<beforeClass");
 
@@ -72,20 +73,20 @@ public class WildfireResourceRestTest {
 		properties = (Properties) applicationContext.getBean("applicationProperties");
 
 		CheckTokenUrl = properties.getProperty("webade-oauth2.check.token.url");
-		Assert.assertNotNull("'webade-oauth2.check.token.url' is a required property", CheckTokenUrl);
+		Assertions.assertNotNull(CheckTokenUrl, "'webade-oauth2.check.token.url' is a required property");
 
 		AuthorizeUrl = properties.getProperty("webade-oauth2.authorize.url");
-		Assert.assertNotNull("'webade-oauth2.authorize.url' is a required property", AuthorizeUrl);
+		Assertions.assertNotNull(AuthorizeUrl, "'webade-oauth2.authorize.url' is a required property");
 		TokenUrl = properties.getProperty("webade-oauth2.token.url");
-		Assert.assertNotNull("'webade-oauth2.token.url' is a required property", TokenUrl);
+		Assertions.assertNotNull(TokenUrl, "'webade-oauth2.token.url' is a required property");
 
 		TestClientId = properties.getProperty("test.client.id");
-		Assert.assertNotNull("'test.client.id' is a required property", TestClientId);
+		Assertions.assertNotNull(TestClientId, "'test.client.id' is a required property");
 		TestClientSecret = properties.getProperty("test.client.secret");
-		Assert.assertNotNull("'test.client.secret' is a required property", TestClientSecret);
+		Assertions.assertNotNull(TestClientSecret, "'test.client.secret' is a required property");
 
 		String restContext = properties.getProperty("context.wfone-chips-sync-rest");
-		Assert.assertNotNull("'context.wfone-chips-sync-rest' is a required property", restContext);
+		Assertions.assertNotNull(restContext, "'context.wfone-chips-sync-rest' is a required property");
 		TopLevelRestURL = restContext + "/";
 		logger.debug("TopLevelRestURL=" + TopLevelRestURL);
 
@@ -141,12 +142,12 @@ public class WildfireResourceRestTest {
 		}
 
 		EndpointsRsrc topLevelEndpoints = service.getTopLevelEndpoints();
-		Assert.assertNotNull(topLevelEndpoints);
+		Assertions.assertNotNull(topLevelEndpoints);
 
 		String swaggerString = service.getSwaggerString();
 
 		logger.debug(swaggerString);
-		Assert.assertNotNull(swaggerString);
+		Assertions.assertNotNull(swaggerString);
 
 		logger.debug("<testSwagger");
 	}
@@ -170,7 +171,7 @@ public class WildfireResourceRestTest {
 
 		int responseCode = urlConnection.getResponseCode();
 		logger.debug("responseCode=" + responseCode);
-		Assert.assertEquals(200, responseCode);
+		Assertions.assertEquals(200, responseCode);
 
 		logger.debug(">testOptions");
 	}
@@ -194,7 +195,7 @@ public class WildfireResourceRestTest {
 
 		if (length > 0) {
 			for (int i = 0; i < length; i++) {
-				sb.append(characters.charAt((int) (Math.random() * characters.length())));
+				sb.append(characters.charAt((int) (ThreadLocalRandom.current().nextDouble() * characters.length())));
 			}
 		}
 
@@ -230,7 +231,7 @@ public class WildfireResourceRestTest {
 		return result;
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void teardown() {
 		service = null;
 	}

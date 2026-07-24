@@ -3,10 +3,9 @@ package ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.endpoints;
 import org.easymock.EasyMock;
 import org.easymock.IMocksControl;
 import org.easymock.MockType;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +34,7 @@ public class PushNearMeNotificationEndpointsTest extends EndpointsTest {
 	static IMocksControl control;
 	static FirebaseMessaging firebase;
 
-	@BeforeClass
+	@BeforeAll
 	static public void injectMockFirebaseMessaging() throws Exception {
 		control = EasyMock.createControl(MockType.NICE);
 		control.makeThreadSafe(true);
@@ -68,57 +67,59 @@ public class PushNearMeNotificationEndpointsTest extends EndpointsTest {
 
 		EndpointsRsrc topLevel = service.getTopLevelEndpoints();
 
-		String testMessage = "{\n" +
-			"            \"cacheExpiresMillis\": null,\n" +
-			"            \"links\": [\n" +
-			"                {\n" +
-			"                    \"rel\": \"self\",\n" +
-			"                    \"href\": \"http://wfnews-server.d6797f-dev.stratus.cloud.gov.bc.ca/publishedIncident\",\n" +
-			"                    \"method\": \"GET\",\n" +
-			"                    \"_type\": null\n" +
-			"                }\n" +
-			"            ],\n" +
-			"            \"publishedIncidentDetailGuid\": \"667e7803-8d0e-49b8-a745-977d9f28test\",\n" +
-			"            \"incidentGuid\": \"7A4E08E98F3C4D78B8DA5169AE3DTEST\",\n" +
-			"            \"incidentNumberLabel\": \"Test12345\",\n" +
-			"            \"newsCreatedTimestamp\": 1676490600000,\n" +
-			"            \"stageOfControlCode\": \"OUT_CNTRL\",\n" +
-			"            \"generalIncidentCauseCatId\": 3,\n" +
-			"            \"newsPublicationStatusCode\": \"PUBLISHED\",\n" +
-			"            \"discoveryDate\": 1676332800000,\n" +
-			"            \"declaredOutDate\": null,\n" +
-			"            \"fireCentreCode\": \"50\",\n" +
-			"            \"fireCentreName\": \"Coastal Fire Centre\",\n" +
-			"            \"fireOfNoteInd\": true,\n" +
-			"            \"incidentName\": \"Sharon P M TEST\",\n" +
-			"            \"incidentLocation\": \"Langley St\",\n" +
-			"            \"traditionalTerritoryDetail\": \"EXAMPLE\",\n" +
-			"            \"incidentSizeEstimatedHa\": 5,\n" +
-			"            \"incidentSizeMappedHa\": 5,\n" +
-			"            \"incidentSizeDetail\": \"Fire size is based on most current information available.\",\n" +
-			"            \"incidentCauseDetail\": \"Wildfire investigations often take time and can be very complex. Investigations may be carried out by one or more agencies, including the BC Wildfire Service, the Compliance and Enforcement Branch, the RCMP, or other law enforcement agencies, and may be cross jurisdictional.\",\n" +
-			"            \"wildfireCrewResourcesInd\": true,\n" +
-			"            \"wildfireAviationResourceInd\": true,\n" +
-			"            \"heavyEquipmentResourcesInd\": true,\n" +
-			"            \"incidentMgmtCrewRsrcInd\": true,\n" +
-			"            \"structureProtectionRsrcInd\": true,\n" +
-			"            \"publishedTimestamp\": 1677601215387,\n" +
-			"            \"lastUpdatedTimestamp\": 1677601215386,\n" +
-			"            \"createDate\": 1677601216067,\n" +
-			"            \"updateDate\": 1677601216067,\n" +
-			"            \"latitude\": \"52.197133000312334\",\n" +
-			"            \"longitude\": \"-124.07858300065146\",\n" +
-			"            \"fireYear\": 2022,\n" +
-			"            \"responseTypeCode\": null,\n" +
-			"            \"responseTypeDetail\": null,\n" +
-			"            \"selfLink\": \"http://wfnews-server.d6797f-dev.stratus.cloud.gov.bc.ca/publishedIncident\",\n" +
-			"            \"quotedETag\": null,\n" +
-			"            \"unquotedETag\": null,\n" +
-			"            \"_type\": null\n" +
-			"        }";
+		String testMessage = """
+			{
+			            "cacheExpiresMillis": null,
+			            "links": [
+			                {
+			                    "rel": "self",
+			                    "href": "http://wfnews-server.d6797f-dev.stratus.cloud.gov.bc.ca/publishedIncident",
+			                    "method": "GET",
+			                    "_type": null
+			                }
+			            ],
+			            "publishedIncidentDetailGuid": "667e7803-8d0e-49b8-a745-977d9f28test",
+			            "incidentGuid": "7A4E08E98F3C4D78B8DA5169AE3DTEST",
+			            "incidentNumberLabel": "Test12345",
+			            "newsCreatedTimestamp": 1676490600000,
+			            "stageOfControlCode": "OUT_CNTRL",
+			            "generalIncidentCauseCatId": 3,
+			            "newsPublicationStatusCode": "PUBLISHED",
+			            "discoveryDate": 1676332800000,
+			            "declaredOutDate": null,
+			            "fireCentreCode": "50",
+			            "fireCentreName": "Coastal Fire Centre",
+			            "fireOfNoteInd": true,
+			            "incidentName": "Sharon P M TEST",
+			            "incidentLocation": "Langley St",
+			            "traditionalTerritoryDetail": "EXAMPLE",
+			            "incidentSizeEstimatedHa": 5,
+			            "incidentSizeMappedHa": 5,
+			            "incidentSizeDetail": "Fire size is based on most current information available.",
+			            "incidentCauseDetail": "Wildfire investigations often take time and can be very complex. Investigations may be carried out by one or more agencies, including the BC Wildfire Service, the Compliance and Enforcement Branch, the RCMP, or other law enforcement agencies, and may be cross jurisdictional.",
+			            "wildfireCrewResourcesInd": true,
+			            "wildfireAviationResourceInd": true,
+			            "heavyEquipmentResourcesInd": true,
+			            "incidentMgmtCrewRsrcInd": true,
+			            "structureProtectionRsrcInd": true,
+			            "publishedTimestamp": 1677601215387,
+			            "lastUpdatedTimestamp": 1677601215386,
+			            "createDate": 1677601216067,
+			            "updateDate": 1677601216067,
+			            "latitude": "52.197133000312334",
+			            "longitude": "-124.07858300065146",
+			            "fireYear": 2022,
+			            "responseTypeCode": null,
+			            "responseTypeDetail": null,
+			            "selfLink": "http://wfnews-server.d6797f-dev.stratus.cloud.gov.bc.ca/publishedIncident",
+			            "quotedETag": null,
+			            "unquotedETag": null,
+			            "_type": null
+			        }\
+			""";
 
 		PushNotificationListRsrc updateResultList = service.pushNearMeNotifications(topLevel, testMessage, "False");
-		Assert.assertNotNull(updateResultList);
+		Assertions.assertNotNull(updateResultList);
 
 		logger.debug(">testPushNearMeNotifications");
 	}

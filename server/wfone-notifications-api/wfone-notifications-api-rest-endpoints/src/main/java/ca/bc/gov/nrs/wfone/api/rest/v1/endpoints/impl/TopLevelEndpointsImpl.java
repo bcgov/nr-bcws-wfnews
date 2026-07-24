@@ -2,12 +2,12 @@ package ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.impl;
 
 import java.net.URI;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.HttpMethod;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HttpMethod;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.GenericEntity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +17,9 @@ import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.TopLevelEndpoints;
 import ca.bc.gov.nrs.wfone.api.rest.v1.resource.EndpointsRsrc;
 import ca.bc.gov.nrs.wfone.api.rest.v1.resource.factory.NotificationSettingsRsrcFactory;
 import ca.bc.gov.nrs.wfone.api.rest.v1.resource.types.ResourceTypes;
-import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
+import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.impl.WfOneNotificationsBaseEndpointsImpl;
 
-public class TopLevelEndpointsImpl extends BaseEndpointsImpl implements TopLevelEndpoints {
+public class TopLevelEndpointsImpl extends WfOneNotificationsBaseEndpointsImpl implements TopLevelEndpoints {
 	/** Logger. */
 	private static final Logger logger = LoggerFactory.getLogger(TopLevelEndpointsImpl.class);
 	

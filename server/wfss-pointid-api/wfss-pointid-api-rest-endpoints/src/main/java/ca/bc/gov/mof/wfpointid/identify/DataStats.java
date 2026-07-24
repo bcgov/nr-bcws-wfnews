@@ -22,7 +22,7 @@ public class DataStats {
 			RequestStats st = dataStat.get(name);
 			if (sb.length() > 0) sb.append(",");
 			sb.append(
-					String.format("%s: %s", name, st.reportDurationShort()));
+					"%s: %s".formatted(name, st.reportDurationShort()));
 		}
 		return sb.toString();
 	}

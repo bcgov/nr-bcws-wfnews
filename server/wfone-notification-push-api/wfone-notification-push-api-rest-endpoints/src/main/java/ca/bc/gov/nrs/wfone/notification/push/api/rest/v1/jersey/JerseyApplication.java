@@ -3,40 +3,31 @@ package ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.jersey;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.servlet.ServletConfig;
-import javax.ws.rs.core.Context;
+import jakarta.servlet.ServletConfig;
+import jakarta.ws.rs.core.Context;
 
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ca.bc.gov.nrs.wfone.common.rest.endpoints.jersey.JerseyResourceConfig;
-import ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.endpoints.impl.PushNearMeNotificationsEndpointImpl;
-import ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.endpoints.impl.TopLevelEndpointsImpl;
-import io.swagger.v3.jaxrs2.integration.JaxrsOpenApiContextBuilder;
 import io.swagger.v3.jaxrs2.integration.resources.AcceptHeaderOpenApiResource;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
+import io.swagger.v3.oas.integration.GenericOpenApiContextBuilder;
 import io.swagger.v3.oas.integration.OpenApiConfigurationException;
 import io.swagger.v3.oas.integration.SwaggerConfiguration;
 
-public class JerseyApplication extends JerseyResourceConfig {
+public class JerseyApplication extends ResourceConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(JerseyApplication.class);
 
-	/**
-	 * Register JAX-RS application components.
-	 */
 	public JerseyApplication(@Context ServletConfig servletConfig) {
 		super();
-
 		logger.debug("<JerseyApplication");
-		
-		register(MultiPartFeature.class);
-		
-		register(TopLevelEndpointsImpl.class);
-		
-		register(PushNearMeNotificationsEndpointImpl.class);
-		
+
+		packages("ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.endpoints");
+		packages("ca.bc.gov.nrs.wfone.common.api.rest.code.endpoints");
+		packages("ca.bc.gov.nrs.wfone.common.rest.endpoints");
+
 		register(OpenApiResource.class);
 		register(AcceptHeaderOpenApiResource.class);
 
@@ -44,16 +35,13 @@ public class JerseyApplication extends JerseyResourceConfig {
 			.prettyPrint(Boolean.TRUE)
 			.resourcePackages(
 				Stream.of(
-					"ca.bc.gov.nrs.wfone.api.rest.v1.endpoints",
+					"ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.endpoints",
 					"ca.bc.gov.nrs.wfone.common.api.rest.code.endpoints",
 					"ca.bc.gov.nrs.wfone.common.rest.endpoints"
 				).collect(Collectors.toSet()));
 
-
 		try {
-			new JaxrsOpenApiContextBuilder<JaxrsOpenApiContextBuilder<?>>()
-					.servletConfig(servletConfig)
-					.application(this)
+			new GenericOpenApiContextBuilder<>()
 					.openApiConfiguration(oasConfig)
 					.buildContext(true);
 		} catch (OpenApiConfigurationException e) {

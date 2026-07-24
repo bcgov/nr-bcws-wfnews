@@ -5,11 +5,11 @@ import static ca.bc.gov.mof.wfpointid.dataprovider.DataRequestDef.request;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryCheck.hasData;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryCheck.isNumber;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryCheck.isSuccess;
-import static org.junit.Assert.assertThat;
-
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import ca.bc.gov.mof.wfpointid.dataprovider.DataRequestDef;
+
+import org.junit.jupiter.api.Test;
 import ca.bc.gov.mof.wfpointid.dataprovider.geoserver.GeoserverDataProvider;
 import ca.bc.gov.mof.wfpointid.identify.GeographyQuery;
 import ca.bc.gov.mof.wfpointid.identify.IdentifyService;

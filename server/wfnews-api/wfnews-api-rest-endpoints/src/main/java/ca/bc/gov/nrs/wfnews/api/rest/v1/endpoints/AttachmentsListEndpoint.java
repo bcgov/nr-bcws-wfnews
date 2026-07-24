@@ -2,90 +2,60 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DefaultValue;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import ca.bc.gov.nrs.common.rest.resource.HeaderConstants;
-import ca.bc.gov.nrs.common.wfone.rest.resource.MessageListRsrc;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentResource;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.Authorization;
-import io.swagger.annotations.AuthorizationScope;
-import io.swagger.annotations.Extension;
-import io.swagger.annotations.ExtensionProperty;
-import io.swagger.annotations.ResponseHeader;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/")
-@Api(value = "IncidentAttachments")
+@Tag(name = "IncidentAttachments")
 public interface AttachmentsListEndpoint {
-	/*
-	 * GET Incident Attachments List
-	 */
-	@ApiOperation(value = "Get Incident Attachments.", notes = "Get list of Incident Attachments.")
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header") })
+
+	@Operation(summary = "Get Incident Attachments.", description = "Get list of Incident Attachments.")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK", response = AttachmentListResource.class, responseHeaders = @ResponseHeader(name = HeaderConstants.ETAG_HEADER, response = String.class, description = HeaderConstants.ETAG_DESCRIPTION)),
-			@ApiResponse(code = 404, message = "Not Found"),
-			@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
+			@ApiResponse(responseCode = "200", description = "OK"),
+			@ApiResponse(responseCode = "404", description = "Not Found"),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error")
 	})
 	@GET
 	@Path("/publicPublishedIncidentAttachment/{incidentGuid}/attachments")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	Response getIncidentAttachmentList(
-			@ApiParam("The incidentGuid of the Wildfire Incident resource.") @PathParam("incidentGuid") String incidentGuid,
-			@ApiParam("List primary attachments") @QueryParam("primaryIndicator") @DefaultValue("false") String primaryIndicator,
-			@ApiParam("The sourceObjectNameCode the results to be returned.") @QueryParam("sourceObjectNameCode") List<String> sourceObjectNameCode,
-			@ApiParam("The attachmentTypeCode the results to be returned.") @QueryParam("attachmentTypeCode") List<String> attachmentTypeCode,
-			@ApiParam("The page number of the results to be returned.") @QueryParam("pageNumber") String pageNumber,
-			@ApiParam("The number of results per page.") @QueryParam("pageRowCount") String pageRowCount,
-			@ApiParam("Comma separated list of property names to order the result set by.") @QueryParam("orderBy") String orderBy);
+			@Parameter(description = "The incidentGuid of the Wildfire Incident resource.") @PathParam("incidentGuid") String incidentGuid,
+			@Parameter(description = "List primary attachments") @QueryParam("primaryIndicator") @DefaultValue("false") String primaryIndicator,
+			@Parameter(description = "The sourceObjectNameCode the results to be returned.") @QueryParam("sourceObjectNameCode") List<String> sourceObjectNameCode,
+			@Parameter(description = "The attachmentTypeCode the results to be returned.") @QueryParam("attachmentTypeCode") List<String> attachmentTypeCode,
+			@Parameter(description = "The page number of the results to be returned.") @QueryParam("pageNumber") String pageNumber,
+			@Parameter(description = "The number of results per page.") @QueryParam("pageRowCount") String pageRowCount,
+			@Parameter(description = "Comma separated list of property names to order the result set by.") @QueryParam("orderBy") String orderBy);
 
-	/*
-	 * POST Incident Attachment (Metadata)
-	 */
-	@ApiOperation(value = "Add Incident Attachment", notes = "Add a Incident attachment resource to the List of Incident attachment resources", authorizations = {
-			@Authorization(value = "Webade-OAUTH2", scopes = {
-					@AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }),
-			@Authorization(value = "Webade-OAUTH2", scopes = {
-					@AuthorizationScope(scope = Scopes.CREATE_ATTACHMENT, description = "") }) }, extensions = {
-							@Extension(properties = {
-									@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"),
-									@ExtensionProperty(name = "throttling-tier", value = "Unlimited") }) })
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
-	})
+	@Operation(summary = "Add Incident Attachment", description = "Add a Incident attachment resource to the List of Incident attachment resources")
 	@ApiResponses(value = {
-			@ApiResponse(code = 201, message = "Created", response = AttachmentResource.class, responseHeaders = {
-					@ResponseHeader(name = HeaderConstants.ETAG_HEADER, response = String.class, description = HeaderConstants.ETAG_DESCRIPTION),
-					@ResponseHeader(name = "Location", response = String.class, description = "The ETag response-header field provides the current value of the entity tag for the requested variant.") }),
-			@ApiResponse(code = 400, message = "Bad Request", response = MessageListRsrc.class),
-			@ApiResponse(code = 403, message = "Forbidden"),
-			@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class) })
+			@ApiResponse(responseCode = "201", description = "Created"),
+			@ApiResponse(responseCode = "400", description = "Bad Request"),
+			@ApiResponse(responseCode = "403", description = "Forbidden"),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error") })
 	@POST
 	@Path("/publishedIncidentAttachment/{incidentGuid}/attachments")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response createIncidentAttachment(
-			@ApiParam("The incidentGuid of the Wildfire Incident resource.") @PathParam("incidentGuid") String incidentGuid,
-			@ApiParam(name = "attachment", value = "The Attachment resource containing the new values.", required = true) AttachmentResource attachment);
+			@Parameter(description = "The incidentGuid of the Wildfire Incident resource.") @PathParam("incidentGuid") String incidentGuid,
+			@Parameter(name = "attachment", description = "The Attachment resource containing the new values.", required = true) AttachmentResource attachment);
 }
