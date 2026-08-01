@@ -23,8 +23,10 @@ import javax.net.ssl.X509TrustManager;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -43,11 +45,13 @@ import ca.bc.gov.nrs.wfone.api.rest.v1.resource.EndpointsRsrc;
 import ca.bc.gov.webade.oauth2.rest.test.client.AuthorizationCodeService;
 import ca.bc.gov.webade.oauth2.rest.test.client.impl.AuthorizationCodeServiceImpl;
 
+@EnabledIfSystemProperty(named = "wfnews.it", matches = "true", disabledReason = "Requires real webade-oauth2 test client credentials (test.client.id/secret, government.user.*); run with -Dwfnews.it=true once configured")
 public class WildfireResourceRestTest {
 	
 	private static final Logger logger = LoggerFactory.getLogger(WildfireResourceRestTest.class);
 	
-	protected static boolean skipTests = false;
+	// Requires VPN + deployed environment. Run with -Dwfnews.it=true.
+	protected static boolean skipTests = !Boolean.getBoolean("wfnews.it");
 	
 	private static ApplicationContext applicationContext;
 
@@ -73,6 +77,7 @@ public class WildfireResourceRestTest {
 	@BeforeAll
 	public static void beforeClass() throws Exception {
 		logger.debug("<beforeClass");
+		Assumptions.assumeFalse(skipTests, "Requires VPN + deployed environment; run with -Dwfnews.it=true");
 
 		applicationContext = new ClassPathXmlApplicationContext(new String[] { "classpath:/test-spring-config.xml" });
 
@@ -147,10 +152,7 @@ public class WildfireResourceRestTest {
 	public void testSwagger() throws RestClientServiceException, WildfireResourceServiceException {
 		logger.debug("<testSwagger");
 		
-		if(skipTests) {
-			logger.warn("Skipping tests");
-			return;
-		}
+		Assumptions.assumeFalse(skipTests, "Requires VPN + deployed environment; run with -Dwfnews.it=true");
 		
 		EndpointsRsrc topLevelEndpoints = service.getTopLevelEndpoints();
 		Assertions.assertNotNull(topLevelEndpoints);
@@ -167,10 +169,7 @@ public class WildfireResourceRestTest {
 	public void testOptions() throws IOException {
 		logger.debug("<testOptions "+TopLevelRestURL);
 		
-		if(skipTests) {
-			logger.warn("Skipping tests");
-			return;
-		}
+		Assumptions.assumeFalse(skipTests, "Requires VPN + deployed environment; run with -Dwfnews.it=true");
 		
 		URL url = new URL(TopLevelRestURL);
 		
@@ -191,10 +190,7 @@ public class WildfireResourceRestTest {
 	public void testCodeTables() throws WildfireResourceServiceException {
 		logger.debug("<testCodeTables");
 		
-		if(skipTests) {
-			logger.warn("Skipping tests");
-			return;
-		}
+		Assumptions.assumeFalse(skipTests, "Requires VPN + deployed environment; run with -Dwfnews.it=true");
 		
 		EndpointsRsrc topLevelEndpoints = service.getTopLevelEndpoints();
 		

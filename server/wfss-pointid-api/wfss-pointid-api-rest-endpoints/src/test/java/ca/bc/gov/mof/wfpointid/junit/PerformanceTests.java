@@ -17,6 +17,9 @@ import org.slf4j.LoggerFactory;
 
 import ca.bc.gov.mof.wfpointid.test.util.HttpAssert;
 
+import org.junit.jupiter.api.Disabled;
+
+@Disabled("Manual soak test - 360h loop against localhost:8081, never appropriate for CI")
 public class PerformanceTests {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PerformanceTests.class);

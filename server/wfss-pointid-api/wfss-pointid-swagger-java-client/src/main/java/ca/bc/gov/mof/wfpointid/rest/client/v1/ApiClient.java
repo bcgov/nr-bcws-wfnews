@@ -75,7 +75,7 @@ import okio.Okio;
 
 public class ApiClient {
 
-	private String basePath = "https://wfss-pointid-api.int.bcwildfireservices.com";
+	private String basePath = "https://wfnews-int.bcwildfireservices.com/pointid-api";
 //	private String basePath = "https://wfss-pointid-api-dev-52-secure-fytirg.pathfinder.gov.bc.ca/wfss-pointid-api";
 	
     private boolean debugging = false;

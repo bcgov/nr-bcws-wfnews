@@ -19,6 +19,9 @@ import ca.bc.gov.mof.wfpointid.rest.client.GeometryConverters;
 import ca.bc.gov.mof.wfpointid.fireweather.rest.client.v1.WildfireFireweatherServiceException;
 import ca.bc.gov.mof.wfpointid.fireweather.rest.v1.resource.WeatherStationResource;
 
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
+
+@EnabledIfSystemProperty(named = "wfnews.it", matches = "true", disabledReason = "Requires VPN + INT endpoints; run with -Dwfnews.it=true")
 public class WildfireFireweatherServiceImplTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(WildfireFireweatherServiceImplTest.class);

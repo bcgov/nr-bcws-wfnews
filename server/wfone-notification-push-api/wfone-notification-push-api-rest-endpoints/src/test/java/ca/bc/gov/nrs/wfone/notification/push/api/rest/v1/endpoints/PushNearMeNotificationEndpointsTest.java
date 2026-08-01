@@ -36,6 +36,7 @@ public class PushNearMeNotificationEndpointsTest extends EndpointsTest {
 
 	@BeforeAll
 	static public void injectMockFirebaseMessaging() throws Exception {
+		if(skipTests) return;
 		control = EasyMock.createControl(MockType.NICE);
 		control.makeThreadSafe(true);
 		firebase = control.createMock(FirebaseMessaging.class);

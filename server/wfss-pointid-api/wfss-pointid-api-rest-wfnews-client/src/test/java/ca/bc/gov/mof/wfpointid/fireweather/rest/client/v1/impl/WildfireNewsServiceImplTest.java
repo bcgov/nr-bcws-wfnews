@@ -21,6 +21,9 @@ import ca.bc.gov.mof.wfpointid.rest.client.v1.WildfireNewsServiceException;
 import ca.bc.gov.mof.wfpointid.rest.client.v1.impl.WildfireNewsServiceImpl;
 import ca.bc.gov.mof.wfpointid.wfnews.rest.v1.resource.SimplePublishedIncidentResource;
 
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
+
+@EnabledIfSystemProperty(named = "wfnews.it", matches = "true", disabledReason = "Requires VPN + INT endpoints; run with -Dwfnews.it=true")
 public class WildfireNewsServiceImplTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(WildfireNewsServiceImplTest.class);
@@ -30,7 +33,7 @@ public class WildfireNewsServiceImplTest {
 	public static void setup() {
 		
 		// TO-DO
-		String topLevelRestURL = "https://wfnews-api.tst.bcwildfireservices.com/";
+		String topLevelRestURL = "https://wfnews-api.test.bcwildfireservices.com/";
 		
 		service = new WildfireNewsServiceImpl();
 		service.setTopLevelRestURL(topLevelRestURL);

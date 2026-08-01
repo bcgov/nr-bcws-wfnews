@@ -35,7 +35,7 @@ public class NearbyTests extends EndpointsTest {
 
 		Thread.sleep(10000);
 		
-		String urlString = topLevelRestURL + "/nearby?lat=48.4549138&lon=-123.4427607&radius=50";
+		String urlString = topLevelRestURL + "nearby?lat=48.4549138&lon=-123.4427607&radius=50";
 		String method = "GET";
 		String body = null;
 		String contentType = "application/json";
@@ -125,6 +125,17 @@ public class NearbyTests extends EndpointsTest {
 
 			int responseCode = conn.getResponseCode();
 			logger.info("Rest call response: " + responseCode + ":" + conn.getResponseMessage());
+			if (responseCode != HttpURLConnection.HTTP_OK) {
+				String errorBody = "";
+				try (InputStream errorStream = conn.getErrorStream()) {
+					if (errorStream != null) {
+						try (java.util.Scanner scanner = new java.util.Scanner(errorStream, "UTF-8").useDelimiter("\\A")) {
+							errorBody = scanner.hasNext() ? scanner.next() : "";
+						}
+					}
+				} catch (Exception e) {}
+				throw new RuntimeException(responseCode + " " + conn.getResponseMessage() + "\nBody: " + errorBody);
+			}
 
 			contentType = conn.getContentType();
 
