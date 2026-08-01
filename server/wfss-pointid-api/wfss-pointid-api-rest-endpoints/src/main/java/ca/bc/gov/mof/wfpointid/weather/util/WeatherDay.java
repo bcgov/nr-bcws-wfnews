@@ -3,7 +3,7 @@ package ca.bc.gov.mof.wfpointid.weather.util;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import org.springframework.security.access.method.P;
+
 
 /**
  * Functions for working wth Wildfire Weather database daystamps.
