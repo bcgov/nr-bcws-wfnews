@@ -1,5 +1,9 @@
 package ca.bc.gov.nrs.wfone.api.rest.v1.endpoints;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -13,14 +17,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ca.bc.gov.nrs.common.wfone.rest.resource.HeaderConstants;
-import ca.bc.gov.nrs.wfone.api.rest.client.v1.NotificationService;
-import ca.bc.gov.nrs.wfone.api.rest.client.v1.impl.NotificationServiceImpl;
 import ca.bc.gov.nrs.wfone.api.rest.test.EndpointsTest;
 import ca.bc.gov.nrs.wfone.common.rest.client.RestClientServiceException;
 
 public class SwaggerTests extends EndpointsTest {
 	private static final Logger logger = LoggerFactory.getLogger(SwaggerTests.class);
-	
 		
 	private static ObjectMapper mapper = new ObjectMapper();
 
@@ -33,10 +34,20 @@ public class SwaggerTests extends EndpointsTest {
 			return;
 		}
 
-		NotificationService service = new NotificationServiceImpl();
-		((NotificationServiceImpl) service).setTopLevelRestURL(topLevelRestURL);
-		
-		String resource = service.getSwaggerString();
+		String resource;
+		try {
+			HttpClient client = HttpClient.newHttpClient();
+			HttpRequest request = HttpRequest.newBuilder()
+					.uri(URI.create(topLevelRestURL + "openapi.json"))
+					.GET()
+					.build();
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			Assertions.assertEquals(200, response.statusCode(), "Expected 200 from swagger endpoint");
+			resource = response.body();
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to fetch swagger JSON", e);
+		}
+
 		logger.debug(resource);
 		Assertions.assertNotNull(resource);
 		
@@ -72,7 +83,7 @@ public class SwaggerTests extends EndpointsTest {
 			Map<String, Object> xml = (Map<String, Object>) schema.get("xml");
 
 			if(properties!=null&&xml!=null) {
-					
+				
 				@SuppressWarnings("unchecked")
 				Map<String, Object> typeProperty = (Map<String, Object>) properties.get("@type");
 				Assertions.assertNotNull(typeProperty, schemaKey+" is missing typeProperty");
@@ -174,7 +185,7 @@ public class SwaggerTests extends EndpointsTest {
 			}
 		}
 		
-		logger.debug("<testSwagger");
+		logger.debug(">testSwagger");
 	}
 	
 }

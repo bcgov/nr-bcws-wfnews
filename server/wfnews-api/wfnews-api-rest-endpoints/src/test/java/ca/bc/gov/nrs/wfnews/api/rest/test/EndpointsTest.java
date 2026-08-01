@@ -34,14 +34,8 @@ public abstract class EndpointsTest {
 	protected static boolean skipTests = false;
 
 	protected static final int port = 8889;
-	//protected static final int port = 80;
-	protected static final String contextPath = "/wfone-notifications-api/v1";
-	//protected static final String contextPath = "";
-	//protected static final String topLevelRestURL = "http://localhost:" + port + contextPath + "/";
-	//protected static final String topLevelRestURL = "https://wfone-notifications-api-dev-6-secure-fytirg.pathfinder.gov.bc.ca/";
-	protected static final String topLevelRestURL = "https://wfone-notifications-api.bcwildfireservices.com/";
-
-
+	protected static final String contextPath = "";
+	protected static final String topLevelRestURL = "http://localhost:" + port + contextPath + "/";
 
 
 	protected static ApplicationContext testApplicationContext;
