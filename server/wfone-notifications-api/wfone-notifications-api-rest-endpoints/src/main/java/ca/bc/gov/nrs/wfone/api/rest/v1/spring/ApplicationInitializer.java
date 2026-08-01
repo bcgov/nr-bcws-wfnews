@@ -34,10 +34,12 @@ public class ApplicationInitializer extends AbstractSecurityWebApplicationInitia
     	servletContext.setInitParameter(PAR_NAME_CTX_CONFIG_LOCATION, "java configuration");
     	
         ServletRegistration.Dynamic restServlet = servletContext.addServlet("Rest Servlet", ServletContainer.class);
-        restServlet.setInitParameter("jakarta.ws.rs.Application", JerseyApplication.class.getName());
-        restServlet.setLoadOnStartup(1);
-        
-        restServlet.addMapping("/*");
+        if (restServlet != null) {
+            // restServlet is null when already registered (double-init guard for Jetty 11)
+            restServlet.setInitParameter("jakarta.ws.rs.Application", JerseyApplication.class.getName());
+            restServlet.setLoadOnStartup(1);
+            restServlet.addMapping("/*");
+        }
         
         FilterRegistration.Dynamic corsFilter = servletContext.addFilter("CORS Filter", CorsFilter.class);
         if (corsFilter != null) {
