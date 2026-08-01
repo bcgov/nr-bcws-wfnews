@@ -1,5 +1,7 @@
 package ca.bc.gov.mof.wfpointid.test;
 
+import java.util.Properties;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,9 +17,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ca.bc.gov.test.jetty.EmbeddedServer;
 
 public abstract class EndpointsTest {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(EndpointsTest.class);
-	
+
 	protected static boolean skipTests = false;
 
 	protected static final int port = 8889;
@@ -25,11 +27,11 @@ public abstract class EndpointsTest {
 	protected static final String topLevelRestURL = "http://localhost:" + port + contextPath + "/";
 
 	protected static ApplicationContext testApplicationContext;
-	
+
 	@BeforeAll
 	public static void startServer() throws Exception {
 		logger.debug("<startServer");
-		
+
 		if(skipTests) {
 			logger.warn("Skipping tests");
 			return;
@@ -37,6 +39,14 @@ public abstract class EndpointsTest {
 
 		System.setProperty("webade-bootstrap-override-directory-location", "src/test/resources");
 		System.setProperty("user-info-file-location", "src/test/resources/webade-xml-user-info.xml");
+		
+		try (InputStream is = EndpointsTest.class.getResourceAsStream("/test.properties")) {
+			Properties p = new Properties();
+			p.load(is);
+			for (String name : p.stringPropertyNames()) {
+				System.setProperty(name, p.getProperty(name));
+			}
+		}
 		
 		testApplicationContext = new ClassPathXmlApplicationContext(new String[] { "classpath:/test-spring-config.xml" });
 		
