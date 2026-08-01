@@ -7,20 +7,20 @@ import jakarta.servlet.ServletConfig;
 import jakarta.ws.rs.core.Context;
 
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.impl.RoFEndpointsImpl;
 import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.impl.NotificationSettingsEndpointImpl;
 import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.impl.TopLevelEndpointsImpl;
+import ca.bc.gov.nrs.wfone.common.rest.endpoints.jersey.JerseyResourceConfig;
 import io.swagger.v3.jaxrs2.integration.JaxrsOpenApiContextBuilder;
 import io.swagger.v3.jaxrs2.integration.resources.AcceptHeaderOpenApiResource;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.integration.OpenApiConfigurationException;
 import io.swagger.v3.oas.integration.SwaggerConfiguration;
 
-public class JerseyApplication extends ResourceConfig {
+public class JerseyApplication extends JerseyResourceConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(JerseyApplication.class);
 
@@ -53,6 +53,8 @@ public class JerseyApplication extends ResourceConfig {
 
 		try {
 			new JaxrsOpenApiContextBuilder<>()
+					.servletConfig(servletConfig)
+					.application(this)
 					.openApiConfiguration(oasConfig)
 					.buildContext(true);
 		} catch (OpenApiConfigurationException e) {

@@ -21,14 +21,14 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublishedIncidentEndpoint
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.SituationReportEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.StatisticsEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.TopLevelEndpointsImpl;
-import org.glassfish.jersey.server.ResourceConfig;
+import ca.bc.gov.nrs.wfone.common.rest.endpoints.jersey.JerseyResourceConfig;
 import io.swagger.v3.jaxrs2.integration.JaxrsOpenApiContextBuilder;
 import io.swagger.v3.jaxrs2.integration.resources.AcceptHeaderOpenApiResource;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.integration.OpenApiConfigurationException;
 import io.swagger.v3.oas.integration.SwaggerConfiguration;
 
-public class JerseyApplication extends ResourceConfig {
+public class JerseyApplication extends JerseyResourceConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(JerseyApplication.class);
 
@@ -69,6 +69,7 @@ public class JerseyApplication extends ResourceConfig {
 
         try {
             new JaxrsOpenApiContextBuilder<JaxrsOpenApiContextBuilder<?>>()
+                    .servletConfig(servletConfig)
                     .application(this)
                     .openApiConfiguration(oasConfig)
                     .buildContext(true);
