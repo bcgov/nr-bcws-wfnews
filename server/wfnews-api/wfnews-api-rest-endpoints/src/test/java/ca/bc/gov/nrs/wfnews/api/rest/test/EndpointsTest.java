@@ -42,7 +42,7 @@ public abstract class EndpointsTest {
 	protected static final String topLevelRestURL = "https://wfone-notifications-api.bcwildfireservices.com/";
 
 
-	
+
 
 	protected static ApplicationContext testApplicationContext;
 	protected static ApplicationContext webApplicationContext;
@@ -66,11 +66,16 @@ public abstract class EndpointsTest {
 		Properties applicationProperties = testApplicationContext.getBean("applicationProperties", Properties.class);
 		
 		for(String key:applicationProperties.stringPropertyNames()) {
-			
-			String value = applicationProperties.getProperty(key);
-			logger.debug(key+"="+value);
-			
-			System.setProperty(key, value);
+
+			// Real env vars / system properties (e.g. pointing at a live dev DB) win over
+			// these test-only fallback values, so tests can still run against real resources.
+			if (System.getProperty(key) == null && System.getenv(key) == null) {
+
+				String value = applicationProperties.getProperty(key);
+				logger.debug(key+"="+value);
+
+				System.setProperty(key, value);
+			}
 		}
 		
 		//System.setProperties(applicationProperties);
