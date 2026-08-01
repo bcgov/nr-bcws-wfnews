@@ -79,8 +79,7 @@ public class WeatherHour {
 	 * @return null if the hour is invalid (e.g. has values out of range)
 	 */
 	private static Calendar fromHourstamp(String hourstamp) {
-		Calendar val = fromHourstamp(hourstamp, TZ_GMT);
-		return val == null ? Calendar.getInstance() : val;
+		return fromHourstamp(hourstamp, TZ_GMT);
 	}
 
 	static Calendar fromHourstamp(String hourstamp, TimeZone zone) {
