@@ -27,6 +27,15 @@
 			<artifactId>angus-mail</artifactId>
 		</dependency>
 
+		<!-- Hibernate Validator's default message interpolator needs a Jakarta EL implementation
+		     at runtime (ModelValidator -> BaseValidator -> hibernate-validator), or bean validation
+		     fails with HV000183 on first use. -->
+		<dependency>
+			<groupId>org.glassfish.expressly</groupId>
+			<artifactId>expressly</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
