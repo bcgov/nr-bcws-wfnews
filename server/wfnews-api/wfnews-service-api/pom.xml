@@ -26,7 +26,7 @@
 			<groupId>org.eclipse.angus</groupId>
 			<artifactId>angus-mail</artifactId>
 		</dependency>
-	
+
 	<dependency>
 			<groupId>ca.bc.gov.nrs.wfone.common</groupId>
 			<artifactId>wfone-common-rest-endpoints</artifactId>
@@ -120,12 +120,6 @@
 				<artifactId>unirest-java</artifactId>
 				<version>3.11.09</version>
 		</dependency>
-
-		<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>3.1.0</version>
-			</dependency>
 
 		<dependency>
 			<groupId>ca.bc.gov.nrs.wfnews</groupId>

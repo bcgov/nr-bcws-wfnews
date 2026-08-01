@@ -21,6 +21,8 @@
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.sources>database,docker,lambda,terraform,client/wfnews-war/src/main/angular/src</sonar.sources>
     <log4j.version>2.24.3</log4j.version>
+    <wfone.common.version>1.5.0</wfone.common.version>
+    <swagger.version>2.2.20</swagger.version>
   </properties>
   
   <modules>

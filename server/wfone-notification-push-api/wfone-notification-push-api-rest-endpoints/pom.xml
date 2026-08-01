@@ -240,7 +240,7 @@
 			<plugin>
 				<groupId>io.swagger.core.v3</groupId>
 				<artifactId>swagger-maven-plugin-jakarta</artifactId>
-				<version>2.2.20</version>
+				<version>${swagger.version}</version>
 				<configuration>
 					<outputFileName>swagger</outputFileName>
 					<outputPath>${project.build.directory}</outputPath>

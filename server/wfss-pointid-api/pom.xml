@@ -14,6 +14,7 @@
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 	<properties>
+		<jetty.version>11.0.20</jetty.version>
 		<dollar>$</dollar>
 	</properties>
 	<modules>
@@ -41,38 +42,15 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-	
+
 			<!-- force AOP 4.3.7 -->
 			<!-- Jetty -->
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-server</artifactId>
-				<version>9.4.51.v20230217</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-annotations</artifactId>
-				<version>9.4.51.v20230217</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-webapp</artifactId>
-				<version>9.4.51.v20230217</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-jndi</artifactId>
-				<version>9.4.51.v20230217</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-plus</artifactId>
-				<version>9.4.51.v20230217</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-jsp</artifactId>
-				<version>9.3.0.M1</version>
+				<artifactId>jetty-bom</artifactId>
+				<version>${jetty.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.locationtech.jts</groupId>
@@ -102,13 +80,13 @@
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter-api</artifactId>
-				<version>5.10.1</version>
+				<version>5.11.4</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter-engine</artifactId>
-				<version>5.10.1</version>
+				<version>5.11.4</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -137,12 +115,7 @@
                 <artifactId>gt-referencing</artifactId>
                 <version>25.0</version>
             </dependency>
-            <dependency>
-				<groupId>com.mashape.unirest</groupId>
-				<artifactId>unirest-java</artifactId>
-				<version>1.4.9</version>
-			</dependency>
-			
+
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
