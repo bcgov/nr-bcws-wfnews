@@ -1,11 +1,12 @@
-FROM tomcat:10.1-jdk21-corretto
+FROM tomcat:10.1-jdk21
 ENV TOMCAT_MAJOR=10 \
-JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=2 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp -XX:+ExitOnOutOfMemoryError -XX:+PrintFlagsFinal" \
+JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all -XX:MaxRAMPercentage=50.0 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp -XX:+ExitOnOutOfMemoryError -XX:+PrintFlagsFinal" \
 TOMCAT_VERSION=10.1 \
 TOMCAT_HOME=/usr/local/tomcat \
 CATALINA_HOME=/usr/local/tomcat \
 CATALINA_OUT=/usr/local/tomcat/logs
 COPY /wfss-pointid-api-rest-endpoints/target/wfss-pointid-api-rest-endpoints-1.4.2.war /temp/
+RUN apt-get update && apt-get install -y unzip
 RUN unzip /temp/wfss-pointid-api-rest-endpoints-1.4.2.war -d /usr/local/tomcat/webapps/wfss-pointid-api/
 RUN adduser --system tomcat
 RUN chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
