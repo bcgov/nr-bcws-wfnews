@@ -53,10 +53,12 @@ export class WeatherHistoryComponent implements OnInit {
     });
 
     if ((this.latitude && this.longitude) || (this.params && this.params['latitude'] && this.params['longitude'])) {
+      const latitude = this.latitude ?? this.params['latitude'];
+      const longitude = this.longitude ?? this.params['longitude'];
       this.pointIdService
         .fetchNearestWeatherStation(
-          Number(this.params['latitude']),
-          Number(this.params['longitude']),
+          Number(latitude),
+          Number(longitude),
         )
         .then((response) => {
           this.setWeatherStation(response);
