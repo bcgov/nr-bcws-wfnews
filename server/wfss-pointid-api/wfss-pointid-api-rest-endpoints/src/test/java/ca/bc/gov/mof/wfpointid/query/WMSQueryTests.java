@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import ca.bc.gov.mof.wfpointid.dataprovider.DataItemDef;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import ca.bc.gov.mof.wfpointid.dataprovider.DataRequestDef;
 import ca.bc.gov.mof.wfpointid.dataprovider.geoserver.GeoserverDataProvider;
 import ca.bc.gov.mof.wfpointid.identify.IdentifyQuery;
@@ -21,6 +22,7 @@ public class WMSQueryTests {
 
 	
 	@Test
+	@EnabledIfSystemProperty(named = "wfnews.it", matches = "true", disabledReason = "Queries the live wf1geot geoserver WMS (FM_FUEL_TYPE_BC); requires VPN. Run with -Dwfnews.it=true")
     public void testQuery() throws Exception {
     	
     	QueryEngine engine = QueryTestUtil.createEngine_WF_GS();

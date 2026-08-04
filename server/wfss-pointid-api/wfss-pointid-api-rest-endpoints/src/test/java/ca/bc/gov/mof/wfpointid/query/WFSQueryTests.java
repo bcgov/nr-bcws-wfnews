@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.containsString;
 import ca.bc.gov.mof.wfpointid.dataprovider.DataItemDef;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import ca.bc.gov.mof.wfpointid.dataprovider.DataRequestDef;
 import ca.bc.gov.mof.wfpointid.dataprovider.geoserver.GeoserverDataProvider;
 import ca.bc.gov.mof.wfpointid.identify.IdentifyService;
@@ -19,6 +20,7 @@ import ca.bc.gov.mof.wfpointid.test.util.QueryTestUtil;
 public class WFSQueryTests {
 	
     @Test
+	@EnabledIfSystemProperty(named = "wfnews.it", matches = "true", disabledReason = "Queries the live wf1geot geoserver WFS; requires VPN. Run with -Dwfnews.it=true")
     public void testWFSBuf() throws Exception {
     	
     	QueryEngine engine = QueryTestUtil.createEngine_WF_GS();
@@ -47,6 +49,7 @@ public class WFSQueryTests {
     }
     
 	@Test
+	@EnabledIfSystemProperty(named = "wfnews.it", matches = "true", disabledReason = "Asserts on the live wf1geot geoserver's 'Feature type unknown' error; requires VPN. Run with -Dwfnews.it=true")
     public void testBadLayer() throws Exception {
     	
     	QueryEngine engine = QueryTestUtil.createEngine_WF_GS();
@@ -57,6 +60,7 @@ public class WFSQueryTests {
     }
     
     @Test
+	@EnabledIfSystemProperty(named = "wfnews.it", matches = "true", disabledReason = "Queries the live wf1geot geoserver WFS; requires VPN. Run with -Dwfnews.it=true")
     public void testQuery() throws Exception {
     	
     	QueryEngine engine = QueryTestUtil.createEngine_WF_GS();

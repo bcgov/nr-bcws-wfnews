@@ -6,6 +6,7 @@ import org.easymock.MockType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,11 @@ import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.impl.WildfirePushNot
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
+// The endpoint opens a JDBC transaction to look up nearby subscribers, so it needs a real,
+// migrated Postgres behind WFONE_PUSH_NOTIFICATION_DATASOURCE_URL. The offline test.properties
+// points at a placeholder URL, so this cannot run in the offline CI job. Firebase and SQS are
+// mocked/stubbed here; only the database is missing.
+@EnabledIfSystemProperty(named = "wfnews.it", matches = "true", disabledReason = "Requires a real push-notification Postgres database; run with -Dwfnews.it=true against a provisioned DB")
 public class PushNearMeNotificationEndpointsTest extends EndpointsTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(PushNearMeNotificationEndpointsTest.class);

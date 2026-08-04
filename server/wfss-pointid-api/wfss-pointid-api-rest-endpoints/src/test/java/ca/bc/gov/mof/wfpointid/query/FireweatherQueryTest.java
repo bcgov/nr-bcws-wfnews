@@ -5,11 +5,13 @@ import static org.hamcrest.Matchers.arrayWithSize;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
 import ca.bc.gov.mof.wfpointid.rest.model.WeatherResource;
 import ca.bc.gov.mof.wfpointid.test.util.QueryTestUtil;
 import ca.bc.gov.mof.wfpointid.weather.WeatherService;
 
+@EnabledIfSystemProperty(named = "wfnews.it", matches = "true", disabledReason = "Queries the live wfwx-fireweather-api; requires VPN + INT endpoints. Run with -Dwfnews.it=true")
 public class FireweatherQueryTest {
 
 	@BeforeEach

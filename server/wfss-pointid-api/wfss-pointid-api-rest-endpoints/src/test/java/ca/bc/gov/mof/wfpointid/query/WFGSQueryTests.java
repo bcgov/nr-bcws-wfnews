@@ -10,6 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import ca.bc.gov.mof.wfpointid.dataprovider.DataRequestDef;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import ca.bc.gov.mof.wfpointid.dataprovider.geoserver.GeoserverDataProvider;
 import ca.bc.gov.mof.wfpointid.identify.GeographyQuery;
 import ca.bc.gov.mof.wfpointid.identify.IdentifyService;
@@ -18,6 +19,7 @@ import ca.bc.gov.mof.wfpointid.test.util.QueryTestUtil;
 public class WFGSQueryTests {
 
 	@Test
+	@EnabledIfSystemProperty(named = "wfnews.it", matches = "true", disabledReason = "Queries the live wf1geot geoserver (BC_DEM/BC_SLOPE/BC_ASPECT); requires VPN. Run with -Dwfnews.it=true")
     public void testSlope() throws Exception {
     	
     	QueryEngine engine = QueryTestUtil.createEngine_WF_GS();

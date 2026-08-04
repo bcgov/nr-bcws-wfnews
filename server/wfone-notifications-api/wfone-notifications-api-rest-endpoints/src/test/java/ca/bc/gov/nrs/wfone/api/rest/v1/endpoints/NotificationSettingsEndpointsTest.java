@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +30,10 @@ import ca.bc.gov.nrs.wfone.api.rest.v1.resource.NotificationRsrc;
 import ca.bc.gov.nrs.wfone.api.rest.v1.resource.NotificationSettingsRsrc;
 import ca.bc.gov.nrs.wfone.service.api.v1.validation.Errors;
 
+// Reads and writes notification settings through the persistence layer, so it needs a
+// real, migrated Postgres behind DATASOURCE_URL. The offline test.properties points at a
+// placeholder URL, so this cannot run in the offline CI job.
+@EnabledIfSystemProperty(named = "wfnews.it", matches = "true", disabledReason = "Requires a real notifications Postgres database; run with -Dwfnews.it=true against a provisioned DB")
 public class NotificationSettingsEndpointsTest extends EndpointsTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(NotificationSettingsEndpointsTest.class);
