@@ -630,7 +630,7 @@ resource "aws_cloudfront_response_headers_policy" "cache_control_response_header
     items {
       header   = "Cache-Control"
       override = true
-      value    = "stale-while-revalidate=600"
+      value    = "no-store, no-cache, must-revalidate, max-age=0"
     }
   }
 
