@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ServiceBusyException extends Exception {
 	
 	public ServiceBusyException(String service, Throwable ex) {
-		super(Messages.ERROR_SERVICE_BUSY+ String.format(" (%s)", service), ex);
+		super(Messages.ERROR_SERVICE_BUSY+ " (%s)".formatted(service), ex);
 	}
 }

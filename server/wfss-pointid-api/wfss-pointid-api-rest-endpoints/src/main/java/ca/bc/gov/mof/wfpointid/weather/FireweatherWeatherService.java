@@ -34,7 +34,7 @@ public class FireweatherWeatherService extends WeatherService {
 			
 	public FireweatherWeatherService(String baseUrl, String webadeOauth2ClientId, String webadeOauth2ClientSecret, String webadeOauth2TokenUrl, String scopes) {
 
-		LOG.info(String.format("Init fireweather client for: %s, user: %s", baseUrl, webadeOauth2ClientId));
+		LOG.info("Init fireweather client for: %s, user: %s".formatted(baseUrl, webadeOauth2ClientId));
 		this.service = new WildfireFireweatherServiceImpl(webadeOauth2ClientId, webadeOauth2ClientSecret, webadeOauth2TokenUrl, scopes);
 		this.service.setTopLevelRestURL(baseUrl);
 
@@ -64,7 +64,7 @@ public class FireweatherWeatherService extends WeatherService {
 			hourstamp = WeatherHour.addHours(WeatherHour.now(),-1); // "Now" is the most recent hour to have finished so go back one.
 		}
 		TimeRange hourliesRange = WeatherHour.range(hourstamp, hourlyDuration);
-		LOG.info(String.format("Getting hourlies for station %s (%s) from %d to %d", station.getStationCode(),resource.getId(), hourliesRange.getStartMillis(), hourliesRange.getEndMillis()));
+		LOG.info("Getting hourlies for station %s (%s) from %d to %d".formatted(station.getStationCode(), resource.getId(), hourliesRange.getStartMillis(), hourliesRange.getEndMillis()));
 		WeatherHourly[] hrly = convertHourlies(service.getHourlies(resource.getId().toString(), hourliesRange.getStartMillis()+1, hourliesRange.getEndMillis()+1), hourstamp);
 		hrly = fillHourlies(hrly, hourliesRange);
 		
@@ -77,7 +77,7 @@ public class FireweatherWeatherService extends WeatherService {
 			dailiesRange = WeatherDay.rangeFromHour(hourstamp, dailyDuration);
 		}
 
-		LOG.info(String.format("Getting dailies for station %s (%s) from %d to %d", station.getStationCode(),resource.getId(), dailiesRange.getStartMillis(), dailiesRange.getEndMillis()));
+		LOG.info("Getting dailies for station %s (%s) from %d to %d".formatted(station.getStationCode(), resource.getId(), dailiesRange.getStartMillis(), dailiesRange.getEndMillis()));
 		WeatherDaily[] daily = convertDailies(service.getDailies(resource.getId().toString(), dailiesRange.getStartMillis(), dailiesRange.getEndMillis()), dailiesRange.getEndStamp());
 		daily = fillDailies(daily, dailiesRange);
 		
@@ -115,7 +115,7 @@ public class FireweatherWeatherService extends WeatherService {
 			WeatherHourly weather = convertWeatherBase(new WeatherHourly(), from);
 			weather.setHour(WeatherHour.fromMillis(from.getWeatherTimestamp()));
 			weather.setIndex(WeatherHour.diffHours(endHour, weather.getHour())+1);
-			LOG.debug(String.format("Hourly for %s, index %d", weather.getHour(), weather.getIndex()));
+			LOG.debug("Hourly for %s, index %d".formatted(weather.getHour(), weather.getIndex()));
 			return weather;
 		}).toArray(WeatherHourly[]::new);
 	}
@@ -128,7 +128,7 @@ public class FireweatherWeatherService extends WeatherService {
 			weather.setDroughtCode(from.getDroughtCode());
 			weather.setDay(WeatherHour.toDay(WeatherHour.fromMillis(from.getWeatherTimestamp())));
 			weather.setIndex(WeatherDay.diffDays(endDay, weather.getDay())+1);
-			LOG.debug(String.format("Daily for %s, index %d", weather.getDay(), weather.getIndex()));
+			LOG.debug("Daily for %s, index %d".formatted(weather.getDay(), weather.getIndex()));
 			LOG.info("Daily build up index: " + weather.getBuildupIndex()  + " drought code: " + weather.getDroughtCode() + " duff moisture code: "    + weather.getDuffMoistureCode()    );
 			return weather;
 		}).toArray(WeatherDaily[]::new);
@@ -137,7 +137,7 @@ public class FireweatherWeatherService extends WeatherService {
 	static  WeatherDaily[] fillDailies(WeatherDaily[] sparse, TimeRange range) {
 		WeatherDaily[] result = new WeatherDaily[range.getDuration()];
 		for(WeatherDaily report: sparse) {
-			LOG.debug(String.format("Placing daily %s at %d-1", report.getDay(), report.getIndex()));
+			LOG.debug("Placing daily %s at %d-1".formatted(report.getDay(), report.getIndex()));
 			result[report.getIndex()-1] = report;
 		}
 		for (int i = 0; i<range.getDuration(); i++) {
@@ -154,7 +154,7 @@ public class FireweatherWeatherService extends WeatherService {
 	static  WeatherHourly[] fillHourlies(WeatherHourly[] sparse, TimeRange range) {
 		WeatherHourly[] result = new WeatherHourly[range.getDuration()];
 		for(WeatherHourly report: sparse) {
-			LOG.debug(String.format("Placing hourly %s at %d-1", report.getHour(), report.getIndex()));
+			LOG.debug("Placing hourly %s at %d-1".formatted(report.getHour(), report.getIndex()));
 			result[report.getIndex()-1] = report;
 		}
 		for (int i = 0; i<range.getDuration(); i++) {

@@ -2,17 +2,17 @@
 
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import ca.bc.gov.nrs.common.rest.endpoints.BaseEndpoints;
+
 import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.ForbiddenException;
 import ca.bc.gov.nrs.common.service.NotFoundException;
@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiParam;
 @Path("/publicPublishedIncident")
 @Api(value = "PublicPublishedIncidentEndpoint")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
+public interface PublicPublishedIncidentEndpoint {
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

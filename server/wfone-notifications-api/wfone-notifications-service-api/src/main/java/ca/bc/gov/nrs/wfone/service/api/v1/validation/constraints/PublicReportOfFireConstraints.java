@@ -1,7 +1,7 @@
 package ca.bc.gov.nrs.wfone.service.api.v1.validation.constraints;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import ca.bc.gov.nrs.wfone.service.api.v1.validation.Errors;
 

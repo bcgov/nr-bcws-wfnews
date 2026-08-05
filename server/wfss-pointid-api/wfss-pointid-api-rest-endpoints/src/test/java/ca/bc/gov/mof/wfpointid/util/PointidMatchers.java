@@ -126,8 +126,8 @@ public class PointidMatchers {
 	
 			@Override
 			public boolean matches(Object item) {
-				if(item instanceof Optional) {
-					return !((Optional<?>) item).isPresent();
+				if(item instanceof Optional<?> optional) {
+					return optional.isEmpty();
 				}
 				return false;
 			}

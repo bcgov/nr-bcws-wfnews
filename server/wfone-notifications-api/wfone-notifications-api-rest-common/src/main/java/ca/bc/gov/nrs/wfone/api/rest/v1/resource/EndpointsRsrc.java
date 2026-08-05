@@ -1,6 +1,8 @@
 package ca.bc.gov.nrs.wfone.api.rest.v1.resource;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serial;
+
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -13,6 +15,7 @@ import ca.bc.gov.nrs.wfone.api.rest.v1.resource.types.ResourceTypes;
 @JsonSubTypes({ @Type(value = EndpointsRsrc.class, name = ResourceTypes.ENDPOINTS) })
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public class EndpointsRsrc extends BaseResource {
+	@Serial
 	private static final long serialVersionUID = -7844824213085594025L;
 
 	private String releaseVersion;

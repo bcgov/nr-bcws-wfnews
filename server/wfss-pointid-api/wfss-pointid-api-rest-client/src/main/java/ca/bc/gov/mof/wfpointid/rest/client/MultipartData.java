@@ -1,9 +1,11 @@
 package ca.bc.gov.mof.wfpointid.rest.client;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class MultipartData implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private String fileName;

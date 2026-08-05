@@ -1,9 +1,10 @@
 package ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.resource;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -17,6 +18,7 @@ import ca.bc.gov.nrs.wfone.notification.push.model.v1.PushNotificationList;
 @JsonSubTypes({ @Type(value = PushNotificationListRsrc.class, name = ResourceTypes.PUSH_NOTIFICATION_LIST) })
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public class PushNotificationListRsrc extends TypedResource implements PushNotificationList<PushNotificationRsrc> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private List<PushNotificationRsrc> collection = new ArrayList<PushNotificationRsrc>(0);

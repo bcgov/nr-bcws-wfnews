@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto;
 
+import java.io.Serial;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import ca.bc.gov.nrs.wfone.common.persistence.utils.DtoUtils;
 
 public class NotificationPushItemDto  extends BaseDto<NotificationPushItemDto> {
 
+	@Serial
 	private static final long serialVersionUID = 804643743323944771L;
 	private static final Logger logger = LoggerFactory.getLogger(NotificationPushItemDto.class);
 	

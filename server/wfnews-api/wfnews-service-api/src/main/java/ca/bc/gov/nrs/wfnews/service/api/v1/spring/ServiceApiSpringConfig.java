@@ -2,9 +2,9 @@ package ca.bc.gov.nrs.wfnews.service.api.v1.spring;
 
 import java.util.Properties;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
+import jakarta.mail.Authenticator;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

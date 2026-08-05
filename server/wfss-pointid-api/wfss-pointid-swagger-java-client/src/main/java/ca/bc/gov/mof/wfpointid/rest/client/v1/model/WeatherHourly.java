@@ -16,8 +16,7 @@ package ca.bc.gov.mof.wfpointid.rest.client.v1.model;
 import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
-
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * WeatherHourly
@@ -65,7 +64,7 @@ public class WeatherHourly {
    * Get hour
    * @return hour
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getHour() {
     return hour;
   }
@@ -83,7 +82,7 @@ public class WeatherHourly {
    * Get index
    * @return index
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getIndex() {
     return index;
   }
@@ -101,7 +100,7 @@ public class WeatherHourly {
    * Get temp
    * @return temp
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getTemp() {
     return temp;
   }
@@ -119,7 +118,7 @@ public class WeatherHourly {
    * Get relativeHumidity
    * @return relativeHumidity
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getRelativeHumidity() {
     return relativeHumidity;
   }
@@ -137,7 +136,7 @@ public class WeatherHourly {
    * Get windSpeed
    * @return windSpeed
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getWindSpeed() {
     return windSpeed;
   }
@@ -155,7 +154,7 @@ public class WeatherHourly {
    * Get windDirection
    * @return windDirection
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getWindDirection() {
     return windDirection;
   }
@@ -173,7 +172,7 @@ public class WeatherHourly {
    * Get windCardinalDir
    * @return windCardinalDir
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getWindCardinalDir() {
     return windCardinalDir;
   }
@@ -191,7 +190,7 @@ public class WeatherHourly {
    * Get precipitation
    * @return precipitation
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getPrecipitation() {
     return precipitation;
   }
@@ -209,7 +208,7 @@ public class WeatherHourly {
    * Get fineFuelMoistureCode
    * @return fineFuelMoistureCode
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getFineFuelMoistureCode() {
     return fineFuelMoistureCode;
   }
@@ -227,7 +226,7 @@ public class WeatherHourly {
    * Get initialSpreadIndex
    * @return initialSpreadIndex
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getInitialSpreadIndex() {
     return initialSpreadIndex;
   }
@@ -245,7 +244,7 @@ public class WeatherHourly {
    * Get fireWeatherIndex
    * @return fireWeatherIndex
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getFireWeatherIndex() {
     return fireWeatherIndex;
   }

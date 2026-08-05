@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.GenericEntity;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +25,9 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.model.Message;
 import ca.bc.gov.nrs.wfone.common.model.MessageImpl;
-import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 
-public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl implements PublicPublishedIncidentEndpoint {
+
+public class PublicPublishedIncidentEndpointImpl extends WfNewsBaseEndpointsImpl implements PublicPublishedIncidentEndpoint {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PublicPublishedIncidentEndpointImpl.class);
 	

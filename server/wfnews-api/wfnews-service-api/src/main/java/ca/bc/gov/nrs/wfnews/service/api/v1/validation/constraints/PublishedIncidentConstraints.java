@@ -2,7 +2,7 @@ package ca.bc.gov.nrs.wfnews.service.api.v1.validation.constraints;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.Errors;
 

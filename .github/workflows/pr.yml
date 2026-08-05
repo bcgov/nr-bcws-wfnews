@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
 
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1
@@ -23,6 +23,59 @@ jobs:
           severity: "CRITICAL"
 
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: "trivy-results.sarif"
+
+  static-gates:
+    name: Static config gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: No hardcoded defaults on production @Value
+        run: |
+          if grep -rnE '@Value\("\$\{[^:}]*:' server --include="*.java" | grep "/src/main/"; then
+            echo "::error::Found @Value default(s) in production code - this weakens fail-fast on missing config. See server/wfnews-api and server/wfone-notifications-api Spring config classes."
+            exit 1
+          fi
+
+      - name: No javax servlet/validation/ws.rs/mail leftovers in poms
+        run: |
+          if grep -rlE 'javax\.(servlet|validation|ws\.rs|mail)' server --include="pom.xml"; then
+            echo "::error::Found javax-era dependency in a server pom.xml - this stack is on Jakarta EE."
+            exit 1
+          fi
+
+      - name: No spring-security-oauth2 (EOL, no Jakarta build)
+        run: |
+          if grep -rl 'spring-security-oauth2</artifactId>' server --include="pom.xml"; then
+            echo "::error::Found spring-security-oauth2 dependency - it has no Jakarta build, replace with a client_credentials interceptor or spring-security-oauth2-client."
+            exit 1
+          fi
+
+      - name: Every @Disabled must carry a reason
+        run: |
+          if grep -rnE '^\s*@Disabled\s*$' server --include="*.java"; then
+            echo "::error::Found a bare @Disabled with no reason string - add one so it's clear why the test is off."
+            exit 1
+          fi
+
+  test:
+    name: Offline unit tests (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [wfnews-api, wfone-notifications-api, wfone-notification-push-api, wfss-pointid-api]
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Run offline tests
+        run: mvn --settings server/${{ matrix.project }}/mvn_settings/settings.xml --batch-mode -f server/${{ matrix.project }}/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -Dwfnews.it=false test

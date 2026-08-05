@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dto;
 
+import java.io.Serial;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -8,7 +9,8 @@ import org.slf4j.LoggerFactory;
 import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
 
 public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
-	
+
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger logger = LoggerFactory.getLogger(PublishedIncidentDto.class);

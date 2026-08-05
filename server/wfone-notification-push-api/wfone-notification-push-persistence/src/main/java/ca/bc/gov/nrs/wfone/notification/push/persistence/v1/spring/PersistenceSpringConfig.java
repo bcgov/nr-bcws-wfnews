@@ -17,9 +17,11 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -48,12 +50,12 @@ public class PersistenceSpringConfig {
 	}
 
 	@Bean
-	public PlatformTransactionManager transactionManager(DataSource wfoneDataSource) {
+	public PlatformTransactionManager transactionManager(@Qualifier("wfoneDataSource") DataSource wfoneDataSource) {
 		return new DataSourceTransactionManager(wfoneDataSource);
 	}
 
 	@Bean
-	public SqlSessionFactoryBean sqlSessionFactory(DataSource wfoneDataSource) {
+	public SqlSessionFactoryBean sqlSessionFactory(@Qualifier("wfoneDataSource") DataSource wfoneDataSource) {
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		sessionFactory.setDataSource(wfoneDataSource);
 		
@@ -109,6 +111,7 @@ public class PersistenceSpringConfig {
 	private String wfoneDataSourceMaxConnections;
 
 	@Bean
+	@Primary
 	public DataSource wfoneDataSource() {
 		logger.debug("Creating datasource for " + wfoneDataSourceUrl);
 		BasicDataSource result;

@@ -1,5 +1,6 @@
 package ca.bc.gov.mof.wfpointid.rest.resource;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import ca.bc.gov.mof.wfpointid.model.Message;
 
 public class Messages implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private List<Message> errors;

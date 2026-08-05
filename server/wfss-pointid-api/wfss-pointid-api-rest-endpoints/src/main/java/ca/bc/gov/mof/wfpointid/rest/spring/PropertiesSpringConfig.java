@@ -36,6 +36,10 @@ public class PropertiesSpringConfig {
 			logger.debug("Fetching Environment Variable: {}", entry.getKey());
 			result.setProperty(entry.getKey(), entry.getValue());
 		}
+		
+		for (String key : System.getProperties().stringPropertyNames()) {
+			result.setProperty(key, System.getProperty(key));
+		}
 
 		logger.debug("<systemProperties()");
 		return result;

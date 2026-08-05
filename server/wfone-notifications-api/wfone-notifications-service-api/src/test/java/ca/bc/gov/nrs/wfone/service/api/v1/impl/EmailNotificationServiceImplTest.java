@@ -2,20 +2,20 @@ package ca.bc.gov.nrs.wfone.service.api.v1.impl;
 
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.expectLastCall;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertThat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
 
 import org.easymock.Capture;
 import org.easymock.EasyMock;
 import org.easymock.IMocksControl;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import ca.bc.gov.nrs.common.wfone.rest.resource.HealthCheckResponseRsrc;
 import ca.bc.gov.nrs.wfdm.api.rest.client.FileService;

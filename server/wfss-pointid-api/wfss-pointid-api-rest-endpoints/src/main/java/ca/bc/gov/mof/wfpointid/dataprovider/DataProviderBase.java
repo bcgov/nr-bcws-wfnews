@@ -17,7 +17,7 @@ public abstract class DataProviderBase implements DataProvider {
 		
 		// error checking
 		if (StringUtil.isEmpty(name)) {
-			throw new RuntimeException(String.format("DataProvider name is empty"));
+			throw new RuntimeException("DataProvider name is empty".formatted());
 		}
 
 	}

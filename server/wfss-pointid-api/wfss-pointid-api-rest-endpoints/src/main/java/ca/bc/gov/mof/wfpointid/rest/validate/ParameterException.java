@@ -8,7 +8,7 @@ public class ParameterException extends Exception {
 	}
 
 	private static String format(String name, String msg) {
-		String errMsg = String.format("Parameter %s : %s", name, msg);
+		String errMsg = "Parameter %s : %s".formatted(name, msg);
 		return errMsg;
 	}
 

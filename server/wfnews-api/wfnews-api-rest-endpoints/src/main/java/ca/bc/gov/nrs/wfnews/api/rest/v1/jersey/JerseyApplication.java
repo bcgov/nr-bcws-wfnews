@@ -3,8 +3,8 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.jersey;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.servlet.ServletConfig;
-import javax.ws.rs.core.Context;
+import jakarta.servlet.ServletConfig;
+import jakarta.ws.rs.core.Context;
 
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.Logger;

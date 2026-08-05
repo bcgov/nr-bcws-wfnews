@@ -4,11 +4,9 @@ import static ca.bc.gov.mof.wfpointid.test.util.QueryResponseChecker.NUMBER;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryResponseChecker.STRING;
 
 import org.json.JSONObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.Assert;
 
@@ -20,7 +18,6 @@ import ca.bc.gov.mof.wfpointid.rest.endpoint.PointIdEndpoints;
 import ca.bc.gov.mof.wfpointid.test.util.Property;
 import ca.bc.gov.mof.wfpointid.test.util.Query;
 
-@RunWith(SpringRunner.class)
 @WebMvcTest(PointIdEndpoints.class)
 public class PointIdWeatherTester {
 	
@@ -157,17 +154,17 @@ public class PointIdWeatherTester {
 			response = Unirest.get(query).header("Content-Type", "application/json").asJson();
 			System.out.println( "Query Response JSON: " + response );
 			
-			Assert.notNull(response);
-			Assert.notNull(response.getStatus());
-			Assert.notNull(response.getBody());
+			Assert.notNull(response, "must not be null");
+			Assert.notNull(response.getStatus(), "must not be null");
+			Assert.notNull(response.getBody(), "must not be null");
 			
 			JSONObject obj = response.getBody().getObject();
-			Assert.notNull(obj.get("errorCount"));
-			Assert.isTrue(obj.get("errorCount").getClass().equals(Integer.class));
-			Assert.isTrue((Integer)(obj.get("errorCount")) > 0);
-			Assert.isTrue(Integer.valueOf(response.getStatus()).equals(statusCode));
-			Assert.isTrue(response.getHeaders().containsKey("Content-Type"));
-			Assert.isTrue(String.valueOf(response.getHeaders().get("Content-Type")).contains("application/json;charset=UTF-8"));
+			Assert.notNull(obj.get("errorCount"), "must not be null");
+			Assert.isTrue(obj.get("errorCount").getClass().equals(Integer.class), "must be true");
+			Assert.isTrue((Integer)(obj.get("errorCount")) > 0, "must be true");
+			Assert.isTrue(Integer.valueOf(response.getStatus()).equals(statusCode), "must be true");
+			Assert.isTrue(response.getHeaders().containsKey("Content-Type"), "must be true");
+			Assert.isTrue(String.valueOf(response.getHeaders().get("Content-Type")).contains("application/json;charset=UTF-8"), "must be true");
 	
 		} 
 		catch (AssertionError e) {
@@ -194,22 +191,22 @@ public class PointIdWeatherTester {
 			response = Unirest.get(query).header("Content-Type", "application/json").asJson();
 			System.out.println( "Query Response JSON: " + response );
 			
-			Assert.notNull(response);					
-			Assert.notNull(response.getStatus());
-			Assert.notNull(response.getBody());
+			Assert.notNull(response, "must not be null");					
+			Assert.notNull(response.getStatus(), "must not be null");
+			Assert.notNull(response.getBody(), "must not be null");
 			
 			JSONObject obj = response.getBody().getObject();
-			Assert.notNull(obj.get("errorCount"));
-			Assert.notNull(obj.get("errorMsg"));
-			Assert.notNull(obj.get("errorDetail"));
-			Assert.notNull(obj.get("timestamp"));
+			Assert.notNull(obj.get("errorCount"), "must not be null");
+			Assert.notNull(obj.get("errorMsg"), "must not be null");
+			Assert.notNull(obj.get("errorDetail"), "must not be null");
+			Assert.notNull(obj.get("timestamp"), "must not be null");
 			
-			Assert.isTrue(Integer.valueOf(response.getStatus()).equals(200));
-			Assert.isTrue(obj.get("errorCount").equals(Integer.valueOf(0)));
-			Assert.isTrue(obj.get("errorMsg").equals(""));
-			Assert.isTrue(obj.get("errorDetail").equals(""));
-			Assert.isTrue(obj.get("timestamp").getClass().equals(String.class)); 
-			Assert.isTrue(String.valueOf(obj.get("timestamp")).matches(REGEX_TIMESTAMP)); 
+			Assert.isTrue(Integer.valueOf(response.getStatus()).equals(200), "must be true");
+			Assert.isTrue(obj.get("errorCount").equals(Integer.valueOf(0)), "must be true");
+			Assert.isTrue(obj.get("errorMsg").equals(""), "must be true");
+			Assert.isTrue(obj.get("errorDetail").equals(""), "must be true");
+			Assert.isTrue(obj.get("timestamp").getClass().equals(String.class), "must be true"); 
+			Assert.isTrue(String.valueOf(obj.get("timestamp")).matches(REGEX_TIMESTAMP), "must be true"); 
 			
 		} 
 		catch (AssertionError e) {

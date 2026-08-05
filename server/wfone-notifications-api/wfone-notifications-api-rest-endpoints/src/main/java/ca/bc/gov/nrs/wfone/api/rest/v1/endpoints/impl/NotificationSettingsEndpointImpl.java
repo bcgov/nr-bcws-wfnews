@@ -1,7 +1,7 @@
 package ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.impl;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +18,9 @@ import ca.bc.gov.nrs.wfone.common.service.api.NotFoundException;
 import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
 import ca.bc.gov.nrs.wfone.service.api.v1.NotificationService;
 import ca.bc.gov.nrs.wfone.api.rest.client.v1.exception.ValidationException;
+import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.impl.WfOneNotificationsBaseEndpointsImpl;
 
-public class NotificationSettingsEndpointImpl  extends BaseEndpointsImpl implements NotificationSettingsEndpoint{
+public class NotificationSettingsEndpointImpl extends WfOneNotificationsBaseEndpointsImpl implements NotificationSettingsEndpoint{
 	
 	private static final Logger logger = LoggerFactory.getLogger(NotificationSettingsEndpointImpl.class);
 	

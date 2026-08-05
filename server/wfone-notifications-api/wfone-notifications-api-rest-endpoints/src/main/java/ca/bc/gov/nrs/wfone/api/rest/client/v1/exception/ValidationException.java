@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfone.api.rest.client.v1.exception;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ public class ValidationException extends Exception {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ValidationException.class);
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private List<Message> messages = new ArrayList<>();

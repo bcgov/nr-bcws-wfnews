@@ -1,9 +1,11 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.spring;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import java.util.Arrays;
 import java.util.Collections;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +21,13 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -34,73 +38,86 @@ import ca.bc.gov.nrs.wfone.common.webade.oauth2.token.client.TokenService;
 @Configuration
 @EnableWebSecurity(debug = false)
 @Import({
-	TokenServiceSpringConfig.class
+		TokenServiceSpringConfig.class
 })
-public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
+public class SecuritySpringConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(SecuritySpringConfig.class);
-	
+
 	private static final String DefaultScopes = "WFNEWS.*, WFIM.*";
 
 	// Beans provided by TokenServiceSpringConfig
 	// This allows Spring to use the proxied service
-	@Autowired 
+	@Autowired
 	@Qualifier("tokenService")
 	TokenService tokenService;
-	
+
 	public SecuritySpringConfig() {
-		super(true);
 		logger.info("<SecuritySpringConfig");
-		
+
 		logger.info(">SecuritySpringConfig");
 	}
-	
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-    	WebadeOauth2AuthenticationProvider result;
-    	
-    	result = new WebadeOauth2AuthenticationProvider(tokenService, DefaultScopes);
-    	
-    	return result;
-    }
+
+	@Bean
+	public AuthenticationProvider authenticationProvider() {
+		WebadeOauth2AuthenticationProvider result;
+
+		result = new WebadeOauth2AuthenticationProvider(tokenService, DefaultScopes);
+
+		return result;
+	}
 
 	@Bean
 	AuthenticationEntryPoint authenticationEntryPoint() {
 		BasicAuthenticationEntryPoint result;
-		
+
 		result = new BasicAuthenticationEntryPoint();
 		result.setRealmName("wfnews-api");
-		
+
 		return result;
 	}
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		
-		web
-		.ignoring()
-		.antMatchers(HttpMethod.OPTIONS, "/openapi.*")
-		.antMatchers(HttpMethod.GET, "/openapi.*")
-		.antMatchers(HttpMethod.OPTIONS, "/checkHealth")
-		.antMatchers(HttpMethod.GET, "/checkHealth")
-		.antMatchers(HttpMethod.OPTIONS, "/publicPublishedIncident/**")
-		.antMatchers(HttpMethod.GET, "/publicPublishedIncident/**")
-		.antMatchers(HttpMethod.OPTIONS, "/publicPublishedIncidentAttachment/**")
-		.antMatchers(HttpMethod.GET, "/publicPublishedIncidentAttachment/**")
-		.antMatchers(HttpMethod.OPTIONS, "/publicExternalUri/**")
-		.antMatchers(HttpMethod.GET, "/publicExternalUri/**")
-		.antMatchers(HttpMethod.GET, "/publicSituationReport/**")
-		.antMatchers(HttpMethod.GET, "/statistics/**")
-		.antMatchers(HttpMethod.OPTIONS, "/mail/**")
-		.antMatchers(HttpMethod.POST, "/mail/**")
-		.antMatchers(HttpMethod.GET, "/")
-		;
+	@Bean
+	WebSecurityCustomizer webSecurityCustomizer() throws Exception {
+
+		return (web) -> {
+
+			web
+					.ignoring()
+					.requestMatchers(new AntPathRequestMatcher("/openapi.*", HttpMethod.OPTIONS.name()))
+					.requestMatchers(new AntPathRequestMatcher("/openapi.*", HttpMethod.GET.name()))
+					.requestMatchers(new AntPathRequestMatcher("/checkHealth", HttpMethod.OPTIONS.name()))
+					.requestMatchers(new AntPathRequestMatcher("/checkHealth",
+							HttpMethod.GET.name()))
+					.requestMatchers(new AntPathRequestMatcher(
+							"/publicPublishedIncident/**", HttpMethod.OPTIONS.name()))
+					.requestMatchers(new AntPathRequestMatcher(
+							"/publicPublishedIncident/**", HttpMethod.GET.name()))
+					.requestMatchers(new AntPathRequestMatcher(
+							"/publicPublishedIncidentAttachment/**", HttpMethod.OPTIONS.name()))
+					.requestMatchers(new AntPathRequestMatcher(
+							"/publicPublishedIncidentAttachment/**", HttpMethod.GET.name()))
+					.requestMatchers(new AntPathRequestMatcher(
+							"/publicExternalUri/**", HttpMethod.OPTIONS.name()))
+					.requestMatchers(new AntPathRequestMatcher(
+							"/publicExternalUri/**", HttpMethod.GET.name()))
+					.requestMatchers(new AntPathRequestMatcher(
+							"/publicSituationReport/**", HttpMethod.GET.name()))
+					.requestMatchers(new AntPathRequestMatcher("/statistics/**",
+							HttpMethod.GET.name()))
+					.requestMatchers(new AntPathRequestMatcher("/mail/**",
+							HttpMethod.OPTIONS.name()))
+					.requestMatchers(new AntPathRequestMatcher("/mail/**",
+							HttpMethod.POST.name()))
+					.requestMatchers(
+							new org.springframework.security.web.util.matcher.AntPathRequestMatcher("/", HttpMethod.GET.name()));
+		};
 	}
-	
+
 	@Bean
 	public AuthenticationManagerResolver<HttpServletRequest> authenticationManagerResolver() {
 		AuthenticationManagerResolver<HttpServletRequest> result;
-		
+
 		result = new AuthenticationManagerResolver<HttpServletRequest>() {
 
 			@Override
@@ -110,44 +127,47 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 
 					@Override
 					public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-						
+
 						return authenticationProvider().authenticate(authentication);
-					}};
-			}};
-		
+					}
+				};
+			}
+		};
+
 		return result;
 	}
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		
-		http.cors().and().csrf().disable()
-		.oauth2ResourceServer(oauth2 -> oauth2
-			.authenticationManagerResolver(authenticationManagerResolver())
-		)
-		.httpBasic().and()
-		.authorizeRequests(authorize -> authorize
-				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-				.antMatchers("/**").hasAuthority("WFNEWS.GET_TOPLEVEL")
-				.anyRequest().denyAll()
-			)
-		.exceptionHandling()
-		.authenticationEntryPoint(authenticationEntryPoint());
+
+	@Bean
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+		http.cors(withDefaults()).csrf(csrf -> csrf.disable())
+				.oauth2ResourceServer(oauth2 -> oauth2
+						.authenticationManagerResolver(authenticationManagerResolver()))
+				.httpBasic(withDefaults())
+				.authorizeHttpRequests(authorize -> authorize
+						.requestMatchers(new AntPathRequestMatcher("/**", HttpMethod.OPTIONS.name()))
+						.permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/**"))
+						.hasAuthority("WFNEWS.GET_TOPLEVEL")
+						.anyRequest().denyAll())
+				.exceptionHandling(handling -> handling
+						.authenticationEntryPoint(authenticationEntryPoint()));
+		return http.build();
 	}
 
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		final CorsConfiguration configuration = new CorsConfiguration();
 
-  @Bean
-  public CorsConfigurationSource corsConfigurationSource() {
-    final CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOriginPatterns(Collections.unmodifiableList(Arrays.asList("*")));
+		configuration.setAllowedMethods(
+				Collections.unmodifiableList(Arrays.asList("HEAD", "GET", "POST", "DELETE", "PUT", "OPTIONS")));
+		configuration.setAllowCredentials(true);
+		configuration.setAllowedHeaders(Collections.unmodifiableList(Arrays.asList("*")));
 
-    configuration.setAllowedOriginPatterns(Collections.unmodifiableList(Arrays.asList("*")));
-    configuration.setAllowedMethods(Collections.unmodifiableList(Arrays.asList("HEAD", "GET", "POST", "DELETE", "PUT", "OPTIONS")));
-    configuration.setAllowCredentials(true);
-    configuration.setAllowedHeaders(Collections.unmodifiableList(Arrays.asList("*")));
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
 
-    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-
-    return source;
-  }
+		return source;
+	}
 }

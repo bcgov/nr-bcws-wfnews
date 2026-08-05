@@ -1,8 +1,9 @@
 package ca.bc.gov.mof.wfpointid.wfnews.rest.v1.resource;
 
+import java.io.Serial;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -17,7 +18,8 @@ import ca.bc.gov.nrs.common.rest.resource.BaseResource;
 @JsonTypeName(ResourceTypes.PUBLISHED_INCIDENT)
 @JsonIgnoreProperties(value={"links", "selfLink"},ignoreUnknown=true) // Fix for WFNEWS returning the wrong key and with a null value
 public class SimplePublishedIncidentResource extends BaseResource {
-	
+
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private String publishedIncidentDetailGuid;

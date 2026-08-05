@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dto;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.slf4j.Logger;
@@ -8,7 +9,8 @@ import org.slf4j.LoggerFactory;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.StatisticsResource;
 
 public class StatisticsDto extends BaseDto implements Serializable {
-  private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(StatisticsDto.class);
 
   private String fireCentre;

@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.UUID;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -837,9 +837,9 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 			String failedPushAction) throws JsonProcessingException, DaoException {
 		// we encountered an error
 		// update the retry count and error message on the cache
-		logger.error(String.format("Failed to %s", failedPushAction), ex);
+		logger.error("Failed to %s".formatted(failedPushAction), ex);
 
-		lastError = String.format("%s while trying to %s for RoF %s", ex.getMessage(), failedPushAction,
+		lastError = "%s while trying to %s for RoF %s".formatted(ex.getMessage(), failedPushAction,
 				form.getReportOfFireCacheGuid());
 
 		rofFormData.setError(ex.getMessage());
@@ -861,7 +861,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 				emailNotificationService.sendRoFsStuckMessage(serializedRof, form.getReportOfFireCacheGuid(), ex,
 						failedPushAction);
 			} catch (MessagingException | UnsupportedEncodingException messagingException) {
-				logger.error(String.format("Messaging exception while notifying of error while attempting to %s: %s",
+				logger.error("Messaging exception while notifying of error while attempting to %s: %s".formatted(
 						failedPushAction, messagingException.getMessage()), messagingException);
 			}
 		}

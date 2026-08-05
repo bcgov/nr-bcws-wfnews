@@ -34,17 +34,18 @@ public class DBWeatherDAO implements WeatherDAO {
 		JDBCUtil.close(con);
 	}
 	
-	private static final String SQL_FMT_SELECT_NEAREST_STATION = 	"select station_code, station_name, latitude, longitude, elevation_m, "
-		    +"sdo_geom.sdo_distance(   " 
-		    +"sdo_geometry(2001, 4326, sdo_point_type(longitude, latitude, null), null, null), "
-		    +"sdo_geometry(2001, 4326, sdo_point_type( %s, %s, null), null, null),  0.005,  'unit=KM' ) as dist "            
-			+"from app_wf1_weather.weather_station_vw ws\r\n"  
-			+" WHERE ws.station_status_code = 'ACTIVE' "
-			+ "  AND longitude IS NOT NULL AND latitude IS NOT NULL order by dist";
+	private static final String SQL_FMT_SELECT_NEAREST_STATION = 	"""
+			select station_code, station_name, latitude, longitude, elevation_m, \
+			sdo_geom.sdo_distance(   \
+			sdo_geometry(2001, 4326, sdo_point_type(longitude, latitude, null), null, null), \
+			sdo_geometry(2001, 4326, sdo_point_type( %s, %s, null), null, null),  0.005,  'unit=KM' ) as dist \
+			from app_wf1_weather.weather_station_vw ws
+			 WHERE ws.station_status_code = 'ACTIVE' \
+			  AND longitude IS NOT NULL AND latitude IS NOT NULL order by dist""";
  	
 	public WeatherStation findStationNearest(double lon, double lat) throws SQLException {
 		
-		String sql = String.format(SQL_FMT_SELECT_NEAREST_STATION,  lon, lat);
+		String sql = SQL_FMT_SELECT_NEAREST_STATION.formatted(lon, lat);
 		
 		PositionedWeatherStation stn = null;
 
@@ -80,7 +81,7 @@ public class DBWeatherDAO implements WeatherDAO {
 			
 	public WeatherHourly[] findWeatherHourly(int stationCode, String hourMin, String hourMax) throws SQLException {
 
-		String sql = String.format(SQL_FMT_SELECT_HOURLY, Integer.valueOf(stationCode), hourMin, hourMax);
+		String sql = SQL_FMT_SELECT_HOURLY.formatted(Integer.valueOf(stationCode), hourMin, hourMax);
 		
 		List<WeatherHourly> hrs = new ArrayList<WeatherHourly>();
 		try (
@@ -122,7 +123,7 @@ public class DBWeatherDAO implements WeatherDAO {
 			
 	public WeatherDaily[] findWeatherDaily(int stationCode, String dayMin, String dayMax) throws SQLException {
 
-		String sql = String.format(SQL_FMT_SELECT_DAILY, Integer.valueOf(stationCode), dayMin, dayMax);
+		String sql = SQL_FMT_SELECT_DAILY.formatted(Integer.valueOf(stationCode), dayMin, dayMax);
 		
 		List<WeatherDaily> items = new ArrayList<WeatherDaily>();
 
