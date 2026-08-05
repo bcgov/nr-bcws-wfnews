@@ -1,4 +1,4 @@
-FROM tomcat:10.1-jdk21-corretto
+FROM tomcat:10.1-jdk21
 
 COPY *.war .
 
@@ -10,7 +10,7 @@ ENV TOMCAT_HOME=/usr/local/tomcat \
 
 RUN apt-get update &&\
   apt-get install -y telnet &&\
-  apt-get install -y sed  &&\
+  apt-get install -y sed unzip &&\
   rm -rf /usr/local/tomcat/webapps/ROOT  &&\
   mkdir /usr/local/tomcat/webapps/ROOT &&\
   unzip -d /usr/local/tomcat/webapps/ROOT/ '*.war' &&\
