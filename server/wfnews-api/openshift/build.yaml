@@ -27,13 +27,13 @@ objects:
       local: false
     tags:
     - annotations:
-        openshift.io/imported-from: 'tomcat:10.1-jdk21-corretto'
+        openshift.io/imported-from: 'tomcat:10.1-jdk21'
       from:
         kind: DockerImage
-        name: 'tomcat:10.1-jdk21-corretto'
+        name: 'tomcat:10.1-jdk21'
       generation: 2
       importPolicy: {}
-      name: '10.1-jdk21-corretto'
+      name: '10.1-jdk21'
       referencePolicy:
         type: Source
 - apiVersion: image.openshift.io/v1
@@ -190,7 +190,7 @@ objects:
         memory: 1Gi
     source:
       dockerfile: |-
-        FROM tomcat:10.1-jdk21-corretto
+        FROM tomcat:10.1-jdk21
         ENV TOMCAT_HOME=/usr/local/tomcat \
             CATALINA_HOME=/usr/local/tomcat \
             CATALINA_OUT=/usr/local/tomcat/logs
@@ -218,7 +218,7 @@ objects:
         imageOptimizationPolicy: SkipLayers
         from:
           kind: ImageStreamTag
-          name: wfone-notifications-api-tomcat:10.1-jdk21-corretto
+          name: wfone-notifications-api-tomcat:10.1-jdk21
       type: Docker
     triggers:
     - imageChange:

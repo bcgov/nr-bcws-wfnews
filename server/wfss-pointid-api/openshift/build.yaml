@@ -78,13 +78,13 @@ objects:
       local: false
     tags:
     - annotations:
-        openshift.io/imported-from: 'tomcat:10.1-jdk21-corretto'
+        openshift.io/imported-from: 'tomcat:10.1-jdk21'
       from:
         kind: DockerImage
-        name: 'tomcat:10.1-jdk21-corretto'
+        name: 'tomcat:10.1-jdk21'
       generation: null
       importPolicy: {}
-      name: '10.1-jdk21-corretto'
+      name: '10.1-jdk21'
       referencePolicy:
         type: Local
 - apiVersion: build.openshift.io/v1
@@ -164,7 +164,7 @@ objects:
         memory: 1Gi
     source:
       dockerfile: |-
-        FROM tomcat:10.1-jdk21-corretto
+        FROM tomcat:10.1-jdk21
 
         ENV TOMCAT_MAJOR=10 \
             TOMCAT_VERSION=10.1 \
@@ -198,7 +198,7 @@ objects:
         imageOptimizationPolicy: SkipLayers
         from:
           kind: ImageStreamTag
-          name: 'wfss-pointid-api-tomcat:10.1-jdk21-corretto'
+          name: 'wfss-pointid-api-tomcat:10.1-jdk21'
       type: Docker
     triggers:
     - imageChange:
