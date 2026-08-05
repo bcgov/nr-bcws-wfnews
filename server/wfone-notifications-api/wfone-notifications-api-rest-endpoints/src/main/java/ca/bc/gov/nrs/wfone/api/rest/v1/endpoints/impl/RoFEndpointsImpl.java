@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-import javax.xml.bind.DatatypeConverter;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.bind.DatatypeConverter;
 
 import org.apache.commons.codec.binary.Base64;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
@@ -19,14 +19,14 @@ import ca.bc.gov.nrs.wfone.common.model.Message;
 import ca.bc.gov.nrs.wfone.api.model.v1.PublicReportOfFire;
 import ca.bc.gov.nrs.wfone.api.rest.client.v1.exception.ValidationException;
 import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.RoFEndpoints;
-import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
+import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.impl.WfOneNotificationsBaseEndpointsImpl;
 import ca.bc.gov.nrs.wfone.service.api.v1.RecordRoFService;
 import ca.bc.gov.nrs.wfone.service.api.v1.validation.ModelValidator;
 import ca.bc.gov.nrs.wfone.api.rest.v1.utils.SqlUtil;
 import java.nio.charset.StandardCharsets;
 
 
-public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
+public class RoFEndpointsImpl extends WfOneNotificationsBaseEndpointsImpl implements RoFEndpoints{
     private static final Logger logger = LoggerFactory.getLogger(RoFEndpointsImpl.class);
     
     @Autowired

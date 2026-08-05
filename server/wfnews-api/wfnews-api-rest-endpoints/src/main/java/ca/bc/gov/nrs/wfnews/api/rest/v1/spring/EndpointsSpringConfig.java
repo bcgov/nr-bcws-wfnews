@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -53,13 +54,13 @@ public class EndpointsSpringConfig {
 	
 	@Value("${WFNEWS_DB_URL}")
 	private String wfoneDataSourceUrl;
-	
+
 	@Value("${WFNEWS_USERNAME}")
 	private String wfoneDataSourceUsername;
-	
+
 	@Value("${DB_PASS}")
 	private String wfoneDataSourcePassword;
-	
+
 	@Value("${WFNEWS_MAX_CONNECTIONS}")
 	private String wfoneDataSourceMaxConnections;
 
@@ -76,6 +77,7 @@ public class EndpointsSpringConfig {
 	private String awsSecretAccessKey;
 
 	@Bean
+	@Primary
 	public DataSource wfoneDataSource() {
 		logger.debug(   "Creating datasource for " + wfoneDataSourceUrl );
 

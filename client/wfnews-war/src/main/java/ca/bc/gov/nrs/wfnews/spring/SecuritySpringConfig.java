@@ -16,28 +16,32 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.ArrayList;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Configuration
 @EnableWebSecurity(debug = false)
 @Import({
-	TokenServiceSpringConfig.class
+		TokenServiceSpringConfig.class
 })
-public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
+public class SecuritySpringConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(SecuritySpringConfig.class);
 
@@ -45,7 +49,6 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 	TokenService tokenService;
 
 	public SecuritySpringConfig() {
-		super(true);
 		logger.info("<SecuritySpringConfig");
 
 		logger.info(">SecuritySpringConfig");
@@ -54,7 +57,7 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 		WebadeOauth2AuthenticationProvider result;
-        
+
 		result = new WebadeOauth2AuthenticationProvider(tokenService, "WFNEWS.*, WFIM.*");
 
 		return result;
@@ -75,8 +78,10 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 					public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
 						return authenticationProvider().authenticate(authentication);
-					}};
-			}};
+					}
+				};
+			}
+		};
 
 		return result;
 	}
@@ -91,40 +96,44 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 		return result;
 	}
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
+	@Bean
+	WebSecurityCustomizer webSecurityCustomizer() throws Exception {
 
-		web.ignoring()
-				.antMatchers(HttpMethod.OPTIONS, "/**")
-				.antMatchers(HttpMethod.GET, "/**");
+		return (web) -> {
+
+			web.ignoring()
+					.requestMatchers(new AntPathRequestMatcher("/**", HttpMethod.OPTIONS.name()))
+					.requestMatchers(
+							new AntPathRequestMatcher("/**", HttpMethod.GET.name()));
+		};
 	}
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	@Bean
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.cors().and().csrf().disable()
-    .oauth2ResourceServer(oauth2 -> oauth2.authenticationManagerResolver(authenticationManagerResolver()))
-    .authorizeRequests().anyRequest().permitAll().and()
-    .exceptionHandling()
-		.authenticationEntryPoint(authenticationEntryPoint());
+		http.cors(withDefaults()).csrf(csrf -> csrf.disable())
+				.oauth2ResourceServer(oauth2 -> oauth2.authenticationManagerResolver(authenticationManagerResolver()))
+				.authorizeHttpRequests(requests -> requests.anyRequest().permitAll())
+				.exceptionHandling(handling -> handling
+						.authenticationEntryPoint(authenticationEntryPoint()));
+		return http.build();
 	}
 
-  @Bean
-  public CorsConfigurationSource corsConfigurationSource() {
-    final CorsConfiguration configuration = new CorsConfiguration();
-    
-    List<String> origins = new ArrayList<>();
-    origins.add("*");
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		final CorsConfiguration configuration = new CorsConfiguration();
 
-    configuration.setAllowedOriginPatterns(origins);
-    configuration.setAllowedMethods(Collections.unmodifiableList(Arrays.asList("HEAD", "GET", "POST", "OPTIONS")));
-    configuration.setAllowCredentials(true);
-    configuration.setAllowedHeaders(origins);
+		List<String> origins = new ArrayList<>();
+		origins.add("*");
 
-    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
+		configuration.setAllowedOriginPatterns(origins);
+		configuration.setAllowedMethods(Collections.unmodifiableList(Arrays.asList("HEAD", "GET", "POST", "OPTIONS")));
+		configuration.setAllowCredentials(true);
+		configuration.setAllowedHeaders(origins);
 
-    return source;
-  }
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+
+		return source;
+	}
 }
-

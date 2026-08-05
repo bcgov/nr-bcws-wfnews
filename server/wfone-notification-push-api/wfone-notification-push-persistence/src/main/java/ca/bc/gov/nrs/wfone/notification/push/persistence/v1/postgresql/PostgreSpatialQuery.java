@@ -10,21 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostgreSpatialQuery implements PostgreSqlAreaOfInterestQuery {
-	private static final String SQL_COLS =  "SELECT n.notification_guid, \n" +
-											"       n.subscriber_guid,\n" +
-											"       ns.notification_token,\n" +
-											"       n.notification_name,\n" +
-											"       n.notification_type,\n" +
-											"       n.longitude,\n" +
-											"       n.latitude,\n" +
-											"       n.radius_kms, \n" +
-											"       n.active_ind,\n" +
-											"       nt.notification_topic_guid, \n " +
-											"       nt.notification_topic_name \n" +
-											"FROM public.notification n\n" +
-											"LEFT JOIN public.notification_topic nt ON nt.notification_guid  = n.notification_guid\n" +
-											"LEFT JOIN public.notification_settings ns ON ns.subscriber_guid  = n.subscriber_guid\n" +
-											"WHERE ns.notification_token != '' AND n.active_ind = 'Y' AND nt.notification_topic_name = 'query_topic'";
+	private static final String SQL_COLS = """
+			SELECT n.notification_guid,
+			       n.subscriber_guid,
+			       ns.notification_token,
+			       n.notification_name,
+			       n.notification_type,
+			       n.longitude,
+			       n.latitude,
+			       n.radius_kms,
+			       n.active_ind,
+			       nt.notification_topic_guid,
+			       nt.notification_topic_name
+			FROM public.notification n
+			LEFT JOIN public.notification_topic nt ON nt.notification_guid = n.notification_guid
+			LEFT JOIN public.notification_settings ns ON ns.subscriber_guid = n.subscriber_guid
+			WHERE ns.notification_token != '' AND n.active_ind = 'Y' AND nt.notification_topic_name = 'query_topic'""";
 
 	private static final String POINT_SQL = SQL_COLS +
 			" AND ST_INTERSECTS(n.point_geom_buffered, ST_SetSRID(ST_MakePoint(coordinateX,coordinateY), 4326))";
@@ -46,13 +47,16 @@ public class PostgreSpatialQuery implements PostgreSqlAreaOfInterestQuery {
 		if (geometry.getCoordinates().length == 1) {
 			Double x = geometry.getCoordinate().x;
 			Double y = geometry.getCoordinate().y;
-			sqlCustom = POINT_SQL.replace("coordinateX", Double.toString(x)).replace("coordinateY", Double.toString(y)).replace("query_topic", topic);
+			sqlCustom = POINT_SQL.replace("coordinateX", Double.toString(x)).replace("coordinateY", Double.toString(y))
+					.replace("query_topic", topic);
 		} else {
 			String wkt = geometry.getFactory().createLineString(geometry.getCoordinates()).toText();
 			sqlCustom = POLY_SQL.replace("coordinates", wkt).replace("query_topic", topic);
 		}
 
-		try (Connection con = dataSource.getConnection(); PreparedStatement pst = con.prepareStatement(sqlCustom); ResultSet rs = pst.executeQuery()) {
+		try (Connection con = dataSource.getConnection();
+				PreparedStatement pst = con.prepareStatement(sqlCustom);
+				ResultSet rs = pst.executeQuery()) {
 			while (rs.next()) {
 				NotificationDto notificationDto = new NotificationDto();
 				notificationDto.setNotificationGuid(rs.getString("notification_guid"));

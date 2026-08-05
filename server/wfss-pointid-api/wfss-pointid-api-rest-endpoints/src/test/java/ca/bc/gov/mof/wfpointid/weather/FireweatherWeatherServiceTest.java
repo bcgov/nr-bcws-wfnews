@@ -1,12 +1,12 @@
 package ca.bc.gov.mof.wfpointid.weather;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
-import static org.junit.Assert.assertThat;
-
-import org.junit.Test;
 
 import ca.bc.gov.mof.wfpointid.fireweather.rest.v1.resource.Weather;
+
+import org.junit.jupiter.api.Test;
 import ca.bc.gov.mof.wfpointid.rest.model.WeatherBase;
 import ca.bc.gov.mof.wfpointid.rest.model.WeatherHourly;
 

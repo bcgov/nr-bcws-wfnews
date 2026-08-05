@@ -14,7 +14,28 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
-	
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.mail</groupId>
+			<artifactId>jakarta.mail-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.angus</groupId>
+			<artifactId>angus-mail</artifactId>
+		</dependency>
+
+		<!-- Hibernate Validator's default message interpolator needs a Jakarta EL implementation
+		     at runtime (ModelValidator -> BaseValidator -> hibernate-validator), or bean validation
+		     fails with HV000183 on first use. -->
+		<dependency>
+			<groupId>org.glassfish.expressly</groupId>
+			<artifactId>expressly</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+
 	<dependency>
 			<groupId>ca.bc.gov.nrs.wfone.common</groupId>
 			<artifactId>wfone-common-rest-endpoints</artifactId>
@@ -108,12 +129,6 @@
 				<artifactId>unirest-java</artifactId>
 				<version>3.11.09</version>
 		</dependency>
-
-		<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>3.1.0</version>
-			</dependency>
 
 		<dependency>
 			<groupId>ca.bc.gov.nrs.wfnews</groupId>

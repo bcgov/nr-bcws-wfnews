@@ -11,17 +11,27 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
+
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClientException;
 
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.geojson.GeoJsonWriter;
 
 import ca.bc.gov.mof.wfpointid.rest.resource.transformers.JsonTransformer;
 import ca.bc.gov.mof.wfpointid.rest.resource.transformers.Transformer;
+
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import java.io.IOException;
 
 public abstract class BaseRestServiceClient {
 
@@ -36,22 +46,75 @@ public abstract class BaseRestServiceClient {
 	private String topLevelRestURL;
 	
 	public BaseRestServiceClient(String clientId, String clientSecret, String accessTokenUri, String scopes) {
-		this(BaseRestServiceClient.getOAuth2RestTemplate(clientId, clientSecret, accessTokenUri, scopes)); 
+		this(BaseRestServiceClient.createClientCredentialsRestTemplate(clientId, clientSecret, accessTokenUri, scopes));
 	}
-	
+
 	public BaseRestServiceClient() {
-		this(BaseRestServiceClient.getBasicRestTemplate()); 
+		this(BaseRestServiceClient.getBasicRestTemplate());
 	}
-	
-	private static OAuth2RestTemplate getOAuth2RestTemplate(String clientId, String clientSecret, String accessTokenUri, String scopes) {
-		ClientCredentialsResourceDetails resource = new ClientCredentialsResourceDetails();
-		resource.setClientId(clientId);
-		resource.setClientSecret(clientSecret);
-		resource.setAccessTokenUri(accessTokenUri);
-		
-		OAuth2ClientContext context = new DefaultOAuth2ClientContext();
-		
-		return new OAuth2RestTemplate(resource, context);
+
+	private static RestTemplate createClientCredentialsRestTemplate(String clientId, String clientSecret, String accessTokenUri, String scopes) {
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getInterceptors().add(new ClientHttpRequestInterceptor() {
+			private String token;
+			private long tokenExpirationTime;
+
+			private synchronized String getToken() {
+				if (token == null || System.currentTimeMillis() > tokenExpirationTime) {
+					fetchToken();
+				}
+				return token;
+			}
+
+			private synchronized void invalidateToken() {
+				token = null;
+				tokenExpirationTime = 0;
+			}
+
+			private void fetchToken() {
+				RestTemplate tokenTemplate = new RestTemplate();
+				HttpHeaders headers = new HttpHeaders();
+				headers.setBasicAuth(clientId, clientSecret);
+				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+				MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+				map.add("grant_type", "client_credentials");
+				if (scopes != null && !scopes.isEmpty()) {
+					map.add("scope", scopes);
+				}
+
+				HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+				ResponseEntity<Map> response;
+				try {
+					response = tokenTemplate.postForEntity(accessTokenUri, request, Map.class);
+				} catch (RestClientException e) {
+					logger.error("Failed to obtain OAuth2 client_credentials token from " + accessTokenUri, e);
+					throw e;
+				}
+
+				Map<String, Object> body = response.getBody();
+				if (body == null || body.get("access_token") == null) {
+					throw new IllegalStateException("OAuth2 token endpoint " + accessTokenUri + " returned no access_token (status " + response.getStatusCode() + ")");
+				}
+
+				token = (String) body.get("access_token");
+				Number expiresIn = (Number) body.get("expires_in");
+				long expiresInSeconds = expiresIn != null ? expiresIn.longValue() : 3600L;
+				tokenExpirationTime = System.currentTimeMillis() + (expiresInSeconds * 1000L) - 60000L;
+			}
+
+			@Override
+			public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+				request.getHeaders().setBearerAuth(getToken());
+				ClientHttpResponse response = execution.execute(request, body);
+				if (response.getStatusCode().value() == 401) {
+					invalidateToken();
+				}
+				return response;
+			}
+		});
+		return restTemplate;
 	}
 	
 	private static RestTemplate getBasicRestTemplate() {
@@ -66,7 +129,7 @@ public abstract class BaseRestServiceClient {
 		
 		this.transformer = new JsonTransformer();
 		
-		OAuth2ClientContext context = new DefaultOAuth2ClientContext();
+
 		
 		this.restTemplate = restTemplate;
 		

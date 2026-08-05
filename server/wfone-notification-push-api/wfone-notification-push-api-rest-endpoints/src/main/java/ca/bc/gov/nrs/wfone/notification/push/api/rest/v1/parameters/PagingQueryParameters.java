@@ -1,11 +1,13 @@
 package ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.parameters;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.parameters.validation.constraints.PagingQueryParameterConstraints;
 
 public class PagingQueryParameters implements PagingQueryParameterConstraints, Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private String pageNumber;

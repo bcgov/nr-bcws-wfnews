@@ -1,8 +1,8 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.spring;
 
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRegistration;
+import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletRegistration;
 
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.slf4j.Logger;
@@ -36,19 +36,19 @@ public class ApplicationInitializer extends AbstractSecurityWebApplicationInitia
     	servletContext.setInitParameter(PAR_NAME_CTX_CONFIG_LOCATION, "java configuration");
     	
         ServletRegistration.Dynamic restServlet = servletContext.addServlet("Rest Servlet", ServletContainer.class);
-        restServlet.setInitParameter("javax.ws.rs.Application", JerseyApplication.class.getName());
+        restServlet.setInitParameter("jakarta.ws.rs.Application", JerseyApplication.class.getName());
         restServlet.setLoadOnStartup(1);
         
         restServlet.addMapping("/*");
     	
-        FilterRegistration.Dynamic requestMetricsFilter = servletContext.addFilter("Request Metrics Filter", RequestMetricsFilter.class);
-        requestMetricsFilter.setInitParameter("id_source", "WFONENOTIFICATIONSAPI");
-        requestMetricsFilter.addMappingForUrlPatterns(null, false, "/*");
+        // FilterRegistration.Dynamic requestMetricsFilter = servletContext.addFilter("Request Metrics Filter", RequestMetricsFilter.class);
+        // requestMetricsFilter.setInitParameter("id_source", "WFONENOTIFICATIONSAPI");
+        // requestMetricsFilter.addMappingForUrlPatterns(null, false, "/*");
   
-        FilterRegistration.Dynamic versionForwardingFilter = servletContext.addFilter("Version Forwarding Filter", VersionForwardingFilter.class);
-        versionForwardingFilter.setInitParameter(VersionForwardingFilter.RESPONSE_VERSION_PARAM, "1");
-        versionForwardingFilter.setInitParameter(VersionForwardingFilter.DEFAULT_REQUEST_VERSION_PARAM, "1");
-        versionForwardingFilter.addMappingForUrlPatterns(null, false, "/*");
+        // FilterRegistration.Dynamic versionForwardingFilter = servletContext.addFilter("Version Forwarding Filter", VersionForwardingFilter.class);
+        // versionForwardingFilter.setInitParameter(VersionForwardingFilter.RESPONSE_VERSION_PARAM, "1");
+        // versionForwardingFilter.setInitParameter(VersionForwardingFilter.DEFAULT_REQUEST_VERSION_PARAM, "1");
+        // versionForwardingFilter.addMappingForUrlPatterns(null, false, "/*");
 
         FilterRegistration.Dynamic corsFilter = servletContext.addFilter("CORS Filter", CorsFilter.class);
         corsFilter.addMappingForUrlPatterns(null, false, "/*");

@@ -86,7 +86,7 @@ public class WildfireNewsDataRequestCall implements DataRequestCall {
 							DataItemDef::getName,  
 								def->{
 									Function<SimplePublishedIncidentResource, ?> accessor = Optional.ofNullable(ACCESSORS.get(def.getAttributeName()))
-										.orElseThrow(()->new IllegalArgumentException(String.format("Invalid attribute %s",def.getAttributeName())));
+										.orElseThrow(()->new IllegalArgumentException("Invalid attribute %s".formatted(def.getAttributeName())));
 									Object value = accessor.apply(incident);
 									if(value==null) value = "";
 									return value.toString();
@@ -99,8 +99,8 @@ public class WildfireNewsDataRequestCall implements DataRequestCall {
 			return result;
 			
 		} catch (WildfireNewsServiceException ex) {
-			LOG.warn(String.format("Error while getting station near %s", p.toText()), ex);
-			return DataResult.createError(req.getDataRequestDef(), String.format("Error while getting station: %s", ex.getMessage()));
+			LOG.warn("Error while getting station near %s".formatted(p.toText()), ex);
+			return DataResult.createError(req.getDataRequestDef(), "Error while getting station: %s".formatted(ex.getMessage()));
 		}
 
 	}

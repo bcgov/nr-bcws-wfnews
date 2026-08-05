@@ -1,12 +1,14 @@
 package ca.bc.gov.mof.wfpointid.rest.client.v1;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.bc.gov.mof.wfpointid.model.Message;
 
 public class ValidationException extends Exception {
-	
+
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private List<Message> messages = new ArrayList<>();

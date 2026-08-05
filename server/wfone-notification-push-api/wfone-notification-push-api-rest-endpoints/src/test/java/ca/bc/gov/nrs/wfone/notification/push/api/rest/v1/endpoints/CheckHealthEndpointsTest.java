@@ -1,7 +1,7 @@
 package ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.endpoints;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ public class CheckHealthEndpointsTest extends EndpointsTest {
 		
 		HealthCheckResponseRsrc healthCheckResponse = service.getHealthCheck("test");
 		
-		Assert.assertNotNull(healthCheckResponse);
+		Assertions.assertNotNull(healthCheckResponse);
 		
 		logger.debug(">testNoAuthorization");
 	}

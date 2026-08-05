@@ -1,6 +1,8 @@
 package ca.bc.gov.mof.wfpointid.wfnews.rest.v1.resource;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serial;
+
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -16,7 +18,8 @@ import ca.bc.gov.mof.wfpointid.wfnews.rest.v1.resource.types.ResourceTypes;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonTypeName(ResourceTypes.MAIL)
 public class MailResource extends BaseResource {
-  private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
   private String name;
   private String emailAddress;

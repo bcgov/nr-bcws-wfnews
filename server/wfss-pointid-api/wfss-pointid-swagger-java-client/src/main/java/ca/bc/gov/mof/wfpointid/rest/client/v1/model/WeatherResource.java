@@ -18,8 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
-
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * WeatherResource
@@ -55,7 +54,7 @@ public class WeatherResource {
    * Get errorCount
    * @return errorCount
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getErrorCount() {
     return errorCount;
   }
@@ -73,7 +72,7 @@ public class WeatherResource {
    * Get errorMsg
    * @return errorMsg
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getErrorMsg() {
     return errorMsg;
   }
@@ -91,7 +90,7 @@ public class WeatherResource {
    * Get errorDetail
    * @return errorDetail
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getErrorDetail() {
     return errorDetail;
   }
@@ -109,7 +108,7 @@ public class WeatherResource {
    * Get lat
    * @return lat
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getLat() {
     return lat;
   }
@@ -127,7 +126,7 @@ public class WeatherResource {
    * Get lon
    * @return lon
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getLon() {
     return lon;
   }
@@ -145,7 +144,7 @@ public class WeatherResource {
    * Get timestamp
    * @return timestamp
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getTimestamp() {
     return timestamp;
   }
@@ -171,7 +170,7 @@ public class WeatherResource {
    * Get stations
    * @return stations
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public List<WeatherStation> getStations() {
     return stations;
   }

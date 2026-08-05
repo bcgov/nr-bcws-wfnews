@@ -9,11 +9,21 @@
   <name>wfnews</name>
   <url>http://maven.apache.org</url>
 
- <properties>
-  <sonar.organization>bcgov-sonarcloud</sonar.organization>
-  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-  <sonar.sources>database,docker,lambda,terraform,client/wfnews-war/src/main/angular/src</sonar.sources>
-</properties>
+  <properties>
+    <java.version>21</java.version>
+    <java-source-version>21</java-source-version>
+    <java-target-version>21</java-target-version>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <sonar.organization>bcgov-sonarcloud</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.sources>database,docker,lambda,terraform,client/wfnews-war/src/main/angular/src</sonar.sources>
+    <log4j.version>2.24.3</log4j.version>
+    <wfone.common.version>1.5.0</wfone.common.version>
+    <swagger.version>2.2.20</swagger.version>
+  </properties>
   
   <modules>
     <module>client</module>
@@ -23,14 +33,40 @@
     <module>server/wfss-pointid-api</module>
   </modules>
 
-  <!-- <dependencyManagement>
-		<dependencies>
-  		<dependency>
-          <groupId>org.sonarsource.scanner.maven</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.9.1.2184</version>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>${log4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>${log4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-slf4j-impl</artifactId>
+        <version>${log4j.version}</version>
       </dependency>
     </dependencies>
-  </dependencyManagement> -->
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <!-- Spring 6 dropped LocalVariableTableParameterNameDiscoverer; without -parameters,
+                 @RequestParam/@PathVariable/@QueryParam without an explicit value= silently break. -->
+            <parameters>true</parameters>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 
 </project>

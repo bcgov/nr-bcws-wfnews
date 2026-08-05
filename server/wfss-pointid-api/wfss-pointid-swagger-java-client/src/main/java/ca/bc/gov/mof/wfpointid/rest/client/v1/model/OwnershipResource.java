@@ -16,8 +16,7 @@ package ca.bc.gov.mof.wfpointid.rest.client.v1.model;
 import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
-
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * OwnershipResource
@@ -119,7 +118,7 @@ public class OwnershipResource {
    * Get errorCount
    * @return errorCount
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getErrorCount() {
     return errorCount;
   }
@@ -137,7 +136,7 @@ public class OwnershipResource {
    * Get errorMsg
    * @return errorMsg
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getErrorMsg() {
     return errorMsg;
   }
@@ -155,7 +154,7 @@ public class OwnershipResource {
    * Get errorDetail
    * @return errorDetail
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getErrorDetail() {
     return errorDetail;
   }
@@ -173,7 +172,7 @@ public class OwnershipResource {
    * Get lat
    * @return lat
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getLat() {
     return lat;
   }
@@ -191,7 +190,7 @@ public class OwnershipResource {
    * Get lon
    * @return lon
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getLon() {
     return lon;
   }
@@ -209,7 +208,7 @@ public class OwnershipResource {
    * Get timestamp
    * @return timestamp
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getTimestamp() {
     return timestamp;
   }
@@ -227,7 +226,7 @@ public class OwnershipResource {
    * Get fireCentre
    * @return fireCentre
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getFireCentre() {
     return fireCentre;
   }
@@ -245,7 +244,7 @@ public class OwnershipResource {
    * Get fireZone
    * @return fireZone
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getFireZone() {
     return fireZone;
   }
@@ -263,7 +262,7 @@ public class OwnershipResource {
    * Get resourceDistrict
    * @return resourceDistrict
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getResourceDistrict() {
     return resourceDistrict;
   }
@@ -281,7 +280,7 @@ public class OwnershipResource {
    * Get pid
    * @return pid
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getPid() {
     return pid;
   }
@@ -299,7 +298,7 @@ public class OwnershipResource {
    * Get ownershipClass
    * @return ownershipClass
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getOwnershipClass() {
     return ownershipClass;
   }
@@ -317,7 +316,7 @@ public class OwnershipResource {
    * Get protectedLand
    * @return protectedLand
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getProtectedLand() {
     return protectedLand;
   }
@@ -335,7 +334,7 @@ public class OwnershipResource {
    * Get municipality
    * @return municipality
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getMunicipality() {
     return municipality;
   }
@@ -353,7 +352,7 @@ public class OwnershipResource {
    * Get regionalDistrict
    * @return regionalDistrict
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getRegionalDistrict() {
     return regionalDistrict;
   }
@@ -371,7 +370,7 @@ public class OwnershipResource {
    * Get clientAssetAreaName
    * @return clientAssetAreaName
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getClientAssetAreaName() {
     return clientAssetAreaName;
   }
@@ -389,7 +388,7 @@ public class OwnershipResource {
    * Get clientAssetAreaType
    * @return clientAssetAreaType
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getClientAssetAreaType() {
     return clientAssetAreaType;
   }
@@ -407,7 +406,7 @@ public class OwnershipResource {
    * Get clientAssetAreaContact
    * @return clientAssetAreaContact
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getClientAssetAreaContact() {
     return clientAssetAreaContact;
   }
@@ -425,7 +424,7 @@ public class OwnershipResource {
    * Get clientAssetLineName
    * @return clientAssetLineName
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getClientAssetLineName() {
     return clientAssetLineName;
   }
@@ -443,7 +442,7 @@ public class OwnershipResource {
    * Get clientAssetLineType
    * @return clientAssetLineType
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getClientAssetLineType() {
     return clientAssetLineType;
   }
@@ -461,7 +460,7 @@ public class OwnershipResource {
    * Get clientAssetLineContact
    * @return clientAssetLineContact
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getClientAssetLineContact() {
     return clientAssetLineContact;
   }
@@ -479,7 +478,7 @@ public class OwnershipResource {
    * Get clientAssetPointName
    * @return clientAssetPointName
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getClientAssetPointName() {
     return clientAssetPointName;
   }
@@ -497,7 +496,7 @@ public class OwnershipResource {
    * Get clientAssetPointType
    * @return clientAssetPointType
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getClientAssetPointType() {
     return clientAssetPointType;
   }
@@ -515,7 +514,7 @@ public class OwnershipResource {
    * Get clientAssetPointContact
    * @return clientAssetPointContact
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getClientAssetPointContact() {
     return clientAssetPointContact;
   }
@@ -533,7 +532,7 @@ public class OwnershipResource {
    * Get tenureTFL
    * @return tenureTFL
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getTenureTFL() {
     return tenureTFL;
   }
@@ -551,7 +550,7 @@ public class OwnershipResource {
    * Get tenureManagedForest
    * @return tenureManagedForest
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getTenureManagedForest() {
     return tenureManagedForest;
   }
@@ -569,7 +568,7 @@ public class OwnershipResource {
    * Get fnReserve
    * @return fnReserve
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getFnReserve() {
     return fnReserve;
   }
@@ -587,7 +586,7 @@ public class OwnershipResource {
    * Get fnTitle
    * @return fnTitle
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getFnTitle() {
     return fnTitle;
   }
@@ -605,7 +604,7 @@ public class OwnershipResource {
    * Get watershed
    * @return watershed
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getWatershed() {
     return watershed;
   }
@@ -623,7 +622,7 @@ public class OwnershipResource {
    * Get fireDept
    * @return fireDept
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getFireDept() {
     return fireDept;
   }

@@ -19,8 +19,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
-
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * NearbyResource
@@ -59,7 +58,7 @@ public class NearbyResource {
    * Get errorCount
    * @return errorCount
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getErrorCount() {
     return errorCount;
   }
@@ -77,7 +76,7 @@ public class NearbyResource {
    * Get errorMsg
    * @return errorMsg
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getErrorMsg() {
     return errorMsg;
   }
@@ -95,7 +94,7 @@ public class NearbyResource {
    * Get errorDetail
    * @return errorDetail
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getErrorDetail() {
     return errorDetail;
   }
@@ -113,7 +112,7 @@ public class NearbyResource {
    * Get lat
    * @return lat
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getLat() {
     return lat;
   }
@@ -131,7 +130,7 @@ public class NearbyResource {
    * Get lon
    * @return lon
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getLon() {
     return lon;
   }
@@ -149,7 +148,7 @@ public class NearbyResource {
    * Get timestamp
    * @return timestamp
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getTimestamp() {
     return timestamp;
   }
@@ -167,7 +166,7 @@ public class NearbyResource {
    * Get radius
    * @return radius
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getRadius() {
     return radius;
   }
@@ -193,7 +192,7 @@ public class NearbyResource {
    * Get features
    * @return features
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public List<Map<String, Object>> getFeatures() {
     return features;
   }

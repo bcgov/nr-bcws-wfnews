@@ -160,7 +160,7 @@ public class WildfireFireweatherServiceImpl extends BaseRestServiceClient implem
 							try {
 								station.setAlbersGeometry(GeometryConverters.geographicToProjected(station.getGeometry()));
 							} catch (TransformException e) {
-								logger.error(String.format("Error while transforming coordinates %s for station %s", station.getGeometry(), station.getDisplayLabel()), e);
+								logger.error("Error while transforming coordinates %s for station %s".formatted(station.getGeometry(), station.getDisplayLabel()), e);
 							} 
 							return station;
 						})

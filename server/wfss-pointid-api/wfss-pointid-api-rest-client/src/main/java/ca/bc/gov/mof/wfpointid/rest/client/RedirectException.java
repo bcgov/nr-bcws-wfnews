@@ -1,7 +1,10 @@
 package ca.bc.gov.mof.wfpointid.rest.client;
 
+import java.io.Serial;
+
 public class RedirectException extends RestDAOException {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private int code;
