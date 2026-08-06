@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dto;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,6 +11,7 @@ import com.vividsolutions.jts.geom.Geometry;
 
 public abstract class BaseDto<T> implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private T _dirtyCopy;

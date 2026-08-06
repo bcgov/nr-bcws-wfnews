@@ -1,9 +1,12 @@
 package ca.bc.gov.mof.wfpointid.rest.client;
 
+import java.io.Serial;
+
 import ca.bc.gov.mof.wfpointid.rest.resource.Messages;
 
 public class ServerErrorException extends RestDAOException {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private int code;

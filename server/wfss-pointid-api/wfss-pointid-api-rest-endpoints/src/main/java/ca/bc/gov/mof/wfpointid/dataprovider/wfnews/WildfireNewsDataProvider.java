@@ -25,7 +25,7 @@ public class WildfireNewsDataProvider extends DataProviderBase {
 	}
 	
 	public String toString() {
-		return String.format("Fireweather Data Provider %s (workers = %d)", getName(), Integer.valueOf(getWorkerNum()));
+		return "Fireweather Data Provider %s (workers = %d)".formatted(getName(), Integer.valueOf(getWorkerNum()));
 	}
 
 	public WildfireNewsServiceImpl getService() {

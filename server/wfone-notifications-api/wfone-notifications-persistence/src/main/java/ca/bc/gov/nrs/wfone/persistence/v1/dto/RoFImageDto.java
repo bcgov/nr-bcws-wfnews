@@ -1,5 +1,7 @@
 package ca.bc.gov.nrs.wfone.persistence.v1.dto;
 
+import java.io.Serial;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,8 +9,9 @@ import ca.bc.gov.nrs.wfone.common.persistence.dto.BaseDto;
 import ca.bc.gov.nrs.wfone.common.persistence.utils.DtoUtils;
 
 public class RoFImageDto extends BaseDto<RoFImageDto> {
-	
- 	private static final long serialVersionUID = 8046437433239434771L;
+
+	@Serial
+	private static final long serialVersionUID = 8046437433239434771L;
  	private static final Logger logger = LoggerFactory.getLogger(RoFImageDto.class);
 	
 	private String reportOfFireAttachmentCacheGuid;

@@ -3,9 +3,9 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.GenericEntity;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,9 +19,9 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.model.Message;
-import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 
-public class PublicExternalUriEndpointImpl extends BaseEndpointsImpl implements PublicExternalUriEndpoint {
+
+public class PublicExternalUriEndpointImpl extends WfNewsBaseEndpointsImpl implements PublicExternalUriEndpoint {
 
 	@Autowired
 	private IncidentsService incidentsService;

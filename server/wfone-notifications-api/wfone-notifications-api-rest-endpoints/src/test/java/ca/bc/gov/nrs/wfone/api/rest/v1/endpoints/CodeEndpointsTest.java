@@ -3,9 +3,9 @@ package ca.bc.gov.nrs.wfone.api.rest.v1.endpoints;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +26,7 @@ public class CodeEndpointsTest extends EndpointsTest {
 			.getLogger(CodeEndpointsTest.class);
 
 	@Test
-	@Ignore("NotificationService.getCodeTables() & NotificationService.getCodeTable() are not being used in code")
+	@Disabled("NotificationService.getCodeTables() & NotificationService.getCodeTable() are not being used in code")
 	public void testCodeTables() throws WildfireResourceServiceException, Oauth2ClientException {
 		logger.debug("<testCodeTables");
 		
@@ -55,21 +55,21 @@ public class CodeEndpointsTest extends EndpointsTest {
 
 			CodeTableListRsrc codeTables = service.getCodeTables(topLevelEndpoints, codeTableName, effectiveAsOfDate);
 
-			Assert.assertNotNull(codeTables);
+			Assertions.assertNotNull(codeTables);
 			List<CodeTableRsrc> codeTableList = codeTables.getCodeTableList();
-			Assert.assertNotNull(codeTableList);
+			Assertions.assertNotNull(codeTableList);
 
 			for (CodeTableRsrc codeTable : codeTableList) {
 				
 				codeTable = service.getCodeTable(codeTable, effectiveAsOfDate);
-				Assert.assertNotNull(codeTable);
+				Assertions.assertNotNull(codeTable);
 				
 				List<CodeRsrc> codes = codeTable.getCodes();
-				Assert.assertNotNull(codes);
+				Assertions.assertNotNull(codes);
 				
 				for(Code code:codes) {
-					Assert.assertNotNull(code.getCode());
-					Assert.assertNotNull(code.getDescription());
+					Assertions.assertNotNull(code.getCode());
+					Assertions.assertNotNull(code.getDescription());
 				}
 			}
 		}

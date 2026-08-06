@@ -28,8 +28,8 @@ public class QueryCheck {
 
 			@Override
 			public boolean matches(Object item) {
-				if(item instanceof QueryResult) {
-					return ((QueryResult)item).isSuccess();
+				if(item instanceof QueryResult result) {
+					return result.isSuccess();
 				} else {
 					return false;
 				}
@@ -42,8 +42,8 @@ public class QueryCheck {
 			
 		    @Override
 		    public void describeMismatch(Object item, Description description) {
-				if(item instanceof QueryResult) {
-					description.appendText("request failed with ").appendValue(((QueryResult)item).getErrorMsg());
+				if(item instanceof QueryResult result) {
+					description.appendText("request failed with ").appendValue(result.getErrorMsg());
 				} else {
 					description.appendText("not a QueryResult");
 				}
@@ -56,8 +56,7 @@ public class QueryCheck {
 
 			@Override
 			public boolean matches(Object item) {
-				if(item instanceof QueryResult) {
-					QueryResult queryResult = (QueryResult)item;
+				if(item instanceof QueryResult queryResult) {
 					if(queryResult.isSuccess()) {
 						return false;
 					}
@@ -76,8 +75,7 @@ public class QueryCheck {
 			
 		    @Override
 		    public void describeMismatch(Object item, Description description) {
-				if(item instanceof QueryResult) {
-					QueryResult queryResult = (QueryResult)item;
+				if(item instanceof QueryResult queryResult) {
 					if(queryResult.isSuccess()) {
 						description.appendText("request did not fail as expected");
 					} else {
@@ -135,8 +133,7 @@ public class QueryCheck {
 
 			@Override
 			public boolean matches(Object item) {
-				if(item instanceof QueryResult) {
-					QueryResult queryResult = (QueryResult)item;
+				if(item instanceof QueryResult queryResult) {
 					return valueMatcher.matches(queryResult.getValue(dataName));
 				} else {
 					return false;
@@ -150,8 +147,7 @@ public class QueryCheck {
 			
 		    @Override
 		    public void describeMismatch(Object item, Description description) {
-				if(item instanceof QueryResult) {
-					QueryResult queryResult = (QueryResult)item;
+				if(item instanceof QueryResult queryResult) {
 					description.appendText("field  ").appendValue(dataName).appendText(" was ");
 					valueMatcher.describeMismatch(queryResult.getValue(dataName), description);
 				} else {
@@ -174,8 +170,7 @@ public class QueryCheck {
 
 			@Override
 			public boolean matches(Object item) {
-				if(item instanceof QueryResult) {
-					QueryResult queryResult = (QueryResult)item;
+				if(item instanceof QueryResult queryResult) {
 					if (null == queryResult.findResultFor(dataName)) {
 						return false;
 					}
@@ -192,8 +187,7 @@ public class QueryCheck {
 			
 		    @Override
 		    public void describeMismatch(Object item, Description description) {
-				if(item instanceof QueryResult) {
-					QueryResult queryResult = (QueryResult)item;
+				if(item instanceof QueryResult queryResult) {
 					if (null == queryResult.findResultFor(dataName)) {
 						description.appendText("findResult for ").appendValue(dataName).appendText(" returned null");
 					} else {

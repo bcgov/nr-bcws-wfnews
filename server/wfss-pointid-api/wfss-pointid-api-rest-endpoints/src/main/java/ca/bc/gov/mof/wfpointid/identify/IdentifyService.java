@@ -54,7 +54,7 @@ public class IdentifyService {
 	private static DataStats dataStats = new DataStats();
 	
 	public IdentifyService(String wf1URL, String bcgwURL) {
-		LOG.info(String.format("Init Identify Service: WF URL=%s, BCGW URL=%s ", wf1URL, bcgwURL));
+		LOG.info("Init Identify Service: WF URL=%s, BCGW URL=%s ".formatted(wf1URL, bcgwURL));
 		engine = initEngine(wf1URL, bcgwURL);
 	}
 	

@@ -1,8 +1,9 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.resource;
 
+import java.io.Serial;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeName;
@@ -15,7 +16,8 @@ import ca.bc.gov.nrs.wfnews.api.model.v1.ExternalUri;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonTypeName(ResourceTypes.EXTERNAL_URI)
 public class ExternalUriResource extends BaseResource implements ExternalUri {
-	
+
+	@Serial
 	private static final long serialVersionUID = 1L;
 	private String externalUriGuid;
 	private String sourceObjectNameCode;

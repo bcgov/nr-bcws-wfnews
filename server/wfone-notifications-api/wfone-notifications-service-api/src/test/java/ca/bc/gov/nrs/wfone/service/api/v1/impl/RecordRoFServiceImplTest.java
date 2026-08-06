@@ -1,16 +1,15 @@
 package ca.bc.gov.nrs.wfone.service.api.v1.impl;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import org.junit.Test;
-
 import com.mercateo.test.clock.TestClock;
+import org.junit.jupiter.api.Test;
 
 import ca.bc.gov.nrs.wfone.api.model.v1.RoFEntryForm;
 import ca.bc.gov.nrs.wfone.persistence.v1.dto.RoFFormDto;

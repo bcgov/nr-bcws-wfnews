@@ -4,9 +4,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.GenericEntity;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,10 +19,10 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.model.Message;
-import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
+
 import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
 
-public class AttachmentsListEndpointImpl extends BaseEndpointsImpl implements AttachmentsListEndpoint {
+public class AttachmentsListEndpointImpl extends WfNewsBaseEndpointsImpl implements AttachmentsListEndpoint {
 
   @Autowired
   private ParameterValidator parameterValidator;

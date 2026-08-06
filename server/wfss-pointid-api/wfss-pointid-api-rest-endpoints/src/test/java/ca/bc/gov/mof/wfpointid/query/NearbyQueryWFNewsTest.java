@@ -2,14 +2,14 @@ package ca.bc.gov.mof.wfpointid.query;
 
 import static ca.bc.gov.mof.wfpointid.dataprovider.DataItemDef.item;
 import static ca.bc.gov.mof.wfpointid.test.util.QueryCheck.isSuccess;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import ca.bc.gov.mof.wfpointid.dataprovider.DataItemDef;
 import ca.bc.gov.mof.wfpointid.dataprovider.DataRequestDef;
@@ -22,7 +22,7 @@ import ca.bc.gov.mof.wfpointid.util.DistanceCalculator;
 public class NearbyQueryWFNewsTest {
 	DataRequestDef[] geography;
 
-	@Before
+	@BeforeEach
 	public void setup() throws Exception {
 		geography=new DataRequestDef[] {	
 				DataRequestDef.request(NearbyService.PROVIDER_WF_NEWS, "British_Columbia_Fire_Service_Weather_Stations",

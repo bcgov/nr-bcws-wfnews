@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.service.api.v1.validation.exception;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -10,7 +11,8 @@ import ca.bc.gov.nrs.wfone.common.model.Message;
 public class ValidationException extends Exception {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ValidationException.class);
-	
+
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private List<Message> messages = new ArrayList<>();

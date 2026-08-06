@@ -1,20 +1,20 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
-import ca.bc.gov.nrs.common.rest.endpoints.BaseEndpoints;
+
 import ca.bc.gov.nrs.common.rest.resource.HeaderConstants;
 import ca.bc.gov.nrs.common.rest.resource.Messages;
 import ca.bc.gov.nrs.common.service.ConflictException;
@@ -38,7 +38,7 @@ import io.swagger.annotations.ResponseHeader;
 @Path("/situationReport")
 @Api(value = "SituationReportEndpoint", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }) })
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.POST, RequestMethod.DELETE}, allowCredentials = "true")
-public interface SituationReportEndpoint extends BaseEndpoints {
+public interface SituationReportEndpoint  {
   @ApiOperation(value = "Add a Sitation Report Resource", response = SituationReportResource.class, notes = "Add a Situation Report", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.CREATE_PUBLISHED_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")

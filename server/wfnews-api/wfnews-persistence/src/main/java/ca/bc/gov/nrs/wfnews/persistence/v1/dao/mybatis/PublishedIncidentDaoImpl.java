@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis;
 
+import java.io.Serial;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PublishedIncidentDto;
 public class PublishedIncidentDaoImpl extends BaseDao implements
 		PublishedIncidentDao {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger logger = LoggerFactory.getLogger(PublishedIncidentDaoImpl.class);

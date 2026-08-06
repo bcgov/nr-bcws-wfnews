@@ -21,17 +21,17 @@ public class RequestStats {
 	}
 
 	public synchronized String report() {
-		return String.format("Total: %d  Success: %d Err: %d -- Duration Avg: %d  Min: %d  Max: %d", 
-				Long.valueOf(count), 
-				Long.valueOf(count-countError), 
+		return "Total: %d  Success: %d Err: %d -- Duration Avg: %d  Min: %d  Max: %d".formatted(
+				Long.valueOf(count),
+				Long.valueOf(count - countError),
 				Integer.valueOf(countError),
-				Long.valueOf(durTotal/count), 
-				Long.valueOf(durMin), 
+				Long.valueOf(durTotal / count),
+				Long.valueOf(durMin),
 				Long.valueOf(durMax));
 	}
 
 	public synchronized String reportDurationShort() {
-		return String.format("%d (%d/%d)", Long.valueOf(getAvg()), Long.valueOf(getMin()), Long.valueOf(getMax()));
+		return "%d (%d/%d)".formatted(Long.valueOf(getAvg()), Long.valueOf(getMin()), Long.valueOf(getMax()));
 	}
 
 	public long getCount() {

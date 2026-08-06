@@ -121,8 +121,7 @@ public class QueryResponseChecker {
 	}
 
 	private static boolean isString(Object o, String s) {
-		if (o instanceof String) {
-			String so = (String) o;
+		if (o instanceof String so) {
 			return so.equalsIgnoreCase(s);
 		}
 		return false;

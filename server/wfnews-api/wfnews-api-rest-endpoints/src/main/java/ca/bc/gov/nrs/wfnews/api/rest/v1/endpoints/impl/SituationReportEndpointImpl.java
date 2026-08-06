@@ -2,10 +2,10 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
 import java.net.URI;
 
-import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.EntityTag;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.ResponseBuilder;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +21,9 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.SituationReportEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
-import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 
-public class SituationReportEndpointImpl extends BaseEndpointsImpl implements SituationReportEndpoint {
+
+public class SituationReportEndpointImpl extends WfNewsBaseEndpointsImpl implements SituationReportEndpoint {
   private static final Logger logger = LoggerFactory.getLogger(SituationReportEndpointImpl.class);
 	
 	@Autowired
