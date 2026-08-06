@@ -1,6 +1,7 @@
 package ca.bc.gov.nrs.wfnews.spring;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.regex.Pattern;
 
 import jakarta.servlet.FilterChain;
@@ -27,17 +28,37 @@ public class SpaRoutingFilter extends OncePerRequestFilter {
             uri = uri.substring(contextPath.length());
         }
 
-        // Bypass for static files, well-known paths, youtube-embed, or specific servlets
-        if (uri.startsWith("/.well-known/") 
-                || uri.startsWith("/youtube-embed") 
+        // Bypass for static files, well-known paths, youtube-embed, or specific servlets.
+        // youtube.jsp and checkToken.jsp are servlet mappings (see Application.newAppServlet),
+        // not files on disk, so existsInWebapp cannot cover them -- these entries are load-bearing.
+        if (uri.startsWith("/.well-known/")
+                || uri.startsWith("/youtube-embed")
                 || uri.startsWith("/youtube.jsp")
                 || uri.startsWith("/checkToken.jsp")
-                || STATIC_ASSETS_PATTERN.matcher(uri).matches()) {
+                || STATIC_ASSETS_PATTERN.matcher(uri).matches()
+                || existsInWebapp(uri)) {
             filterChain.doFilter(request, response);
             return;
         }
 
         // Forward to index.html for Angular SPA routes
         request.getRequestDispatcher("/index.html").forward(request, response);
+    }
+
+    /**
+     * Mirrors the notfile/notdir conditions of the urlrewrite.xml rule this filter replaced:
+     * anything that really exists in the webapp is served as-is instead of being rewritten to
+     * the Angular shell. The extension allowlist above cannot cover config.jsp / wfdmProxy.jsp,
+     * and rewriting config.jsp hands the app HTML where it expects JSON, which breaks bootstrap.
+     */
+    private boolean existsInWebapp(String uri) {
+        if (uri.isEmpty() || "/".equals(uri)) {
+            return false;
+        }
+        try {
+            return getServletContext().getResource(uri) != null;
+        } catch (MalformedURLException e) {
+            return false;
+        }
     }
 }
