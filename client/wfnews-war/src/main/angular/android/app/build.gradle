@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace "ca.bc.gov.WildfireInformation"
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "ca.bc.gov.WildfireInformation"
         minSdkVersion rootProject.ext.minSdkVersion

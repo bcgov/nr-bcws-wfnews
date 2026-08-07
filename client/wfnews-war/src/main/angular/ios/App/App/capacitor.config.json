@@ -1,8 +1,36 @@
 {
-  "appId": "ca.bc.gov.WildfireInformation",
-  "appName": "WFNEWS",
-  "webDir": "dist/wfnews",
-  "server": {
-    "androidScheme": "https"
-  }
+	"appId": "ca.bc.gov.WildfireInformation",
+	"appName": "BC Wildfire",
+	"webDir": "dist/wfnews",
+	"server": {
+		"androidScheme": "https"
+	},
+	"ios": {
+		"overrideUserAgent": "bc-wildfire-ios"
+	},
+	"android": {
+		"overrideUserAgent": "bc-wildfire-android"
+	},
+	"packageClassList": [
+		"FCMPlugin",
+		"AppPlugin",
+		"AppLauncherPlugin",
+		"CAPBrowserPlugin",
+		"CAPCameraPlugin",
+		"DevicePlugin",
+		"DialogPlugin",
+		"FilesystemPlugin",
+		"GeolocationPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"CAPNetworkPlugin",
+		"PreferencesPlugin",
+		"PushNotificationsPlugin",
+		"SharePlugin",
+		"SplashScreenPlugin",
+		"StatusBarPlugin",
+		"BackgroundTaskPlugin",
+		"NativeSettingsPlugin",
+		"CDVPlugin"
+	]
 }

@@ -1,8 +1,17 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
-var puppeteer = require("puppeteer");
-process.env.CHROME_BIN = puppeteer.executablePath();
+// Prefer an explicitly configured CHROME_BIN, then Puppeteer's bundled Chromium.
+// Puppeteer's download is skipped in some environments, so only use its path if
+// the binary actually exists — otherwise Karma fails with a missing-binary error.
+if (!process.env.CHROME_BIN) {
+  var fs = require("fs");
+  var puppeteer = require("puppeteer");
+  var puppeteerChrome = puppeteer.executablePath();
+  if (puppeteerChrome && fs.existsSync(puppeteerChrome)) {
+    process.env.CHROME_BIN = puppeteerChrome;
+  }
+}
 
 module.exports = function (config) {
   config.set({
@@ -10,7 +19,7 @@ module.exports = function (config) {
     frameworks: ["jasmine", "@angular-devkit/build-angular", "viewport"],
     plugins: [
       require("karma-jasmine"),
-      // require('karma-chrome-launcher'),
+      require("karma-chrome-launcher"),
       // require('karma-safari-launcher'),
       require("karma-jasmine-html-reporter"),
       require("karma-coverage-istanbul-reporter"),
