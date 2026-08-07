@@ -12,7 +12,11 @@ import {
   map,
 } from 'rxjs/operators';
 import { RootState } from '..';
-import { formatSort, getPageInfoRequestForSearchState } from '../../utils';
+import {
+  formatSort,
+  getPageInfoRequestForSearchState,
+  hasOwn,
+} from '../../utils';
 import {
   SearchWildfiresAction,
   searchWildfiresError,
@@ -84,7 +88,7 @@ export class WildfiresListEffect {
           const filters = typedaction.payload.filters;
           for (const filter in filters) {
             if (
-              Object.hasOwn(filters, filter) &&
+              hasOwn(filters, filter) &&
               filters[filter] !== undefined
             ) {
               if (filter === 'stageOfControlList') {

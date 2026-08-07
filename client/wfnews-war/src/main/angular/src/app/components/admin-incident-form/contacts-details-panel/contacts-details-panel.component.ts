@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { fireCentreOption } from '../../../conversion/models';
-import { FireCentres } from '../../../utils';
+import { FireCentres, hasOwn } from '../../../utils';
 
 @Component({
   selector: 'contacts-details-panel',
@@ -31,7 +31,7 @@ export class ContactsDetailsPanel implements OnInit {
 
   setDefaultContactInfo(value) {
     const control = this.formGroup.get('contact');
-    if (Object.hasOwn(this.contacts, value)) {
+    if (hasOwn(this.contacts, value)) {
       control.patchValue({
         phoneNumber: this.contacts[value].phone,
         emailAddress: this.contacts[value].url,

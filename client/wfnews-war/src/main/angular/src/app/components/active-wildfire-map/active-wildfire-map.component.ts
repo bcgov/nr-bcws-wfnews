@@ -42,6 +42,7 @@ import { PlaceData } from "../../services/wfnews-map.service/place-data";
 import {
   ResourcesRoutes,
   getActiveMap,
+  hasOwn,
   isMobileView,
   isMobileView as mobileView,
   snowPlowHelper,
@@ -892,7 +893,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             this.resizeObserver.observe(map._container);
 
             for (const smkMap in SMK.MAP) {
-              if (Object.hasOwn(SMK.MAP, smkMap)) {
+              if (hasOwn(SMK.MAP, smkMap)) {
                 const savedLocationMarker = {
                   icon: L.icon({
                     iconUrl:
