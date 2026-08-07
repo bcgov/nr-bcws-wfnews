@@ -10,3 +10,15 @@ last 2 versions
 Firefox ESR
 not dead
 not IE 9-11 # For IE 9-11 support, remove 'not'.
+
+# Explicit floors matching the native platform targets we ship against.
+# Without these the queries above resolve to ~Chrome 109 / iOS 18.5, far above
+# minSdkVersion 29 (android/variables.gradle) and IPHONEOS_DEPLOYMENT_TARGET 15.0.
+# iOS matters most: WKWebView is tied to the OS version and cannot be updated
+# separately, so the iOS floor here must match the deployment target.
+# Note: no "Android >= 90" line - browserslist's `android` key only tracks the
+# single newest WebView release, so it would be a no-op. `Chrome >= 90` is what
+# governs Android System WebView.
+Chrome >= 90
+iOS >= 15
+Safari >= 15

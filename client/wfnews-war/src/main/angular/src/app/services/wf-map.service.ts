@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CapacitorService } from '@app/services/capacitor-service';
-import { getActiveMap, hidePanel, isAndroidViaNavigator } from '@app/utils';
+import {
+  getActiveMap,
+  hasOwn,
+  hidePanel,
+  isAndroidViaNavigator,
+} from '@app/utils';
 import { CapacitorHttp } from '@capacitor/core';
 import { AppConfigService } from '@wf1/core-ui';
 import * as esriVector from 'esri-leaflet-vector';
@@ -682,7 +687,7 @@ export class WFMapService {
     const SMK = window['SMK'];
     let viewer = null;
     for (const smkMap in SMK.MAP) {
-      if (Object.hasOwn(SMK.MAP, smkMap)) {
+      if (hasOwn(SMK.MAP, smkMap)) {
         viewer = SMK.MAP[smkMap].$viewer;
       }
     }
@@ -705,7 +710,7 @@ export class WFMapService {
     const SMK = window['SMK'];
     let viewer = null;
     for (const smkMap in SMK.MAP) {
-      if (Object.hasOwn(SMK.MAP, smkMap)) {
+      if (hasOwn(SMK.MAP, smkMap)) {
         viewer = SMK.MAP[smkMap].$viewer;
       }
     }
@@ -778,7 +783,7 @@ export class WFMapService {
                 const SMK = window['SMK'];
                 let viewer = null;
                 for (const smkMap in SMK.MAP) {
-                  if (Object.hasOwn(SMK.MAP, smkMap)) {
+                  if (hasOwn(SMK.MAP, smkMap)) {
                     viewer = SMK.MAP[smkMap].$viewer;
                   }
                 }

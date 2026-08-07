@@ -347,6 +347,12 @@ export function getElementInnerText(el: HTMLElement): string {
 export const hasValues = (obj) =>
   Object.values(obj).some((v) => v !== null && typeof v !== 'undefined');
 
+// Use in place of Object.hasOwn, which needs Chrome 93 / Safari 15.4 and so
+// throws on Android WebViews below 93 and on iOS 15.0-15.3, where WKWebView
+// cannot be updated independently of the OS.
+export const hasOwn = (obj, key) =>
+  obj != null && Object.prototype.hasOwnProperty.call(obj, key);
+
 export function isElementTruncated(el: HTMLElement): boolean {
   return el.offsetWidth < el.scrollWidth;
 }
@@ -687,13 +693,13 @@ export function checkLayerVisible(layerId: string | string[]): boolean {
   let layerFound = false;
   // check for any of the layers being present in the group.
   for (const smkMapRef in smk.MAP) {
-    if (Object.hasOwn(smk.MAP, smkMapRef)) {
+    if (hasOwn(smk.MAP, smkMapRef)) {
       const smkMap = getActiveMap(smk);
       if (smkMap?.$viewer?.visibleLayer) {
         if (Array.isArray(layerId)) {
           let result = false;
           for (const layer of layerId) {
-            result = Object.hasOwn(smkMap?.$viewer?.visibleLayer, layer);
+            result = hasOwn(smkMap?.$viewer?.visibleLayer, layer);
             if (result) {
               break;
             }
@@ -703,7 +709,7 @@ export function checkLayerVisible(layerId: string | string[]): boolean {
           // only a single layer, so turf the panel if it isnt turned on
           layerFound =
             smkMap?.$viewer?.visibleLayer &&
-            Object.hasOwn(smkMap?.$viewer?.visibleLayer, layerId);
+            hasOwn(smkMap?.$viewer?.visibleLayer, layerId);
         }
         // and if the smk layers haven't loaded yet, just return false
       }
