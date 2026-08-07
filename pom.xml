@@ -20,7 +20,10 @@
     <sonar.organization>bcgov-sonarcloud</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.sources>database,docker,lambda,terraform,client/wfnews-war/src/main/angular/src</sonar.sources>
-    <log4j.version>2.24.3</log4j.version>
+    <log4j.version>2.25.4</log4j.version>
+    <!-- Kept on the 2.18.x line: spring-boot-dependencies 3.4.1 imports jackson-bom 2.18.2,
+         so staying in 2.18 keeps every Jackson artifact aligned with what Boot expects. -->
+    <jackson.version>2.18.9</jackson.version>
     <wfone.common.version>1.5.0</wfone.common.version>
     <swagger.version>2.2.20</swagger.version>
   </properties>
@@ -48,6 +51,12 @@
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-slf4j-impl</artifactId>
+        <version>${log4j.version}</version>
+      </dependency>
+      <!-- Pulled in transitively; log4j modules must all be on the same version. -->
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-jul</artifactId>
         <version>${log4j.version}</version>
       </dependency>
     </dependencies>
