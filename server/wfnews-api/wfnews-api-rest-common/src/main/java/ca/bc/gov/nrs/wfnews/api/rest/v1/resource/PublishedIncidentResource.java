@@ -5,8 +5,8 @@ import java.util.Date;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-import org.codehaus.jackson.annotate.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;

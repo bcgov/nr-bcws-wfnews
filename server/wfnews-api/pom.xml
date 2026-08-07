@@ -37,6 +37,21 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!-- Jackson 1.x is EOL and has no patched release, but nrs-common-rest-common
+			     still needs it at runtime (BaseResource, JsonTransformer and the JAX-RS
+			     ObjectMapperProvider all reference it), so it cannot be excluded. No
+			     first-party code uses it. Pin the newest 1.x so transitive paths do not
+			     fall back to the older 1.9.2 build. -->
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>1.9.13</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-core-asl</artifactId>
+				<version>1.9.13</version>
+			</dependency>
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-bom</artifactId>

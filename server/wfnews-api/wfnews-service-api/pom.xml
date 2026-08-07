@@ -41,12 +41,6 @@
 			<artifactId>wfone-common-rest-endpoints</artifactId>
 		</dependency>
 	
-	<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-jaxrs</artifactId>
-      <version>1.9.13</version>
-		</dependency>
-		
     <dependency>
       <groupId>ca.bc.gov.nrs.wfim</groupId>
       <artifactId>wfim-incidents-api-rest-common</artifactId>

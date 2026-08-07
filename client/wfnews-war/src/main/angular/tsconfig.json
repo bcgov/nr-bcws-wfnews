@@ -3,6 +3,11 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+    // uuid 11 and storybook 8.6 ship .d.ts files using TypeScript 5 syntax
+    // ("export type *"). Angular 15 pins TypeScript to <5.0, so their declarations
+    // cannot be checked here. Skipping lib checks does not affect checking of our
+    // own code's use of those APIs.
+    "skipLibCheck": true,
     "typeRoots": ["node_modules/@types"],
     "baseUrl": "./src",
     "paths": {
