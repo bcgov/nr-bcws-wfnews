@@ -212,13 +212,13 @@
 						</goals>
 					</execution>
 					<execution>
-						<id>npm install</id>
+						<id>npm ci</id>
 						<phase>initialize</phase>
 						<goals>
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>install --legacy-peer-deps --no-package-lock --registry=${npm.url}</arguments>
+							<arguments>ci --legacy-peer-deps --registry=${npm.url}</arguments>
 						</configuration>
 					</execution>
 					<execution>

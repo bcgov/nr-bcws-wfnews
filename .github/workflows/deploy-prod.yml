@@ -116,22 +116,33 @@ jobs:
 
     secrets: inherit
 
+  # Build the Angular mobile bundle once; the iOS and Android jobs below
+  # consume the same artifact instead of each running their own ng build.
+  mobile-web-build:
+    if: ${{ github.event_name == 'release' || inputs.SKIP_MOBILE != true }}
+    uses: ./.github/workflows/mobile-web-build.yml
+    with:
+      build_environment: PROD
+    secrets: inherit
+
   ios-deploy:
     if: ${{ github.event_name == 'release' || inputs.SKIP_MOBILE != true }}
     uses: ./.github/workflows/ios.yml
-    needs: [tag-images]
+    needs: [tag-images, mobile-web-build]
     with:
       build_environment: PROD
       upload_to_app_store: true
       skip_slack_notification: false
+      web_bundle_provided: true
     secrets: inherit
 
   android-deploy:
     if: ${{ github.event_name == 'release' || inputs.SKIP_MOBILE != true }}
     uses: ./.github/workflows/android.yml
-    needs: [tag-images]
+    needs: [tag-images, mobile-web-build]
     with:
       build_environment: PROD
       upload_to_play_store: true
       skip_slack_notification: false
+      web_bundle_provided: true
     secrets: inherit

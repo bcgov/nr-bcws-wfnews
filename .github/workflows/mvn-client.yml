@@ -35,6 +35,33 @@ jobs:
       - name: Add .npmrc file
         run: echo -e "$NPMRC" > ~/.npmrc
 
+      # The Angular build runs through frontend-maven-plugin, which downloads its
+      # own node/npm (see client/wfnews-war/pom.xml) rather than using setup-node.
+      # That npm still writes to the default ~/.npm cache, so cache it directly.
+      - name: Cache npm downloads
+        uses: actions/cache@v6
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('client/wfnews-war/src/main/angular/package-lock.json', 'client/wfnews-war/src/main/angular/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      # frontend-maven-plugin installs node/npm into ${user.home}/.node and re-downloads
+      # them every run otherwise. Versions are pinned in client/wfnews-war/pom.xml.
+      - name: Cache node/npm toolchain
+        uses: actions/cache@v6
+        with:
+          path: ~/.node
+          key: ${{ runner.os }}-node-toolchain-${{ hashFiles('client/wfnews-war/pom.xml') }}
+
+      - name: Cache local Maven repository
+        uses: actions/cache@v6
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml', 'client/**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       - name: Inject GitHub Build Number and Display Directory
         run: |
           echo "Current working directory:"
@@ -56,14 +83,6 @@ jobs:
         with:
           name: Package-client
           path: staging
-
-      - name: Cache local Maven repository
-        uses: actions/cache@v6
-        with:
-          path: staging
-          key: ${{ runner.os }}-maven-${{ hashFiles('**war.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
 
   docker:
     needs: build
