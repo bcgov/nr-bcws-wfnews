@@ -155,7 +155,7 @@
 				<version>${nrs.common.version}</version>
 				<exclusions>
 					<!-- Drags in Jackson 1.x (CVE-2019-10202). The Jackson 1 JAX-RS provider
-					     is javax.ws.rs-based and cannot be discovered by Jersey 3/Jakarta
+					     cannot be discovered by Jersey 3/Jakarta
 					     anyway; JSON here is handled by wfone's Jackson 2 ObjectMapperProvider. -->
 					<exclusion>
 						<groupId>org.codehaus.jackson</groupId>

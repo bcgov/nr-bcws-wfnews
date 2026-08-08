@@ -33,7 +33,7 @@ jobs:
           distribution: 'temurin'
       
       - name: Add .npmrc file
-        run: echo -e $NPMRC > ~/.npmrc
+        run: echo -e "$NPMRC" > ~/.npmrc
 
       - name: Inject GitHub Build Number and Display Directory
         run: |
