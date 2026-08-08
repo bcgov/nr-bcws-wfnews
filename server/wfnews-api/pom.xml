@@ -37,11 +37,11 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			<!-- Jackson 1.x is EOL and has no patched release, but nrs-common-rest-common
-			     still needs it at runtime (BaseResource, JsonTransformer and the JAX-RS
-			     ObjectMapperProvider all reference it), so it cannot be excluded. No
-			     first-party code uses it. Pin the newest 1.x so transitive paths do not
-			     fall back to the older 1.9.2 build. -->
+			<!-- Jackson 1.x (org.codehaus.jackson) is EOL and 1.9.13 is the last release,
+			     so CVE-2019-10202 has no patched version to bump to. It is dropped from the
+			     graph instead: see the exclusions on nrs-common-rest-common below and on
+			     webade-oauth2-common in wfnews-persistence/wfnews-service-api. The enforcer
+			     rule in this pom keeps it from reappearing. -->
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-asl</artifactId>
@@ -153,6 +153,15 @@
 				<groupId>ca.bc.gov.nrs.common</groupId>
 				<artifactId>nrs-common-rest-common</artifactId>
 				<version>${nrs.common.version}</version>
+				<exclusions>
+					<!-- Drags in Jackson 1.x (CVE-2019-10202). The Jackson 1 JAX-RS provider
+					     is javax.ws.rs-based and cannot be discovered by Jersey 3/Jakarta
+					     anyway; JSON here is handled by wfone's Jackson 2 ObjectMapperProvider. -->
+					<exclusion>
+						<groupId>org.codehaus.jackson</groupId>
+						<artifactId>jackson-jaxrs</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>ca.bc.gov.nrs.common</groupId>
@@ -168,6 +177,15 @@
 				<groupId>ca.bc.gov.nrs.common</groupId>
 				<artifactId>nrs-common-rest-endpoints</artifactId>
 				<version>${nrs.common.version}</version>
+				<exclusions>
+					<!-- Second path to Jackson 1.x, via nrs-common-checkhealth. Its only use
+					     there is @Json* annotations on HealthCheckResponse, which the JVM
+					     silently skips when the annotation types are absent. -->
+					<exclusion>
+						<groupId>org.codehaus.jackson</groupId>
+						<artifactId>jackson-jaxrs</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>ca.bc.gov.nrs.common</groupId>
@@ -416,5 +434,33 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.5.0</version>
+				<executions>
+					<execution>
+						<id>ban-jackson-1</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<bannedDependencies>
+									<!-- Jackson 1.x is EOL at 1.9.13 and carries CVE-2019-10202 with no
+									     patched release. It is excluded from the graph; fail the build if
+									     a dependency bump reintroduces it rather than shipping it again. -->
+									<excludes>
+										<exclude>org.codehaus.jackson:*</exclude>
+									</excludes>
+									<message>org.codehaus.jackson (Jackson 1.x) is banned: EOL, CVE-2019-10202 with no fix. Add an exclusion on whichever dependency reintroduced it. Use com.fasterxml.jackson instead.</message>
+								</bannedDependencies>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 </project>

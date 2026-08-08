@@ -114,10 +114,20 @@
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-log4j12</artifactId>
                 </exclusion>
+                <!-- Jackson 1.x (CVE-2019-10202) via cloudfoundry-identity-common. See the
+                     matching exclusion in wfnews-persistence/pom.xml. -->
+                <exclusion>
+					<groupId>org.codehaus.jackson</groupId>
+					<artifactId>jackson-mapper-asl</artifactId>
+                </exclusion>
+                <exclusion>
+					<groupId>org.codehaus.jackson</groupId>
+					<artifactId>jackson-core-asl</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
-        
-		
+
+
 		<dependency>
 				<groupId>com.konghq</groupId>
 				<artifactId>unirest-java</artifactId>
