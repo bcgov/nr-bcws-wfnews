@@ -67,7 +67,7 @@ public class PushNotificationEventConsumerJob extends AbstractJob {
 					} catch (Throwable e) {
 						logger.error("Message " + message.getMessageId() + " encountered an error while processing");
 						logger.error("Error: " + e.getLocalizedMessage());
-						logger.error("Stacktrace: " + e.getStackTrace());
+						logger.error("Stacktrace: ", e);
 					}
 				}
 

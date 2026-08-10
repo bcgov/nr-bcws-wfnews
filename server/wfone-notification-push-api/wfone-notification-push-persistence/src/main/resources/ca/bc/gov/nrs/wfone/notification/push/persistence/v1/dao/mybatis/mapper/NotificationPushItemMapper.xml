@@ -176,6 +176,7 @@
 								<include refid="selectJoins" />
 								WHERE NPI.NOTIFICATION_GUID = #{notificationGuid, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 								AND NPI.ITEM_IDENTIFIER = #{itemIdentifier, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+								AND (NPI.ITEM_EXPIRY_TIMESTAMP IS NULL OR NPI.ITEM_EXPIRY_TIMESTAMP &gt; CURRENT_TIMESTAMP)
 								LIMIT 1
 
 				</select>

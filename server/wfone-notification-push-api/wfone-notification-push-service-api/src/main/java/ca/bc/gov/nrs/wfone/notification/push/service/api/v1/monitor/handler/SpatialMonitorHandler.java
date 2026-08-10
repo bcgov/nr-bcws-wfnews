@@ -7,9 +7,11 @@ import com.vividsolutions.jts.algorithm.ConvexHull;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import com.google.common.hash.Hashing;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,9 +24,11 @@ public class SpatialMonitorHandler implements MonitorHandler {
 	@Override
 	public MessageInformation handleMessage(Message message) {
 		String monitorType = message.getMessageAttributes().get(MONITOR_ATTRIBUTE).getStringValue();
+		String rawMessageBody = message.getBody();
 
-		JSONObject jsonObject = new JSONObject(message.getBody());
+		JSONObject jsonObject = new JSONObject(rawMessageBody);
 		String messageId = null;
+		String itemIdentifier = generateHash(rawMessageBody);
 		Long epoch = null;
 		String topic = null;
 		Map<String, String> eventInformation = new HashMap<>();
@@ -69,9 +73,12 @@ public class SpatialMonitorHandler implements MonitorHandler {
 			if (jsonObject.getJSONObject("attributes").has("EVENT_NAME")) {
 				messageId = jsonObject.getJSONObject("attributes").getString("EVENT_NAME");
 				eventInformation.put(MessageInformation.EVENT_NAME, messageId);
-			} else {
+			} else if (jsonObject.getJSONObject("attributes").has("EMRG_OAA_SYSID")) {
 				messageId = String.valueOf(jsonObject.getJSONObject("attributes").getInt("EMRG_OAA_SYSID"));
+			} else {
+				messageId = "Evacuation";
 			}
+			
 			epoch = jsonObject.getJSONObject("attributes").getLong("DATE_MODIFIED");
 			topic = NotificationTopics.EVACUATION_ORDERS_AND_ALERTS;
 			updateStringAttribute(jsonObject, MessageInformation.ISSUING_AGENCY, eventInformation);
@@ -114,7 +121,11 @@ public class SpatialMonitorHandler implements MonitorHandler {
 			break;
 		}
 
-		return new MessageInformation(messageId, messageDate, geometry, topic, eventInformation);
+		return new MessageInformation(messageId, itemIdentifier, messageDate, geometry, topic, eventInformation);
+	}
+
+	private String generateHash(String input) {
+		return Hashing.murmur3_128().hashString(input, StandardCharsets.UTF_8).toString();
 	}
 
 	private void updateStringAttribute(JSONObject jsonObject, String attributeKey,

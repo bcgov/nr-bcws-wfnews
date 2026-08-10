@@ -203,6 +203,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		int successCount = 0;
 		int failCount = 0;
 		int ignoreCount = 0;
+		int skippedCount = 0;
 		for (Map.Entry<NotificationDto, NotificationSettingsDto> entry : areaOfInterestSubscriberMap.entrySet()) {
 			try {
 				NotificationDto notificationDto = entry.getKey();
@@ -222,8 +223,12 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 					}
 
 					try {
-						pushMessageToSubscriber(isTest, context, pushRecordsCount, pushNotifications, transactionDefinition, expirations, currentTimeStamp, messageInformation, notificationDto, notificationSettingsDto);
-						successCount++;
+						boolean sent = pushMessageToSubscriber(isTest, context, pushRecordsCount, pushNotifications, transactionDefinition, expirations, currentTimeStamp, messageInformation, notificationDto, notificationSettingsDto);
+						if (sent) {
+							successCount++;
+						} else {
+							skippedCount++;
+						}
 					} catch (Throwable t) {
 						PushNotification pushNotification = this.pushNotificationFactory.getPushNotification(t, context);
 						pushNotifications.add(0, pushNotification);
@@ -241,7 +246,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 				logger.error("Message: " + messageInformation.getMessageId());
 				logger.error("Topic: " + messageInformation.getTopic());
 				logger.error("Exception caught : " + e.getLocalizedMessage());
-				logger.error("Exception trace: " + e.getStackTrace());
+				logger.error("Exception trace: ", e);
 
 				failCount++;
 			}
@@ -250,11 +255,12 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		logger.info("Push Notification process complete.");
 		logger.info("Subscribed: " + areaOfInterestSubscriberMap.size());
 		logger.info("Succeeded: " + successCount);
+		logger.info("Skipped (Duplicate): " + skippedCount);
 		logger.info("Ignored: " + ignoreCount);
 		logger.info("Failed: " + failCount);
 	}
 
-	private void pushMessageToSubscriber(boolean isTest, FactoryContext context, ProcessingCount pushRecordsCount,
+	private boolean pushMessageToSubscriber(boolean isTest, FactoryContext context, ProcessingCount pushRecordsCount,
 			List<PushNotification> pushNotifications, TransactionDefinition transactionDefinition,
 			Map<String, Date> expirations, Date currentTimeStamp, MessageInformation messageInformation,
 			NotificationDto notificationDto, NotificationSettingsDto notificationSettingsDto) throws Throwable {
@@ -281,14 +287,15 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 		expireTimestamp = expirations.get(topicKey);
 		// Using messageInformation.getMessageId() for the event-specific part of the message body
-		// And also as the unique identifier for the event itself.
-		String eventIdentifier = messageInformation.getMessageId();
-		body = ((isTest) ? "TEST: " : "") + TOPIC_MESSAGE_BODIES.get(topicKey).formatted(eventIdentifier, notificationDto.getNotificationName());
+		String eventMessageId = messageInformation.getMessageId();
+		// And use getItemIdentifier() as the unique identifier for the event itself for idempotency
+		String eventIdentifier = messageInformation.getItemIdentifier();
+		body = ((isTest) ? "TEST: " : "") + TOPIC_MESSAGE_BODIES.get(topicKey).formatted(eventMessageId, notificationDto.getNotificationName());
 
 		com.google.firebase.messaging.Message message = prepareNearMePushNotification(title, body, notificationSettingsDto.getNotificationToken(), keyValueMapForPN);
 		++pushRecordsCount.toProcess;
 
-		sendNearMePNAndCreateNotifPushItem(notificationSettingsDto, message, notificationDto.getNotificationGuid(), expireTimestamp, currentTimeStamp, eventIdentifier);
+		boolean sent = sendNearMePNAndCreateNotifPushItem(notificationSettingsDto, message, notificationDto.getNotificationGuid(), expireTimestamp, currentTimeStamp, eventIdentifier);
 
 		Map<String, String> pushMap = new HashMap<>();
 		pushMap.put("notificationToken", notificationSettingsDto.getNotificationToken());
@@ -300,6 +307,8 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		pushNotifications.add(pushNotification);
 
 		++pushRecordsCount.processed;
+
+		return sent;
 	}
 
 	private Optional<String> getEventLogging(String monitorType, Map<String, String> eventInformation) {
@@ -354,7 +363,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		return message;
 	}
 
-	private void sendNearMePNAndCreateNotifPushItem(NotificationSettingsDto notificationSettingsDto,
+	private boolean sendNearMePNAndCreateNotifPushItem(NotificationSettingsDto notificationSettingsDto,
 			com.google.firebase.messaging.Message message, String notificationGuid, Date expireTimestamp,
 			Date pushTimeStamp, String eventIdentifier) throws Throwable {
 
@@ -367,6 +376,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 			if (existingPushItem != null) {
 				logger.info("Push notification for notificationGuid '{}' and eventIdentifier '{}' already sent and recorded at {}. Skipping.",
 						notificationGuid, eventIdentifier, existingPushItem.getPushTimestamp());
+				return false;
 			} else {
 				logger.debug("Starting Message Push");
 				// check if this notification subscription still exists
@@ -376,7 +386,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 					boolean notificationFound = false;
 
 					for (NotificationDto realTimeNotificationDto : realTimeNotificationSettingsDto.getNotifications()) {
-						if (realTimeNotificationDto.getNotificationGuid().equals(notificationGuid) && realTimeNotificationDto.getActiveIndicator() != null && realTimeNotificationDto.getActiveIndicator().booleanValue()) {
+						if (realTimeNotificationDto.getNotificationGuid() != null && realTimeNotificationDto.getNotificationGuid().equals(notificationGuid) && realTimeNotificationDto.getActiveIndicator() != null && realTimeNotificationDto.getActiveIndicator().booleanValue()) {
 							notificationFound = true;
 							break;
 						}
@@ -411,10 +421,11 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 				logger.error("Subscriber " + notificationSettingsDto.getSubscriberGuid() + " excluded from future notifications");
 			}
 		} catch (Throwable e) {
-			logger.error("Error sending push notification: " + e.getMessage());
-			logger.error("Error sending push notification: " + e.getStackTrace());
+			logger.error("Error sending push notification: " + e.getMessage(), e);
 			throw e;
 		}
+
+		return true;
 	}
 
 
