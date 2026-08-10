@@ -90,12 +90,14 @@ jobs:
           bundler-cache: true
 
 
-      # Capacitor 8 requires Xcode 26.0+. Pin it rather than inheriting whatever
-      # the macos-latest image happens to default to.
+      # Capacitor 8 requires Xcode 26.0+. Use the image's newest stable Xcode
+      # rather than pinning an exact version: the runner only installs the iOS
+      # device platform for its default Xcode, so pinning an older one on the
+      # image fails archiving with "iOS <version> is not installed".
       - name: Select Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "26.0"
+          xcode-version: latest-stable
 
       - name: Check Xcode version
         run: /usr/bin/xcodebuild -version
