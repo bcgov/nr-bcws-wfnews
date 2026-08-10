@@ -4,6 +4,7 @@ import static ca.bc.gov.mof.wfpointid.util.PointidMatchers.isEmpty;
 import static ca.bc.gov.mof.wfpointid.util.PointidMatchers.isPresent;
 import static ca.bc.gov.mof.wfpointid.util.PointidMatchers.parseTo;
 import static ca.bc.gov.mof.wfpointid.util.PointidMatchers.valueWithUnit;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.hasKey;
@@ -11,10 +12,10 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.hamcrest.number.IsCloseTo;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,6 @@ import java.util.Optional;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.junit.Test;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.io.geojson.GeoJsonReader;

@@ -9,6 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { AttachmentResource } from '@wf1/incidents-rest-api/model/attachmentResource';
+import { hasOwn } from '../../../../utils';
 import { DocumentManagementService } from '../../../../services/document-management.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as moment from 'moment';
@@ -61,7 +62,7 @@ export class ImageCardPanel implements OnInit, OnChanges {
   }
 
   get isPrimary() {
-    if (!Object.hasOwn(this.attachment, 'primaryInd')) {
+    if (!hasOwn(this.attachment, 'primaryInd')) {
       (this.attachment as any).primaryInd = false;
     }
 

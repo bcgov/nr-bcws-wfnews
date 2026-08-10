@@ -1,9 +1,11 @@
 package ca.bc.gov.mof.wfpointid.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Message implements Serializable
 {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private String path;

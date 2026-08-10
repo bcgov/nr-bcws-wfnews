@@ -3,13 +3,13 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.resource.transformers;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.SerializerProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.geojson.GeoJsonWriter;
 

@@ -1257,8 +1257,8 @@ resource "aws_ecs_service" "client" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
-    subnets          = module.networking.subnets.app.ids
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.web.id]
+    subnets          = module.networking.subnets.web.ids
     assign_public_ip = true
   }
 
@@ -1337,7 +1337,7 @@ resource "aws_ecs_service" "pointid" {
 
   network_configuration {
     security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
-    subnets          = module.networking.subnets.web.ids
+    subnets          = module.networking.subnets.app.ids
     assign_public_ip = true
   }
 
@@ -1377,7 +1377,7 @@ resource "aws_ecs_service" "wfone_notifications_api" {
 
   network_configuration {
     security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
-    subnets          = module.networking.subnets.web.ids
+    subnets          = module.networking.subnets.app.ids
     assign_public_ip = true
   }
 
@@ -1398,27 +1398,20 @@ resource "aws_ecs_service" "wfone_notifications_push_api" {
   name                              = "wfone-notifications-push-api-${each.key}-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfone_notifications_push_api[each.key].arn
-  desired_count                     = var.app_count
+  desired_count                     = ceil(var.app_count / 2)
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
   health_check_grace_period_seconds = 60
   wait_for_steady_state             = false
 
-
-  capacity_provider_strategy {
-    capacity_provider = "FARGATE_SPOT"
-    weight            = 80
-  }
   capacity_provider_strategy {
     capacity_provider = "FARGATE"
-    weight            = 20
+    weight            = 100
     base              = 1
   }
-
-
   network_configuration {
     security_groups  = [aws_security_group.wfnews_ecs_tasks.id, module.networking.security_groups.app.id]
-    subnets          = module.networking.subnets.web.ids
+    subnets          = module.networking.subnets.app.ids
     assign_public_ip = true
   }
 

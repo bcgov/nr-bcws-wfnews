@@ -1,11 +1,12 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.resource;
 
+import java.io.Serial;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-import org.codehaus.jackson.annotate.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
@@ -14,7 +15,8 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonTypeName(ResourceTypes.PUBLISHED_INCIDENT)
 public class PublishedIncidentResource extends SimplePublishedIncidentResource implements PublishedIncident {
-	
+
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private String publishedIncidentDetailGuid;

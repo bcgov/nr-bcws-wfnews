@@ -9,12 +9,13 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.sql.DataSource;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.target.HotSwappableTargetSource;
@@ -45,7 +46,7 @@ public abstract class EndpointsTest {
 
 	protected static TokenServiceStub tokenService;
 	
-	@BeforeClass
+	@BeforeAll
 	public static void startServer() throws Exception {
 		logger.debug("<startServer");
 		
@@ -59,11 +60,16 @@ public abstract class EndpointsTest {
 		Properties applicationProperties = testApplicationContext.getBean("applicationProperties", Properties.class);
 		
 		for(String key:applicationProperties.stringPropertyNames()) {
-			
-			String value = applicationProperties.getProperty(key);
-			logger.debug(key+"="+value);
-			
-			System.setProperty(key, value);
+
+			// Real env vars / system properties (e.g. pointing at a live dev DB) win over
+			// these test-only fallback values, so tests can still run against real resources.
+			if (System.getProperty(key) == null && System.getenv(key) == null) {
+
+				String value = applicationProperties.getProperty(key);
+				logger.debug(key+"="+value);
+
+				System.setProperty(key, value);
+			}
 		}
 		
 		
@@ -73,14 +79,14 @@ public abstract class EndpointsTest {
 
 		// Replace the OAUTH2 token client with the stub
 		webApplicationContext = ApplicationContextProvider.getApplicationContext();
-		Assert.assertNotNull(webApplicationContext);
+		Assertions.assertNotNull(webApplicationContext);
 	
 			tokenService = new TokenServiceStub(clientAppCode, issuer);
 	
 		logger.debug(">startServer");
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void stopServer() throws Exception {
 		EmbeddedServer.stop();
 		logger.debug("stopServer");
@@ -140,7 +146,7 @@ public abstract class EndpointsTest {
 			}
 		}
 		
-		Assert.assertTrue("unexpected error message OR expected message: " + sb.toString(), passTest);
+		Assertions.assertTrue(passTest, "unexpected error message OR expected message: " + sb.toString());
 	}
 	
 	/**
@@ -155,7 +161,7 @@ public abstract class EndpointsTest {
 		
 		if (length > 0) {
 			for (int i=0; i < length; i++) {
-				sb.append(characters.charAt((int) (Math.random() * characters.length())));
+				sb.append(characters.charAt((int) (ThreadLocalRandom.current().nextDouble() * characters.length())));
 			}
 		}
 		

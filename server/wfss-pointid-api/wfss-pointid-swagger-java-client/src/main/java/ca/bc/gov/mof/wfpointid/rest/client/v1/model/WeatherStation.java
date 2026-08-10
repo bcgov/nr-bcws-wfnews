@@ -18,8 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
-
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * WeatherStation
@@ -55,7 +54,7 @@ public class WeatherStation {
    * Get stationCode
    * @return stationCode
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getStationCode() {
     return stationCode;
   }
@@ -73,7 +72,7 @@ public class WeatherStation {
    * Get stationName
    * @return stationName
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getStationName() {
     return stationName;
   }
@@ -91,7 +90,7 @@ public class WeatherStation {
    * Get lat
    * @return lat
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getLat() {
     return lat;
   }
@@ -109,7 +108,7 @@ public class WeatherStation {
    * Get lon
    * @return lon
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getLon() {
     return lon;
   }
@@ -127,7 +126,7 @@ public class WeatherStation {
    * Get elevation
    * @return elevation
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getElevation() {
     return elevation;
   }
@@ -153,7 +152,7 @@ public class WeatherStation {
    * Get hourly
    * @return hourly
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public List<WeatherHourly> getHourly() {
     return hourly;
   }
@@ -179,7 +178,7 @@ public class WeatherStation {
    * Get daily
    * @return daily
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public List<WeatherDaily> getDaily() {
     return daily;
   }

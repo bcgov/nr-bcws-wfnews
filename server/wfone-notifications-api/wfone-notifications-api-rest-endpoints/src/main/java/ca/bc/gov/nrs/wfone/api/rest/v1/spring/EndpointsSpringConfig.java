@@ -8,10 +8,12 @@ import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import ca.bc.gov.nrs.wfone.api.rest.v1.parameters.validation.ParameterValidator;
@@ -62,6 +64,8 @@ public class EndpointsSpringConfig {
 	private String wfoneDataSourceMaxConnections;
 
 	@Bean
+	@Primary
+	@Qualifier("wfoneDataSource")
 	public DataSource wfoneDataSource() {
 		logger.debug("Creating datasource for " + wfoneDataSourceUrl);
 

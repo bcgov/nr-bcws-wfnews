@@ -16,6 +16,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { hasOwn } from '@app/utils';
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
@@ -207,7 +208,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     let lastFeature;
     let featureCount = 0;
     for (const fid in identified.featureSet) {
-      if (Object.hasOwn(identified.featureSet, fid)) {
+      if (hasOwn(identified.featureSet, fid)) {
         const feature = identified.featureSet[fid];
         featureCount++;
         if (

@@ -14,18 +14,33 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
-	
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.mail</groupId>
+			<artifactId>jakarta.mail-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.angus</groupId>
+			<artifactId>angus-mail</artifactId>
+		</dependency>
+
+		<!-- Hibernate Validator's default message interpolator needs a Jakarta EL implementation
+		     at runtime (ModelValidator -> BaseValidator -> hibernate-validator), or bean validation
+		     fails with HV000183 on first use. -->
+		<dependency>
+			<groupId>org.glassfish.expressly</groupId>
+			<artifactId>expressly</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+
 	<dependency>
 			<groupId>ca.bc.gov.nrs.wfone.common</groupId>
 			<artifactId>wfone-common-rest-endpoints</artifactId>
 		</dependency>
 	
-	<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-jaxrs</artifactId>
-      <version>1.9.13</version>
-		</dependency>
-		
     <dependency>
       <groupId>ca.bc.gov.nrs.wfim</groupId>
       <artifactId>wfim-incidents-api-rest-common</artifactId>
@@ -99,21 +114,25 @@
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-log4j12</artifactId>
                 </exclusion>
+                <!-- Jackson 1.x (CVE-2019-10202) via cloudfoundry-identity-common. See the
+                     matching exclusion in wfnews-persistence/pom.xml. -->
+                <exclusion>
+					<groupId>org.codehaus.jackson</groupId>
+					<artifactId>jackson-mapper-asl</artifactId>
+                </exclusion>
+                <exclusion>
+					<groupId>org.codehaus.jackson</groupId>
+					<artifactId>jackson-core-asl</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
-        
-		
+
+
 		<dependency>
 				<groupId>com.konghq</groupId>
 				<artifactId>unirest-java</artifactId>
 				<version>3.11.09</version>
 		</dependency>
-
-		<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>3.1.0</version>
-			</dependency>
 
 		<dependency>
 			<groupId>ca.bc.gov.nrs.wfnews</groupId>
@@ -159,17 +178,17 @@
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-slf4j-impl</artifactId>
-      <version>2.17.2</version>
+      <version>${log4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-api</artifactId>
-      <version>2.17.2</version>
+      <version>${log4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
-      <version>2.17.2</version>
+      <version>${log4j.version}</version>
     </dependency>
 
 	<dependency>
@@ -181,7 +200,7 @@
 	<dependency>
 		<groupId>com.fasterxml.jackson.jaxrs</groupId>
 		<artifactId>jackson-jaxrs-json-provider</artifactId>
-		<version>2.12.1</version>
+		<version>${jackson.version}</version>
 	</dependency>
 
 		<dependency>

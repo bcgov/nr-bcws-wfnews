@@ -1,9 +1,11 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.resource;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serial;
 
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-import org.codehaus.jackson.annotate.JsonTypeName;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import ca.bc.gov.nrs.common.rest.resource.BaseResource;
 import ca.bc.gov.nrs.wfnews.api.model.v1.Statistics;
@@ -13,7 +15,8 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonTypeName(ResourceTypes.STATISTICS)
 public class StatisticsResource extends BaseResource implements Statistics {
-  private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
   private String fireCentre;
   private int activeOutOfControlFires;
   private int activeOutOfControlFiresOfNote;

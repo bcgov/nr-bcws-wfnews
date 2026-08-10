@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { YouTubeService } from '@app/services/youtube-service';
 import { WfimExternalUriService as ExternalUriService } from '@app/services/wfim-external-uri.service';
 import * as moment from 'moment';
-import { convertToYoutubeId } from '../../../../utils';
+import { convertToYoutubeId, hasOwn } from '../../../../utils';
 import { EditVideoDialogComponent } from '../edit-video-dialog/edit-video-dialog.component';
 
 @Component({
@@ -60,7 +60,7 @@ export class VideoCardPanel {
   }
 
   get isPrimary() {
-    if (!Object.hasOwn(this.video, 'primaryInd')) {
+    if (!hasOwn(this.video, 'primaryInd')) {
       this.video.primaryInd = false;
     }
 

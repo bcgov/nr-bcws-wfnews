@@ -1,6 +1,6 @@
 require_relative '../../node_modules/@capacitor/ios/scripts/pods_helpers'
 
-platform :ios, '13.0'
+platform :ios, '15.0'
 use_frameworks!
 
 install! 'cocoapods', :disable_input_output_paths => true
@@ -43,4 +43,19 @@ end
 
 post_install do |installer|
   assertDeploymentTarget(installer)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+    end
+  end
+
+  # Fix for Xcode 16 / iOS 18 <netinet6/in6.h> issue in cordova-plugin-advanced-http
+  plugin_path = File.join(__dir__, '../capacitor-cordova-ios-plugins/sources/CordovaPluginAdvancedHttp')
+  Dir.glob(File.join(plugin_path, '**', '*.m')).each do |file|
+    text = File.read(file)
+    if text.include?('<netinet6/in6.h>')
+      text = text.gsub('<netinet6/in6.h>', '<arpa/inet.h>')
+      File.write(file, text)
+    end
+  end
 end

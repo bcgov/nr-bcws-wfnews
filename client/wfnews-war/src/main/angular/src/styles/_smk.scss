@@ -44,3 +44,42 @@
   color: #1a5a96;
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 }
+
+// Override SMK legend dimensions for the horizontal smoke forecast legend
+[data-layer-id="eccc-pm25-smoke-forecast"] .smk-legend,
+.smk-layer-eccc-pm25-smoke-forecast .smk-legend,
+[title="id: eccc-pm25-smoke-forecast"] .smk-legend {
+  width: 320px !important;
+  max-width: 100% !important;
+}
+
+[data-layer-id="eccc-pm25-smoke-forecast"] .smk-legend-item,
+.smk-layer-eccc-pm25-smoke-forecast .smk-legend-item,
+[title="id: eccc-pm25-smoke-forecast"] .smk-legend-item {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+[data-layer-id="eccc-pm25-smoke-forecast"] span.smk-legend-graphic,
+.smk-layer-eccc-pm25-smoke-forecast span.smk-legend-graphic,
+[title="id: eccc-pm25-smoke-forecast"] span.smk-legend-graphic {
+  display: block !important;
+  width: 100% !important;
+  aspect-ratio: 340 / 60 !important;
+  height: auto !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center left !important;
+}
+
+[data-layer-id="eccc-pm25-smoke-forecast"] span.smk-legend-title,
+.smk-layer-eccc-pm25-smoke-forecast span.smk-legend-title,
+[title="id: eccc-pm25-smoke-forecast"] span.smk-legend-title {
+  display: block !important;
+  width: 100% !important;
+  padding-top: 8px !important;
+}
+
+

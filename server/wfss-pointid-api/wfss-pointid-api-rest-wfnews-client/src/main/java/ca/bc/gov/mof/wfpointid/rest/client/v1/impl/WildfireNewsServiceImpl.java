@@ -35,7 +35,10 @@ import ca.bc.gov.nrs.common.rest.resource.PagedResource;
 
 public class WildfireNewsServiceImpl extends BaseRestServiceClient implements WildfireNewsService {
 
-	private static final String INCIDENTS_PATH = "/publicPublishedIncident";
+	// Deliberately relative (no leading slash): URI.resolve() treats a leading-slash path as
+	// absolute, which replaces the ENTIRE path of topLevelRestURL instead of appending to it --
+	// silently dropping any path prefix (e.g. ".../wfnews-api/") the base URL might have.
+	private static final String INCIDENTS_PATH = "publicPublishedIncident";
 	private static final int PAGE_SIZE = 20;
 
 	private static final Logger logger = LoggerFactory.getLogger(WildfireNewsServiceImpl.class);

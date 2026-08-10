@@ -1,9 +1,10 @@
 package ca.bc.gov.nrs.wfone.api.rest.v1.resource;
 
+import java.io.Serial;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -19,6 +20,7 @@ import ca.bc.gov.nrs.wfone.api.rest.v1.resource.types.ResourceTypes;
 @JsonSubTypes(  { 	@Type(value = NotificationSettingsRsrc.class, name = ResourceTypes.NOTIFICATION_SETTINGS) }	 )
 
 public class NotificationSettingsRsrc extends BaseResource implements NotificationSettings<NotificationRsrc> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private String subscriberGuid;

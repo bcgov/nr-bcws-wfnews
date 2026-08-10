@@ -24,9 +24,9 @@ import ca.bc.gov.nrs.wfone.service.api.v1.validation.ModelValidator;
 import ca.bc.gov.nrs.wfone.service.api.v1.EmailNotificationService;
 import ca.bc.gov.nrs.wfone.service.api.v1.impl.EmailNotificationServiceImpl;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
+import jakarta.mail.Authenticator;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
 
 @Configuration
 @Import({

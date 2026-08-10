@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.endpoints.impl;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.WildfirePushNotificationServiceV2;
 import com.amazonaws.services.sqs.model.Message;
@@ -15,7 +15,7 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PushNearMeNotificationsEndpointImpl extends BaseEndpointsImpl implements PushNearMeNotificationsEndpoint {
+public class PushNearMeNotificationsEndpointImpl extends WfOneNotificationPushBaseEndpointsImpl implements PushNearMeNotificationsEndpoint {
 	
 	@Autowired
 	private WildfirePushNotificationServiceV2 wildfirePushNotificationServiceV2;

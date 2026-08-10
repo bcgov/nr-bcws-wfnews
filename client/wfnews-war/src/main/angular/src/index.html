@@ -2,77 +2,200 @@
 <html lang="en">
 
 <head>
-    <base href="/">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta charset="utf-8">
-    <meta name="description" content="BC Wildfire Service App">
-    <meta property="og:title" content="BC Wildfire Service">
-    <meta property="og:image" content="assets/images/share-wildfire.png">
-    <meta property="og:site_name" content="BC Wildfire Service">
-    <meta property="og:description" content="BC Wildfire Service App" />
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@BCGovFireInfo'">
-    <meta name="twitter:image" content="assets/images/share-wildfire.png">
+  <base href="/">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="utf-8">
+  <meta name="description" content="BC Wildfire Service App">
+  <meta property="og:title" content="BC Wildfire Service">
+  <meta property="og:image" content="assets/images/share-wildfire.png">
+  <meta property="og:site_name" content="BC Wildfire Service">
+  <meta property="og:description" content="BC Wildfire Service App" />
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@BCGovFireInfo'">
+  <meta name="twitter:image" content="assets/images/share-wildfire.png">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <link rel="icon" type="image/x-icon" href="favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="assets/icons/icon-128x128.png">
-    <meta name="theme-color" content="#1976d2">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <link rel="icon" type="image/x-icon" href="favicon.png">
+  <link
+    href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/icon-128x128.png">
+  <meta name="theme-color" content="#1976d2">
 
-    <link rel="preconnect" href="https://maps.int.bcwildfireservices.com">
-    <link rel="preconnect" href="https://openmaps.gov.bc.ca">
-    <link rel="preconnect" href="https://www2.gov.bc.ca">
-    <link rel="preconnect" href="https://spt.apps.gov.bc.ca">
-    <link rel="preconnect" href="https://tile.openstreetmap.org">
-    <!-- meta http-equiv="Content-Security-Policy" content="
+  <link rel="preconnect" href="https://maps.int.bcwildfireservices.com">
+  <link rel="preconnect" href="https://openmaps.gov.bc.ca">
+  <link rel="preconnect" href="https://www2.gov.bc.ca">
+  <link rel="preconnect" href="https://spt.apps.gov.bc.ca">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <!-- meta http-equiv="Content-Security-Policy" content="
       default-src 'self' 'unsafe-inline';
       img-src https://* 'self' data:;
       script-src 'self';
       font-src 'self' https://fonts.gstatic.com;
       style-src 'self' https://fonts.googleapis.com" -->
 
-    <script src="assets/splash-screen/index.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <!-- script>SPLASH_SCREEN.show( { title: 'NEWS' } )</script -->
-    <!-- Snowplow starts plowing - Standalone vE.2.14.0 -->
-    <script type="text/javascript">
-      ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
-      p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)
-      };p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;
-      n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","https://www2.gov.bc.ca/StaticWebResources/static/sp/sp-2-14-0.js","snowplow"));
-      var collector = 'spt.apps.gov.bc.ca';
-      window.snowplow('newTracker','rt',collector, {
-        appId: 'Snowplow_standalone_WFNEWS',
-        cookieLifetime: 86400 * 548,
-        platform: 'web',
-        post: true,
-        forceSecureTracker: true,
-        contexts: {
-          webPage: true,
-          performanceTiming: true
+  <script src="assets/splash-screen/index.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <!-- script>SPLASH_SCREEN.show( { title: 'NEWS' } )</script -->
+  <!-- Snowplow starts plowing - Standalone vE.2.14.0 -->
+  <script type="text/javascript">
+    ; (function (p, l, o, w, i, n, g) {
+      if (!p[i]) {
+        p.GlobalSnowplowNamespace = p.GlobalSnowplowNamespace || [];
+        p.GlobalSnowplowNamespace.push(i); p[i] = function () {
+          (p[i].q = p[i].q || []).push(arguments)
+        }; p[i].q = p[i].q || []; n = l.createElement(o); g = l.getElementsByTagName(o)[0]; n.async = 1;
+        n.src = w; g.parentNode.insertBefore(n, g)
+      }
+    }(window, document, "script", "https://www2.gov.bc.ca/StaticWebResources/static/sp/sp-2-14-0.js", "snowplow"));
+    var collector = 'spt.apps.gov.bc.ca';
+    window.snowplow('newTracker', 'rt', collector, {
+      appId: 'Snowplow_standalone_WFNEWS',
+      cookieLifetime: 86400 * 548,
+      platform: 'web',
+      post: true,
+      forceSecureTracker: true,
+      contexts: {
+        webPage: true,
+        performanceTiming: true
+      }
+    });
+    window.snowplow('enableActivityTracking', 30, 30); // Ping every 30 seconds after 30 seconds
+    window.snowplow('enableLinkClickTracking');
+    window.snowplow('trackPageView');
+  </script>
+
+  <!--
+      Compatibility guard. MUST stay ES5-only (var / function, no arrow functions,
+      no let/const, no ?. or ??) so that it still parses on the exact old WebViews
+      it exists to detect. The app bundle targets Chrome 90 / iOS 15 but ships
+      native ?. and ?? (Chrome 80 / Safari 13.1); below that the bundle fails to
+      PARSE, so no app code runs at all and the user just sees a blank page.
+      This turns that blank page into an actionable message plus telemetry.
+      Placed after the Snowplow init above so its newTracker call is queued first.
+    -->
+  <script type="text/javascript">
+    (function () {
+      var shown = false;
+      var BUNDLES = /(runtime|polyfills|main|scripts|vendor)\./;
+
+      function report(reason) {
+        try {
+          if (window.snowplow) {
+            window.snowplow(
+              'trackStructEvent',
+              'compatibility',
+              'unsupported_webview',
+              reason,
+              'userAgent',
+              navigator.userAgent
+            );
+          }
+        } catch (e) { /* telemetry must never mask the message */ }
+      }
+
+      function show(reason) {
+        if (shown) { return; }
+        shown = true;
+        report(reason);
+
+        var ua = navigator.userAgent || '';
+        var fix = ua.indexOf('Android') !== -1
+          ? 'Please open the Play Store and update <strong>Android System WebView</strong> and <strong>Google Chrome</strong>, then reopen this app.'
+          : (/iPhone|iPad|iPod/.test(ua)
+            ? 'Please update your device to a newer version of iOS, then reopen this app.'
+            : 'Please update your browser to a newer version, then reload this page.');
+
+        var el = document.createElement('div');
+        el.setAttribute('id', 'wfnews-unsupported');
+        el.setAttribute('style', [
+          'position:fixed', 'top:0', 'left:0', 'right:0', 'bottom:0',
+          'z-index:2147483647', 'background:#ffffff', 'color:#242424',
+          'font-family:BCSans,Verdana,Arial,sans-serif', 'font-size:16px',
+          'line-height:1.5', 'padding:24px', 'overflow:auto',
+          '-webkit-box-sizing:border-box', 'box-sizing:border-box'
+        ].join(';'));
+        el.innerHTML =
+          '<div style="max-width:32em;margin:10vh auto 0 auto">' +
+          '<h1 style="font-size:20px;margin:0 0 16px 0">This app needs a newer browser</h1>' +
+          '<p style="margin:0 0 16px 0">The BC Wildfire Service app uses features your current browser does not support, so it cannot load.</p>' +
+          '<p style="margin:0 0 16px 0">' + fix + '</p>' +
+          '<p style="margin:0;color:#606060;font-size:13px">If the problem continues after updating, contact BC Wildfire Service support.</p>' +
+          '</div>';
+
+        if (document.body) {
+          document.body.appendChild(el);
+        } else {
+          document.addEventListener('DOMContentLoaded', function () {
+            document.body.appendChild(el);
+          });
         }
-      });
-      window.snowplow('enableActivityTracking', 30, 30); // Ping every 30 seconds after 30 seconds
-      window.snowplow('enableLinkClickTracking');
-      window.snowplow('trackPageView');
-    </script>
-  <!-- Snowplow stops plowing -->
+      }
+
+      // 1. Syntax probe. Exercises the exact syntax that kills the bundle,
+      //    without putting that syntax in this script. Kept inside new Function
+      //    so this file stays parseable everywhere.
+      try {
+        new Function('var a = null; return a?.b ?? 1;')();
+      } catch (e) {
+        var evalBlocked = false;
+        try { new Function('return 1;')(); } catch (e2) { evalBlocked = true; }
+        // If plain new Function also fails we are behind a CSP without
+        // 'unsafe-eval', not on an old engine - say nothing and let the
+        // watchdog below decide.
+        if (!evalBlocked) { show('syntax'); }
+      }
+
+      // 1b. Runtime API probe. esri-leaflet's request path calls
+      //     String.prototype.replaceAll (Chrome 85 / Safari 13.1 / Firefox 77).
+      //     Without this check, engines in the 80-84 range boot the app fine and
+      //     then fail every map request with no visible explanation.
+      if (typeof String.prototype.replaceAll !== 'function') {
+        show('missing-replaceAll');
+      }
+
+      // 2. Boot watchdog. Catches runtime failures and module parse errors the
+      //    probe cannot see. Timed from window load rather than script start so
+      //    a slow download of the (large) main bundle is never mistaken for a
+      //    failure to boot.
+      var sawBundleError = false;
+      window.addEventListener('error', function (ev) {
+        var src = (ev && ev.filename) || '';
+        if (!BUNDLES.test(src)) { return; }   // ignore youtube / gstatic / etc
+        sawBundleError = true;
+        if (ev.error instanceof SyntaxError) { show('bundle-syntax-error'); }
+      }, true);
+
+      function armWatchdog() {
+        setTimeout(function () {
+          var root = document.getElementById('app-root');
+          if (root && root.children.length === 0) {
+            show(sawBundleError ? 'boot-failed-with-error' : 'boot-failed');
+          }
+        }, 8000);
+      }
+
+      if (document.readyState === 'complete') {
+        armWatchdog();
+      } else {
+        window.addEventListener('load', armWatchdog);
+      }
+    })();
+  </script>
 </head>
 
 <body>
-    <app-root id="app-root">
-    </app-root>
+  <app-root id="app-root">
+  </app-root>
 </body>
 
 <template id="wf-weather-station-feature-template">
   <div class="wf-weather-station-feature">
-      <div class="smk-bespoke-content"
-          v-content="content"
-      ></div>
+    <div class="smk-bespoke-content" v-content="content"></div>
   </div>
 </template>
 

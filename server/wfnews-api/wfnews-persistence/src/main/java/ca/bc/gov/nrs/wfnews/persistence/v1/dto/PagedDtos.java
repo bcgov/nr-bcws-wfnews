@@ -1,11 +1,13 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dto;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PagedDtos<T extends BaseDto<?>> implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private List<T> results;

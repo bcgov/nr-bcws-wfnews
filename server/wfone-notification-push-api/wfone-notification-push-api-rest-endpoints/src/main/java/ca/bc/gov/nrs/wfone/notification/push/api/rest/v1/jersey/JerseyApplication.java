@@ -3,10 +3,9 @@ package ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.jersey;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.servlet.ServletConfig;
-import javax.ws.rs.core.Context;
+import jakarta.servlet.ServletConfig;
+import jakarta.ws.rs.core.Context;
 
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,20 +22,18 @@ public class JerseyApplication extends JerseyResourceConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(JerseyApplication.class);
 
-	/**
-	 * Register JAX-RS application components.
-	 */
 	public JerseyApplication(@Context ServletConfig servletConfig) {
 		super();
-
 		logger.debug("<JerseyApplication");
-		
-		register(MultiPartFeature.class);
-		
+
+		// packages(...) classpath scanning picks up both an endpoint interface (which carries the
+		// @Path annotations) and its Impl class as separate root resources for the same path,
+		// which Jersey either rejects as ambiguous or, worse, tries to instantiate the abstract
+		// interface directly. Register concrete Impl classes explicitly instead, matching the
+		// other JAX-RS modules in this codebase (wfnews-api, wfone-notifications-api).
 		register(TopLevelEndpointsImpl.class);
-		
 		register(PushNearMeNotificationsEndpointImpl.class);
-		
+
 		register(OpenApiResource.class);
 		register(AcceptHeaderOpenApiResource.class);
 
@@ -44,13 +41,16 @@ public class JerseyApplication extends JerseyResourceConfig {
 			.prettyPrint(Boolean.TRUE)
 			.resourcePackages(
 				Stream.of(
-					"ca.bc.gov.nrs.wfone.api.rest.v1.endpoints",
+					"ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.endpoints",
 					"ca.bc.gov.nrs.wfone.common.api.rest.code.endpoints",
 					"ca.bc.gov.nrs.wfone.common.rest.endpoints"
 				).collect(Collectors.toSet()));
 
-
 		try {
+			// .application(this) scopes the swagger-core reader to this ResourceConfig's own
+			// resourcePackages-matched classes; without it (the bug this replaces),
+			// OpenApiResource itself leaks into the generated document as an undocumented
+			// "/openapi.json" path. Matches wfnews-api and wfone-notifications-api.
 			new JaxrsOpenApiContextBuilder<JaxrsOpenApiContextBuilder<?>>()
 					.servletConfig(servletConfig)
 					.application(this)

@@ -12,6 +12,7 @@ import {
   ResourcesRoutes,
   convertToDateYear,
   convertToStageOfControlDescription,
+  hasOwn,
   isMobileView,
 } from '@app/utils';
 import { SpatialUtilsService } from '@wf1/core-ui';
@@ -96,7 +97,7 @@ export class SavedComponent implements OnInit {
         .subscribe((bans) => {
           this.savedLocations[outerIndex].bans = [];
           for (const innerIndex in bans?.features) {
-            if (Object.hasOwn(bans?.features, innerIndex)) {
+            if (hasOwn(bans?.features, innerIndex)) {
               const element = bans.features[innerIndex];
 
               const attributePresent = this.commonUtilityService.isAttributePresent(

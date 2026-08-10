@@ -12,7 +12,7 @@ import { CompassHeading } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { MapConfigService } from '@app/services/map-config.service';
 import { LatLon, LonLat } from '@app/services/wfnews-map.service/util';
-import { getActiveMap } from '@app/utils';
+import { getActiveMap, hasOwn } from '@app/utils';
 import { SmkApi } from '@app/utils/smk';
 import * as L from 'leaflet';
 import offlineMapJson from '../../../../assets/maps/british-columbia.json';
@@ -316,7 +316,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   addOfflineLayer() {
     const SMK = window['SMK'];
     for (const smkMap in SMK.MAP) {
-      if (Object.hasOwn(SMK.MAP, smkMap)) {
+      if (hasOwn(SMK.MAP, smkMap)) {
         const geoJsonData = offlineMapJson;
         const offlineLyaer = L.geoJson(geoJsonData, {
           style: {

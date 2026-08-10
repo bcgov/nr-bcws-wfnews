@@ -1,7 +1,7 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +13,12 @@ import ca.bc.gov.nrs.common.service.NotFoundException;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.MailEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.MailResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.EmailNotificationService;
-import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
+
 
 /**
  * Mail Endpoint implementation
  */
-public class MailEndpointImpl extends BaseEndpointsImpl implements MailEndpoint {
+public class MailEndpointImpl extends WfNewsBaseEndpointsImpl implements MailEndpoint {
   private static final Logger logger = LoggerFactory.getLogger(MailEndpointImpl.class);
 
   @Autowired

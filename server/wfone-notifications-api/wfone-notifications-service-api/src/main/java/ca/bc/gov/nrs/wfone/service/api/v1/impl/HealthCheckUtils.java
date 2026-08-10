@@ -22,8 +22,8 @@ public class HealthCheckUtils {
 	}
 	
 	public static HealthCheckResponseRsrc checkHealth(Object o) throws RestClientServiceException {
-		if(o instanceof ServiceWithHealthCheck) {
-			return ((ServiceWithHealthCheck) o).getHealthCheck(getCallstack());
+		if(o instanceof ServiceWithHealthCheck check) {
+			return check.getHealthCheck(getCallstack());
 		}
 		Method checkHealth = ReflectionUtils.findMethod(o.getClass(), "getHealthCheck", String.class);
 		try {
@@ -31,10 +31,10 @@ public class HealthCheckUtils {
 			return (HealthCheckResponseRsrc) checkHealth.invoke(o, getCallstack());
 		} catch (InvocationTargetException ex) {
 			Throwable targetEx = ex.getTargetException();
-			if(targetEx instanceof RuntimeException) {
-				throw (RuntimeException) targetEx;
-			} else if (targetEx instanceof RestClientServiceException) {
-				throw (RestClientServiceException) targetEx;
+			if(targetEx instanceof RuntimeException exception) {
+				throw exception;
+			} else if (targetEx instanceof RestClientServiceException exception) {
+				throw exception;
 			} else {
 				throw new IllegalStateException(ex);
 			}

@@ -45,7 +45,7 @@ public class HttpAssert {
 	 * @param message
 	 */
 	public static void assumeUrlPresent(String urlString, String message) {
-		requireUrlPresent(urlString).ifPresent(ex->{throw new AssumptionViolatedException(String.format("%s: %s", message, ex));});
+		requireUrlPresent(urlString).ifPresent(ex->{throw new AssumptionViolatedException("%s: %s".formatted(message, ex));});
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class HttpAssert {
 	 * @param message
 	 */
 	static void assertUrlPresent(String urlString, String message) {
-		requireUrlPresent(urlString).ifPresent(ex->{throw new AssertionFailedError(String.format("%s: %s", message, ex));});
+		requireUrlPresent(urlString).ifPresent(ex->{throw new AssertionFailedError("%s: %s".formatted(message, ex));});
 	}
 
 }

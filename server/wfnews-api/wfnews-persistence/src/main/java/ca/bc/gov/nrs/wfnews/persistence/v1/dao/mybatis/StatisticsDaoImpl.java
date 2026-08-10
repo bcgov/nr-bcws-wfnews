@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.StatisticsMapper;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.StatisticsDto;
 
 public class StatisticsDaoImpl extends BaseDao implements StatisticsDao {
+	@Serial
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(StatisticsDaoImpl.class);
 

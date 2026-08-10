@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dto;
 
+import java.io.Serial;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -9,7 +10,8 @@ import org.slf4j.LoggerFactory;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentResource;
 
 public class AttachmentDto extends AuditDto<AttachmentDto> {
-  private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(AttachmentDto.class);
 
   private String attachmentGuid;

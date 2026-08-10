@@ -18,11 +18,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -60,7 +61,12 @@ public class NearbyQuery {
 	
 	public static final String GEOMETRY = "GEOMETRY";	
 	
+	// NearbyService and NearbyQuery are mutual collaborators (NearbyService delegates resource
+	// building to NearbyQuery; NearbyQuery calls back into NearbyService on a cache miss), which
+	// forms a bean-wiring cycle that Spring Boot rejects by default. @Lazy defers resolution of
+	// this side until first use, breaking the cycle without changing runtime behaviour.
 	@Autowired
+	@Lazy
 	private NearbyService nearbyService;
 	
 	@Autowired
@@ -451,8 +457,7 @@ public class NearbyQuery {
 					}
 					return Optional.<String>empty();
 				})
-			.filter(Optional::isPresent)
-			.map(Optional::get)
+			.flatMap(Optional::stream)
 			.findAny();
 	}
 

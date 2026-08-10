@@ -42,6 +42,7 @@ import { PlaceData } from "../../services/wfnews-map.service/place-data";
 import {
   ResourcesRoutes,
   getActiveMap,
+  hasOwn,
   isMobileView,
   isMobileView as mobileView,
   snowPlowHelper,
@@ -892,7 +893,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             this.resizeObserver.observe(map._container);
 
             for (const smkMap in SMK.MAP) {
-              if (Object.hasOwn(SMK.MAP, smkMap)) {
+              if (hasOwn(SMK.MAP, smkMap)) {
                 const savedLocationMarker = {
                   icon: L.icon({
                     iconUrl:
@@ -1009,7 +1010,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 11 */ { itemId: "drive-bc-active-events", visible: false },
       /* 12 */ { itemId: "bc-fire-centres", visible: true }, // Always on
       /* 13 */ { itemId: "prescribed-fire", visible: false }, // Currently, we don't display this, but we keep it for consistency in indexing.
-      /* 14 */ { itemId: "hourly-currentforecast-firesmoke", visible: false },
+      /* 14 */ { itemId: "eccc-pm25-smoke-forecast", visible: false },
       /* 15 */ { itemId: "clab-indian-reserves", visible: false },
       /* 16 */ { itemId: "fnt-treaty-land", visible: false },
       /* 17 */ { itemId: "abms-municipalities", visible: false },

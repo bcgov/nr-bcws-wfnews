@@ -21,7 +21,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.event.workflow_run.head_branch }}
 
@@ -42,7 +42,7 @@ jobs:
         with:
           args: zip -qq -r -j evacuation-orders-monitor.zip lambda/evacuation-orders-monitor/evacuation-orders
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with: 
           node-version: 14
 

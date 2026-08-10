@@ -169,7 +169,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 		long millsDiff = jobFinishedDate.getTime() - jobStartedDate.getTime();
 		Duration duration = Duration.ofMillis(millsDiff);
-		String formattedElapsedTime = String.format("%d:%02d:%02d:%02d", duration.toDays(), duration.toHours() % 24, duration.toMinutes() % 60, (duration.toMillis() / 1000) % 60);
+		String formattedElapsedTime = "%d:%02d:%02d:%02d".formatted(duration.toDays(), duration.toHours() % 24, duration.toMinutes() % 60, (duration.toMillis() / 1000) % 60);
 		logger.info(" Push near me Started " + jobStartedDateString + ".   Finished " + jobFinishedDateString + ".  Duration (days:hours:min:seconds): " + formattedElapsedTime);
 		logger.info(">pushNearMeNotifications " + result);
 
@@ -290,7 +290,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		String eventMessageId = messageInformation.getMessageId();
 		// And use getItemIdentifier() as the unique identifier for the event itself for idempotency
 		String eventIdentifier = messageInformation.getItemIdentifier();
-		body = ((isTest) ? "TEST: " : "") + String.format(TOPIC_MESSAGE_BODIES.get(topicKey), eventMessageId, notificationDto.getNotificationName());
+		body = ((isTest) ? "TEST: " : "") + TOPIC_MESSAGE_BODIES.get(topicKey).formatted(eventMessageId, notificationDto.getNotificationName());
 
 		com.google.firebase.messaging.Message message = prepareNearMePushNotification(title, body, notificationSettingsDto.getNotificationToken(), keyValueMapForPN);
 		++pushRecordsCount.toProcess;
@@ -316,22 +316,22 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		case "active-fires":
 			String fireNumber = eventInformation.getOrDefault(MessageInformation.FIRE_NUMBER, NO_SUCH_INFORMATION_FROM_SQS_MESSAGE);
 			String fireYear = eventInformation.getOrDefault(MessageInformation.FIRE_YEAR, NO_SUCH_INFORMATION_FROM_SQS_MESSAGE);
-			return Optional.of(String.format("Push near me notifications for active fire with fire number [%s], fire year [%s]", fireNumber, fireYear));
+			return Optional.of("Push near me notifications for active fire with fire number [%s], fire year [%s]".formatted(fireNumber, fireYear));
 		case "area-restrictions":
 			String fireCentreName = eventInformation.getOrDefault(MessageInformation.FIRE_CENTRE_NAME, NO_SUCH_INFORMATION_FROM_SQS_MESSAGE);
 			String fireZoneName = eventInformation.getOrDefault(MessageInformation.FIRE_ZONE_NAME, NO_SUCH_INFORMATION_FROM_SQS_MESSAGE);
 			String name = eventInformation.getOrDefault(MessageInformation.NAME, NO_SUCH_INFORMATION_FROM_SQS_MESSAGE);
-			return Optional.of(String.format("Push near me notifications for area restrictions with name [%s], fire centre name [%s], fire zone name [%s]", name, fireCentreName, fireZoneName));
+			return Optional.of("Push near me notifications for area restrictions with name [%s], fire centre name [%s], fire zone name [%s]".formatted(name, fireCentreName, fireZoneName));
 		case "bans-prohibitions":
 			String bansFireCentreName = eventInformation.getOrDefault(MessageInformation.FIRE_CENTRE_NAME, NO_SUCH_INFORMATION_FROM_SQS_MESSAGE);
 			String bansFireZoneName = eventInformation.getOrDefault(MessageInformation.FIRE_ZONE_NAME, NO_SUCH_INFORMATION_FROM_SQS_MESSAGE);
 			String accessProhibitionDescription = eventInformation.getOrDefault(MessageInformation.ACCESS_PROHIBITION_DESCRIPTION, NO_SUCH_INFORMATION_FROM_SQS_MESSAGE);
 			String type = eventInformation.getOrDefault(MessageInformation.TYPE, NO_SUCH_INFORMATION_FROM_SQS_MESSAGE);
-			return Optional.of(String.format("Push near me notifications for bans prohibitions with fire centre name [%s], fire zone name [%s], access prohibition description [%s], type [%s]", bansFireCentreName, bansFireZoneName, accessProhibitionDescription, type));
+			return Optional.of("Push near me notifications for bans prohibitions with fire centre name [%s], fire zone name [%s], access prohibition description [%s], type [%s]".formatted(bansFireCentreName, bansFireZoneName, accessProhibitionDescription, type));
 		case "evacuation-orders-alerts":
 			String eventName = eventInformation.getOrDefault(MessageInformation.EVENT_NAME, NO_SUCH_INFORMATION_FROM_SQS_MESSAGE);
 			String issuingAgency = eventInformation.getOrDefault(MessageInformation.ISSUING_AGENCY, NO_SUCH_INFORMATION_FROM_SQS_MESSAGE);
-			return Optional.of(String.format("Push near me notifications for evacuation orders alerts with event name [%s], issuing agency [%s]", eventName, issuingAgency));
+			return Optional.of("Push near me notifications for evacuation orders alerts with event name [%s], issuing agency [%s]".formatted(eventName, issuingAgency));
 		default:
 			return Optional.empty();
 		}

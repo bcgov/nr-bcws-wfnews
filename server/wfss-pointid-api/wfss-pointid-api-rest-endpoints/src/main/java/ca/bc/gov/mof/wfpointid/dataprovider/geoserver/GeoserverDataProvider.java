@@ -75,7 +75,7 @@ public class GeoserverDataProvider extends DataProviderBase {
 		
 		// error checking
 		if (StringUtil.isEmpty(host)) {
-			throw new RuntimeException(String.format("DataProvider %s host is empty", name));
+			throw new RuntimeException("DataProvider %s host is empty".formatted(name));
 		}
 		
 	}
@@ -87,7 +87,7 @@ public class GeoserverDataProvider extends DataProviderBase {
 		
 		// error checking
 		if (StringUtil.isEmpty(host)) {
-			throw new RuntimeException(String.format("DataProvider %s host is empty", name));
+			throw new RuntimeException("DataProvider %s host is empty".formatted(name));
 		}
 	}
 
@@ -100,7 +100,7 @@ public class GeoserverDataProvider extends DataProviderBase {
 	}
 	
 	public String toString() {
-		return String.format("GeoServer Data Provider %s: %s (workers = %d)", getName(), host, Integer.valueOf(getWorkerNum()));
+		return "GeoServer Data Provider %s: %s (workers = %d)".formatted(getName(), host, Integer.valueOf(getWorkerNum()));
 	}
 
 }

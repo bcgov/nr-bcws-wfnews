@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dto;
 
+import java.io.Serial;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -9,7 +10,8 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportResource;
 
 public class SituationReportDto extends AuditDto<SituationReportDto> {
 
-  private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(SituationReportDto.class);
 
   private String reportGuid;

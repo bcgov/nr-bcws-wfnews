@@ -132,7 +132,9 @@ export class AGOLService {
       }
     }
 
-    url = encodeURI(url).replaceAll(' ', '%20')
+    // .replace with a global regex rather than .replaceAll, which needs
+    // Chrome 85 and throws on older Android System WebViews.
+    url = encodeURI(url).replace(/ /g, '%20')
 
     const headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');

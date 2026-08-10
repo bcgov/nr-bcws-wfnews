@@ -30,7 +30,7 @@ public class JdbcWeatherService extends WeatherService {
 
 		weatherDB = new WeatherDB();
 
-		LOG.info(String.format("Init Weather DB for JDBC URL: %s, user: %s", jdbcUrl, user));
+		LOG.info("Init Weather DB for JDBC URL: %s, user: %s".formatted(jdbcUrl, user));
 		
 		weatherDB.init(JDBC_ORACLE_DRIVER, jdbcUrl, user, pwd);
 	}

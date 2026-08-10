@@ -176,7 +176,7 @@ jobs:
       pull_request_number: ${{ steps.pr.outputs.pull_request_number }}
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
 
       - uses: hashicorp/setup-terraform@v1
         with:

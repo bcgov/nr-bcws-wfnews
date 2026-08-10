@@ -292,7 +292,7 @@ variable "gov_certificate_arn" {
   type        = string
 }
 
-variable "gov_api_certificate_arn" {
+variable "GOV_API_LEGACY_CERTIFICATE_ARN" {
   description = "ARN of certificate to use on -api.nrs.gov.bc.ca certs"
   default     = ""
   type        = string
@@ -653,8 +653,8 @@ variable "MAX_RECEIVED_COUNT" {
 
 variable "VISIBILITY_TIMEOUT_SECONDS" {
   type        = number
-  description = "Suffix appended to all managed resource names"
-  default     = 60
+  description = "Time taken for message on queue to become visible after being taken by API"
+  default     = 1800
 }
 
 variable "ACCEPTED_IPS" {

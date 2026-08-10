@@ -1,11 +1,12 @@
-FROM tomcat:9.0.91-jdk17-openjdk
-ENV TOMCAT_MAJOR=9 \
+FROM tomcat:10.1-jdk21
+ENV TOMCAT_MAJOR=10 \
 JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all" \
-TOMCAT_VERSION=9.0.91 \
+TOMCAT_VERSION=10.1 \
 TOMCAT_HOME=/usr/local/tomcat \
 CATALINA_HOME=/usr/local/tomcat \
 CATALINA_OUT=/usr/local/tomcat/logs
 COPY /wfone-notification-push-api-rest-endpoints/target/wfone-notification-push-api-rest-endpoints-*.war /temp/
+RUN apt-get update && apt-get install -y unzip
 RUN unzip /temp/wfone-notification-push-api-rest-endpoints-*.war -d /usr/local/tomcat/webapps/wfone-notification-push-api/
 RUN adduser --system tomcat
 RUN chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\

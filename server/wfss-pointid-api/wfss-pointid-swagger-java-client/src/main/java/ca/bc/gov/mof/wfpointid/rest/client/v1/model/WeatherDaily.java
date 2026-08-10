@@ -16,8 +16,7 @@ package ca.bc.gov.mof.wfpointid.rest.client.v1.model;
 import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
-
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * WeatherDaily
@@ -77,7 +76,7 @@ public class WeatherDaily {
    * Get day
    * @return day
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getDay() {
     return day;
   }
@@ -95,7 +94,7 @@ public class WeatherDaily {
    * Get index
    * @return index
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getIndex() {
     return index;
   }
@@ -113,7 +112,7 @@ public class WeatherDaily {
    * Get forecastInd
    * @return forecastInd
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Boolean isForecastInd() {
     return forecastInd;
   }
@@ -131,7 +130,7 @@ public class WeatherDaily {
    * Get temp
    * @return temp
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getTemp() {
     return temp;
   }
@@ -149,7 +148,7 @@ public class WeatherDaily {
    * Get relativeHumidity
    * @return relativeHumidity
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getRelativeHumidity() {
     return relativeHumidity;
   }
@@ -167,7 +166,7 @@ public class WeatherDaily {
    * Get windSpeed
    * @return windSpeed
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getWindSpeed() {
     return windSpeed;
   }
@@ -185,7 +184,7 @@ public class WeatherDaily {
    * Get windDirection
    * @return windDirection
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getWindDirection() {
     return windDirection;
   }
@@ -203,7 +202,7 @@ public class WeatherDaily {
    * Get windCardinalDir
    * @return windCardinalDir
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getWindCardinalDir() {
     return windCardinalDir;
   }
@@ -221,7 +220,7 @@ public class WeatherDaily {
    * Get precipitation
    * @return precipitation
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getPrecipitation() {
     return precipitation;
   }
@@ -239,7 +238,7 @@ public class WeatherDaily {
    * Get buildupIndex
    * @return buildupIndex
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getBuildupIndex() {
     return buildupIndex;
   }
@@ -258,7 +257,7 @@ public class WeatherDaily {
    * Get droughtCode
    * @return droughtCode
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getDroughtCode() {
     return droughtCode;
   }
@@ -276,7 +275,7 @@ public class WeatherDaily {
    * Get duffMoistureCode
    * @return duffMoistureCode
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getDuffMoistureCode() {
     return duffMoistureCode;
   }
@@ -294,7 +293,7 @@ public class WeatherDaily {
    * Get fineFuelMoistureCode
    * @return fineFuelMoistureCode
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getFineFuelMoistureCode() {
     return fineFuelMoistureCode;
   }
@@ -312,7 +311,7 @@ public class WeatherDaily {
    * Get initialSpreadIndex
    * @return initialSpreadIndex
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getInitialSpreadIndex() {
     return initialSpreadIndex;
   }
@@ -330,7 +329,7 @@ public class WeatherDaily {
    * Get fireWeatherIndex
    * @return fireWeatherIndex
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getFireWeatherIndex() {
     return fireWeatherIndex;
   }

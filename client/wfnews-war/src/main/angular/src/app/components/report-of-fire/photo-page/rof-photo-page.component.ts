@@ -15,7 +15,6 @@ import {
 } from '@capacitor/camera';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
-import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'rof-photo-page',
@@ -63,56 +62,18 @@ export class RoFPhotoPage extends RoFPage {
   }
 
   async addFromCameraRoll() {
+    // pickImages() goes through the system photo picker - the Android photo picker
+    // and PHPicker on iOS - which grant per-image access at selection time. No media
+    // or storage permission is involved, so there is nothing to check or request.
     try {
-      const isNativePlatform = Capacitor.isNativePlatform();
-      if (isNativePlatform) {
-        const photos = await Camera.pickImages({
-          quality: 100,
-          limit: 3 - this.images.length,
-        });
-        for (const image of photos.photos) {
-          this.images.push(image);
-          this.changeDetector.markForCheck();
-        }
-        return;
+      const photos = await Camera.pickImages({
+        quality: 100,
+        limit: 3 - this.images.length,
+      });
+      for (const image of photos.photos) {
+        this.images.push(image);
       }
-
-      // This is specific to iOS but should work for Android. If not we may need to check specifically for platform.
-      const currentPermissions = await Camera.checkPermissions();
-      if (currentPermissions?.photos === 'granted') {
-        // All permissions are granted and we should be able to get everything we need
-        const photos = await Camera.pickImages({
-          quality: 100,
-          limit: 3 - this.images.length,
-        });
-
-        for (const image of photos.photos) {
-          this.images.push(image);
-        }
-      } else if (currentPermissions?.photos === 'limited') {
-        // They have a limited amount of images selected to share and only those will provide exif
-        const imagesLeft = 3 - this.images.length;
-        if (imagesLeft) {
-          // iOS 14+ Only: Allows the user to update their limited photo library selection. On iOS 15+ returns all the
-          // limited photos after the picker dismissal. On iOS 14 or if the user gave full access to the photos it returns
-          // an empty array.
-          const photos = await Camera.pickLimitedLibraryPhotos();
-          for (const image of photos.photos.slice(0, imagesLeft)) {
-            this.images.push(image);
-          }
-        }
-      }
-
-      // The permission is denied and we need to ask for it. This is what the capacitor code should look like based on
-      // documentation, but it doesn't work from my experience on iOS. If this doesn't work we may need to have a prompt
-      // to explain the steps and redirect to settings like we do for location.
-      try {
-        const permissionStatus = await Camera.requestPermissions();
-        console.log('camera permissions', permissionStatus);
-      } catch (error) {
-        console.error('permission error', error);
-      }
-      this.cdr.detectChanges();
+      this.changeDetector.detectChanges();
     } catch (error) {
       console.error('Error adding from camera roll', error);
     }

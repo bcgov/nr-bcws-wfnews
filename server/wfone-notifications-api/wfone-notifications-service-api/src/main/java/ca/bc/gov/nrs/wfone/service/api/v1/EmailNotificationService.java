@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.wfone.service.api.v1;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 
 import ca.bc.gov.nrs.wfone.service.api.model.RoFRetryInfo;
 

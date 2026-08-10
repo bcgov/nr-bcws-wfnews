@@ -16,6 +16,11 @@ on:
         type: boolean
         default: true
         required: false
+      web_bundle_provided:
+        description: "Caller already built and uploaded the mobile-web-dist artifact"
+        type: boolean
+        default: false
+        required: false
   workflow_dispatch:
     inputs:
       build_environment:
@@ -33,10 +38,20 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # Standalone runs build the web bundle themselves. Deploy workflows build it
+  # once for both platforms and pass web_bundle_provided: true, which skips this.
+  web:
+    if: ${{ !inputs.web_bundle_provided }}
+    uses: ./.github/workflows/mobile-web-build.yml
+    with:
+      build_environment: ${{ inputs.build_environment }}
+    secrets: inherit
+
   build:
+    needs: [web]
+    if: ${{ always() && (needs.web.result == 'success' || needs.web.result == 'skipped') }}
     env:
       ANGULAR_DIRECTORY: ./client/wfnews-war/src/main/angular
-      APP_CONFIG_FILE: ./client/wfnews-war/src/main/angular/src/assets/data/appConfig.mobile.json
 
     runs-on: macos-latest
 
@@ -44,20 +59,7 @@ jobs:
       name: ${{ inputs.build_environment }}
 
     steps:
-      - uses: actions/checkout@v3
-
-      - shell: bash
-        id: map-environment
-        run: |
-          if [ "${{ inputs.build_environment }}" == "DEV" ]; then
-            echo "URL_ENV=int" >> $GITHUB_OUTPUT
-          elif [ "${{ inputs.build_environment }}" == "DLVR" ]; then
-            echo "URL_ENV=dlv" >> $GITHUB_OUTPUT
-          elif [ "${{ inputs.build_environment }}" == "TEST" ]; then
-            echo "URL_ENV=tst" >> $GITHUB_OUTPUT
-          elif [ "${{ inputs.build_environment }}" == "PROD" ]; then
-            echo "URL_ENV=prd" >> $GITHUB_OUTPUT
-          fi
+      - uses: actions/checkout@v7
 
       - name: Set short git commit SHA
         id: vars
@@ -72,102 +74,14 @@ jobs:
           NPMRC: ${{ secrets.NPMRC }}
         run: echo -e -n "$NPMRC" > .npmrc
 
-      - name: Inject GitHub Build Number and Display Directory
-        run: |
-          echo "Current working directory:"
-          pwd
-          echo "export const BUILD_NUMBER = '${{ github.run_number }}';" > client/wfnews-war/src/main/angular/src/environments/build-info.ts
-          echo "Contents: "
-          ls -lah
-
-      - name: Get XML Info
-        id: version
-        uses: mavrosxristoforos/get-xml-info@1.1.1
-        with:
-          xml-file: "client/pom.xml"
-          xpath: "/*[local-name()='project']/*[local-name()='version']"
-
-      - name: Replace tokens
-        uses: cschleiden/replace-tokens@v1.2
-        with:
-          files: ${{ env.APP_CONFIG_FILE }}
-        env:
-          # From config.jsp
-          AGOL_ACTIVE_FIRES: https://wfnews-${{ steps.map-environment.outputs.URL_ENV}}.bcwildfireservices.com/services6${{ vars.AGOL_ACTIVE_FIRES }}
-          AGOL_AREA_RESTRICTIONS: ${{ vars.AGOL_AREA_RESTRICTIONS }}
-          AGOL_BANS_AND_PROHIBITIONS: ${{ vars.AGOL_BANS_AND_PROHIBITIONS }}
-          AGOL_DANGER_RATINGS: ${{ vars.AGOL_DANGER_RATINGS }}
-          AGOL_EVAC_ORDERS: ${{ vars.AGOL_EVAC_ORDERS }}
-          AGOL_FIRE_CENTRES: https://wfnews-${{ steps.map-environment.outputs.URL_ENV }}.bcwildfireservices.com/services6${{ vars.AGOL_FIRE_CENTRES }}
-          AGOL_PERIMETRES: https://wfnews-${{ steps.map-environment.outputs.URL_ENV }}.bcwildfireservices.com/services6${{ vars.AGOL_PERIMETRES }}
-          AGOL_URL: ${{ vars.AGOL_URL }}
-          APP_STORE_URL: ${{ vars.APP_STORE_URL }}
-          APPLICATION_ACRONYM: ${{ vars.APPLICATION_ACRONYM }}
-          APPLICATION_ENVIRONMENT: ${{ vars.DEFAULT_APPLICATION_ENVIRONMENT }}
-          BASE_URL: ${{ vars.BASE_URL }}
-          BC_WILDFIRE_RESPONSE_PAGE: ${{ vars.BC_WILDFIRE_RESPONSE_PAGE }}
-          BC_WILDFIRE_SUPPORT_PAGE: ${{ vars.BC_WILDFIRE_SUPPORT_PAGE }}
-          BUILD_NUMBER: ${{ github.run_number }}
-          BURN_REGISTRATION_LINE: ${{ vars.BURN_REGISTRATION_LINE }}
-          CONFIG_IM_URL: ${{ vars.WFIM_CLIENT_URL }}
-          DRIVEBC_BASE_URL: ${{ vars.DRIVEBC_BASE_URL }}
-          FACEBOOK_URL: ${{ vars.FACEBOOK_URL }}
-          GOOGLE_PLAY_URL: ${{ vars.GOOGLE_PLAY_URL }}
-          LAZY_AUTHENTICATE: ${{ vars.LAZY_AUTHENTICATE }}
-          # MAP_ICONS_ICON_ANCHOR: ${{ vars.MAP_ICONS_ICON_ANCHOR }}
-          # MAP_ICONS_ICON_SIZE: ${{ vars.MAP_ICONS_ICON_SIZE }}
-          # MAP_ICONS_SHADOW_SIZE: ${{ vars.MAP_ICONS_SHADOW_SIZE }}
-          # MAP_ICONS_TOOLTIP_OFFSET: ${{ vars.MAP_ICONS_TOOLTIP_OFFSET }}
-          MORE_INFORMATION_LINK: ${{ vars.MORE_INFORMATION_LINK }}
-          OPENMAPS_BASE_URL: https://wfnews-${{ steps.map-environment.outputs.URL_ENV }}.bcwildfireservices.com/maps
-          SERVICES6_BASE_URL: https://wfnews-${{ steps.map-environment.outputs.URL_ENV }}.bcwildfireservices.com/services6
-          POINT_ID_URL: ${{ vars.POINT_ID_URL }}
-          PROJECT_VERSION: ${{ steps.version.outputs.info }}
-          REPORT_A_WILDFIRE_PHONE_LINE: ${{ vars.REPORT_A_WILDFIRE_PHONE_LINE }}
-          SITEMINDER_URL_PREFIX: ${{ vars.SITEMINDER_URL_PREFIX }}
-          SYNC_INTERVAL_MINUTES: ${{ vars.SYNC_INTERVAL_MINUTES }}
-          WEBADE_OAUTH2_AUTH_SCOPES: ${{ vars.WEBADE_OAUTH2_AUTH_SCOPES }}
-          WEBADE_OAUTH2_AUTHORIZE_URL: ${{ vars.WEBADE_OAUTH2_AUTHORIZE_URL }}
-          WEBADE_OAUTH2_CHECK_TOKEN_V2_URL: ${{ vars.WEBADE_OAUTH2_CHECK_TOKEN_URL }}
-          WEBADE_OAUTH2_CLIENT_ID: ${{ vars.WEBADE_OAUTH2_UI_CLIENT_ID }}
-          WEBADE_OAUTH2_ENABLE_CHECK_TOKEN: ${{ vars.WEBADE_OAUTH2_ENABLE_CHECK_TOKEN }}
-          WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}}
-          WFDM_API_URL: ${{ vars.WFDM_REST_URL }}
-          FIRE_REPORT_API_URL: ${{ vars.FIRE_REPORT_API_URL }}
-          NOTIFICATION_API_URL: ${{ vars.NOTIFICATION_API_URL }}
-          WFRM_RESOURCE_API_URL: ${{ vars.WFRM_RESOURCE_API_URL }}
-          WFDM_PROXY: ${{ vars.WFDM_PROXY }}
-          WFIM_API_URL: ${{ vars.WFIM_CLIENT_URL }}
-          WFNEWS_API_KEY: ${{ secrets.API_KEY }}
-          WFNEWS_API_URL: ${{ vars.WFNEWS_API_URL }}
-          WILDFIRE_INFORMATION_LINE: ${{ vars.WILDFIRE_INFORMATION_LINE }}
-          ROF_PHONE_LINE: ${{vars.ROF_PHONE_LINE }}
-          EVAC_DEFAULT_URL: ${{ vars.EVAC_DEFAULT_URL }}
-          CURRENT_RESTRICTIONS_URL: ${{ vars.CURRENT_RESTRICTIONS_URL }}
-          REC_SITE_TRAILS_CLOSURES_URL: ${{ vars.REC_SITE_TRAILS_CLOSURES_URL }}
-          PARKS_CLOSURES_URL: ${{ vars.PARKS_CLOSURES_URL }}
-          LOCAL_AUTHORITIES_URL: ${{ vars.LOCAL_AUTHORITIES_URL }}
-          WILDFIRE_PREPAREDNESS_URL: ${{ vars.WILDFIRE_PREPAREDNESS_URL }}
-          EMERGENCY_KIT_URL: ${{ vars.EMERGENCY_KIT_URL }}
-          PREPARED_BC_FACEBOOK: ${{ vars.PREPARED_BC_FACEBOOK }}
-          PREPARED_BC_URL: ${{ vars.PREPARED_BC_URL }}
-          EMBC_URL: ${{ vars.EMBC_URL }}
-          EVAC_GUIDANCE_URL: ${{ vars.EVAC_GUIDANCE_URL }}
-          LOCAL_GOV_URL: ${{ vars.LOCAL_GOV_URL }}
-          EMERGENCY_ALERT_URL: ${{ vars.EMERGENCY_ALERT_URL }}
-          DRIVE_BC_URL: ${{ vars.DRIVE_BC_URL }}
-          EVAC_SERVICES_URL: ${{ vars.EVAC_SERVICES_URL }}
-          DANGER_SUMMARY: ${{ vars.DANGER_SUMMARY }}
-          HIGH_RISK_ACTIVITIES: ${{ vars.HIGH_RISK_ACTIVITIES }}
-          YOUTUBE_API_KEY: ${{secrets.YOUTUBE_API_KEY}}
-          YOUTUBE_CHANNEL_ID: ${{secrets.YOUTUBE_CHANNEL_ID}}
-
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
-          node-version: 18
+          node-version: 22
           cache: "npm"
-          cache-dependency-path: "**/package.json"
+          cache-dependency-path: |
+            client/wfnews-war/src/main/angular/package-lock.json
+            client/wfnews-war/src/main/angular/package.json
 
       - name: Configure ruby
         uses: ruby/setup-ruby@v1
@@ -175,25 +89,49 @@ jobs:
           ruby-version: 2.7
           bundler-cache: true
 
-      - name: Select Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_26.0.app
+
+      # Capacitor 8 requires Xcode 26.0+. Use the image's newest stable Xcode
+      # rather than pinning an exact version: the runner only installs the iOS
+      # device platform for its default Xcode, so pinning an older one on the
+      # image fails archiving with "iOS <version> is not installed".
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
 
       - name: Check Xcode version
         run: /usr/bin/xcodebuild -version
-
-      - name: Install Ionic
-        run: npm install -g @ionic/cli
 
       - name: Install app dependencies
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: |
           export NODE_OPTIONS="--max_old_space_size=4096"
-          npm cache clean --force
-          npm install --legacy-peer-deps --no-package-lock --registry=https://bwa.nrs.gov.bc.ca/int/artifactory/api/npm/nrs-virtual-npm/
+          npm ci --legacy-peer-deps --registry=https://bwa.nrs.gov.bc.ca/int/artifactory/api/npm/nrs-virtual-npm/
 
-      - name: Prepare app for build
+      - name: Download mobile web bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: mobile-web-dist
+          path: ${{ env.ANGULAR_DIRECTORY }}/dist/wfnews
+
+      # `cap sync` is copy + update only: it consumes the prebuilt bundle in
+      # dist/wfnews and does not run a web build of its own.
+      - name: Sync web bundle into the native project
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
-        run: ionic capacitor sync ios --configuration=mobile
+        run: npx cap sync ios
+
+      # Podfile.lock is committed, so it is a stable key. Restored before
+      # `pod install` so a cold CocoaPods spec repo does not get re-fetched on the
+      # macOS runner every run.
+      - name: Cache CocoaPods
+        uses: actions/cache@v6
+        with:
+          path: |
+            client/wfnews-war/src/main/angular/ios/App/Pods
+            ~/.cocoapods
+          key: ${{ runner.os }}-pods-${{ hashFiles('client/wfnews-war/src/main/angular/ios/App/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
 
       - name: Install CocoaPods dependencies
         working-directory: ${{ env.ANGULAR_DIRECTORY }}/ios/App
@@ -260,7 +198,7 @@ jobs:
           xcodebuild -exportArchive -archivePath $RUNNER_TEMP/App.xcarchive -exportOptionsPlist $EXPORT_OPTS_PATH -exportPath $RUNNER_TEMP/build
 
       - name: Upload IPA
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: app
           path: ${{ runner.temp }}/build/App.ipa
