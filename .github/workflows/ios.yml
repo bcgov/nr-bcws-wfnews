@@ -25,7 +25,7 @@ on:
           - DEV
           - TEST
           - PROD
-        default: "development"
+        default: DEV
       upload_to_app_store:
         description: "Upload to App Store"
         type: boolean
@@ -282,6 +282,7 @@ jobs:
 
       # NOTE: This step requires a github access token with access to the repository to update the variable - if this fails, the token may have expired or belong to a user without repo access
       - name: "Increment Build Number for next upload"
+        if: ${{ !cancelled() }}
         uses: action-pack/increment@v2
         with:
           name: "APPLE_APP_STORE_BUILD_NUMBER"
@@ -289,7 +290,7 @@ jobs:
 
       - name: Post to a Slack channel
         id: slack
-        if: ('!cancelled()') && inputs.skip_slack_notification == false
+        if: ${{ !cancelled() && inputs.skip_slack_notification == false }}
         uses: slackapi/slack-github-action@v1.24.0
         env:
           STATUS_EMOJI: ${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}

@@ -12,6 +12,11 @@ on:
         description: "Upload to Play Store"
         type: boolean
         required: true
+      send_changes_for_review:
+        description: "Send changes for review automatically"
+        type: boolean
+        default: true
+        required: false
       skip_slack_notification:
         type: boolean
         default: true
@@ -25,11 +30,15 @@ on:
           - DEV
           - TEST
           - PROD
-        default: "development"
+        default: DEV
       upload_to_play_store:
         description: "Upload to Play Store"
         type: boolean
         default: false
+      send_changes_for_review:
+        description: "Send changes for review automatically"
+        type: boolean
+        default: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -241,8 +250,9 @@ jobs:
           serviceAccountJsonPlainText: ${{ steps.service_account_json_read.outputs.content }}
           packageName: ${{ vars.PACKAGE_NAME }}
           releaseFiles: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
-          track: internal
+          tracks: internal
           status: completed
+          changesNotSentForReview: ${{ inputs.send_changes_for_review == false || inputs.send_changes_for_review == 'false' }}
 
       - uses: actions/upload-artifact@v4
         name: Upload Build Artifact to GitHub
@@ -252,6 +262,7 @@ jobs:
           retention-days: 3
 
       - name: "Increment Build Number for next upload"
+        if: ${{ !cancelled() }}
         uses: action-pack/increment@v2
         with:
           name: "GOOGLE_PLAY_STORE_BUILD_NUMBER"
@@ -259,7 +270,7 @@ jobs:
 
       - name: Post to a Slack channel
         id: slack
-        if: ('!cancelled()') && inputs.skip_slack_notification == false
+        if: ${{ !cancelled() && inputs.skip_slack_notification == false }}
         uses: slackapi/slack-github-action@v1.24.0
         env:
           STATUS_EMOJI: ${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}
