@@ -177,5 +177,5 @@
     "storybook": "ng run WFNEWS:storybook",
     "build-storybook": "ng run WFNEWS:build-storybook"
   },
-  "version": "2.5.6"
+  "version": "2.5.7"
 }
