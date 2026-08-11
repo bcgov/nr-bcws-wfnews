@@ -41,6 +41,7 @@ generate "tfvars" {
     server_memory = "${get_env("SERVER_MEMORY")}"
     db_instance_type = "${get_env("DB_INSTANCE_TYPE")}"
     db_size = "${get_env("DB_SIZE")}"
+    db_multi_az = "${get_env("DB_MULTI_AZ")}"
     db_postgres_version = "${get_env("DB_POSTGRES_VERSION")}"
     logging_level = "${get_env("LOGGING_LEVEL")}"
     app_count = "${get_env("INSTANCE_COUNT")}"
