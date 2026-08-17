@@ -17,4 +17,7 @@ public interface NotificationPushItemDao {
 	/** Removes push items that could not be sent, so a later delivery can try them again. */
 	int deletePushItems(List<String> notificationGuids, String itemIdentifier) throws DaoException;
 
+	/** Deletes at most limit expired rows. Returns the count, so the caller can loop. */
+	int deleteExpired(int limit) throws DaoException;
+
 }

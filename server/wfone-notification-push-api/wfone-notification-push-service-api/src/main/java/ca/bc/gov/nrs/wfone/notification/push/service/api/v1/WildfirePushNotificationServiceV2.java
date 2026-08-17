@@ -10,4 +10,7 @@ public interface WildfirePushNotificationServiceV2 {
 	// Get new incident message from aws sqs and push notification to subscribers
 	PushNotificationList<? extends PushNotification> pushNearMeNotifications(Message message, boolean isTest,
 			FactoryContext factoryContext) throws ServiceException;
+
+	/** Deletes expired push items, rowsPerPass rows at a time. Returns the number deleted. */
+	int deleteExpiredPushItems(int rowsPerPass) throws ServiceException;
 }

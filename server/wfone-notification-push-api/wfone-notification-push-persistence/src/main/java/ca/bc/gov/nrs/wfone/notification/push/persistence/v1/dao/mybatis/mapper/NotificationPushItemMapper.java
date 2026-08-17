@@ -9,4 +9,6 @@ public interface NotificationPushItemMapper {
 
 	int deletePushItems(Map<String, Object> parameters);
 
+	int deleteExpired(Map<String, Object> parameters);
+
 }
