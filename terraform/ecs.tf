@@ -1138,6 +1138,22 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
           value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_VISIBILITY_SECONDS)}"
         },
         {
+          name  = "WFONE_PUSH_NOTIFICATION_AUDIENCE_PAGE_SIZE",
+          value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_AUDIENCE_PAGE_SIZE)}"
+        },
+        {
+          name  = "WFONE_PUSH_NOTIFICATION_SEND_THREADS",
+          value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SEND_THREADS)}"
+        },
+        {
+          name  = "WFONE_PUSH_NOTIFICATION_FCM_PERMITS_PER_SECOND",
+          value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_FCM_PERMITS_PER_SECOND)}"
+        },
+        {
+          name  = "WFONE_EXPIRED_PUSH_ITEM_DELETE_INTERVAL_SECONDS",
+          value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_EXPIRED_ITEM_DELETE_INTERVAL_SECONDS)}"
+        },
+        {
           name  = "WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS",
           value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS)}"
         },

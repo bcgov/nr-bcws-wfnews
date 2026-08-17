@@ -30,7 +30,7 @@ public class AwsClientSpringConfig {
 	 * AWS advises a short timeout plus a heartbeat, because a long one delays the
 	 * retry of a failed event.
 	 */
-	@Value("${WFONE_PUSH_NOTIFICATION_SQS_VISIBILITY_SECONDS:300}")
+	@Value("${WFONE_PUSH_NOTIFICATION_SQS_VISIBILITY_SECONDS}")
 	private Integer awsSqsQueueReceiveVisibilityTimeoutSeconds;
 
 	@Value("${WFONE_PM_SQS_S3_BUCKET_NAME}")
