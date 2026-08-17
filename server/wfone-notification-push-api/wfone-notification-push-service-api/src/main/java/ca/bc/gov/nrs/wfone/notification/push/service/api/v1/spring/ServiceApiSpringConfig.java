@@ -77,15 +77,15 @@ public class ServiceApiSpringConfig {
 	private String pushNotificationPrefix;
 
 	/** Recipients read from the spatial query in one page. */
-	@Value("${WFONE_PUSH_NOTIFICATION_AUDIENCE_PAGE_SIZE:1000}")
+	@Value("${WFONE_PUSH_NOTIFICATION_AUDIENCE_PAGE_SIZE}")
 	private int audiencePageSize;
 
 	/** Pages sent at the same time. */
-	@Value("${WFONE_PUSH_NOTIFICATION_SEND_THREADS:4}")
+	@Value("${WFONE_PUSH_NOTIFICATION_SEND_THREADS}")
 	private int sendThreadCount;
 
 	/** Messages given to FCM in one second. Zero removes the limit. */
-	@Value("${WFONE_PUSH_NOTIFICATION_FCM_PERMITS_PER_SECOND:0}")
+	@Value("${WFONE_PUSH_NOTIFICATION_FCM_PERMITS_PER_SECOND}")
 	private double fcmPermitsPerSecond;
 
 	@Bean()

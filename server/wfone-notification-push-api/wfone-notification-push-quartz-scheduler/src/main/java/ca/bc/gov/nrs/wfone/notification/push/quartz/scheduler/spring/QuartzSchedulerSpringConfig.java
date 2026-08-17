@@ -284,13 +284,13 @@ public class QuartzSchedulerSpringConfig {
 		return result;
 	}
 
-	// Unlike the value above, this one has a default, so it needs no terraform input.
-	@Value("${WFONE_EXPIRED_PUSH_ITEM_DELETE_INTERVAL_SECONDS:3600}")
+	@Value("${WFONE_EXPIRED_PUSH_ITEM_DELETE_INTERVAL_SECONDS}")
 	private String expiredPushItemDeleteInterval;
 
+	// Not parseIntegerConfig: its fallback would hide a bad repository variable.
 	@Bean
 	int expiredPushItemDeleteIntervalSeconds() {
-		return parseIntegerConfig("expired.push.item.delete.interval.seconds", expiredPushItemDeleteInterval, 3600);
+		return Integer.parseInt(expiredPushItemDeleteInterval.trim());
 	}
 
 	@Bean
