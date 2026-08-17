@@ -69,20 +69,24 @@ public class ServiceApiSpringConfig {
 		return result;
 	}
 
+	/** One field, not one for each topic: ecs.tf sets this per monitor type already. */
 	@Value("${WFONE_PUSH_ITEM_EXPIRE_HOURS}")
-	private String wfonePushItemExpireHoursBan;
-
-	@Value("${WFONE_PUSH_ITEM_EXPIRE_HOURS}")
-	private String wfonePushItemExpireHoursFire;
-
-	@Value("${WFONE_PUSH_ITEM_EXPIRE_HOURS}")
-	private String wfonePushItemExpireHoursEvacuation;
-
-	@Value("${WFONE_PUSH_ITEM_EXPIRE_HOURS}")
-	private String wfonePushItemExpireHoursRestrictedArea;
+	private String wfonePushItemExpireHours;
 
 	@Value("${WFONE_PUSH_NOTIFICATION_PREFIX}")
 	private String pushNotificationPrefix;
+
+	/** Recipients read from the spatial query in one page. */
+	@Value("${WFONE_PUSH_NOTIFICATION_AUDIENCE_PAGE_SIZE:1000}")
+	private int audiencePageSize;
+
+	/** Pages sent at the same time. */
+	@Value("${WFONE_PUSH_NOTIFICATION_SEND_THREADS:4}")
+	private int sendThreadCount;
+
+	/** Messages given to FCM in one second. Zero removes the limit. */
+	@Value("${WFONE_PUSH_NOTIFICATION_FCM_PERMITS_PER_SECOND:0}")
+	private double fcmPermitsPerSecond;
 
 	@Bean()
 	public WildfirePushNotificationServiceV2 wildfirePushNotificationServiceV2() {
@@ -90,11 +94,11 @@ public class ServiceApiSpringConfig {
 
 		result = new WildfirePushNotificationServiceV2Impl();
 
-		result.setWfonePushItemExpireHoursBan(wfonePushItemExpireHoursBan);
-		result.setWfonePushItemExpireHoursEvacutaion(wfonePushItemExpireHoursEvacuation);
-		result.setWfonePushItemExpireHoursFire(wfonePushItemExpireHoursFire);
-		result.setWfonePushItemExpireHoursRestrictedArea(wfonePushItemExpireHoursRestrictedArea);
+		result.setWfonePushItemExpireHours(wfonePushItemExpireHours);
 		result.setPushNotificationPrefix(pushNotificationPrefix);
+		result.setAudiencePageSize(audiencePageSize);
+		result.setSendThreadCount(sendThreadCount);
+		result.setFcmPermitsPerSecond(fcmPermitsPerSecond);
 
 		result.setSpatialMonitorHandler(spatialMonitorHandler());
 		result.setSpatialQuery(persistenceSpringConfig.postgreSpatialQuery());

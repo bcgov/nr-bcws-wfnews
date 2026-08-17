@@ -33,6 +33,9 @@ public class PostgreSpatialQuery implements PostgreSqlAreaOfInterestQuery {
 	private static final String POLY_SQL = SQL_COLS +
 			" AND ST_INTERSECTS(n.point_geom_buffered, ST_SetSRID(ST_MakePolygon('coordinates'), 4326))";
 
+	// Keyset pagination. Unlike the rest of this query, these two are real bind parameters.
+	private static final String PAGE_SQL = " AND n.notification_guid > ? ORDER BY n.notification_guid LIMIT ?";
+
 	private DataSource dataSource;
 
 	public PostgreSpatialQuery(DataSource dataSource) {
@@ -40,7 +43,8 @@ public class PostgreSpatialQuery implements PostgreSqlAreaOfInterestQuery {
 	}
 
 	@Override
-	public List<NotificationDto> select(Geometry geometry, String topic) throws SQLException {
+	public List<NotificationDto> select(Geometry geometry, String topic, String afterNotificationGuid, int pageSize)
+			throws SQLException {
 		List<NotificationDto> subscribers = new ArrayList<>();
 
 		String sqlCustom = "";
@@ -54,37 +58,46 @@ public class PostgreSpatialQuery implements PostgreSqlAreaOfInterestQuery {
 			sqlCustom = POLY_SQL.replace("coordinates", wkt).replace("query_topic", topic);
 		}
 
+		sqlCustom = sqlCustom + PAGE_SQL;
+
+		// An empty string is less than every guid, so it selects the first page.
+		String afterGuid = afterNotificationGuid == null ? "" : afterNotificationGuid;
+
 		try (Connection con = dataSource.getConnection();
-				PreparedStatement pst = con.prepareStatement(sqlCustom);
-				ResultSet rs = pst.executeQuery()) {
-			while (rs.next()) {
-				NotificationDto notificationDto = new NotificationDto();
-				notificationDto.setNotificationGuid(rs.getString("notification_guid"));
-				notificationDto.setSubscriberGuid(rs.getString("subscriber_guid"));
-				notificationDto.setNotificationName(rs.getString("notification_name"));
-				notificationDto.setNotificationType(rs.getString("notification_type"));
-				notificationDto.setLongitude(Double.parseDouble(rs.getString("longitude")));
-				notificationDto.setLatitude(Double.parseDouble(rs.getString("latitude")));
-				notificationDto.setRadius(Double.parseDouble(rs.getString("radius_kms")));
-				notificationDto.setNotificationToken(rs.getString("notification_token"));
-				notificationDto.setActiveIndicator(rs.getString("active_ind").equals("Y") ? true : false);
+				PreparedStatement pst = con.prepareStatement(sqlCustom)) {
+			pst.setString(1, afterGuid);
+			pst.setInt(2, pageSize);
 
-				// TODO: FX, might need to change
-				List<NotificationTopicDto> topics = new ArrayList<>();
-				String notificationTopicGuid = rs.getString("notification_topic_guid");
-				String notificationTopicName = rs.getString("notification_topic_name");
+			try (ResultSet rs = pst.executeQuery()) {
+				while (rs.next()) {
+					NotificationDto notificationDto = new NotificationDto();
+					notificationDto.setNotificationGuid(rs.getString("notification_guid"));
+					notificationDto.setSubscriberGuid(rs.getString("subscriber_guid"));
+					notificationDto.setNotificationName(rs.getString("notification_name"));
+					notificationDto.setNotificationType(rs.getString("notification_type"));
+					notificationDto.setLongitude(Double.parseDouble(rs.getString("longitude")));
+					notificationDto.setLatitude(Double.parseDouble(rs.getString("latitude")));
+					notificationDto.setRadius(Double.parseDouble(rs.getString("radius_kms")));
+					notificationDto.setNotificationToken(rs.getString("notification_token"));
+					notificationDto.setActiveIndicator(rs.getString("active_ind").equals("Y") ? true : false);
 
-				if (notificationTopicGuid != null && notificationTopicName != null) {
-					NotificationTopicDto notificationTopicDto = new NotificationTopicDto();
-					notificationTopicDto.setNotificationTopicGuid(notificationTopicGuid);
-					notificationTopicDto.setNotificationTopicName(notificationTopicName);
-					notificationTopicDto.setNotificationGuid(rs.getString("notification_guid"));
+					// TODO: FX, might need to change
+					List<NotificationTopicDto> topics = new ArrayList<>();
+					String notificationTopicGuid = rs.getString("notification_topic_guid");
+					String notificationTopicName = rs.getString("notification_topic_name");
 
-					topics.add(notificationTopicDto);
+					if (notificationTopicGuid != null && notificationTopicName != null) {
+						NotificationTopicDto notificationTopicDto = new NotificationTopicDto();
+						notificationTopicDto.setNotificationTopicGuid(notificationTopicGuid);
+						notificationTopicDto.setNotificationTopicName(notificationTopicName);
+						notificationTopicDto.setNotificationGuid(rs.getString("notification_guid"));
+
+						topics.add(notificationTopicDto);
+					}
+
+					notificationDto.setTopics(topics);
+					subscribers.add(notificationDto);
 				}
-
-				notificationDto.setTopics(topics);
-				subscribers.add(notificationDto);
 			}
 
 		} catch (SQLException e) {

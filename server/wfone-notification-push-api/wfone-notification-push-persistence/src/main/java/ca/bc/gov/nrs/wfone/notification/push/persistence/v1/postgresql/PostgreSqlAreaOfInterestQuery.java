@@ -8,6 +8,11 @@ import java.util.List;
 
 public interface PostgreSqlAreaOfInterestQuery {
 
-	List<NotificationDto> select(Geometry geometry, String topic) throws SQLException;
+	/**
+	 * Reads one page of the audience, ordered by notification guid. Pass null or an empty
+	 * string for the first page, then the last guid of the previous page.
+	 */
+	List<NotificationDto> select(Geometry geometry, String topic, String afterNotificationGuid, int pageSize)
+			throws SQLException;
 
 }

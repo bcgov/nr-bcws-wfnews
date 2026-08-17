@@ -130,6 +130,21 @@
             }
           ]
         }
+      },
+      {
+        "changeSet": {
+          "id": "01_01_00_01",
+          "author": "sparmar",
+          "changes": [
+            {
+              "sqlFile": {
+                "dbms": "postgresql",
+                "endDelimiter": ";",
+                "path": "scripts/01_01_00-notifications/01/ddl/wfone.ddl.notification_push_item_unique.sql"
+              }
+            }
+          ]
+        }
       }
     ]
   }
