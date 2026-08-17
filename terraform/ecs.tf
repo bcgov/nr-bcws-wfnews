@@ -40,16 +40,16 @@ resource "aws_ecs_task_definition" "wfnews_server" {
   volume {
     name = "temp"
   }
-  tags                     = local.common_tags
+  tags = local.common_tags
   container_definitions = jsonencode([
     {
-      essential   = true
+      essential              = true
       readonlyRootFilesystem = true
-      name        = var.server_container_name
-      image       = var.server_image
-      cpu         = var.server_cpu_units
-      memory      = var.server_memory
-      networkMode = "awsvpc"
+      name                   = var.server_container_name
+      image                  = var.server_image
+      cpu                    = var.server_cpu_units
+      memory                 = var.server_memory
+      networkMode            = "awsvpc"
       portMappings = [
         {
           protocol      = "tcp"
@@ -91,11 +91,11 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WEBADE-OAUTH2_TOKEN_URL
         },
         {
-          name = "YOUTUBE_API_KEY",
+          name  = "YOUTUBE_API_KEY",
           value = var.YOUTUBE_API_KEY
         },
         {
-          name = "YOUTUBE_CHANNEL_ID",
+          name  = "YOUTUBE_CHANNEL_ID",
           value = var.YOUTUBE_CHANNEL_ID
         },
         {
@@ -107,15 +107,15 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WFDM_REST_URL
         },
         {
-          name = "FIRE_REPORT_API_URL",
+          name  = "FIRE_REPORT_API_URL",
           value = var.FIRE_REPORT_API_URL
         },
         {
-          name = "NOTIFICATION_API_URL",
+          name  = "NOTIFICATION_API_URL",
           value = var.NOTIFICATION_API_URL
         },
         {
-          name = "POINT_ID_URL",
+          name  = "POINT_ID_URL",
           value = var.POINT_ID_URL
         },
         {
@@ -243,19 +243,19 @@ resource "aws_ecs_task_definition" "wfnews_server" {
       }
       mountPoints = [
         {
-          sourceVolume = "logging"
+          sourceVolume  = "logging"
           containerPath = "/usr/local/tomcat/logs"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "work"
+          sourceVolume  = "work"
           containerPath = "/usr/local/tomcat/work"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "temp"
+          sourceVolume  = "temp"
           containerPath = "/usr/local/tomcat/temp"
-          readOnly = false
+          readOnly      = false
         }
       ]
       volumesFrom = []
@@ -277,16 +277,16 @@ resource "aws_ecs_task_definition" "wfnews_client" {
   volume {
     name = "logging"
   }
-  tags                     = local.common_tags
+  tags = local.common_tags
   container_definitions = jsonencode([
     {
-      essential   = true
+      essential              = true
       readonlyRootFilesystem = true
-      name        = var.client_container_name
-      image       = var.client_image
-      cpu         = var.client_cpu_units
-      memory      = var.client_memory
-      networkMode = "awsvpc"
+      name                   = var.client_container_name
+      image                  = var.client_image
+      cpu                    = var.client_cpu_units
+      memory                 = var.client_memory
+      networkMode            = "awsvpc"
       portMappings = [
         {
           protocol      = "tcp"
@@ -317,11 +317,11 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = var.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET
         },
         {
-          name = "YOUTUBE_API_KEY",
+          name  = "YOUTUBE_API_KEY",
           value = var.YOUTUBE_API_KEY
         },
         {
-          name = "YOUTUBE_CHANNEL_ID",
+          name  = "YOUTUBE_CHANNEL_ID",
           value = var.YOUTUBE_CHANNEL_ID
         },
         {
@@ -336,7 +336,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           name  = "WFIM_API_URL",
           value = var.WFIM_CLIENT_URL
         },
-         {
+        {
           name  = "WFIM_REST_URL",
           value = var.WFIM_REST_URL
         },
@@ -345,19 +345,19 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = var.WFDM_REST_URL
         },
         {
-          name = "FIRE_REPORT_API_URL",
+          name  = "FIRE_REPORT_API_URL",
           value = var.FIRE_REPORT_API_URL
         },
         {
-          name = "NOTIFICATION_API_URL",
+          name  = "NOTIFICATION_API_URL",
           value = var.NOTIFICATION_API_URL
         },
         {
-          name = "WFRM_RESOURCE_API_URL",
+          name  = "WFRM_RESOURCE_API_URL",
           value = var.WFRM_RESOURCE_API_URL
         },
         {
-          name = "POINT_ID_URL",
+          name  = "POINT_ID_URL",
           value = var.POINT_ID_URL
         },
         {
@@ -401,7 +401,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = var.siteMinderURLPrefix
         },
         {
-          name = "SYNC_INTERVAL_MINUTES",
+          name  = "SYNC_INTERVAL_MINUTES",
           value = var.syncIntervalMinutes
         },
         {
@@ -417,7 +417,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = "${var.WFARCGIS_URL}/${var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS}"
         },
         {
-          name = "AGOL_DANGER_RATINGS",
+          name  = "AGOL_DANGER_RATINGS",
           value = var.agolDangerRatings
         }
 
@@ -433,16 +433,16 @@ resource "aws_ecs_task_definition" "wfnews_client" {
       }
       mountPoints = [
         {
-          sourceVolume = "logging"
+          sourceVolume  = "logging"
           containerPath = "/usr/local/tomcat/logs"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "work"
+          sourceVolume  = "work"
           containerPath = "/usr/local/tomcat/work"
-          readOnly = false
+          readOnly      = false
         }
-        ]
+      ]
       volumesFrom = []
     }
   ])
@@ -459,19 +459,19 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
-      essential   = true
+      essential              = true
       readonlyRootFilesystem = true
-      name        = var.liquibase_container_name
-      image       = var.liquibase_image
-      cpu         = var.liquibase_cpu
-      memory      = var.liquibase_memory
-      networkMode = "awsvpc"
-      portMappings = []
+      name                   = var.liquibase_container_name
+      image                  = var.liquibase_image
+      cpu                    = var.liquibase_cpu
+      memory                 = var.liquibase_memory
+      networkMode            = "awsvpc"
+      portMappings           = []
       environment = [
         {
-          name = "CHANGELOG_FOLDER",
+          name  = "CHANGELOG_FOLDER",
           value = "."
-        },   
+        },
         {
           name  = "DB_URL",
           value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.db_name}"
@@ -542,13 +542,13 @@ resource "aws_ecs_task_definition" "wfnews_nginx" {
   }
   container_definitions = jsonencode([
     {
-      essential   = true
+      essential              = true
       readonlyRootFilesystem = true
-      name        = var.nginx_container_name
-      image       = var.nginx_image
-      cpu         = var.server_cpu_units
-      memory      = var.server_memory
-      networkMode = "awsvpc"
+      name                   = var.nginx_container_name
+      image                  = var.nginx_image
+      cpu                    = var.server_cpu_units
+      memory                 = var.server_memory
+      networkMode            = "awsvpc"
       portMappings = [
         {
           protocol      = "tcp"
@@ -578,7 +578,7 @@ resource "aws_ecs_task_definition" "wfnews_nginx" {
           value = "${var.max_upload_size}"
         },
         {
-          name = "CLOUDFRONT_HEADER",
+          name  = "CLOUDFRONT_HEADER",
           value = "${var.cloudfront_header}"
         }
       ]
@@ -593,34 +593,34 @@ resource "aws_ecs_task_definition" "wfnews_nginx" {
       }
       mountPoints = [
         {
-          sourceVolume = "logging"
+          sourceVolume  = "logging"
           containerPath = "/var/log"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "cache"
+          sourceVolume  = "cache"
           containerPath = "/var/cache/nginx"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "run"
+          sourceVolume  = "run"
           containerPath = "/var/run"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "nginx"
+          sourceVolume  = "nginx"
           containerPath = "/etc/nginx"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "nginx-lib"
+          sourceVolume  = "nginx-lib"
           containerPath = "/var/lib/nginx"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "tmp"
+          sourceVolume  = "tmp"
           containerPath = "/tmp"
-          readOnly = false
+          readOnly      = false
         }
       ]
       volumesFrom = []
@@ -642,22 +642,22 @@ resource "aws_ecs_task_definition" "notifications_liquibase" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.liquibase_cpu
-  memory = var.liquibase_memory
-  tags   = local.common_tags
+  memory                   = var.liquibase_memory
+  tags                     = local.common_tags
   container_definitions = jsonencode([
     {
-      essential = true
+      essential              = true
       readonlyRootFilesystem = true
-      name        = var.notifications_liquibase_container_name
-      image       = var.liquibase_image
-      cpu         = var.liquibase_cpu
-      memory      = var.liquibase_memory
-      networkMode = "awsvpc"
+      name                   = var.notifications_liquibase_container_name
+      image                  = var.liquibase_image
+      cpu                    = var.liquibase_cpu
+      memory                 = var.liquibase_memory
+      networkMode            = "awsvpc"
       portMappings = [
       ]
       environment = [
         {
-          name = "CHANGELOG_FOLDER",
+          name  = "CHANGELOG_FOLDER",
           value = "notifications-db"
         },
         {
@@ -684,7 +684,7 @@ resource "aws_ecs_task_definition" "notifications_liquibase" {
       }
     }
   ])
-    lifecycle {
+  lifecycle {
     replace_triggered_by = [
       null_resource.always_run
     ]
@@ -701,142 +701,142 @@ EOF
 }
 
 resource "aws_ecs_task_definition" "wfss_pointid" {
-   family                   = "wfss-pointid-api-${var.target_env}"
+  family                   = "wfss-pointid-api-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.server_cpu_units
-  memory = var.server_memory
-  tags   = local.common_tags
+  memory                   = var.server_memory
+  tags                     = local.common_tags
   container_definitions = jsonencode([
     {
-      essential = true
+      essential              = true
       readonlyRootFilesystem = true
-      name        = var.pointid_container_name
-      image       = var.pointid_image
-      cpu         = var.server_cpu_units
-      memory      = var.server_memory
-      networkMode = "awsvpc"
+      name                   = var.pointid_container_name
+      image                  = var.pointid_image
+      cpu                    = var.server_cpu_units
+      memory                 = var.server_memory
+      networkMode            = "awsvpc"
       portMappings = [{
-            protocol      = "tcp"
-            containerPort = var.server_port
-            hostPort      = var.server_port
+        protocol      = "tcp"
+        containerPort = var.server_port
+        hostPort      = var.server_port
       }]
       environment = [
-          {
-            name  = "DATABASE_WEATHER_URL",
-            value = "${var.DATABASE_WEATHER_URL}"
-          },
-          {
-            name  = "DATABASE_WEATHER_USER",
-            value = "${var.DATABASE_WEATHER_USER}"
-          },
-          {
-            name  = "DATABASE_WEATHER_PWD",
-            value = "${var.DATABASE_WEATHER_PWD}"
-          },
-          {
-            name  = "BCGW_URL",
-            value = "${var.BCGW_URL}"
-          },
-          {
-            name  = "WFGS_URL",
-            value = "${var.WFGS_URL}"
-          },
-          {
-            name  = "MAX_ALLOWED_RADIUS",
-            value = "${tostring(var.MAX_ALLOWED_RADIUS)}"
-          },
-          {
-            name  = "ASYNC_JOB_INTERVAL",
-            value = "${tostring(var.POINTID_ASYNC_JOB_INTERVAL)}"
-          },
-          {
-            name  = "ASYNC_JOB_REF_LAT",
-            value = "${tostring(var.POINTID_ASYNC_JOB_REF_LAT)}"
-          },
-          {
-            name  = "ASYNC_JOB_REF_LONG",
-            value = "${tostring(var.POINTID_ASYNC_JOB_REF_LONG)}"
-          },
-          {
-            name  = "ASYNC_JOB_REF_RADIUS",
-            value = "${tostring(var.POINTID_ASYNC_JOB_REF_RADIUS)}"
-          },
-          {
-            name  = "WEATHER_HOST",
-            value = "${var.WEATHER_HOST}"
-          },
-          {
-            name  = "WEATHER_USER",
-            value = "${var.WEATHER_USER}"
-          },
-          {
-            name  = "WEATHER_PASSWORD",
-            value = "${var.WEATHER_PASSWORD}"
-          },
-          {
-            name  = "WFARCGIS_URL",
-            value = "${var.WFARCGIS_URL}"
-          },
-          {
-            name  = "WFARCGIS_LAYER_AREA_RESTRICTIONS",
-            value = "${var.WFARCGIS_LAYER_AREA_RESTRICTIONS}"
-          },
-          {
-            name  = "WFARCGIS_LAYER_BANS_PROHIBITION_AREAS",
-            value = "${var.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS}"
-          },
-          {
-            name  = "WFARCGIS_LAYER_DANGER_RATING",
-            value = "${var.WFARCGIS_LAYER_DANGER_RATING}"
-          },
-          {
-            name  = "WFARCGIS_LAYER_ACTIVE_FIRES",
-            value = "${var.WFARCGIS_LAYER_ACTIVE_FIRES}"
-          },
-          {
-            name  = "WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS",
-            value = "${var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS}"
-          },
-          {
-            name  = "WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES",
-            value = "${var.WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES}"
-          },
-          {
-            name  = "WEBADE_OAUTH2_CLIENT_ID",
-            value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_ID}"
-          },
-          {
-            name  = "WEBADE_OAUTH2_TOKEN_URL",
-            value = "${var.POINTID_WEBADE_OAUTH2_TOKEN_URL}"
-          },
-          {
-            name  = "WEBADE_OAUTH2_CLIENT_SCOPES",
-            value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_SCOPES}"
-          },
-          {
-            name  = "FIREWEATHER_BASEURL",
-            value = "${var.FIREWEATHER_BASEURL}"
-          },
-          {
-            name  = "FIREWEATHER_STATIONS_KEY",
-            value = "${var.FIREWEATHER_STATIONS_KEY}"
-          },
-          {
-            name  = "WFNEWS_BASEURL",
-            value = "https://wfnews-api.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
-          },
-          {
-            name  = "WFNEWS_QUEUESIZE",
-            value = "${tostring(var.WFNEWS_QUEUESIZE)}"
-          },
-          {
-            name  = "WEBADE_OAUTH2_CLIENT_SECRET",
-            value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_SECRET}"
-          }
-        ]
+        {
+          name  = "DATABASE_WEATHER_URL",
+          value = "${var.DATABASE_WEATHER_URL}"
+        },
+        {
+          name  = "DATABASE_WEATHER_USER",
+          value = "${var.DATABASE_WEATHER_USER}"
+        },
+        {
+          name  = "DATABASE_WEATHER_PWD",
+          value = "${var.DATABASE_WEATHER_PWD}"
+        },
+        {
+          name  = "BCGW_URL",
+          value = "${var.BCGW_URL}"
+        },
+        {
+          name  = "WFGS_URL",
+          value = "${var.WFGS_URL}"
+        },
+        {
+          name  = "MAX_ALLOWED_RADIUS",
+          value = "${tostring(var.MAX_ALLOWED_RADIUS)}"
+        },
+        {
+          name  = "ASYNC_JOB_INTERVAL",
+          value = "${tostring(var.POINTID_ASYNC_JOB_INTERVAL)}"
+        },
+        {
+          name  = "ASYNC_JOB_REF_LAT",
+          value = "${tostring(var.POINTID_ASYNC_JOB_REF_LAT)}"
+        },
+        {
+          name  = "ASYNC_JOB_REF_LONG",
+          value = "${tostring(var.POINTID_ASYNC_JOB_REF_LONG)}"
+        },
+        {
+          name  = "ASYNC_JOB_REF_RADIUS",
+          value = "${tostring(var.POINTID_ASYNC_JOB_REF_RADIUS)}"
+        },
+        {
+          name  = "WEATHER_HOST",
+          value = "${var.WEATHER_HOST}"
+        },
+        {
+          name  = "WEATHER_USER",
+          value = "${var.WEATHER_USER}"
+        },
+        {
+          name  = "WEATHER_PASSWORD",
+          value = "${var.WEATHER_PASSWORD}"
+        },
+        {
+          name  = "WFARCGIS_URL",
+          value = "${var.WFARCGIS_URL}"
+        },
+        {
+          name  = "WFARCGIS_LAYER_AREA_RESTRICTIONS",
+          value = "${var.WFARCGIS_LAYER_AREA_RESTRICTIONS}"
+        },
+        {
+          name  = "WFARCGIS_LAYER_BANS_PROHIBITION_AREAS",
+          value = "${var.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS}"
+        },
+        {
+          name  = "WFARCGIS_LAYER_DANGER_RATING",
+          value = "${var.WFARCGIS_LAYER_DANGER_RATING}"
+        },
+        {
+          name  = "WFARCGIS_LAYER_ACTIVE_FIRES",
+          value = "${var.WFARCGIS_LAYER_ACTIVE_FIRES}"
+        },
+        {
+          name  = "WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS",
+          value = "${var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS}"
+        },
+        {
+          name  = "WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES",
+          value = "${var.WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES}"
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_ID",
+          value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_ID}"
+        },
+        {
+          name  = "WEBADE_OAUTH2_TOKEN_URL",
+          value = "${var.POINTID_WEBADE_OAUTH2_TOKEN_URL}"
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_SCOPES",
+          value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_SCOPES}"
+        },
+        {
+          name  = "FIREWEATHER_BASEURL",
+          value = "${var.FIREWEATHER_BASEURL}"
+        },
+        {
+          name  = "FIREWEATHER_STATIONS_KEY",
+          value = "${var.FIREWEATHER_STATIONS_KEY}"
+        },
+        {
+          name  = "WFNEWS_BASEURL",
+          value = "https://wfnews-api.${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"
+        },
+        {
+          name  = "WFNEWS_QUEUESIZE",
+          value = "${tostring(var.WFNEWS_QUEUESIZE)}"
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_SECRET",
+          value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_SECRET}"
+        }
+      ]
       logConfiguration = {
         logDriver = "awslogs"
         options = {
@@ -848,19 +848,19 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
       }
       mountPoints = [
         {
-          sourceVolume = "logging"
+          sourceVolume  = "logging"
           containerPath = "/usr/local/tomcat/logs"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "work"
+          sourceVolume  = "work"
           containerPath = "/usr/local/tomcat/work"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "temp"
+          sourceVolume  = "temp"
           containerPath = "/usr/local/tomcat/temp"
-          readOnly = false
+          readOnly      = false
         }
       ]
       volumesFrom = []
@@ -878,7 +878,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
 }
 
 resource "aws_ecs_task_definition" "wfone_notifications_api" {
-   family                   = "wfone_notifications_api-task-${var.target_env}"
+  family                   = "wfone_notifications_api-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
@@ -897,140 +897,140 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
   tags   = local.common_tags
   container_definitions = jsonencode([
     {
-      essential = true
+      essential              = true
       readonlyRootFilesystem = true
-      name        = var.wfone_notifications_api_container_name
-      image       = var.wfone_notifications_api_image
-      cpu         = var.wfone_notifications_api_cpu_units
-      memory      = var.wfone_notifications_api_memory
-      networkMode = "awsvpc"
+      name                   = var.wfone_notifications_api_container_name
+      image                  = var.wfone_notifications_api_image
+      cpu                    = var.wfone_notifications_api_cpu_units
+      memory                 = var.wfone_notifications_api_memory
+      networkMode            = "awsvpc"
       portMappings = [{
-            protocol      = "tcp"
-            containerPort = var.wfone_notifications_api_port
-            hostPort      = var.wfone_notifications_api_port
+        protocol      = "tcp"
+        containerPort = var.wfone_notifications_api_port
+        hostPort      = var.wfone_notifications_api_port
       }]
       environment = [
-          {
-            name  = "DATASOURCE_MAX_CONNECTIONS",
-            value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS
-          },
-          {
-            name  = "DATASOURCE_PASSWORD",
-            value = var.WFONE_DB_PASS
-          },
-          {
-            name  = "DATASOURCE_URL",
-            value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.db_name}"
-          },
-          {
-            name  = "DATASOURCE_USER",
-            value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_USER
-          },
-          {
-            name  = "DEFAULT_APPLICATION_ENVIRONMENT",
-            value = var.DEFAULT_APPLICATION_ENVIRONMENT
-          },
-          {
-            name  = "EMAIL_ADMIN_EMAIL",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL
-          },
-          {
-            name  = "EMAIL_FROM_EMAIL",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL
-          },
-          {
-            name  = "EMAIL_NOTIFICATIONS_ENABLED",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED
-          },
-          {
-            name  = "EMAIL_SYNC_SEND_ERROR_FREQ",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_FREQ
-          },
-          {
-            name  = "EMAIL_SYNC_SEND_ERROR_SUBJECT",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_SUBJECT
-          },
-          {
-            name  = "EMAIL_SYNC_SEND_FREQ",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_FREQ
-          },
-          {
-            name  = "EMAIL_SYNC_SUBJECT",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SUBJECT
-          },
-          {
-            name  = "PUSH_ITEM_EXPIRE_HOURS",
-            value = var.WFONE_NOTIFICATIONS_API_PUSH_ITEM_EXPIRE_HOURS
-          },
-          {
-            name  = "QUARTZ_CONSUMER_INTERVAL_SECONDS",
-            value = var.WFONE_NOTIFICATIONS_API_QUARTZ_CONSUMER_INTERVAL_SECONDS
-          },
-          {
-            name  = "SMTP_CREDENTIALS_PASSWORD",
-            value = var.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_PASSWORD
-          },
-          {
-            name  = "SMTP_CREDENTIALS_USER",
-            value = var.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_USER
-          },
-          {
-            name  = "SMTP_HOST_NAME",
-            value = var.WFONE_NOTIFICATIONS_API_SMTP_HOST_NAME
-          },
-          {
-            name  = "WEBADE_OAUTH2_CHECK_TOKEN_URL"
-            value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CHECK_TOKEN_URL
-          },
-          {
-            name  = "WEBADE_OAUTH2_CLIENT_ID",
-            value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID
-          },
-          {
-            name  = "WEBADE_OAUTH2_REST_CLIENT_SECRET",
-            value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET
-          },
-          {
-            name  = "WEBADE_OAUTH2_TOKEN_CLIENT_URL",
-            value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_TOKEN_CLIENT_URL
-          },
-          {
-            name  = "WEBADE_OAUTH2_TOKEN_URL",
-            value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_TOKEN_URL
-          },
-          {
-            name  = "WEBADE_OAUTH2_WFIM_CLIENT_ID",
-            value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID
-          },
-          {
-            name  = "WFDM_REST_URL",
-            value = var.WFDM_REST_URL
-          },
-          {
-            name = "FIRE_REPORT_API_URL",
-            value = var.FIRE_REPORT_API_URL
-          },
-          {
-            name = "NOTIFICATION_API_URL",
-            value = var.NOTIFICATION_API_URL
-          },
-          {
-            name = "POINT_ID_URL",
-            value = var.POINT_ID_URL
-          },
-          {
-            name  = "WFIM_CLIENT_URL",
-            value = var.WFIM_CLIENT_URL
-          },
-          {
-            name  = "WFIM_REST_URL",
-            value = var.WFIM_REST_URL
-          },
-          {
-            name  = "WFIM_CODE_TABLES_URL",
-            value = var.WFIM_CODE_TABLES_URL
-          }
-        ]
+        {
+          name  = "DATASOURCE_MAX_CONNECTIONS",
+          value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS
+        },
+        {
+          name  = "DATASOURCE_PASSWORD",
+          value = var.WFONE_DB_PASS
+        },
+        {
+          name  = "DATASOURCE_URL",
+          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.db_name}"
+        },
+        {
+          name  = "DATASOURCE_USER",
+          value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_USER
+        },
+        {
+          name  = "DEFAULT_APPLICATION_ENVIRONMENT",
+          value = var.DEFAULT_APPLICATION_ENVIRONMENT
+        },
+        {
+          name  = "EMAIL_ADMIN_EMAIL",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL
+        },
+        {
+          name  = "EMAIL_FROM_EMAIL",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL
+        },
+        {
+          name  = "EMAIL_NOTIFICATIONS_ENABLED",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED
+        },
+        {
+          name  = "EMAIL_SYNC_SEND_ERROR_FREQ",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_FREQ
+        },
+        {
+          name  = "EMAIL_SYNC_SEND_ERROR_SUBJECT",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_SUBJECT
+        },
+        {
+          name  = "EMAIL_SYNC_SEND_FREQ",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_FREQ
+        },
+        {
+          name  = "EMAIL_SYNC_SUBJECT",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SUBJECT
+        },
+        {
+          name  = "PUSH_ITEM_EXPIRE_HOURS",
+          value = var.WFONE_NOTIFICATIONS_API_PUSH_ITEM_EXPIRE_HOURS
+        },
+        {
+          name  = "QUARTZ_CONSUMER_INTERVAL_SECONDS",
+          value = var.WFONE_NOTIFICATIONS_API_QUARTZ_CONSUMER_INTERVAL_SECONDS
+        },
+        {
+          name  = "SMTP_CREDENTIALS_PASSWORD",
+          value = var.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_PASSWORD
+        },
+        {
+          name  = "SMTP_CREDENTIALS_USER",
+          value = var.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_USER
+        },
+        {
+          name  = "SMTP_HOST_NAME",
+          value = var.WFONE_NOTIFICATIONS_API_SMTP_HOST_NAME
+        },
+        {
+          name  = "WEBADE_OAUTH2_CHECK_TOKEN_URL"
+          value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CHECK_TOKEN_URL
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_ID",
+          value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID
+        },
+        {
+          name  = "WEBADE_OAUTH2_REST_CLIENT_SECRET",
+          value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET
+        },
+        {
+          name  = "WEBADE_OAUTH2_TOKEN_CLIENT_URL",
+          value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_TOKEN_CLIENT_URL
+        },
+        {
+          name  = "WEBADE_OAUTH2_TOKEN_URL",
+          value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_TOKEN_URL
+        },
+        {
+          name  = "WEBADE_OAUTH2_WFIM_CLIENT_ID",
+          value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID
+        },
+        {
+          name  = "WFDM_REST_URL",
+          value = var.WFDM_REST_URL
+        },
+        {
+          name  = "FIRE_REPORT_API_URL",
+          value = var.FIRE_REPORT_API_URL
+        },
+        {
+          name  = "NOTIFICATION_API_URL",
+          value = var.NOTIFICATION_API_URL
+        },
+        {
+          name  = "POINT_ID_URL",
+          value = var.POINT_ID_URL
+        },
+        {
+          name  = "WFIM_CLIENT_URL",
+          value = var.WFIM_CLIENT_URL
+        },
+        {
+          name  = "WFIM_REST_URL",
+          value = var.WFIM_REST_URL
+        },
+        {
+          name  = "WFIM_CODE_TABLES_URL",
+          value = var.WFIM_CODE_TABLES_URL
+        }
+      ]
       logConfiguration = {
         logDriver = "awslogs"
         options = {
@@ -1042,19 +1042,19 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
       }
       mountPoints = [
         {
-          sourceVolume = "logging"
+          sourceVolume  = "logging"
           containerPath = "/usr/local/tomcat/logs"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "work"
+          sourceVolume  = "work"
           containerPath = "/usr/local/tomcat/work"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "temp"
+          sourceVolume  = "temp"
           containerPath = "/usr/local/tomcat/temp"
-          readOnly = false
+          readOnly      = false
         }
       ]
       volumesFrom = []
@@ -1071,8 +1071,8 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.server_cpu_units
-  memory = var.server_memory
-  tags   = local.common_tags
+  memory                   = var.server_memory
+  tags                     = local.common_tags
   volume {
     name = "work"
   }
@@ -1084,79 +1084,79 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
   }
   container_definitions = jsonencode([
     {
-      essential = true
+      essential              = true
       readonlyRootFilesystem = true
-      name        = "${var.wfone_notifications_push_api_container_name}-${each.key}"
-      image       = var.WFONE_NOTIFICATIONS_PUSH_API_IMAGE
-      cpu         = var.server_cpu_units
-      memory      = var.server_memory
-      networkMode = "awsvpc"
+      name                   = "${var.wfone_notifications_push_api_container_name}-${each.key}"
+      image                  = var.WFONE_NOTIFICATIONS_PUSH_API_IMAGE
+      cpu                    = var.server_cpu_units
+      memory                 = var.server_memory
+      networkMode            = "awsvpc"
       portMappings = [{
-            protocol      = "tcp"
-            containerPort = var.wfone_notifications_push_api_port
-            hostPort      = var.wfone_notifications_push_api_port
+        protocol      = "tcp"
+        containerPort = var.wfone_notifications_push_api_port
+        hostPort      = var.wfone_notifications_push_api_port
       }]
       environment = [
-          {
-            name = "WFONE_SQS_QUEUE_NOTIFICATION_URL",
-            value = aws_sqs_queue.queues[each.key].url
-          },
-          {
-            name  = "WFONE_PUSH_NOTIFICATION_MAX_CONNECTIONS",
-            value = "${tostring(var.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS)}"
-          },
-          {
-            name  = "WFONE_DB_PASS",
-            value = var.WFONE_DB_PASS
-          },
-          {
-            name  = "WFONE_PUSH_NOTIFICATION_DATASOURCE_URL",
-            value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.db_name}"
-          },
-          {
-            name  = "WFONE_PUSH_NOTIFICATION_DATASOURCE_USERNAME",
-            value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_USER
-          },
-          {
-            name = "WFONE_PUSH_ITEM_EXPIRE_HOURS",
-            value = "${tostring(each.value.EXPIRE_HOURS)}"
-          },
-          {
-            name = "WFONE_PUSH_NOTIFICATION_SQS_MONITOR_ATTRIBUTE",
-            value = var.WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE
-          },
-          {
-            name = "WFONE_PUSH_NOTIFICATION_SQS_MAX_MESSAGES",
-            value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES)}"
-          },
-          {
-            name = "WFONE_PUSH_NOTIFICATION_SQS_WAIT_SECONDS",
-            value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS)}"
-          },
-          {
-            name = "WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS",
-            value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS)}"
-          },
-          {
-            name = "WFONE_FIREBASE_DB_URL",
-            value = var.WFONE_FIREBASE_DB_URL
-          },
-          {
-            name = "WFONE_PUSH_NOTIFICATION_PREFIX"
-            value = var.WFONE_NOTIFICATIONS_PUSH_PREFIX
-          },
-          {
-            name = "WFONE_PUSH_NOTIFICATION_CONSUMER_INTERVAL_SECONDS",
-            value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS)}"
-          },
-          {
-            name = "WFONE_PM_SQS_S3_BUCKET_NAME"
-            value = aws_s3_bucket.wfnews-monitor-queue-bucket.bucket
-          },
-          {
-            name = "FIREBASE_CONFIG_JSON",
-            value = var.FIREBASE_CONFIG_JSON
-          }
+        {
+          name  = "WFONE_SQS_QUEUE_NOTIFICATION_URL",
+          value = aws_sqs_queue.queues[each.key].url
+        },
+        {
+          name  = "WFONE_PUSH_NOTIFICATION_MAX_CONNECTIONS",
+          value = "${tostring(var.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS)}"
+        },
+        {
+          name  = "WFONE_DB_PASS",
+          value = var.WFONE_DB_PASS
+        },
+        {
+          name  = "WFONE_PUSH_NOTIFICATION_DATASOURCE_URL",
+          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.db_name}"
+        },
+        {
+          name  = "WFONE_PUSH_NOTIFICATION_DATASOURCE_USERNAME",
+          value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_USER
+        },
+        {
+          name  = "WFONE_PUSH_ITEM_EXPIRE_HOURS",
+          value = "${tostring(each.value.EXPIRE_HOURS)}"
+        },
+        {
+          name  = "WFONE_PUSH_NOTIFICATION_SQS_MONITOR_ATTRIBUTE",
+          value = var.WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE
+        },
+        {
+          name  = "WFONE_PUSH_NOTIFICATION_SQS_MAX_MESSAGES",
+          value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES)}"
+        },
+        {
+          name  = "WFONE_PUSH_NOTIFICATION_SQS_WAIT_SECONDS",
+          value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS)}"
+        },
+        {
+          name  = "WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS",
+          value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS)}"
+        },
+        {
+          name  = "WFONE_FIREBASE_DB_URL",
+          value = var.WFONE_FIREBASE_DB_URL
+        },
+        {
+          name  = "WFONE_PUSH_NOTIFICATION_PREFIX"
+          value = var.WFONE_NOTIFICATIONS_PUSH_PREFIX
+        },
+        {
+          name  = "WFONE_PUSH_NOTIFICATION_CONSUMER_INTERVAL_SECONDS",
+          value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS)}"
+        },
+        {
+          name  = "WFONE_PM_SQS_S3_BUCKET_NAME"
+          value = aws_s3_bucket.wfnews-monitor-queue-bucket.bucket
+        },
+        {
+          name  = "FIREBASE_CONFIG_JSON",
+          value = var.FIREBASE_CONFIG_JSON
+        }
       ]
       logConfiguration = {
         logDriver = "awslogs"
@@ -1169,19 +1169,19 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
       }
       mountPoints = [
         {
-          sourceVolume = "logging"
+          sourceVolume  = "logging"
           containerPath = "/usr/local/tomcat/logs"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "work"
+          sourceVolume  = "work"
           containerPath = "/usr/local/tomcat/work"
-          readOnly = false
+          readOnly      = false
         },
         {
-          sourceVolume = "temp"
+          sourceVolume  = "temp"
           containerPath = "/usr/local/tomcat/temp"
-          readOnly = false
+          readOnly      = false
         }
       ]
       volumesFrom = []
@@ -1394,7 +1394,7 @@ resource "aws_ecs_service" "wfone_notifications_api" {
 }
 
 resource "aws_ecs_service" "wfone_notifications_push_api" {
-  for_each = var.WFONE_MONITORS_NAME_MAP
+  for_each                          = var.WFONE_MONITORS_NAME_MAP
   name                              = "wfone-notifications-push-api-${each.key}-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfone_notifications_push_api[each.key].arn

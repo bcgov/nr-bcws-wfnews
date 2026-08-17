@@ -175,7 +175,7 @@ variable "logging_level" {
 }
 
 variable "FIREBASE_CONFIG_JSON" {
-  type = string
+  type        = string
   description = "stringified json of firebase config file"
 }
 
@@ -345,14 +345,14 @@ variable "liquibase_image" {
 
 variable "liquibase_cpu" {
   description = "number of milliCPUs to allocate to liquibase instances"
-  type = number
-  default = 512
+  type        = number
+  default     = 512
 }
 
 variable "liquibase_memory" {
   description = "Amount of memory to allocate to liquibase instances, in MB"
-  type = number
-  default = 1024
+  type        = number
+  default     = 1024
 }
 
 variable "pointid_image" {
@@ -363,8 +363,8 @@ variable "pointid_image" {
 
 variable "wfone_notifications_api_image" {
   description = "Full name of notifications api image"
-  type = string
-  default = "wfone_notifications_api"
+  type        = string
+  default     = "wfone_notifications_api"
 }
 
 variable "nginx_name" {
@@ -397,10 +397,10 @@ variable "client_health_check_path" {
   type        = string
 }
 
-variable pointid_health_check_path {
+variable "pointid_health_check_path" {
   description = "Endpoint to use for health checks on pointid API"
-  default = "/weather?lat=50&lon=-127&duration=3"
-  type = string
+  default     = "/weather?lat=50&lon=-127&duration=3"
+  type        = string
 }
 
 variable "nginx_image" {
@@ -467,12 +467,12 @@ variable "WEBADE-OAUTH2_TOKEN_URL" {
 }
 
 variable "YOUTUBE_API_KEY" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "YOUTUBE_CHANNEL_ID" {
-  type = string
+  type    = string
   default = ""
 }
 
@@ -502,22 +502,22 @@ variable "WFDM_REST_URL" {
 }
 
 variable "FIRE_REPORT_API_URL" {
-  type  = string
+  type    = string
   default = ""
 }
 
 variable "NOTIFICATION_API_URL" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "WFRM_RESOURCE_API_URL" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "POINT_ID_URL" {
-  type = string
+  type    = string
   default = ""
 }
 
@@ -611,7 +611,7 @@ variable "siteMinderURLPrefix" {
 }
 
 variable "syncIntervalMinutes" {
-  type  = string
+  type    = string
   default = ""
 }
 
@@ -626,12 +626,12 @@ variable "agolBansAndProhibitions" {
 }
 
 variable "agolDangerRatings" {
-  type  = string
+  type    = string
   default = ""
 }
 
 variable "agolEvacOrders" {
-  type  = string
+  type    = string
   default = ""
 }
 
@@ -679,7 +679,7 @@ variable "MAPS_CLOUDFRONT_DISTRIBUTION_IDS" {
 
 
 variable "UNIQUE_DEPLOY_ID" {
-  type = number
+  type    = number
   default = 0
 }
 
@@ -692,8 +692,8 @@ variable "pointid_container_name" {
 }
 
 variable "wfone_notifications_api_container_name" {
-  default     = "wfone-notifications-api"
-  type        = string
+  default = "wfone-notifications-api"
+  type    = string
 }
 
 variable "DATABASE_WEATHER_URL" {
@@ -922,8 +922,8 @@ variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID" {
 
 //WFONE-PUSH-NOTIFICATION-API Environment Variables
 
-variable wfone_notifications_push_api_container_name {
-  type = string
+variable "wfone_notifications_push_api_container_name" {
+  type    = string
   default = "wfone-notifications-push-api"
 }
 
@@ -988,27 +988,27 @@ variable "WFONE_DB_PASS" {
 }
 
 variable "WFONE_NOTIFICATIONS_PUSH_API_IMAGE" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "POINTID_WEBADE_OAUTH2_CLIENT_SECRET" {
-  type = string
+  type    = string
   default = ""
 }
 
 
 variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CHECK_TOKEN_URL" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_TOKEN_CLIENT_URL" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_TOKEN_URL" {
-   type = string
-   default = ""
+  type    = string
+  default = ""
 }
