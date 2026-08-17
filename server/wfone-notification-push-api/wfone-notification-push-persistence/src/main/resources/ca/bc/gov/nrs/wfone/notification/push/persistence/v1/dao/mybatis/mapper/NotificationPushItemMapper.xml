@@ -51,5 +51,22 @@
 
 				</delete>
 
+				<!--
+					Postgres has no DELETE ... LIMIT, so the limit comes from a ctid subselect.
+					SKIP LOCKED lets all four push workers delete at the same time.
+				-->
+				<delete id="deleteExpired">
+
+								DELETE FROM NOTIFICATION_PUSH_ITEM
+								WHERE ctid IN (
+								SELECT ctid FROM NOTIFICATION_PUSH_ITEM
+								WHERE ITEM_EXPIRY_TIMESTAMP IS NOT NULL
+								AND ITEM_EXPIRY_TIMESTAMP &lt; CURRENT_TIMESTAMP
+								LIMIT #{limit, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN}
+								FOR UPDATE SKIP LOCKED
+								)
+
+				</delete>
+
 
 </mapper>

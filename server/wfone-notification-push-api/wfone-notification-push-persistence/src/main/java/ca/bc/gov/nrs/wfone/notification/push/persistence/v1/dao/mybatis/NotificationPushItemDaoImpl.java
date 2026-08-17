@@ -76,4 +76,25 @@ public class NotificationPushItemDaoImpl extends BaseDao implements Notification
 		return result;
 	}
 
+	@Override
+	public int deleteExpired(int limit) throws DaoException {
+		logger.debug("<deleteExpired");
+
+		int result = 0;
+
+		try {
+
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("limit", limit);
+
+			result = this.mapper.deleteExpired(parameters);
+
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+
+		logger.debug(">deleteExpired " + result);
+		return result;
+	}
+
 }

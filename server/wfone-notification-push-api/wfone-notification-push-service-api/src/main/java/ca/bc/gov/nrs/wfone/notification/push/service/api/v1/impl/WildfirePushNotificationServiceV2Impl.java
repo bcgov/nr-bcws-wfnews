@@ -51,6 +51,9 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 	private static final String MONITOR_ATTRIBUTE = "monitorType";
 	private static final String NO_SUCH_INFORMATION_FROM_SQS_MESSAGE = "no such information from sqs message";
 
+	/** Bounds one run of the delete job. The next run continues where this one stopped. */
+	private static final int MAX_DELETE_PASSES = 1000;
+
 	/** FCM accepts at most 500 messages in one sendEach call. */
 	private static final int FCM_BATCH_SIZE = 500;
 
@@ -636,6 +639,29 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		if (getExpirations().get(topic) == null) {
 			throw new ServiceException("There is no push item expiry configured for topic '" + topic + "'.");
 		}
+	}
+
+	/** Limited, so the delete takes no long lock on a table that sits on the send path. */
+	@Override
+	public int deleteExpiredPushItems(int rowsPerPass) throws ServiceException {
+		logger.info("<deleteExpiredPushItems rowsPerPass={}", rowsPerPass);
+		int totalDeleted = 0;
+
+		try {
+			for (int pass = 0; pass < MAX_DELETE_PASSES; pass++) {
+				int deleted = notificationPushItemDao.deleteExpired(rowsPerPass);
+				totalDeleted += deleted;
+
+				if (deleted < rowsPerPass) {
+					break;
+				}
+			}
+		} catch (DaoException e) {
+			throw new ServiceException("DAO threw an exception purging expired push items", e);
+		}
+
+		logger.info(">deleteExpiredPushItems deleted={}", totalDeleted);
+		return totalDeleted;
 	}
 
 	private static NotificationPushItemDto createNotificationPushItemDto(String notificationGuid, Date expireTimestamp,
