@@ -5,8 +5,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import ca.bc.gov.nrs.wfone.notification.push.aws.client.spring.AwsClientSpringConfig;
+import ca.bc.gov.nrs.wfone.notification.push.quartz.scheduler.jobs.ExpiredPushItemDeleteJob;
 import ca.bc.gov.nrs.wfone.notification.push.quartz.scheduler.jobs.PushNotificationEventConsumerJob;
 import org.apache.commons.lang3.StringUtils;
+import org.quartz.DateBuilder;
+import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
@@ -81,6 +84,7 @@ public class QuartzSchedulerSpringConfig {
 		context.put(SchedulerConstants.SERVICE_API_V2_CONTEXT_KEY, serviceApiSpringConfig.wildfirePushNotificationServiceV2());
 		
 		result.scheduleJob(pushNotificationEventConsumerJob(), pushNotificationEventConsumerJobTrigger());
+		result.scheduleJob(expiredPushItemDeleteJob(), expiredPushItemDeleteJobTrigger());
 		
 		ListenerManager listenerManager = result.getListenerManager();
 		listenerManager.addSchedulerListener(new SchedulerListener() {
@@ -265,6 +269,43 @@ public class QuartzSchedulerSpringConfig {
 		}
 
 		logger.debug(">parseIntegerConfig " + result);
+		return result;
+	}
+
+	@Bean
+	JobDetail expiredPushItemDeleteJob() {
+		JobDetail result;
+
+		result = JobBuilder.newJob(ExpiredPushItemDeleteJob.class)
+				.withIdentity(ExpiredPushItemDeleteJob.class.getName())
+				.storeDurably(true)
+				.build();
+
+		return result;
+	}
+
+	// Unlike the value above, this one has a default, so it needs no terraform input.
+	@Value("${WFONE_EXPIRED_PUSH_ITEM_DELETE_INTERVAL_SECONDS:3600}")
+	private String expiredPushItemDeleteInterval;
+
+	@Bean
+	int expiredPushItemDeleteIntervalSeconds() {
+		return parseIntegerConfig("expired.push.item.delete.interval.seconds", expiredPushItemDeleteInterval, 3600);
+	}
+
+	@Bean
+	Trigger expiredPushItemDeleteJobTrigger() {
+		Trigger result;
+
+		// Start late, so that the delete does not compete with the first poll of the queue.
+		result = TriggerBuilder.newTrigger()
+				.withIdentity(SchedulerConstants.EXPIRED_PUSH_ITEM_DELETE_TRIGGER_IDENTITY)
+				.startAt(DateBuilder.futureDate(5, IntervalUnit.MINUTE))
+				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
+					.withIntervalInSeconds(expiredPushItemDeleteIntervalSeconds())
+					.repeatForever())
+				.build();
+
 		return result;
 	}
 
