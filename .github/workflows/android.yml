@@ -166,6 +166,7 @@ jobs:
           releaseFiles: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
           track: internal
           status: completed
+          changesNotSentForReview: true
 
       - uses: actions/upload-artifact@v7
         name: Upload Build Artifact to GitHub
