@@ -407,4 +407,57 @@ export class PublishedIncidentService {
       console.error('Could not fetch associated incident');
     }
   }
+
+  async populateIncidentsByPoint(restrictionPolygon: [][]): Promise<SimpleIncident[]> {
+    const turf = window['turf'];
+
+    const poly: number[][] = restrictionPolygon[0];
+    const polyArray: Array<number>[] = [];
+
+    for (const item of poly) {
+      polyArray.push(item);
+    }
+
+    const multiPolyArray = [polyArray];
+    const bufferedPolygon = turf.polygon(multiPolyArray);
+    const buffer = turf.buffer(bufferedPolygon, 10, {
+      units: 'kilometers',
+    });
+
+    const bbox = turf.bbox(buffer);
+    const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
+
+    // find incidents within the area restriction polygon
+    const incidents = await this.fetchPublishedIncidentsList(
+      0,
+      9999, 
+      null,
+      null,
+      null,
+      stageOfControlCodes,
+      null,
+      bbox,
+    ).toPromise();
+
+    if (!incidents?.collection?.length) {
+      console.error('Could not fetch associated incident');
+      return [];
+    }
+
+    return incidents.collection.map((item) => {
+      const fireName = item.incidentName.replace('Fire', '').trim();
+
+      const incident = new SimpleIncident();
+      incident.discoveryDate = convertToDateYear(item.discoveryDate);
+      incident.incidentName = fireName + ' Wildfire';
+      incident.fireOfNoteInd = item.fireOfNoteInd;
+      incident.stageOfControlCode = item.stageOfControlCode;
+      incident.stageOfControlIcon = getStageOfControlIcon(item.stageOfControlCode);
+      incident.stageOfControlLabel = getStageOfControlLabel(item.stageOfControlCode);
+      incident.fireCentreName = item.fireCentreName;
+      incident.fireYear = item.fireYear;
+      incident.incidentNumberLabel = item.incidentNumberLabel;
+      return incident;
+    });
+}
 }
