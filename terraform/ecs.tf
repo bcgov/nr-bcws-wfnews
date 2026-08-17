@@ -1154,6 +1154,11 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
           value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS)}"
         },
         {
+          # When not set the default memory limit for JVM is 1/4 of the container memory
+          name  = "JAVA_OPTS",
+          value = "-Xmx${floor(var.server_memory * 0.50)}m"
+        },
+        {
           name  = "WFONE_PM_SQS_S3_BUCKET_NAME"
           value = aws_s3_bucket.wfnews-monitor-queue-bucket.bucket
         },
