@@ -205,6 +205,11 @@ public class WildfirePushNotificationServiceV2ImplTest {
 			return notificationGuids.size();
 		}
 
+		@Override
+		public int deleteExpired(int limit) {
+			return 0;
+		}
+
 	}
 
 	private static class FakeSettingsDao implements NotificationSettingsDao {
