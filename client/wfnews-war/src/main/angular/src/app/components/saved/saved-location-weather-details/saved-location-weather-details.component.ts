@@ -8,6 +8,7 @@ import {
 } from '@app/services/point-id.service';
 import {
   ResourcesRoutes,
+  formatWeatherDailyObservation,
   isMobileView,
   readableDate,
   readableHour,
@@ -28,6 +29,7 @@ export class SavedLocationWeatherDetailsComponent implements OnInit {
   hourly: WeatherHourlyCondition;
   readableDate = readableDate;
   readableHour = readableHour;
+  formatWeatherDailyObservation = formatWeatherDailyObservation;
   isMobileView = isMobileView;
 
   constructor(
