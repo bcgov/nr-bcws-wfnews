@@ -3,6 +3,7 @@ package ca.bc.gov.nrs.wfone.notification.push.service.api.v1.monitor.handler;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.type.NotificationTopics;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.model.MessageInformation;
 import com.amazonaws.services.sqs.model.Message;
+import com.amazonaws.services.sqs.model.MessageAttributeValue;
 import com.vividsolutions.jts.algorithm.ConvexHull;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -23,7 +24,7 @@ public class SpatialMonitorHandler implements MonitorHandler {
 
 	@Override
 	public MessageInformation handleMessage(Message message) {
-		String monitorType = message.getMessageAttributes().get(MONITOR_ATTRIBUTE).getStringValue();
+		String monitorType = readMonitorType(message);
 		String rawMessageBody = message.getBody();
 
 		JSONObject jsonObject = new JSONObject(rawMessageBody);
@@ -83,6 +84,14 @@ public class SpatialMonitorHandler implements MonitorHandler {
 			topic = NotificationTopics.EVACUATION_ORDERS_AND_ALERTS;
 			updateStringAttribute(jsonObject, MessageInformation.ISSUING_AGENCY, eventInformation);
 			break;
+		default:
+			// Falling through here used to give a null topic and a null pointer further down.
+			throw new IllegalArgumentException("Unknown monitor type '" + monitorType + "'. The message cannot be read.");
+		}
+
+		if (epoch == null) {
+			throw new IllegalArgumentException(
+					"Monitor type '" + monitorType + "' message has no event date. The message cannot be read.");
 		}
 
 		Date messageDate = new Date(epoch);
@@ -122,6 +131,20 @@ public class SpatialMonitorHandler implements MonitorHandler {
 		}
 
 		return new MessageInformation(messageId, itemIdentifier, messageDate, geometry, topic, eventInformation);
+	}
+
+	private static String readMonitorType(Message message) {
+		Map<String, MessageAttributeValue> messageAttributes = message.getMessageAttributes();
+		MessageAttributeValue monitorAttribute = messageAttributes == null ? null
+				: messageAttributes.get(MONITOR_ATTRIBUTE);
+		String monitorType = monitorAttribute == null ? null : monitorAttribute.getStringValue();
+
+		if (monitorType == null || monitorType.isEmpty()) {
+			throw new IllegalArgumentException(
+					"The message has no " + MONITOR_ATTRIBUTE + " attribute. The message cannot be read.");
+		}
+
+		return monitorType;
 	}
 
 	private String generateHash(String input) {
