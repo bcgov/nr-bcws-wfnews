@@ -10,4 +10,10 @@ public interface QueueService {
 
 	void deleteMessageFromQueue(Message message);
 
+	/** Hides the message for this many seconds, counted from now. */
+	void changeMessageVisibility(Message message, int visibilityTimeoutSeconds);
+
+	/** The receive call and the heartbeat both use this value. */
+	int getVisibilityTimeoutSeconds();
+
 }

@@ -958,6 +958,11 @@ variable "WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS" {
   default = 20
 }
 
+variable "WFONE_NOTIFICATIONS_PUSH_SQS_VISIBILITY_SECONDS" {
+  type    = number
+  default = 300
+}
+
 variable "WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS" {
   type    = number
   default = 120

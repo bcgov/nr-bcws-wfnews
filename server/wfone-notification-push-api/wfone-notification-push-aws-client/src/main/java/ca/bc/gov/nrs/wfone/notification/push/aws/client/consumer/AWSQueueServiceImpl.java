@@ -13,6 +13,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+import com.amazonaws.services.sqs.model.ChangeMessageVisibilityRequest;
 import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
@@ -40,15 +41,33 @@ public class AWSQueueServiceImpl implements QueueService {
 
 	@Override
 	public List<Message> readMessages() {
+		// Set on the receive call, so it replaces the queue timeout and no gap can open
+		// before the first heartbeat.
 		ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(awsConfig.getSqsQueueUrl())
 				.withMaxNumberOfMessages(awsConfig.getSqsQueueReceiveMaxNumMessages())
 				.withWaitTimeSeconds(awsConfig.getSqsQueueReceiveWaitTimeSeconds())
+				.withVisibilityTimeout(awsConfig.getSqsQueueReceiveVisibilityTimeoutSeconds())
 				.withMessageAttributeNames(awsConfig.getMonitorAttribute());
 
 		List<Message> messages = sqsClient.receiveMessage(receiveMessageRequest).getMessages();
 		logger.debug("read {} message from sqs", messages.size());
 
 		return messages;
+	}
+
+	@Override
+	public int getVisibilityTimeoutSeconds() {
+		return awsConfig.getSqsQueueReceiveVisibilityTimeoutSeconds();
+	}
+
+	@Override
+	public void changeMessageVisibility(Message message, int visibilityTimeoutSeconds) {
+		ChangeMessageVisibilityRequest changeMessageVisibilityRequest = new ChangeMessageVisibilityRequest()
+				.withQueueUrl(awsConfig.getSqsQueueUrl()).withReceiptHandle(message.getReceiptHandle())
+				.withVisibilityTimeout(visibilityTimeoutSeconds);
+
+		sqsClient.changeMessageVisibility(changeMessageVisibilityRequest);
+		logger.debug("extended sqs message visibility to {} seconds", visibilityTimeoutSeconds);
 	}
 
 	@Override

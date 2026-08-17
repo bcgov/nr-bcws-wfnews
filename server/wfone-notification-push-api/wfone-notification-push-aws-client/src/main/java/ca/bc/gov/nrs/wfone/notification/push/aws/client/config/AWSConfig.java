@@ -4,6 +4,7 @@ public class AWSConfig {
 	private String sqsQueueUrl;
 	private Integer sqsQueueReceiveMaxNumMessages;
 	private Integer sqsQueueReceiveWaitTimeSeconds;
+	private Integer sqsQueueReceiveVisibilityTimeoutSeconds;
 	private String monitorAttribute;
 	private String s3BucketName;
 
@@ -29,6 +30,14 @@ public class AWSConfig {
 
 	public void setSqsQueueReceiveWaitTimeSeconds(Integer sqsQueueReceiveWaitTimeSeconds) {
 		this.sqsQueueReceiveWaitTimeSeconds = sqsQueueReceiveWaitTimeSeconds;
+	}
+
+	public Integer getSqsQueueReceiveVisibilityTimeoutSeconds() {
+		return sqsQueueReceiveVisibilityTimeoutSeconds;
+	}
+
+	public void setSqsQueueReceiveVisibilityTimeoutSeconds(Integer sqsQueueReceiveVisibilityTimeoutSeconds) {
+		this.sqsQueueReceiveVisibilityTimeoutSeconds = sqsQueueReceiveVisibilityTimeoutSeconds;
 	}
 
 	public String getMonitorAttribute() {

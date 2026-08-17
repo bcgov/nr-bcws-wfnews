@@ -1134,6 +1134,10 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
           value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS)}"
         },
         {
+          name  = "WFONE_PUSH_NOTIFICATION_SQS_VISIBILITY_SECONDS",
+          value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_VISIBILITY_SECONDS)}"
+        },
+        {
           name  = "WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS",
           value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS)}"
         },
