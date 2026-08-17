@@ -10,7 +10,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ApplicationStateService } from '@app/services/application-state.service';
 import { GoogleChartsService } from '@app/services/google-charts.service';
-import { getCurrentCondition } from '@app/utils';
+import {
+  formatWeatherDate,
+  formatWeatherTimeOfDay,
+  getCurrentCondition,
+  weatherHourToDate,
+} from '@app/utils';
 import {
   PointIdService,
   WeatherHourlyCondition,
@@ -109,13 +114,12 @@ export class WeatherHistoryComponent implements OnInit {
       range.setMilliseconds(0);
 
       self.weatherStation.hourly.forEach(function(c) {
-        const y = parseInt(c.hour.slice(0, 4));
-        const m = parseInt(c.hour.slice(4, 6)) - 1;
-        const d = parseInt(c.hour.slice(6, 8));
-        const h = parseInt(c.hour.slice(8));
-        const ts = new Date(y, m, d, h);
+        // The hourstamp is a fixed-UTC-8 wall clock, so resolve it to a real
+        // instant rather than letting Date reinterpret it in the browser's
+        // zone. The chart then plots it in the viewer's zone.
+        const ts = weatherHourToDate(c.hour);
 
-        if (ts.getTime() < range.getTime()) {
+        if (!ts || ts.getTime() < range.getTime()) {
 return;
 }
 
@@ -158,7 +162,7 @@ return;
     function chartTooltip(title, ts, val) {
       return `
  <div>${title}: ${val}</div>
- <div>${ts.toDateString()}, ${ts.toLocaleTimeString()}</div>
+ <div>${formatWeatherDate(ts)}, ${formatWeatherTimeOfDay(ts)}</div>
  `;
     }
   }

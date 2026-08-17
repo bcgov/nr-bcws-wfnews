@@ -24,6 +24,7 @@ import {
   displayItemTitle,
   displayLocalAuthorityType,
   formatDate,
+  formatWeatherHourRelative,
   getActiveMap,
   getStageOfControlDescription,
   hidePanel,
@@ -803,10 +804,8 @@ return 'Unknown';
   }
 
   convertStationHour(name: string) {
-    return (
-      name.substring(8, 10) +
-      ':00'
-    );
+    // Supplies its own "Today at"/"Yesterday at" prefix where one applies.
+    return formatWeatherHourRelative(name);
   }
 
   getPrecipitation(station: any): string {
