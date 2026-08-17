@@ -26,6 +26,13 @@ public class AwsClientSpringConfig {
 	@Value("${WFONE_PUSH_NOTIFICATION_SQS_WAIT_SECONDS}")
 	private Integer awsSqsQueueReceiveWaitTimeSeconds;
 
+	/**
+	 * AWS advises a short timeout plus a heartbeat, because a long one delays the
+	 * retry of a failed event.
+	 */
+	@Value("${WFONE_PUSH_NOTIFICATION_SQS_VISIBILITY_SECONDS:300}")
+	private Integer awsSqsQueueReceiveVisibilityTimeoutSeconds;
+
 	@Value("${WFONE_PM_SQS_S3_BUCKET_NAME}")
 	private String awsSqsQueueS3BucketName;
 
@@ -48,6 +55,7 @@ public class AwsClientSpringConfig {
 		result.setSqsQueueUrl(awsSqsQueueUrl);
 		result.setSqsQueueReceiveMaxNumMessages(awsSqsQueueReceiveMaxNumMessages);
 		result.setSqsQueueReceiveWaitTimeSeconds(awsSqsQueueReceiveWaitTimeSeconds);
+		result.setSqsQueueReceiveVisibilityTimeoutSeconds(awsSqsQueueReceiveVisibilityTimeoutSeconds);
 		result.setMonitorAttribute(awsSqsQueueMonitorAttribute);
 		result.setS3BucketName(awsSqsQueueS3BucketName);
 

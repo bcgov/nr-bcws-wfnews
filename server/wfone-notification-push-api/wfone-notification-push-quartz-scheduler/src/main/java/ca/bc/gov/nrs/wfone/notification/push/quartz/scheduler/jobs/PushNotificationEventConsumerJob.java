@@ -14,6 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @DisallowConcurrentExecution
@@ -22,6 +25,12 @@ public class PushNotificationEventConsumerJob extends AbstractJob {
 	private static final Logger logger = LoggerFactory.getLogger(PushNotificationEventConsumerJob.class);
 
 	private static ObjectMapper mapper = new ObjectMapper();
+
+	/** Heartbeats inside one visibility timeout. Three gives margin for a failed call. */
+	static final int HEARTBEATS_FOR_EACH_TIMEOUT = 3;
+
+	/** Floor on the period, so a small timeout cannot flood SQS. */
+	static final int MINIMUM_HEARTBEAT_PERIOD_SECONDS = 30;
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -44,6 +53,8 @@ public class PushNotificationEventConsumerJob extends AbstractJob {
 				}
 
 				for (Message message : processedMessages) {
+					ScheduledExecutorService heartbeat = startVisibilityHeartbeat(queueService, message);
+
 					try {
 						// handle messages
 						PushNotificationList<? extends PushNotification> pushNotificationList = pushNotificationServiceV2
@@ -56,18 +67,22 @@ public class PushNotificationEventConsumerJob extends AbstractJob {
 
 						context.setResult(result);
 
-						// delete message once handle successfully
-						queueService.deleteMessageFromQueue(message);
-
 						if (failureInd) {
 							throw new JobExecutionException("Failure detected in result.");
 						}
 
+						// Delete only after full success, or a partial failure gets an ACK and the
+						// event is lost. A redelivery is safe: the push item insert is the gate.
+						queueService.deleteMessageFromQueue(message);
+
 						successfullyProcessedCount.getAndIncrement();
 					} catch (Throwable e) {
 						logger.error("Message " + message.getMessageId() + " encountered an error while processing");
+						logger.error("Message stays on the queue for another attempt");
 						logger.error("Error: " + e.getLocalizedMessage());
 						logger.error("Stacktrace: ", e);
+					} finally {
+						heartbeat.shutdownNow();
 					}
 				}
 
@@ -86,6 +101,28 @@ public class PushNotificationEventConsumerJob extends AbstractJob {
 		}
 
 		logger.debug(">execute");
+	}
+
+	/** Without this, a large audience outlives the timeout and SQS redelivers mid-work. */
+	private ScheduledExecutorService startVisibilityHeartbeat(QueueService queueService, Message message) {
+		ScheduledExecutorService heartbeat = Executors.newSingleThreadScheduledExecutor();
+
+		// The same value the receive call used, asked for again from now.
+		int visibilityTimeoutSeconds = queueService.getVisibilityTimeoutSeconds();
+		int periodSeconds = Math.max(MINIMUM_HEARTBEAT_PERIOD_SECONDS,
+				visibilityTimeoutSeconds / HEARTBEATS_FOR_EACH_TIMEOUT);
+
+		logger.debug("Visibility heartbeat every {} s, extending by {} s", periodSeconds, visibilityTimeoutSeconds);
+
+		heartbeat.scheduleAtFixedRate(() -> {
+			try {
+				queueService.changeMessageVisibility(message, visibilityTimeoutSeconds);
+			} catch (Throwable e) {
+				logger.error("Failed to extend the visibility of message " + message.getMessageId(), e);
+			}
+		}, periodSeconds, periodSeconds, TimeUnit.SECONDS);
+
+		return heartbeat;
 	}
 
 	private boolean pushNotificationsForMessage(PushNotificationList<? extends PushNotification> pushNotificationList) {
