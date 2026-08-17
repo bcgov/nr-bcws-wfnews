@@ -46,7 +46,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
   @Input() name: string;
 
   public restrictionData: AreaRestriction | null;
-  public incident: SimpleIncident | null;
+  public incidents: SimpleIncident[] | null;
   public map: any;
 
   public getStageOfControlLabel = getStageOfControlLabel;
@@ -229,13 +229,13 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
 
   async populateIncident(restrictionPolygon: [][]) {
     try {
-      this.incident =
-        await this.publishedIncidentService.populateIncidentByPoint(
+      this.incidents =
+        await this.publishedIncidentService.populateIncidentsByPoint(
           restrictionPolygon,
         );
     } catch (error) {
       console.error(
-        'Error while populaiting associated incident for area restriction: ' +
+        'Error while populating associated incident for area restriction: ' +
           error,
       );
     }
@@ -291,8 +291,13 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
       .includes(incident.fireYear + ':' + incident.incidentNumberLabel);
   }
 
-  addToWatchlist(incident) {
-    if (!this.onWatchlist(incident)) {
+  toggleWatchlist(incident) {
+    if (this.onWatchlist(incident)) {
+      this.watchlistService.removeFromWatchlist(
+        incident.fireYear,
+        incident.incidentNumberLabel,
+      );
+    } else {
       this.watchlistService.saveToWatchlist(
         incident.fireYear,
         incident.incidentNumberLabel,

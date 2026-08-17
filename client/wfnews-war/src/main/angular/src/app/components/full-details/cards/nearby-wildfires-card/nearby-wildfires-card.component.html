@@ -1,0 +1,10 @@
+<content-card-container class="nearby-wildfires-card">
+  <div *ngIf="incidents && incidents.length > 1" class="header">
+    <span class="subtitle">Nearby Wildfire{{ incidents.length > 1 ? 's' : '' }}</span>
+  </div>
+  <associated-wildfire-card *ngFor="let incident of incidents" [incident]="incident"
+    [isBookmarked]="isBookmarked(incident)" (bookmarkClicked)="toggleBookmark(incident)"
+    (viewDetailsClicked)="onViewDetailsClicked(incident)">
+  </associated-wildfire-card>
+
+</content-card-container>

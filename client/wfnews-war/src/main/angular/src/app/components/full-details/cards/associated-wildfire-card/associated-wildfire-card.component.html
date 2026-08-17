@@ -1,6 +1,6 @@
 <content-card-container class="associated-wildfire-card">
   <div class="header">
-    <span class="subtitle">Associated Wildfire</span>
+    <div *ngIf="showSubtitle()"><span class="subtitle">Associated Wildfire</span></div>
     <div class="title-bar">
       <span class="title">{{getIncidentName()}}</span>
       <img class="bookmark-icon"
