@@ -4,114 +4,11 @@
 <mapper
 				namespace="ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dao.mybatis.mapper.NotificationPushItemMapper">
 
-				<resultMap id="NotificationPushItemDtoMap"
-								type="ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationPushItemDto">
-								<id property="notificationPushItemGuid"
-												column="NOTIFICATION_PUSH_ITEM_GUID"
-												javaType="java.lang.String" jdbcType="VARCHAR" />
-								<result property="notificationGuid"
-												column="NOTIFICATION_GUID" javaType="java.lang.String"
-												jdbcType="VARCHAR" />
-								<result property="pushTimestamp" column="PUSH_TIMESTAMP"
-												javaType="java.util.Date" jdbcType="TIMESTAMP" />
-								<result property="itemExpiryTimestamp"
-												column="ITEM_EXPIRY_TIMESTAMP" javaType="java.util.Date"
-												jdbcType="TIMESTAMP" />
-								<result property="itemIdentifier"
-												column="ITEM_IDENTIFIER" javaType="java.lang.String"
-												jdbcType="VARCHAR" />
-				</resultMap>
-
-				<sql id="selectJoins">
-
-								FROM NOTIFICATION_PUSH_ITEM NPI
-
-				</sql>
-
-
-				<sql id="selectColumns">
-
-								SELECT NPI.NOTIFICATION_PUSH_ITEM_GUID,
-								NPI.NOTIFICATION_GUID,
-								NPI.PUSH_TIMESTAMP,
-								NPI.ITEM_EXPIRY_TIMESTAMP,
-								NPI.ITEM_IDENTIFIER,
-								row_number() OVER () as ROWNUM
-				</sql>
-
-
-				<sql id="whereClause">
-								WHERE 1 = 1
-								<if test="notificationGuid!=null">
-												AND NPI.NOTIFICATION_GUID = #{notificationGuid}
-								</if>
-
-								<if test="itemIdentifiers!=null and itemIdentifiers.length>0">
-												AND NPI.ITEM_IDENTIFIER IN
-												<foreach item="item" index="index"
-																collection="itemIdentifiers" open="(" separator=","
-																close=")">#{item}
-												</foreach>
-								</if>
-
-								<if test="afterItemPushTimestamp!=null">
-												AND NPI.PUSH_TIMESTAMP &gt; #{afterItemPushTimestamp}
-								</if>
-
-								<if test="afterItemExpiryTimeStamp!=null">
-												AND NPI.ITEM_EXPIRY_TIMESTAMP &gt;
-												#{afterItemExpiryTimeStamp}
-								</if>
-
-
-				</sql>
-
-				<select id="selectCount" resultType="int">
-
-								SELECT COUNT(main.NOTIFICATION_PUSH_ITEM_GUID) FROM (
-								<include refid="selectColumns" />
-								<include refid="selectJoins" />
-								<include refid="whereClause" />
-								) main
-
-				</select>
-
-				<select id="select" resultMap="NotificationPushItemDtoMap">
-
-								<include refid="selectColumns" />
-								<include refid="selectJoins" />
-								<include refid="whereClause" />
-								<if test="orderBys!=null and orderBys.length>0">
-												ORDER BY
-												<foreach collection="orderBys" item="orderby">
-																<choose>
-																				<when test="orderby=='pushTimestamp'">PUSH_TIMESTAMP</when>
-																				<when test="orderby=='itemIdentifier'">ITEM_IDENTIFIER</when>
-
-																				<when test="orderby=='ASC'"> ASC,</when>
-																				<when test="orderby=='DESC'"> DESC,</when>
-																</choose>
-												</foreach>
-												ROWNUM
-								</if>
-
-				</select>
-
-				<select id="fetch" resultMap="NotificationPushItemDtoMap">
-
-								<include refid="selectColumns" />
-								<include refid="selectJoins" />
-								WHERE NPI.NOTIFICATION_PUSH_ITEM_GUID =
-								#{notificationPushItemGuid}
-
-				</select>
-
-				<insert id="insert">
-
-								<selectKey keyProperty="notificationPushItemGuid"
-												resultType="java.lang.String" order="BEFORE">
-												SELECT uuid_generate_v1();
-								</selectKey>
+				<!--
+					A select, not an insert: MyBatis needs a select to read a RETURNING result set.
+					The guids that come back are the recipients to send to.
+				-->
+				<select id="insertPushItems" resultType="java.lang.String">
 
 								INSERT INTO NOTIFICATION_PUSH_ITEM
 								( NOTIFICATION_PUSH_ITEM_GUID,
@@ -125,60 +22,34 @@
 								UPDATE_USER,
 								UPDATE_TIMESTAMP )
 								VALUES
-								(#{notificationPushItemGuid},
-								#{dto.notificationGuid, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-								#{dto.pushTimestamp, javaType=java.util.Date,
-								jdbcType=TIMESTAMP,
-								mode=IN},
-								#{dto.itemExpiryTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
-								#{dto.itemIdentifier, javaType=java.lang.String,
-								jdbcType=VARCHAR,
-								mode=IN},
+								<foreach item="item" collection="items" separator=",">
+								(uuid_generate_v1(),
+								#{item.notificationGuid, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+								#{item.pushTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
+								#{item.itemExpiryTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
+								#{item.itemIdentifier, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 								1,
-								COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} ,
-								current_user) ,
+								COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user),
 								current_timestamp,
-								COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} ,
-								current_user) ,
+								COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user),
 								current_timestamp)
+								</foreach>
+								ON CONFLICT (NOTIFICATION_GUID, ITEM_IDENTIFIER) DO NOTHING
+								RETURNING NOTIFICATION_GUID
 
-				</insert>
+				</select>
 
-				<update id="update">
+				<!-- Without this, the push item row blocks the retry and the recipient gets nothing. -->
+				<delete id="deletePushItems">
 
-								UPDATE NOTIFICATION_PUSH_ITEM
-								SET NOTIFICATION_GUI = #{dto.notificationGuid, javaType=java.lang.String,
-								jdbcType=VARCHAR, mode=IN},
-								PUSH_TIMESTAMP = #{dto.pushTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP,
-								mode=IN},
-								ITEM_EXPIRY_TIMESTAMP = #{dto.itemExpiryTimestamp, javaType=java.util.Date,
-								jdbcType=TIMESTAMP, mode=IN},
-								ITEM_IDENTIFIER = #{dto.itemIdentifier, javaType=java.lang.String, jdbcType=VARCHAR,
-								mode=IN},
-								REVISION_COUNT = REVISION_COUNT + 1,
-								UPDATE_USER = COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR,
-								mode=IN} , current_user),
-								UPDATE_TIMESTAMP = current_timestamp
-								WHERE NOTIFICATION_PUSH_ITEM_GUID = #{notificationPushItemGuid}
-
-				</update>
-
-				<delete id="delete">
-
-								DELETE FROM NOTIFICATION_PUSH_ITEM WHERE
-								NOTIFICATION_PUSH_ITEM_GUID = #{notificationPushItemGuid}
+								DELETE FROM NOTIFICATION_PUSH_ITEM
+								WHERE ITEM_IDENTIFIER = #{itemIdentifier, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+								AND NOTIFICATION_GUID IN
+								<foreach item="notificationGuid" index="index" collection="notificationGuids"
+												open="(" separator="," close=")">#{notificationGuid}
+								</foreach>
 
 				</delete>
 
-				<select id="fetchByNotificationGuidAndItemIdentifier" resultMap="NotificationPushItemDtoMap">
-
-								<include refid="selectColumns" />
-								<include refid="selectJoins" />
-								WHERE NPI.NOTIFICATION_GUID = #{notificationGuid, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
-								AND NPI.ITEM_IDENTIFIER = #{itemIdentifier, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
-								AND (NPI.ITEM_EXPIRY_TIMESTAMP IS NULL OR NPI.ITEM_EXPIRY_TIMESTAMP &gt; CURRENT_TIMESTAMP)
-								LIMIT 1
-
-				</select>
 
 </mapper>
