@@ -1,0 +1,29 @@
+.nearby-wildfires-card {
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+    margin-top: 14px;
+
+    .subtitle {
+      color: var(--Black-24, #242424);
+        /* 22 SB */
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 33px; /* 150% */
+        flex: 1 0 0;
+    }
+  }
+  associated-wildfire-card {
+    display: block;
+    width: 100%;
+  }
+  ::ng-deep .content-card-container {
+    padding: 14px 24px 24px;
+  }
+}

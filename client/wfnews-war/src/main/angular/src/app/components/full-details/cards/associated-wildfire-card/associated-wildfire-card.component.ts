@@ -4,6 +4,7 @@ import { IconInfoChipStyle } from '@app/components/common/icon-info-chip/icon-in
 import { SimpleIncident } from '@app/services/published-incident-service';
 import { convertToDateYear, getStageOfControlIconPath, getStageOfControlLabel } from '@app/utils';
 import { getStageOfControlIcon } from '../../../../utils/index';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'associated-wildfire-card',
@@ -21,6 +22,16 @@ export class AssociatedWildfireCardComponent {
   getStageOfControlLabel = getStageOfControlLabel;
   getStageOfControlIcon = getStageOfControlIcon;
   convertToDateYear = convertToDateYear;
+
+  public params: ParamMap;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params: ParamMap) => {
+      this.params = params;
+    });
+  }
 
   wildfireOfNoteChipStyle: IconInfoChipStyle = {
     backgroundColor: '#FFFFFF',
@@ -47,11 +58,10 @@ export class AssociatedWildfireCardComponent {
 
   getFireCenter = () => this.incident?.fireCentreName || 'Unknown';
 
-  toggleBookmark = () => {
-    this.isBookmarked = !this.isBookmarked;
-    this.bookmarkClicked.emit(this.isBookmarked);
-  };
+  toggleBookmark = () => this.bookmarkClicked.emit(!this.isBookmarked);
 
   viewDetails = () => this.viewDetailsClicked.emit();
+
+  showSubtitle = () => this.params?.['eventType'] === 'Order' || this.params?.['eventType'] === 'Alert';
 
 }

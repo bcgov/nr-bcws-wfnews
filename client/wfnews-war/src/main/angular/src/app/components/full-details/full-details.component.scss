@@ -190,6 +190,10 @@
   border: 1px solid var(--grays-gray-7, #dedede);
   background: var(--White, #fdfdfd);
   box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07);
+  margin-bottom: 12px;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 
   .break {
     border: 0;

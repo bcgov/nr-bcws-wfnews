@@ -22,6 +22,8 @@ export class PublicEventPageComponent {
   public ban: string;
   public dangerRating: string;
   public incident: SimpleIncident;
+  public incidents: SimpleIncident[];
+  public bookmarkedIncidentNumbers: string[] = [];
   public isAssociatedWildfireBookmarked: boolean;
 
   constructor(
@@ -95,11 +97,13 @@ export class PublicEventPageComponent {
             if (this.areaRestriction) {
               const restrictionPolygon = this.areaRestriction.geometry.rings;
               try {
-                this.incident =
-                  await this.publishedIncidentService.populateIncidentByPoint(
+                this.incidents =
+                  await this.publishedIncidentService.populateIncidentsByPoint(
                     restrictionPolygon,
                   );
-                  this.isAssociatedWildfireBookmarked = this.onWatchlist(this.incident);
+                  this.bookmarkedIncidentNumbers = this.incidents
+                    .filter(incident => this.onWatchlist(incident))
+                    .map(incident => incident.fireYear + ':' + incident.incidentNumberLabel);
                   this.cdr.detectChanges();
               } catch (error) {
                 console.error(
@@ -213,10 +217,12 @@ export class PublicEventPageComponent {
         fireYear: incident.fireYear,
         incidentNumber: incident.incidentNumberLabel,
         source: ResourcesRoutes.FULL_DETAILS,
-        sourceId: this.incident.incidentNumber,
+        sourceId: incident.incidentNumber,
         sourceType: this.eventType ,
         eventNumber: this.eventNumber,
-        name: this.incident.incidentName,
+        name: incident.incidentName,
+        sourceName: this.eventType === 'area-restriction' ? this.eventName : undefined,
+        sourceEventId: (this.eventType === 'Order' || this.eventType === 'Alert') ? this.id : undefined,
       },
     });
   }
@@ -232,5 +238,20 @@ export class PublicEventPageComponent {
 
   handleViewDetailsClicked = () => {
     this.navToIncident(this.incident);
+  };
+
+  handleAreaRestrictionBookmarkClicked = ({ incident, isBookmarked }: { incident: SimpleIncident; isBookmarked: boolean }) => {
+    const key = incident.fireYear + ':' + incident.incidentNumberLabel;
+    if (isBookmarked) {
+      this.addToWatchlist(incident);
+      this.bookmarkedIncidentNumbers = [...this.bookmarkedIncidentNumbers, key];
+    } else {
+      this.removeFromWatchlist(incident);
+      this.bookmarkedIncidentNumbers = this.bookmarkedIncidentNumbers.filter(num => num !== key);
+    }
+  };
+
+  handleAreaRestrictionViewDetailsClicked = (incident: SimpleIncident) => {
+    this.navToIncident(incident);
   };
 }

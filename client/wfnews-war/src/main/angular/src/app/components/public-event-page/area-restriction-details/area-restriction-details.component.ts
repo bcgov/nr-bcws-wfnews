@@ -13,13 +13,14 @@ import { AppConfigService } from '@wf1/core-ui';
 export class AreaRestrictionDetailsComponent {
 
   @Input() areaRestriction: any;
-  @Input() incident: SimpleIncident;
-  @Input() isBookmarked: boolean;
+  @Input() incidents: SimpleIncident[];
+  @Input() bookmarkedIncidentNumbers: string[] = [];
 
+  @Output() bookmarkClicked = new EventEmitter<{ incident: SimpleIncident; isBookmarked: boolean }>();
 
-  @Output() bookmarkClicked = new EventEmitter<boolean>();
+  @Output() viewDetailsClicked = new EventEmitter<SimpleIncident>();
 
-  @Output() viewDetailsClicked = new EventEmitter<void>();
+  isBookmarked = (incident: SimpleIncident) => this.bookmarkedIncidentNumbers?.includes(incident?.incidentNumber);
 
   advisorySectionComponentStyle: AdvisorySectionStyle = {
     backgroundColor: '#F0F5FF',
@@ -72,12 +73,12 @@ export class AreaRestrictionDetailsComponent {
     window.open(this.getBulletinLink(), '_blank');
   };
 
-  handleBookmarkClicked = ($event) => {
-    this.bookmarkClicked.emit($event);
+  handleBookmarkClicked = (incident: SimpleIncident, isBookmarked: boolean) => {
+    this.bookmarkClicked.emit({ incident, isBookmarked });
   };
 
-  handleViewDetailsClicked = () => {
-    this.viewDetailsClicked.emit();
+  handleViewDetailsClicked = (incident: SimpleIncident) => {
+    this.viewDetailsClicked.emit(incident);
   };
 
 }

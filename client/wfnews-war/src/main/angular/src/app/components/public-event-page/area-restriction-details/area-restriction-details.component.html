@@ -1,7 +1,5 @@
 <div class="area-restriction-details">
-  <advisory-section
-    title="Information Bulletin"
-    message="View the bulletin on our website for more information."
+  <advisory-section title="Information Bulletin" message="View the bulletin on our website for more information."
     [componentStyle]="advisorySectionComponentStyle" [buttonArgs]="advisorySectionButtonArgs"
     (advisoryClicked)="handleAdvisoryClick()">
   </advisory-section>
@@ -11,10 +9,10 @@
       <warning-card></warning-card>
     </ng-container>
     <ng-container column-2>
-      <associated-wildfire-card *ngIf="incident" [incident]="incident" [isBookmarked]="isBookmarked"
-        (bookmarkClicked)="handleBookmarkClicked($event)"
-        (viewDetailsClicked)="handleViewDetailsClicked()">
-      </associated-wildfire-card>
+      <nearby-wildfires-card [incidents]="incidents" [bookmarkedIncidentNumbers]="bookmarkedIncidentNumbers"
+        (bookmarkClicked)="handleBookmarkClicked($event.incident, $event.isBookmarked)"
+        (viewDetailsClicked)="handleViewDetailsClicked($event)">
+      </nearby-wildfires-card>
       <related-topics-card [links]="relatedTopicLinks"></related-topics-card>
     </ng-container>
   </two-column-content-cards-container>

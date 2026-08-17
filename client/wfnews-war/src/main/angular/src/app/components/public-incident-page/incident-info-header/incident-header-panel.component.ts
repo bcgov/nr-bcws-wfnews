@@ -623,7 +623,16 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
             queryParams: {
               eventType: this.params['sourceType'],
               eventNumber: this.params['eventNumber'],
+              id: this.params['sourceEventId'],
               eventName: this.params['name'],
+              source: [ResourcesRoutes.WILDFIRESLIST]
+            },
+          });
+        } else if (this.params['sourceType'] === 'area-restriction') {
+          this.router.navigate([ResourcesRoutes.PUBLIC_EVENT], {
+            queryParams: {
+              eventType: 'area-restriction',
+              eventName: this.params['sourceName'],
               source: [ResourcesRoutes.WILDFIRESLIST]
             },
           });
