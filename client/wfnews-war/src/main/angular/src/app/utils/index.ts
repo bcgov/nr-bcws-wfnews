@@ -14,6 +14,9 @@ import { SortDirection } from '@wf1/core-ui';
 import * as L from 'leaflet';
 import * as moment from 'moment';
 import { PagingInfoRequest } from '../store/application/application.state';
+import { formatWeatherDay, formatWeatherHour } from './weather-time';
+
+export * from './weather-time';
 
 declare const window: any;
 export enum ResourcesRoutes {
@@ -725,30 +728,22 @@ export function convertToStandardDateString(value: string) {
   }
 }
 
+/**
+ * A weather daystamp (YYYYMMDD) as a readable date, e.g. "December 5, 2023".
+ */
 export function readableDate(date) {
-  // e.g. Tue Dec 05 2023
-  let arr = date.slice(0, 4);
-  const year = arr;
-
-  arr = date.slice(4, 6);
-  const month = arr;
-
-  arr = date.slice(6, 8);
-  const day = arr;
-
-  // Months are zero-based indexes in JS Date, so remember to decrement
-  const formattedDate = new Date(year, month - 1, day);
-  return formattedDate.toDateString();
+  return formatWeatherDay(date);
 }
 
+/**
+ * A weather hourstamp (YYYYMMDDHH) as a readable local time with its timezone
+ * named, e.g. "October 4, 2023 at 12:00 a.m. PDT".
+ *
+ * Rendered in the viewer's own timezone -- see utils/weather-time.ts for why
+ * the hourstamp cannot simply be printed as written.
+ */
 export function readableHour(hourString) {
-  //e.g. 2023-10-04 at 24:00
-  const year = hourString.slice(0, 4);
-  const day = hourString.slice(4, 6);
-  const month = hourString.slice(6, 8);
-  const hour = hourString.slice(-2);
-
-  return year + '-' + day + '-' + month + ' at ' + hour + ':00';
+  return formatWeatherHour(hourString);
 }
 
 export function getActiveMap(smk: any | null = null) {
