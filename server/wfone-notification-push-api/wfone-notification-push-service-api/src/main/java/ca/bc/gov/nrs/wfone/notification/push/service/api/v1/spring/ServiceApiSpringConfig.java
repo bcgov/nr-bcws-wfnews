@@ -131,7 +131,8 @@ public class ServiceApiSpringConfig {
 					.createScoped(Arrays.asList(scopes));
 			googleCredentials.refreshAccessToken();
 
-			FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(googleCredentials)
+			// FirebaseOptions.Builder() is deprecated in firebase-admin 9.x. Use the factory.
+			FirebaseOptions options = FirebaseOptions.builder().setCredentials(googleCredentials)
 					.setDatabaseUrl(firebaseDbUrl).build();
 
 			String defaultAppName = System.getProperty("firebaseAppName", FirebaseApp.DEFAULT_APP_NAME);
