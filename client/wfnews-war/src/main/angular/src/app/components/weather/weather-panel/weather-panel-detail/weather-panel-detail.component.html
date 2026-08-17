@@ -32,7 +32,7 @@
       <div class="section-detail">Drought Code: {{daily.droughtCode}}</div>
       <div class="section-detail">Build Up Index: {{daily.buildupIndex}}</div>
       <div class="section-detail">Duff Moisture Code: {{daily.duffMoistureCode}}</div>
-      <div class="section-detail">Recorded: {{readableHour(daily.day + 12)}}</div>
+      <div class="section-detail">Recorded: {{formatWeatherDailyObservation(daily.day)}}</div>
       <div class="divider"></div>
     </div>
     <div class="section" *ngIf="latitude && longitude">

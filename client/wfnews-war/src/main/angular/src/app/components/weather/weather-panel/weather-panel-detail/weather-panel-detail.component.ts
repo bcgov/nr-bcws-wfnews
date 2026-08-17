@@ -1,5 +1,9 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { readableDate, readableHour } from '@app/utils';
+import {
+  formatWeatherDailyObservation,
+  readableDate,
+  readableHour,
+} from '@app/utils';
 
 @Component({
   selector: 'wfnews-weather-panel-detail',
@@ -15,4 +19,5 @@ export class WeatherPanelDetailComponent {
 
   readableDate = readableDate;
   readableHour = readableHour;
+  formatWeatherDailyObservation = formatWeatherDailyObservation;
 }

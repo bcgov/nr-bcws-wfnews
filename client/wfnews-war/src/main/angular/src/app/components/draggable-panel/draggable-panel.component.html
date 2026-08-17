@@ -628,7 +628,7 @@
                             <div class="identify-card-title">Weather Station: {{identifyItem.title}}</div>
                             <ng-container *ngIf="identifyItem?.data?.validHour">
                                 <div class="identify-card-item">
-                                    Today at {{convertStationHour(identifyItem.data.validHour.hour)}}
+                                    {{convertStationHour(identifyItem.data.validHour.hour)}}
                                 </div>
                                 <div class="identify-card-item">
                                     <img alt="icon" height="20" width="20"
