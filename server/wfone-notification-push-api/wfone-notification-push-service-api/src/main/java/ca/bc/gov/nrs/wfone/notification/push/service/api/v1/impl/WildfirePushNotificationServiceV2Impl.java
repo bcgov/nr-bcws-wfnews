@@ -8,8 +8,6 @@ import ca.bc.gov.nrs.wfone.notification.push.model.v1.PushNotificationList;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dao.NotificationPushItemDao;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dao.NotificationSettingsDao;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationDto;
-import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationPushItemDto;
-import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.postgresql.PostgreSqlAreaOfInterestQuery;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.type.NotificationTopics;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.WildfirePushNotificationServiceV2;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.exception.InvalidNotificationTokenException;
@@ -35,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.*;
@@ -75,7 +72,6 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 	private String pushNotificationPrefix;
 
 	private MonitorHandler spatialMonitorHandler;
-	private PostgreSqlAreaOfInterestQuery spatialQuery;
 	private NotificationSettingsDao notificationSettingsDao;
 	private NotificationPushItemDao notificationPushItemDao;
 	private PushNotificationFactory pushNotificationFactory;
@@ -95,7 +91,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 	/** One FCM message for one subscriber, and every push item that the message covers. */
 	static class SubscriberSend {
 		NotificationDto nearest;
-		final List<String> notificationGuids = new ArrayList<>(1);
+		final List<String> pushItemGuids = new ArrayList<>(1);
 		String body;
 		com.google.firebase.messaging.Message message;
 
@@ -107,7 +103,8 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 	private static class ProcessingCount {
 		final AtomicLong toProcess = new AtomicLong();
 		final AtomicLong processed = new AtomicLong();
-		final AtomicLong skipped = new AtomicLong();
+		/** Rows written by materialiseAudience. */
+		final AtomicLong materialised = new AtomicLong();
 		final AtomicLong ignored = new AtomicLong();
 		final AtomicLong failed = new AtomicLong();
 		/** FCM messages sent. One message can cover more than one saved location. */
@@ -200,8 +197,6 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 					messageInformation);
 		} catch (DaoException e) {
 			throw new ServiceException("DAO threw an exception", e);
-		} catch (SQLException e) {
-			throw new ServiceException("PostgreSql threw an exception", e);
 		}
 
 		result = this.pushNotificationFactory.getPushNotificationList(pushNotifications, context);
@@ -222,6 +217,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 				duration.toMinutes() % 60, (duration.toMillis() / 1000) % 60);
 		logger.info(" Push near me Started " + jobStartedDateString + ".   Finished " + jobFinishedDateString
 				+ ".  Duration (days:hours:min:seconds): " + formattedElapsedTime);
+
 		logger.info(">pushNearMeNotifications " + result);
 
 		return result;
@@ -233,9 +229,14 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 	 */
 	private void pushMessages(boolean isTest, FactoryContext context, ProcessingCount pushRecordsCount,
 			List<PushNotification> pushNotifications, Map<String, Date> expirations, Date currentTimeStamp,
-			MessageInformation messageInformation) throws DaoException, SQLException, ServiceException {
+			MessageInformation messageInformation) throws DaoException, ServiceException {
 
 		logger.debug("### Starting Processing Subscriber push events");
+
+		String eventIdentifier = messageInformation.getItemIdentifier();
+
+		pushRecordsCount.materialised.set(materialiseAudience(messageInformation, currentTimeStamp,
+				expirations.get(messageInformation.getTopic())));
 
 		ThreadPoolExecutor executor = new ThreadPoolExecutor(sendThreadCount, sendThreadCount, 0L, TimeUnit.MILLISECONDS,
 				new ArrayBlockingQueue<Runnable>(sendThreadCount), new ThreadPoolExecutor.CallerRunsPolicy());
@@ -245,23 +246,50 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 		try {
 			String afterSubscriberGuid = "";
+			String afterPushItemGuid = "";
+			// A subscriber split over two pages would get two pushes.
+			List<NotificationDto> heldBack = new ArrayList<>();
 
 			while (true) {
-				List<NotificationDto> page = spatialQuery.select(messageInformation.getGeometry(),
-						messageInformation.getTopic(), afterSubscriberGuid, audiencePageSize);
+				List<NotificationDto> claimed = notificationPushItemDao.claimPushItems(eventIdentifier,
+						afterSubscriberGuid, afterPushItemGuid, audiencePageSize);
 
-				// A short page is not the last page. The query trims a partial trailing
-				// subscriber, so only an empty page ends the read.
-				if (page.isEmpty()) {
+				if (claimed.isEmpty()) {
 					break;
 				}
 
 				pageCount++;
-				afterSubscriberGuid = page.get(page.size() - 1).getSubscriberGuid();
+				NotificationDto last = claimed.get(claimed.size() - 1);
+				afterSubscriberGuid = last.getSubscriberGuid();
+				afterPushItemGuid = last.getNotificationPushItemGuid();
 
-				final List<NotificationDto> pageToSend = page;
+				heldBack.addAll(claimed);
+
+				int end = heldBack.size();
+
+				if (claimed.size() == audiencePageSize) {
+					// A short page is the end of the index, so nothing needs holding back.
+					end = endOfCompleteSubscribers(heldBack);
+
+					if (end == 0) {
+						// One subscriber is larger than a page. Send it, or the read never advances.
+						logger.warn("Subscriber {} has at least {} matched saved locations. Sending it in one page.",
+								heldBack.get(0).getSubscriberGuid(), heldBack.size());
+						end = heldBack.size();
+					}
+				}
+
+				final List<NotificationDto> pageToSend = new ArrayList<>(heldBack.subList(0, end));
+				heldBack = new ArrayList<>(heldBack.subList(end, heldBack.size()));
+
 				futures.add(executor.submit(() -> sendPage(pageToSend, isTest, context, pushRecordsCount,
-						pushNotifications, expirations, currentTimeStamp, messageInformation, rateLimiter)));
+						pushNotifications, messageInformation, rateLimiter)));
+			}
+
+			if (!heldBack.isEmpty()) {
+				final List<NotificationDto> lastPage = heldBack;
+				futures.add(executor.submit(() -> sendPage(lastPage, isTest, context, pushRecordsCount,
+						pushNotifications, messageInformation, rateLimiter)));
 			}
 
 			// A page that threw must fail the event, so it stays on the queue.
@@ -280,26 +308,41 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		}
 
 		logger.info("Push Notification process complete.");
+		logger.info("Work list rows added: " + pushRecordsCount.materialised.get());
 		logger.info("Pages: " + pageCount);
-		logger.info("Subscribed: " + pushRecordsCount.toProcess.get());
+		logger.info("Claimed: " + pushRecordsCount.toProcess.get());
 		logger.info("Messages: " + pushRecordsCount.messages.get());
 		logger.info("Succeeded: " + pushRecordsCount.processed.get());
-		logger.info("Skipped (Duplicate): " + pushRecordsCount.skipped.get());
 		logger.info("Ignored: " + pushRecordsCount.ignored.get());
 		logger.info("Failed: " + pushRecordsCount.failed.get());
 	}
 
+	/** Where the run of the last subscriber begins. The rows before it are whole subscribers. */
+	@VisibleForTesting
+	static int endOfCompleteSubscribers(List<NotificationDto> rows) {
+		String lastSubscriberGuid = rows.get(rows.size() - 1).getSubscriberGuid();
+
+		int end = rows.size();
+		while (end > 0 && Objects.equals(lastSubscriberGuid, rows.get(end - 1).getSubscriberGuid())) {
+			end--;
+		}
+
+		return end;
+	}
+
+	/** The rows are already marked sent. One that cannot make a message stays marked. */
 	private void sendPage(List<NotificationDto> page, boolean isTest, FactoryContext context,
-			ProcessingCount pushRecordsCount, List<PushNotification> pushNotifications, Map<String, Date> expirations,
-			Date currentTimeStamp, MessageInformation messageInformation, RateLimiter rateLimiter) {
+			ProcessingCount pushRecordsCount, List<PushNotification> pushNotifications,
+			MessageInformation messageInformation, RateLimiter rateLimiter) {
 
 		String topicKey = messageInformation.getTopic();
 		String eventIdentifier = messageInformation.getItemIdentifier();
-		Date expireTimestamp = expirations.get(topicKey);
+
+		pushRecordsCount.toProcess.addAndGet(page.size());
 
 		List<NotificationDto> recipients = new ArrayList<>(page.size());
 		for (NotificationDto notificationDto : page) {
-			// The token comes from the spatial query row, not from a fetch for each recipient.
+			// The token comes from the work list row, not from a fetch for each recipient.
 			if (StringUtils.isBlank(notificationDto.getNotificationToken())) {
 				pushRecordsCount.ignored.incrementAndGet();
 				continue;
@@ -320,26 +363,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 			return;
 		}
 
-		pushRecordsCount.toProcess.addAndGet(recipients.size());
-
-		// The INSERT is the idempotency gate: only the guids that come back are ours to send
-		// to. Another replica, or an earlier delivery, already holds the rest.
-		List<NotificationPushItemDto> pushItems = new ArrayList<>(recipients.size());
-		for (NotificationDto notificationDto : recipients) {
-			pushItems.add(createNotificationPushItemDto(notificationDto.getNotificationGuid(), expireTimestamp,
-					currentTimeStamp, eventIdentifier));
-		}
-
-		Set<String> insertedGuids = new HashSet<>(insertPushItems(pushItems));
-		pushRecordsCount.skipped.addAndGet(recipients.size() - insertedGuids.size());
-
-		if (insertedGuids.isEmpty()) {
-			logger.debug("Every recipient in this page was already sent for event {}", eventIdentifier);
-			return;
-		}
-
-		List<SubscriberSend> sends = groupBySubscriber(recipients, insertedGuids,
-				rankingOrigin(messageInformation.getGeometry()));
+		List<SubscriberSend> sends = groupBySubscriber(recipients, rankingOrigin(messageInformation.getGeometry()));
 
 		for (SubscriberSend send : sends) {
 			try {
@@ -350,7 +374,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 			} catch (InvalidNotificationTokenException e) {
 				// The token cannot make a message. It is dead in the same way as UNREGISTERED.
 				logger.warn("Invalid notification token for subscriber {}", send.nearest.getSubscriberGuid());
-				pushRecordsCount.failed.addAndGet(send.notificationGuids.size());
+				pushRecordsCount.failed.addAndGet(send.pushItemGuids.size());
 			}
 		}
 
@@ -367,22 +391,15 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 	/**
 	 * Collapses the saved locations of one subscriber into one push. The page is ordered by
-	 * subscriber, so a run of rows is one subscriber. The nearest saved location of the run
-	 * names the push. The other rows keep their push item, so the record stays correct and a
-	 * redelivery repeats nothing.
+	 * subscriber, so a run of rows is one subscriber. The nearest one of the run names the push.
 	 */
 	@VisibleForTesting
-	static List<SubscriberSend> groupBySubscriber(List<NotificationDto> recipients, Set<String> insertedGuids,
-			Coordinate origin) {
+	static List<SubscriberSend> groupBySubscriber(List<NotificationDto> recipients, Coordinate origin) {
 		List<SubscriberSend> result = new ArrayList<>();
 		SubscriberSend current = null;
 		double nearestDistance = 0;
 
 		for (NotificationDto recipient : recipients) {
-			if (!insertedGuids.contains(recipient.getNotificationGuid())) {
-				continue;
-			}
-
 			double distance = rankingDistance(origin, recipient);
 
 			if (current == null
@@ -395,7 +412,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 				nearestDistance = distance;
 			}
 
-			current.notificationGuids.add(recipient.getNotificationGuid());
+			current.pushItemGuids.add(recipient.getNotificationPushItemGuid());
 		}
 
 		return result;
@@ -457,7 +474,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 				if (sendResponse.isSuccessful()) {
 					// One push covers every matched saved location of this subscriber.
-					pushRecordsCount.processed.addAndGet(send.notificationGuids.size());
+					pushRecordsCount.processed.addAndGet(send.pushItemGuids.size());
 					addResultEntry(pushNotifications, context, send.nearest, topicKey, send.body);
 					continue;
 				}
@@ -466,9 +483,9 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 						: sendResponse.getException().getMessagingErrorCode();
 
 				if (errorCode != null && DEAD_TOKEN_ERRORS.contains(errorCode)) {
-					// The token is gone. Keep the push items: there is nothing to try again.
+					// The token is gone. Leave the rows marked sent: there is nothing to try again.
 					deadTokenSubscriberGuids.add(send.nearest.getSubscriberGuid());
-					pushRecordsCount.failed.addAndGet(send.notificationGuids.size());
+					pushRecordsCount.failed.addAndGet(send.pushItemGuids.size());
 					logger.warn("Dead device token for subscriber {}. Error code {}.", send.nearest.getSubscriberGuid(),
 							errorCode);
 					continue;
@@ -490,16 +507,15 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		clearDeviceTokens(deadTokenSubscriberGuids);
 
 		if (!attempts.isEmpty()) {
-			// Remove every push item of the failed subscribers, and not the nearest row only.
-			// One message covers the whole group, so a row left behind blocks the retry and
-			// that subscriber never gets the push.
+			// Every row of the group, and not the nearest one only: one left marked sent blocks
+			// the retry, and that subscriber never gets the push.
 			List<String> failedGuids = new ArrayList<>();
 			for (SubscriberSend send : attempts) {
-				failedGuids.addAll(send.notificationGuids);
+				failedGuids.addAll(send.pushItemGuids);
 			}
 
 			pushRecordsCount.failed.addAndGet(failedGuids.size());
-			deletePushItems(failedGuids, eventIdentifier);
+			releasePushItems(failedGuids, eventIdentifier);
 
 			throw new IllegalStateException(
 					"FCM did not accept " + attempts.size() + " messages after " + MAX_SEND_ATTEMPTS + " attempts");
@@ -574,23 +590,28 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		return message;
 	}
 
-	private List<String> insertPushItems(List<NotificationPushItemDto> pushItems) {
+	/** One statement. It can run for a long time. */
+	private int materialiseAudience(MessageInformation messageInformation, Date currentTimeStamp,
+			Date expireTimestamp) {
 		TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
 
 		return transactionTemplate.execute(status -> {
 			try {
-				return notificationPushItemDao.insertPushItems(pushItems, null);
+				return notificationPushItemDao.materialiseAudience(messageInformation.getGeometry(),
+						messageInformation.getTopic(), messageInformation.getItemIdentifier(), currentTimeStamp,
+						expireTimestamp, null);
 			} catch (DaoException e) {
-				throw new IllegalStateException("Failed to insert a page of push items", e);
+				throw new IllegalStateException("Failed to materialise the audience of event "
+						+ messageInformation.getItemIdentifier(), e);
 			}
 		});
 	}
 
-	private void deletePushItems(List<String> notificationGuids, String eventIdentifier) {
+	private void releasePushItems(List<String> pushItemGuids, String eventIdentifier) {
 		try {
-			notificationPushItemDao.deletePushItems(notificationGuids, eventIdentifier);
+			notificationPushItemDao.releasePushItems(pushItemGuids, eventIdentifier);
 		} catch (DaoException e) {
-			logger.error("Failed to delete " + notificationGuids.size() + " push items. A later delivery of event "
+			logger.error("Failed to release " + pushItemGuids.size() + " push items. A later delivery of event "
 					+ eventIdentifier + " will not try them again.", e);
 		}
 	}
@@ -729,17 +750,6 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		return totalDeleted;
 	}
 
-	private static NotificationPushItemDto createNotificationPushItemDto(String notificationGuid, Date expireTimestamp,
-			Date pushTimeStamp, String itemIdentifier) {
-		NotificationPushItemDto notificationPushItemDto = new NotificationPushItemDto();
-		notificationPushItemDto.setNotificationGuid(notificationGuid);
-		notificationPushItemDto.setItemExpiryTimestamp(expireTimestamp);
-		notificationPushItemDto.setPushTimestamp(pushTimeStamp);
-		notificationPushItemDto.setItemIdentifier(itemIdentifier);
-
-		return notificationPushItemDto;
-	}
-
 	private String getIncidentType(MessageInformation messageInformation) {
 		String topic = messageInformation.getTopic();
 
@@ -775,10 +785,6 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 	public void setSpatialMonitorHandler(MonitorHandler spatialMonitorHandler) {
 		this.spatialMonitorHandler = spatialMonitorHandler;
-	}
-
-	public void setSpatialQuery(PostgreSqlAreaOfInterestQuery spatialQuery) {
-		this.spatialQuery = spatialQuery;
 	}
 
 	public void setNotificationSettingsDao(NotificationSettingsDao notificationSettingsDao) {
