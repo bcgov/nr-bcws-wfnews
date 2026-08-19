@@ -20,10 +20,12 @@ public class MessageInformation {
 	// evacuation-orders-alerts
 	public static final String EVENT_NAME = "EVENT_NAME";
 	public static final String ISSUING_AGENCY = "ISSUING_AGENCY";
+	public static final String ORDER_ALERT_STATUS = "ORDER_ALERT_STATUS";
 	// bans-prohibitions, has FIRE_CENTRE_NAME and FIRE_ZONE_NAME too
 	public static final String ACCESS_PROHIBITION_DESCRIPTION = "ACCESS_PROHIBITION_DESCRIPTION";
 	public static final String TYPE = "TYPE";
 
+	private String monitorType;
 	private String messageId;
 	private String itemIdentifier;
 	private Date messageDate;
@@ -31,14 +33,23 @@ public class MessageInformation {
 	private String topic;
 	private Map<String, String> eventInformation;
 
-	public MessageInformation(String messageId, String itemIdentifier, Date messageDate, Geometry geometry, String topic,
-			Map<String, String> eventInformation) {
+	public MessageInformation(String monitorType, String messageId, String itemIdentifier, Date messageDate,
+			Geometry geometry, String topic, Map<String, String> eventInformation) {
+		this.monitorType = monitorType;
 		this.messageId = messageId;
 		this.itemIdentifier = itemIdentifier;
 		this.messageDate = messageDate;
 		this.geometry = geometry;
 		this.topic = topic;
 		this.eventInformation = eventInformation;
+	}
+
+	public String getMonitorType() {
+		return monitorType;
+	}
+
+	public void setMonitorType(String monitorType) {
+		this.monitorType = monitorType;
 	}
 
 	public String getMessageId() {
