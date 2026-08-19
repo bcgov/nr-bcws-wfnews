@@ -456,6 +456,11 @@ variable "sns_email_targets" {
   type        = string
 }
 
+variable "google_site_verification" {
+  type        = string
+  description = "TXT record value for Google Search Console domain verification"
+}
+
 //wfnews server property variables
 variable "WEBADE-OAUTH2_TOKEN_CLIENT_URL" {
   type    = string
