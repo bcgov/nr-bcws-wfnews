@@ -145,6 +145,58 @@
             }
           ]
         }
+      },
+      {
+        "changeSet": {
+          "id": "01_01_00_02",
+          "author": "sparmar",
+          "changes": [
+            {
+              "sqlFile": {
+                "dbms": "postgresql",
+                "endDelimiter": ";",
+                "path": "scripts/01_01_00-notifications/02/ddl/wfone.ddl.notification_push_item_work_list.sql"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "changeSet": {
+          "id": "01_01_00_03",
+          "author": "sparmar",
+          "changes": [
+            {
+              "sqlFile": {
+                "dbms": "postgresql",
+                "endDelimiter": ";",
+                "path": "scripts/01_01_00-notifications/03/ddl/wfone.ddl.notification_geometry_trigger.sql"
+              }
+            },
+            {
+              "sqlFile": {
+                "dbms": "postgresql",
+                "endDelimiter": ";",
+                "path": "scripts/01_00_00-notifications/02/dml/wfone.dml.set_lat_long_geometry.sql"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "changeSet": {
+          "id": "01_01_00_04",
+          "author": "sparmar",
+          "changes": [
+            {
+              "sqlFile": {
+                "dbms": "postgresql",
+                "endDelimiter": ";",
+                "path": "scripts/01_01_00-notifications/04/ddl/wfone.ddl.notification_topic_index.sql"
+              }
+            }
+          ]
+        }
       }
     ]
   }
