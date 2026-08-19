@@ -605,6 +605,34 @@ resource "aws_cloudfront_distribution" "wfnews_distribution" {
     max_ttl                = 300
   }
 
+  ordered_cache_behavior {
+    path_pattern    = "/robots.txt"
+    allowed_methods = ["GET", "HEAD"]
+    cached_methods  = ["GET", "HEAD"]
+
+    target_origin_id           = "wfnews_nginx_${var.target_env}"
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.strip-vulnerable-headers.id
+
+    forwarded_values {
+      query_string = false
+      headers      = ["Origin", "x-original-path"]
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.trim_path.arn
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 86400
+  }
+
   price_class = "PriceClass_100"
 
   restrictions {

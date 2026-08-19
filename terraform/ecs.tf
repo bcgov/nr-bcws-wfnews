@@ -1308,7 +1308,6 @@ resource "aws_ecs_service" "nginx" {
   health_check_grace_period_seconds = 60
   wait_for_steady_state             = false
 
-
   capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
     weight            = 80

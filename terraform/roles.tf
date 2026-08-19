@@ -246,3 +246,4 @@ resource "aws_iam_role_policy" "wfnews_sqs_policy" {
   }
   EOF
 }
+
