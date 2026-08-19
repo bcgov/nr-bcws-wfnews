@@ -47,7 +47,9 @@ public class AWSQueueServiceImpl implements QueueService {
 				.withMaxNumberOfMessages(awsConfig.getSqsQueueReceiveMaxNumMessages())
 				.withWaitTimeSeconds(awsConfig.getSqsQueueReceiveWaitTimeSeconds())
 				.withVisibilityTimeout(awsConfig.getSqsQueueReceiveVisibilityTimeoutSeconds())
-				.withMessageAttributeNames(awsConfig.getMonitorAttribute());
+				.withMessageAttributeNames(awsConfig.getMonitorAttribute())
+				// SQS gives system attributes only when they are asked for.
+				.withAttributeNames("SentTimestamp");
 
 		List<Message> messages = sqsClient.receiveMessage(receiveMessageRequest).getMessages();
 		logger.debug("read {} message from sqs", messages.size());
