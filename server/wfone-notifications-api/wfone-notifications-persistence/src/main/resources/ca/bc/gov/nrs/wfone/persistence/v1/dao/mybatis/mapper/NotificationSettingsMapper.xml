@@ -30,12 +30,6 @@
 
 	</resultMap>
 	
-	<update id="lock">
-	
-		LOCK TABLE NOTIFICATION_SETTINGS IN EXCLUSIVE MODE;
-	
-	</update>
-	
 	<sql id="selectJoins">
 	
 		FROM NOTIFICATION_SETTINGS NS
@@ -73,9 +67,10 @@
 
 	</select>
 	
-	<insert id="insert">
-	
-		INSERT INTO NOTIFICATION_SETTINGS  
+	<!-- ON CONFLICT replaces a LOCK TABLE ... IN EXCLUSIVE MODE that serialised every caller. -->
+	<insert id="upsert">
+
+		INSERT INTO NOTIFICATION_SETTINGS
 			( SUBSCRIBER_GUID,
 			  SUBSCRIBER_TOKEN,
 			  NOTIFICATION_TOKEN,
@@ -95,20 +90,14 @@
 			   current_timestamp,
 			   COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user) ,
 			   current_timestamp)
-		   
-	</insert> 
+		ON CONFLICT (SUBSCRIBER_GUID) DO UPDATE
+		   SET SUBSCRIBER_TOKEN 	= EXCLUDED.SUBSCRIBER_TOKEN,
+		   	   NOTIFICATION_TOKEN   = EXCLUDED.NOTIFICATION_TOKEN,
+		   	   DEVICE_TYPE			= EXCLUDED.DEVICE_TYPE,
+		       REVISION_COUNT       = NOTIFICATION_SETTINGS.REVISION_COUNT + 1,
+		       UPDATE_USER          = EXCLUDED.UPDATE_USER,
+		       UPDATE_TIMESTAMP     = current_timestamp
 
-	<update id="update">
+	</insert>
 
-		UPDATE NOTIFICATION_SETTINGS
-		   SET SUBSCRIBER_TOKEN 	= #{dto.subscriberToken, 	javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-		   	   NOTIFICATION_TOKEN   = #{dto.notificationToken, 	javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-		   	   DEVICE_TYPE			= #{dto.deviceType, 		javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-		       REVISION_COUNT       = REVISION_COUNT + 1,
-		       UPDATE_USER          = COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user),
-		       UPDATE_TIMESTAMP     =  current_timestamp
-		 WHERE SUBSCRIBER_GUID	 = #{subscriberGuid}
-		
-	</update> 
-	
 </mapper>

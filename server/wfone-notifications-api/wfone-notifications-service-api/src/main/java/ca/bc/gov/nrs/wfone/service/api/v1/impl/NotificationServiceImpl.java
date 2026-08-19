@@ -94,24 +94,14 @@ public class NotificationServiceImpl implements NotificationService {
 
 		try {
 			
-			// We don't have an explicit create method and the UI does not wait for a response before sending more requests so we need to do some locking		
+			// Two concurrent requests can both find no row. The upsert settles that.
 			NotificationSettingsDto dto = this.notificationSettingsDao.fetch(subscriberGuid);
-			
+
 			if(dto==null) {
-				// If the dto is null then we will have to create it.
-				
-				// Lock the table to make sure only one request is trying to create the record
-				this.notificationSettingsDao.lock();
-				
-				// Fetch the dto again to make sure the record wasn't created while we were waiting for the lock
-				dto = this.notificationSettingsDao.fetch(subscriberGuid);
-			}
-			
-			if(dto==null) {
-				
+
 				dto =  new NotificationSettingsDto();
 			}
-			
+
 			LocalDate effectiveAsOfDate = LocalDate.now();
 			
 			List<Message> errors = this.modelValidator.validateUpdateNotificationSettings(notificationSettings, effectiveAsOfDate);
@@ -122,12 +112,10 @@ public class NotificationServiceImpl implements NotificationService {
 				throw new ValidationFailureException(errors);
 			}
 			
-			if(dto.getSubscriberGuid()==null) {
-				
-				this.notificationSettingsDao.insert(subscriberGuid, dto, null);
-			} else {
-				
-				this.notificationSettingsDao.update(subscriberGuid, dto, null);
+			// An unchanged row needs no write.
+			if(dto.getSubscriberGuid()==null || dto.isDirty()) {
+
+				this.notificationSettingsDao.upsert(subscriberGuid, dto, null);
 			}
 
 			saveNotificationDtos(subscriberGuid, dto.getNotifications());

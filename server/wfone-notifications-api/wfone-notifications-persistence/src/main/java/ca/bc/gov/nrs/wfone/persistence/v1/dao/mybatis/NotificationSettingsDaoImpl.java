@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.bc.gov.nrs.wfone.common.persistence.dao.DaoException;
-import ca.bc.gov.nrs.wfone.common.persistence.dao.NotFoundDaoException;
 import ca.bc.gov.nrs.wfone.common.persistence.dao.mybatis.BaseDao;
 import ca.bc.gov.nrs.wfone.persistence.v1.dao.NotificationSettingsDao;
 import ca.bc.gov.nrs.wfone.persistence.v1.dao.mybatis.mapper.NotificationSettingsMapper;
@@ -21,22 +20,6 @@ public class NotificationSettingsDaoImpl extends BaseDao implements Notification
 	@Autowired
 	private NotificationSettingsMapper mapper;
 	
-	@Override
-	public void lock() throws DaoException {
-		logger.debug("<lock");
-
-		try {
-
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			this.mapper.lock(parameters);
-
-		} catch (RuntimeException e) {
-			handleException(e);
-		}
-
-		logger.debug(">lock");
-	}
-
 	@Override
 	public NotificationSettingsDto fetch(String subscriberGuid) throws DaoException  {
 		logger.debug("<fetch");
@@ -64,9 +47,8 @@ public class NotificationSettingsDaoImpl extends BaseDao implements Notification
 	}
 	
 	@Override
-	public void insert(String subscriberGuid, NotificationSettingsDto dto, String userId) throws DaoException {
-		logger.debug("<insert");
-
+	public void upsert(String subscriberGuid, NotificationSettingsDto dto, String userId) throws DaoException {
+		logger.debug("<upsert");
 
 		try {
 
@@ -75,49 +57,17 @@ public class NotificationSettingsDaoImpl extends BaseDao implements Notification
 			parameters.put("subscriberGuid", subscriberGuid);
 			parameters.put("dto", dto);
 			parameters.put("userId", userId);
-			int count = this.mapper.insert(parameters);
+			int count = this.mapper.upsert(parameters);
 
 			if(count==0) {
-				throw new DaoException("Record not inserted: "+count);
+				throw new DaoException("Record not written: "+count);
 			}
-			
-			
+
 		} catch (RuntimeException e) {
 			handleException(e);
 		}
 
-		logger.debug(">insert ");
-	}
-
-	@Override
-	public void update(String subscriberGuid, NotificationSettingsDto dto, String userId) 
-			throws DaoException, NotFoundDaoException {
-		logger.debug("<update");
-		
-		if(dto.isDirty()) {
-	
-			try {
-	
-				Map<String, Object> parameters = new HashMap<String, Object>();
-				parameters.put("subscriberGuid",  subscriberGuid);
-				parameters.put("dto", dto);
-				parameters.put("userId", userId);
-				
-				int count = this.mapper.update(parameters);
-				
-				if(count==0) {
-					throw new DaoException("Record not updated: "+count);
-				}	
-	
-			} catch (RuntimeException e) {
-				handleException(e);
-			}
-		} else {
-			
-			logger.info("Skipping update because dto is not dirty");
-		}
-
-		logger.debug(">update");
+		logger.debug(">upsert ");
 	}
 	
 }
