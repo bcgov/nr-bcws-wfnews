@@ -6,7 +6,7 @@ COPY docker/default.conf /etc/nginx/conf.d/default.conf
 COPY docker/robots/prod/robots.txt /etc/nginx/robots/prod/robots.txt
 COPY docker/robots/dev/robots.txt /etc/nginx/robots/dev/robots.txt
 COPY docker/robots/test/robots.txt /etc/nginx/robots/test/robots.txt
-RUN echo '#!/usr/bin/env bash\nsed -i "s/{MAX_SIZE}/$MAX_SIZE/g" /etc/nginx/conf.d/default.conf\nsed -i "s/{API_KEY}/$API_KEY/g" /etc/nginx/conf.d/default.conf\nsed -i "s/{LICENSE_PLATE}/$LICENSE_PLATE/g" /etc/nginx/conf.d/default.conf\nsed -i "s/{TARGET_ENV}/$TARGET_ENV/g" /etc/nginx/conf.d/default.conf\nsed -i "s/{CLOUDFRONT_HEADER}/$CLOUDFRONT_HEADER/g" /etc/nginx/conf.d/default.conf\necho "=== DEBUG: TARGET_ENV=$TARGET_ENV ==="\nls -la /etc/nginx/robots/ 2>&1\nls -la /etc/nginx/robots/dev/ 2>&1\nnginx\ntail -f /var/log/nginx/error.log' > /docker-entrypoint.sh &&\
+RUN echo '#!/usr/bin/env bash\nsed -i "s/{MAX_SIZE}/$MAX_SIZE/g" /etc/nginx/conf.d/default.conf\nsed -i "s/{API_KEY}/$API_KEY/g" /etc/nginx/conf.d/default.conf\nsed -i "s/{LICENSE_PLATE}/$LICENSE_PLATE/g" /etc/nginx/conf.d/default.conf\nsed -i "s/{TARGET_ENV}/$TARGET_ENV/g" /etc/nginx/conf.d/default.conf\nsed -i "s/{CLOUDFRONT_HEADER}/$CLOUDFRONT_HEADER/g" /etc/nginx/conf.d/default.conf\nnginx\ntail -f /var/log/nginx/error.log' > /docker-entrypoint.sh &&\
   mkdir -p /var/cache/nginx && mkdir -p /var/log/nginx &&\
   chmod +rwx /docker-entrypoint.sh &&\
   chmod 766 /var/cache/nginx && chmod 777 /var/run && chmod 766 /var/log && chmod -R 766 /etc/nginx && chmod -R 777 /var/lib/nginx && chmod 777 /tmp &&\
