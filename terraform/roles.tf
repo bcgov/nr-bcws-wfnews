@@ -246,3 +246,25 @@ resource "aws_iam_role_policy" "wfnews_sqs_policy" {
   }
   EOF
 }
+
+resource "aws_iam_role_policy" "wfnews_ssm_policy" {
+  name   = "wfnews_ssm_policy_${var.target_env}"
+  role   = aws_iam_role.wfnews_app_container_role.id
+  policy = <<-EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssmmessages:CreateControlChannel",
+                "ssmmessages:CreateDataChannel",
+                "ssmmessages:OpenControlChannel",
+                "ssmmessages:OpenDataChannel"
+            ],
+            "Resource": "*"
+        }
+    ]
+  }
+  EOF
+}
