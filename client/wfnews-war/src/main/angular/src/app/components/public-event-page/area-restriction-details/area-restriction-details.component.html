@@ -9,7 +9,7 @@
       <warning-card></warning-card>
     </ng-container>
     <ng-container column-2>
-      <nearby-wildfires-card [incidents]="incidents" [bookmarkedIncidentNumbers]="bookmarkedIncidentNumbers"
+      <nearby-wildfires-card *ngIf="incidents && incidents.length > 0" [incidents]="incidents" [bookmarkedIncidentNumbers]="bookmarkedIncidentNumbers"
         (bookmarkClicked)="handleBookmarkClicked($event.incident, $event.isBookmarked)"
         (viewDetailsClicked)="handleViewDetailsClicked($event)">
       </nearby-wildfires-card>

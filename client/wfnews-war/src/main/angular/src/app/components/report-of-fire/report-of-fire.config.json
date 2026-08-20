@@ -41,7 +41,7 @@
       "id": "permissions-page",
       "type": "RoFPermissionsPage",
       "title": "Permissions",
-      "message": "Personal information is collected by the BC Wildfire Service under section 26 (c) of the Freedom of Information and Protection of Privacy Act for the purpose of managing wildfire incidents. Should you have questions about the collection or use of this information please contact BCWS.PublicMobileApp@gov.bc.ca",
+      "message": "Personal information is collected by the BC Wildfire Service under section 26 (c) of the Freedom of Information and Protection of Privacy Act for the purpose of managing wildfire incidents. Should you have questions about the collection or use of this information please contact BCWS.App@gov.bc.ca",
       "allowSkip": false,
       "allowExit": true,
       "showProgress": false,

@@ -122,7 +122,7 @@ export const Default: Story = {
             "incidentSizeType": "Mapped",
             "contactOrgUnitIdentifer": 25,
             "contactPhoneNumber": "250-554-5965",
-            "contactEmailAddress": "KFCINFO@gov.bc.ca",
+            "contactEmailAddress": "BCWS.KFCInfo@gov.bc.ca",
             "resourceDetail": null,
             "wildfireCrewResourcesDetail": null,
             "wildfireAviationResourceDetail": null,
