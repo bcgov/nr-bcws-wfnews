@@ -11,6 +11,7 @@ import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationDto;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.type.NotificationTopics;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.WildfirePushNotificationServiceV2;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.exception.InvalidNotificationTokenException;
+import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.metrics.EmfMetrics;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.model.MessageInformation;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.model.TwitterInformation;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.model.factory.PushNotificationFactory;
@@ -49,6 +50,8 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 	private static final Logger logger = LoggerFactory.getLogger(WildfirePushNotificationServiceV2Impl.class);
 	private static final String MONITOR_ATTRIBUTE = "monitorType";
 	private static final String NO_SUCH_INFORMATION_FROM_SQS_MESSAGE = "no such information from sqs message";
+
+	private static final String SQS_SENT_TIMESTAMP_ATTRIBUTE = "SentTimestamp";
 
 	/** Bounds one run of the delete job. The next run continues where this one stopped. */
 	private static final int MAX_DELETE_PASSES = 1000;
@@ -172,13 +175,14 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		ProcessingCount pushRecordsCount = new ProcessingCount();
 		Optional<String> eventLogging = Optional.empty();
 		List<PushNotification> pushNotifications = Collections.synchronizedList(new ArrayList<PushNotification>());
+		String monitorType;
 
 		try {
 			Map<String, Date> expirations = getExpirations();
 			Date currentTimeStamp = new Date();
 
 			// Extract message information
-			String monitorType = getMonitorType(messageFromSqs);
+			monitorType = getMonitorType(messageFromSqs);
 
 			MessageInformation messageInformation = spatialMonitorHandler.handleMessage(messageFromSqs);
 			validate(messageInformation, monitorType, messageFromSqs.getMessageId());
@@ -217,6 +221,8 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 				duration.toMinutes() % 60, (duration.toMillis() / 1000) % 60);
 		logger.info(" Push near me Started " + jobStartedDateString + ".   Finished " + jobFinishedDateString
 				+ ".  Duration (days:hours:min:seconds): " + formattedElapsedTime);
+
+		reportEvent(monitorType, pushRecordsCount, millsDiff, getQueuedAtMillis(messageFromSqs));
 
 		logger.info(">pushNearMeNotifications " + result);
 
@@ -384,7 +390,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		for (int start = 0; start < sends.size(); start += FCM_BATCH_SIZE) {
 			int end = Math.min(start + FCM_BATCH_SIZE, sends.size());
 
-			sendBatch(sends.subList(start, end), topicKey, eventIdentifier, context, pushRecordsCount, pushNotifications,
+			sendBatch(sends.subList(start, end), messageInformation, context, pushRecordsCount, pushNotifications,
 					rateLimiter);
 		}
 	}
@@ -439,8 +445,12 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		return dx * dx + dy * dy;
 	}
 
-	private void sendBatch(List<SubscriberSend> sends, String topicKey, String eventIdentifier, FactoryContext context,
+	private void sendBatch(List<SubscriberSend> sends, MessageInformation messageInformation, FactoryContext context,
 			ProcessingCount pushRecordsCount, List<PushNotification> pushNotifications, RateLimiter rateLimiter) {
+
+		String topicKey = messageInformation.getTopic();
+		String eventIdentifier = messageInformation.getItemIdentifier();
+		String monitorType = messageInformation.getMonitorType();
 
 		List<SubscriberSend> attempts = new ArrayList<>(sends);
 		List<String> deadTokenSubscriberGuids = new ArrayList<>();
@@ -456,16 +466,21 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 			}
 
 			BatchResponse batchResponse;
+			long sendStartedAt = System.currentTimeMillis();
 			try {
 				batchResponse = sendEach(attemptMessages);
 			} catch (FirebaseMessagingException e) {
 				// The whole call failed. Every message in the batch can be tried again.
 				logger.error("FCM refused a batch of " + attemptMessages.size() + " messages", e);
+				reportFcmBatchRefused(monitorType, attemptMessages.size(), System.currentTimeMillis() - sendStartedAt);
 				sleepBeforeRetry(attempt);
 				continue;
 			}
 
+			reportFcmBatchSent(monitorType, attemptMessages.size(), System.currentTimeMillis() - sendStartedAt);
+
 			List<SubscriberSend> retries = new ArrayList<>();
+			Map<MessagingErrorCode, Integer> errorCounts = new EnumMap<>(MessagingErrorCode.class);
 
 			List<SendResponse> responses = batchResponse.getResponses();
 			for (int i = 0; i < responses.size(); i++) {
@@ -482,6 +497,10 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 				MessagingErrorCode errorCode = sendResponse.getException() == null ? null
 						: sendResponse.getException().getMessagingErrorCode();
 
+				if (errorCode != null) {
+					errorCounts.merge(errorCode, 1, Integer::sum);
+				}
+
 				if (errorCode != null && DEAD_TOKEN_ERRORS.contains(errorCode)) {
 					// The token is gone. Leave the rows marked sent: there is nothing to try again.
 					deadTokenSubscriberGuids.add(send.nearest.getSubscriberGuid());
@@ -494,6 +513,8 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 				// UNAVAILABLE, QUOTA_EXCEEDED, INTERNAL and 429 are not dead tokens.
 				retries.add(send);
 			}
+
+			reportFcmErrors(monitorType, errorCounts);
 
 			attempts = retries;
 
@@ -519,6 +540,71 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 			throw new IllegalStateException(
 					"FCM did not accept " + attempts.size() + " messages after " + MAX_SEND_ATTEMPTS + " attempts");
+		}
+	}
+
+	/** The latency is FCM's, and it is the largest part of the send. */
+	private static void reportFcmBatchSent(String monitorType, int messages, long elapsedMillis) {
+		EmfMetrics.forMonitorType(monitorType)
+				.metric("FcmBatchMessages", EmfMetrics.COUNT, messages)
+				.metric("FcmSendLatency", EmfMetrics.MILLISECONDS, elapsedMillis)
+				.emit();
+	}
+
+	/** A refused call is not the same as a failed message: no message in it was even tried. */
+	private static void reportFcmBatchRefused(String monitorType, int messages, long elapsedMillis) {
+		EmfMetrics.forMonitorType(monitorType)
+				.metric("FcmBatchRefused", EmfMetrics.COUNT, 1)
+				.metric("FcmBatchRefusedMessages", EmfMetrics.COUNT, messages)
+				.metric("FcmSendLatency", EmfMetrics.MILLISECONDS, elapsedMillis)
+				.emit();
+	}
+
+	/** One line for each error code, so the alarm can tell a dead token from a quota. */
+	private static void reportFcmErrors(String monitorType, Map<MessagingErrorCode, Integer> errorCounts) {
+		errorCounts.forEach((errorCode, count) -> EmfMetrics.forMonitorType(monitorType)
+				.dimension("ErrorCode", errorCode.name())
+				.metric("FcmSendErrors", EmfMetrics.COUNT, count)
+				.emit());
+	}
+
+	/** Latency measures from the SQS sent timestamp: an ignition date can be days earlier. */
+	private static void reportEvent(String monitorType, ProcessingCount counts, long elapsedMillis,
+			Long queuedAtMillis) {
+		EmfMetrics metrics = EmfMetrics.forMonitorType(monitorType)
+				.metric("AudienceSize", EmfMetrics.COUNT, counts.toProcess.get())
+				.metric("WorkListRowsAdded", EmfMetrics.COUNT, counts.materialised.get())
+				.metric("MessagesSent", EmfMetrics.COUNT, counts.messages.get())
+				.metric("RecipientsSucceeded", EmfMetrics.COUNT, counts.processed.get())
+				.metric("RecipientsFailed", EmfMetrics.COUNT, counts.failed.get())
+				.metric("EventProcessingTime", EmfMetrics.MILLISECONDS, elapsedMillis);
+
+		if (elapsedMillis > 0) {
+			metrics.metric("RecipientsPerSecond", EmfMetrics.COUNT_PER_SECOND,
+					counts.processed.get() * 1000.0 / elapsedMillis);
+		}
+
+		if (queuedAtMillis != null) {
+			metrics.metric("EndToEndLatency", EmfMetrics.MILLISECONDS, System.currentTimeMillis() - queuedAtMillis);
+		}
+
+		metrics.emit();
+	}
+
+	/** Null when SQS did not give the attribute. */
+	private static Long getQueuedAtMillis(Message messageFromSqs) {
+		Map<String, String> attributes = messageFromSqs.getAttributes();
+		String sentTimestamp = attributes == null ? null : attributes.get(SQS_SENT_TIMESTAMP_ATTRIBUTE);
+
+		if (StringUtils.isBlank(sentTimestamp)) {
+			return null;
+		}
+
+		try {
+			return Long.valueOf(sentTimestamp);
+		} catch (NumberFormatException e) {
+			logger.warn("SQS {} was '{}', which is not a number", SQS_SENT_TIMESTAMP_ATTRIBUTE, sentTimestamp);
+			return null;
 		}
 	}
 

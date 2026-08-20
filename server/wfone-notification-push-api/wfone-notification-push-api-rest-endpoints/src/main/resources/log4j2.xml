@@ -9,8 +9,19 @@
 		<Async name="AsyncConsole" bufferSize="8192">
 			<AppenderRef ref="Console" />
 		</Async>
+		<!-- The metric line must be the JSON and nothing else, or CloudWatch cannot read it. -->
+		<Console name="Metrics" target="SYSTEM_OUT">
+			<PatternLayout pattern="%m%n" />
+		</Console>
+		<Async name="AsyncMetrics" bufferSize="1024">
+			<AppenderRef ref="Metrics" />
+		</Async>
 	</Appenders>
 	<Loggers>
+		<!-- EmfMetrics.LOGGER_NAME. No additivity, so the JSON does not also go to the root. -->
+		<Logger name="WFNEWS_EMF_METRICS" level="INFO" additivity="false">
+			<AppenderRef ref="AsyncMetrics" />
+		</Logger>
 		<Root level="DEBUG">
 			<AppenderRef ref="AsyncConsole" />
 		</Root>

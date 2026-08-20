@@ -1186,8 +1186,9 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-create-group  = "true"
-          awslogs-group         = "/ecs/${var.wfone_notifications_push_api_container_name}"
+          awslogs-create-group = "true"
+          # One group for each monitor type. All four used to share one group.
+          awslogs-group         = "/ecs/${var.wfone_notifications_push_api_container_name}-${each.key}"
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
