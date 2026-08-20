@@ -14,13 +14,22 @@ import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class SpatialMonitorHandler implements MonitorHandler {
 	private static final String MONITOR_ATTRIBUTE = "monitorType";
+
+	/** Excludes evacuation-orders-alerts: its DATE_MODIFIED moves on every message. */
+	private static final Set<String> MONITOR_TYPES_WITH_STABLE_EVENT_DATE = Collections
+			.unmodifiableSet(new HashSet<>(Arrays.asList("active-fires", "area-restrictions", "bans-prohibitions")));
 
 	@Override
 	public MessageInformation handleMessage(Message message) {
@@ -29,7 +38,6 @@ public class SpatialMonitorHandler implements MonitorHandler {
 
 		JSONObject jsonObject = new JSONObject(rawMessageBody);
 		String messageId = null;
-		String itemIdentifier = generateHash(rawMessageBody);
 		Long epoch = null;
 		String topic = null;
 		Map<String, String> eventInformation = new HashMap<>();
@@ -83,6 +91,8 @@ public class SpatialMonitorHandler implements MonitorHandler {
 			epoch = jsonObject.getJSONObject("attributes").getLong("DATE_MODIFIED");
 			topic = NotificationTopics.EVACUATION_ORDERS_AND_ALERTS;
 			updateStringAttribute(jsonObject, MessageInformation.ISSUING_AGENCY, eventInformation);
+			// In the item identifier: an alert that becomes an order is a new event.
+			updateStringAttribute(jsonObject, MessageInformation.ORDER_ALERT_STATUS, eventInformation);
 			break;
 		default:
 			// Falling through here used to give a null topic and a null pointer further down.
@@ -95,6 +105,7 @@ public class SpatialMonitorHandler implements MonitorHandler {
 		}
 
 		Date messageDate = new Date(epoch);
+		String itemIdentifier = generateHash(canonicalIdentity(monitorType, messageId, epoch, eventInformation));
 
 		Geometry geometry = null;
 		GeometryFactory factory = new GeometryFactory();
@@ -130,7 +141,8 @@ public class SpatialMonitorHandler implements MonitorHandler {
 			break;
 		}
 
-		return new MessageInformation(messageId, itemIdentifier, messageDate, geometry, topic, eventInformation);
+		return new MessageInformation(monitorType, messageId, itemIdentifier, messageDate, geometry, topic,
+				eventInformation);
 	}
 
 	private static String readMonitorType(Message message) {
@@ -147,7 +159,29 @@ public class SpatialMonitorHandler implements MonitorHandler {
 		return monitorType;
 	}
 
-	private String generateHash(String input) {
+	/**
+	 * The hash input, and not the raw message body: one moved vertex or a new
+	 * lastUpdatedTimestamp gave a new item identifier and notified the area again. The
+	 * geometry is left out for the same reason.
+	 */
+	static String canonicalIdentity(String monitorType, String messageId, Long epoch,
+			Map<String, String> eventInformation) {
+		StringBuilder result = new StringBuilder();
+
+		result.append(monitorType).append('|').append(messageId);
+
+		if (MONITOR_TYPES_WITH_STABLE_EVENT_DATE.contains(monitorType)) {
+			result.append('|').append(epoch);
+		}
+
+		// A tree map, so a different key order in the body cannot give a different hash.
+		new TreeMap<>(eventInformation)
+				.forEach((key, value) -> result.append('|').append(key).append('=').append(value));
+
+		return result.toString();
+	}
+
+	static String generateHash(String input) {
 		return Hashing.murmur3_128().hashString(input, StandardCharsets.UTF_8).toString();
 	}
 
