@@ -17,6 +17,8 @@ import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.model.MessageInforma
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.model.TwitterInformation;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.model.factory.PushNotificationFactory;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.monitor.handler.MonitorHandler;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.MessageAttributeValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -90,12 +92,26 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 	/** Messages given to FCM in one second. Zero or less removes the limit. */
 	private double fcmPermitsPerSecond = 0;
 
+	/** One FCM message for one subscriber, and every push item that the message covers. */
+	static class SubscriberSend {
+		NotificationDto nearest;
+		final List<String> notificationGuids = new ArrayList<>(1);
+		String body;
+		com.google.firebase.messaging.Message message;
+
+		SubscriberSend(NotificationDto nearest) {
+			this.nearest = nearest;
+		}
+	}
+
 	private static class ProcessingCount {
 		final AtomicLong toProcess = new AtomicLong();
 		final AtomicLong processed = new AtomicLong();
 		final AtomicLong skipped = new AtomicLong();
 		final AtomicLong ignored = new AtomicLong();
 		final AtomicLong failed = new AtomicLong();
+		/** FCM messages sent. One message can cover more than one saved location. */
+		final AtomicLong messages = new AtomicLong();
 	}
 
 	private static final Map<String, Integer> TOPIC_EXPIRATION_DEFAULTS;
@@ -228,26 +244,24 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		long pageCount = 0;
 
 		try {
-			String afterNotificationGuid = "";
+			String afterSubscriberGuid = "";
 
 			while (true) {
 				List<NotificationDto> page = spatialQuery.select(messageInformation.getGeometry(),
-						messageInformation.getTopic(), afterNotificationGuid, audiencePageSize);
+						messageInformation.getTopic(), afterSubscriberGuid, audiencePageSize);
 
+				// A short page is not the last page. The query trims a partial trailing
+				// subscriber, so only an empty page ends the read.
 				if (page.isEmpty()) {
 					break;
 				}
 
 				pageCount++;
-				afterNotificationGuid = page.get(page.size() - 1).getNotificationGuid();
+				afterSubscriberGuid = page.get(page.size() - 1).getSubscriberGuid();
 
 				final List<NotificationDto> pageToSend = page;
 				futures.add(executor.submit(() -> sendPage(pageToSend, isTest, context, pushRecordsCount,
 						pushNotifications, expirations, currentTimeStamp, messageInformation, rateLimiter)));
-
-				if (page.size() < audiencePageSize) {
-					break;
-				}
 			}
 
 			// A page that threw must fail the event, so it stays on the queue.
@@ -268,6 +282,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		logger.info("Push Notification process complete.");
 		logger.info("Pages: " + pageCount);
 		logger.info("Subscribed: " + pushRecordsCount.toProcess.get());
+		logger.info("Messages: " + pushRecordsCount.messages.get());
 		logger.info("Succeeded: " + pushRecordsCount.processed.get());
 		logger.info("Skipped (Duplicate): " + pushRecordsCount.skipped.get());
 		logger.info("Ignored: " + pushRecordsCount.ignored.get());
@@ -323,51 +338,104 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 			return;
 		}
 
-		List<NotificationDto> messageRecipients = new ArrayList<>(insertedGuids.size());
-		List<com.google.firebase.messaging.Message> messages = new ArrayList<>(insertedGuids.size());
-		List<String> bodies = new ArrayList<>(insertedGuids.size());
+		List<SubscriberSend> sends = groupBySubscriber(recipients, insertedGuids,
+				rankingOrigin(messageInformation.getGeometry()));
 
-		for (NotificationDto notificationDto : recipients) {
-			if (!insertedGuids.contains(notificationDto.getNotificationGuid())) {
-				continue;
-			}
-
+		for (SubscriberSend send : sends) {
 			try {
-				String body = buildBody(isTest, topicKey, messageInformation.getMessageId(),
-						notificationDto.getNotificationName());
-
-				messageRecipients.add(notificationDto);
-				bodies.add(body);
-				messages.add(prepareNearMePushNotification(buildTitle(messageInformation), body,
-						notificationDto.getNotificationToken(), buildDataMap(topicKey, messageInformation, notificationDto)));
+				send.body = buildBody(isTest, topicKey, messageInformation.getMessageId(),
+						send.nearest.getNotificationName());
+				send.message = prepareNearMePushNotification(buildTitle(messageInformation), send.body,
+						send.nearest.getNotificationToken(), buildDataMap(topicKey, messageInformation, send.nearest));
 			} catch (InvalidNotificationTokenException e) {
 				// The token cannot make a message. It is dead in the same way as UNREGISTERED.
-				logger.warn("Invalid notification token for subscriber {}", notificationDto.getSubscriberGuid());
-				pushRecordsCount.failed.incrementAndGet();
+				logger.warn("Invalid notification token for subscriber {}", send.nearest.getSubscriberGuid());
+				pushRecordsCount.failed.addAndGet(send.notificationGuids.size());
 			}
 		}
 
-		for (int start = 0; start < messages.size(); start += FCM_BATCH_SIZE) {
-			int end = Math.min(start + FCM_BATCH_SIZE, messages.size());
+		sends.removeIf(send -> send.message == null);
+		pushRecordsCount.messages.addAndGet(sends.size());
 
-			sendBatch(messages.subList(start, end), messageRecipients.subList(start, end), bodies.subList(start, end),
-					topicKey, eventIdentifier, context, pushRecordsCount, pushNotifications, rateLimiter);
+		for (int start = 0; start < sends.size(); start += FCM_BATCH_SIZE) {
+			int end = Math.min(start + FCM_BATCH_SIZE, sends.size());
+
+			sendBatch(sends.subList(start, end), topicKey, eventIdentifier, context, pushRecordsCount, pushNotifications,
+					rateLimiter);
 		}
 	}
 
-	private void sendBatch(List<com.google.firebase.messaging.Message> messages, List<NotificationDto> recipients,
-			List<String> bodies, String topicKey, String eventIdentifier, FactoryContext context,
+	/**
+	 * Collapses the saved locations of one subscriber into one push. The page is ordered by
+	 * subscriber, so a run of rows is one subscriber. The nearest saved location of the run
+	 * names the push. The other rows keep their push item, so the record stays correct and a
+	 * redelivery repeats nothing.
+	 */
+	@VisibleForTesting
+	static List<SubscriberSend> groupBySubscriber(List<NotificationDto> recipients, Set<String> insertedGuids,
+			Coordinate origin) {
+		List<SubscriberSend> result = new ArrayList<>();
+		SubscriberSend current = null;
+		double nearestDistance = 0;
+
+		for (NotificationDto recipient : recipients) {
+			if (!insertedGuids.contains(recipient.getNotificationGuid())) {
+				continue;
+			}
+
+			double distance = rankingDistance(origin, recipient);
+
+			if (current == null
+					|| !Objects.equals(current.nearest.getSubscriberGuid(), recipient.getSubscriberGuid())) {
+				current = new SubscriberSend(recipient);
+				nearestDistance = distance;
+				result.add(current);
+			} else if (distance < nearestDistance) {
+				current.nearest = recipient;
+				nearestDistance = distance;
+			}
+
+			current.notificationGuids.add(recipient.getNotificationGuid());
+		}
+
+		return result;
+	}
+
+	/**
+	 * The point that the ranking measures from. A polygon returns the same distance, zero, to
+	 * every saved location inside it, so the boundary cannot rank them. The centroid can.
+	 */
+	@VisibleForTesting
+	static Coordinate rankingOrigin(Geometry eventGeometry) {
+		return eventGeometry.getCentroid().getCoordinate();
+	}
+
+	/**
+	 * Squared distance in degrees, with the longitude scaled for the latitude. It ranks the
+	 * saved locations of one subscriber, which are near each other, so a local plane is
+	 * accurate enough. It is not a distance to report.
+	 */
+	private static double rankingDistance(Coordinate origin, NotificationDto recipient) {
+		double dx = (recipient.getLongitude() - origin.x) * Math.cos(Math.toRadians(origin.y));
+		double dy = recipient.getLatitude() - origin.y;
+
+		return dx * dx + dy * dy;
+	}
+
+	private void sendBatch(List<SubscriberSend> sends, String topicKey, String eventIdentifier, FactoryContext context,
 			ProcessingCount pushRecordsCount, List<PushNotification> pushNotifications, RateLimiter rateLimiter) {
 
-		List<com.google.firebase.messaging.Message> attemptMessages = new ArrayList<>(messages);
-		List<NotificationDto> attemptRecipients = new ArrayList<>(recipients);
-		List<String> attemptBodies = new ArrayList<>(bodies);
-
+		List<SubscriberSend> attempts = new ArrayList<>(sends);
 		List<String> deadTokenSubscriberGuids = new ArrayList<>();
 
-		for (int attempt = 1; attempt <= MAX_SEND_ATTEMPTS && !attemptMessages.isEmpty(); attempt++) {
+		for (int attempt = 1; attempt <= MAX_SEND_ATTEMPTS && !attempts.isEmpty(); attempt++) {
 			if (rateLimiter != null) {
-				rateLimiter.acquire(attemptMessages.size());
+				rateLimiter.acquire(attempts.size());
+			}
+
+			List<com.google.firebase.messaging.Message> attemptMessages = new ArrayList<>(attempts.size());
+			for (SubscriberSend send : attempts) {
+				attemptMessages.add(send.message);
 			}
 
 			BatchResponse batchResponse;
@@ -380,18 +448,17 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 				continue;
 			}
 
-			List<com.google.firebase.messaging.Message> retryMessages = new ArrayList<>();
-			List<NotificationDto> retryRecipients = new ArrayList<>();
-			List<String> retryBodies = new ArrayList<>();
+			List<SubscriberSend> retries = new ArrayList<>();
 
 			List<SendResponse> responses = batchResponse.getResponses();
 			for (int i = 0; i < responses.size(); i++) {
 				SendResponse sendResponse = responses.get(i);
-				NotificationDto recipient = attemptRecipients.get(i);
+				SubscriberSend send = attempts.get(i);
 
 				if (sendResponse.isSuccessful()) {
-					pushRecordsCount.processed.incrementAndGet();
-					addResultEntry(pushNotifications, context, recipient, topicKey, attemptBodies.get(i));
+					// One push covers every matched saved location of this subscriber.
+					pushRecordsCount.processed.addAndGet(send.notificationGuids.size());
+					addResultEntry(pushNotifications, context, send.nearest, topicKey, send.body);
 					continue;
 				}
 
@@ -399,25 +466,22 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 						: sendResponse.getException().getMessagingErrorCode();
 
 				if (errorCode != null && DEAD_TOKEN_ERRORS.contains(errorCode)) {
-					// The token is gone. Keep the push item: there is nothing to try again.
-					deadTokenSubscriberGuids.add(recipient.getSubscriberGuid());
-					pushRecordsCount.failed.incrementAndGet();
-					logger.warn("Dead device token for subscriber {}. Error code {}.", recipient.getSubscriberGuid(), errorCode);
+					// The token is gone. Keep the push items: there is nothing to try again.
+					deadTokenSubscriberGuids.add(send.nearest.getSubscriberGuid());
+					pushRecordsCount.failed.addAndGet(send.notificationGuids.size());
+					logger.warn("Dead device token for subscriber {}. Error code {}.", send.nearest.getSubscriberGuid(),
+							errorCode);
 					continue;
 				}
 
 				// UNAVAILABLE, QUOTA_EXCEEDED, INTERNAL and 429 are not dead tokens.
-				retryMessages.add(attemptMessages.get(i));
-				retryRecipients.add(recipient);
-				retryBodies.add(attemptBodies.get(i));
+				retries.add(send);
 			}
 
-			attemptMessages = retryMessages;
-			attemptRecipients = retryRecipients;
-			attemptBodies = retryBodies;
+			attempts = retries;
 
-			if (!attemptMessages.isEmpty() && attempt < MAX_SEND_ATTEMPTS) {
-				logger.info("Trying {} messages again. Attempt {} of {}.", attemptMessages.size(), attempt + 1,
+			if (!attempts.isEmpty() && attempt < MAX_SEND_ATTEMPTS) {
+				logger.info("Trying {} messages again. Attempt {} of {}.", attempts.size(), attempt + 1,
 						MAX_SEND_ATTEMPTS);
 				sleepBeforeRetry(attempt);
 			}
@@ -425,14 +489,20 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 		clearDeviceTokens(deadTokenSubscriberGuids);
 
-		if (!attemptRecipients.isEmpty()) {
-			// Remove the push items, or they block the retry and these recipients never get
-			// the push.
-			pushRecordsCount.failed.addAndGet(attemptRecipients.size());
-			deletePushItems(attemptRecipients, eventIdentifier);
+		if (!attempts.isEmpty()) {
+			// Remove every push item of the failed subscribers, and not the nearest row only.
+			// One message covers the whole group, so a row left behind blocks the retry and
+			// that subscriber never gets the push.
+			List<String> failedGuids = new ArrayList<>();
+			for (SubscriberSend send : attempts) {
+				failedGuids.addAll(send.notificationGuids);
+			}
+
+			pushRecordsCount.failed.addAndGet(failedGuids.size());
+			deletePushItems(failedGuids, eventIdentifier);
 
 			throw new IllegalStateException(
-					"FCM did not accept " + attemptRecipients.size() + " messages after " + MAX_SEND_ATTEMPTS + " attempts");
+					"FCM did not accept " + attempts.size() + " messages after " + MAX_SEND_ATTEMPTS + " attempts");
 		}
 	}
 
@@ -516,12 +586,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		});
 	}
 
-	private void deletePushItems(List<NotificationDto> recipients, String eventIdentifier) {
-		List<String> notificationGuids = new ArrayList<>(recipients.size());
-		for (NotificationDto recipient : recipients) {
-			notificationGuids.add(recipient.getNotificationGuid());
-		}
-
+	private void deletePushItems(List<String> notificationGuids, String eventIdentifier) {
 		try {
 			notificationPushItemDao.deletePushItems(notificationGuids, eventIdentifier);
 		} catch (DaoException e) {

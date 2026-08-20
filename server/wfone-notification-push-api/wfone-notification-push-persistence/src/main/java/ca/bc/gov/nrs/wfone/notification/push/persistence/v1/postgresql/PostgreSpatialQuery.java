@@ -3,6 +3,8 @@ package ca.bc.gov.nrs.wfone.notification.push.persistence.v1.postgresql;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationDto;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationTopicDto;
 import com.vividsolutions.jts.geom.Geometry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -10,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostgreSpatialQuery implements PostgreSqlAreaOfInterestQuery {
+	private static final Logger logger = LoggerFactory.getLogger(PostgreSpatialQuery.class);
+
+	// event_geom is replaced with the event geometry, in both places.
 	private static final String SQL_COLS = """
 			SELECT n.notification_guid,
 			       n.subscriber_guid,
@@ -25,16 +30,26 @@ public class PostgreSpatialQuery implements PostgreSqlAreaOfInterestQuery {
 			FROM public.notification n
 			LEFT JOIN public.notification_topic nt ON nt.notification_guid = n.notification_guid
 			LEFT JOIN public.notification_settings ns ON ns.subscriber_guid = n.subscriber_guid
-			WHERE ns.notification_token != '' AND n.active_ind = 'Y' AND nt.notification_topic_name = 'query_topic'""";
+			WHERE ns.notification_token != '' AND n.active_ind = 'Y' AND nt.notification_topic_name = 'query_topic'
+			  AND ST_INTERSECTS(n.point_geom_buffered, event_geom)""";
 
-	private static final String POINT_SQL = SQL_COLS +
-			" AND ST_INTERSECTS(n.point_geom_buffered, ST_SetSRID(ST_MakePoint(coordinateX,coordinateY), 4326))";
+	private static final String POINT_GEOM = "ST_SetSRID(ST_MakePoint(coordinateX,coordinateY), 4326)";
 
-	private static final String POLY_SQL = SQL_COLS +
-			" AND ST_INTERSECTS(n.point_geom_buffered, ST_SetSRID(ST_MakePolygon('coordinates'), 4326))";
+	private static final String POLY_GEOM = "ST_SetSRID(ST_MakePolygon('coordinates'), 4326)";
 
-	// Keyset pagination. Unlike the rest of this query, these two are real bind parameters.
-	private static final String PAGE_SQL = " AND n.notification_guid > ? ORDER BY n.notification_guid LIMIT ?";
+	// Keyset pagination on the subscriber, so that all the saved locations of one
+	// subscriber stay together and one subscriber gets one push. Unlike the rest of this
+	// query, these two are real bind parameters.
+	//
+	// The order holds no distance on purpose. A computed distance in the ORDER BY makes
+	// the database sort the whole audience on every page, and no index can supply that
+	// order. The service ranks each group instead, from the latitude and the longitude
+	// that this query already returns.
+	private static final String PAGE_SQL = """
+
+			  AND n.subscriber_guid > ?
+			ORDER BY n.subscriber_guid, n.notification_guid
+			LIMIT ?""";
 
 	private DataSource dataSource;
 
@@ -43,25 +58,14 @@ public class PostgreSpatialQuery implements PostgreSqlAreaOfInterestQuery {
 	}
 
 	@Override
-	public List<NotificationDto> select(Geometry geometry, String topic, String afterNotificationGuid, int pageSize)
+	public List<NotificationDto> select(Geometry geometry, String topic, String afterSubscriberGuid, int pageSize)
 			throws SQLException {
 		List<NotificationDto> subscribers = new ArrayList<>();
 
-		String sqlCustom = "";
-		if (geometry.getCoordinates().length == 1) {
-			Double x = geometry.getCoordinate().x;
-			Double y = geometry.getCoordinate().y;
-			sqlCustom = POINT_SQL.replace("coordinateX", Double.toString(x)).replace("coordinateY", Double.toString(y))
-					.replace("query_topic", topic);
-		} else {
-			String wkt = geometry.getFactory().createLineString(geometry.getCoordinates()).toText();
-			sqlCustom = POLY_SQL.replace("coordinates", wkt).replace("query_topic", topic);
-		}
-
-		sqlCustom = sqlCustom + PAGE_SQL;
+		String sqlCustom = buildSql(geometry, topic);
 
 		// An empty string is less than every guid, so it selects the first page.
-		String afterGuid = afterNotificationGuid == null ? "" : afterNotificationGuid;
+		String afterGuid = afterSubscriberGuid == null ? "" : afterSubscriberGuid;
 
 		try (Connection con = dataSource.getConnection();
 				PreparedStatement pst = con.prepareStatement(sqlCustom)) {
@@ -104,6 +108,50 @@ public class PostgreSpatialQuery implements PostgreSqlAreaOfInterestQuery {
 			throw e;
 		}
 
-		return subscribers;
+		return trimPartialTrailingSubscriber(subscribers, pageSize);
+	}
+
+	// Package private for the test. Nothing outside this class calls it.
+	static String buildSql(Geometry geometry, String topic) {
+		String eventGeom;
+
+		if (geometry.getCoordinates().length == 1) {
+			Double x = geometry.getCoordinate().x;
+			Double y = geometry.getCoordinate().y;
+			eventGeom = POINT_GEOM.replace("coordinateX", Double.toString(x)).replace("coordinateY", Double.toString(y));
+		} else {
+			String wkt = geometry.getFactory().createLineString(geometry.getCoordinates()).toText();
+			eventGeom = POLY_GEOM.replace("coordinates", wkt);
+		}
+
+		return SQL_COLS.replace("query_topic", topic).replace("event_geom", eventGeom) + PAGE_SQL;
+	}
+
+	/**
+	 * The LIMIT can cut the last subscriber in half. Drop that group and let the next page
+	 * read it whole. Without this one subscriber spans two pages, two threads send to that
+	 * subscriber, and the caller cannot see it because each thread holds one page.
+	 */
+	// Package private for the test. Nothing outside this class calls it.
+	static List<NotificationDto> trimPartialTrailingSubscriber(List<NotificationDto> rows, int pageSize) {
+		if (rows.size() < pageSize) {
+			return rows;
+		}
+
+		String lastSubscriberGuid = rows.get(rows.size() - 1).getSubscriberGuid();
+
+		int end = rows.size();
+		while (end > 0 && lastSubscriberGuid.equals(rows.get(end - 1).getSubscriberGuid())) {
+			end--;
+		}
+
+		if (end == 0) {
+			// One subscriber fills a whole page. Keep it, or the read never advances.
+			logger.warn("Subscriber {} has at least {} matched saved locations. Reading it in one page.",
+					lastSubscriberGuid, pageSize);
+			return rows;
+		}
+
+		return rows.subList(0, end);
 	}
 }
