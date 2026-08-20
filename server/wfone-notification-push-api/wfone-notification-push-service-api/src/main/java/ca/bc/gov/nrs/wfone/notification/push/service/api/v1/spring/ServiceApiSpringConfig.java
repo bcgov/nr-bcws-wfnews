@@ -101,7 +101,6 @@ public class ServiceApiSpringConfig {
 		result.setFcmPermitsPerSecond(fcmPermitsPerSecond);
 
 		result.setSpatialMonitorHandler(spatialMonitorHandler());
-		result.setSpatialQuery(persistenceSpringConfig.postgreSpatialQuery());
 		result.setNotificationSettingsDao(persistenceSpringConfig.notificationSettingsDao());
 		result.setNotificationPushItemDao(persistenceSpringConfig.notificationPushItemDao());
 		result.setPushNotificationFactory(pushNotificationFactory);

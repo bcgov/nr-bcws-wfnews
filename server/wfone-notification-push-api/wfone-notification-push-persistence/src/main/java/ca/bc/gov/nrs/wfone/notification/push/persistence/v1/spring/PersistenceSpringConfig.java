@@ -7,8 +7,6 @@ import java.time.LocalTime;
 
 import javax.sql.DataSource;
 
-import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.postgresql.PostgreSqlAreaOfInterestQuery;
-import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.postgresql.PostgreSpatialQuery;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.LocalCacheScope;
 import org.apache.ibatis.type.JdbcType;
@@ -128,10 +126,5 @@ public class PersistenceSpringConfig {
 		result.setMaxTotal(Integer.parseInt(wfoneDataSourceMaxConnections));
 
 		return result;
-	}
-
-	@Bean
-	public PostgreSqlAreaOfInterestQuery postgreSpatialQuery() {
-		return new PostgreSpatialQuery(wfoneDataSource());
 	}
 }

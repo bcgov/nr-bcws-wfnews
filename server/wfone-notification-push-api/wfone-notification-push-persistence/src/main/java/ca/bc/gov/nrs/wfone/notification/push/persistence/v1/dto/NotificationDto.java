@@ -18,6 +18,8 @@ public class NotificationDto extends BaseDto<NotificationDto> {
 
 	private String notificationGuid;
 	private String subscriberGuid;
+	/** Set by claimPushItems only. */
+	private String notificationPushItemGuid;
 	private String notificationName;
 	private String notificationType;
 	private Double longitude;
@@ -36,6 +38,7 @@ public class NotificationDto extends BaseDto<NotificationDto> {
 	public NotificationDto(NotificationDto dto) {
 		this.notificationGuid = dto.notificationGuid;
 		this.subscriberGuid = dto.subscriberGuid;
+		this.notificationPushItemGuid = dto.notificationPushItemGuid;
 		this.notificationName = dto.notificationName;
 		this.notificationType = dto.notificationType;
 		this.radius = dto.radius;
@@ -51,6 +54,12 @@ public class NotificationDto extends BaseDto<NotificationDto> {
 		}
 	}
 
+	public String getNotificationPushItemGuid() {
+		return notificationPushItemGuid;
+	}
+	public void setNotificationPushItemGuid(String notificationPushItemGuid) {
+		this.notificationPushItemGuid = notificationPushItemGuid;
+	}
 	public String getSubscriberGuid() {
 		return subscriberGuid;
 	}

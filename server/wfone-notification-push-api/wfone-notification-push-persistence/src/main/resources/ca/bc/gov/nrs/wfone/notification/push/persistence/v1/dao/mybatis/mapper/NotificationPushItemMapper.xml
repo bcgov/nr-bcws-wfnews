@@ -4,15 +4,29 @@
 <mapper
 				namespace="ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dao.mybatis.mapper.NotificationPushItemMapper">
 
+				<!-- Bound, never written into the statement text. -->
+				<sql id="eventGeometry">
+								<choose>
+												<when test="eventRingWkt != null">
+																ST_SetSRID(ST_MakePolygon(CAST(#{eventRingWkt, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} AS geometry)), 4326)
+												</when>
+												<otherwise>
+																ST_SetSRID(ST_MakePoint(#{eventLongitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN},
+																#{eventLatitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), 4326)
+												</otherwise>
+								</choose>
+				</sql>
+
 				<!--
-					A select, not an insert: MyBatis needs a select to read a RETURNING result set.
-					The guids that come back are the recipients to send to.
+					INSERT ... SELECT, so no recipient row crosses the network. ON CONFLICT makes a
+					redelivery idempotent, and sent_timestamp is left null as unsent work.
 				-->
-				<select id="insertPushItems" resultType="java.lang.String">
+				<insert id="materialiseAudience">
 
 								INSERT INTO NOTIFICATION_PUSH_ITEM
 								( NOTIFICATION_PUSH_ITEM_GUID,
 								NOTIFICATION_GUID,
+								SUBSCRIBER_GUID,
 								PUSH_TIMESTAMP,
 								ITEM_EXPIRY_TIMESTAMP,
 								ITEM_IDENTIFIER,
@@ -21,35 +35,88 @@
 								CREATE_TIMESTAMP,
 								UPDATE_USER,
 								UPDATE_TIMESTAMP )
-								VALUES
-								<foreach item="item" collection="items" separator=",">
-								(uuid_generate_v1(),
-								#{item.notificationGuid, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-								#{item.pushTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
-								#{item.itemExpiryTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
-								#{item.itemIdentifier, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+								SELECT uuid_generate_v1(),
+								n.notification_guid,
+								n.subscriber_guid,
+								#{pushTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
+								#{itemExpiryTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
+								#{itemIdentifier, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 								1,
 								COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user),
 								current_timestamp,
 								COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user),
-								current_timestamp)
-								</foreach>
+								current_timestamp
+								FROM public.notification n
+								JOIN public.notification_settings ns ON ns.subscriber_guid = n.subscriber_guid
+								WHERE n.active_ind = 'Y'
+								AND ns.notification_token != ''
+								AND ST_INTERSECTS(n.point_geom_buffered, <include refid="eventGeometry"/>)
+								<!-- EXISTS, not a join: one work list row for one saved location, whatever the topic rows. -->
+								AND EXISTS (
+								SELECT 1 FROM public.notification_topic nt
+								WHERE nt.notification_guid = n.notification_guid
+								AND nt.notification_topic_name = #{topic, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+								)
 								ON CONFLICT (NOTIFICATION_GUID, ITEM_IDENTIFIER) DO NOTHING
-								RETURNING NOTIFICATION_GUID
+
+				</insert>
+
+				<!--
+					UPDATE ... RETURNING inside a CTE: it claims the page and reads it in one statement,
+					so two workers cannot take the same row. SKIP LOCKED sends the second one to the
+					next free page. The cursor is an index condition of notification_push_item_unsent_idx.
+				-->
+				<select id="claimPushItems" flushCache="true" useCache="false" resultType="ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationDto">
+
+								WITH claimed AS (
+								UPDATE NOTIFICATION_PUSH_ITEM npi
+								SET SENT_TIMESTAMP = current_timestamp,
+								UPDATE_TIMESTAMP = current_timestamp
+								WHERE npi.NOTIFICATION_PUSH_ITEM_GUID IN (
+								SELECT c.NOTIFICATION_PUSH_ITEM_GUID
+								FROM NOTIFICATION_PUSH_ITEM c
+								WHERE c.ITEM_IDENTIFIER = #{itemIdentifier, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+								AND c.SENT_TIMESTAMP IS NULL
+								AND (c.SUBSCRIBER_GUID, c.NOTIFICATION_PUSH_ITEM_GUID) &gt;
+								(#{afterSubscriberGuid, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+								#{afterPushItemGuid, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN})
+								ORDER BY c.SUBSCRIBER_GUID, c.NOTIFICATION_PUSH_ITEM_GUID
+								LIMIT #{pageSize, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN}
+								FOR UPDATE SKIP LOCKED
+								)
+								RETURNING npi.NOTIFICATION_PUSH_ITEM_GUID,
+								npi.NOTIFICATION_GUID,
+								npi.SUBSCRIBER_GUID
+								)
+								SELECT claimed.notification_push_item_guid AS "notificationPushItemGuid",
+								claimed.notification_guid AS "notificationGuid",
+								claimed.subscriber_guid AS "subscriberGuid",
+								n.notification_name AS "notificationName",
+								NULLIF(btrim(n.longitude), '')::double precision AS "longitude",
+								NULLIF(btrim(n.latitude), '')::double precision AS "latitude",
+								n.radius_kms AS "radius",
+								ns.notification_token AS "notificationToken"
+								FROM claimed
+								JOIN public.notification n ON n.notification_guid = claimed.notification_guid
+								JOIN public.notification_settings ns ON ns.subscriber_guid = claimed.subscriber_guid
+								<!-- RETURNING has no order of its own. -->
+								ORDER BY claimed.subscriber_guid, claimed.notification_push_item_guid
 
 				</select>
 
-				<!-- Without this, the push item row blocks the retry and the recipient gets nothing. -->
-				<delete id="deletePushItems">
+				<!-- Clears the claim. The row stays, so the record of the recipient is kept. -->
+				<update id="releasePushItems">
 
-								DELETE FROM NOTIFICATION_PUSH_ITEM
+								UPDATE NOTIFICATION_PUSH_ITEM
+								SET SENT_TIMESTAMP = NULL,
+								UPDATE_TIMESTAMP = current_timestamp
 								WHERE ITEM_IDENTIFIER = #{itemIdentifier, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
-								AND NOTIFICATION_GUID IN
-								<foreach item="notificationGuid" index="index" collection="notificationGuids"
-												open="(" separator="," close=")">#{notificationGuid}
+								AND NOTIFICATION_PUSH_ITEM_GUID IN
+								<foreach item="pushItemGuid" index="index" collection="pushItemGuids"
+												open="(" separator="," close=")">#{pushItemGuid}
 								</foreach>
 
-				</delete>
+				</update>
 
 				<!--
 					Postgres has no DELETE ... LIMIT, so the limit comes from a ctid subselect.

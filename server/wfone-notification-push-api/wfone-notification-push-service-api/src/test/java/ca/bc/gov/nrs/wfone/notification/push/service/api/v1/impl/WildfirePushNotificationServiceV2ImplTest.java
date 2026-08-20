@@ -7,8 +7,6 @@ import ca.bc.gov.nrs.wfone.notification.push.model.v1.PushNotificationList;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dao.NotificationPushItemDao;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dao.NotificationSettingsDao;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationDto;
-import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationPushItemDto;
-import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.postgresql.PostgreSqlAreaOfInterestQuery;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.model.factory.PushNotificationFactory;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.monitor.handler.SpatialMonitorHandler;
 import com.amazonaws.services.sqs.model.MessageAttributeValue;
@@ -28,11 +26,13 @@ import org.springframework.transaction.support.SimpleTransactionStatus;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-/** A recipient that already has a push item, a dead token, and an FCM error that can pass. */
 public class WildfirePushNotificationServiceV2ImplTest {
 
 	private static final String EVENT_BODY = "{ \"incidentNumberLabel\": \"V12345\", \"discoveryDate\": 160000000, \"latitude\": 50.0, \"longitude\": -120.0 }";
@@ -41,17 +41,17 @@ public class WildfirePushNotificationServiceV2ImplTest {
 	private FakePushItemDao pushItemDao;
 	private FakeSettingsDao settingsDao;
 	private FakePushNotificationFactory pushNotificationFactory;
-	private List<NotificationDto> audience;
+	/** Ordered by subscriber, then push item, as claimPushItems returns it. */
+	private List<NotificationDto> workList;
 
 	@Before
 	public void setUp() {
-		pushItemDao = new FakePushItemDao();
+		workList = new ArrayList<>();
+		pushItemDao = new FakePushItemDao(workList);
 		settingsDao = new FakeSettingsDao();
-		audience = new ArrayList<>();
 
 		service = new TestService();
 		service.setSpatialMonitorHandler(new SpatialMonitorHandler());
-		service.setSpatialQuery(new FakeSpatialQuery());
 		service.setNotificationPushItemDao(pushItemDao);
 		service.setNotificationSettingsDao(settingsDao);
 		pushNotificationFactory = new FakePushNotificationFactory();
@@ -64,27 +64,61 @@ public class WildfirePushNotificationServiceV2ImplTest {
 	}
 
 	@Test
-	public void aRecipientThatAlreadyHasAPushItemIsNotSentTwice() throws Exception {
-		audience.add(recipient("guid-1", "token-1", "subscriber-1"));
-		audience.add(recipient("guid-2", "token-2", "subscriber-2"));
+	public void aRecipientThatWasAlreadySentIsNotSentTwice() throws Exception {
+		workList.add(recipient("guid-1", "token-1", "subscriber-1"));
+		workList.add(recipient("guid-2", "token-2", "subscriber-2"));
 
-		// Another worker, or an earlier delivery of the same event, already inserted guid-1.
-		pushItemDao.insertResult = Collections.singletonList("guid-2");
+		// Another worker, or an earlier delivery of the same event, already sent guid-1.
+		pushItemDao.markSent("item-guid-1");
 		service.responses.add(Collections.singletonList(TestSendResponses.success("message-2")));
 
 		service.pushNearMeNotifications(sqsMessage(), false, null);
 
-		Assert.assertEquals("Only the inserted recipient is sent to", 1, service.sentMessageCounts.size());
+		Assert.assertEquals("Only the unsent recipient is claimed", 1, service.sentMessageCounts.size());
 		Assert.assertEquals(1, service.sentMessageCounts.get(0).intValue());
-		Assert.assertTrue("A push item that was sent is not deleted", pushItemDao.deletedGuids.isEmpty());
+		Assert.assertTrue("A push item that was sent is not released", pushItemDao.releasedGuids.isEmpty());
+	}
+
+	@Test
+	public void theSpatialQueryRunsOneTimeForTheEvent() throws Exception {
+		service.setAudiencePageSize(2);
+		workList.add(recipient("guid-1", "token-1", "subscriber-1"));
+		workList.add(recipient("guid-2", "token-2", "subscriber-2"));
+
+		service.responses.add(Collections.singletonList(TestSendResponses.success("message-1")));
+		service.responses.add(Collections.singletonList(TestSendResponses.success("message-2")));
+
+		service.pushNearMeNotifications(sqsMessage(), false, null);
+
+		Assert.assertEquals("One materialise pass, whatever the page count", 1, pushItemDao.materialiseCalls);
+		Assert.assertEquals("Two subscribers, two pushes", 2, service.sentMessageCounts.size());
+	}
+
+	@Test
+	public void aSubscriberThatCrossesAPageBoundaryGetsOnePush() throws Exception {
+		// Page 1 ends in the middle of subscriber-2, which must be held back.
+		service.setAudiencePageSize(3);
+		workList.add(recipient("guid-1a", "token-1", "subscriber-1", "A"));
+		workList.add(recipient("guid-1b", "token-1", "subscriber-1", "B"));
+		workList.add(recipient("guid-2a", "token-2", "subscriber-2", "C"));
+		workList.add(recipient("guid-2b", "token-2", "subscriber-2", "D"));
+
+		service.responses.add(Collections.singletonList(TestSendResponses.success("message-1")));
+		service.responses.add(Collections.singletonList(TestSendResponses.success("message-2")));
+
+		service.pushNearMeNotifications(sqsMessage(), false, null);
+
+		Assert.assertEquals("One push for each subscriber, and not one for each page", 2,
+				service.sentMessageCounts.size());
+		Assert.assertEquals(1, service.sentMessageCounts.get(0).intValue());
+		Assert.assertEquals(1, service.sentMessageCounts.get(1).intValue());
 	}
 
 	@Test
 	public void aDeadTokenIsClearedInOneStatement() throws Exception {
-		audience.add(recipient("guid-1", "token-1", "subscriber-1"));
-		audience.add(recipient("guid-2", "token-2", "subscriber-2"));
+		workList.add(recipient("guid-1", "token-1", "subscriber-1"));
+		workList.add(recipient("guid-2", "token-2", "subscriber-2"));
 
-		pushItemDao.insertResult = List.of("guid-1", "guid-2");
 		service.responses.add(List.of(TestSendResponses.success("message-1"),
 				TestSendResponses.failure(MessagingErrorCode.UNREGISTERED, ErrorCode.NOT_FOUND)));
 
@@ -92,15 +126,14 @@ public class WildfirePushNotificationServiceV2ImplTest {
 
 		Assert.assertEquals("One bulk update, not one update for each token", 1, settingsDao.clearDeviceTokensCalls);
 		Assert.assertEquals(Collections.singletonList("subscriber-2"), settingsDao.clearedSubscriberGuids);
-		Assert.assertTrue("A dead token is not tried again", pushItemDao.deletedGuids.isEmpty());
+		Assert.assertTrue("A dead token is not tried again", pushItemDao.releasedGuids.isEmpty());
 		Assert.assertEquals("The dead token is not sent a second time", 1, service.sentMessageCounts.size());
 	}
 
 	@Test
 	public void anErrorThatCanPassIsTriedAgain() throws Exception {
-		audience.add(recipient("guid-1", "token-1", "subscriber-1"));
+		workList.add(recipient("guid-1", "token-1", "subscriber-1"));
 
-		pushItemDao.insertResult = Collections.singletonList("guid-1");
 		service.responses.add(Collections.singletonList(
 				TestSendResponses.failure(MessagingErrorCode.UNAVAILABLE, ErrorCode.UNAVAILABLE)));
 		service.responses.add(Collections.singletonList(TestSendResponses.success("message-1")));
@@ -109,16 +142,15 @@ public class WildfirePushNotificationServiceV2ImplTest {
 
 		Assert.assertEquals("The message is sent twice: the first attempt and the retry", 2,
 				service.sentMessageCounts.size());
-		Assert.assertTrue("A recipient that succeeded on the retry keeps its push item",
-				pushItemDao.deletedGuids.isEmpty());
+		Assert.assertTrue("A recipient that succeeded on the retry stays marked sent",
+				pushItemDao.releasedGuids.isEmpty());
 		Assert.assertEquals("UNAVAILABLE is not a dead token", 0, settingsDao.clearDeviceTokensCalls);
 	}
 
 	@Test
-	public void thePushItemIsDeletedWhenEveryAttemptFails() throws Exception {
-		audience.add(recipient("guid-1", "token-1", "subscriber-1"));
+	public void thePushItemIsReleasedWhenEveryAttemptFails() throws Exception {
+		workList.add(recipient("guid-1", "token-1", "subscriber-1"));
 
-		pushItemDao.insertResult = Collections.singletonList("guid-1");
 		for (int attempt = 0; attempt < 3; attempt++) {
 			service.responses.add(Collections.singletonList(
 					TestSendResponses.failure(MessagingErrorCode.UNAVAILABLE, ErrorCode.UNAVAILABLE)));
@@ -131,18 +163,18 @@ public class WildfirePushNotificationServiceV2ImplTest {
 			// The consumer job catches this and leaves the message on the queue.
 		}
 
-		Assert.assertEquals("The push item is deleted so that a later delivery can try again",
-				Collections.singletonList("guid-1"), pushItemDao.deletedGuids);
+		Assert.assertEquals("The push item goes back to unsent, so a later delivery can try again",
+				Collections.singletonList("item-guid-1"), pushItemDao.releasedGuids);
+		Assert.assertTrue("The work list row itself is kept", pushItemDao.claimed.isEmpty());
 	}
 
 	@Test
 	public void overlappingSavedLocationsOfOneSubscriberGetOnePush() throws Exception {
 		// Three saved locations of one subscriber match. The query returns them nearest first.
-		audience.add(recipient("guid-near", "token-1", "subscriber-1", "Kelowna cabin"));
-		audience.add(recipient("guid-mid", "token-1", "subscriber-1", "Vernon house"));
-		audience.add(recipient("guid-far", "token-1", "subscriber-1", "Kamloops lot"));
+		workList.add(recipient("guid-near", "token-1", "subscriber-1", "Kelowna cabin"));
+		workList.add(recipient("guid-mid", "token-1", "subscriber-1", "Vernon house"));
+		workList.add(recipient("guid-far", "token-1", "subscriber-1", "Kamloops lot"));
 
-		pushItemDao.insertResult = List.of("guid-near", "guid-mid", "guid-far");
 		service.responses.add(Collections.singletonList(TestSendResponses.success("message-1")));
 
 		service.pushNearMeNotifications(sqsMessage(), false, null);
@@ -150,17 +182,16 @@ public class WildfirePushNotificationServiceV2ImplTest {
 		Assert.assertEquals("One send call", 1, service.sentMessageCounts.size());
 		Assert.assertEquals("One message for three saved locations", 1,
 				service.sentMessageCounts.get(0).intValue());
-		Assert.assertEquals("Every saved location keeps its push item", 0, pushItemDao.deletedGuids.size());
+		Assert.assertEquals("Every saved location stays marked sent", 0, pushItemDao.releasedGuids.size());
 	}
 
 	@Test
 	public void theNearestSavedLocationNamesThePush() throws Exception {
 		// The event is at 50.0, -120.0. The farther row comes first, so only the ranking can
 		// pick the nearer one.
-		audience.add(recipient("guid-far", "token-1", "subscriber-1", "Kamloops lot", 50.9, -120.0));
-		audience.add(recipient("guid-near", "token-1", "subscriber-1", "Kelowna cabin", 50.1, -120.0));
+		workList.add(recipient("guid-far", "token-1", "subscriber-1", "Kamloops lot", 50.9, -120.0));
+		workList.add(recipient("guid-near", "token-1", "subscriber-1", "Kelowna cabin", 50.1, -120.0));
 
-		pushItemDao.insertResult = List.of("guid-near", "guid-far");
 		service.responses.add(Collections.singletonList(TestSendResponses.success("message-1")));
 
 		service.pushNearMeNotifications(sqsMessage(), false, null);
@@ -178,10 +209,9 @@ public class WildfirePushNotificationServiceV2ImplTest {
 	public void theRankingScalesLongitudeForTheLatitude() throws Exception {
 		// 0.30 degrees of longitude at 50 N is about 21 km. 0.25 degrees of latitude is about
 		// 28 km. Raw degrees would pick the wrong row.
-		audience.add(recipient("guid-lat", "token-1", "subscriber-1", "North place", 50.25, -120.0));
-		audience.add(recipient("guid-lon", "token-1", "subscriber-1", "East place", 50.0, -119.7));
+		workList.add(recipient("guid-lat", "token-1", "subscriber-1", "North place", 50.25, -120.0));
+		workList.add(recipient("guid-lon", "token-1", "subscriber-1", "East place", 50.0, -119.7));
 
-		pushItemDao.insertResult = List.of("guid-lat", "guid-lon");
 		service.responses.add(Collections.singletonList(TestSendResponses.success("message-1")));
 
 		service.pushNearMeNotifications(sqsMessage(), false, null);
@@ -192,11 +222,10 @@ public class WildfirePushNotificationServiceV2ImplTest {
 
 	@Test
 	public void eachSubscriberStillGetsOwnPush() throws Exception {
-		audience.add(recipient("guid-1", "token-1", "subscriber-1", "A"));
-		audience.add(recipient("guid-2", "token-1", "subscriber-1", "B"));
-		audience.add(recipient("guid-3", "token-2", "subscriber-2", "C"));
+		workList.add(recipient("guid-1", "token-1", "subscriber-1", "A"));
+		workList.add(recipient("guid-2", "token-1", "subscriber-1", "B"));
+		workList.add(recipient("guid-3", "token-2", "subscriber-2", "C"));
 
-		pushItemDao.insertResult = List.of("guid-1", "guid-2", "guid-3");
 		service.responses.add(List.of(TestSendResponses.success("message-1"),
 				TestSendResponses.success("message-2")));
 
@@ -206,13 +235,12 @@ public class WildfirePushNotificationServiceV2ImplTest {
 	}
 
 	@Test
-	public void everyPushItemOfAFailedSubscriberIsDeleted() throws Exception {
-		// One message covers three rows. A row left behind would block the retry for all time.
-		audience.add(recipient("guid-near", "token-1", "subscriber-1", "Kelowna cabin"));
-		audience.add(recipient("guid-mid", "token-1", "subscriber-1", "Vernon house"));
-		audience.add(recipient("guid-far", "token-1", "subscriber-1", "Kamloops lot"));
+	public void everyPushItemOfAFailedSubscriberIsReleased() throws Exception {
+		// One message covers three rows. A row left marked sent would block the retry.
+		workList.add(recipient("guid-near", "token-1", "subscriber-1", "Kelowna cabin"));
+		workList.add(recipient("guid-mid", "token-1", "subscriber-1", "Vernon house"));
+		workList.add(recipient("guid-far", "token-1", "subscriber-1", "Kamloops lot"));
 
-		pushItemDao.insertResult = List.of("guid-near", "guid-mid", "guid-far");
 		for (int attempt = 0; attempt < 3; attempt++) {
 			service.responses.add(Collections.singletonList(
 					TestSendResponses.failure(MessagingErrorCode.UNAVAILABLE, ErrorCode.UNAVAILABLE)));
@@ -225,18 +253,17 @@ public class WildfirePushNotificationServiceV2ImplTest {
 			// The consumer job catches this and leaves the message on the queue.
 		}
 
-		Assert.assertEquals("Every row of the group is deleted, not the nearest only",
-				List.of("guid-near", "guid-mid", "guid-far"), pushItemDao.deletedGuids);
+		Assert.assertEquals("Every row of the group is released, not the nearest only",
+				List.of("item-guid-near", "item-guid-mid", "item-guid-far"), pushItemDao.releasedGuids);
 	}
 
 	@Test
 	public void aRowThatAnotherWorkerHoldsIsNotSentAgain() throws Exception {
-		// An earlier delivery already inserted the nearest row. The subscriber still gets one
-		// push, and the second nearest names it.
-		audience.add(recipient("guid-near", "token-1", "subscriber-1", "Kelowna cabin"));
-		audience.add(recipient("guid-far", "token-1", "subscriber-1", "Kamloops lot"));
+		// The nearest row is already sent, so the second nearest names the push.
+		workList.add(recipient("guid-near", "token-1", "subscriber-1", "Kelowna cabin"));
+		workList.add(recipient("guid-far", "token-1", "subscriber-1", "Kamloops lot"));
 
-		pushItemDao.insertResult = Collections.singletonList("guid-far");
+		pushItemDao.markSent("item-guid-near");
 		service.responses.add(Collections.singletonList(TestSendResponses.success("message-1")));
 
 		service.pushNearMeNotifications(sqsMessage(), false, null);
@@ -244,6 +271,38 @@ public class WildfirePushNotificationServiceV2ImplTest {
 		Assert.assertEquals(1, service.sentMessageCounts.get(0).intValue());
 		Assert.assertTrue("The remaining row names the push",
 				pushNotificationFactory.entries.get(0).get("message").contains("Kamloops lot"));
+	}
+
+	@Test
+	public void aPageOfManySubscribersHoldsBackOnlyTheLastOne() {
+		Assert.assertEquals(3, WildfirePushNotificationServiceV2Impl
+				.endOfCompleteSubscribers(rows("sub-1", "sub-1", "sub-2", "sub-3", "sub-3")));
+	}
+
+	@Test
+	public void aPageOfOneSubscriberHoldsBackEverything() {
+		// The caller reads this as "claim more before you send".
+		Assert.assertEquals(0, WildfirePushNotificationServiceV2Impl
+				.endOfCompleteSubscribers(rows("sub-1", "sub-1", "sub-1")));
+	}
+
+	@Test
+	public void aPageThatEndsOnASubscriberBoundaryKeepsEveryRowButTheLast() {
+		Assert.assertEquals(2, WildfirePushNotificationServiceV2Impl
+				.endOfCompleteSubscribers(rows("sub-1", "sub-2", "sub-3")));
+	}
+
+	private static List<NotificationDto> rows(String... subscriberGuids) {
+		List<NotificationDto> result = new ArrayList<>();
+
+		for (int i = 0; i < subscriberGuids.length; i++) {
+			NotificationDto dto = new NotificationDto();
+			dto.setSubscriberGuid(subscriberGuids[i]);
+			dto.setNotificationPushItemGuid("item-" + i);
+			result.add(dto);
+		}
+
+		return result;
 	}
 
 	private com.amazonaws.services.sqs.model.Message sqsMessage() {
@@ -270,6 +329,7 @@ public class WildfirePushNotificationServiceV2ImplTest {
 	private static NotificationDto recipient(String notificationGuid, String token, String subscriberGuid,
 			String notificationName, double latitude, double longitude) {
 		NotificationDto dto = new NotificationDto();
+		dto.setNotificationPushItemGuid("item-" + notificationGuid);
 		dto.setNotificationGuid(notificationGuid);
 		dto.setSubscriberGuid(subscriberGuid);
 		dto.setNotificationToken(token);
@@ -298,34 +358,54 @@ public class WildfirePushNotificationServiceV2ImplTest {
 		}
 	}
 
-	private class FakeSpatialQuery implements PostgreSqlAreaOfInterestQuery {
-
-		@Override
-		public List<NotificationDto> select(Geometry geometry, String topic, String afterSubscriberGuid, int pageSize) {
-			// One page, then an empty page. A short page does not end the read.
-			if (afterSubscriberGuid == null || afterSubscriberGuid.isEmpty()) {
-				return new ArrayList<>(audience);
-			}
-
-			return Collections.emptyList();
-		}
-	}
-
+	/** A claim takes the next unsent rows in order and marks them sent, as the statement does. */
 	private static class FakePushItemDao implements NotificationPushItemDao {
 
-		private List<String> insertResult = Collections.emptyList();
-		private final List<String> deletedGuids = new ArrayList<>();
+		private final List<NotificationDto> workList;
+		private final Set<String> claimed = new LinkedHashSet<>();
+		private final List<String> releasedGuids = new ArrayList<>();
+		private int materialiseCalls = 0;
 
-		@Override
-		public List<String> insertPushItems(List<NotificationPushItemDto> dtos, String userId) {
-			return new ArrayList<>(insertResult);
+		FakePushItemDao(List<NotificationDto> workList) {
+			this.workList = workList;
+		}
+
+		void markSent(String pushItemGuid) {
+			claimed.add(pushItemGuid);
 		}
 
 		@Override
-		public int deletePushItems(List<String> notificationGuids, String itemIdentifier) {
-			deletedGuids.addAll(notificationGuids);
+		public int materialiseAudience(Geometry eventGeometry, String topic, String itemIdentifier,
+				Date pushTimestamp, Date itemExpiryTimestamp, String userId) {
+			materialiseCalls++;
 
-			return notificationGuids.size();
+			return workList.size();
+		}
+
+		@Override
+		public synchronized List<NotificationDto> claimPushItems(String itemIdentifier, String afterSubscriberGuid,
+				String afterPushItemGuid, int pageSize) {
+			List<NotificationDto> result = new ArrayList<>();
+
+			for (NotificationDto row : workList) {
+				if (claimed.contains(row.getNotificationPushItemGuid()) || result.size() == pageSize) {
+					continue;
+				}
+
+				result.add(row);
+			}
+
+			result.forEach(row -> claimed.add(row.getNotificationPushItemGuid()));
+
+			return result;
+		}
+
+		@Override
+		public synchronized int releasePushItems(List<String> pushItemGuids, String itemIdentifier) {
+			releasedGuids.addAll(pushItemGuids);
+			claimed.removeAll(pushItemGuids);
+
+			return pushItemGuids.size();
 		}
 
 		@Override
