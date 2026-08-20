@@ -27,7 +27,7 @@ const mockIncident = {
     incidentSizeMappedHa: 43.222,
     incidentSizeDetail: 'Fire size is based on most current information available. 232',
     // eslint-disable-next-line max-len
-    incidentCauseDetail: 'Wildfire investigations often take time and can be very complex. Investigations may be carried out by one or more agencies, including the BC Wildfire Service, the Compliance and Enforcement Branch, the RCMP, or other law enforcement agencies, and may be cross jurisdictional.',
+    incidentCauseDetail: 'Wildfire investigations often take time and can be very complex. Investigations may be carried out by one or more agencies, including the BC Wildfire Service, the Natural Resource Officer Service, the RCMP, or other law enforcement agencies, and may be cross jurisdictional.',
     wildfireCrewResourcesInd: true,
     wildfireAviationResourceInd: true,
     heavyEquipmentResourcesInd: true,
@@ -53,7 +53,7 @@ const mockIncident = {
     incidentSizeType: 'Mapped',
     contactOrgUnitIdentifer: 50,
     contactPhoneNumber: '250-951-4209',
-    contactEmailAddress: 'BCWS.COFCInformationOfficer@gov.bc.ca',
+    contactEmailAddress: 'BCWS.COFCInfo@gov.bc.ca',
     resourceDetail: 'Here is the response',
     wildfireCrewResourcesDetail: 'There are currently 5 Initial Attack and 6 Unit Crews responding to this wildfire.',
     wildfireAviationResourceDetail: 'There are currently 6 helicopters and 6 airtankers responding to this wildfire.',

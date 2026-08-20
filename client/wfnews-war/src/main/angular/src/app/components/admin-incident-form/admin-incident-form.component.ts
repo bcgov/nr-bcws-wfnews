@@ -440,7 +440,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     switch (causeCode) {
       case 1: return "Humans start wildfires in several ways, either by accident or intentionally.";
       case 2: return "When lightning strikes an object it can release enough heat to ignite a tree or other fuels.";
-      case 3: return "Wildfire investigations often take time and can be very complex. Investigations may be carried out by one or more agencies, including the BC Wildfire Service, the Compliance and Enforcement Branch, the RCMP, or other law enforcement agencies, and may be cross jurisdictional."
+      case 3: return "Wildfire investigations often take time and can be very complex. Investigations may be carried out by one or more agencies, including the BC Wildfire Service, the Natural Resource Officer Service, the RCMP, or other law enforcement agencies, and may be cross jurisdictional."
       default: return "A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.";
     }
   }

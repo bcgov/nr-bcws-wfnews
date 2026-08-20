@@ -67,7 +67,7 @@ const mockIncident = {
     incidentSizeType: 'Mapped',
     contactOrgUnitIdentifer: 50,
     contactPhoneNumber: '250-951-4209',
-    contactEmailAddress: 'BCWS.COFCInformationOfficer@gov.bc.ca',
+    contactEmailAddress: 'BCWS.COFCInfo@gov.bc.ca',
     resourceDetail: null,
     wildfireCrewResourcesDetail: 'There are currently 4 Initial Attack and 4 Unit Crews responding to this wildfire.',
     wildfireAviationResourceDetail: 'There are currently 1 helicopters and 1 airtankers responding to this wildfire.',

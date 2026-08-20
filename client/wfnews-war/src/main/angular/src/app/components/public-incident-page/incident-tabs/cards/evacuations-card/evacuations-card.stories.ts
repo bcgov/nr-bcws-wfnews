@@ -133,7 +133,7 @@ export const example: Story = {
       incidentSizeType: 'Estimated',
       contactOrgUnitIdentifer: 25,
       contactPhoneNumber: '250-554-5965',
-      contactEmailAddress: 'KFCINFO@gov.bc.ca',
+      contactEmailAddress: 'BCWS.KFCInfo@gov.bc.ca',
       resourceDetail: 'The BCWS  is assisting the Crater Creek First Nation with this wildfire response effort.',
       wildfireCrewResourcesDetail: 'There are currently 5 Initial Attack and 3 Unit Crews responding to this wildfire.',
       wildfireAviationResourceDetail: 'There are currently 1 helicopters and 0 airtankers responding to this wildfire.',

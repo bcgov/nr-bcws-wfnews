@@ -71,7 +71,7 @@ export const Default: Story = {
                   isPrimary: true,
                   fireCentre: "Coastal Fire Centre",
                   phoneNumber: "250-951-4209",
-                  emailAddress: "BCWS.COFCInformationOfficer@gov.bc.ca",
+                  emailAddress: "BCWS.COFCInfo@gov.bc.ca",
                 },
                 crewsComments: "These are crews comments",
                 evacOrders: [],
