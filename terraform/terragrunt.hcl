@@ -54,6 +54,7 @@ generate "tfvars" {
     subnet_filter = "${get_env("SUBNET_FILTER")}"
     license_plate = "${get_env("TFC_PROJECT")}"
     sns_email_targets = "${get_env("SNS_EMAIL_TARGETS")}"
+    google_site_verification = "${get_env("GOOGLE_SITE_VERIFICATION")}"
     gov_certificate_arn = "${get_env("GOV_CERTIFICATE_ARN")}"
     GOV_API_LEGACY_CERTIFICATE_ARN = "${get_env("GOV_API_LEGACY_CERTIFICATE_ARN")}"
     WEBADE-OAUTH2_TOKEN_CLIENT_URL = "${get_env("WEBADE-OAUTH2_TOKEN_CLIENT_URL")}"
