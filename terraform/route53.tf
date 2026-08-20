@@ -79,3 +79,11 @@ resource "aws_route53_record" "wfnews_legacy_notifications_record" {
   }
 }
 
+resource "aws_route53_record" "google_site_verification_wfnews" {
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = data.aws_route53_zone.zone.name
+  type    = "TXT"
+  ttl     = 300
+  records = [var.google_site_verification]
+}
+

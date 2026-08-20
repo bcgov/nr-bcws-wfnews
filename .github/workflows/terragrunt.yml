@@ -98,6 +98,7 @@ jobs:
           DEFAULT_APPLICATION_ENVIRONMENT: ${{inputs.DEFAULT_APPLICATION_ENVIRONMENT}}
           drivebcBaseUrl: ${{vars.DRIVEBC_BASE_URL}}
           GITHUB_RELEASE_NAME: ${{ github.event.release.name }}
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
           INSTANCE_COUNT: ${{vars.INSTANCE_COUNT}}
           NOTIFICATIONS_API_INSTANCE_COUNT: ${{vars.NOTIFICATIONS_API_INSTANCE_COUNT}}
           LIQUIBASE_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.LIQUIBASE_IMAGE }}:${{ inputs.IMAGE_TAG }}
