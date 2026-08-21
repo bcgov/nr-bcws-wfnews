@@ -75,15 +75,23 @@
       it exists to detect. The app bundle targets Chrome 90 / iOS 15 but ships
       native ?. and ?? (Chrome 80 / Safari 13.1); below that the bundle fails to
       PARSE, so no app code runs at all and the user just sees a blank page.
-      This turns that blank page into an actionable message plus telemetry.
       Placed after the Snowplow init above so its newTracker call is queued first.
+
+      Two outcomes, and they are not the same fault:
+        unsupported  - the engine cannot parse the bundle. Nothing here can fix it.
+        boot failure - anything else, including a device that is merely slow.
+                       Usually recoverable, so it offers a retry instead of blame.
     -->
   <script type="text/javascript">
     (function () {
       var shown = false;
       var BUNDLES = /(runtime|polyfills|main|scripts|vendor)\./;
+      var BOOT_CEILING_MS = 30000;
+      var POLL_MS = 500;
 
-      function report(reason) {
+      // elapsedMs rides along in the value field so the ceiling can be tuned from
+      // real timings instead of a guess.
+      function report(reason, elapsedMs) {
         try {
           if (window.snowplow) {
             window.snowplow(
@@ -92,24 +100,26 @@
               'unsupported_webview',
               reason,
               'userAgent',
-              navigator.userAgent
+              navigator.userAgent +
+                (typeof elapsedMs === 'number' ? ' elapsedMs=' + elapsedMs : '')
             );
           }
         } catch (e) { /* telemetry must never mask the message */ }
       }
 
-      function show(reason) {
-        if (shown) { return; }
-        shown = true;
-        report(reason);
-
+      // capacitor.config.ts overrides the user agent, so 'Android' is never in it.
+      function platformAdvice() {
         var ua = navigator.userAgent || '';
-        var fix = ua.indexOf('Android') !== -1
-          ? 'Please open the Play Store and update <strong>Android System WebView</strong> and <strong>Google Chrome</strong>, then reopen this app.'
-          : (/iPhone|iPad|iPod/.test(ua)
-            ? 'Please update your device to a newer version of iOS, then reopen this app.'
-            : 'Please update your browser to a newer version, then reload this page.');
+        if (ua.indexOf('Android') !== -1 || ua.indexOf('bc-wildfire-android') !== -1) {
+          return 'Please open the Play Store and update <strong>Android System WebView</strong> and <strong>Google Chrome</strong>, then reopen this app.';
+        }
+        if (/iPhone|iPad|iPod/.test(ua) || ua.indexOf('bc-wildfire-ios') !== -1) {
+          return 'Please update your device to a newer version of iOS, then reopen this app.';
+        }
+        return 'Please update your browser to a newer version, then reload this page.';
+      }
 
+      function paint(html, afterAttach) {
         var el = document.createElement('div');
         el.setAttribute('id', 'wfnews-unsupported');
         el.setAttribute('style', [
@@ -119,26 +129,60 @@
           'line-height:1.5', 'padding:24px', 'overflow:auto',
           '-webkit-box-sizing:border-box', 'box-sizing:border-box'
         ].join(';'));
-        el.innerHTML =
+        el.innerHTML = html;
+
+        function attach() {
+          document.body.appendChild(el);
+          if (afterAttach) { afterAttach(el); }
+        }
+
+        if (document.body) {
+          attach();
+        } else {
+          document.addEventListener('DOMContentLoaded', attach);
+        }
+      }
+
+      // The engine cannot parse the bundle. A reload would fail the same way.
+      function showUnsupported(reason) {
+        if (shown) { return; }
+        shown = true;
+        report(reason);
+        paint(
           '<div style="max-width:32em;margin:10vh auto 0 auto">' +
           '<h1 style="font-size:20px;margin:0 0 16px 0">This app needs a newer browser</h1>' +
           '<p style="margin:0 0 16px 0">The BC Wildfire Service app uses features your current browser does not support, so it cannot load.</p>' +
-          '<p style="margin:0 0 16px 0">' + fix + '</p>' +
+          '<p style="margin:0 0 16px 0">' + platformAdvice() + '</p>' +
           '<p style="margin:0;color:#606060;font-size:13px">If the problem continues after updating, contact BC Wildfire Service support.</p>' +
-          '</div>';
+          '</div>'
+        );
+      }
 
-        if (document.body) {
-          document.body.appendChild(el);
-        } else {
-          document.addEventListener('DOMContentLoaded', function () {
-            document.body.appendChild(el);
-          });
-        }
+      // Everything else. Do not blame the browser for a slow device or a lost asset.
+      function showBootFailure(reason, elapsedMs) {
+        if (shown) { return; }
+        shown = true;
+        report(reason, elapsedMs);
+        paint(
+          '<div style="max-width:32em;margin:10vh auto 0 auto">' +
+          '<h1 style="font-size:20px;margin:0 0 16px 0">The app could not start</h1>' +
+          '<p style="margin:0 0 16px 0">Something stopped the BC Wildfire Service app from loading. This is usually temporary.</p>' +
+          '<p style="margin:0 0 16px 0"><button id="wfnews-retry" type="button" style="font:inherit;padding:10px 20px;border:0;border-radius:4px;background:#1a5a96;color:#ffffff;cursor:pointer">Try again</button></p>' +
+          '<p style="margin:0;color:#606060;font-size:13px">If it keeps happening, check your connection, or contact BC Wildfire Service support.</p>' +
+          '</div>',
+          function () {
+            var btn = document.getElementById('wfnews-retry');
+            if (btn) {
+              btn.onclick = function () { window.location.reload(); };
+            }
+          }
+        );
       }
 
       // 1. Syntax probe. Exercises the exact syntax that kills the bundle,
       //    without putting that syntax in this script. Kept inside new Function
-      //    so this file stays parseable everywhere.
+      //    so this file stays parseable everywhere. Syntax cannot be polyfilled:
+      //    the file carrying the fix would fail to parse alongside the bundle.
       try {
         new Function('var a = null; return a?.b ?? 1;')();
       } catch (e) {
@@ -147,36 +191,60 @@
         // If plain new Function also fails we are behind a CSP without
         // 'unsafe-eval', not on an old engine - say nothing and let the
         // watchdog below decide.
-        if (!evalBlocked) { show('syntax'); }
+        if (!evalBlocked) { showUnsupported('syntax'); }
       }
 
-      // 1b. Runtime API probe. esri-leaflet's request path calls
-      //     String.prototype.replaceAll (Chrome 85 / Safari 13.1 / Firefox 77).
-      //     Without this check, engines in the 80-84 range boot the app fine and
-      //     then fail every map request with no visible explanation.
+      // 1b. esri-leaflet's request path calls String.prototype.replaceAll
+      //     (Chrome 85 / Safari 13.1). That is an API, not syntax, so supply it
+      //     rather than refuse to start over a missing function.
       if (typeof String.prototype.replaceAll !== 'function') {
-        show('missing-replaceAll');
+        String.prototype.replaceAll = function (search, replacement) {
+          if (Object.prototype.toString.call(search) === '[object RegExp]') {
+            return this.replace(search, replacement);  // caller must pass a global regex
+          }
+          return this.split(search).join(replacement);
+        };
+        report('polyfilled-replaceAll');
       }
 
-      // 2. Boot watchdog. Catches runtime failures and module parse errors the
-      //    probe cannot see. Timed from window load rather than script start so
-      //    a slow download of the (large) main bundle is never mistaken for a
-      //    failure to boot.
+      // 2. Boot watchdog. A bundle error is proof of failure, so it fires at once.
+      //    Absence of proof only waits: a slow device is not a broken one, and the
+      //    poll stops the moment the app renders or main.ts sets its flag.
       var sawBundleError = false;
       window.addEventListener('error', function (ev) {
-        var src = (ev && ev.filename) || '';
+        // A script that fails to LOAD raises a plain Event with no filename - the
+        // URL is on target.src. Only a thrown error carries filename. Reading just
+        // filename missed every failed load and made them wait out the ceiling.
+        var target = ev && ev.target;
+        var src = (ev && ev.filename) || (target && target.src) || '';
         if (!BUNDLES.test(src)) { return; }   // ignore youtube / gstatic / etc
         sawBundleError = true;
-        if (ev.error instanceof SyntaxError) { show('bundle-syntax-error'); }
+        if (ev.error instanceof SyntaxError) { showUnsupported('bundle-syntax-error'); }
       }, true);
 
+      function booted() {
+        var root = document.getElementById('app-root');
+        return !!window.__wfnewsBooted || !!(root && root.children.length > 0);
+      }
+
       function armWatchdog() {
-        setTimeout(function () {
-          var root = document.getElementById('app-root');
-          if (root && root.children.length === 0) {
-            show(sawBundleError ? 'boot-failed-with-error' : 'boot-failed');
+        var started = new Date().getTime();
+        var timer = setInterval(function () {
+          var elapsed = new Date().getTime() - started;
+
+          if (booted()) { clearInterval(timer); return; }
+
+          if (sawBundleError) {
+            clearInterval(timer);
+            showBootFailure('boot-failed-with-error', elapsed);
+            return;
           }
-        }, 8000);
+
+          if (elapsed > BOOT_CEILING_MS) {
+            clearInterval(timer);
+            showBootFailure('boot-failed', elapsed);
+          }
+        }, POLL_MS);
       }
 
       if (document.readyState === 'complete') {

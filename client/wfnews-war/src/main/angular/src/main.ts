@@ -14,4 +14,10 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule).catch(console.warn);
+platformBrowserDynamic()
+  .bootstrapModule(AppModule)
+  // The boot watchdog in index.html waits on this instead of guessing from a timer.
+  .then(() => {
+    (window as any).__wfnewsBooted = true;
+  })
+  .catch(console.warn);

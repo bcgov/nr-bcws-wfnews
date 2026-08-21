@@ -20,6 +20,11 @@ import { EventEmitterService } from './event-emitter.service';
 
 import { ResourcesRoutes } from '@app/utils';
 import { Preferences } from '@capacitor/preferences';
+import {
+  AndroidSettings,
+  IOSSettings,
+  NativeSettings,
+} from 'capacitor-native-settings';
 import { NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
 
 export interface CompassHeading {
@@ -51,6 +56,12 @@ export interface ReportOfFireNotification {
   title: string;
   body: string;
 }
+
+export type PushPermissionState =
+  | 'granted'
+  | 'denied'
+  | 'prompt'
+  | 'unsupported';
 
 export interface DeviceProperties {
   isIOSPlatform: boolean;
@@ -85,7 +96,7 @@ export class CapacitorService {
   refreshTimer;
   rofNotificationsDelay = 5000;
   notificationSnackbarPromise = Promise.resolve();
-  registeredForNotifications = false;
+  pushPermission = new BehaviorSubject<PushPermissionState>('prompt');
   private devicePropertiesPromise: Promise<DeviceProperties>;
 
   constructor(
@@ -183,6 +194,7 @@ export class CapacitorService {
     App.addListener('appStateChange', (state) => {
       if (state.isActive) {
         startRefreshTimer();
+        this.onReturnToForeground();
 
         if (!this.inactiveStart) {
           return;
@@ -207,6 +219,7 @@ export class CapacitorService {
 
     if (this.isWebPlatform) {
       this.notificationToken = 'FakeForWeb';
+      this.pushPermission.next('unsupported');
       return;
     }
 
@@ -220,15 +233,10 @@ export class CapacitorService {
       });
     }
 
-    // Request permission to use push notifications
-    this.registerForNotifications()
-      .then((registered) => {
-        console.log('registeredForNotifications', registered);
-        this.registeredForNotifications = registered;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // Register only. The permission prompt belongs to the first saved location.
+    this.registerIfPermitted().catch((error) => {
+      console.error(error);
+    });
 
     // On success, we should be able to receive notifications
     PushNotifications.addListener('registration', (token) => {
@@ -277,18 +285,100 @@ export class CapacitorService {
     });
   }
 
-  async registerForNotifications(): Promise<boolean> {
-    let status = await PushNotifications.checkPermissions();
-    if (status.receive === 'prompt') {
-      status = await PushNotifications.requestPermissions();
+  /** Read the phone permission and publish it. The saved screen banner reads this. */
+  async refreshPushPermission(): Promise<PushPermissionState> {
+    if (this.isWebPlatform) {
+      this.pushPermission.next('unsupported');
+      return 'unsupported';
     }
 
-    if (status.receive !== 'granted') {
-      return false;
+    try {
+      const status = await PushNotifications.checkPermissions();
+      let state: PushPermissionState;
+
+      if (status.receive === 'granted') {
+        state = 'granted';
+      } else if (status.receive === 'denied') {
+        state = 'denied';
+      } else {
+        state = 'prompt';
+      }
+
+      if (state !== this.pushPermission.value) {
+        this.pushPermission.next(state);
+      }
+      return state;
+    } catch (error) {
+      console.error(error);
+      return this.pushPermission.value;
+    }
+  }
+
+  /** Get the token when the permission is already there. It shows no prompt. */
+  async registerIfPermitted(): Promise<PushPermissionState> {
+    const state = await this.refreshPushPermission();
+
+    if (state === 'granted') {
+      await PushNotifications.register();
+    }
+    return state;
+  }
+
+  /**
+   * Ask the phone for the permission. It shows its prompt approximately one time, so a
+   * denied state can only be repaired in the phone settings.
+   */
+  async requestPushPermission(): Promise<PushPermissionState> {
+    if (this.isWebPlatform) {
+      return 'unsupported';
     }
 
-    await PushNotifications.register();
-    return true;
+    try {
+      let status = await PushNotifications.checkPermissions();
+
+      if (status.receive !== 'granted' && status.receive !== 'denied') {
+        status = await PushNotifications.requestPermissions();
+      }
+
+      if (status.receive === 'granted') {
+        await PushNotifications.register();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    return this.refreshPushPermission();
+  }
+
+  /** A denied permission can only be repaired here. The phone shows no second prompt. */
+  async openAppSettings(): Promise<void> {
+    try {
+      if (this.isIOSPlatform) {
+        await NativeSettings.openIOS({ option: IOSSettings.App });
+      } else if (this.isAndroidPlatform) {
+        await NativeSettings.openAndroid({
+          option: AndroidSettings.ApplicationDetails,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /** A permission granted in the phone settings needs a register to give us a token. */
+  private onReturnToForeground(): void {
+    const before = this.pushPermission.value;
+
+    this.refreshPushPermission()
+      .then((after) => {
+        if (after === 'granted' && before !== 'granted') {
+          return PushNotifications.register();
+        }
+        return undefined;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   handleRofPushNotification(notification: PushNotificationSchema) {

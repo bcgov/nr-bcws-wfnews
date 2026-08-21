@@ -6,9 +6,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { NotificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
-import { CapacitorService } from '@app/services/capacitor-service';
+import {
+  CapacitorService,
+  PushPermissionState,
+} from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { NotificationService } from '@app/services/notification.service';
+import {
+  NOTIFICATION_TOKEN_MISSING,
+  NotificationService,
+} from '@app/services/notification.service';
 import { PlaceData } from '@app/services/wfnews-map.service/place-data';
 import { isMobileView } from '@app/utils';
 import { debounceTime } from 'rxjs/operators';
@@ -252,7 +258,11 @@ export class AddSavedLocationComponent implements OnInit {
     });
   }
 
-  saveLocation() {
+  async saveLocation() {
+    // The reason for the notification is on this screen, so this is where the phone asks.
+    // It shows its prompt approximately one time, and app start is too early to spend it.
+    const permission = await this.capacitor.requestPushPermission();
+
     this.fetchSavedLocation().then(() => {
       if (this.isEdit) {
         this.savedLocation = this.savedLocation.filter(
@@ -278,12 +288,23 @@ export class AddSavedLocationComponent implements OnInit {
           console.warn('saveNotificationPreferences fail', e);
           this.cdr.markForCheck();
           this.snackbarService.open(
-            'Failed to save location',
+            this.getSaveErrorMessage(e, permission),
             'OK',
             { duration: 10000, panelClass: 'snackbar-error' },
           );
         });
     });
+  }
+
+  /** The API refuses a blank token, and "Failed to save location" gives the user nothing to do. */
+  private getSaveErrorMessage(error, permission: PushPermissionState): string {
+    if (error?.message !== NOTIFICATION_TOKEN_MISSING) {
+      return 'Failed to save location';
+    }
+
+    return permission === 'denied'
+      ? 'Turn on notifications for WFNEWS in your device settings, then save this location again.'
+      : 'Notifications are not ready yet. Wait a moment, then save this location again.';
   }
 
   fetchSavedLocation(): Promise<any> {

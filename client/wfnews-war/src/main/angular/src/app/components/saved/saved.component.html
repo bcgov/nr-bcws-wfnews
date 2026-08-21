@@ -1,8 +1,3 @@
-<div *ngIf="isMobileView()" class="header">
-    <div class="content">
-        Saved
-    </div>
-</div>
 <div [class]="isMobileView() ? '' : 'desktop-container'">
   <div class="section">
       <div class="section-header-row">
@@ -11,6 +6,16 @@
             <img alt="icon" src="/assets/images/svg-icons/Type.svg" class="button-icon">
             Add new
         </span>
+      </div>
+      <div class="notification-permission-banner" *ngIf="showPermissionBanner">
+          <img alt="warning" class="banner-icon" src="/assets/images/svg-icons/custom_warning.svg">
+          <div class="banner-text">
+              <span class="banner-title">Notifications are off</span>
+              <span class="banner-message">Your saved locations cannot send you wildfire alerts until notifications are on for this app.</span>
+              <button type="button" class="banner-button" (click)="onTurnOnNotifications()">
+                  {{ pushPermission === 'denied' ? 'Open settings' : 'Turn on notifications' }}
+              </button>
+          </div>
       </div>
       <div class="section-card" *ngIf="!savedLocations.length" (click)="addNewLocation()">
           <div class="add-location-content flex-enabled">
