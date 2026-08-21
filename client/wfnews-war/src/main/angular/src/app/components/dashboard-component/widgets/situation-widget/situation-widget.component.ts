@@ -50,7 +50,10 @@ export class SituationWidget implements AfterViewInit {
             new Date(this.situationReport.createdTimestamp),
           ).format('MMM Do YYYY');
         }
-
+      }).catch((error) => {
+        console.error('Error fetching situation report:', error);
+        this.situationReport = undefined;
+      }).finally(() => {
         this.startupComplete = true;
       });
   }
