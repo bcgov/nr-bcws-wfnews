@@ -9,6 +9,6 @@
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
   <div class="content" *ngIf="startupComplete; else loading">
-    <ckeditor id="ck-doc" [editor]="Editor" [data]="situationReport.situationOverview || '<p>There is no current situation report. Check back soon for more information.</p>'" (ready)="onReady($event)"></ckeditor>
+    <ckeditor id="ck-doc" [editor]="Editor" [data]="situationReport?.situationOverview || '<p>There is no current situation report. Check back soon for more information.</p>'" (ready)="onReady($event)"></ckeditor>
   </div>
 </div>
