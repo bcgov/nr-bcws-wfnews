@@ -1,40 +1,18 @@
 @import '../../../styles/variables';
 
-.header {
-  border-top: 1px solid var(--grays-gray-7, #dedede);
-  border-bottom: 1px solid var(--grays-gray-7, #dedede);
-  background: var(--blues-blue-11, #f5f6f9);
-
-  .content {
-    display: flex;
-    padding: 16px 24px;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 16px;
-    align-self: stretch;
-    color: #000;
-    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-  }
-}
-
 .section {
   display: flex;
   padding: 24px 8px;
   flex-direction: column;
   align-items: center;
   align-self: stretch;
-  padding-bottom: 100px;
 
   .section-header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     align-self: stretch;
-    padding: 0 10px;
+    padding: 0 16px;   // lines the heading up with the card edge below it
   }
 
   .section-header {
@@ -56,7 +34,62 @@
     min-width: 100px;
   }
 
+  .notification-permission-banner {
+    box-sizing: border-box;
+    width: calc(100vw - 48px);
+    max-width: 1470px;
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 10px;
+    border: 1px solid var(--oranges-orange-6, #f0b357);
+    background: var(--oranges-orange-10, #fef6e7);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+
+    .banner-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .banner-text {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 2px;
+      font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    }
+
+    .banner-title {
+      color: var(--Gray-1, #242424);
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .banner-message {
+      color: var(--grays-gray-2, #484848);
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .banner-button {
+      align-self: flex-start;
+      margin-top: 4px;
+      border: none;
+      background: none;
+      padding: 0;
+      cursor: pointer;
+      color: var(--blues-blue-2, #1a5a96);
+      font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+
   .section-card {
+    box-sizing: border-box;
     width: calc(100vw - 48px);
     max-width: 1470px;
     margin-top: 16px;
@@ -187,6 +220,11 @@
   align-items: flex-start;
   border-radius: 64px;
   background: var(--blues-blue-8, #dfe5ee);
+}
+
+// Clear the fixed bottom nav once, at the end of the page.
+.section:last-of-type {
+  padding-bottom: 100px;
 }
 
 .large-divider {

@@ -51,6 +51,9 @@ export interface VmCoordinates {
   lat: number;
 }
 
+/** The API rejects a blank notification token. The add screen turns this into a reason. */
+export const NOTIFICATION_TOKEN_MISSING = 'NOTIFICATION_TOKEN_MISSING';
+
 export interface BoundingBox {
   latitude: number;
   longitude: number;
@@ -80,6 +83,10 @@ export class NotificationService {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
       });
       const token = this.capacitorService.getNotificationToken();
+      if (!token) {
+        return Promise.reject(new Error(NOTIFICATION_TOKEN_MISSING));
+      }
+
       const notificationSettingRsrc =
         convertToNotificationSettingRsrc(notificationSettings);
       notificationSettingRsrc.subscriberGuid = p.deviceId;
@@ -114,6 +121,58 @@ export class NotificationService {
       });
       return this.httpClient.get(url, { headers }).toPromise();
     });
+  }
+
+  /**
+   * The registration listener only holds the token in memory, so the stored one goes stale
+   * when FCM rotates it. Every screen that reads the settings brings the two back in step.
+   *
+   * Pass the resolved body of getUserNotificationPreferences. It is sent back unchanged
+   * except for the token, because the PUT replaces the saved locations with what it is given.
+   */
+  public syncNotificationToken(settings: NotificationSettingRsrc): Promise<any> {
+    const deviceToken = this.capacitorService.getNotificationToken();
+
+    // A blank token fails validation, and a missing list would delete every saved location.
+    if (
+      !settings ||
+      !deviceToken ||
+      !Array.isArray(settings.notifications) ||
+      settings.notificationToken === deviceToken
+    ) {
+      return Promise.resolve(null);
+    }
+
+    return this.capacitorService.deviceProperties
+      .then((p) => {
+        // Only the mobile app makes a subscriber. The web has no row and no real token.
+        if (!p?.deviceId || p.isWebPlatform) {
+          return null;
+        }
+
+        const url = `${
+          this.appConfigService.getConfig().rest['notification-api']
+        }/notificationSettings/${p.deviceId}`;
+        const headers = new HttpHeaders({
+          apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
+        });
+
+        const body: NotificationSettingRsrc = {
+          ...settings,
+          subscriberGuid: p.deviceId,
+          notificationToken: deviceToken,
+          deviceType: p.isAndroidPlatform ? 'android' : 'ios',
+        };
+
+        return this.httpClient
+          .put<NotificationSettingRsrc>(url, body, { headers })
+          .toPromise();
+      })
+      .catch((error) => {
+        // The next screen that reads the settings tries again.
+        console.warn('syncNotificationToken failed', error);
+        return null;
+      });
   }
 
   public getFireCentreByLocation(bbox: BoundingBox[]): Promise<any> {

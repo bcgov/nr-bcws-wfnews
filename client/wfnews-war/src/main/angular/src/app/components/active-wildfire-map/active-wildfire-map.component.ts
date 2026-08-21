@@ -874,6 +874,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       this.notificationService
         .getUserNotificationPreferences()
         .then((response) => {
+          // The stored token goes stale when FCM rotates it. This is one of the two places
+          // that brings it back in step. It must run before the early return below.
+          this.notificationService.syncNotificationToken(response);
+
           try {
             const SMK = window["SMK"];
             const map = getActiveMap(SMK).$viewer.map;

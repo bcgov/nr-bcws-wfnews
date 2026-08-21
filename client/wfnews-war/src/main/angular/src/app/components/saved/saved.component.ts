@@ -1,10 +1,14 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import {
+  CapacitorService,
+  PushPermissionState,
+} from '@app/services/capacitor-service';
 import { NotificationService } from '@app/services/notification.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { WatchlistService } from '@app/services/watchlist-service';
@@ -16,7 +20,7 @@ import {
   isMobileView,
 } from '@app/utils';
 import { SpatialUtilsService } from '@wf1/core-ui';
-import { Capacitor } from '@capacitor/core';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -24,17 +28,17 @@ import { Capacitor } from '@capacitor/core';
   templateUrl: './saved.component.html',
   styleUrls: ['./saved.component.scss'],
 })
-export class SavedComponent implements OnInit {
+export class SavedComponent implements OnInit, OnDestroy {
   public savedLocations: any = [];
   public savedWildfires: any = [];
   public distanceInKm = 1;
   public wildFireWatchlist: any[] = [];
   public errorString: string;
-  public notificationsTitle: string;
-  public notificationsSubTitle: string;
+  public pushPermission: PushPermissionState = 'unsupported';
   convertToStageOfControlDescription = convertToStageOfControlDescription;
   convertToDateYear = convertToDateYear;
   isMobileView = isMobileView;
+  private permissionSubscription: Subscription;
 
   constructor(
     protected router: Router,
@@ -45,14 +49,50 @@ export class SavedComponent implements OnInit {
     private publishedIncidentService: PublishedIncidentService,
     private watchlistService: WatchlistService,
     protected dialog: MatDialog,
-    private commonUtilityService: CommonUtilityService
+    private commonUtilityService: CommonUtilityService,
+    private capacitorService: CapacitorService,
   ) {}
 
+  get notificationsTitle(): string {
+    return this.pushPermission === 'unsupported'
+      ? 'Saved Locations'
+      : 'Saved Locations & Notifications';
+  }
+
+  /** Do not promise a notification that the permission will not permit. */
+  get notificationsSubTitle(): string {
+    return this.pushPermission === 'granted'
+      ? 'Add a saved location to receive notifications'
+      : 'Add a saved location';
+  }
+
+  get showPermissionBanner(): boolean {
+    return this.pushPermission === 'denied' || this.pushPermission === 'prompt';
+  }
+
   ngOnInit(): void {
-    // Fetch the notificationSettings.
+    this.permissionSubscription = this.capacitorService.pushPermission.subscribe(
+      (state) => {
+        this.pushPermission = state;
+        this.cdr.markForCheck();
+      },
+    );
+
+    this.loadNotificationSettings();
+    this.loadWatchlist();
+  }
+
+  ngOnDestroy(): void {
+    this.permissionSubscription?.unsubscribe();
+  }
+
+  private loadNotificationSettings(): void {
     this.notificationService
       .getUserNotificationPreferences()
       .then((response) => {
+        // The stored token goes stale when FCM rotates it. Bring the two back in step.
+        this.notificationService.syncNotificationToken(response);
+
         if (response.notifications) {
           this.savedLocations = response.notifications;
           this.getFireBans(this.savedLocations);
@@ -66,12 +106,23 @@ export class SavedComponent implements OnInit {
       .catch((error) => {
         console.error(error);
       });
+  }
 
-    this.loadWatchlist();
+  /**
+   * A denied permission can only be repaired in the phone settings. Reading the settings
+   * again afterwards is what sends the new token.
+   */
+  onTurnOnNotifications(): void {
+    if (this.pushPermission === 'denied') {
+      this.capacitorService.openAppSettings();
+      return;
+    }
 
-    const isNative = Capacitor.isNativePlatform();
-    this.notificationsTitle = isNative ? 'Saved Locations & Notifications' : 'Saved Locations';
-    this.notificationsSubTitle = isNative ? 'Add a saved location to receive notifications' : 'Add a saved location';
+    this.capacitorService.requestPushPermission().then((state) => {
+      if (state === 'granted') {
+        this.loadNotificationSettings();
+      }
+    });
   }
 
   addNewLocation() {
