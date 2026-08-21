@@ -6,7 +6,7 @@
     <div class ="content-section">
         <div class="section-frame">
             <img alt="icon" class="header-icon" src="/assets/images/svg-icons/carbon_location.svg">
-            <span class="header-text"> Details</span>
+            <span class="header-text">Location Details</span>
         </div>
         <div class="divider"></div>
 
@@ -45,6 +45,7 @@
                         </mat-option>
                     </mat-autocomplete>
                 </div>
+            </div>
             <div (click)="useUserLocation()" [class]="'location-button-box' + (locationData.useUserLocation ? '-selected' : '')">
                 <button mat-flat-button class="location-button">
                     <img src="/assets/images/svg-icons/location-button-blue.svg" alt="Use your location" />
@@ -65,9 +66,9 @@
             </div>
         </div>
     </div>
-    <div class="large-divider"></div>
+    <div class="section-gap"></div>
 
-    <div class ="content-section" style="padding:0">
+    <div class="content-section">
     <div *ngIf="!isWebDevice()">
         <div class="section-frame">
             <img alt="icon" class="header-icon" src="/assets/images/svg-icons/carbon_notification.svg">
@@ -110,20 +111,20 @@
                 <div class="header-text-1">{{!isWebDevice() ? 'Notification Radius' : 'Wildfire Event Radius'}}</div>
                 <div class="header-text-2">{{!isWebDevice() ? 'You will receive notifications based on the selected radius' : 'You will see nearby events based on the selected radius'}}</div>
             </div>
-            <div class="location-button-box" style="width: 100%;">
-                <button mat-flat-button class="location-button" [disabled] = "!locationData.latitude || !locationData.longitude" (click)="chooseRadiusOnMap()">
+            <div class="location-button-box" [class.location-button-box-disabled]="disableChooseRadiusOnMap()" style="width: 100%;">
+                <button mat-flat-button class="location-button" [disabled]="disableChooseRadiusOnMap()" (click)="chooseRadiusOnMap()">
                     <img src="/assets/images/svg-icons/carbon_map.svg" alt="Choose on map" />
                     <span >Choose on map</span>
                 </button>
             </div>
             <div class="distance-button-container">
                 <div class="button-row">
-                  <button mat-flat-button class="button" [class.active]="locationData.radius===25" (click)="toggleButton(25)">Within 25km</button>
-                  <button mat-flat-button class="button" [class.active]="locationData.radius===50" (click)="toggleButton(50)">Within 50km</button>
+                  <button mat-flat-button class="button wf1-choice-pill" [class.wf1-choice-pill--selected]="locationData.radius===25" (click)="toggleButton(25)">Within 25km</button>
+                  <button mat-flat-button class="button wf1-choice-pill" [class.wf1-choice-pill--selected]="locationData.radius===50" (click)="toggleButton(50)">Within 50km</button>
                 </div>
                 <div class="button-row">
-                  <button mat-flat-button class="button" [class.active]="locationData.radius===75" (click)="toggleButton(75)">Within 75km</button>
-                  <button mat-flat-button class="button" [class.active]="locationData.radius===100" (click)="toggleButton(100)">Within 100km</button>
+                  <button mat-flat-button class="button wf1-choice-pill" [class.wf1-choice-pill--selected]="locationData.radius===75" (click)="toggleButton(75)">Within 75km</button>
+                  <button mat-flat-button class="button wf1-choice-pill" [class.wf1-choice-pill--selected]="locationData.radius===100" (click)="toggleButton(100)">Within 100km</button>
                 </div>
               </div>
         </div>
@@ -134,4 +135,5 @@
             </button>
         </div>
     </div>
+    <div class="bottom"></div>
 </div>

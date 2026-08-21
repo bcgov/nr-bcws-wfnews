@@ -325,6 +325,10 @@ export class AddSavedLocationComponent implements OnInit {
       });
   }
 
+  disableChooseRadiusOnMap() {
+    return !this.locationData.latitude || !this.locationData.longitude;
+  }
+
   disableSaveButton() {
     // To Save, a user must:
     // Choose a name

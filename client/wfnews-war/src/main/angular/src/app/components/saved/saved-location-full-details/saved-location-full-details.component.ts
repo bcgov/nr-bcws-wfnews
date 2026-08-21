@@ -9,7 +9,7 @@ import {
   convertToDateYear,
   displayDangerRatingDescription,
   formatWeatherHourRelative,
-  getStageOfControlIcon,
+  getStageOfControlIconPath,
   getStageOfControlLabel,
   isMobileView,
 } from '@app/utils';
@@ -47,7 +47,7 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
   displayDangerRatingDescription = displayDangerRatingDescription;
   convertToDateYear = convertToDateYear;
-  getStageOfControlIcon = getStageOfControlIcon;
+  getStageOfControlIconPath = getStageOfControlIconPath;
   getStageOfControlLabel = getStageOfControlLabel;
   convertToDateTimeTimeZone = convertToDateTimeTimeZone;
   isMobileView = isMobileView;

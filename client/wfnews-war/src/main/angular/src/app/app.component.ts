@@ -94,8 +94,7 @@ export const ICON = {
   ZOOM_IN: 'zoom-in',
   AGENCY: 'agency',
   CARBON_GAUGE: 'carbon-gauge',
-  CARBON_CALENDAR: 'carbon-calendar',
-  ARROW_LEFT: 'carbon-calendar',
+  ARROW_LEFT: 'arrow-left',
   CARBON_LAYER: 'carbon-layer',
   LAUNCH_WHITE: 'launch_white'
 };
@@ -895,12 +894,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ICON.ARROW_LEFT,
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/images/svg-icons/arrow-left.svg',
-      ),
-    );
-    this.matIconRegistry.addSvgIcon(
-      ICON.CARBON_CALENDAR,
-      this.domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/images/svg-icons/carbon_calendar.svg',
       ),
     );
     this.matIconRegistry.addSvgIcon(

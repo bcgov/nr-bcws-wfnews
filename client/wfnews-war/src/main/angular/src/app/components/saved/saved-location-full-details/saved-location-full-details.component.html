@@ -61,14 +61,17 @@
                           <div class="saved-detail">
                               <div class="saved-title">
                                   <img class="location-icon" alt="icon"
-                                      src="/assets/images/svg-icons/carbon_partly-cloudy.svg">Current Weather
+                                      src="/assets/images/svg-icons/carbon_partly-cloudy.svg">
+                                  <div class="saved-title-text">
+                                      <div>Current Weather</div>
+                                      <div class="saved-subtitle">{{stationHour}}</div>
+                                  </div>
                               </div>
-                              <div class="saved-subtitle">{{stationHour}}</div>
                               <img (click)="navigateToWeather()" class="arrow-button-bottom" alt="icon"
                                   src="/assets/images/svg-icons/forward-arrow-grey.svg">
                           </div>
                       </div>
-                      <div class="divider-2"></div>
+                      <div class="divider"></div>
                       <div class="saved-location-detail">
                           <span class="saved-detail">Weather Station: {{stationName}}</span>
                           <span class="saved-detail"><img alt="temperature" class="icon-top" src="/assets/images/svg-icons/carbon_temperature-celsius.svg">{{station.temp}}° C</span>
@@ -86,7 +89,7 @@
                       <div class="saved-location-detail">
                           <div class="saved-detail">
                               <div class="saved-title">
-                                  <img alt="icon" class="icon" src="/assets/images/svg-icons/ban-icon.svg">Current Fire Bans
+                                  <img alt="icon" class="location-icon" src="/assets/images/svg-icons/ban-icon.svg">Current Fire Bans
                               </div>
                           </div>
                       </div>
@@ -111,30 +114,30 @@
                   <div class="saved-location-details-3">
                       <div class="saved-location-detail">
                           <div class="saved-title">
-                              <img alt="icon" class="icon" src="/assets/images/svg-icons/fire-danger.svg">Danger Rating
+                              <img alt="icon" class="location-icon" src="/assets/images/svg-icons/fire-danger.svg">Danger Rating
                           </div>
                           <div class="divider"></div>
-                          <div *ngIf="dangerRatingLabel === 'Extreme'" class="saved-detail">
+                          <div *ngIf="dangerRatingLabel === 'Extreme'" class="saved-detail danger-rating-row">
                               <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-extreme.svg"
                                   alt="Fire Danger">
                               {{dangerRatingLabel}} Fire Danger
                           </div>
-                          <div *ngIf="dangerRatingLabel === 'High'" class="saved-detail">
+                          <div *ngIf="dangerRatingLabel === 'High'" class="saved-detail danger-rating-row">
                               <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-high.svg"
                                   alt="Fire Danger">
                               {{dangerRatingLabel}} Fire Danger
                           </div>
-                          <div *ngIf="dangerRatingLabel === 'Moderate'" class="saved-detail">
+                          <div *ngIf="dangerRatingLabel === 'Moderate'" class="saved-detail danger-rating-row">
                               <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-moderate.svg"
                                   alt="Fire Danger">
                               {{dangerRatingLabel}} Fire Danger
                           </div>
-                          <div *ngIf="dangerRatingLabel === 'Low'" class="saved-detail">
+                          <div *ngIf="dangerRatingLabel === 'Low'" class="saved-detail danger-rating-row">
                               <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-low.svg"
                                   alt="Fire Danger">
                               {{dangerRatingLabel}} Fire Danger
                           </div>
-                          <div *ngIf="dangerRatingLabel === 'Very Low'" class="saved-detail">
+                          <div *ngIf="dangerRatingLabel === 'Very Low'" class="saved-detail danger-rating-row">
                               <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-very-low.svg"
                                   alt="Fire Danger">
                               {{dangerRatingLabel}} Fire Danger
@@ -208,11 +211,11 @@
               <div *ngIf="incident.fireOfNoteInd" class="wildfire-of-note-panel"><img class="icon"
                       src="/assets/images/local_fire_department.png" alt="Fire Of Note" />Wildfire
                   of Note</div>
-              <div class="info"><span class="circle-icon {{getStageOfControlIcon(incident.stageOfControlCode)}}"></span>
-                  {{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
+              <div class="info"><img class="icon" alt="Stage of Control"
+                      [src]="getStageOfControlIconPath(incident.stageOfControlCode)" />{{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
               <div class="info"><img class="icon" src="/assets/images/svg-icons/location-pin.svg"
                       alt="Location Pin" />{{incident.fireCentreName}}</div>
-              <div class="info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
+              <div class="info"><img class="icon" src="/assets/images/svg-icons/calendar.svg"
                       alt="Calendar" />Discovered on
                   {{convertToDateYear(incident.discoveryDate)}}<img (click)="navigateToFullDetails(incident)"
                       alt="icon" class="arrow-button" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>

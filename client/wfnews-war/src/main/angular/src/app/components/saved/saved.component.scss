@@ -40,9 +40,10 @@
     max-width: 1470px;
     margin-top: 16px;
     padding: 16px;
-    border-radius: 10px;
+    border-radius: 8px;
     border: 1px solid var(--oranges-orange-6, #f0b357);
     background: var(--oranges-orange-10, #fef6e7);
+    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07);
     display: flex;
     align-items: flex-start;
     gap: 16px;
@@ -94,9 +95,10 @@
     max-width: 1470px;
     margin-top: 16px;
     margin-bottom: 24px;
-    border-radius: 10px;
+    border-radius: 8px;
     border: 1px solid var(--grays-gray-7, #dedede);
     background: var(--blues-blue-11, #f5f6f9);
+    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -227,10 +229,8 @@
   padding-bottom: 100px;
 }
 
-.large-divider {
-  background: var(--Grey-2-EEE, #eee);
-  height: 12px;
-  width: -webkit-fill-available;
+.section-gap {
+  height: 12px;   // whitespace between the two sections
 }
 
 .divider {
@@ -250,11 +250,16 @@
 
 .nearBy-badge {
   display: flex;
+  align-items: center;
   border-radius: 4px;
   border: 1px solid var(--Light-Red, #e03b57);
   background: #fdf0f3;
   padding: 6px 12px;
   margin-top: 14px;
+
+  img {
+    display: block;
+  }
 
   span {
     color: #3a0813;
@@ -268,13 +273,19 @@
 
 .danger-rating-badge {
   display: flex;
+  align-items: center;
   padding: 6px 12px;
   margin-top: 14px;
 
+  .left-content {
+    display: flex;
+    align-items: center;
+  }
+
   .incident-icon-title {
+    display: block;
     width: 18px;
     height: 18px;
-    vertical-align: top;
   }
 
   span {

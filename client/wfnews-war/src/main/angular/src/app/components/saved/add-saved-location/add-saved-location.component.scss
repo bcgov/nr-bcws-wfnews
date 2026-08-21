@@ -2,13 +2,21 @@
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 }
 .title-section {
+  position: relative;
   display: flex;
   padding: 10px 20px 10px 20px;
-  align-items: flex-start;
-  gap: 75px;
+  align-items: center;
+  justify-content: center;
   border-top: 1px solid #e7e7e7;
-  border-bottom: 1px solid #e7e7e7;
   background: #fff;
+
+  // the back arrow leaves the flow so the title centres on the page, not on the space beside it
+  img {
+    position: absolute;
+    left: 20px;
+    cursor: pointer;
+  }
+
   .title {
     font-size: 16px;
     font-style: normal;
@@ -34,7 +42,6 @@
   align-items: flex-start;
   gap: 16px;
   align-self: stretch;
-  padding-bottom: 100px;
   .section-frame {
     display: flex;
     align-items: center;
@@ -58,6 +65,11 @@
   .section-frame-1 {
     @extend .section-frame;
     display: inline;
+
+    // the section padding already spaces the divider; drop the trailing button margin
+    > *:last-child {
+      margin-bottom: 0;
+    }
   }
   .section-frame-2 {
     display: flex;
@@ -91,7 +103,8 @@
     padding-top: 8px;
     input {
       font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
-      border: none;
+      border: 1px solid #c4c4c4;
+      box-sizing: border-box;   // keep the field inside the page gutter
       width: 100%;
       padding: 8px;
       display: flex;
@@ -106,6 +119,10 @@
       );
     }
   }
+}
+
+.bottom {
+  height: 100px;   // clears the bottom nav bar
 }
 
 .search-panel {
@@ -154,7 +171,7 @@
   }
 }
 
-.mat-mdc-input-element {
+.search-panel .mat-mdc-input-element {
   background-color: transparent;
   border: none !important;
   padding: 0 5px;
@@ -178,6 +195,12 @@
   align-content: center;
   display: flex;
 
+  &-disabled {
+    border-color: #dedede;
+    background: #f5f5f5;
+    cursor: not-allowed;
+  }
+
   &-selected {
     border-radius: 20px;
     border: 2px solid #38598a !important;
@@ -200,7 +223,18 @@
 
 .location-button {
   display: flex;
+  width: 100%;   // fill the oval, so the disabled fill matches the oval's shape
   align-items: center;
+
+  // the oval owns the shape and the fill; the button must not paint over its corners
+  border-radius: 20px;
+  background: transparent;
+
+  &:disabled {
+    background: transparent !important;
+    color: var(--grays-gray-3, #666) !important;
+  }
+
   img {
     vertical-align: bottom;
     height: 20px;
@@ -228,10 +262,8 @@
   margin-bottom: 32px;
 }
 
-.large-divider {
-  background: #f1f1f1;
-  height: 8px;
-  width: -webkit-fill-available;
+.section-gap {
+  height: 8px;   // whitespace between the two sections
 }
 
 .distance-button-container {
@@ -259,14 +291,6 @@
     gap: 8px;
     flex: 1 0 0;
     flex-wrap: wrap;
-    border-radius: 20px;
-    border: 1px solid #c4c4c4;
-    background: #fff;
-  }
-  .button.active {
-    /* Your styles for the active state */
-    background: var(--blues-blue-9, #e9f0f8);
-    border: 2px solid var(--blues-blue-3, #38598a);
   }
 }
 
@@ -275,7 +299,7 @@
   padding: 8px 29px;
   font-size: 17px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   line-height: normal;
   background: var(--blues-blue-2, #036);
   color: #fff;
@@ -284,9 +308,10 @@
 
 .disabled-button {
   @extend .save-button;
-  background: gray;
-  color: var(--grays-black, #000);
+  background: #ededed;
+  color: var(--grays-gray-3, #666);
   border: 1px solid var(--grays-gray-6, #c4c4c4);
+  cursor: not-allowed;
 }
 
 .save-button-section {
