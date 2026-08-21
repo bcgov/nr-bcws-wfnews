@@ -41,8 +41,9 @@
     margin-top: 16px;
     padding: 16px;
     border-radius: 8px;
-    border: 1px solid var(--oranges-orange-6, #f0b357);
-    background: var(--oranges-orange-10, #fef6e7);
+    // neutral, not amber: yellow is the Evacuation Alert colour (alert-order-banner)
+    border: 1px solid var(--grays-gray-7, #dedede);
+    background: #fff;
     box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07);
     display: flex;
     align-items: flex-start;
