@@ -1,11 +1,15 @@
 <div [class]="isMobileView() ? 'container' : 'desktop-container'">
     <div class="title-section">
-        <img alt="icon" height="24" width="24" src="/assets/images/svg-icons/back-icon-panel.svg" (click)="leavePage()">
+        <button type="button" class="back-button" (click)="leavePage()">
+            <img src="/assets/images/svg-icons/arrow-left-grey.svg" alt="" class="back-icon" />
+            <span class="back-label-short">Back</span>
+            <span class="back-label-long">Back to Saved Locations</span>
+        </button>
         <span class="title">{{ isEdit ? 'Edit Saved Location' : 'Add Saved Location' }}</span>
     </div>
     <div class ="content-section">
         <div class="section-frame">
-            <img alt="icon" class="header-icon" src="/assets/images/svg-icons/carbon_location.svg">
+            <img alt="icon" class="header-icon" src="/assets/images/svg-icons/location-grey.svg">
             <span class="header-text">Location Details</span>
         </div>
         <div class="divider"></div>
@@ -48,20 +52,14 @@
             </div>
             <div (click)="useUserLocation()" [class]="'location-button-box' + (locationData.useUserLocation ? '-selected' : '')">
                 <button mat-flat-button class="location-button">
-                    <img src="/assets/images/svg-icons/location-button-blue.svg" alt="Use your location" />
+                    <img src="/assets/images/svg-icons/location-button-grey.svg" alt="Use your location" />
                     <span >Use your location</span>
-                    <span (click)="closeUserLocation($event)" *ngIf="locationData.useUserLocation">
-                        <mat-icon class="location-clear">close</mat-icon>
-                    </span>
                 </button>
             </div>
             <div (click)="chooseOnMap()" [class]="'location-button-box' + (locationData.chooseLocationOnMap ? '-selected' : '')">
                 <button mat-flat-button class="location-button">
                     <img src="/assets/images/svg-icons/carbon_map.svg" alt="Choose on map" />
                     <span >Choose on map</span>
-                    <span (click)="closeLocationOnMap($event)" *ngIf="locationData.chooseLocationOnMap">
-                        <mat-icon class="location-clear">close</mat-icon>
-                    </span>
                 </button>
             </div>
         </div>
@@ -71,7 +69,7 @@
     <div class="content-section">
     <div *ngIf="!isWebDevice()">
         <div class="section-frame">
-            <img alt="icon" class="header-icon" src="/assets/images/svg-icons/carbon_notification.svg">
+            <img alt="icon" class="header-icon" src="/assets/images/svg-icons/carbon_notification-grey.svg">
             <span class="header-text">Notification Settings</span>
         </div>
         <div class="divider-with-margin"></div>

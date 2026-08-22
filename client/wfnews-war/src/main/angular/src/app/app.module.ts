@@ -47,10 +47,9 @@ import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
 import { NotificationSnackbarComponent } from '@app/components/notification-snackbar/notification-snackbar.component';
-import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { RoFReviewPage } from '@app/components/report-of-fire/review-page/rof-review-page.component';
 import { NotificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
-import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '@app/components/common/confirmation-dialog/confirmation-dialog.component';
 import { WeatherPanelDetailComponent } from '@app/components/weather/weather-panel/weather-panel-detail/weather-panel-detail.component';
 import { WildfireNotificationDialogComponent } from '@app/components/wildfire-notification-dialog/wildfire-notification-dialog.component';
 import { NotificationService } from '@app/services/notification.service';
@@ -203,7 +202,6 @@ import { SmokeLegendComponent } from './components/legend-panels/smoke-layers/sm
 import { MapLayersDataSourceDrawerSectionComponent } from './components/map-layers-datasource-drawer-section/map-layers-datasource-drawer-section.component';
 import { MapLayersDrawerSectionComponent } from './components/map-layers-drawer-section/map-layers-drawer-section.component';
 import { MapTypePickerComponent } from './components/map-type-picker/map-type-picker.component';
-import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { MoreComponent } from './components/more/more.component';
 import { PanelWildfireStageOfControlComponentDesktop } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component.desktop';
 import { AreaRestrictionPreviewComponent } from './components/preview-panels/area-restriction-preview/area-restriction-preview.component';
@@ -353,7 +351,6 @@ export const DATE_FORMATS = {
     AreaRestrictionsDetailsPanel,
     IncidentContainerDesktop,
     MapsPanel,
-    MessageDialogComponent,
     EditMapDialogComponent,
     UploadMapDialogComponent,
     SignOutPageComponent,
@@ -429,7 +426,6 @@ export const DATE_FORMATS = {
     DialogLocationComponent,
     RoFDisclaimerPage,
     RofCallPage,
-    DialogExitComponent,
     OverviewWidget,
     SituationWidget,
     SummaryWidget,

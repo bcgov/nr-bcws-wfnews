@@ -1,3 +1,6 @@
+@import "../../../../styles/variables";
+@import "notosans-fontface/scss/notosans-fontface";
+
 :host {
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 }
@@ -10,11 +13,28 @@
   border-top: 1px solid #e7e7e7;
   background: #fff;
 
-  // the back arrow leaves the flow so the title centres on the page, not on the space beside it
-  img {
+  .back-button {
     position: absolute;
     left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: var(--grays-gray-3, #666);
     cursor: pointer;
+  }
+
+  .back-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .back-label-short,
+  .back-label-long {
+    display: none;
   }
 
   .title {
@@ -32,7 +52,7 @@
 
 .desktop-container {
   background-color: white !important;
-  max-width: 1500px;
+  max-width: $saved-container-max;
   margin: auto;
 }
 .content-section {
@@ -50,7 +70,7 @@
     .header-icon {
       padding: 6.653px;
       border-radius: 83.158px;
-      background: var(--blues-blue-8, #dfe5ee);
+      background: var(--Grey-2-EEE, #eee);
       height: 20px;
       width: 20px;
     }
@@ -102,9 +122,10 @@
   .input-section {
     padding-top: 8px;
     input {
-      font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+      font-family: "Noto Sans", "BCSans", "Open Sans", Verdana, Arial,
+        sans-serif;
       border: 1px solid #c4c4c4;
-      box-sizing: border-box;   // keep the field inside the page gutter
+      box-sizing: border-box; // keep the field inside the page gutter
       width: 100%;
       padding: 8px;
       display: flex;
@@ -122,7 +143,7 @@
 }
 
 .bottom {
-  height: 100px;   // clears the bottom nav bar
+  height: 100px; // clears the bottom nav bar
 }
 
 .search-panel {
@@ -223,7 +244,7 @@
 
 .location-button {
   display: flex;
-  width: 100%;   // fill the oval, so the disabled fill matches the oval's shape
+  width: 100%; // fill the oval, so the disabled fill matches the oval's shape
   align-items: center;
 
   // the oval owns the shape and the fill; the button must not paint over its corners
@@ -235,17 +256,16 @@
     color: var(--grays-gray-3, #666) !important;
   }
 
+  ::ng-deep .mdc-button__label {
+    display: inline-flex;
+    align-items: center;
+  }
+
   img {
-    vertical-align: bottom;
     height: 20px;
     width: 20px;
     padding-right: 8px;
   }
-}
-
-.location-clear {
-  vertical-align: bottom;
-  padding-left: 5px;
 }
 
 .divider {
@@ -263,7 +283,7 @@
 }
 
 .section-gap {
-  height: 8px;   // whitespace between the two sections
+  height: 8px; // whitespace between the two sections
 }
 
 .distance-button-container {
@@ -295,9 +315,10 @@
 }
 
 .save-button {
-  border-radius: 6px;
-  padding: 8px 29px;
-  font-size: 17px;
+  min-width: $button-min-width;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -321,4 +342,46 @@
 
 .mat-mdc-unelevated-button:not(:disabled) {
   background-color: none !important;
+}
+
+@media (min-width: $desktop-sm-min-width) {
+  .title-section {
+    padding: 24px 16px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 8px;
+    border-top: none;
+    background: none;
+
+    .back-button {
+      position: static;
+    }
+
+    .back-label-short {
+      display: none;
+    }
+
+    .back-label-long {
+      display: inline;
+    }
+
+    .title {
+      display: block;
+      max-width: 640px;
+      padding: 0 16px;
+      margin: 0 auto;
+      font-size: 24px;
+      text-align: left;
+    }
+  }
+
+  .content-section {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .bottom {
+    height: 24px;
+  }
 }

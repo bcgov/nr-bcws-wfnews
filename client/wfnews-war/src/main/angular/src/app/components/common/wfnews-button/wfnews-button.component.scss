@@ -7,7 +7,12 @@
 }
 
 .button-container {
+  // a button brings its own font and alignment; the div did not
+  font: inherit;
+  text-align: inherit;
+
   display: flex;
+  min-width: $button-min-width;
   padding: 12px 32px;
   justify-content: center;
   align-items: center;

@@ -31,7 +31,10 @@ import { DocumentManagementService } from '../../../services/document-management
 import { WatchlistService } from '../../../services/watchlist-service';
 import { RootState } from '../../../store';
 import { BaseComponent } from '../../base/base.component';
-import { MessageDialogComponent } from '../../message-dialog/message-dialog.component';
+import {
+  ConfirmationDialogComponent,
+  confirmationDialogConfig,
+} from '@app/components/common/confirmation-dialog/confirmation-dialog.component';
 import { EditMapDialogComponent } from './edit-map-dialog/edit-map-dialog.component';
 import { UploadMapDialogComponent } from './upload-map-dialog/upload-map-dialog.component';
 
@@ -367,16 +370,17 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
   }
 
   delete(item: AttachmentResource) {
-    const dialogRef = this.dialog.open(MessageDialogComponent, {
-      width: '350px',
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      ...confirmationDialogConfig,
       data: {
         title: 'Are you sure you want to continue?',
-        message:
-          'This will permenantly delete this attachment. This action cannot be undone.',
+        text: 'This will permanently delete this attachment. This action cannot be undone.',
+        confirmButton: 'Delete',
+        destructive: true,
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+      if (result?.confirm) {
         this.incidentAttachmentService
           .deleteIncidentAttachment(
             this.incident.wildfireYear,

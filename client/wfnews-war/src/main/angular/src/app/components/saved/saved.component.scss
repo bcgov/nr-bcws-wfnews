@@ -1,10 +1,12 @@
-@import '../../../styles/variables';
+@import "../../../styles/variables";
+@import "notosans-fontface/scss/notosans-fontface";
 
 .section {
   display: flex;
-  padding: 24px 8px;
+  padding: 24px 16px;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  gap: 16px;
   align-self: stretch;
 
   .section-header-row {
@@ -12,33 +14,38 @@
     justify-content: space-between;
     align-items: center;
     align-self: stretch;
-    padding: 0 16px;   // lines the heading up with the card edge below it
   }
 
   .section-header {
     color: var(--Gray-1, #242424);
     font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-    font-size: 20px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
   }
 
   .section-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid #dedede;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
     color: var(--grays-gray-2, #484848);
     font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    min-width: 100px;
+    min-width: $button-min-width;
   }
 
   .notification-permission-banner {
     box-sizing: border-box;
-    width: calc(100vw - 48px);
-    max-width: 1470px;
-    margin-top: 16px;
+    width: 100%;
     padding: 16px;
     border-radius: 8px;
     // neutral, not amber: yellow is the Evacuation Alert colour (alert-order-banner)
@@ -92,14 +99,10 @@
 
   .section-card {
     box-sizing: border-box;
-    width: calc(100vw - 48px);
-    max-width: 1470px;
-    margin-top: 16px;
-    margin-bottom: 24px;
-    border-radius: 8px;
-    border: 1px solid var(--grays-gray-7, #dedede);
-    background: var(--blues-blue-11, #f5f6f9);
-    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07);
+    width: 100%;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,13 +122,13 @@
     }
 
     .flex-enabled {
-      display: flex
+      display: flex;
     }
 
     .saved-location-content {
       @extend .add-location-content;
       width: 100%;
-      padding: 16px;
+      padding: 24px;
     }
 
     .saved-wildfires-content {
@@ -164,7 +167,7 @@
     .fire-bans {
       color: var(--grays-gray-3, #666);
       font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-      font-size: 15px;
+      font-size: 16px;
       font-style: normal;
       font-weight: 400;
     }
@@ -176,7 +179,7 @@
       span {
         color: var(--Gray-1, #242424);
         font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-        font-size: 16px;
+        font-size: 22px;
         font-style: normal;
         font-weight: 600;
         line-height: normal;
@@ -184,7 +187,7 @@
 
       .location-coordinates {
         color: var(--grays-gray-3, #666);
-        font-size: 15px;
+        font-size: 16px;
         font-style: normal;
         font-weight: 400;
       }
@@ -197,20 +200,18 @@
 
   .section-card-wildfires {
     @extend .section-card;
-    background-color: var(--grays-white, #fdfdfd);
   }
 }
 
 .button-icon {
   height: 20px;
   width: 20px;
-  vertical-align: sub;
 }
 
 .location-icon {
   padding: 6.653px;
   border-radius: 83.158px;
-  background: var(--blues-blue-8, #dfe5ee);
+  background: var(--Grey-2-EEE, #eee);
   height: 24px;
   width: 24px;
   vertical-align: middle;
@@ -222,7 +223,7 @@
   justify-content: flex-end;
   align-items: flex-start;
   border-radius: 64px;
-  background: var(--blues-blue-8, #dfe5ee);
+  background: var(--Grey-2-EEE, #eee);
 }
 
 // Clear the fixed bottom nav once, at the end of the page.
@@ -230,14 +231,10 @@
   padding-bottom: 100px;
 }
 
-.section-gap {
-  height: 12px;   // whitespace between the two sections
-}
-
 .divider {
   background: #dedede;
   height: 1px;
-  margin: 14px 0;
+  margin: 16px 0;
 }
 
 .arrow-button {
@@ -249,17 +246,22 @@
   cursor: pointer;
 }
 
+// sized like the Wildfire of Note chip on the wildfire card: icon-info-chip, slim
 .nearBy-badge {
   display: flex;
   align-items: center;
+  gap: 4px;
+  width: max-content;
   border-radius: 4px;
   border: 1px solid var(--Light-Red, #e03b57);
   background: #fdf0f3;
-  padding: 6px 12px;
-  margin-top: 14px;
+  padding: 4px 6px;
+  margin-top: 8px;
 
   img {
     display: block;
+    width: 20px;
+    height: 20px;
   }
 
   span {
@@ -275,34 +277,30 @@
 .danger-rating-badge {
   display: flex;
   align-items: center;
-  padding: 6px 12px;
-  margin-top: 14px;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  margin-top: 8px;
 
   .left-content {
     display: flex;
     align-items: center;
+    gap: 4px; // the badges' gap, so the labels line up as well as the icons
   }
 
   .incident-icon-title {
     display: block;
-    width: 18px;
-    height: 18px;
-  }
-
-  span {
-    padding-left: 9px;
+    width: 20px;
+    height: 20px;
   }
 }
 
+.saved-locations,
 .saved-wildfires {
-  width: 100%;
-}
-
-.info-container {
+  box-sizing: border-box;
   display: flex;
-  padding: 24px 0px 10px 0px;
   flex-direction: column;
-  align-self: stretch;
+  gap: 16px;
+  width: 100%;
 }
 
 .full-details-secondary-title {
@@ -315,156 +313,15 @@
   margin: 0px 0px 16px 0px;
 }
 
-.fire-info-container {
-  position: relative;
-  max-width: 1470px;
-  display: flex;
-  padding: 16px;
-  flex-direction: column;
-  align-items: flex-start;
-  align-self: stretch;
-  border-radius: 8px;
-  border: 1px solid var(--grays-gray-7, #dedede);
-  background: var(--White, #fdfdfd);
-  box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07);
-
-  .break {
-    border: 0;
-    clear: both;
-    display: flex;
-    width: 99%;
-    background-color: #ddd;
-    height: 1px;
-    margin-left: 0px !important;
-    margin-bottom: 16px;
-  }
-
-  .info {
-    color: var(--Grey-6---666, #666);
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 21px;
-    margin-bottom: 4px;
-
-    .icon {
-      width: 20px;
-      height: 20px;
-      padding-right: 10px;
-      vertical-align: top;
-    }
-  }
-}
-
-.wildfire-title {
-  width: 90%;
-  color: var(--Black-1, #242424);
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  margin-bottom: 8px;
-
-  &-icon {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    height: 20px;
-    width: 20px;
-  }
-}
-
-.wilfire-of-note-panel {
-  width: 50%;
-  display: flex;
-  padding: 4px 12px;
-  align-items: center;
-  align-content: center;
-  flex-wrap: wrap;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  border-radius: 4px;
-  border: 1px solid var(--reds-red-8, #fbe3e3);
-  background: var(--reds-red-7, #fef1f2);
-  color: #98273b;
-  margin-bottom: 12px;
-
-  &-icon {
-    position: relative;
-    margin-right: 8px;
-    height: 20px;
-    width: 20px;
-  }
-}
-
-.circle-icon {
-  &.HOLDING {
-    display: inline-block;
-    background-color: #ffff00;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    margin: 0px 10px 0px 4px;
-  }
-
-  &.OUT_CNTRL {
-    display: inline-block;
-    background-color: #ff0000;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    margin: 0px 10px 0px 4px;
-  }
-
-  &.UNDR_CNTRL {
-    display: inline-block;
-    background-color: #98e600;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    margin: 0px 10px 0px 4px;
-  }
-
-  &.OUT {
-    display: inline-block;
-    background-color: #5c6671;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    margin: 0px 10px 0px 4px;
-  }
-}
-
-.wildfire-arrow-button {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  border-radius: 64px;
-  background: var(--Grey-2-EEE, #eee);
-  cursor: pointer;
-}
-
-.arrow-icon-grey {
-  @extend .arrow-icon;
-  background: var(--Grey-2-EEE, #eee);
-}
-
-.wildfire-title-icon {
-  width: 24px;
-  height: 24px;
-}
-
 .desktop-container {
   background-color: white !important;
-  max-width: 1500px;
+  max-width: $saved-container-max;
   margin: auto;
 }
 
 @media (min-width: $desktop-md-min-width) {
   .section {
-    padding: 20px 8px !important; 
+    padding: 20px 16px !important;
   }
 
   .section-header-row {
@@ -495,3 +352,41 @@
 //     line-height: normal !important;
 //     color: #5F5F5F !important;
 // }
+
+// A phone card is sized off the viewport, so on a wide screen one card of two text lines
+// stretches to 1470px. Lay the cards out as a grid instead, and drop the clearance for the
+// mobile navigation bar, which is hidden above this width.
+@media (min-width: $desktop-sm-min-width) {
+  .section {
+    .notification-permission-banner,
+    .section-card,
+    .section-card-wildfires {
+      width: 100%;
+      max-width: none;
+    }
+  }
+
+  .section:last-of-type {
+    padding-bottom: 24px;
+  }
+
+  .saved-locations,
+  .saved-wildfires {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+  }
+
+  // Equal heights keep a row of cards level.
+  .saved-location .section-card {
+    height: 100%;
+  }
+}
+
+@media (min-width: $desktop-md-min-width) {
+  .saved-locations,
+  .saved-wildfires {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

@@ -6,18 +6,18 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import {
   ResourcesRoutes,
   convertToDateTimeTimeZone,
-  convertToDateYear,
   displayDangerRatingDescription,
   formatWeatherHourRelative,
-  getStageOfControlIconPath,
-  getStageOfControlLabel,
   isMobileView,
 } from '@app/utils';
 import { SpatialUtilsService } from '@wf1/core-ui';
 import { LocationData } from '../add-saved-location/add-saved-location.component';
 import { AGOLService } from '@app/services/AGOL-service';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
+import {
+  ConfirmationDialogComponent,
+  confirmationDialogConfig,
+} from '@app/components/common/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { WatchlistService } from '@app/services/watchlist-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
@@ -46,9 +46,6 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   public evacsPopulated: boolean;
 
   displayDangerRatingDescription = displayDangerRatingDescription;
-  convertToDateYear = convertToDateYear;
-  getStageOfControlIconPath = getStageOfControlIconPath;
-  getStageOfControlLabel = getStageOfControlLabel;
   convertToDateTimeTimeZone = convertToDateTimeTimeZone;
   isMobileView = isMobileView;
 
@@ -331,10 +328,11 @@ this.agolService
 
   delete() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      autoFocus: false,
-      width: '80vw',
+      ...confirmationDialogConfig,
       data: {
         title: 'Delete saved location',
+        confirmButton: 'Delete',
+        destructive: true,
         text: 'You won\'t be able to undo this action',
       },
     });

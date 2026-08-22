@@ -1,7 +1,10 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
+import {
+  ConfirmationDialogComponent,
+  confirmationDialogConfig,
+} from '@app/components/common/confirmation-dialog/confirmation-dialog.component';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
@@ -14,8 +17,6 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import { WatchlistService } from '@app/services/watchlist-service';
 import {
   ResourcesRoutes,
-  convertToDateYear,
-  convertToStageOfControlDescription,
   hasOwn,
   isMobileView,
 } from '@app/utils';
@@ -35,8 +36,6 @@ export class SavedComponent implements OnInit, OnDestroy {
   public wildFireWatchlist: any[] = [];
   public errorString: string;
   public pushPermission: PushPermissionState = 'unsupported';
-  convertToStageOfControlDescription = convertToStageOfControlDescription;
-  convertToDateYear = convertToDateYear;
   isMobileView = isMobileView;
   private permissionSubscription: Subscription;
 
@@ -338,11 +337,9 @@ export class SavedComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteFromWatchList(event: Event, wildFire: any) {
-    event.stopPropagation();
+  deleteFromWatchList(wildFire: any) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      autoFocus: false,
-      width: '80vw',
+      ...confirmationDialogConfig,
       data: {
         title: 'Confirmation',
         text: 'Are you sure you want to remove this Wildfire from your Saved Wildfires?',

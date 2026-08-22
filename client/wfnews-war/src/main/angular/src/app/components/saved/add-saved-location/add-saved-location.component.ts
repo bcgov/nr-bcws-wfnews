@@ -3,7 +3,10 @@ import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
+import {
+  ConfirmationDialogComponent,
+  confirmationDialogConfig,
+} from '@app/components/common/confirmation-dialog/confirmation-dialog.component';
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { NotificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
 import {
@@ -151,6 +154,15 @@ export class AddSavedLocationComponent implements OnInit {
       await this.commonUtilityService.getCurrentLocationPromise();
   }
 
+  /**
+   * The search field, the device and the map all write one point, so only one of them can
+   * be the answer. The two flags drive the highlight on the ovals, nothing else.
+   */
+  private setLocationSource(source: 'search' | 'device' | 'map'): void {
+    this.locationData.useUserLocation = source === 'device';
+    this.locationData.chooseLocationOnMap = source === 'map';
+  }
+
   onLocationSelected(selectedOption) {
     const locationControlValue = selectedOption.address
       ? selectedOption.address
@@ -160,6 +172,7 @@ export class AddSavedLocationComponent implements OnInit {
       emitEvent: false,
     });
 
+    this.setLocationSource('search');
     this.locationData.latitude = selectedOption.loc[1];
     this.locationData.longitude = selectedOption.loc[0];
     this.locationData.searchText = this.searchText;
@@ -171,26 +184,21 @@ export class AddSavedLocationComponent implements OnInit {
       .then(async (enabled) => {
         if (!enabled) {
           const dialogRef = this.dialog.open(DialogLocationComponent, {
-            autoFocus: false,
+            autoFocus: 'dialog',
             width: '80vw',
+            maxWidth: '400px',
           });
         } else {
-          this.locationData.useUserLocation = true;
+          this.setLocationSource('device');
 
-          if (this.locationData.useUserLocation) {
-            this.searchText = undefined;
-
-            const location =
-              await this.commonUtilityService.getCurrentLocationPromise();
-            this.locationData.latitude = location.coords.latitude;
-            this.locationData.longitude = location.coords.longitude;
-            this.searchText =
-              this.locationData.latitude.toFixed(2).toString() +
-              ', ' +
-              this.locationData.longitude.toFixed(2).toString();
-          } else {
-            this.searchText = null;
-          }
+          const location =
+            await this.commonUtilityService.getCurrentLocationPromise();
+          this.locationData.latitude = location.coords.latitude;
+          this.locationData.longitude = location.coords.longitude;
+          this.searchText =
+            this.locationData.latitude.toFixed(2).toString() +
+            ', ' +
+            this.locationData.longitude.toFixed(2).toString();
 
           this.locationData.searchText = this.searchText;
         }
@@ -200,7 +208,7 @@ export class AddSavedLocationComponent implements OnInit {
 
   chooseOnMap() {
     const dialogRef = this.dialog.open(NotificationMapComponent, {
-      autoFocus: false,
+      autoFocus: 'dialog',
       width: '100dvw',
       minWidth: '100dvw',
       height: '100dvh',
@@ -211,31 +219,18 @@ export class AddSavedLocationComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result['exit'] && result['location']) {
-        this.locationData.chooseLocationOnMap = true;
+        this.setLocationSource('map');
         this.locationData.latitude = Number(result['location'].lat);
         this.locationData.longitude = Number(result['location'].lng);
-        // this.searchText = result['location'].lat.toString() + ', ' + result['location'].lng.toString();
+        this.searchText = null;
+        this.locationData.searchText = null;
       }
     });
   }
 
-  closeLocationOnMap(event: Event): void {
-    event.stopPropagation();
-    this.locationData.chooseLocationOnMap = false;
-    this.locationData.latitude = null;
-    this.locationData.longitude = null;
-  }
-
-  closeUserLocation(event: Event): void {
-    event.stopPropagation();
-    this.locationData.useUserLocation = false;
-    this.locationData.latitude = null;
-    this.locationData.longitude = null;
-  }
-
   chooseRadiusOnMap() {
     const dialogRef = this.dialog.open(NotificationMapComponent, {
-      autoFocus: false,
+      autoFocus: 'dialog',
       width: '100dvw',
       minWidth: '100dvw',
       height: '100dvh',
@@ -248,9 +243,20 @@ export class AddSavedLocationComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result['exit'] && result['location']) {
-        this.locationData.chooseLocationOnMap = true;
-        this.locationData.latitude = Number(result['location'].lat);
-        this.locationData.longitude = Number(result['location'].lng);
+        const latitude = Number(result['location'].lat);
+        const longitude = Number(result['location'].lng);
+
+        if (
+          latitude !== this.locationData.latitude ||
+          longitude !== this.locationData.longitude
+        ) {
+          this.setLocationSource('map');
+          this.searchText = null;
+          this.locationData.searchText = null;
+        }
+
+        this.locationData.latitude = latitude;
+        this.locationData.longitude = longitude;
       }
       if (result['radius']) {
         this.locationData.radius = result['radius'];
@@ -348,17 +354,17 @@ export class AddSavedLocationComponent implements OnInit {
   }
 
   leavePage() {
-    const dialogRef = this.dialog.open(DialogExitComponent, {
-      autoFocus: false,
-      width: '80vw',
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      ...confirmationDialogConfig,
       data: {
-        confirmButton: 'Back',
+        title: 'Are you sure you want to exit?',
+        confirmButton: 'Exit',
         text: 'If you exit now, your progress will be lost.',
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result['exit']) {
+      if (result['confirm']) {
         this.router.navigateByUrl('/saved');
       }
     });

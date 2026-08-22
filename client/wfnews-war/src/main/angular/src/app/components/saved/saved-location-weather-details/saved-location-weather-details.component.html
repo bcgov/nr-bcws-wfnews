@@ -1,6 +1,11 @@
 <div [class]="isMobileView() ? 'container' : 'desktop-container'">
-  <div class="header"><img (click)="back()" src="/assets/images/svg-icons/back-arrow.svg" alt="back-arrow"
-      class="back-icon" />Back</div>
+  <div class="header">
+      <button type="button" class="back-button" (click)="back()">
+          <img src="/assets/images/svg-icons/arrow-left-grey.svg" alt="" class="back-icon" />
+          <span class="back-label-short">Back</span>
+          <span class="back-label-long">{{ backLabel }}</span>
+      </button>
+  </div>
   <div class="content">
       <div class="section">
           <div class="section-title">Weather Detail</div>

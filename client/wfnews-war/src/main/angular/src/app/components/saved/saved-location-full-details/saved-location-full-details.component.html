@@ -1,18 +1,23 @@
 <div [class]="isMobileView() ? '' : 'desktop-container'">
-  <div class="saved-header"><img (click)="backToSaved()" src="/assets/images/svg-icons/back-arrow.svg" alt="back-arrow"
-          class="back-icon" />Back</div>
+  <div class="saved-header">
+      <button type="button" class="back-button" (click)="backToSaved()">
+          <img src="/assets/images/svg-icons/arrow-left-grey.svg" alt="" class="back-icon" />
+          <span class="back-label-short">Back</span>
+          <span class="back-label-long">Back to Saved Locations</span>
+      </button>
+  </div>
   <div class="section" *ngIf="location">
       <div class="section-card">
           <div class="saved-location-content">
               <div class="saved-location-content-1">
                   <div class="saved-location-details-2">
-                      <img alt="icon" class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+                      <img alt="icon" class="location-icon" src="/assets/images/svg-icons/location-grey.svg">
                       <div *ngIf="location.address" class="saved-location-detail">
                           <span>{{location.notificationName}}</span>
                           <span class="saved-detail">{{location.address}}</span>
                       </div>
                       <div *ngIf="!location.address" class="saved-location-detail">
-                          <span class="saved-title-top">{{location.notificationName}}</span>
+                          <span>{{location.notificationName}}</span>
                       </div>
                   </div>
                   <div class="saved-location-detail">
@@ -53,6 +58,7 @@
   <div class="break"></div>
   <div class="section">
       <div class="section-title">Conditions</div>
+      <div class="card-grid">
       <div class="section-card">
           <div class="saved-location-content">
               <div class="saved-location-content-1">
@@ -148,6 +154,7 @@
               </div>
           </div>
       </div>
+      </div>
   </div>
   <div class="section">
       <div class="section-title">Evacuations Nearby</div>
@@ -160,6 +167,7 @@
               </div>
           </div>
       </div>
+      <div class="card-grid">
       <div class="info-card-order" *ngFor="let item of evacOrders">
           <div class="title"><img class="icon-info-title" src="/assets/images/svg-icons/evacuation-order.svg"
                   alt="evacuation-order" />
@@ -191,6 +199,7 @@
                   src="/assets/images/svg-icons/forward-arrow-yellow.svg">
           </div>
       </div>
+      </div>
   </div>
   <div class="section">
       <div class="section-title">Wildfires Nearby</div>
@@ -203,23 +212,12 @@
               </div>
           </div>
       </div>
-      <div class="info-container" *ngFor="let incident of nearbyWildfires">
-          <div class="fire-info-container">
-              <div class="wildfire-title">{{incident.incidentName}} Wildfire<img class="wildfire-title-icon" (click)="addToWatchlist(incident)"
-                [src]="onWatchlist(incident) ? '/assets/images/svg-icons/bookmark-blue.svg' : '/assets/images/svg-icons/bookmark.svg'" alt="Calendar" /></div>
-              <div class="divider-2"></div>
-              <div *ngIf="incident.fireOfNoteInd" class="wildfire-of-note-panel"><img class="icon"
-                      src="/assets/images/local_fire_department.png" alt="Fire Of Note" />Wildfire
-                  of Note</div>
-              <div class="info"><img class="icon" alt="Stage of Control"
-                      [src]="getStageOfControlIconPath(incident.stageOfControlCode)" />{{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
-              <div class="info"><img class="icon" src="/assets/images/svg-icons/location-pin.svg"
-                      alt="Location Pin" />{{incident.fireCentreName}}</div>
-              <div class="info"><img class="icon" src="/assets/images/svg-icons/calendar.svg"
-                      alt="Calendar" />Discovered on
-                  {{convertToDateYear(incident.discoveryDate)}}<img (click)="navigateToFullDetails(incident)"
-                      alt="icon" class="arrow-button" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
-          </div>
+      <div class="card-grid">
+      <associated-wildfire-card *ngFor="let incident of nearbyWildfires"
+          [incident]="incident" [isBookmarked]="onWatchlist(incident)"
+          (bookmarkClicked)="addToWatchlist(incident)"
+          (viewDetailsClicked)="navigateToFullDetails(incident)">
+      </associated-wildfire-card>
       </div>
   </div>
   <div class="bottom"></div>

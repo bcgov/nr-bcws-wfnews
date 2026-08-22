@@ -137,6 +137,14 @@ $colour-table-background-hover: $colour-medium-grey;
 
 $nav-bar-height: 62px;
 
+// A floor for button width, so a short label like Save or Cancel does not make a stub.
+// Roughly what the Save button measures at its 32px side padding.
+$button-min-width: 100px;
+
+// The four Saved screens share one measure, so the back link and the page content do not
+// move sideways between them. Content narrower than this centres inside it.
+$saved-container-max: 1200px;
+
 $mobile-max-width: 767px;
 $desktop-sm-min-width: 768px;
 $desktop-sm-max-width: 1250px;

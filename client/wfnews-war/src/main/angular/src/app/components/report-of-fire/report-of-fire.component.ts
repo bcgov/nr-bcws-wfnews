@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectorRef,
@@ -7,25 +8,27 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { RoFTitlePage } from './title-page/rof-title-page.component';
-import { Location } from '@angular/common';
-import { RoFPermissionsPage } from './permissions-page/rof-permissions-page.component';
-import { RoFSimpleQuestionPage } from './simple-question-page/rof-simple-question-page.component';
-import { RoFContactPage } from './contact-page/rof-contact-page.component';
-import { RoFLocationPage } from './location-page/rof-location-page.component';
-import { RoFPhotoPage } from './photo-page/rof-photo-page.component';
-import { ReportOfFire } from './reportOfFireModel';
-import { RoFComplexQuestionPage } from './complex-question-page/rof-complex-question-page.component';
-import ConfigJson from './report-of-fire.config.json';
-import { RoFCommentsPage } from './comment-page/rof-comments-page.component';
-import { RoFReviewPage } from './review-page/rof-review-page.component';
-import { Router } from '@angular/router';
-import { RoFCompassPage } from './compass-page/rof-compass-page.component';
-import { CommonUtilityService } from '@app/services/common-utility.service';
-import { RoFDisclaimerPage } from './disclaimer-page/rof-disclaimer-page.component';
-import { RofCallPage } from '@app/components/report-of-fire/rof-callback-page/rof-call-page.component';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
+import { Router } from '@angular/router';
+import {
+  ConfirmationDialogComponent,
+  confirmationDialogConfig,
+} from '@app/components/common/confirmation-dialog/confirmation-dialog.component';
+import { RofCallPage } from '@app/components/report-of-fire/rof-callback-page/rof-call-page.component';
+import { CommonUtilityService } from '@app/services/common-utility.service';
+import { RoFCommentsPage } from './comment-page/rof-comments-page.component';
+import { RoFCompassPage } from './compass-page/rof-compass-page.component';
+import { RoFComplexQuestionPage } from './complex-question-page/rof-complex-question-page.component';
+import { RoFContactPage } from './contact-page/rof-contact-page.component';
+import { RoFDisclaimerPage } from './disclaimer-page/rof-disclaimer-page.component';
+import { RoFLocationPage } from './location-page/rof-location-page.component';
+import { RoFPermissionsPage } from './permissions-page/rof-permissions-page.component';
+import { RoFPhotoPage } from './photo-page/rof-photo-page.component';
+import ConfigJson from './report-of-fire.config.json';
+import { ReportOfFire } from './reportOfFireModel';
+import { RoFReviewPage } from './review-page/rof-review-page.component';
+import { RoFSimpleQuestionPage } from './simple-question-page/rof-simple-question-page.component';
+import { RoFTitlePage } from './title-page/rof-title-page.component';
 
 enum PageOperation {
   Next = 1,
@@ -47,7 +50,7 @@ enum PageOperation {
 export class ReportOfFirePage implements OnInit, AfterContentInit {
   @ViewChild('dynamic', { static: true, read: ViewContainerRef })
   public dynamicContainer!: ViewContainerRef;
-  
+
   public reportOfFire: ReportOfFire;
   public pageComponents: Array<ComponentRef<any>> = [];
   public currentPage: ComponentRef<any>;
@@ -354,29 +357,17 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       //this.router.navigateByUrl('/map')
       this.locationService.back();
     } else {
-      let dialogRef;
-      if (window.innerWidth >= 850) {
-        dialogRef = this.dialog.open(DialogExitComponent, {
-          autoFocus: false,
-          width: '500px',
-          data: {
-            confirmButton: 'Exit',
-            text: 'If you exit, your report will not be saved or submitted.',
-          },
-        });
-      } else {
-        dialogRef = this.dialog.open(DialogExitComponent, {
-          autoFocus: false,
-          width: '80vw',
-          data: {
-            confirmButton: 'Exit',
-            text: 'If you exit, your report will not be saved or submitted.',
-          },
-        });
-      }
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        ...confirmationDialogConfig,
+        data: {
+          title: 'Are you sure you want to exit?',
+          text: 'If you exit, your report will not be saved or submitted.',
+          confirmButton: 'Exit',
+        },
+      });
 
       dialogRef.afterClosed().subscribe((result) => {
-        if (result['exit']) {
+        if (result['confirm']) {
           //this.router.navigateByUrl('/dashboard')
           this.locationService.back();
         }
@@ -421,6 +412,6 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   }
 
   exitText() {
-      return 'Exit';
+    return 'Exit';
   }
 }
