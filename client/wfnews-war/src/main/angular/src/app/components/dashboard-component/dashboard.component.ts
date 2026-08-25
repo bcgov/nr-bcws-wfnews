@@ -12,6 +12,16 @@ export class Dashboard {
   public selectedTab = 0;
   public snowPlowHelper = snowPlowHelper;
 
+  /**
+   * Which widgets have been made. A widget asks the API when it is made, so an
+   * empty slot costs nothing. `wfnewsDeferLoad` fills these in as the user scrolls.
+   */
+  public shown: Record<string, boolean> = {};
+
+  show(widget: string): void {
+    this.shown[widget] = true;
+  }
+
   constructor(
     protected appConfigService: AppConfigService,
     protected router: Router,

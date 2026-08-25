@@ -1,6 +1,13 @@
 @import "../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
+// A slot that holds no widget yet must keep a height. With no height every slot
+// would be on the screen at once, and nothing would be deferred. The height is
+// only a placeholder: the widget sets its own once it is made.
+.widget-slot--waiting {
+  min-height: 220px;
+}
+
 @media (min-width: $desktop-sm-min-width) and (max-width: $desktop-sm-max-width) {
   .widget {
     max-width: 850px;

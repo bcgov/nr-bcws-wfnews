@@ -116,6 +116,7 @@ import { BaseDialogComponent } from './components/base-dialog/base-dialog.compon
 import { AdvisorySectionComponent } from './components/common/advisory-section/advisory-section.component';
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
 import { PermissionBannerComponent } from './components/common/permission-banner/permission-banner.component';
+import { DeferLoadDirective } from './components/common/defer-load/defer-load.directive';
 import { BcCheckboxComponent } from './components/common/bc-checkbox/bc-checkbox.component';
 import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
 import { CircleIconButtonComponent } from './components/common/circle-icon-button/circle-icon-button.component';
@@ -413,6 +414,7 @@ export const DATE_FORMATS = {
     MapToggleButtonComponent,
     AlertOrderBannerComponent,
     PermissionBannerComponent,
+    DeferLoadDirective,
     ReportOfFirePage,
     RoFTitlePage,
     RoFPermissionsPage,
