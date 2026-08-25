@@ -326,7 +326,10 @@ export class PublishedIncidentService {
     if (held && Date.now() - held.at < REQUEST_CACHE_AGE) {
       return held.request as Observable<T>;
     }
-    const request = make().pipe(shareReplay({ bufferSize: 1, refCount: false }));
+    // refCount, so an answer that nobody waits for any more is dropped and the
+    // request is cancelled. A finished answer stays in the buffer and is replayed,
+    // so a later widget still gets it without asking again.
+    const request = make().pipe(shareReplay({ bufferSize: 1, refCount: true }));
     this.requestCache.set(key, { request, at: Date.now() });
     return request;
   }
