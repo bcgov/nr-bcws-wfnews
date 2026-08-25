@@ -1108,24 +1108,24 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.snowPlowHelper(this.url, {
       action: "near_me_map_click",
     });
-    if (isMobileView) {
-      this.useNearMe = true;
-    }
-    this.clickedMyLocation = true;
     this.snowPlowHelper(this.url, {
       action: "find_my_location",
     });
 
-    this.commonUtilityService.checkLocationServiceStatus().then((enabled) => {
-      if (!enabled) {
-        const dialogRef = this.dialog.open(DialogLocationComponent, {
-          autoFocus: false,
-          width: "80vw",
-        });
-      }
-      this.isLocationEnabled = enabled;
-    });
     this.searchText = undefined;
+
+    // A tap asks. When a prompt cannot help, the dialog gives the way out, and it
+    // picks the settings page from the state.
+    const state = await this.capacitorService.requestLocationPermission();
+    this.isLocationEnabled = state === "granted";
+    if (!this.isLocationEnabled) {
+      this.dialog.open(DialogLocationComponent, {
+        autoFocus: false,
+        width: "80vw",
+      });
+      return;
+    }
+
     try {
       this.userLocation =
         await this.commonUtilityService.getCurrentLocationPromise();
@@ -1137,6 +1137,12 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           type: "Point",
           coordinates: [long, lat],
         });
+        // The next tap clears the marker, so the button only counts as clicked once
+        // there is a marker. Setting this before the position ate every second tap.
+        this.clickedMyLocation = true;
+        if (isMobileView()) {
+          this.useNearMe = true;
+        }
       }
       this.searchByLocationControl.setValue(lat + "," + long);
     } catch (error) {

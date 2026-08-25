@@ -247,15 +247,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     // Also, we won't know which page people are coming in from, so forcing to
     // the landing page is a bad idea in general...
     if (isMobileView()) {
-      this.capacitorService.initialized.then(() => {
-        this.commonUtilityService.preloadGeolocation();
-        //setTimeout(() => {
-        //  this.zone.run(() => {
-        //      this.router.navigate([ResourcesRoutes.LANDING])
-        //  })
-        //}, 1000);
-      });
-
+      // No position is taken at start. Asking here put the Android dialog on top of
+      // the Disclaimer, with no reason given. Each screen now asks for itself.
       this.capacitorService.locationNotifications.subscribe(
         (ev: LocationNotification) => {
           this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {

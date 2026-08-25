@@ -219,7 +219,7 @@ export class SearchPageComponent implements OnInit {
   async checkUserLocation() {
     if (!this.userLocationChecked && !this.userLocationDenied) {
       this.userLocation = await this.commonUtilityService
-        .getCurrentLocationPromise()
+        .getPositionIfPermitted()
         .catch((err) => {
           this.userLocationDenied = true;
           console.error('location services not available:', err);

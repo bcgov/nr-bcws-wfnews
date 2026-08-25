@@ -297,14 +297,20 @@ message = err.message;
     this.getEvacOrders();
   }
 
+  /** Never throws. The panel lists incidents without a distance when there is no position. */
   async useMyCurrentLocation() {
     this.searchText = undefined;
 
-    const location =
-      await this.commonUtilityService.getCurrentLocationPromise();
-    if (location) {
-      this.currentLat = Number(location.coords.latitude);
-      this.currentLong = Number(location.coords.longitude);
+    try {
+      const location =
+        await this.commonUtilityService.getPositionIfPermitted();
+      if (location) {
+        this.currentLat = Number(location.coords.latitude);
+        this.currentLong = Number(location.coords.longitude);
+      }
+    } catch (error) {
+      this.currentLat = undefined;
+      this.currentLong = undefined;
     }
   }
 

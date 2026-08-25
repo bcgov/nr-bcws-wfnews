@@ -239,9 +239,16 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
       lat = this.lastClickedLocation.map.latitude;
       long = this.lastClickedLocation.map.longitude;
     } else {
-      let userLocation = await this.commonUtilityService.getCurrentLocationPromise();
-      lat = userLocation.coords.latitude;
-      long = userLocation.coords.longitude;
+      // With no position there is no "nearby" station, so leave the layer off.
+      try {
+        const userLocation =
+          await this.commonUtilityService.getPositionIfPermitted();
+        if (!userLocation) return;
+        lat = userLocation.coords.latitude;
+        long = userLocation.coords.longitude;
+      } catch (error) {
+        return;
+      }
     }
 
     this.pointIdService

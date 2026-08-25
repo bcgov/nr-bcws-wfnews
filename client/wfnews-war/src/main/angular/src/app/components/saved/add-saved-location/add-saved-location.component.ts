@@ -103,7 +103,6 @@ export class AddSavedLocationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.useMyCurrentLocation();
     this.route.queryParams.subscribe((params) => {
       if (params && params.location) {
         const location = JSON.parse(params.location);
@@ -149,9 +148,14 @@ export class AddSavedLocationComponent implements OnInit {
     });
   }
 
+  /** Never throws. The map opens with no centre when there is no position. */
   async useMyCurrentLocation() {
-    this.currentLocation =
-      await this.commonUtilityService.getCurrentLocationPromise();
+    try {
+      this.currentLocation =
+        await this.commonUtilityService.getCurrentLocationPromise();
+    } catch (error) {
+      this.currentLocation = undefined;
+    }
   }
 
   /**
@@ -179,6 +183,9 @@ export class AddSavedLocationComponent implements OnInit {
   }
 
   async useUserLocation() {
+    // A tap asks. checkLocationServiceStatus is silent by design, so the prompt has
+    // to be explicit here.
+    await this.capacitor.requestLocationPermission();
     this.commonUtilityService
       .checkLocationServiceStatus()
       .then(async (enabled) => {
@@ -206,7 +213,8 @@ export class AddSavedLocationComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  chooseOnMap() {
+  async chooseOnMap() {
+    await this.useMyCurrentLocation();
     const dialogRef = this.dialog.open(NotificationMapComponent, {
       autoFocus: 'dialog',
       width: '100dvw',
@@ -228,7 +236,8 @@ export class AddSavedLocationComponent implements OnInit {
     });
   }
 
-  chooseRadiusOnMap() {
+  async chooseRadiusOnMap() {
+    await this.useMyCurrentLocation();
     const dialogRef = this.dialog.open(NotificationMapComponent, {
       autoFocus: 'dialog',
       width: '100dvw',

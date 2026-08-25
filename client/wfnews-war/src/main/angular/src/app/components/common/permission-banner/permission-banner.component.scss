@@ -1,0 +1,59 @@
+// The parent sizes the banner, so the host must be a block that fills its column.
+:host {
+  display: block;
+  width: 100%;
+}
+
+.permission-banner {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 16px;
+  border-radius: 8px;
+  // neutral, not amber: yellow is the Evacuation Alert colour (alert-order-banner)
+  border: 1px solid var(--grays-gray-7, #dedede);
+  background: #fff;
+  box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07);
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+
+  .banner-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .banner-text {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 2px;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  }
+
+  .banner-title {
+    color: var(--Gray-1, #242424);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .banner-message {
+    color: var(--grays-gray-2, #484848);
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .banner-button {
+    align-self: flex-start;
+    margin-top: 4px;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--blues-blue-2, #1a5a96);
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+  }
+}

@@ -86,14 +86,19 @@ export class FilterByLocationDialogComponent {
     if (this.locationData.useUserLocation) {
       this.searchText = undefined;
 
-      const location =
-        await this.commonUtilityService.getCurrentLocationPromise();
-      this.locationData.latitude = location.coords.latitude;
-      this.locationData.longitude = location.coords.longitude;
-      this.searchText =
-        this.locationData.latitude.toString() +
-        ', ' +
-        this.locationData.longitude.toString();
+      try {
+        const location =
+          await this.commonUtilityService.getCurrentLocationPromise();
+        this.locationData.latitude = location.coords.latitude;
+        this.locationData.longitude = location.coords.longitude;
+        this.searchText =
+          this.locationData.latitude.toString() +
+          ', ' +
+          this.locationData.longitude.toString();
+      } catch (error) {
+        // The choice does not hold, so put the switch back.
+        this.locationData.useUserLocation = false;
+      }
     } else {
       this.searchText = null;
     }

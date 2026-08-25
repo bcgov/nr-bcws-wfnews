@@ -78,7 +78,7 @@ export class AreaRestrictionListComponent implements OnInit {
     this.searchingComplete = false;
     let userLocation;
     try {
-      userLocation = await this.commonUtilityService.getCurrentLocationPromise();
+      userLocation = await this.commonUtilityService.getPositionIfPermitted();
     } catch (error) {
       console.error('Error getting current location:', error);
     }

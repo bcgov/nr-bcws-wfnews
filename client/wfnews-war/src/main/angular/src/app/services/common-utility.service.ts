@@ -18,6 +18,31 @@ import { IonicStorageService } from './ionic-storage.service';
 import { ReportOfFireService } from './report-of-fire-service';
 
 const MAX_CACHE_AGE = 30 * 1000;
+const POSITION_LIMIT = 10 * 1000;
+
+/**
+ * The Android plugin does not apply its own `timeout`. A request measured on a
+ * Pixel XL was still pending after 100 002 ms with the device Location setting
+ * off, so the limit must be here. See PIXEL_XL_FINDINGS_STE.md section 6.3.
+ */
+function withLimit<T>(work: Promise<T>, limit: number): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(
+      () => reject(new Error('The location request took too long.')),
+      limit,
+    );
+    work.then(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (error) => {
+        clearTimeout(timer);
+        reject(error);
+      },
+    );
+  });
+}
 export interface Coordinates {
   readonly accuracy: number;
   readonly altitude: number | null;
@@ -60,61 +85,58 @@ export class CommonUtilityService {
     setTimeout(() => (this.rofService = injector.get(ReportOfFireService)));
   }
 
+  private requestPosition(): Promise<Position> {
+    return withLimit(
+      Geolocation.getCurrentPosition({
+        // With no options the plugin takes its LocationManager fallback, measured at
+        // over five seconds indoors and often failing. Off, the fused provider
+        // answers in under a tenth of a second.
+        enableLocationFallback: false,
+        maximumAge: MAX_CACHE_AGE,
+        timeout: POSITION_LIMIT,
+      }),
+      POSITION_LIMIT,
+    );
+  }
+
+  /**
+   * A position, but only when the permission is already granted. It never raises the
+   * Android dialog. A screen that draws itself with a position must use this, so that
+   * it does not ask on load. See LOCATION_AND_STARTUP_PLAN_STE.md section 5.1.
+   */
+  async getPositionIfPermitted(): Promise<Position | undefined> {
+    try {
+      const status = await Geolocation.checkPermissions();
+      if (status.location !== 'granted' && status.coarseLocation !== 'granted') {
+        return undefined;
+      }
+      return await this.getCurrentLocationPromise();
+    } catch (error) {
+      return undefined;
+    }
+  }
+
   getCurrentLocationPromise(): Promise<Position> {
-    const self = this;
     const now = Date.now();
-    if (this.locationTime && now - this.locationTime < MAX_CACHE_AGE) {
+    if (this.location && this.locationTime && now - this.locationTime < MAX_CACHE_AGE) {
       return this.location;
     }
 
-    this.locationTime = now;
-    this.location = Geolocation.getCurrentPosition();
-    return this.location;
-  }
-
-  getCurrentLocation(callback?: (p: Position) => void) {
-    if (navigator && navigator.geolocation) {
-      return Geolocation.getCurrentPosition().then(
-        (position) => {
-          this.myLocation = position ? position.coords : undefined;
-          if (callback) {
-            callback(position);
-          }
-          return position ? position.coords : undefined;
-        },
-        (error) => {
-          this.snackbarService.open(
-            'Unable to retrieve the current location.',
-            '',
-            {
-              duration: 5,
-            },
-          );
-        },
-      );
-    } else {
-      console.warn('Unable to access geolocation');
-      this.snackbarService.open('Unable to access location services.', '', {
-        duration: 5,
-      });
-    }
-  }
-
-  preloadGeolocation() {
-    Geolocation.getCurrentPosition().then(
+    // Cache a good answer only. The old code stamped the time before the answer
+    // came, so one failure was returned again for the whole window.
+    this.location = this.requestPosition().then(
       (position) => {
-        this.myLocation = position.coords;
+        this.locationTime = Date.now();
+        this.myLocation = position?.coords;
+        return position;
       },
       (error) => {
-        this.snackbarService.open(
-          'Unable to retrieve the current location',
-          'Cancel',
-          {
-            duration: 5000,
-          },
-        );
+        this.location = undefined;
+        this.locationTime = undefined;
+        throw error;
       },
     );
+    return this.location;
   }
 
   sortAddressList(results: any, value: string) {
@@ -178,35 +200,19 @@ export class CommonUtilityService {
     return /iphone/.test(userAgent);
   }
 
-  countdown(timeoutDuration) {
-    const promise = new Promise<boolean>((resolve) => {
-      setTimeout(() => resolve(false), timeoutDuration);
-    });
-    return promise;
-  }
-
-  checkLocation() {
-    const promise = new Promise<boolean>((resolve) => {
-      Geolocation.getCurrentPosition().then(
-        (position) => {
-          resolve(true);
-        },
-        (error) => {
-          resolve(false);
-        },
-      );
-    });
-
-    return promise;
+  /**
+   * Can we get a position right now? This never raises the Android dialog, because it
+   * runs on load, for example when the Active Wildfire Map starts. A control that
+   * should ask must call requestLocationPermission() on the CapacitorService instead.
+   */
+  async checkLocation(): Promise<boolean> {
+    return (await this.getPositionIfPermitted()) !== undefined;
   }
 
   async checkLocationServiceStatus(): Promise<boolean> {
-    const timeoutDuration = 5000; // 5 seconds limit
-
-    const locationPromise = await this.checkLocation();
-    const timeoutPromise = this.countdown(timeoutDuration);
-
-    return Promise.race([timeoutPromise, locationPromise]);
+    // requestPosition carries its own limit now, so the old countdown race is gone.
+    // That race never applied: it awaited the answer before it raced it.
+    return this.checkLocation();
   }
 
   pingService(): Observable<any> {

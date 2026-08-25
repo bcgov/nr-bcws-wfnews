@@ -8,16 +8,12 @@
             Add new
         </button>
       </div>
-      <div class="notification-permission-banner" *ngIf="showPermissionBanner">
-          <img alt="warning" class="banner-icon" src="/assets/images/svg-icons/custom_warning.svg">
-          <div class="banner-text">
-              <span class="banner-title">Notifications are off</span>
-              <span class="banner-message">Your saved locations cannot send you wildfire alerts until notifications are on for this app.</span>
-              <button type="button" class="banner-button" (click)="onTurnOnNotifications()">
-                  {{ pushPermission === 'denied' ? 'Open settings' : 'Turn on notifications' }}
-              </button>
-          </div>
-      </div>
+      <permission-banner *ngIf="showPermissionBanner"
+          heading="Notifications are off"
+          message="Your saved locations cannot send you wildfire alerts until notifications are on for this app."
+          [actionLabel]="pushPermission === 'denied' ? 'Open settings' : 'Turn on notifications'"
+          (action)="onTurnOnNotifications()">
+      </permission-banner>
       <div class="section-card" *ngIf="!savedLocations.length" (click)="addNewLocation()">
           <div class="add-location-content flex-enabled">
               <img alt="icon" class="location-icon" src="/assets/images/svg-icons/location-grey.svg">
