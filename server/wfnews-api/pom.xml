@@ -255,6 +255,11 @@
 			</dependency>
 			<dependency>
 				<groupId>ca.bc.gov.nrs.wfone.common</groupId>
+				<artifactId>wfone-common-webade-oauth2</artifactId>
+				<version>${wfone.common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ca.bc.gov.nrs.wfone.common</groupId>
 				<artifactId>wfone-common-webade-oauth2-test</artifactId>
 				<version>${wfone.common.version}</version>
 			</dependency>
