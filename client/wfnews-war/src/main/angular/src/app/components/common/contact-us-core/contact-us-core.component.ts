@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { defaultSlimIconButtonStyle } from '../icon-button/icon-button.component';
 
 @Component({
@@ -6,7 +6,10 @@ import { defaultSlimIconButtonStyle } from '../icon-button/icon-button.component
   templateUrl: './contact-us-core.component.html',
   styleUrls: ['./contact-us-core.component.scss']
 })
-export class ContactUsCoreComponent {
+export class ContactUsCoreComponent implements AfterViewInit {
+  ngAfterViewInit(): void {
+    console.log('incident', this.incident);
+  }
   @Input() incident;
 
   iconButtonStyling = { ...defaultSlimIconButtonStyle, backgroundColor: '#FFF' };

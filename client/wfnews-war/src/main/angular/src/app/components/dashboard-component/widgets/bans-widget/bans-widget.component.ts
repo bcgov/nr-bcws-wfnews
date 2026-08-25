@@ -7,6 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { EXTERNAL_LINKS } from '@app/constants';
 import { ResourcesRoutes } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
@@ -20,6 +21,7 @@ export class BansWidget implements OnInit, AfterViewInit {
   public startupComplete = false;
   public map: any = null;
   public showViewMapButton = false;
+  bansRestrictionsUrl = EXTERNAL_LINKS.BANS_RESTRICTIONS;
 
   constructor(
     private appConfigService: AppConfigService,

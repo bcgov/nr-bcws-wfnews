@@ -76,7 +76,7 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'Local government maps',
           subtitle: 'Government of British Columbia',
-          url: 'https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/local-government-maps',
+          url: EXTERNAL_LINKS.LOCAL_GOVERNMENT_MAPS,
           description:
             'Map of local governments including regional districts, electoral areas and municipalities.',
         },
@@ -88,14 +88,14 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'Wildfire Prevention',
           subtitle: 'BC Wildfire Service',
-          url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention',
+          url: EXTERNAL_LINKS.PREVENTION,
           description:
             'Wildfire prevention at home, in the backcountry, and through larger-scale fire and fuel management planning.',
         },
         {
           title: 'Get Prepared for a Wildfire',
           subtitle: 'Prepared BC',
-          url: 'https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/know-your-hazards/wildfires',
+          url: EXTERNAL_LINKS.GET_PREPARED,
           description:
             'Overview of what to do before, during and after a wildfire, and a downloadable PFD of the Wildfire Preparedness Guide.',
         },
@@ -109,21 +109,21 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'Plan, Prepare, Stay Informed',
           subtitle: 'BC Wildfire Service',
-          url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/plan-prepare-stay-informed',
+          url: EXTERNAL_LINKS.STAY_INFORMED,
           description:
             'Outline of how to prepare for evacuation if you live in an area prone to wildfire.'
         },
         {
           title: 'Fire Danger Rating',
           subtitle: 'BC Wildfire Service',
-          url: 'https://www2.gov.bc.ca/gov/content?id=3DDDD01FBF674A619B3178603539E493',
+          url: EXTERNAL_LINKS.FIRE_DANGER,
           description:
             'Fire danger rating in your area and other information about fire weather.',
         },
         {
           title: 'Fire Bans and Restrictions',
           subtitle: 'BC Wildfire Service',
-          url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions',
+          url: EXTERNAL_LINKS.BANS_RESTRICTIONS,
           description:
             'Fire prohibitions and restrictions in British Columbia. These are made by B.C.’s six regional fire centres.'
         },
@@ -135,7 +135,7 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'BC Wildfire Service Contact Channels',
           subtitle: 'BC Wildfire Service',
-          url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels',
+          url: EXTERNAL_LINKS.BCWS_CONTACTS,
           description:
             'A variety of BC Wildfire Service contact channels here.',
         },
@@ -149,7 +149,7 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'Wildfire Response',
           subtitle: 'BC Wildfire Service',
-          url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response',
+          url: EXTERNAL_LINKS.WILDFIRE_RESPONSE,
           description:
             'The BC Wildfire Service is a leader in wildfire management, known for skilled personnel and a focus on safety. Learn more about wildfires in B.C. and the BC Wildfire Service here.'
         },
@@ -163,14 +163,14 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'Fire Centres',
           subtitle: 'BC Wildfire Service',
-          url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres',
+          url: EXTERNAL_LINKS.BCWS_FIRE_CENTRES,
           description:
             'The BC Wildfire Service has divided the province into six regional fire centres. These are further divided in fire zones. Read more here.',
         },
         {
           title: 'Wildfire Glossary',
           subtitle: 'BC Wildfire Service',
-          url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/glossary',
+          url: EXTERNAL_LINKS.BCWS_GLOSSARY,
           description:
             'Review terms commonly used to describe wildfire and fuel management here.',
         },

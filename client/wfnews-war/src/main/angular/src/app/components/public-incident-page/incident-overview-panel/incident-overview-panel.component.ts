@@ -4,6 +4,7 @@ import { isMobileView } from '@app/utils';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { AppConfigService } from '@wf1/core-ui';
 import { getResponseTypeDescription } from '../../../utils/index';
+import { EXTERNAL_LINKS } from '@app/constants';
 
 @Component({
   selector: 'incident-overview-panel',
@@ -17,6 +18,11 @@ export class IncidentOverviewPanel {
   public Editor = Editor;
   public isMobileView = isMobileView;
   public getResponseTypeDescription = getResponseTypeDescription;
+  wildfireResponseUrl = EXTERNAL_LINKS.WILDFIRE_RESPONSE;
+  wildfireCrewsUrl = EXTERNAL_LINKS.WILDFIRE_CREWS;
+  wildfireAviationUrl = EXTERNAL_LINKS.WILDFIRE_AVIATION;
+  incidentManagementUrl = EXTERNAL_LINKS.INCIDENT_MANAGEMENT_TEAMS;
+  heavyEquipmentUrl = EXTERNAL_LINKS.HEAVY_EQUIPMENT;
 
   constructor(
     private sanitizer: DomSanitizer,

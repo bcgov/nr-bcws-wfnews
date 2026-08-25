@@ -38,6 +38,7 @@ import {
   isMobileView as mobileView,
   snowPlowHelper,
 } from './utils';
+import { EXTERNAL_LINKS } from './constants';
 
 export const ICON = {
   ADVISORIES: 'advisories',
@@ -425,42 +426,42 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ? [
         new RouterLink(
           'Home',
-          'https://www2.gov.bc.ca/gov/content/home',
+          EXTERNAL_LINKS.BC_GOV_HOME,
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Disclaimer',
-          'https://www2.gov.bc.ca/gov/content?id=DE91907CDB3E4B5EB2F0363569079B85',
+          EXTERNAL_LINKS.BCWS_DISCLAIMER,
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Privacy',
-          'https://www2.gov.bc.ca/gov/content/home/privacy',
+          EXTERNAL_LINKS.PRIVACY,
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Accessibility',
-          'https://www2.gov.bc.ca/gov/content/home/accessible-government',
+          EXTERNAL_LINKS.ACCESSIBLE_GOVERNMENT,
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Copyright',
-          'https://www2.gov.bc.ca/gov/content/home/copyright',
+          EXTERNAL_LINKS.COPYRIGHT,
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Contact Us',
-          'https://www2.gov.bc.ca/gov/content/home/get-help-with-government-services',
+          EXTERNAL_LINKS.GET_HELP,
           'home',
           'expanded',
           this.router,
@@ -554,7 +555,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   navigateToBcWebsite() {
     window.open(
-      'https://www2.gov.bc.ca/gov/content/safety/wildfire-status',
+      EXTERNAL_LINKS.WILDFIRE_STATUS,
       '_blank',
     );
   }
@@ -981,14 +982,14 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   openLink(link: string) {
     if (link === 'Disclaimer') {
       window.open(
-        'https://www2.gov.bc.ca/gov/content?id=DE91907CDB3E4B5EB2F0363569079B85',
+        EXTERNAL_LINKS.BCWS_DISCLAIMER,
         '_blank',
       );
     } else if (link === 'Privacy') {
-      window.open('https://www2.gov.bc.ca/gov/content/home/privacy', '_blank');
+      window.open(EXTERNAL_LINKS.PRIVACY, '_blank');
     } else if (link === 'Copyright') {
       window.open(
-        'https://www2.gov.bc.ca/gov/content/home/copyright',
+        EXTERNAL_LINKS.COPYRIGHT,
         '_blank',
       );
     }

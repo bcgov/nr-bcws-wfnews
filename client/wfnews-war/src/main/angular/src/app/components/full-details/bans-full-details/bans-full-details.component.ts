@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { Router as Route } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { CARD_TEXTS, INFORMATION_TEXTS } from '@app/constants';
+import { CARD_TEXTS, EXTERNAL_LINKS, INFORMATION_TEXTS } from '@app/constants';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
@@ -260,14 +260,14 @@ export class BansFullDetailsComponent implements OnInit {
 
   navToForestUseRestrictions() {
     window.open(
-      'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions/forest-use-restrictions',
+      EXTERNAL_LINKS.BANS_FOREST_USE,
       '_blank',
     );
   }
 
   navToOpenBurning() {
     window.open(
-      'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions/open-burning',
+      EXTERNAL_LINKS.BANS_OPEN_BURNING,
       '_blank',
     );
   }

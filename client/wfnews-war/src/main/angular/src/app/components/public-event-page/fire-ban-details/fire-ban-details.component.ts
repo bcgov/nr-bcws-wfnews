@@ -3,7 +3,7 @@ import { AdvisorySectionStyle } from '@app/components/common/advisory-section/ad
 import { IconButtonArgs } from '@app/components/common/icon-button/icon-button.component';
 import { RelatedTopicsLink } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
 import { AppConfigService } from '@wf1/core-ui';
-import { INFORMATION_TEXTS } from '../../../constants';
+import { EXTERNAL_LINKS, INFORMATION_TEXTS } from '../../../constants';
 
 @Component({
   selector: 'fire-ban-details',
@@ -46,15 +46,15 @@ export class FireBanDetailsComponent implements OnInit {
   relatedTopicLinks: RelatedTopicsLink[] = [
     { 
       text: 'Current Fire Bans and Restrictions', 
-      url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions' 
+      url: EXTERNAL_LINKS.BANS_RESTRICTIONS
     },
     { 
       text: 'Forest Use Restrictions', 
-      url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions/forest-use-restrictions' 
+      url: EXTERNAL_LINKS.BANS_FOREST_USE
     },
     { 
       text: 'Open Burning', 
-      url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions/open-burning' 
+      url: EXTERNAL_LINKS.BANS_OPEN_BURNING
     },
   ];
 

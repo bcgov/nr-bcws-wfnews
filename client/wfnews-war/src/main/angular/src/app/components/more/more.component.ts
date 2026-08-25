@@ -16,6 +16,9 @@ export class MoreComponent implements OnInit{
   public snowPlowHelper = snowPlowHelper;
   public buildNumber: string;
   public showVersion = true;
+  disclaimerUrl = EXTERNAL_LINKS.DISCLAIMER;
+  privacyUrl = EXTERNAL_LINKS.PRIVACY;
+  copyrightUrl = EXTERNAL_LINKS.COPYRIGHT;
 
   constructor(
     private router: Router,
