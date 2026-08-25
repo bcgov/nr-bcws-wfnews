@@ -9,6 +9,10 @@ import {
 } from '@app/utils';
 import { AppConfigService, TokenService } from '@wf1/core-ui';
 import { Observable, of } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
+
+// A wildfire moves fast, so a held answer must not get old.
+const REQUEST_CACHE_AGE = 10 * 60 * 1000;
 import { concatMap, map } from 'rxjs/operators';
 
 export class SimpleIncident {
@@ -28,6 +32,8 @@ export class SimpleIncident {
   providedIn: 'root',
 })
 export class PublishedIncidentService {
+  private requestCache = new Map<string, { request: Observable<any>; at: number }>();
+
   constructor(
     private appConfigService: AppConfigService,
     private tokenService: TokenService,
@@ -301,11 +307,33 @@ export class PublishedIncidentService {
     const url = `${this.appConfigService.getConfig().rest['wfnews']
       }/statistics?fireYear=${fireYear}${fireCentre ? '&fireCentre=' + fireCentre : ''
       }`;
-    return this.httpClient.get<any>(url, {
-      headers: {
-        apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
-      },
-    });
+    return this.shared(url, () =>
+      this.httpClient.get<any>(url, {
+        headers: {
+          apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
+        },
+      }),
+    );
+  }
+
+  /**
+   * Six Dashboard widgets ask for the same statistics, and two ask for the same
+   * situation report. Hold each answer for a short time, so the device opens one
+   * connection and not six. A wildfire moves fast, so the life is short.
+   */
+  private shared<T>(key: string, make: () => Observable<T>): Observable<T> {
+    const held = this.requestCache.get(key);
+    if (held && Date.now() - held.at < REQUEST_CACHE_AGE) {
+      return held.request as Observable<T>;
+    }
+    const request = make().pipe(shareReplay({ bufferSize: 1, refCount: false }));
+    this.requestCache.set(key, { request, at: Date.now() });
+    return request;
+  }
+
+  /** Drops every held answer, for a pull to refresh. */
+  public clearRequestCache(): void {
+    this.requestCache.clear();
   }
 
   /********** Situation Report ************/
@@ -318,7 +346,9 @@ export class PublishedIncidentService {
     const url = `${this.appConfigService.getConfig().rest['wfnews']
       }/publicSituationReport?pageNumber=${pageNum}&pageRowCount=${rowCount}&published=${published ? 'TRUE' : 'FALSE'
       }`;
-    return this.httpClient.get<SituationReport>(url, this.getPublicSituationReportHeaders());
+    return this.shared(url, () =>
+      this.httpClient.get<SituationReport>(url, this.getPublicSituationReportHeaders()),
+    );
   }
 
   public fetchSituationReport(reportGuid: string): Observable<SituationReport> {
