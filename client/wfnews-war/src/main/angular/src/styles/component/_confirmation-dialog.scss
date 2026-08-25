@@ -24,8 +24,16 @@
 // A phone has no room for a 600px card, so it takes the screen less a margin.
 @media (max-width: $mobile-max-width) {
   .wfnews-confirmation-dialog {
-    width: calc(100vw - 32px) !important;
+    // 16px on a 411px screen is 4% and reads as edge to edge. 24 is the Material
+    // minimum for a phone.
+    width: calc(100vw - 48px) !important;
     max-width: none !important;
-    margin: 16px;
+    margin: 24px;
+
+    // 8px, to match the cards and the option tiles on the screen behind the dialog.
+    // Desktop keeps the 4px of the BC Gov Modal.
+    .mat-mdc-dialog-container .mdc-dialog__surface {
+      border-radius: 8px;
+    }
   }
 }
