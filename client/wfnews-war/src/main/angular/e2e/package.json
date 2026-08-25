@@ -7,6 +7,9 @@
     "test": "wdio run wdio.conf.ts",
     "test:permissions": "wdio run wdio.conf.ts --spec test/specs/location-permission.e2e.ts",
     "test:screens": "wdio run wdio.conf.ts --spec test/specs/screens.e2e.ts",
+    "test:network": "wdio run wdio.conf.ts --spec test/specs/network-journeys.e2e.ts",
+    "test:network:all": "node scripts/run-network.mjs",
+    "report:network": "node scripts/network-report.mjs",
     "driver:install": "appium driver install uiautomator2"
   },
   "devDependencies": {

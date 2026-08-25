@@ -11,7 +11,9 @@ const CHROMEDRIVER = process.env.WFNEWS_CHROMEDRIVER || join(__dirname, '.chrome
 export const config: WebdriverIO.Config = {
   runner: 'local',
 
-  specs: ['./test/specs/**/*.e2e.ts'],
+  // The Journey suite is not here on purpose. It changes the device network, so it
+  // needs its own command and its own Network Profile.
+  specs: ['./test/specs/location-permission.e2e.ts', './test/specs/screens.e2e.ts'],
   maxInstances: 1,
 
   capabilities: [
@@ -58,8 +60,10 @@ export const config: WebdriverIO.Config = {
 
   framework: 'mocha',
   reporters: ['spec'],
-  // The app needs minutes to draw on a 2016 device, so a short timeout only hides the defect.
-  mochaOpts: { ui: 'bdd', timeout: 600_000 },
+  // The app needs minutes to draw on a 2016 device, so a short timeout only hides the
+  // defect. The Report of Fire walk has 16 pages, and each one carries its own budget
+  // on the `2g` Network Profile.
+  mochaOpts: { ui: 'bdd', timeout: 1_800_000 },
 
   logLevel: 'warn',
   waitforTimeout: 30_000,
