@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { EXTERNAL_LINKS } from '@app/constants';
+import { AppConfigService } from '@wf1/core-ui';
 
 export interface BlogCard {
   title: string;
@@ -44,7 +44,7 @@ export class BlogWidget implements AfterViewInit {
     },
     {
       title: 'App FAQs',
-      link: EXTERNAL_LINKS.FAQ,
+      link: this.appConfigService.getConfig().externalAppConfig['faqUrl'].toString(),
       icon: '/assets/images/svg-icons/question.svg',
       iconClass: 'question-icon',
       useMask: true,
@@ -53,7 +53,7 @@ export class BlogWidget implements AfterViewInit {
 
   public linkIcon = '/assets/images/svg-icons/link.svg';
 
-  constructor() {}
+  constructor(private appConfigService: AppConfigService) {}
 
   ngAfterViewInit(): void {
     this.startupComplete = true;

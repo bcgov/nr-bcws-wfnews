@@ -21,8 +21,8 @@
       {{incident.resourceDetail || 'For further information on response, please contact the information officer assigned to this incident.'}}
     </div>
     <div class="learn-more-button-container">
-      <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response" target="_blank" rel="noopener">Learn More</a>
-      <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response</a></p>
+      <a class="learn-more-button no-print" href="wildfireResponseUrl" target="_blank" rel="noopener">Learn More</a>
+      <p class="show-print">Learn More: <a href="wildfireResponseUrl">{{wildfireResponseUrl}}</a></p>
     </div>
     <div class="spacer-bottom"></div>
   </div>
@@ -46,8 +46,8 @@
             <div [innerHTML]="incident.wildfireCrewResourcesDetail"></div>
           </div>
           <div class="learn-more-button-container">
-            <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews" target="_blank" rel="noopener">Learn More</a>
-            <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews</a></p>
+            <a class="learn-more-button no-print" href="{{wildfireCrewsUrl}}" target="_blank" rel="noopener">Learn More</a>
+            <p class="show-print">Learn More: <a href="{{wildfireCrewsUrl}}">{{wildfireCrewsUrl}}</a></p>
           </div>
         </div>
       </div>
@@ -63,8 +63,8 @@
             <div [innerHTML]="incident.wildfireAviationResourceDetail"></div>
           </div>
           <div class="learn-more-button-container">
-            <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation" target="_blank" rel="noopener">Learn More</a>
-            <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation</a></p>
+            <a class="learn-more-button no-print" href="{{wildfireAviationUrl}}" target="_blank" rel="noopener">Learn More</a>
+            <p class="show-print">Learn More: <a href="{{wildfireAviationUrl}}">{{wildfireAviationUrl}}</a></p>
           </div>
         </div>
       </div>
@@ -80,8 +80,8 @@
             <div [innerHTML]="incident.incidentMgmtCrewRsrcDetail"></div>
           </div>
           <div class="learn-more-button-container">
-            <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management" target="_blank" rel="noopener">Learn More</a>
-            <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management</a></p>
+            <a class="learn-more-button no-print" href="{{incidentManagementUrl}}" target="_blank" rel="noopener">Learn More</a>
+            <p class="show-print">Learn More: <a href="{{incidentManagementUrl}}">{{incidentManagementUrl}}</a></p>
           </div>
         </div>
       </div>
@@ -97,8 +97,8 @@
             <div [innerHTML]="incident.heavyEquipmentResourcesDetail"></div>
           </div>
           <div class="learn-more-button-container">
-            <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment" target="_blank" rel="noopener">Learn More</a>
-            <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment</a></p>
+            <a class="learn-more-button no-print" href="{{heavyEquipmentUrl}}" target="_blank" rel="noopener">Learn More</a>
+            <p class="show-print">Learn More: <a href="{{heavyEquipmentUrl}}">{{heavyEquipmentUrl}}</a></p>
           </div>
         </div>
       </div>
