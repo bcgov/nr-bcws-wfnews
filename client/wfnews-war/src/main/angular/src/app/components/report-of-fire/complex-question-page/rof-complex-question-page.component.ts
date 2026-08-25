@@ -12,6 +12,7 @@ import {
 } from '@angular/material/button-toggle';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { CapacitorService } from '@app/services/capacitor-service';
 
 /** The value that "I'm not sure" stores, on this page and in the review. */
 const UNKNOWN = 'Unknown';
@@ -37,6 +38,7 @@ export class RoFComplexQuestionPage extends RoFPage {
     private reportOfFirePage: ReportOfFirePage,
     private cdr: ChangeDetectorRef,
     private commonUtilityService: CommonUtilityService,
+    private capacitorService: CapacitorService,
   ) {
     super();
   }
@@ -112,13 +114,62 @@ export class RoFComplexQuestionPage extends RoFPage {
     if (this.id === 'distance-page') {
       this.commonUtilityService.checkOnline().then((result) => {
         if (!result) {
-          this.reportOfFirePage.selectPage('photo-page', null, false);
+          // The location page is skipped with no network, because it holds a map and
+          // a map needs tiles. The position does not need tiles, so take it here.
+          // Without this the report goes with the [0, 0] default of the model.
+          this.captureLocationOffline().then(() =>
+            this.reportOfFirePage.selectPage('photo-page', null, false),
+          );
         } else {
           this.next();
         }
       });
     } else {
       this.next();
+    }
+  }
+
+  /**
+   * Writes the device position and the fire position into the report, with no map.
+   *
+   * The compass page and this page are answered before the skip, so the heading and
+   * the distance are known. `turf.destination` is the same calculation that places
+   * the fire on the location page, and it comes from `smk.js` in the bundle, so it
+   * works with no network.
+   *
+   * It asks for the permission first. Report of Fire is the one flow that is
+   * permitted to raise the Android dialog, and with no network there is no banner
+   * and no location page left to ask on. `requestLocationPermission` asks only when
+   * the state is still `prompt`, so a user who said no is not asked a second time.
+   *
+   * Never throws. A report with no position must still go forward.
+   */
+  private async captureLocationOffline(): Promise<void> {
+    try {
+      await this.capacitorService.requestLocationPermission();
+      const position = await this.commonUtilityService.getPositionIfPermitted();
+      if (!position?.coords) {
+        return;
+      }
+      const lat = Number(position.coords.latitude);
+      const lon = Number(position.coords.longitude);
+      this.reportOfFire.deviceLocation = [lat, lon];
+
+      const turf = window['turf'];
+      const km = Number(this.reportOfFire.estimatedDistance) / 1000;
+      const heading = Number(this.reportOfFire.compassHeading);
+      if (!turf || !km || Number.isNaN(heading)) {
+        // No heading or no distance. The device position is the best answer left.
+        this.reportOfFire.fireLocation = [lat, lon];
+        return;
+      }
+
+      // turf works in [longitude, latitude]. The report holds [latitude, longitude].
+      const point = turf.destination([lon, lat], km, heading);
+      const [fireLon, fireLat] = point.geometry.coordinates;
+      this.reportOfFire.fireLocation = [Number(fireLat), Number(fireLon)];
+    } catch (error) {
+      console.error('Could not take a position for the offline report', error);
     }
   }
 }
