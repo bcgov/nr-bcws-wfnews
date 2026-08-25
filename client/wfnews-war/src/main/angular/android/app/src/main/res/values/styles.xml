@@ -13,6 +13,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
+        <!-- The app is white on every screen. In night mode DayNight would give the
+             status bar white icons, and they vanish against the app. -->
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
 
