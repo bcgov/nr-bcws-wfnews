@@ -5,9 +5,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
+import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFireService } from '@app/services/report-of-fire-service';
 import { App } from '@capacitor/app';
@@ -33,11 +32,11 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   private appStateListener: PluginListenerHandle;
 
   public constructor(
-    protected dialog: MatDialog,
     private commonUtilityService: CommonUtilityService,
     private cdr: ChangeDetectorRef,
     private reportOfFirePage: ReportOfFirePage,
-    private reportOfFireService: ReportOfFireService
+    private reportOfFireService: ReportOfFireService,
+    private capacitorService: CapacitorService,
   ) {
     super();
   }
@@ -118,24 +117,18 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     return rofSubmitted;
   }
 
-  triggerLocationServiceCheck() {
-    // re-check if user's device has gone offline since view was initialised and route to offline if so
-    this.commonUtilityService.checkOnline().then((result) => {
-      if (!result) {
+  async startReport() {
+    // re-check if the device has gone offline since the view was initialised
+    this.commonUtilityService.checkOnline().then((online) => {
+      if (!online) {
         this.nextId = 'disclaimer-page';
       }
     });
 
-    this.commonUtilityService.checkLocationServiceStatus().then((enabled) => {
-      if (!enabled) {
-        this.dialog.open(DialogLocationComponent, {
-          autoFocus: false,
-          width: '80vw',
-        });
-      } else {
-        this.next();
-      }
-    });
+    // A position helps a report, but it is not mandatory. The tap is what asks; a
+    // refusal must not stop the report. The location page nudges with its banner.
+    await this.capacitorService.requestLocationPermission();
+    this.next();
   }
 
   checkOnlineStatus() {

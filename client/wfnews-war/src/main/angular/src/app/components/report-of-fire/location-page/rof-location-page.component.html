@@ -1,6 +1,12 @@
 <div class="page-content">
   <div class="rof-text-primary-header">{{ title }}</div>
   <div class="rof-text-secondary-header">{{ message }}</div>
+  <permission-banner *ngIf="showLocationBanner"
+      [heading]="locationBannerHeading"
+      [message]="locationBannerMessage"
+      [actionLabel]="locationBannerAction"
+      (action)="onTurnOnLocation()">
+  </permission-banner>
   <div class="map-container">
     <wf-map-container id="mapView" 
       *ngIf="mapConfig"

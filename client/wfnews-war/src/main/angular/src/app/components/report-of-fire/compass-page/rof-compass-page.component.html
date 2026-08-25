@@ -2,11 +2,12 @@
     <div class="rof-text-primary-header">{{ title }}</div>
     <div class="rof-text-secondary-header">{{ message }}</div>
     <div id="compass-container">
-        <img alt="Compass Face" [src]="compassFaceUrl" id="compass-face-image"/>
+        <img alt="Compass Face" [src]="compassFaceUrl" id="compass-face-image"
+            [style.transform]="'rotate(' + (-compassHeading) + 'deg)'"/>
         <img alt="Compass Hand" [src]="compassHandUrl"  class="compass-hand-image"/>
     </div>
     <div class="compass-heading" id="compass-heading">{{ heading }}</div>
-    <div class="location" id="location">{{ currentLat }},{{ currentLong }}</div>
+    <div class="location" id="location" *ngIf="currentLat && currentLong">{{ currentLat }},{{ currentLong }}</div>
     <div class="rof-button-container">
       <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
         <button class="rof-button-primary" mat-flat-button (click)="confirmHeading()">Continue</button>

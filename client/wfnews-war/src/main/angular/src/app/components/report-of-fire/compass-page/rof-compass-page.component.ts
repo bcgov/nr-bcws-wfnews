@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { RoFPage } from '../rofPage';
 import { ReportOfFire } from '../reportOfFireModel';
 import { CommonUtilityService } from '../../../services/common-utility.service';
@@ -16,7 +21,7 @@ interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
   styleUrls: ['./rof-compass-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class RoFCompassPage extends RoFPage implements OnInit {
+export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
   public compassFaceUrl: string;
   public compassHandUrl: string;
   public compassHeading = 0;
@@ -24,6 +29,7 @@ export class RoFCompassPage extends RoFPage implements OnInit {
   public currentLong: string;
   public heading = '0° N';
   public locationSupported = false;
+  private orientationListener: (e: DeviceOrientationEvent) => void;
   equalsIgnoreCase = equalsIgnoreCase;
 
   constructor(
@@ -44,8 +50,34 @@ export class RoFCompassPage extends RoFPage implements OnInit {
   }
 
   ngOnInit(): void {
+    // Nothing here. The wizard builds every page at the start, so a sensor started
+    // here keeps running, and its skip() moves a page the user is reading.
+  }
+
+  ngOnDestroy(): void {
+    this.onHidden();
+  }
+
+  onShown(): void {
     this.getOrientation();
     this.useMyCurrentLocation();
+  }
+
+  onHidden(): void {
+    if (!this.orientationListener) {
+      return;
+    }
+    window.removeEventListener(
+      'deviceorientationabsolute',
+      this.orientationListener,
+      true,
+    );
+    window.removeEventListener(
+      'deviceorientation',
+      this.orientationListener,
+      true,
+    );
+    this.orientationListener = null;
   }
 
   async getOrientation() {
@@ -55,16 +87,14 @@ export class RoFCompassPage extends RoFPage implements OnInit {
         DeviceOrientationEvent as unknown as DeviceOrientationEventiOS
       ).requestPermission;
       const iOS = typeof requestPermission === 'function';
+      this.orientationListener = (e: DeviceOrientationEvent) =>
+        this.handler(e, self);
       if (iOS) {
         const response = await requestPermission();
         if (equalsIgnoreCase(response, 'granted')) {
           window.addEventListener(
             'deviceorientation',
-            (function(compass) {
-              return function(e) {
-                self.handler(e, compass);
-              };
-            })(self),
+            this.orientationListener,
             true,
           );
         } else {
@@ -78,11 +108,7 @@ export class RoFCompassPage extends RoFPage implements OnInit {
       } else {
         window.addEventListener(
           'deviceorientationabsolute',
-          (function(compass) {
-            return function(e) {
-              self.handler(e, compass);
-            };
-          })(self),
+          this.orientationListener,
           true,
         );
       }
@@ -97,67 +123,65 @@ export class RoFCompassPage extends RoFPage implements OnInit {
   }
 
   handler(e, self) {
+    // Only the page on screen may move the wizard, and only while it reads the sensor.
+    if (!self.reportOfFire?.headingDetectionActive) {
+      return;
+    }
     if (this.commonUtilityService.checkIfLandscapeMode()) {
       this.skip();
+      return;
     }
-    if (self.reportOfFire?.headingDetectionActive) {
-      if (!e.alpha && !e.webkitCompassHeading) {
-        this.reportOfFire.motionSensor = 'no';
-        this.skip();
-      } else {
-        this.reportOfFire.motionSensor = 'yes';
+    // A heading of exactly 0 is a true north reading, not a missing sensor.
+    if (e.alpha == null && e.webkitCompassHeading == null) {
+      this.reportOfFire.motionSensor = 'no';
+      this.skip();
+      return;
+    } else {
+      this.reportOfFire.motionSensor = 'yes';
+    }
+
+    try {
+      let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
+      compassHeading = Math.trunc(compassHeading);
+      let cardinalDirection = '';
+
+      if (
+        (compassHeading >= 0 && compassHeading <= 22) ||
+        (compassHeading >= 337 && compassHeading <= 360)
+      ) {
+        cardinalDirection = 'N';
+      } else if (compassHeading >= 23 && compassHeading <= 66) {
+        cardinalDirection = 'NE';
+      } else if (compassHeading >= 67 && compassHeading <= 112) {
+        cardinalDirection = 'E';
+      } else if (compassHeading >= 113 && compassHeading <= 157) {
+        cardinalDirection = 'SE';
+      } else if (compassHeading >= 158 && compassHeading <= 202) {
+        cardinalDirection = 'S';
+      } else if (compassHeading >= 203 && compassHeading <= 246) {
+        cardinalDirection = 'SW';
+      } else if (compassHeading >= 247 && compassHeading <= 292) {
+        cardinalDirection = 'W';
+      } else if (compassHeading >= 293 && compassHeading <= 336) {
+        cardinalDirection = 'NW';
       }
 
-      try {
-        let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
-        compassHeading = Math.trunc(compassHeading);
-        let cardinalDirection = '';
+      // Bind these. Writing the DOM here as well made the two values fight, and
+      // the text flashed between the reading and the one Angular held.
+      this.compassHeading = compassHeading;
+      this.heading = compassHeading.toString() + '° ' + cardinalDirection;
 
-        if (
-          (compassHeading >= 0 && compassHeading <= 22) ||
-          (compassHeading >= 337 && compassHeading <= 360)
-        ) {
-          cardinalDirection = 'N';
-        } else if (compassHeading >= 23 && compassHeading <= 66) {
-          cardinalDirection = 'NE';
-        } else if (compassHeading >= 67 && compassHeading <= 112) {
-          cardinalDirection = 'E';
-        } else if (compassHeading >= 113 && compassHeading <= 157) {
-          cardinalDirection = 'SE';
-        } else if (compassHeading >= 158 && compassHeading <= 202) {
-          cardinalDirection = 'S';
-        } else if (compassHeading >= 203 && compassHeading <= 246) {
-          cardinalDirection = 'SW';
-        } else if (compassHeading >= 247 && compassHeading <= 292) {
-          cardinalDirection = 'W';
-        } else if (compassHeading >= 293 && compassHeading <= 336) {
-          cardinalDirection = 'NW';
-        }
-
-        if (document.getElementById('compass-face-image')) {
-document.getElementById('compass-face-image').style.transform =
-            `rotate(${-compassHeading}deg)`;
-}
-        if (document.getElementById('compass-heading')) {
-document.getElementById('compass-heading').innerText =
-            compassHeading.toString() + '° ' + cardinalDirection;
-}
-
-        self.reportOfFire.compassHeading = compassHeading;
-
-        this.useMyCurrentLocation();
-
-        this.reportOfFire = self.reportOfFire;
-      } catch (err) {
-        console.error('Could not set compass heading', err);
-      }
+      self.reportOfFire.compassHeading = compassHeading;
+      this.reportOfFire = self.reportOfFire;
+    } catch (err) {
+      console.error('Could not set compass heading', err);
     }
   }
 
   async useMyCurrentLocation() {
     try {
       const location =
-        await this.commonUtilityService.getCurrentLocationPromise();
+        await this.commonUtilityService.getPositionIfPermitted();
       if (location) {
         this.currentLat = this.commonUtilityService.formatDDM(
           Number(location.coords.latitude),
@@ -166,11 +190,6 @@ document.getElementById('compass-heading').innerText =
           Number(location.coords.longitude),
         );
       }
-
-      if (document.getElementById('location')) {
-document.getElementById('location').innerText =
-          this.currentLat + ',' + this.currentLong;
-}
     } catch (err) {
       console.error('Could not find current location', err);
     }
