@@ -4,7 +4,7 @@
     [(state)]="applicationState"
 >
 <div #topAnchor class="top"></div>
-<div *ngIf="redirectToPublicMobile() && isIncidentsPage(); else mainPage">
+<div class="route-host" *ngIf="redirectToPublicMobile() && isIncidentsPage(); else mainPage">
   <router-outlet></router-outlet>
 </div>
 <ng-template #mainPage>
