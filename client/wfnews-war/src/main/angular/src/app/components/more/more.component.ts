@@ -3,7 +3,11 @@ import { Router } from '@angular/router';
 import { EXTERNAL_LINKS } from '@app/constants';
 import { ResourcesRoutes, snowPlowHelper } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
+import { DebugAccessService } from '@app/services/debug-access.service';
 import { BUILD_NUMBER } from '../../../environments/build-info';
+
+/** Start telling the user when the diagnostics are this close. */
+const HINT_FROM = 3;
 
 
 @Component({
@@ -17,9 +21,13 @@ export class MoreComponent implements OnInit{
   public buildNumber: string;
   public showVersion = true;
 
+  /** Says how many taps are left, once the user is clearly on purpose. */
+  public tapHint = '';
+
   constructor(
     private router: Router,
-    private appConfig: AppConfigService) {}
+    private appConfig: AppConfigService,
+    private debugAccess: DebugAccessService) {}
 
   ngOnInit(): void {
     const version = this.appConfig.getConfig().application.version;
@@ -61,7 +69,20 @@ export class MoreComponent implements OnInit{
     }
   }
 
+  /**
+   * Each tap still turns the version into the build and back, so the label answers
+   * every tap. Ten taps in a row open the diagnostics. A gap of two seconds starts
+   * the count again, so taps made over a day do not add up.
+   */
   toggleVersionDisplay() {
     this.showVersion = !this.showVersion;
+
+    const left = this.debugAccess.tap();
+    if (left === 0) {
+      this.tapHint = '';
+      this.router.navigate([ResourcesRoutes.DEBUG]);
+      return;
+    }
+    this.tapHint = left <= HINT_FROM ? `${left} more to open the diagnostics` : '';
   }
 }

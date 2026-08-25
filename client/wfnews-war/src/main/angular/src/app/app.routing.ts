@@ -16,6 +16,8 @@ import { ReportOfFirePage } from './components/report-of-fire/report-of-fire.com
 import { Dashboard } from './components/dashboard-component/dashboard.component';
 import { FullDetailsComponent } from './components/full-details/full-details.component';
 import { SavedComponent } from '@app/components/saved/saved.component';
+import { DebugComponent } from '@app/components/debug/debug.component';
+import { DebugGuard } from '@app/services/util/DebugGuard';
 import { MoreComponent } from '@app/components/more/more.component';
 import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
 import { AddSavedLocationComponent } from '@app/components/saved/add-saved-location/add-saved-location.component';
@@ -116,6 +118,14 @@ const PANEL_ROUTES: Routes = [
     pathMatch: 'full',
   },
   { path: ResourcesRoutes.MORE, component: MoreComponent, pathMatch: 'full' },
+  {
+    // Ten taps on the version label open this. The guard sends anyone who types
+    // the address back to More.
+    path: ResourcesRoutes.DEBUG,
+    component: DebugComponent,
+    pathMatch: 'full',
+    canActivate: [DebugGuard],
+  },
   {
     path: ResourcesRoutes.CONTACT_US,
     component: ContactWidgetDialogComponent,

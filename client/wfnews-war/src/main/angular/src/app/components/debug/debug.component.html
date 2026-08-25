@@ -1,0 +1,61 @@
+<div class="debug">
+  <div class="debug-header">
+    <button type="button" class="back-button" (click)="back()">
+      <mat-icon>chevron_left</mat-icon>More
+    </button>
+    <span class="debug-title">Diagnostics</span>
+  </div>
+
+  <p class="debug-note">
+    This screen is for a support call. Nothing here is sent anywhere until you
+    copy it and paste it yourself.
+  </p>
+
+  <section class="debug-section">
+    <h2>App</h2>
+    <div class="debug-row" *ngFor="let row of app">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+  </section>
+
+  <section class="debug-section">
+    <h2>Device</h2>
+    <div class="debug-row" *ngFor="let row of device">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+  </section>
+
+  <section class="debug-section">
+    <h2>Network</h2>
+    <div class="debug-row" *ngFor="let row of network">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+  </section>
+
+  <section class="debug-section">
+    <h2>Reachability</h2>
+    <p class="debug-hint">
+      One small read of the API, timed. A test uses the connection that it
+      measures, so it runs only when you tap.
+    </p>
+    <button type="button" class="debug-button" (click)="testReachability()" [disabled]="testing">
+      {{ testing ? 'Testing…' : 'Test the API' }}
+    </button>
+    <div class="debug-row" *ngFor="let row of reach">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+  </section>
+
+  <div class="debug-actions">
+    <button type="button" class="debug-button" (click)="read()">Read again</button>
+    <button type="button" class="debug-button debug-button--primary" (click)="copy()">
+      {{ copied ? 'Copied' : 'Copy all' }}
+    </button>
+  </div>
+
+  <button type="button" class="debug-close" (click)="close()">Close the diagnostics</button>
+</div>
