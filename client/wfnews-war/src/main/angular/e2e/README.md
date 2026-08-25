@@ -78,7 +78,7 @@ A program writes it. Do not edit it by hand.
 | `map` | Opens the **Active Wildfire Map** and waits for the tiles |
 | `list-to-incident` | Opens the wildfires list, then one **Public Incident Page** |
 | `saved-location` | Reads the **Saved Locations**, then searches the **Gazetteer** |
-| `report-of-fire` | Starts a **Report of Fire** and reaches the location page |
+| `report-of-fire` | Walks every page of the **Report of Fire** flow, and offline also submits |
 
 | Network Profile | What it is |
 |---|---|
@@ -96,6 +96,8 @@ A program writes it. Do not edit it by hand.
 | `WFNEWS_NET_REPEATS` | How many times to run each **Journey**. The default is 1. The report takes the median. |
 | `WFNEWS_PROXY_PORT` | The port of the **Throttle Proxy**. The default is 8888. |
 | `WFNEWS_NET_KEEP` | Set it to `1` to add to the last numbers instead of removing them. |
+| `WFNEWS_NET_ONLY` | One **Journey** name, to run only that one. |
+| `WFNEWS_ROF_SUBMIT` | `1` or `0`. It overrides the submit rule below. |
 
 ### Why a proxy, and not the DevTools throttle
 
@@ -124,12 +126,23 @@ and lose the other **Network Profiles**. A test goes red only when the harness
 is broken: no session, no WebView, or a device that will not take the
 **Network Profile**.
 
-### The Journeys stop before a write
+### The Journeys stop before a write, with one exception
 
-`saved-location` searches the **Gazetteer**, and it does not save. `report-of-fire`
-reaches the location page, and it does not submit. A save makes a real
-**Saved Location** row, and a submit makes a real **Report of Fire**. This suite
-runs many times.
+`saved-location` searches the **Gazetteer**, and it does not save. A save makes a
+real **Saved Location** row, and this suite runs many times.
+
+`report-of-fire` submits on the `offline` **Network Profile**, and on no other.
+**The Report of Fire flow must work with no network, and the submit is the last
+page of it.** Offline the report is kept on the device and nothing is sent, so
+the walk reads it back out of Ionic Storage to prove that the offline path ran,
+and then clears the app data **while the Wi-Fi is still off**. A stored report
+syncs by itself when the network returns, so the order is not a detail.
+
+With a network the submit is off, because it would make a real
+**Report of Fire**. `WFNEWS_ROF_SUBMIT=1` turns it on, and `0` turns it off.
+
+The callback question is answered "No", so the flow never opens the contact page.
+A test must not put a person's name and telephone number into a report.
 
 ---
 
@@ -147,6 +160,7 @@ runs many times.
 | `test/helpers/network.ts` | The **Network Profiles**, and the device wiring |
 | `test/helpers/throttle-proxy.ts` | The **Throttle Proxy** |
 | `test/helpers/journey.ts` | The **Journey** measurement and the JSON record |
+| `test/helpers/rof.ts` | Reads one **Report of Fire** page, answers it, and reads the stored report |
 | `scripts/run-network.mjs` | One **Network Run** for each **Network Profile** |
 | `scripts/network-report.mjs` | Makes `NETWORK_FINDINGS_STE.md` from the records |
 
@@ -234,3 +248,8 @@ baseline made now would hold a screen that is already wrong. Add
 A green suite that tests nothing is worse than no suite. To prove that the tests
 work, comment out the `tap('deny')` line in T11 and run it again. The test must
 go red.
+
+For the **Journeys**, comment out the `captureLocationOffline()` call in
+`rof-complex-question-page.component.ts`, build, and run the `offline`
+**Network Profile**. The report must then say that the stored **Report of Fire**
+holds `[0, 0]`.

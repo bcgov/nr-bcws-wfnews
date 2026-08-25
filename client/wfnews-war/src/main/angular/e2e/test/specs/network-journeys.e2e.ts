@@ -347,6 +347,14 @@ const JOURNEYS: Journey[] = [
               `fireLocation ${asText(held.fireLocation)}, deviceLocation ${asText(held.deviceLocation)}, ` +
               `estimatedDistance ${held.estimatedDistance ?? 'none'}`,
           );
+          // [0, 0] is the model default and it is a real place, in the Gulf of
+          // Guinea. It reaches the receiver like any other coordinate, so a report
+          // that still holds it means no position was taken.
+          const isOrigin = (value: unknown) =>
+            Array.isArray(value) && Number(value[0]) === 0 && Number(value[1]) === 0;
+          if (isOrigin(held.fireLocation) || isOrigin(held.deviceLocation)) {
+            ctx.find('report of fire: the stored report holds [0, 0], so no position was taken');
+          }
           if (Array.isArray(held.fireLocation) && Number(held.fireLocation[0]) === -112 && Number(held.fireLocation[1]) === 50) {
             ctx.find('report of fire: the stored fire location is the [-112, 50] placeholder, which is in Alberta');
           }
