@@ -48,12 +48,12 @@
     <section>
       <h1>More Information</h1>
       <article *ngIf="selectedPanel === 'wildfire-stage-of-control'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies/stages-of-control')">
+        (click)="openlink(stagesOfControlUrl)">
         <div class="link-container"><span>Wildfire Stages of Control</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'wildfire-stage-of-control'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/plan-prepare-stay-informed')">
+        (click)="openlink(stayInformedUrl)">
         <div class="link-container"><span>Plan, Prepare, Stay Informed</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
@@ -63,22 +63,22 @@
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'evacuation-orders-and-alerts'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance')">
+        (click)="openlink(evacueeGuidanceUrl)">
         <div class="link-container"><span>Evacuee Guidance</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'evacuation-orders-and-alerts'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems')">
+        (click)="openlink(localGovSystemsUrl)">
         <div class="link-container"><span>Local Government System in B.C</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'evacuation-orders-and-alerts'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/emergency-alerts')">
+        (click)="openlink(emergencyAlertsUrl)">
         <div class="link-container"><span>B.C. Emergency Alerts</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'area-restrictions'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions')">
+        (click)="openlink(bansRestrictionsUrl)">
         <div class="link-container"><span>Current Restrictions Information</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
@@ -92,22 +92,22 @@
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'bans-and-prohibitions'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions')">
+        (click)="openlink(bansRestrictionsUrl)">
         <div class="link-container"><span>Current Fire Bans and Restrictions</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'bans-and-prohibitions'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/forest-use-restrictions')">
+        (click)="openlink(forestUseUrl)">
         <div class="link-container"><span>Learn more about Forest Use Restrictions</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'bans-and-prohibitions'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/open-burning')">
+        (click)="openlink(bansOpenBurningUrl)">
         <div class="link-container"><span>Learn more about Open Burning</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'smoke-forecast'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/environment/air-land-water/air/air-quality/aqhi')">
+        (click)="openlink(airQualityUrl)">
         <div class="link-container"><span>BC Air Quality Health Index</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
@@ -117,12 +117,12 @@
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'smoke-forecast'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content?id=7078A9438ECD45979207D300E2CEA6BF')">
+        (click)="openlink(wildfireAirQualityUrl)">
         <div class="link-container"><span>Wildfires and Air Quality</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'fire-danger'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content?id=3DDDD01FBF674A619B3178603539E493')">
+        (click)="openlink(fireDangerUrl)">
         <div class="link-container"><span>Learn more about Fire Danger Rating</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
@@ -132,7 +132,7 @@
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'routes-impacted'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/industry/natural-resource-use/resource-roads/local-road-safety-information')">
+        (click)="openlink(roadSafetyUrl)">
         <div class="link-container"><span>Resource Road Safety Information</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
@@ -147,17 +147,17 @@
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'local-authorities'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance')">
+        (click)="openlink(evacueeGuidanceUrl)">
         <div class="link-container"><span>Evacuee Guidance</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'local-authorities'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems')">
+        (click)="openlink(localGovSystemsUrl)">
         <div class="link-container"><span>Local Government System in B.C</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>
       <article *ngIf="selectedPanel === 'local-authorities'"
-        (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/emergency-alerts')">
+        (click)="openlink(emergencyAlertUrl)">
         <div class="link-container"><span>B.C. Emergency Alerts</span><img alt="link" class="icon"
             src="/assets/images/svg-icons/link.svg"></div>
       </article>

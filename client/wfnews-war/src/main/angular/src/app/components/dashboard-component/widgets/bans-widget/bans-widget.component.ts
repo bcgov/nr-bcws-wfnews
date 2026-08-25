@@ -20,6 +20,7 @@ export class BansWidget implements OnInit, AfterViewInit {
   public startupComplete = false;
   public map: any = null;
   public showViewMapButton = false;
+  bansRestrictionsUrl = this.appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString();
 
   constructor(
     private appConfigService: AppConfigService,

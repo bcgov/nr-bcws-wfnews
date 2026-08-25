@@ -424,42 +424,42 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ? [
         new RouterLink(
           'Home',
-          'https://www2.gov.bc.ca/gov/content/home',
+          this.appConfigService.getConfig().externalAppConfig['bcGovHomeUrl'].toString(),
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Disclaimer',
-          'https://www2.gov.bc.ca/gov/content?id=DE91907CDB3E4B5EB2F0363569079B85',
+          this.appConfigService.getConfig().externalAppConfig['bcwsDisclaimerUrl'].toString(),
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Privacy',
-          'https://www2.gov.bc.ca/gov/content/home/privacy',
+          this.appConfigService.getConfig().externalAppConfig['privacyUrl'].toString(),
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Accessibility',
-          'https://www2.gov.bc.ca/gov/content/home/accessible-government',
+          this.appConfigService.getConfig().externalAppConfig['accessibleGovernmentUrl'].toString(),
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Copyright',
-          'https://www2.gov.bc.ca/gov/content/home/copyright',
+          this.appConfigService.getConfig().externalAppConfig['copyrightUrl'].toString(),
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Contact Us',
-          'https://www2.gov.bc.ca/gov/content/home/get-help-with-government-services',
+          this.appConfigService.getConfig().externalAppConfig['getHelpUrl'].toString(),
           'home',
           'expanded',
           this.router,
@@ -553,7 +553,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   navigateToBcWebsite() {
     window.open(
-      'https://www2.gov.bc.ca/gov/content/safety/wildfire-status',
+      this.appConfigService.getConfig().externalAppConfig['wildfireStatusUrl'].toString(),
       '_blank',
     );
   }
@@ -974,14 +974,14 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   openLink(link: string) {
     if (link === 'Disclaimer') {
       window.open(
-        'https://www2.gov.bc.ca/gov/content?id=DE91907CDB3E4B5EB2F0363569079B85',
+        this.appConfigService.getConfig().externalAppConfig['bcwsDisclaimerUrl'].toString(),
         '_blank',
       );
     } else if (link === 'Privacy') {
-      window.open('https://www2.gov.bc.ca/gov/content/home/privacy', '_blank');
+      window.open(this.appConfigService.getConfig().externalAppConfig['privacyUrl'].toString(), '_blank');
     } else if (link === 'Copyright') {
       window.open(
-        'https://www2.gov.bc.ca/gov/content/home/copyright',
+        this.appConfigService.getConfig().externalAppConfig['copyrightUrl'].toString(),
         '_blank',
       );
     }

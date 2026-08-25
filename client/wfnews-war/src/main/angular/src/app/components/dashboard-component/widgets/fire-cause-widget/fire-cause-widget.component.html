@@ -22,7 +22,7 @@
   <div class="content" *ngIf="startupComplete; else loading">
     <div class="info-box">
       <span>Wildfire cause statistics are a combination of determined and suspected causes.</span>
-      <img onclick="window.open('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/what-causes-wildfire', '_blank')" height="24" width="24" src="/assets/images/svg-icons/question.svg" alt="Order" class="info-button-icon" />
+      <img (click)="openLink(wildfireCausesUrl)" height="24" width="24" src="/assets/images/svg-icons/question.svg" alt="Order" class="info-button-icon" />
     </div>
     <div class="data-box">
       <div *ngIf="!yearly" class="data-box-title">Active Wildfires</div>

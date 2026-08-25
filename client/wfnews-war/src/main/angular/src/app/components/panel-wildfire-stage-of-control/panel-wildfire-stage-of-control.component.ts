@@ -72,6 +72,19 @@ export class PanelWildfireStageOfControlComponent
   newFires = false;
   currentLat: number;
   currentLong: number;
+  airQualityUrl = this.appConfigService.getConfig().externalAppConfig['airQualityUrl'].toString();
+  localGovSystemsUrl = this.appConfigService.getConfig().externalAppConfig['localGovernmentSystemsUrl'].toString();
+  roadSafetyUrl = this.appConfigService.getConfig().externalAppConfig['roadSafetyUrl'].toString();
+  emergencyAlertUrl = this.appConfigService.getConfig().externalAppConfig['emergencyAlertsUrl'].toString();
+  forestUseUrl = this.appConfigService.getConfig().externalAppConfig['bansForestUseUrl'].toString();
+  stagesOfControlUrl = this.appConfigService.getConfig().externalAppConfig['stagesOfControlUrl'].toString();
+  stayInformedUrl = this.appConfigService.getConfig().externalAppConfig['stayInformedUrl'].toString();
+  evacueeGuidanceUrl = this.appConfigService.getConfig().externalAppConfig['evacueeGuidanceUrl'].toString();
+  emergencyAlertsUrl = this.appConfigService.getConfig().externalAppConfig['emergencyAlertsUrl'].toString();
+  bansRestrictionsUrl = this.appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString();
+  bansOpenBurningUrl = this.appConfigService.getConfig().externalAppConfig['bansOpenBurningUrl'].toString();
+  wildfireAirQualityUrl = this.appConfigService.getConfig().externalAppConfig['wildfireAirQualityUrl'].toString();
+  fireDangerUrl = this.appConfigService.getConfig().externalAppConfig['fireDangerUrl'].toString();
 
   public areaRestrictions: AreaRestrictionsOption[] = [];
   public evacOrders: EvacOrderOption[] = [];

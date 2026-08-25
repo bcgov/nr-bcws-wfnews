@@ -260,14 +260,14 @@ export class BansFullDetailsComponent implements OnInit {
 
   navToForestUseRestrictions() {
     window.open(
-      'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions/forest-use-restrictions',
+      this.appConfigService.getConfig().externalAppConfig['bansForestUseUrl'].toString(),
       '_blank',
     );
   }
 
   navToOpenBurning() {
     window.open(
-      'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions/open-burning',
+      this.appConfigService.getConfig().externalAppConfig['bansOpenBurningUrl'].toString(),
       '_blank',
     );
   }
