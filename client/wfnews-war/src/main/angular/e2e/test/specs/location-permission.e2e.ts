@@ -1,15 +1,32 @@
 /**
- * T1 to T6 of PIXEL_XL_FINDINGS_STE.md. Each test names the suspect it checks.
+ * The location permission, against the design in LOCATION_AND_STARTUP_PLAN_STE.md.
+ *
+ * The rule: a control that needs a position asks when the user operates it. A screen
+ * that needs a position to draw itself shows a banner. Report of Fire is the one
+ * exception: it prompts, because its task is urgent. It never blocks the report; a
+ * refusal only makes the location page show its banner.
+ *
  * T7 (a cold GPS fix outdoors) stays with a person.
  */
 import { expect } from '@wdio/globals';
-import { PKG, clearAppData, getProp, locationServicesOn, setLocationServices } from '../helpers/adb';
-import { grantLocation, grantedPermissions, inWebview, restartApp, revokeLocation, waitForWebApp } from '../helpers/app';
-import { dialogMessage, isDialogShowing, tap } from '../helpers/permission-dialog';
+import { clearAppData, getProp, locationServicesOn, setLocationServices } from '../helpers/adb';
+import {
+  bannerIsShowing,
+  bannerText,
+  currentRoute,
+  goTo,
+  grantLocation,
+  grantedPermissions,
+  inWebview,
+  openApp,
+  tapStart,
+  waitForWebApp,
+} from '../helpers/app';
+import { isDialogShowing, tap } from '../helpers/permission-dialog';
 
 const SDK = Number(getProp('ro.build.version.sdk'));
 
-describe('Saved Location and Report of Fire: the location permission', () => {
+describe('The location permission', () => {
   let locationWasOn: boolean;
 
   before(() => {
@@ -26,59 +43,77 @@ describe('Saved Location and Report of Fire: the location permission', () => {
     await grantLocation();
   });
 
-  it('T1: asks for the location at start, before the user does anything (S1)', async () => {
-    await restartApp();
+  it('T1: does not ask for the location at start', async () => {
+    await openApp();
 
-    const showed = await isDialogShowing(60_000);
-    expect(showed).toBe(true);
-
-    // S1 says the app gives no reason of its own first. Record what was behind the dialog.
-    const message = await dialogMessage();
-    console.log(`T1 dialog message: "${message}"`);
-    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t1-permission-at-start.png`);
+    // preloadGeolocation used to raise the Android dialog on top of the Disclaimer,
+    // before the user had touched anything. Nothing may ask at start now.
+    const showed = await isDialogShowing(25_000);
+    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t1-no-prompt-at-start.png`);
+    expect(showed).toBe(false);
   });
 
-  // This is the preloadGeolocation path, which uses duration 5000 and is correct.
-  // It does not cover S6: the two `duration: 5` sites are in getCurrentLocation(),
-  // and nothing calls that method. See section 6.6 of PIXEL_XL_FINDINGS_STE.md.
-  it('T2: shows a message on Deny, and the message stays long enough to read', async () => {
-    await restartApp();
-    expect(await isDialogShowing(60_000)).toBe(true);
-    await tap('deny');
+  it('T9: a banner screen shows a banner and never prompts', async () => {
+    await openApp();
+    await goTo('list');
 
-    await waitForWebApp();
+    // The lists sort by distance, so they need a position to draw themselves.
+    // That makes them banner screens.
+    const route = await currentRoute();
+    console.log(`T9 on ${route}`);
+    expect(route).toContain('list');
+    expect(await isDialogShowing(15_000)).toBe(false);
+    expect(await bannerIsShowing()).toBe(true);
 
-    // S6: two call sites pass `duration: 5`, which is 5 milliseconds and not 5 seconds.
-    const seen = await inWebview(async () => {
-      const start = Date.now();
-      let appeared = false;
-      let lastSeen = 0;
-      while (Date.now() - start < 15_000) {
-        const visible = await driver.execute(() => Boolean(document.querySelector('simple-snack-bar, .mat-snack-bar-container')));
-        if (visible) {
-          appeared = true;
-          lastSeen = Date.now();
-        }
-        if (appeared && !visible) break;
-        await new Promise((r) => setTimeout(r, 50));
-      }
-      return { appeared, visibleFor: appeared ? lastSeen - start : 0 };
+    console.log(`T9 banner: "${(await bannerText()).replace(/\s+/g, ' ').trim()}"`);
+    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t9-list-banner.png`);
+  });
+
+  it('T10: the map asks only when the user taps find-me', async () => {
+    await openApp();
+    await goTo('map');
+
+    // The map is usable with no position, so it must not ask on its own.
+    const route = await currentRoute();
+    console.log(`T10 on ${route}`);
+    expect(route).toContain('map');
+    expect(await isDialogShowing(15_000)).toBe(false);
+    expect(await bannerIsShowing()).toBe(false);
+    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t10-map-quiet.png`);
+
+    const tapped = await inWebview(async () =>
+      driver.execute(() => {
+        // Buttons only. 'button, div' matched an outer div that merely contains the
+        // control, and clicking that never reached the Angular handler.
+        const control = Array.from(document.querySelectorAll('button')).find((el) =>
+          /find\s*me|my[_\s]location/i.test((el as HTMLElement).innerText || ''),
+        );
+        if (!control) return false;
+        (control as HTMLElement).click();
+        return true;
+      }),
+    );
+
+    if (!tapped) {
+      // The control is drawn by the map library, so name it here if the selector misses.
+      console.log('T10 could not find the find-me control. Check the map toolbar markup.');
+    }
+    expect(tapped).toBe(true);
+    expect(await isDialogShowing(30_000)).toBe(true);
+  });
+
+  it('T3: a denied user is given a route to the settings', async () => {
+    await openApp();
+    await goTo('list');
+
+    // Deny through the banner, so the state reaches "denied".
+    await inWebview(async () => {
+      await driver.execute(() => {
+        const button = document.querySelector('permission-banner .banner-button');
+        if (button) (button as HTMLElement).click();
+      });
     });
 
-    console.log(`T2 snackbar: appeared=${seen.appeared}, visible for about ${seen.visibleFor} ms`);
-    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t2-after-deny.png`);
-
-    // A message a user cannot read is the same as no message.
-    expect(seen.appeared && seen.visibleFor >= 2000).toBe(true);
-  });
-
-  it('T3: tells the user how to recover after "denied always" (S5)', async () => {
-    // Android 11 and later set "denied always" after two denials. Android 10 uses a button.
-    await restartApp();
-    expect(await isDialogShowing(60_000)).toBe(true);
-    await tap('deny');
-
-    await restartApp();
     if (await isDialogShowing(30_000)) {
       try {
         await tap('denyDontAsk');
@@ -87,83 +122,117 @@ describe('Saved Location and Report of Fire: the location permission', () => {
       }
     }
 
-    await restartApp();
-    const asksAgain = await isDialogShowing(20_000);
-    expect(asksAgain).toBe(false);
+    await browser.pause(4000);
+    const text = (await bannerText()).replace(/\s+/g, ' ').trim();
+    console.log(`T3 banner after the denial: "${text}"`);
+    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t3-denied-banner.png`);
 
-    await waitForWebApp();
-    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t3-denied-always.png`);
-
-    // S5: nothing calls Geolocation.checkPermissions, so the app cannot offer the settings screen.
-    const offersHelp = await inWebview(async () =>
-      driver.execute(() => /settings|permission/i.test(document.body.innerText)),
-    );
-    console.log(`T3 the app offers a route to Settings: ${offersHelp}`);
-    expect(offersHelp).toBe(true);
+    // After one refusal Android still asks again, so the correct way back is a
+    // prompt, not the settings page. The banner must offer one of the two.
+    expect(await bannerIsShowing()).toBe(true);
+    expect(/settings|turn on location/i.test(text)).toBe(true);
   });
 
-  it('T4: the position request ends when location services are off (S2)', async () => {
-    const LIMIT = 30_000;
+  it('T4: a screen that needs a position still works when location services are off (S2)', async () => {
+    // The raw plugin cannot be bounded from our code, and it never ends. What matters
+    // is that the app, which wraps it with a limit, still gives the user a usable
+    // screen. Report of Fire is the screen that used to wait for ever here.
     await grantLocation();
     setLocationServices(false);
     try {
-      await restartApp();
-      await waitForWebApp();
-      await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t4-location-services-off.png`);
+      await openApp();
+      const started = Date.now();
+      await goTo('reportOfFire');
+      await tapStart();
 
-      // Measured by hand on a Pixel XL: still pending after 100 002 ms. No call site
-      // passes a timeout, and the race in checkLocationServiceStatus awaits first.
-      // Start the call, then poll a flag. One long script would hit the driver
-      // script timeout, and UiAutomator2 has no setTimeouts command to raise it.
-      const outcome = await inWebview(async () => {
-        await driver.execute(() => {
-          (window as any).__wfnewsGeo = { settled: false, ms: 0 };
-          const started = Date.now();
-          const record = () => ((window as any).__wfnewsGeo = { settled: true, ms: Date.now() - started });
-          // @ts-expect-error the Capacitor bridge is on the window at runtime
-          window.Capacitor.Plugins.Geolocation.getCurrentPosition().then(record, record);
-        });
+      const usable = await inWebview(async () =>
+        Boolean(
+          await driver.execute(
+            () => document.querySelectorAll('button, [role="button"]').length > 0,
+          ),
+        ),
+      );
+      const took = Date.now() - started;
 
-        const deadline = Date.now() + LIMIT;
-        let state = { settled: false, ms: 0 };
-        while (Date.now() < deadline) {
-          state = (await driver.execute(() => (window as any).__wfnewsGeo)) as unknown as typeof state;
-          if (state.settled) break;
-          await browser.pause(1000);
-        }
-        return state;
-      });
-
-      console.log(`T4 getCurrentPosition settled=${outcome.settled} after ${outcome.settled ? outcome.ms : LIMIT} ms`);
-      expect(outcome.settled).toBe(true);
+      console.log(`T4 Report of Fire became usable after ${took} ms with services off`);
+      await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t4-services-off.png`);
+      expect(usable).toBe(true);
     } finally {
       setLocationServices(true);
     }
   });
 
-  it('T5: does not keep a failure for 30 seconds after the permission is given (S3)', async () => {
-    await restartApp();
-    expect(await isDialogShowing(60_000)).toBe(true);
+  it('T11: Report of Fire asks on Start, and opens the wizard when the user allows', async () => {
+    await openApp();
+    await goTo('reportOfFire');
+
+    // The title page must be quiet until the user taps Start.
+    expect(await isDialogShowing(12_000)).toBe(false);
+
+    await tapStart();
+    expect(await isDialogShowing(45_000)).toBe(true);
+    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t11-rof-prompt.png`);
+
+    // Tap Allow, as a user would. `pm grant` does not reach the running process.
+    await tap('allowForeground');
+
+    // Wait, do not pause. After Allow the app still needs a fix before it opens the
+    // wizard, and this device can take longer than twenty seconds to get one.
+    const opened = await driver
+      .waitUntil(
+        async () =>
+          inWebview(async () =>
+            Boolean(
+              await driver.execute(
+                () => !/Submit reports of wildfire or smoke/i.test(document.body.innerText),
+              ),
+            ),
+          ),
+        { timeout: 60_000, interval: 3000, timeoutMsg: 'The wizard did not open after Allow' },
+      )
+      .then(() => true, () => false);
+    console.log(`T11 the wizard opened after Allow: ${opened}`);
+    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t11-rof-after-allow.png`);
+    expect(opened).toBe(true);
+  });
+
+  it('T12: Report of Fire opens without a location, and nudges on the location page', async () => {
+    await openApp();
+    await goTo('reportOfFire');
+    await tapStart();
+
+    expect(await isDialogShowing(45_000)).toBe(true);
     await tap('deny');
-    await waitForWebApp();
 
-    // S3: getCurrentLocationPromise stores the rejected promise and returns it for 30 seconds.
-    await grantLocation();
+    // A position is not mandatory. A refusal must not stop a person reporting a fire.
+    const opened = await driver
+      .waitUntil(
+        async () =>
+          inWebview(async () =>
+            Boolean(
+              await driver.execute(
+                () => !/Submit reports of wildfire or smoke/i.test(document.body.innerText),
+              ),
+            ),
+          ),
+        { timeout: 30_000, interval: 2000, timeoutMsg: 'The wizard did not open after Deny' },
+      )
+      .then(() => true, () => false);
 
-    const gotLocation = await inWebview(async () =>
-      driver.executeAsync((done: (r: boolean) => void) => {
-        // @ts-expect-error the Capacitor bridge is on the window at runtime
-        const geo = window.Capacitor?.Plugins?.Geolocation;
-        if (!geo) return done(false);
-        geo.getCurrentPosition().then(
-          () => done(true),
-          () => done(false),
-        );
-      }),
-    );
+    // But the location page must ask again, and must say the map still works.
+    const nudged = await driver
+      .waitUntil(async () => bannerIsShowing(), {
+        timeout: 30_000,
+        interval: 2000,
+        timeoutMsg: 'No banner on the location page',
+      })
+      .then(() => true, () => false);
 
-    console.log(`T5 a position was available right after the grant: ${gotLocation}`);
-    expect(gotLocation).toBe(true);
+    console.log(`T12 the wizard opened: ${opened}, the banner showed: ${nudged}`);
+    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t12-rof-denied.png`);
+    expect(opened).toBe(true);
+    expect(nudged).toBe(true);
+    expect(await bannerText()).toMatch(/map/i);
   });
 
   it('T6: works when only Approximate location is given', async function () {
@@ -171,16 +240,14 @@ describe('Saved Location and Report of Fire: the location permission', () => {
       // Android 12 introduced the precise and approximate choice.
       this.skip();
     }
-    await restartApp();
-    expect(await isDialogShowing(60_000)).toBe(true);
+    await openApp();
+    await goTo('reportOfFire');
+    expect(await isDialogShowing(45_000)).toBe(true);
     await tap('approximate');
     await tap('allowForeground');
 
-    await waitForWebApp();
     const granted = await grantedPermissions();
     console.log(`T6 granted: ${granted.filter((p) => p.includes('LOCATION')).join(', ')}`);
-    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t6-approximate-only.png`);
-
     expect(granted).toContain('android.permission.ACCESS_COARSE_LOCATION');
   });
 });

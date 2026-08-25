@@ -66,8 +66,19 @@ export function deviceTag(): string {
   return `${model}-${size}-${density}dpi`;
 }
 
-/** True when the device is past the lock screen. App data is unreadable before the first unlock. */
+/**
+ * True when the device is past the lock screen. App data is unreadable before the
+ * first unlock after a restart. `dumpsys trust` states this plainly; the window
+ * flag is a fallback, and it lags behind an unlock by a moment.
+ */
 export function isUnlocked(): boolean {
+  try {
+    const trust = shell('dumpsys trust');
+    const match = /deviceLocked=(\d)/.exec(trust);
+    if (match) return match[1] === '0';
+  } catch {
+    /* fall through to the window flag */
+  }
   return !/mDreamingLockscreen=true/.test(adb('shell', 'dumpsys window'));
 }
 
