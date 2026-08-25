@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { EXTERNAL_LINKS } from '@app/constants';
 import { ResourcesRoutes, snowPlowHelper } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import { BUILD_NUMBER } from '../../../environments/build-info';
@@ -16,9 +15,9 @@ export class MoreComponent implements OnInit{
   public snowPlowHelper = snowPlowHelper;
   public buildNumber: string;
   public showVersion = true;
-  disclaimerUrl = EXTERNAL_LINKS.DISCLAIMER;
-  privacyUrl = EXTERNAL_LINKS.PRIVACY;
-  copyrightUrl = EXTERNAL_LINKS.COPYRIGHT;
+  disclaimerUrl = this.appConfig.getConfig().externalAppConfig['disclaimerUrl'].toString();
+  privacyUrl = this.appConfig.getConfig().externalAppConfig['privacyUrl'].toString();
+  copyrightUrl = this.appConfig.getConfig().externalAppConfig['copyrightUrl'].toString();
 
   constructor(
     private router: Router,
@@ -51,16 +50,16 @@ export class MoreComponent implements OnInit{
         this.router.navigate([ResourcesRoutes.CONTACT_US]);
         break;
       case 'blog':
-        window.open(EXTERNAL_LINKS.BCWS_BLOG, '_blank');
+        window.open(this.appConfig.getConfig().externalAppConfig['bcwsBlogUrl'].toString(), '_blank');
         break;
       case 'facebook':
-        window.open(EXTERNAL_LINKS.BCWS_FACEBOOK, '_blank');
+        window.open(this.appConfig.getConfig().externalAppConfig['bcwsFacebookUrl'].toString(), '_blank');
         break;
       case 'youtube':
-        window.open(EXTERNAL_LINKS.BCWS_YOUTUBE, '_blank');
+        window.open(this.appConfig.getConfig().externalAppConfig['bcwsYoutubeUrl'].toString(), '_blank');
         break;
       case 'faq':
-        window.open(EXTERNAL_LINKS.FAQ, '_blank');
+        window.open(this.appConfig.getConfig().externalAppConfig['faqUrl'].toString(), '_blank');
     }
   }
 

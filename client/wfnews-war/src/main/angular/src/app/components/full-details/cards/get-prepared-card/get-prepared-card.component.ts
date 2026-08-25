@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { defaultSlimIconButtonStyle } from '@app/components/common/icon-button/icon-button.component';
 import { defaultSlimButtonStyle } from '@app/components/common/wfnews-button/wfnews-button.component';
-import { EXTERNAL_LINKS } from '@app/constants';
+import { AppConfigService } from '@wf1/core-ui';
 
 
 @Component({
@@ -14,12 +14,14 @@ export class GetPreparedCardComponent {
   defaultSlimButtonStyle = defaultSlimButtonStyle;
   defaultSlimIconButtonStyle = defaultSlimIconButtonStyle;
 
+  constructor(private appConfigService: AppConfigService) {}
+
   directToBuildKit() {
     // eslint-disable-next-line max-len
-    window.open(EXTERNAL_LINKS.EMERGENCY_KIT, '_blank');
+    window.open(this.appConfigService.getConfig().externalAppConfig['emergencyKitUrl'].toString(), '_blank');
   }
 
   directToDownloadPdf() {
-    window.open(EXTERNAL_LINKS.DOWNLOAD_PDF, '_blank');
+    window.open(this.appConfigService.getConfig().externalAppConfig['downloadPdfUrl'].toString(), '_blank');
   }
 }

@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { EXTERNAL_LINKS } from '@app/constants';
 import { AppConfigService } from '@wf1/core-ui';
 import { ResourcePanel } from '../../models/ResourcePanel';
 import { isMobileView, snowPlowHelper } from '../../utils';
@@ -14,7 +13,7 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
   public url;
   public snowPlowHelper = snowPlowHelper;
 
-  public EXTERNAL_LINKS = EXTERNAL_LINKS;
+  public faqUrl = this.appConfigService.getConfig().externalAppConfig['faqUrl'].toString();
 
   isMobileView = isMobileView;
 
@@ -76,7 +75,7 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'Local government maps',
           subtitle: 'Government of British Columbia',
-          url: EXTERNAL_LINKS.LOCAL_GOVERNMENT_MAPS,
+          url: this.appConfigService.getConfig().externalAppConfig['localGovernmentMapsUrl'].toString(),
           description:
             'Map of local governments including regional districts, electoral areas and municipalities.',
         },
@@ -88,14 +87,14 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'Wildfire Prevention',
           subtitle: 'BC Wildfire Service',
-          url: EXTERNAL_LINKS.PREVENTION,
+          url: this.appConfigService.getConfig().externalAppConfig['preventionUrl'].toString(),
           description:
             'Wildfire prevention at home, in the backcountry, and through larger-scale fire and fuel management planning.',
         },
         {
           title: 'Get Prepared for a Wildfire',
           subtitle: 'Prepared BC',
-          url: EXTERNAL_LINKS.GET_PREPARED,
+          url: this.appConfigService.getConfig().externalAppConfig['getPreparedUrl'].toString(),
           description:
             'Overview of what to do before, during and after a wildfire, and a downloadable PFD of the Wildfire Preparedness Guide.',
         },
@@ -109,21 +108,21 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'Plan, Prepare, Stay Informed',
           subtitle: 'BC Wildfire Service',
-          url: EXTERNAL_LINKS.STAY_INFORMED,
+          url: this.appConfigService.getConfig().externalAppConfig['stayInformedUrl'].toString(),
           description:
             'Outline of how to prepare for evacuation if you live in an area prone to wildfire.'
         },
         {
           title: 'Fire Danger Rating',
           subtitle: 'BC Wildfire Service',
-          url: EXTERNAL_LINKS.FIRE_DANGER,
+          url: this.appConfigService.getConfig().externalAppConfig['fireDangerUrl'].toString(),
           description:
             'Fire danger rating in your area and other information about fire weather.',
         },
         {
           title: 'Fire Bans and Restrictions',
           subtitle: 'BC Wildfire Service',
-          url: EXTERNAL_LINKS.BANS_RESTRICTIONS,
+          url: this.appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString(),
           description:
             'Fire prohibitions and restrictions in British Columbia. These are made by B.C.’s six regional fire centres.'
         },
@@ -135,7 +134,7 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'BC Wildfire Service Contact Channels',
           subtitle: 'BC Wildfire Service',
-          url: EXTERNAL_LINKS.BCWS_CONTACTS,
+          url: this.appConfigService.getConfig().externalAppConfig['bcwsContactsUrl'].toString(),
           description:
             'A variety of BC Wildfire Service contact channels here.',
         },
@@ -149,7 +148,7 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'Wildfire Response',
           subtitle: 'BC Wildfire Service',
-          url: EXTERNAL_LINKS.WILDFIRE_RESPONSE,
+          url: this.appConfigService.getConfig().externalAppConfig['wildfireResponseUrl'].toString(),
           description:
             'The BC Wildfire Service is a leader in wildfire management, known for skilled personnel and a focus on safety. Learn more about wildfires in B.C. and the BC Wildfire Service here.'
         },
@@ -163,14 +162,14 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
         {
           title: 'Fire Centres',
           subtitle: 'BC Wildfire Service',
-          url: EXTERNAL_LINKS.BCWS_FIRE_CENTRES,
+          url: this.appConfigService.getConfig().externalAppConfig['bcwsFireCentresUrl'].toString(),
           description:
             'The BC Wildfire Service has divided the province into six regional fire centres. These are further divided in fire zones. Read more here.',
         },
         {
           title: 'Wildfire Glossary',
           subtitle: 'BC Wildfire Service',
-          url: EXTERNAL_LINKS.BCWS_GLOSSARY,
+          url: this.appConfigService.getConfig().externalAppConfig['bcwsGlossaryUrl'].toString(),
           description:
             'Review terms commonly used to describe wildfire and fuel management here.',
         },

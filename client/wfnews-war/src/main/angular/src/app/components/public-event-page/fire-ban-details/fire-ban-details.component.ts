@@ -3,7 +3,7 @@ import { AdvisorySectionStyle } from '@app/components/common/advisory-section/ad
 import { IconButtonArgs } from '@app/components/common/icon-button/icon-button.component';
 import { RelatedTopicsLink } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
 import { AppConfigService } from '@wf1/core-ui';
-import { EXTERNAL_LINKS, INFORMATION_TEXTS } from '../../../constants';
+import { INFORMATION_TEXTS } from '../../../constants';
 
 @Component({
   selector: 'fire-ban-details',
@@ -44,17 +44,17 @@ export class FireBanDetailsComponent implements OnInit {
   };
 
   relatedTopicLinks: RelatedTopicsLink[] = [
-    { 
-      text: 'Current Fire Bans and Restrictions', 
-      url: EXTERNAL_LINKS.BANS_RESTRICTIONS
+    {
+      text: 'Current Fire Bans and Restrictions',
+      url: this.appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString()
     },
-    { 
-      text: 'Forest Use Restrictions', 
-      url: EXTERNAL_LINKS.BANS_FOREST_USE
+    {
+      text: 'Forest Use Restrictions',
+      url: this.appConfigService.getConfig().externalAppConfig['bansForestUseUrl'].toString()
     },
-    { 
-      text: 'Open Burning', 
-      url: EXTERNAL_LINKS.BANS_OPEN_BURNING
+    {
+      text: 'Open Burning',
+      url: this.appConfigService.getConfig().externalAppConfig['bansOpenBurningUrl'].toString()
     },
   ];
 

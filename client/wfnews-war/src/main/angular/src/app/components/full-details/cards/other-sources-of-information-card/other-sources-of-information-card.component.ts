@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EXTERNAL_LINKS } from '@app/constants';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'other-sources-of-information-card',
@@ -7,7 +7,8 @@ import { EXTERNAL_LINKS } from '@app/constants';
   styleUrls: ['./other-sources-of-information-card.component.scss']
 })
 export class OtherSourcesWhenYouLeaveCardComponent {
-  downloadPdfUrl = EXTERNAL_LINKS.DOWNLOAD_PDF;
-  preparedBCUrl = EXTERNAL_LINKS.PREPARED_BC_GUIDANCE;
+  downloadPdfUrl = this.appConfigService.getConfig().externalAppConfig['downloadPdfUrl'].toString();
+  preparedBCUrl = this.appConfigService.getConfig().externalAppConfig['preparedBcGuidanceUrl'].toString();
 
+  constructor(private appConfigService: AppConfigService) {}
 }

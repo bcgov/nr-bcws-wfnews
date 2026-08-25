@@ -52,7 +52,6 @@ import { AGOLService } from '@app/services/AGOL-service';
 import { MapConfigService } from '@app/services/map-config.service';
 import moment from 'moment';
 import { WildfirePreviewComponent } from '@app/components/preview-panels/wildfire-preview/wildfire-preview.component';
-import { EXTERNAL_LINKS } from '@app/constants';
 const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
 
 @Directive()
@@ -73,19 +72,19 @@ export class PanelWildfireStageOfControlComponent
   newFires = false;
   currentLat: number;
   currentLong: number;
-  airQualityUrl = EXTERNAL_LINKS.AIR_QUALITY;
-  localGovSystemsUrl = EXTERNAL_LINKS.LOCAL_GOVERNMENT_SYSTEMS;
-  roadSafetyUrl = EXTERNAL_LINKS.ROAD_SAFETY;
-  emergencyAlertUrl = EXTERNAL_LINKS.EMERGENCY_ALERTS;
-  forestUseUrl = EXTERNAL_LINKS.BANS_FOREST_USE;
-  stagesOfControlUrl = EXTERNAL_LINKS.STAGES_OF_CONTROL;
-  stayInformedUrl = EXTERNAL_LINKS.STAY_INFORMED;
-  evacueeGuidanceUrl = EXTERNAL_LINKS.EVACUEE_GUIDANCE;
-  emergencyAlertsUrl = EXTERNAL_LINKS.EMERGENCY_ALERTS;
-  bansRestrictionsUrl = EXTERNAL_LINKS.BANS_RESTRICTIONS;
-  bansOpenBurningUrl = EXTERNAL_LINKS.BANS_OPEN_BURNING;
-  wildfireAirQualityUrl = EXTERNAL_LINKS.WILDFIRE_AIR_QUALITY;
-  fireDangerUrl = EXTERNAL_LINKS.FIRE_DANGER; 
+  airQualityUrl = this.appConfigService.getConfig().externalAppConfig['airQualityUrl'].toString();
+  localGovSystemsUrl = this.appConfigService.getConfig().externalAppConfig['localGovernmentSystemsUrl'].toString();
+  roadSafetyUrl = this.appConfigService.getConfig().externalAppConfig['roadSafetyUrl'].toString();
+  emergencyAlertUrl = this.appConfigService.getConfig().externalAppConfig['emergencyAlertsUrl'].toString();
+  forestUseUrl = this.appConfigService.getConfig().externalAppConfig['bansForestUseUrl'].toString();
+  stagesOfControlUrl = this.appConfigService.getConfig().externalAppConfig['stagesOfControlUrl'].toString();
+  stayInformedUrl = this.appConfigService.getConfig().externalAppConfig['stayInformedUrl'].toString();
+  evacueeGuidanceUrl = this.appConfigService.getConfig().externalAppConfig['evacueeGuidanceUrl'].toString();
+  emergencyAlertsUrl = this.appConfigService.getConfig().externalAppConfig['emergencyAlertsUrl'].toString();
+  bansRestrictionsUrl = this.appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString();
+  bansOpenBurningUrl = this.appConfigService.getConfig().externalAppConfig['bansOpenBurningUrl'].toString();
+  wildfireAirQualityUrl = this.appConfigService.getConfig().externalAppConfig['wildfireAirQualityUrl'].toString();
+  fireDangerUrl = this.appConfigService.getConfig().externalAppConfig['fireDangerUrl'].toString();
 
   public areaRestrictions: AreaRestrictionsOption[] = [];
   public evacOrders: EvacOrderOption[] = [];

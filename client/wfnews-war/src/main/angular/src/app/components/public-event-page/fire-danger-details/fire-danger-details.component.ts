@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RelatedTopicsLink } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
-import { EXTERNAL_LINKS } from '@app/constants';  
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'fire-danger-details',
@@ -12,11 +12,11 @@ export class FireDangerDetailsComponent {
   relatedTopicLinks: RelatedTopicsLink[] = [
     {
       text: 'Fire Danger Rating',
-      url: EXTERNAL_LINKS.FIRE_DANGER
+      url: this.appConfigService.getConfig().externalAppConfig['fireDangerUrl'].toString()
     },
     {
       text: 'Current Fire Bans and Restrictions',
-      url: EXTERNAL_LINKS.BANS_RESTRICTIONS
+      url: this.appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString()
     },
     {
       text: 'Fire Danger Class',
@@ -24,7 +24,9 @@ export class FireDangerDetailsComponent {
     },
     {
       text: 'High Risk Activities',
-      url: EXTERNAL_LINKS.HIGH_RISK_ACTVITIES
+      url: this.appConfigService.getConfig().externalAppConfig['highRiskActvitiesUrl'].toString()
     },
   ];
+
+  constructor(private appConfigService: AppConfigService) {}
 }

@@ -38,7 +38,6 @@ import {
   isMobileView as mobileView,
   snowPlowHelper,
 } from './utils';
-import { EXTERNAL_LINKS } from './constants';
 
 export const ICON = {
   ADVISORIES: 'advisories',
@@ -426,42 +425,42 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ? [
         new RouterLink(
           'Home',
-          EXTERNAL_LINKS.BC_GOV_HOME,
+          this.appConfigService.getConfig().externalAppConfig['bcGovHomeUrl'].toString(),
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Disclaimer',
-          EXTERNAL_LINKS.BCWS_DISCLAIMER,
+          this.appConfigService.getConfig().externalAppConfig['bcwsDisclaimerUrl'].toString(),
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Privacy',
-          EXTERNAL_LINKS.PRIVACY,
+          this.appConfigService.getConfig().externalAppConfig['privacyUrl'].toString(),
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Accessibility',
-          EXTERNAL_LINKS.ACCESSIBLE_GOVERNMENT,
+          this.appConfigService.getConfig().externalAppConfig['accessibleGovernmentUrl'].toString(),
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Copyright',
-          EXTERNAL_LINKS.COPYRIGHT,
+          this.appConfigService.getConfig().externalAppConfig['copyrightUrl'].toString(),
           'home',
           'expanded',
           this.router,
         ),
         new RouterLink(
           'Contact Us',
-          EXTERNAL_LINKS.GET_HELP,
+          this.appConfigService.getConfig().externalAppConfig['getHelpUrl'].toString(),
           'home',
           'expanded',
           this.router,
@@ -555,7 +554,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   navigateToBcWebsite() {
     window.open(
-      EXTERNAL_LINKS.WILDFIRE_STATUS,
+      this.appConfigService.getConfig().externalAppConfig['wildfireStatusUrl'].toString(),
       '_blank',
     );
   }
@@ -982,14 +981,14 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   openLink(link: string) {
     if (link === 'Disclaimer') {
       window.open(
-        EXTERNAL_LINKS.BCWS_DISCLAIMER,
+        this.appConfigService.getConfig().externalAppConfig['bcwsDisclaimerUrl'].toString(),
         '_blank',
       );
     } else if (link === 'Privacy') {
-      window.open(EXTERNAL_LINKS.PRIVACY, '_blank');
+      window.open(this.appConfigService.getConfig().externalAppConfig['privacyUrl'].toString(), '_blank');
     } else if (link === 'Copyright') {
       window.open(
-        EXTERNAL_LINKS.COPYRIGHT,
+        this.appConfigService.getConfig().externalAppConfig['copyrightUrl'].toString(),
         '_blank',
       );
     }

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { EXTERNAL_LINKS } from '@app/constants';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'related-topics-card',
@@ -8,9 +8,11 @@ import { EXTERNAL_LINKS } from '@app/constants';
 })
 export class RelatedTopicsCardComponent {
   @Input() links?: RelatedTopicsLink[];
-  evacueeGuidanceUrl = EXTERNAL_LINKS.EVACUEE_GUIDANCE;
-  localGovSystemsurl = EXTERNAL_LINKS.LOCAL_GOVERNMENT_SYSTEMS;
-  emargencyAlertsUrl = EXTERNAL_LINKS.EMERGENCY_ALERTS;
+  evacueeGuidanceUrl = this.appConfigService.getConfig().externalAppConfig['evacueeGuidanceUrl'].toString();
+  localGovSystemsurl = this.appConfigService.getConfig().externalAppConfig['localGovernmentSystemsUrl'].toString();
+  emargencyAlertsUrl = this.appConfigService.getConfig().externalAppConfig['emergencyAlertsUrl'].toString();
+
+  constructor(private appConfigService: AppConfigService) {}
 }
 
 export interface RelatedTopicsLink {

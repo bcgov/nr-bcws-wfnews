@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
-import { EXTERNAL_LINKS } from '@app/constants';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { FireCentres, currentFireYear, openLink } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'fire-cause-widget',
@@ -21,9 +21,12 @@ export class FireCauseWidget implements AfterViewInit {
   public humanFiresPct: number;
   public unknownFiresPct: number;
   openLink = openLink
-  wildfireCausesUrl = EXTERNAL_LINKS.WILDFIRE_CAUSES;
+  wildfireCausesUrl = this.appConfigService.getConfig().externalAppConfig['wildfireCausesUrl'].toString();
 
-  constructor(private publishedIncidentService: PublishedIncidentService) {}
+  constructor(
+    private publishedIncidentService: PublishedIncidentService,
+    private appConfigService: AppConfigService,
+  ) {}
 
   ngAfterViewInit(): void {
     this.queryData();

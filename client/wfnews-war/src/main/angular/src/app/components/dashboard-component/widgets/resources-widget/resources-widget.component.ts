@@ -1,7 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { EXTERNAL_LINKS } from '@app/constants';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { isMobileView, openLink } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'resources-widget',
@@ -14,9 +14,12 @@ export class ResourcesWidget implements AfterViewInit {
 
   public isMobileView = isMobileView;
   openLink = openLink;
-  wildfirePersonnelUrl = EXTERNAL_LINKS.WILDFIRE_PERSONNEL;
+  wildfirePersonnelUrl = this.appConfigService.getConfig().externalAppConfig['wildfirePersonnelUrl'].toString();
 
-  constructor(private publishedIncidentService: PublishedIncidentService) {}
+  constructor(
+    private publishedIncidentService: PublishedIncidentService,
+    private appConfigService: AppConfigService,
+  ) {}
 
   ngAfterViewInit(): void {
     this.publishedIncidentService
