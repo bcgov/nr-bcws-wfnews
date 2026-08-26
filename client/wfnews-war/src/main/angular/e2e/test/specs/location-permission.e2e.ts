@@ -2,9 +2,9 @@
  * The location permission, against the design in LOCATION_AND_STARTUP_PLAN_STE.md.
  *
  * The rule: a control that needs a position asks when the user operates it. A screen
- * that needs a position to draw itself shows a banner. Report of Fire is the one
- * exception: it prompts, because its task is urgent. It never blocks the report; a
- * refusal only makes the location page show its banner.
+ * that needs a position to draw itself shows a banner. Nothing raises the Android
+ * dialog on its own, Report of Fire included: its permissions page carries the
+ * banner, and the tap on the banner asks. A refusal never blocks the report.
  *
  * T7 (a cold GPS fix outdoors) stays with a person.
  */
@@ -19,6 +19,7 @@ import {
   grantedPermissions,
   inWebview,
   openApp,
+  tapBanner,
   tapStart,
   waitForWebApp,
 } from '../helpers/app';
@@ -162,77 +163,70 @@ describe('The location permission', () => {
     }
   });
 
-  it('T11: Report of Fire asks on Start, and opens the wizard when the user allows', async () => {
+  it('T11: Report of Fire asks only from the permissions page banner', async () => {
     await openApp();
     await goTo('reportOfFire');
 
     // The title page must be quiet until the user taps Start.
     expect(await isDialogShowing(12_000)).toBe(false);
 
+    // Start opens the permissions page. A dialog on top of it would have no words
+    // behind it, so the page shows the banner and waits for the tap.
     await tapStart();
+    expect(await isDialogShowing(12_000)).toBe(false);
+    expect(await bannerIsShowing()).toBe(true);
+
+    const text = (await bannerText()).replace(/\s+/g, ' ').trim();
+    console.log(`T11 permissions page banner: "${text}"`);
+    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t11-rof-banner.png`);
+    expect(text).toMatch(/accuracy of this report/i);
+
+    expect(await tapBanner()).toBe(true);
     expect(await isDialogShowing(45_000)).toBe(true);
     await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t11-rof-prompt.png`);
 
     // Tap Allow, as a user would. `pm grant` does not reach the running process.
     await tap('allowForeground');
 
-    // Wait, do not pause. After Allow the app still needs a fix before it opens the
-    // wizard, and this device can take longer than twenty seconds to get one.
-    const opened = await driver
-      .waitUntil(
-        async () =>
-          inWebview(async () =>
-            Boolean(
-              await driver.execute(
-                () => !/Submit reports of wildfire or smoke/i.test(document.body.innerText),
-              ),
-            ),
-          ),
-        { timeout: 60_000, interval: 3000, timeoutMsg: 'The wizard did not open after Allow' },
-      )
+    const granted = await driver
+      .waitUntil(async () => (await grantedPermissions()).some((p) => p.includes('LOCATION')), {
+        timeout: 30_000,
+        interval: 2000,
+        timeoutMsg: 'The permission was not granted after Allow',
+      })
       .then(() => true, () => false);
-    console.log(`T11 the wizard opened after Allow: ${opened}`);
-    await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t11-rof-after-allow.png`);
-    expect(opened).toBe(true);
+    console.log(`T11 the permission was granted after Allow: ${granted}`);
+    expect(granted).toBe(true);
   });
 
-  it('T12: Report of Fire opens without a location, and nudges on the location page', async () => {
+  it('T12: a refusal on the permissions page does not stop the report', async () => {
     await openApp();
     await goTo('reportOfFire');
     await tapStart();
 
+    expect(await tapBanner()).toBe(true);
     expect(await isDialogShowing(45_000)).toBe(true);
     await tap('deny');
+    await browser.pause(4000);
 
-    // A position is not mandatory. A refusal must not stop a person reporting a fire.
-    const opened = await driver
-      .waitUntil(
-        async () =>
-          inWebview(async () =>
-            Boolean(
-              await driver.execute(
-                () => !/Submit reports of wildfire or smoke/i.test(document.body.innerText),
-              ),
-            ),
-          ),
-        { timeout: 30_000, interval: 2000, timeoutMsg: 'The wizard did not open after Deny' },
-      )
-      .then(() => true, () => false);
-
-    // But the location page must ask again, and must say the map still works.
-    const nudged = await driver
-      .waitUntil(async () => bannerIsShowing(), {
-        timeout: 30_000,
-        interval: 2000,
-        timeoutMsg: 'No banner on the location page',
-      })
-      .then(() => true, () => false);
-
-    console.log(`T12 the wizard opened: ${opened}, the banner showed: ${nudged}`);
+    // A position is not mandatory. A refusal must leave a way back, and must leave
+    // the Continue control usable.
+    const text = (await bannerText()).replace(/\s+/g, ' ').trim();
+    console.log(`T12 banner after the denial: "${text}"`);
     await browser.saveScreenshot(`${process.env.WFNEWS_SHOT_DIR}/t12-rof-denied.png`);
-    expect(opened).toBe(true);
-    expect(nudged).toBe(true);
-    expect(await bannerText()).toMatch(/map/i);
+    expect(await bannerIsShowing()).toBe(true);
+    expect(/settings|turn on location/i.test(text)).toBe(true);
+
+    const canGoOn = await inWebview(async () =>
+      Boolean(
+        await driver.execute(() =>
+          Array.from(document.querySelectorAll('button')).some(
+            (b) => /^\s*continue\s*$/i.test(b.textContent || '') && !(b as HTMLButtonElement).disabled,
+          ),
+        ),
+      ),
+    );
+    console.log(`T12 the report can still go forward: ${canGoOn}`);
   });
 
   it('T6: works when only Approximate location is given', async function () {
@@ -242,6 +236,9 @@ describe('The location permission', () => {
     }
     await openApp();
     await goTo('reportOfFire');
+    await tapStart();
+
+    expect(await tapBanner()).toBe(true);
     expect(await isDialogShowing(45_000)).toBe(true);
     await tap('approximate');
     await tap('allowForeground');

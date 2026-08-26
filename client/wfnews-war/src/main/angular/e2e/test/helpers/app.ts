@@ -168,21 +168,27 @@ export async function currentRoute(): Promise<string> {
   return inWebview(async () => String(await driver.execute(() => window.location.pathname)));
 }
 
-/** True when a permission banner is on the screen and a user could see it. */
+/**
+ * True when a permission banner is on the screen and a user could see it.
+ *
+ * Every banner is read, not the first one. The Report of Fire wizard builds all
+ * its pages up front, so more than one banner is in the document at a time and
+ * only one of them is visible.
+ */
 export async function bannerIsShowing(): Promise<boolean> {
   return inWebview(async () =>
     Boolean(
       await driver.execute(() => {
-        const banner = document.querySelector('permission-banner');
-        if (!banner) return false;
-        const rect = banner.getBoundingClientRect();
-        const style = window.getComputedStyle(banner);
-        return (
-          rect.width > 0 &&
-          rect.height > 0 &&
-          style.visibility !== 'hidden' &&
-          style.display !== 'none'
-        );
+        return Array.from(document.querySelectorAll('permission-banner')).some((banner) => {
+          const rect = banner.getBoundingClientRect();
+          const style = window.getComputedStyle(banner);
+          return (
+            rect.width > 0 &&
+            rect.height > 0 &&
+            style.visibility !== 'hidden' &&
+            style.display !== 'none'
+          );
+        });
       }),
     ),
   );
@@ -192,9 +198,27 @@ export async function bannerText(): Promise<string> {
   return inWebview(async () =>
     String(
       (await driver.execute(() => {
-        const banner = document.querySelector('permission-banner');
+        const banner = Array.from(document.querySelectorAll('permission-banner')).find(
+          (el) => el.getBoundingClientRect().height > 0,
+        );
         return banner ? (banner as HTMLElement).innerText : '';
       })) || '',
     ),
   );
+}
+
+/** Taps the action of the banner that the user can see. False when there is none. */
+export async function tapBanner(): Promise<boolean> {
+  const tapped = await inWebview(async () =>
+    driver.execute(() => {
+      const banner = Array.from(document.querySelectorAll('permission-banner')).find(
+        (el) => el.getBoundingClientRect().height > 0,
+      );
+      const button = banner?.querySelector('.banner-button');
+      if (!button) return false;
+      (button as HTMLElement).click();
+      return true;
+    }),
+  );
+  return Boolean(tapped);
 }
