@@ -6,9 +6,7 @@ import java.util.Date;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import ca.bc.gov.nrs.common.wfone.rest.resource.BaseResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
@@ -16,8 +14,7 @@ import ca.bc.gov.nrs.wfnews.api.model.v1.Attachment;
 
 @XmlRootElement(namespace = ResourceTypes.NAMESPACE, name = ResourceTypes.ATTACHMENT_NAME)
 @XmlSeeAlso({ AttachmentResource.class })
-@JsonSubTypes({ @Type(value = AttachmentResource.class, name = ResourceTypes.ATTACHMENT) })
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+@JsonIgnoreProperties(ignoreUnknown = true)  // callers still send @type; do not reject it
 public class AttachmentResource extends BaseResource implements Attachment {
 
 	@Serial

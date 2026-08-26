@@ -6,16 +6,11 @@ import java.util.List;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import ca.bc.gov.nrs.common.rest.resource.PagedResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncidentList;
 
 @XmlRootElement(namespace = ResourceTypes.NAMESPACE, name = ResourceTypes.PUBLISHED_INCIDENT_LIST_NAME)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonTypeName(ResourceTypes.PUBLISHED_INCIDENT_LIST)
 public class PublishedIncidentListResource extends PagedResource implements PublishedIncidentList<SimplePublishedIncidentResource> {
 	@Serial
 	private static final long serialVersionUID = 1L;

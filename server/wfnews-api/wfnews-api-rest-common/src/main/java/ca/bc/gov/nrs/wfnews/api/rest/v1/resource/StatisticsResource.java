@@ -4,16 +4,11 @@ import java.io.Serial;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import ca.bc.gov.nrs.common.rest.resource.BaseResource;
 import ca.bc.gov.nrs.wfnews.api.model.v1.Statistics;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 
 @XmlRootElement(namespace = ResourceTypes.NAMESPACE, name = ResourceTypes.STATISTICS_NAME)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonTypeName(ResourceTypes.STATISTICS)
 public class StatisticsResource extends BaseResource implements Statistics {
 	@Serial
 	private static final long serialVersionUID = 1L;
