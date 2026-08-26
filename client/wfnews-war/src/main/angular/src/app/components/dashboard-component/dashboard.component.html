@@ -7,8 +7,8 @@
   </div>
   <div class="content">
     <div class="tabs">
-      <button [class]="'list-button' + (selectedTab === 0 ? '-selected' : '')" (click)="selectTab(0)" mat-flat-button ><span class="tab-button-label">Current Situation</span></button>
-      <button [class]="'list-button' + (selectedTab === 1 ? '-selected' : '')" (click)="selectTab(1)" mat-flat-button ><span class="tab-button-label">Totals this Year</span></button>
+      <button class="list-button wf1-choice-pill" [class.wf1-choice-pill--selected]="selectedTab === 0" (click)="selectTab(0)" mat-flat-button ><span class="tab-button-label">Current Situation</span></button>
+      <button class="list-button wf1-choice-pill" [class.wf1-choice-pill--selected]="selectedTab === 1" (click)="selectTab(1)" mat-flat-button ><span class="tab-button-label">Totals this Year</span></button>
     </div>
     <div id="current-stats-page" *ngIf="selectedTab === 0" class="panel-container">
       <!-- Re-Add *ngIf="!offseason()" before deploy to PROD! -->

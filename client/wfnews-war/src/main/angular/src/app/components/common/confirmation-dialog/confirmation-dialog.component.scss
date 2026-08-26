@@ -1,0 +1,71 @@
+@import "../../../../styles/variables";
+
+// Layout follows the BC Gov Alert Dialog: three bands on one horizontal measure, divided
+// by a hairline, with the buttons at the end. Its tokens are 1rem, 1.5rem, 0.5rem, 1px.
+.content {
+  display: flex;
+  flex-direction: column;
+  .header {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid #d8d8d8;
+  }
+
+  .title {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+
+    // Material sizes its dialog title with a 40px tall ::before, which shows up as
+    // whitespace above the words. The header band sets the spacing here.
+    &::before {
+      display: none;
+    }
+    color: #242424;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+  .text {
+    display: block;
+    margin: 0;
+    padding: 16px 24px;
+    border-bottom: 1px solid #d8d8d8;
+    color: #6e6e6e;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 16px 24px;
+    min-height: 0;
+  }
+
+}
+
+// The phone variant: a narrower measure, so the bands give the text more of the screen.
+@media (max-width: $mobile-max-width) {
+  .content .header,
+  .content .text,
+  .content .button-group {
+    padding: 16px;
+  }
+
+  .content .header,
+  .content .text {
+    border-bottom: none;
+  }
+}

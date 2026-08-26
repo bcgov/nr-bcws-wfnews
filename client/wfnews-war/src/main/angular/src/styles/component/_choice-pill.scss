@@ -1,0 +1,44 @@
+@import "../variables";
+
+// One selectable pill: the "Within 25km" radius choices, the Dashboard tabs, the
+// list filters. The same shape and colours were repeated in 20+ component
+// stylesheets before this file existed.
+.wf1-choice-pill {
+  // Material sets border, background and transition on its own button classes,
+  // so these have to outrank them.
+  border-radius: 20px !important;
+  border: 1px solid #c4c4c4 !important;
+  background-color: #fff;
+  color: #242424;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.79px;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease !important;
+
+  &--selected {
+    border: 2px solid #38598a !important;
+    background-color: #e9f0f8 !important;
+    color: #242424 !important;
+    font-weight: 700;
+    animation: wf1-choice-pill-select 0.18s ease;
+  }
+}
+
+@keyframes wf1-choice-pill-select {
+  50% {
+    transform: scale(1.015);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wf1-choice-pill {
+    transition: none;
+
+    &--selected {
+      animation: none;
+    }
+  }
+}

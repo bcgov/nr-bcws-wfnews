@@ -6,45 +6,9 @@
     max-width: 850px;
   }
 
-  .list-button {
-    margin-right: 7px;
-    border-radius: 20px;
-    border: 1px solid #c4c4c4;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 21.79px;
-    &-selected {
-      margin-right: 7px;
-      border-radius: 20px;
-      border: 2px solid #38598a !important;
-      background-color: #e9f0f8 !important;
-      color: #242424 !important;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 21.79px;
-    }
-  }
 }
 
 @media (min-width: $desktop-md-min-width) {
-  .list-button {
-    margin-right: 7px;
-    border-radius: 20px;
-    border: 1px solid #c4c4c4;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 21.79px;
-    &-selected {
-      margin-right: 7px;
-      border-radius: 20px;
-      border: 2px solid #38598a !important;
-      background-color: #e9f0f8 !important;
-      color: #242424 !important;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 21.79px;
-    }
-  }
 }
 
 .container {
@@ -116,6 +80,10 @@
   flex: 1 1 48.996%;
 }
 
+.list-button {
+  margin-right: 7px;
+}
+
 .list-button-label {
   margin: 0px 0px 0px 7px;
 }
@@ -149,21 +117,6 @@
   }
 
   .list-button {
-    margin-right: 7px;
-    border-radius: 20px;
-    border: 1px solid #c4c4c4;
     font-size: 14px;
-    font-weight: 400;
-    line-height: 21.79px;
-    &-selected {
-      margin-right: 7px;
-      border-radius: 20px;
-      border: 2px solid #38598a !important;
-      background-color: #e9f0f8 !important;
-      color: #242424 !important;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 21.79px;
-    }
   }
 }

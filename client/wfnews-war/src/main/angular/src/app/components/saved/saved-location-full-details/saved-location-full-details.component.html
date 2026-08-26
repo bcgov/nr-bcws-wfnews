@@ -1,18 +1,23 @@
 <div [class]="isMobileView() ? '' : 'desktop-container'">
-  <div class="saved-header"><img (click)="backToSaved()" src="/assets/images/svg-icons/back-arrow.svg" alt="back-arrow"
-          class="back-icon" />Back</div>
+  <div class="saved-header">
+      <button type="button" class="back-button" (click)="backToSaved()">
+          <img src="/assets/images/svg-icons/arrow-left-grey.svg" alt="" class="back-icon" />
+          <span class="back-label-short">Back</span>
+          <span class="back-label-long">Back to Saved Locations</span>
+      </button>
+  </div>
   <div class="section" *ngIf="location">
       <div class="section-card">
           <div class="saved-location-content">
               <div class="saved-location-content-1">
                   <div class="saved-location-details-2">
-                      <img alt="icon" class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+                      <img alt="icon" class="location-icon" src="/assets/images/svg-icons/location-grey.svg">
                       <div *ngIf="location.address" class="saved-location-detail">
                           <span>{{location.notificationName}}</span>
                           <span class="saved-detail">{{location.address}}</span>
                       </div>
                       <div *ngIf="!location.address" class="saved-location-detail">
-                          <span class="saved-title-top">{{location.notificationName}}</span>
+                          <span>{{location.notificationName}}</span>
                       </div>
                   </div>
                   <div class="saved-location-detail">
@@ -53,6 +58,7 @@
   <div class="break"></div>
   <div class="section">
       <div class="section-title">Conditions</div>
+      <div class="card-grid">
       <div class="section-card">
           <div class="saved-location-content">
               <div class="saved-location-content-1">
@@ -61,14 +67,17 @@
                           <div class="saved-detail">
                               <div class="saved-title">
                                   <img class="location-icon" alt="icon"
-                                      src="/assets/images/svg-icons/carbon_partly-cloudy.svg">Current Weather
+                                      src="/assets/images/svg-icons/carbon_partly-cloudy.svg">
+                                  <div class="saved-title-text">
+                                      <div>Current Weather</div>
+                                      <div class="saved-subtitle">{{stationHour}}</div>
+                                  </div>
                               </div>
-                              <div class="saved-subtitle">{{stationHour}}</div>
                               <img (click)="navigateToWeather()" class="arrow-button-bottom" alt="icon"
                                   src="/assets/images/svg-icons/forward-arrow-grey.svg">
                           </div>
                       </div>
-                      <div class="divider-2"></div>
+                      <div class="divider"></div>
                       <div class="saved-location-detail">
                           <span class="saved-detail">Weather Station: {{stationName}}</span>
                           <span class="saved-detail"><img alt="temperature" class="icon-top" src="/assets/images/svg-icons/carbon_temperature-celsius.svg">{{station.temp}}° C</span>
@@ -86,7 +95,7 @@
                       <div class="saved-location-detail">
                           <div class="saved-detail">
                               <div class="saved-title">
-                                  <img alt="icon" class="icon" src="/assets/images/svg-icons/ban-icon.svg">Current Fire Bans
+                                  <img alt="icon" class="location-icon" src="/assets/images/svg-icons/ban-icon.svg">Current Fire Bans
                               </div>
                           </div>
                       </div>
@@ -111,30 +120,30 @@
                   <div class="saved-location-details-3">
                       <div class="saved-location-detail">
                           <div class="saved-title">
-                              <img alt="icon" class="icon" src="/assets/images/svg-icons/fire-danger.svg">Danger Rating
+                              <img alt="icon" class="location-icon" src="/assets/images/svg-icons/fire-danger.svg">Danger Rating
                           </div>
                           <div class="divider"></div>
-                          <div *ngIf="dangerRatingLabel === 'Extreme'" class="saved-detail">
+                          <div *ngIf="dangerRatingLabel === 'Extreme'" class="saved-detail danger-rating-row">
                               <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-extreme.svg"
                                   alt="Fire Danger">
                               {{dangerRatingLabel}} Fire Danger
                           </div>
-                          <div *ngIf="dangerRatingLabel === 'High'" class="saved-detail">
+                          <div *ngIf="dangerRatingLabel === 'High'" class="saved-detail danger-rating-row">
                               <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-high.svg"
                                   alt="Fire Danger">
                               {{dangerRatingLabel}} Fire Danger
                           </div>
-                          <div *ngIf="dangerRatingLabel === 'Moderate'" class="saved-detail">
+                          <div *ngIf="dangerRatingLabel === 'Moderate'" class="saved-detail danger-rating-row">
                               <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-moderate.svg"
                                   alt="Fire Danger">
                               {{dangerRatingLabel}} Fire Danger
                           </div>
-                          <div *ngIf="dangerRatingLabel === 'Low'" class="saved-detail">
+                          <div *ngIf="dangerRatingLabel === 'Low'" class="saved-detail danger-rating-row">
                               <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-low.svg"
                                   alt="Fire Danger">
                               {{dangerRatingLabel}} Fire Danger
                           </div>
-                          <div *ngIf="dangerRatingLabel === 'Very Low'" class="saved-detail">
+                          <div *ngIf="dangerRatingLabel === 'Very Low'" class="saved-detail danger-rating-row">
                               <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-very-low.svg"
                                   alt="Fire Danger">
                               {{dangerRatingLabel}} Fire Danger
@@ -144,6 +153,7 @@
                   </div>
               </div>
           </div>
+      </div>
       </div>
   </div>
   <div class="section">
@@ -157,6 +167,7 @@
               </div>
           </div>
       </div>
+      <div class="card-grid">
       <div class="info-card-order" *ngFor="let item of evacOrders">
           <div class="title"><img class="icon-info-title" src="/assets/images/svg-icons/evacuation-order.svg"
                   alt="evacuation-order" />
@@ -188,6 +199,7 @@
                   src="/assets/images/svg-icons/forward-arrow-yellow.svg">
           </div>
       </div>
+      </div>
   </div>
   <div class="section">
       <div class="section-title">Wildfires Nearby</div>
@@ -200,23 +212,12 @@
               </div>
           </div>
       </div>
-      <div class="info-container" *ngFor="let incident of nearbyWildfires">
-          <div class="fire-info-container">
-              <div class="wildfire-title">{{incident.incidentName}} Wildfire<img class="wildfire-title-icon" (click)="addToWatchlist(incident)"
-                [src]="onWatchlist(incident) ? '/assets/images/svg-icons/bookmark-blue.svg' : '/assets/images/svg-icons/bookmark.svg'" alt="Calendar" /></div>
-              <div class="divider-2"></div>
-              <div *ngIf="incident.fireOfNoteInd" class="wildfire-of-note-panel"><img class="icon"
-                      src="/assets/images/local_fire_department.png" alt="Fire Of Note" />Wildfire
-                  of Note</div>
-              <div class="info"><span class="circle-icon {{getStageOfControlIcon(incident.stageOfControlCode)}}"></span>
-                  {{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
-              <div class="info"><img class="icon" src="/assets/images/svg-icons/location-pin.svg"
-                      alt="Location Pin" />{{incident.fireCentreName}}</div>
-              <div class="info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
-                      alt="Calendar" />Discovered on
-                  {{convertToDateYear(incident.discoveryDate)}}<img (click)="navigateToFullDetails(incident)"
-                      alt="icon" class="arrow-button" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
-          </div>
+      <div class="card-grid">
+      <associated-wildfire-card *ngFor="let incident of nearbyWildfires"
+          [incident]="incident" [isBookmarked]="onWatchlist(incident)"
+          (bookmarkClicked)="addToWatchlist(incident)"
+          (viewDetailsClicked)="navigateToFullDetails(incident)">
+      </associated-wildfire-card>
       </div>
   </div>
   <div class="bottom"></div>

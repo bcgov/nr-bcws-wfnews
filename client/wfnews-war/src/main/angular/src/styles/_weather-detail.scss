@@ -1,0 +1,67 @@
+// The Weather detail body: the station name, the Hourly Indices and the Daily Indices.
+//
+// Two views draw this body from their own templates: the Weather detail page
+// (saved-location-weather-details) and the Active Weather Stations panel
+// (weather-panel-detail). Both import this file, so neither owns the other's styles.
+//
+// Do not import this file into main.scss. It must stay inside a component, so that Angular
+// keeps the rules scoped to the two templates. A rule that suits a full page and a rule
+// that suits a narrow panel are not the same rule: keep page-only rules in the page.
+
+.content {
+  margin: 24px 16px;
+
+  .section {
+    width: 100%;
+    .section-title {
+      color: var(--Gray-1, #242424);
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+    }
+
+    .section-detail {
+      color: var(--grays-gray-3, #666);
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 22px;
+      letter-spacing: -0.408px;
+      margin: 16px 0px;
+    }
+
+    .divider {
+      background: #dedede;
+      height: 1px;
+      margin: 14px 0;
+      width: 100%;
+    }
+  }
+
+  .bottom {
+    height: 140px;
+  }
+}
+
+.popup-button-container {
+  margin-top: 30px;
+  .popup-button {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--Grays-Gray-7, #DEDEDE);
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    background: var(--Grey-Tab-Background, #F5F6F9);
+  }
+
+  .external-link-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: top;
+    padding-left: 8px;
+  }
+}

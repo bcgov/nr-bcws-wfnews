@@ -2,10 +2,11 @@
   <div class="section">
       <div class="section-header-row">
           <span class="section-header">{{notificationsTitle}}</span>
-        <span class="section-button" (click)="addNewLocation()" *ngIf="savedLocations?.length < 3">
-            <img alt="icon" src="/assets/images/svg-icons/Type.svg" class="button-icon">
+        <button type="button" class="section-button" (click)="addNewLocation()"
+            *ngIf="savedLocations?.length < 3">
+            <img alt="" src="/assets/images/svg-icons/Type.svg" class="button-icon">
             Add new
-        </span>
+        </button>
       </div>
       <div class="notification-permission-banner" *ngIf="showPermissionBanner">
           <img alt="warning" class="banner-icon" src="/assets/images/svg-icons/custom_warning.svg">
@@ -19,17 +20,17 @@
       </div>
       <div class="section-card" *ngIf="!savedLocations.length" (click)="addNewLocation()">
           <div class="add-location-content flex-enabled">
-              <img alt="icon" class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+              <img alt="icon" class="location-icon" src="/assets/images/svg-icons/location-grey.svg">
               <span>{{notificationsSubTitle}}</span>
           </div>
       </div>
-      <div *ngIf="savedLocations.length">
-          <div *ngFor="let location of savedLocations">
+      <div class="saved-locations" *ngIf="savedLocations.length">
+          <div class="saved-location" *ngFor="let location of savedLocations">
               <div class="section-card">
                   <div class="saved-location-content" (click)="navToFullDetails(location)">
                       <div class="saved-location-content-1">
                           <div class="saved-location-details-2">
-                              <img alt="icon" class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+                              <img alt="icon" class="location-icon" src="/assets/images/svg-icons/location-grey.svg">
                               <div class="saved-location-detail">
                                   <span>{{location.notificationName}}</span>
                                   <span class="location-coordinates">{{getFormattedCoords(location.point.coordinates)}}</span>
@@ -42,23 +43,15 @@
                       </div>
                       <div *ngIf="location.evacs && location.evacs.length > 0">
                           <div class="nearBy-badge">
-                              <div>
-                                  <img alt="icon" src="/assets/images/svg-icons/evac-red.svg">
-                              </div>
-                              <span>
-                                  Evacuation Nearby
-                              </span>
+                              <img alt="" src="/assets/images/svg-icons/evac-red.svg">
+                              <span>Evacuation Nearby</span>
                           </div>
                       </div>
 
                       <div *ngIf="location.wildfires && location.wildfires.length > 0">
                           <div class="nearBy-badge">
-                              <div>
-                                  <img alt="icon" src="/assets/images/svg-icons/wildfire-red.svg">
-                              </div>
-                              <span>
-                                  Wildfire Nearby
-                              </span>
+                              <img alt="" src="/assets/images/svg-icons/wildfire-red.svg">
+                              <span>Wildfire Nearby</span>
                           </div>
                       </div>
 
@@ -101,7 +94,7 @@
                               </div>
                           </div>
                           <div class="arrow-button" (click)="enterDetail(location)">
-                              <img alt="icon" class="arrow-icon" src="/assets/images/svg-icons/arrow-blue.svg">
+                              <img alt="icon" class="arrow-icon" src="/assets/images/svg-icons/forward-arrow-grey.svg">
                           </div>
                       </div>
                   </div>
@@ -109,8 +102,6 @@
           </div>
       </div>
   </div>
-
-  <div class="large-divider"></div>
 
   <div class="section">
       <div class="section-header-row">
@@ -123,26 +114,11 @@
           </div>
       </div>
       <div *ngIf="wildFireWatchlist.length" class="saved-wildfires">
-          <div class="info-container" *ngFor="let wildFire of wildFireWatchlist">
-              <div class="fire-info-container" (click)="navigatToWildfireFullDetail(wildFire)">
-                  <div class="wildfire-title">{{wildFire.incidentName}}<img class="wildfire-title-icon"
-                      src="/assets/images/svg-icons/bookmark-blue.svg" alt="Calendar"(click)="deleteFromWatchList($event, wildFire)" /></div>
-                  <hr class="break">
-                  <div *ngIf="wildFire.fireOfNoteInd" class="wilfire-of-note-panel"><img class="wilfire-of-note-panel-icon"
-                      src="/assets/images/local_fire_department.png" alt="Fire Of Note" />Wildfire
-                      of Note</div>
-                  <div class="info"><span class="circle-icon {{wildFire.stageOfControlCode}}"></span>{{convertToStageOfControlDescription(wildFire.stageOfControlCode)}}
-                  </div>
-                  <div class="info"><img class="icon" src="/assets/images/svg-icons/location-pin.svg"
-                      alt="Location Pin" />{{wildFire.fireCentreName}}</div>
-                  <div class="info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar" />Discovered
-                      on {{convertToDateYear(wildFire.discoveryDate)}}
-                      <div class="wildfire-arrow-button">
-                          <img alt="icon" class="arrow-icon-grey" src="/assets/images/svg-icons/forward-arrow-grey.svg">
-                      </div>
-                  </div>
-              </div>
-          </div>
+          <associated-wildfire-card *ngFor="let wildFire of wildFireWatchlist"
+              [incident]="wildFire" [isBookmarked]="true"
+              (bookmarkClicked)="deleteFromWatchList(wildFire)"
+              (viewDetailsClicked)="navigatToWildfireFullDetail(wildFire)">
+          </associated-wildfire-card>
       </div>
   </div>
 </div>

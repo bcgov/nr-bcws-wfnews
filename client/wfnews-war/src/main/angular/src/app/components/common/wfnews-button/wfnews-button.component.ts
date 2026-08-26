@@ -9,6 +9,11 @@ export class WfnewsButtonComponent {
   @Input() label: string;
   @Input() componentStyle?: WfnewsButtonStyle;
   @Input() isVisible?: boolean = true;
+  /**
+   * Render a real <button> instead of the clickable div. A div cannot take focus, so the
+   * keypress handler on it never fires from a keyboard. Opt in; the default is unchanged.
+   */
+  @Input() nativeButton = false;
   @Output() buttonClicked = new EventEmitter<void>();
 
   clickHandler() {

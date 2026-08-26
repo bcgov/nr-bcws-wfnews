@@ -1,6 +1,19 @@
-<div class="button-container" [ngClass]="{'slim': componentStyle?.slim, 'hide': !isVisible}"
+<ng-template #content>
+  <span class="label" [ngClass]="{'slim': componentStyle?.slim}"
+    [ngStyle]="componentStyle ? {'color': componentStyle.labelColor } : null">{{ label }}</span>
+</ng-template>
+
+<button *ngIf="nativeButton; else clickableDiv" type="button" class="button-container"
+  [ngClass]="{'slim': componentStyle?.slim, 'hide': !isVisible}"
   [ngStyle]="componentStyle ? {'background': componentStyle.backgroundColor, 'border': componentStyle.border} : null"
-  (keypress)="clickHandler()" (click)="clickHandler()">
-  <div class="label" [ngClass]="{'slim': componentStyle?.slim}"
-    [ngStyle]="componentStyle ? {'color': componentStyle.labelColor } : null">{{ label }}</div>
-</div>
+  (click)="clickHandler()">
+  <ng-container *ngTemplateOutlet="content"></ng-container>
+</button>
+
+<ng-template #clickableDiv>
+  <div class="button-container" [ngClass]="{'slim': componentStyle?.slim, 'hide': !isVisible}"
+    [ngStyle]="componentStyle ? {'background': componentStyle.backgroundColor, 'border': componentStyle.border} : null"
+    (keypress)="clickHandler()" (click)="clickHandler()">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </div>
+</ng-template>

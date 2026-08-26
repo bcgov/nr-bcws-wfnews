@@ -14,6 +14,7 @@ import {
   Output
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Meta } from '@angular/platform-browser';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
@@ -27,16 +28,15 @@ import { toCanvas } from 'qrcode';
 import { EvacOrderOption } from '../../../conversion/models';
 import { WatchlistService } from '../../../services/watchlist-service';
 import {
-  ResourcesRoutes,
   convertFireNumber,
   convertToDateYear,
   convertToFireCentreDescription,
   getStageOfControlLabel,
   isMobileView,
+  ResourcesRoutes,
   setDisplayColor
 } from '../../../utils';
 import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
-import { Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'incident-header-panel',
@@ -149,7 +149,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         }
       }
     }
-    this.metaService.updateTag({ property: 'og:title', content: `${this.incident?.incidentName}`});
+    this.metaService.updateTag({ property: 'og:title', content: `${this.incident?.incidentName}` });
     this.metaService.updateTag({ property: 'og:description', content: `${this.incident?.incidentName}` });
 
   }
@@ -415,7 +415,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
               opacity: 0.8,
               tileSize: 1000,
               bounds: bounds,
-              style: '7734'            
+              style: '7734'
             })
             .addTo(this.map);
         });
@@ -542,11 +542,11 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   openShareWindow(evac: string | null) {
     const incidentType = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS}` : 'Wildfire';
     const name = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS} for ${this.evac.attributes.EVENT_NAME}`
-    : this.incident?.incidentName;
-    this.commonUtilityService.openShareWindow(incidentType,name);
+      : this.incident?.incidentName;
+    this.commonUtilityService.openShareWindow(incidentType, name);
   }
 
-  
+
 
   backToMap() {
     const zoom = this.params?.['zoom'];
@@ -585,12 +585,17 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     }
   }
 
+  private get source(): string {
+    const source = this.params?.['source'];
+    return Array.isArray(source) ? source[0] : source;
+  }
+
   back() {
-    if (this.params && this.params['source'] && this.params['source'][0]) {
-      if (this.params['source'] === 'map' || this.params['source'][0] === 'map') {
+    if (this.params && this.source) {
+      if (this.source === 'map') {
         this.backToMap();
       } else if (
-        this.params['source'][0] === 'full-details' &&
+        this.source === 'full-details' &&
         this.params['sourceId'] &&
         this.params['sourceType']
       ) {
@@ -602,7 +607,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           },
         });
       } else if (
-        this.params['source'] === 'saved-location' &&
+        this.source === 'saved-location' &&
         this.params['sourceName'] &&
         this.params['sourceLongitude'] &&
         this.params['sourceLatitude']
@@ -616,7 +621,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           },
         });
       } else if (
-        this.params['source'] === 'full-details'
+        this.source === 'full-details'
       ) {
         if (this.params['sourceType'] === 'Alert' || this.params['sourceType'] === 'Order') {
           this.router.navigate([ResourcesRoutes.PUBLIC_EVENT], {
@@ -638,7 +643,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           });
         }
       } else if (
-        this.params['source'] === 'incidents'
+        this.source === 'incidents'
       ) {
         this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
           queryParams: {
@@ -647,8 +652,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           },
         });
       } else {
-        const destination = Array.isArray(this.params['source']) ? this.params['source'] : [this.params['source']];
-        this.router.navigate(destination);
+        this.router.navigate([this.source]);
       }
     } else {
       this.router.navigate([ResourcesRoutes.DASHBOARD]);
