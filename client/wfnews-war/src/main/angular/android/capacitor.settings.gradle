@@ -56,5 +56,8 @@ project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacit
 include ':capawesome-capacitor-background-task'
 project(':capawesome-capacitor-background-task').projectDir = new File('../node_modules/@capawesome/capacitor-background-task/android')
 
+include ':capgo-capacitor-network-diagnostics'
+project(':capgo-capacitor-network-diagnostics').projectDir = new File('../node_modules/@capgo/capacitor-network-diagnostics/android')
+
 include ':capacitor-native-settings'
 project(':capacitor-native-settings').projectDir = new File('../node_modules/capacitor-native-settings/android')

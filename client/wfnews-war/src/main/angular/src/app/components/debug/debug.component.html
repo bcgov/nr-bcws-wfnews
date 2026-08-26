@@ -50,6 +50,23 @@
     </div>
   </section>
 
+  <section class="debug-section">
+    <h2>Native test</h2>
+    <p class="debug-hint">
+      This measures the path that the map and the Saved Location reads use, which
+      nothing inside the WebView can see. It downloads about 512 kB, so do not run
+      it on a metered connection unless you need to.
+    </p>
+    <button type="button" class="debug-button" (click)="testDeep()" [disabled]="deepTesting">
+      {{ deepTesting ? 'Testing…' : 'Run the native test' }}
+    </button>
+    <div class="debug-row" *ngFor="let row of deep">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+    <div class="debug-issue" *ngFor="let issue of issues">{{ issue }}</div>
+  </section>
+
   <div class="debug-actions">
     <button type="button" class="debug-button" (click)="read()">Read again</button>
     <button type="button" class="debug-button debug-button--primary" (click)="copy()">

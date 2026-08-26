@@ -40,6 +40,7 @@
     "@capacitor/splash-screen": "8.0.2",
     "@capacitor/status-bar": "8.0.3",
     "@capawesome/capacitor-background-task": "8.0.2",
+    "@capgo/capacitor-network-diagnostics": "8.0.9",
     "@ckeditor/ckeditor5-angular": "4.0.0",
     "@ckeditor/ckeditor5-build-decoupled-document": "35.0.1",
     "@ionic-native/core": "5.36.0",

@@ -27,6 +27,7 @@ dependencies {
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
     implementation project(':capawesome-capacitor-background-task')
+    implementation project(':capgo-capacitor-network-diagnostics')
     implementation project(':capacitor-native-settings')
     implementation "androidx.webkit:webkit:1.4.0"
 }

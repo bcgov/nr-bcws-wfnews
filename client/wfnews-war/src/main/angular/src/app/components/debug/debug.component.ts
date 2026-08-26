@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Device } from '@capacitor/device';
-import { Network } from '@capacitor/network';
+import { NetworkDiagnostics } from '@capgo/capacitor-network-diagnostics';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { DebugAccessService } from '@app/services/debug-access.service';
@@ -14,15 +14,21 @@ interface Row {
   value: string;
 }
 
-/** A reachability test that takes longer than this is worth saying out loud. */
+/** A read that takes longer than this is worth saying out loud. */
 const SLOW_MS = 2000;
+
+/** Enough bytes to measure a speed, few enough to be fair on a metered link. */
+const DOWNLOAD_LIMIT_BYTES = 512 * 1024;
+
+/** Probes for the loss test. Ten is the plugin default and takes too long on 2G. */
+const LOSS_PROBES = 6;
 
 /**
  * The diagnostics screen. Ten taps on the version label open it.
  *
  * It answers the question that a support call cannot answer today: was it the
- * network, the API, or the app. Everything on it is read on demand. Nothing here
- * runs on a timer, because a test spends the connection that it measures.
+ * network, the API, or the app. Nothing here runs on a timer, because a test
+ * spends the connection that it measures.
  */
 @Component({
   selector: 'wfnews-debug',
@@ -34,7 +40,10 @@ export class DebugComponent implements OnInit {
   public device: Row[] = [];
   public network: Row[] = [];
   public reach: Row[] = [];
+  public deep: Row[] = [];
+  public issues: string[] = [];
   public testing = false;
+  public deepTesting = false;
   public copied = false;
 
   constructor(
@@ -81,6 +90,13 @@ export class DebugComponent implements OnInit {
     }
   }
 
+  /** The map service, which needs no key and returns a large body. */
+  private capabilitiesUrl(): string {
+    // The rest of the code reaches mapServices this way: it is not on the typed config.
+    const base = this.appConfig.getConfig()['mapServices']?.['openmapsBaseUrl'];
+    return base ? `${base}?service=WMS&request=GetCapabilities` : '';
+  }
+
   private async readDevice(): Promise<Row[]> {
     try {
       const info = await Device.getInfo();
@@ -99,18 +115,26 @@ export class DebugComponent implements OnInit {
   }
 
   /**
-   * The connection type is true. The speed and the round trip are what the WebView
-   * believes, and on Android they follow the radio and not the path, so they can
-   * say 4G on a link that takes two seconds for one small read.
+   * The native status is the one to trust. `internetReachable` is the Android
+   * validated flag: it means the path was tested and it goes somewhere. That is
+   * the answer `navigator.onLine` cannot give, and it is what makes a captive
+   * portal visible.
    */
   private async readNetwork(): Promise<Row[]> {
     const rows: Row[] = [];
     try {
-      const status = await Network.getStatus();
+      const status = await NetworkDiagnostics.getNetworkStatus();
       rows.push({ label: 'Connected', value: status.connected ? 'yes' : 'no' });
       rows.push({ label: 'Connection', value: status.connectionType });
+      rows.push({
+        label: 'Reaches the internet',
+        value: status.internetReachable ? 'yes, validated by the OS' : 'no',
+      });
+      if (status.captivePortal) rows.push({ label: 'Captive portal', value: 'yes — a sign-in page is in the way' });
+      if (status.expensive) rows.push({ label: 'Metered', value: 'yes — the user pays for these bytes' });
+      if (status.constrained) rows.push({ label: 'Low data mode', value: 'on' });
     } catch (error) {
-      rows.push({ label: 'Connection', value: `could not be read: ${error}` });
+      rows.push({ label: 'Native status', value: `could not be read: ${error}` });
     }
 
     const estimate = (navigator as any).connection;
@@ -125,7 +149,7 @@ export class DebugComponent implements OnInit {
     return rows;
   }
 
-  /** One small read of the API, timed. This is the only honest speed signal here. */
+  /** One small read of the API through the WebView, timed. This carries the key. */
   async testReachability(): Promise<void> {
     this.testing = true;
     this.reach = [];
@@ -149,20 +173,100 @@ export class DebugComponent implements OnInit {
     }
   }
 
+  /**
+   * The native test. It measures the path that `CapacitorHttp` uses, which no
+   * measurement inside the WebView can see, and it is the only way this app can
+   * learn its own throughput: the API sends no `Timing-Allow-Origin`, so the
+   * WebView reports every response as zero bytes.
+   */
+  async testDeep(): Promise<void> {
+    this.deepTesting = true;
+    this.deep = [];
+    this.issues = [];
+    const api = this.appConfig.getConfig().rest['wfnews'];
+    const capabilities = this.capabilitiesUrl();
+
+    try {
+      const result = await NetworkDiagnostics.runDiagnostics({
+        // Only the API. The native path carries no key, so a 401 here is the
+        // answer we want: the host was reached. The map service is not probed with
+        // HEAD, because GeoServer answers 404 to a HEAD on GetCapabilities. The
+        // download and the loss test below already prove that host answers.
+        urls: [{ url: api, method: 'HEAD', timeoutMs: 15000 }],
+        ...(capabilities
+          ? {
+              download: { url: capabilities, maxBytes: DOWNLOAD_LIMIT_BYTES, timeoutMs: 30000 },
+              packetLoss: { mode: 'http', url: capabilities, count: LOSS_PROBES, timeoutMs: 5000 },
+            }
+          : {}),
+      });
+
+      const rows: Row[] = [];
+      for (const url of result.urls || []) {
+        rows.push({
+          label: `Native reach ${this.hostOf(url.url)}`,
+          // A 401 is an answer. The server was reached and it refused, which is
+          // not the same as a server that could not be reached at all.
+          value: url.reachable
+            ? `answered ${url.statusCode ?? ''} in ${url.durationMs} ms`
+            : `no answer — ${url.errorCode || url.errorMessage || 'unknown'}`,
+        });
+      }
+
+      if (result.download) {
+        const d = result.download;
+        rows.push({
+          label: 'Download',
+          value: d.ok
+            ? `${Math.round(d.bytesDownloaded / 1024)} kB in ${d.durationMs} ms — ${d.mbps.toFixed(2)} Mbit/s`
+            : `failed — ${d.errorCode || d.errorMessage || 'unknown'}`,
+        });
+      }
+
+      if (result.packetLoss) {
+        const p = result.packetLoss;
+        rows.push({
+          label: 'Packet loss',
+          value:
+            `${p.lossPercent}% (${p.lost} of ${p.sent} lost)` +
+            (p.averageLatencyMs !== undefined ? `, average ${Math.round(p.averageLatencyMs)} ms` : ''),
+        });
+      }
+
+      this.deep = rows;
+      // A 401 from the API is the expected answer here, because the native test
+      // sends no key. Reporting it as a fault would teach a support person to
+      // ignore this list, and then it is worth nothing when it is right.
+      const expected401 = (result.urls || []).some((u) => u.url === api && u.statusCode === 401);
+      this.issues = (result.issues || []).filter(
+        (issue) => !(expected401 && issue.includes(api)),
+      );
+    } catch (error) {
+      this.deep = [{ label: 'Native test', value: `failed: ${error}` }];
+    } finally {
+      this.deepTesting = false;
+      this.network = await this.readNetwork();
+    }
+  }
+
   /** All of it as text, so a user can paste it into a support message. */
   async copy(): Promise<void> {
-    const block = [
+    const sections: Array<[string, Row[]]> = [
       ['App', this.app],
       ['Device', this.device],
       ['Network', this.network],
       ['Reachability', this.reach],
-    ]
-      .filter(([, rows]) => (rows as Row[]).length)
-      .map(
-        ([title, rows]) =>
-          `${title}\n` + (rows as Row[]).map((r) => `  ${r.label}: ${r.value}`).join('\n'),
-      )
+      ['Native test', this.deep],
+    ];
+
+    let block = sections
+      .filter(([, rows]) => rows.length)
+      .map(([title, rows]) => `${title}\n` + rows.map((r) => `  ${r.label}: ${r.value}`).join('\n'))
       .join('\n\n');
+
+    if (this.issues.length) {
+      block += `\n\nIssues\n` + this.issues.map((i) => `  ${i}`).join('\n');
+    }
 
     try {
       await navigator.clipboard.writeText(block);
