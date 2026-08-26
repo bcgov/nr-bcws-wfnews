@@ -5,9 +5,7 @@ import java.util.Date;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import ca.bc.gov.nrs.common.wfone.rest.resource.BaseResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
@@ -15,8 +13,7 @@ import ca.bc.gov.nrs.wfnews.api.model.v1.SituationReport;
 
 @XmlRootElement(namespace = ResourceTypes.NAMESPACE, name = ResourceTypes.SITUATION_REPORT_NAME)
 @XmlSeeAlso({ SituationReportResource.class })
-@JsonSubTypes({ @Type(value = SituationReportResource.class, name = ResourceTypes.SITUATION_REPORT) })
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+@JsonIgnoreProperties(ignoreUnknown = true)  // callers still send @type; do not reject it
 public class SituationReportResource extends BaseResource implements SituationReport {
 
   private String reportGuid;

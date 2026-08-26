@@ -4,8 +4,7 @@ import java.io.Serial;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import ca.bc.gov.nrs.common.wfone.rest.resource.BaseResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
@@ -15,8 +14,7 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
  * This resource should only be used for the Mail to SNS handler
  */
 @XmlRootElement(namespace = ResourceTypes.NAMESPACE, name = ResourceTypes.MAIL_NAME)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonTypeName(ResourceTypes.MAIL)
+@JsonIgnoreProperties(ignoreUnknown = true)  // callers still send @type; do not reject it
 public class MailResource extends BaseResource {
 	@Serial
 	private static final long serialVersionUID = 1L;
