@@ -99,24 +99,34 @@ A program writes it. Do not edit it by hand.
 | `WFNEWS_NET_ONLY` | One **Journey** name, to run only that one. |
 | `WFNEWS_ROF_SUBMIT` | `1` or `0`. It overrides the submit rule below. |
 
-### Why a proxy, and not the DevTools throttle
-
-Chrome DevTools can throttle the WebView, and that is easy. But three services
-send their requests with `CapacitorHttp`, which is **DEX code** and not the
-**Payload**:
-
-- `notification.service.ts` — the **Saved Location** reads
-- `wf-map.service.ts` — the **Active Wildfire Map**
-- `common-utility.service.ts`
-
-A DevTools throttle does not touch those. The report would call them good on 2G
-and would be wrong. The device proxy setting is obeyed by the **Payload** and by
-the **DEX code** together, so the **Throttle Proxy** measures both.
+### What the proxy covers, and what it does not
 
 The device sends its traffic to `127.0.0.1:8888`. `adb reverse` carries that port
 to the workstation over USB. So the proxy needs no LAN address and no firewall
 rule, and it does not read the traffic: HTTPS stays a `CONNECT` tunnel, and no
 certificate is needed.
+
+**The proxy covers the Payload only. `CapacitorHttp` ignores the Android system
+proxy.** This was measured on the device: with the device proxy pointed at a port
+where nothing was listening, an Angular `HttpClient` read failed and a
+`CapacitorHttp` read still returned 200.
+
+So these three services are **not shaped and not counted** by any
+**Network Profile** except `offline`:
+
+- `notification.service.ts` — the **Saved Location** reads
+- `wf-map.service.ts` — the **Active Wildfire Map**
+- `common-utility.service.ts`
+
+`offline` is the exception because it turns the Wi-Fi off, which stops every
+path.
+
+**To measure the DEX code path there are two ways.** Use the `offline` profile,
+or use the diagnostics screen in the app: ten taps on the version label on the
+More screen, then "Run the native test". That screen measures natively, so it
+sees the path that `CapacitorHttp` uses. A workstation proxy cannot.
+
+An earlier version of this file said the proxy covered both paths. It does not.
 
 ### These tests do not go red for a slow screen
 
