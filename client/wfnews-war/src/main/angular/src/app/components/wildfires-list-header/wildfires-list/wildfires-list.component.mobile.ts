@@ -36,8 +36,12 @@ export class WildFiresListComponentMobile {
   public selectedSortOrder = 'DESC';
   public searchText;
   public keepPaging = true;
+  public loading = false;
   public page = 0;
   public rowCount = 10;
+
+  /** An old WebView cannot watch the list end, so it keeps the button. */
+  public readonly canScrollLoad = typeof IntersectionObserver !== 'undefined';
 
   public totalRowCount = 0;
 
@@ -52,6 +56,9 @@ export class WildFiresListComponentMobile {
   convertToDateYear = convertToDateYear;
 
   private searchTimer;
+
+  /** A new search makes the old answer stale. Count the searches to know. */
+  private searchToken = 0;
 
   private isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
@@ -68,9 +75,20 @@ export class WildFiresListComponentMobile {
     this.search();
   }
 
+  /** Start the list again. It also drops the answer of a request in flight. */
+  private resetSearch() {
+    this.searchToken += 1;
+    this.dataSource.data = [];
+    this.page = 0;
+    this.keepPaging = true;
+    this.loading = false;
+  }
+
   async search() {
-    if (this.keepPaging) {
+    if (this.keepPaging && !this.loading) {
+      this.loading = true;
       this.page += 1;
+      const token = this.searchToken;
       this.publishedIncidentService
         .fetchPublishedIncidentsList(
           this.page,
@@ -92,6 +110,10 @@ export class WildFiresListComponentMobile {
             : 'lastUpdatedTimestamp%20DESC',
         )
         .subscribe((incidents) => {
+          if (token !== this.searchToken) {
+            return;
+          }
+
           const incidentData = [];
           if (incidents && incidents.collection) {
             this.totalRowCount = incidents.totalRowCount;
@@ -114,6 +136,16 @@ export class WildFiresListComponentMobile {
           }
 
           this.dataSource.data = this.dataSource.data.concat(incidentData);
+          this.loading = false;
+          this.cdr.detectChanges();
+        }, () => {
+          if (token !== this.searchToken) {
+            return;
+          }
+
+          // Give the page back, so the next scroll asks for it again.
+          this.page -= 1;
+          this.loading = false;
           this.cdr.detectChanges();
         });
     }
@@ -138,9 +170,7 @@ export class WildFiresListComponentMobile {
 
     dialogRef.afterClosed().subscribe((result: LocationData) => {
       smallDialogSubscription.unsubscribe();
-      this.dataSource.data = [];
-      this.page = 0;
-      this.keepPaging = true;
+      this.resetSearch();
       this.lastLocation = result;
       this.search();
     });
@@ -153,9 +183,7 @@ export class WildFiresListComponentMobile {
     }
 
     this.searchTimer = setTimeout(() => {
-      this.dataSource.data = [];
-      this.page = 0;
-      this.keepPaging = true;
+      this.resetSearch();
       this.lastLocation = null;
       this.search();
     }, 1000);
@@ -187,10 +215,7 @@ export class WildFiresListComponentMobile {
     dialogRef.afterClosed().subscribe((result: FilterData | boolean) => {
       smallDialogSubscription.unsubscribe();
       if ((result as boolean) !== false) {
-        this.dataSource.data = [];
-        this.page = 0;
-        this.keepPaging = true;
-
+        this.resetSearch();
         this.filters = result as FilterData;
         this.search();
       } else {

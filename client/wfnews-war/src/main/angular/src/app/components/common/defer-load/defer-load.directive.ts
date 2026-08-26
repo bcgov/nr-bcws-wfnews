@@ -3,6 +3,7 @@ import {
   Directive,
   ElementRef,
   EventEmitter,
+  Input,
   NgZone,
   OnDestroy,
   Output,
@@ -18,11 +19,17 @@ const MARGIN = '200px';
  * On a weak connection those requests fight each other, and eleven of them are for
  * a box that the user cannot see. With this directive a widget is made when it is
  * near the screen, so the screen in front of the user gets the connection.
+ *
+ * With `deferLoadRepeat`, the host tells each time it comes back into view. A list
+ * uses this to get its next page when the user scrolls to the end.
  */
 @Directive({
   selector: '[wfnewsDeferLoad]',
 })
 export class DeferLoadDirective implements AfterViewInit, OnDestroy {
+  /** Keep watching, so a list end can ask for each next page. */
+  @Input() deferLoadRepeat = false;
+
   @Output() visible = new EventEmitter<void>();
 
   private observer: IntersectionObserver | undefined;
@@ -56,8 +63,10 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 
   /** The observer runs outside Angular, so the view must be told to look again. */
   private announce(): void {
-    this.observer?.disconnect();
-    this.observer = undefined;
+    if (!this.deferLoadRepeat) {
+      this.observer?.disconnect();
+      this.observer = undefined;
+    }
     this.zone.run(() => this.visible.emit());
   }
 }
