@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Device } from '@capacitor/device';
+import { PushNotifications } from '@capacitor/push-notifications';
+import { NotificationSettings } from '@app/services/notification-settings.plugin';
 import { NetworkDiagnostics } from '@capgo/capacitor-network-diagnostics';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
@@ -39,6 +41,7 @@ export class DebugComponent implements OnInit {
   public app: Row[] = [];
   public device: Row[] = [];
   public network: Row[] = [];
+  public notifications: Row[] = [];
   public reach: Row[] = [];
   public deep: Row[] = [];
   public issues: string[] = [];
@@ -71,14 +74,24 @@ export class DebugComponent implements OnInit {
   async read(): Promise<void> {
     const config = this.appConfig.getConfig();
 
+    const api = this.hostOf(config.rest['wfnews']);
+    const notifyApi = this.hostOf(config.rest['notification-api']);
+
     this.app = [
       { label: 'Version', value: config.application.version || 'unknown' },
       { label: 'Build', value: BUILD_NUMBER || 'unknown' },
-      { label: 'API', value: this.hostOf(config.rest['wfnews']) },
-      { label: 'Notifications API', value: this.hostOf(config.rest['notification-api']) },
+      // Two Environment variables fill these, so they can point at different hosts.
+      // One row while they agree; two rows the moment they do not.
+      ...(api === notifyApi
+        ? [{ label: 'API host', value: api }]
+        : [
+            { label: 'API host', value: api },
+            { label: 'Notifications host', value: notifyApi },
+          ]),
     ];
 
     this.device = await this.readDevice();
+    this.notifications = await this.readNotifications();
     this.network = await this.readNetwork();
   }
 
@@ -112,6 +125,40 @@ export class DebugComponent implements OnInit {
     } catch (error) {
       return [{ label: 'Device', value: `could not be read: ${error}` }];
     }
+  }
+
+  /**
+   * Why a push does not arrive has three answers, and they need three different
+   * fixes: the device has no Device Token, the user turned notifications off, or
+   * the permission was never given.
+   */
+  private async readNotifications(): Promise<Row[]> {
+    const rows: Row[] = [];
+
+    try {
+      const state = await PushNotifications.checkPermissions();
+      rows.push({ label: 'Permission', value: state.receive });
+    } catch (error) {
+      rows.push({ label: 'Permission', value: `could not be read: ${error}` });
+    }
+
+    try {
+      const enabled = await NotificationSettings.areEnabled();
+      rows.push({
+        label: 'Turned on for this app',
+        value: enabled.enabled ? 'yes' : 'no — the user turned them off in Settings',
+      });
+    } catch {
+      // The Android half is the only half. iOS and web reject, and that is expected.
+      rows.push({ label: 'Turned on for this app', value: 'only Android can answer this' });
+    }
+
+    const token = this.capacitorService.notificationToken;
+    rows.push({
+      label: 'Device Token',
+      value: token ? `held, ends ${String(token).slice(-8)}` : 'none — no push can arrive',
+    });
+    return rows;
   }
 
   /**
