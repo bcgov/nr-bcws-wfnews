@@ -7,3 +7,9 @@
 ::ng-deep .mat-mdc-checkbox .mdc-form-field {
   align-items: start !important;
 }
+
+// Hold the banner off the checkbox and the buttons.
+.location-banner {
+  display: block;
+  margin: 16px 0;
+}

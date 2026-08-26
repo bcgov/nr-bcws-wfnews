@@ -6,7 +6,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
-import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFireService } from '@app/services/report-of-fire-service';
 import { App } from '@capacitor/app';
@@ -36,7 +35,6 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private reportOfFirePage: ReportOfFirePage,
     private reportOfFireService: ReportOfFireService,
-    private capacitorService: CapacitorService,
   ) {
     super();
   }
@@ -118,16 +116,15 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   }
 
   async startReport() {
-    // re-check if the device has gone offline since the view was initialised
-    this.commonUtilityService.checkOnline().then((online) => {
-      if (!online) {
-        this.nextId = 'disclaimer-page';
-      }
-    });
+    // Await it. next() reads nextId, so a promise that has not settled sends an
+    // offline user to the permissions page.
+    const online = await this.commonUtilityService.checkOnline();
+    if (!online) {
+      this.nextId = 'disclaimer-page';
+    }
 
-    // A position helps a report, but it is not mandatory. The tap is what asks; a
-    // refusal must not stop the report. The location page nudges with its banner.
-    await this.capacitorService.requestLocationPermission();
+    // No permission call here. A dialog with no words on the screen is jarring, so
+    // the permissions page carries the banner and the tap asks.
     this.next();
   }
 

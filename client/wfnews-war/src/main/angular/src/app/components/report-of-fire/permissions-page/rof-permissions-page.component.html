@@ -9,6 +9,13 @@
       <span>I agree to share information provided in this report with BC Wildfire Service</span>
     </bc-checkbox>
   </div>
+  <permission-banner *ngIf="showLocationBanner"
+    class="location-banner"
+    [heading]="locationBannerHeading"
+    [message]="bannerText.location.message.reportOfFire"
+    [actionLabel]="locationBannerAction"
+    (action)="onTurnOnLocation()">
+  </permission-banner>
   <div class="rof-button-container">
     <button mat-flat-button class="rof-button" (click)="close()">Cancel</button>
     <button mat-flat-button [class]="'rof-button' + (!dataShareAccepted ? '-disabled' : '-primary')"

@@ -12,7 +12,6 @@ import {
 } from '@angular/material/button-toggle';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { CapacitorService } from '@app/services/capacitor-service';
 
 /** The value that "I'm not sure" stores, on this page and in the review. */
 const UNKNOWN = 'Unknown';
@@ -38,7 +37,6 @@ export class RoFComplexQuestionPage extends RoFPage {
     private reportOfFirePage: ReportOfFirePage,
     private cdr: ChangeDetectorRef,
     private commonUtilityService: CommonUtilityService,
-    private capacitorService: CapacitorService,
   ) {
     super();
   }
@@ -137,16 +135,14 @@ export class RoFComplexQuestionPage extends RoFPage {
    * the fire on the location page, and it comes from `smk.js` in the bundle, so it
    * works with no network.
    *
-   * It asks for the permission first. Report of Fire is the one flow that is
-   * permitted to raise the Android dialog, and with no network there is no banner
-   * and no location page left to ask on. `requestLocationPermission` asks only when
-   * the state is still `prompt`, so a user who said no is not asked a second time.
+   * It does not ask for the permission. The permissions page banner is the one
+   * place that asks, and it is on the screen offline too. `getPositionIfPermitted`
+   * gives nothing when the user did not grant it, and the report goes without.
    *
    * Never throws. A report with no position must still go forward.
    */
   private async captureLocationOffline(): Promise<void> {
     try {
-      await this.capacitorService.requestLocationPermission();
       const position = await this.commonUtilityService.getPositionIfPermitted();
       if (!position?.coords) {
         return;

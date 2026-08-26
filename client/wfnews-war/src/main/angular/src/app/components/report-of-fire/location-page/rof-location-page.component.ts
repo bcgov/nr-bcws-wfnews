@@ -8,6 +8,12 @@ import {
   ElementRef,
   OnDestroy,
 } from '@angular/core';
+import {
+  locationBannerAction,
+  locationBannerHeading,
+  locationCanPrompt,
+  PERMISSION_BANNER,
+} from '@app/components/common/permission-banner/permission-banner.constants';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import {
   CapacitorService,
@@ -45,6 +51,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   fireLocation?: LatLon;
   smkApi: SmkApi;
   private smk: any;
+  readonly bannerText = PERMISSION_BANNER;
   locationPermission: LocationPermissionState = 'prompt';
   private permissionSubscription: Subscription;
   http: HttpClient;
@@ -65,9 +72,10 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
     super();
   }
 
-  /** A prompt is spent after a denial, so a banner carries the way out from then on. */
+  /** The banner is the only thing that asks, so it must cover `prompt` as well. */
   get showLocationBanner(): boolean {
     return (
+      this.locationPermission === 'prompt' ||
       this.locationPermission === 'denied' ||
       this.locationPermission === 'denied-once' ||
       this.locationPermission === 'services-off'
@@ -75,28 +83,19 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   }
 
   get locationBannerHeading(): string {
-    return this.locationPermission === 'services-off'
-      ? 'Location services are off'
-      : 'Location is off';
+    return locationBannerHeading(this.locationPermission);
   }
 
   get locationBannerMessage(): string {
-    return 'Enabling location can help improve the accuracy of this report.';
+    return PERMISSION_BANNER.location.message.reportOfFire;
   }
 
   get locationBannerAction(): string {
-    if (this.locationPermission === 'denied-once') {
-      return 'Turn on location';
-    }
-    return this.locationPermission === 'services-off'
-      ? 'Open location settings'
-      : 'Open settings';
+    return locationBannerAction(this.locationPermission);
   }
 
   async onTurnOnLocation(): Promise<void> {
-    // Android still asks after one refusal, so a prompt is the way back. Only a
-    // permanent denial needs the settings page.
-    if (this.locationPermission === 'denied-once') {
+    if (locationCanPrompt(this.locationPermission)) {
       const state = await this.capacitorService.requestLocationPermission();
       if (state === 'granted') {
         await this.useMyCurrentLocation();
@@ -132,11 +131,11 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   }
 
   /**
-   * The wizard calls this when this page is put on the screen. Report of Fire
-   * prompts rather than waits behind a banner, because its task is urgent.
+   * The wizard calls this when this page is put on the screen. It reads the state
+   * only. The banner is what asks, so no dialog arrives on its own.
    */
   async onShown(): Promise<void> {
-    const state = await this.capacitorService.requestLocationPermission();
+    const state = await this.capacitorService.refreshLocationPermission();
     if (state === 'granted') {
       await this.useMyCurrentLocation();
     }
