@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 // The parent sizes the banner, so the host must be a block that fills its column.
 :host {
   display: block;
@@ -10,9 +12,9 @@
   padding: 16px;
   border-radius: 8px;
   // neutral, not amber: yellow is the Evacuation Alert colour (alert-order-banner)
-  border: 1px solid var(--grays-gray-7, #dedede);
+  border: $border-card;
   background: #fff;
-  box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: $shadow-card;
   display: flex;
   align-items: flex-start;
   gap: 16px;
@@ -45,7 +47,8 @@
   }
 
   .banner-button {
-    align-self: flex-start;
+    // BC Design System inline alert: the actions slot sits bottom-right.
+    align-self: flex-end;
     margin-top: 4px;
     border: none;
     background: none;

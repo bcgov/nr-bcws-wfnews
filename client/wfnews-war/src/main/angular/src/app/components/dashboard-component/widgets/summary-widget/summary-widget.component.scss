@@ -48,7 +48,8 @@
     border-radius: var(--16, 16px);
     background: linear-gradient(0deg, #f5f6f9, #f5f6f9),
       linear-gradient(0deg, #dedede, #dedede);
-    border: 1.5px solid #dedede;
+    border: $border-card;
+    box-shadow: $shadow-card;
     height: 218px;
     max-height: 218px;
     max-width: 322px;
@@ -138,7 +139,8 @@
     border-radius: var(--16, 16px);
     background: linear-gradient(0deg, #f5f6f9, #f5f6f9),
       linear-gradient(0deg, #dedede, #dedede);
-    border: 1.5px solid #dedede;
+    border: $border-card;
+    box-shadow: $shadow-card;
     height: 218px;
     max-height: 218px;
     min-width: 175px;
@@ -229,7 +231,7 @@
     border-radius: var(--16, 16px);
     background: linear-gradient(0deg, #f5f6f9, #f5f6f9),
       linear-gradient(0deg, #dedede, #dedede);
-    border: 1.5px solid #dedede;
+    border: $border-card;
     height: 218px;
     max-height: 128px;
     min-width: 175px;

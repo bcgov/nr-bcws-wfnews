@@ -111,7 +111,7 @@
         font-size: $font-size;
         &:focus {
           outline: none;
-          box-shadow: 0 0 4px #3e7fff;
+          box-shadow: $focus-ring;
         }
       }
     }
@@ -157,7 +157,7 @@
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 4px #3e7fff;
+        box-shadow: $focus-ring;
       }
     }
   }
@@ -310,7 +310,7 @@
       font-size: $font-size;
       &:focus {
         outline: none;
-        box-shadow: 0 0 4px #3e7fff;
+        box-shadow: $focus-ring;
       }
     }
   }
@@ -356,7 +356,7 @@
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 4px #3e7fff;
+      box-shadow: $focus-ring;
     }
   }
 

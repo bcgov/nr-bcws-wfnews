@@ -149,3 +149,14 @@ $mobile-max-width: 767px;
 $desktop-sm-min-width: 768px;
 $desktop-sm-max-width: 1250px;
 $desktop-md-min-width: 1251px;
+
+/**
+ Elevation. One value for each job, so a new card cannot invent a sixth shadow.
+ */
+$shadow-card: 0 4px 8px rgba(0, 0, 0, 0.05);
+$border-card: 1px solid rgba(0, 0, 0, 0.08);
+$shadow-panel: 0 0 15px 0 rgba(0, 0, 0, 0.23);
+$shadow-map-control:
+  0 1px 2px rgba(60, 64, 67, 0.3),
+  0 1px 3px 1px rgba(60, 64, 67, 0.15);
+$focus-ring: 0 0 4px #3e7fff;

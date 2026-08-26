@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 .draggable-panel {
   background-color: #ffffff;
   height: calc(40vh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px) - 56px) !important;
@@ -10,7 +12,7 @@
   z-index: 100000000 !important;
   border-radius: 20px;
   min-height: 260px;
-  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.23);
+  box-shadow: $shadow-panel;
 }
 
 .panel-container {

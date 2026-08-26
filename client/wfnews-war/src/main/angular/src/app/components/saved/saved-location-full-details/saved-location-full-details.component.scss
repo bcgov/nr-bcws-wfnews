@@ -53,7 +53,9 @@
     width: 100%;
     border-radius: 16px;
     background: #fff;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+    // Same edge as the shared content card, so one screen has one look.
+    box-shadow: $shadow-card;
+    border: $border-card;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -382,7 +384,7 @@
   border-radius: 16px;
   border: 2px solid var(--reds-red-7, #f4cfcf);
   background: var(--reds-red-9, #fef1f2);
-  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: $shadow-card;
 
   .title {
     font-size: 22px;
@@ -418,7 +420,7 @@
   border-radius: 16px;
   border: 2px solid var(--yellows-yellow-6, #f3d999);
   background: var(--yellows-yellow-6, #fcf3d4);
-  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: $shadow-card;
 
   .title {
     font-size: 22px;

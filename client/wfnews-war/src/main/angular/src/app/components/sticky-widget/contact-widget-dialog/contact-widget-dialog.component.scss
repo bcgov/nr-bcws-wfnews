@@ -130,7 +130,7 @@
         input:focus,
         textarea:focus {
           outline: none;
-          box-shadow: 0 0 4px #3e7fff;
+          box-shadow: $focus-ring;
         }
       }
 
@@ -289,7 +289,7 @@
         input:focus,
         textarea:focus {
           outline: none;
-          box-shadow: 0 0 4px #3e7fff;
+          box-shadow: $focus-ring;
         }
       }
 
