@@ -8,6 +8,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  locationBannerAction,
+  locationBannerHeading,
+  locationCanPrompt,
+  PERMISSION_BANNER,
+} from '@app/components/common/permission-banner/permission-banner.constants';
+import {
   CapacitorService,
   LocationPermissionState,
 } from '@app/services/capacitor-service';
@@ -23,6 +29,7 @@ import { Subscription } from 'rxjs';
 })
 export class WildfiresListHeaderComponent implements OnInit, OnDestroy {
   public selectedTab = 0;
+  readonly bannerText = PERMISSION_BANNER;
   locationPermission: LocationPermissionState = 'prompt';
   private permissionSubscription: Subscription;
 
@@ -53,23 +60,15 @@ export class WildfiresListHeaderComponent implements OnInit, OnDestroy {
   }
 
   get locationBannerHeading(): string {
-    return this.locationPermission === 'services-off'
-      ? 'Location services are off'
-      : 'Location is off';
+    return locationBannerHeading(this.locationPermission);
   }
 
   get locationBannerAction(): string {
-    if (this.locationPermission === 'prompt' || this.locationPermission === 'denied-once') {
-      return 'Turn on location';
-    }
-    return this.locationPermission === 'services-off'
-      ? 'Open location settings'
-      : 'Open settings';
+    return locationBannerAction(this.locationPermission);
   }
 
   async onTurnOnLocation(): Promise<void> {
-    // A prompt still works from this state, so ask. Otherwise send them to settings.
-    if (this.locationPermission === 'prompt' || this.locationPermission === 'denied-once') {
+    if (locationCanPrompt(this.locationPermission)) {
       await this.capacitorService.requestLocationPermission();
       return;
     }

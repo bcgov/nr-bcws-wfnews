@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { PermissionBannerComponent } from './permission-banner.component';
+import { PERMISSION_BANNER } from './permission-banner.constants';
 
 const meta: Meta<PermissionBannerComponent> = {
   title: 'Banners/PermissionBanner',
@@ -10,39 +11,46 @@ const meta: Meta<PermissionBannerComponent> = {
 export default meta;
 type Story = StoryObj<PermissionBannerComponent>;
 
+const push = PERMISSION_BANNER.push;
+const location = PERMISSION_BANNER.location;
+
 export const notificationsOff: Story = {
   args: {
-    heading: 'Notifications are off',
-    message:
-      'Your saved locations cannot send you wildfire alerts until notifications are on for this app.',
-    actionLabel: 'Turn on notifications',
+    heading: push.heading,
+    message: push.message.savedLocations,
+    actionLabel: push.action.turnOn,
   },
 };
 
 export const notificationsDenied: Story = {
   args: {
-    heading: 'Notifications are off',
-    message:
-      'Your saved locations cannot send you wildfire alerts until notifications are on for this app.',
-    actionLabel: 'Open settings',
+    heading: push.heading,
+    message: push.message.savedLocations,
+    actionLabel: push.action.appSettings,
+  },
+};
+
+export const locationPrompt: Story = {
+  args: {
+    heading: location.heading.off,
+    message: location.message.reportOfFire,
+    actionLabel: location.action.turnOn,
   },
 };
 
 // Location fails two ways, and each way needs its own settings page.
 export const locationDenied: Story = {
   args: {
-    heading: 'Location is off',
-    message:
-      'This app cannot find your position until location is on for this app.',
-    actionLabel: 'Open settings',
+    heading: location.heading.off,
+    message: location.message.nearestFirst,
+    actionLabel: location.action.appSettings,
   },
 };
 
 export const locationServicesOff: Story = {
   args: {
-    heading: 'Location services are off',
-    message:
-      'Your phone has location turned off. Turn it on to find wildfires near you.',
-    actionLabel: 'Open location settings',
+    heading: location.heading.servicesOff,
+    message: location.message.nearestFirst,
+    actionLabel: location.action.locationSettings,
   },
 };

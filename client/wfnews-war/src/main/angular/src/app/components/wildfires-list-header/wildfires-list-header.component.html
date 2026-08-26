@@ -11,7 +11,7 @@
     </div>
     <permission-banner *ngIf="showLocationBanner"
         [heading]="locationBannerHeading"
-        message="These lists sort by how near a place is to you. Turn on location to see that order."
+        [message]="bannerText.location.message.nearestFirst"
         [actionLabel]="locationBannerAction"
         (action)="onTurnOnLocation()">
     </permission-banner>
@@ -39,7 +39,7 @@
   </div>
   <permission-banner *ngIf="showLocationBanner"
     [heading]="locationBannerHeading"
-    message="These lists sort by how near a place is to you. Turn on location to see that order."
+    [message]="bannerText.location.message.nearestFirst"
     [actionLabel]="locationBannerAction"
     (action)="onTurnOnLocation()">
   </permission-banner>

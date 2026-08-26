@@ -9,9 +9,9 @@
         </button>
       </div>
       <permission-banner *ngIf="showPermissionBanner"
-          heading="Notifications are off"
-          message="Your saved locations cannot send you wildfire alerts until notifications are on for this app."
-          [actionLabel]="pushPermission === 'denied' ? 'Open settings' : 'Turn on notifications'"
+          [heading]="bannerText.push.heading"
+          [message]="bannerText.push.message.savedLocations"
+          [actionLabel]="pushBannerAction"
           (action)="onTurnOnNotifications()">
       </permission-banner>
       <div class="section-card" *ngIf="!savedLocations.length" (click)="addNewLocation()">
