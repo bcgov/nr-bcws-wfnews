@@ -63,7 +63,7 @@
   h2 {
     font-size: 15px;
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 10px;
   }
 }
 
@@ -94,6 +94,13 @@
   font-size: 13px;
 }
 
+.debug-readat {
+  margin: 0 0 24px;
+  font-size: 13px;
+  color: #4f4f4f;
+  text-align: center;
+}
+
 .debug-actions {
   display: flex;
   gap: 8px;
@@ -121,13 +128,4 @@
   color: #fff;
 }
 
-.debug-close {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  background: none;
-  color: #4f4f4f;
-  font: inherit;
-  text-decoration: underline;
-  cursor: pointer;
-}
+

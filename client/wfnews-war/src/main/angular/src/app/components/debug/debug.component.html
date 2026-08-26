@@ -8,8 +8,8 @@
   <h1 class="debug-title">Diagnostics</h1>
 
   <p class="debug-note">
-    This screen is for a support call. Nothing here is sent anywhere until you
-    copy it and paste it yourself.
+    Technical information for BC Wildfire Service support. No information leaves
+    this device unless you copy it.
   </p>
 
   <section class="debug-section">
@@ -30,9 +30,6 @@
 
   <section class="debug-section">
     <h2>Notifications</h2>
-    <p class="debug-hint">
-      A push needs all three of these. Any one of them missing stops it.
-    </p>
     <div class="debug-row" *ngFor="let row of notifications">
       <span class="debug-label">{{ row.label }}</span>
       <span class="debug-value">{{ row.value }}</span>
@@ -48,11 +45,7 @@
   </section>
 
   <section class="debug-section">
-    <h2>Test 1 — the API</h2>
-    <p class="debug-hint">
-      Asks the API for one small answer and times it. This is the path that the
-      screens use. It is quick and it uses almost no data.
-    </p>
+    <h2>API test</h2>
     <button type="button" class="debug-button" (click)="testReachability()" [disabled]="testing">
       {{ testing ? 'Testing…' : 'Test the API' }}
     </button>
@@ -63,17 +56,7 @@
   </section>
 
   <section class="debug-section">
-    <h2>Test 2 — speed and lost connections</h2>
-    <p class="debug-hint">
-      Test 1 says whether the API answers. This one says <strong>how fast</strong>
-      the connection is and <strong>how many connections die</strong>. It is the
-      only way to see the path that the map and the Saved Locations use, because
-      that path is native code and no test inside the app can watch it.
-    </p>
-    <p class="debug-hint">
-      It downloads about 512 kB, so do not run it on a metered connection unless
-      you need to.
-    </p>
+    <h2>Speed test</h2>
     <button type="button" class="debug-button" (click)="testDeep()" [disabled]="deepTesting">
       {{ deepTesting ? 'Testing…' : 'Run the speed test' }}
     </button>
@@ -85,16 +68,13 @@
   </section>
 
   <div class="debug-actions">
-    <button type="button" class="debug-button" (click)="read()">Read again</button>
+    <button type="button" class="debug-button" (click)="refresh()" [disabled]="refreshing">
+      {{ refreshing ? 'Refreshing…' : 'Refresh diagnostics' }}
+    </button>
     <button type="button" class="debug-button debug-button--primary" (click)="copy()">
       {{ copied ? 'Copied' : 'Copy all' }}
     </button>
   </div>
-  <p class="debug-hint">
-    <strong>Read again</strong> takes the App, Device, Notifications and Network
-    readings once more. Use it after you change a setting on the phone and come
-    back. It does not run either test.
-  </p>
 
-  <button type="button" class="debug-close" (click)="close()">Close the diagnostics</button>
+  <p class="debug-readat" *ngIf="readAt">Read at {{ readAt }}</p>
 </div>

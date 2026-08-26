@@ -19,11 +19,34 @@ interface Row {
 /** A read that takes longer than this is worth saying out loud. */
 const SLOW_MS = 2000;
 
-/** Enough bytes to measure a speed, few enough to be fair on a metered link. */
-const DOWNLOAD_LIMIT_BYTES = 512 * 1024;
+/**
+ * The first read. On a slow link this is the whole test, and it is accurate there:
+ * when the pipe is the limit, a small read already runs at the pipe speed.
+ */
+const PROBE_BYTES = 512 * 1024;
+
+/**
+ * The second read, on a link that proved it is quick. TCP starts slow and speeds
+ * up, so a small read never reaches full speed. Measured on this device over one
+ * Wi-Fi: 512 kB reported 4 Mbit/s where 4 MB reported 27 Mbit/s.
+ */
+const FULL_BYTES = 4 * 1024 * 1024;
+
+/**
+ * Read more only when the first read was this quick. Above that speed the 4 MB
+ * read takes about ten seconds; below it a user waits minutes for a number they
+ * already have.
+ */
+const ESCALATE_UNDER_MS = 1500;
 
 /** Probes for the loss test. Ten is the plugin default and takes too long on 2G. */
 const LOSS_PROBES = 6;
+
+/** A value that has not been read yet. The row is there from the start, so the page does not jump. */
+const NOT_YET = '—';
+
+/** A read takes about 100 ms. Hold the button state long enough for a person to see it. */
+const MIN_FEEDBACK_MS = 400;
 
 /**
  * The diagnostics screen. Ten taps on the version label open it.
@@ -42,11 +65,23 @@ export class DebugComponent implements OnInit {
   public device: Row[] = [];
   public network: Row[] = [];
   public notifications: Row[] = [];
-  public reach: Row[] = [];
-  public deep: Row[] = [];
+  // The test rows exist before the test runs, so a result fills a row instead of
+  // adding one. The page keeps its shape.
+  public reach: Row[] = [
+    { label: 'API answers', value: NOT_YET },
+    { label: 'Time', value: NOT_YET },
+  ];
+  public deep: Row[] = [
+    { label: 'API answers', value: NOT_YET },
+    { label: 'Download', value: NOT_YET },
+    { label: 'Packet loss', value: NOT_YET },
+    { label: 'Connect time', value: NOT_YET },
+  ];
   public issues: string[] = [];
   public testing = false;
   public deepTesting = false;
+  public refreshing = false;
+  public readAt = '';
   public copied = false;
 
   constructor(
@@ -61,12 +96,35 @@ export class DebugComponent implements OnInit {
     await this.read();
   }
 
-  back(): void {
-    this.router.navigate([ResourcesRoutes.MORE]);
+  /** Writes a value into a row that is already on the screen. */
+  private set(rows: Row[], label: string, value: string): void {
+    const row = rows.find((r) => r.label === label);
+    if (row) row.value = value;
   }
 
-  /** Closes the screen for this session. The taps open it again. */
-  close(): void {
+  private pause(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  /** The button for this is `Refresh diagnostics`. It runs no test. */
+  async refresh(): Promise<void> {
+    this.refreshing = true;
+    const started = Date.now();
+    try {
+      await this.read();
+    } finally {
+      const left = MIN_FEEDBACK_MS - (Date.now() - started);
+      if (left > 0) await this.pause(left);
+      this.refreshing = false;
+    }
+  }
+
+  /**
+   * Exit leaves and locks. There is one way out on purpose: a second button that
+   * also left, but did not lock, was the same action with a hidden difference.
+   * The ten taps open the screen again.
+   */
+  back(): void {
     this.access.lock();
     this.router.navigate([ResourcesRoutes.MORE]);
   }
@@ -93,6 +151,7 @@ export class DebugComponent implements OnInit {
     this.device = await this.readDevice();
     this.notifications = await this.readNotifications();
     this.network = await this.readNetwork();
+    this.readAt = new Date().toLocaleTimeString();
   }
 
   private hostOf(url: string): string {
@@ -103,11 +162,48 @@ export class DebugComponent implements OnInit {
     }
   }
 
-  /** The map service, which needs no key and returns a large body. */
+  /**
+   * The map service, which needs no key and returns a body of several megabytes.
+   *
+   * The cache buster is not optional. This endpoint sends `stale-while-revalidate`,
+   * so a repeat read comes from the cache and the test reports a speed the network
+   * never did: 5 MB in 57 ms, which is 735 Mbit/s over Wi-Fi.
+   */
   private capabilitiesUrl(): string {
     // The rest of the code reaches mapServices this way: it is not on the typed config.
     const base = this.appConfig.getConfig()['mapServices']?.['openmapsBaseUrl'];
-    return base ? `${base}?service=WMS&request=GetCapabilities` : '';
+    if (!base) return '';
+    return `${base}?service=WMS&request=GetCapabilities&cacheBust=${Date.now()}`;
+  }
+
+  /** The host, for a TCP probe that no cache can answer. */
+  private apiHost(): string {
+    return this.hostOf(this.appConfig.getConfig().rest['wfnews']);
+  }
+
+  /**
+   * Reads once, and reads again only when the first read was quick. A timed-out
+   * read reports zero bytes, so the big read is never the only read.
+   */
+  private async measureDownload(): Promise<string> {
+    const probe = await NetworkDiagnostics.testDownloadSpeed({
+      url: this.capabilitiesUrl(),
+      maxBytes: PROBE_BYTES,
+      timeoutMs: 30000,
+    });
+    if (!probe.ok) return 'failed';
+
+    const enough = probe.durationMs <= ESCALATE_UNDER_MS;
+    const best = enough
+      ? await NetworkDiagnostics.testDownloadSpeed({
+          url: this.capabilitiesUrl(),
+          maxBytes: FULL_BYTES,
+          timeoutMs: 30000,
+        })
+      : probe;
+
+    const use = best.ok ? best : probe;
+    return `${use.mbps.toFixed(2)} Mbit/s (${Math.round(use.bytesDownloaded / 1024)} kB)`;
   }
 
   private async readDevice(): Promise<Row[]> {
@@ -138,25 +234,22 @@ export class DebugComponent implements OnInit {
     try {
       const state = await PushNotifications.checkPermissions();
       rows.push({ label: 'Permission', value: state.receive });
-    } catch (error) {
-      rows.push({ label: 'Permission', value: `could not be read: ${error}` });
+    } catch {
+      rows.push({ label: 'Permission', value: 'unknown' });
     }
 
     try {
       const enabled = await NotificationSettings.areEnabled();
-      rows.push({
-        label: 'Turned on for this app',
-        value: enabled.enabled ? 'yes' : 'no — the user turned them off in Settings',
-      });
+      rows.push({ label: 'Turned on', value: enabled.enabled ? 'yes' : 'no' });
     } catch {
       // The Android half is the only half. iOS and web reject, and that is expected.
-      rows.push({ label: 'Turned on for this app', value: 'only Android can answer this' });
+      rows.push({ label: 'Turned on', value: 'Android only' });
     }
 
     const token = this.capacitorService.notificationToken;
     rows.push({
       label: 'Device Token',
-      value: token ? `held, ends ${String(token).slice(-8)}` : 'none — no push can arrive',
+      value: token ? `…${String(token).slice(-8)}` : 'none',
     });
     return rows;
   }
@@ -173,24 +266,24 @@ export class DebugComponent implements OnInit {
       const status = await NetworkDiagnostics.getNetworkStatus();
       rows.push({ label: 'Connected', value: status.connected ? 'yes' : 'no' });
       rows.push({ label: 'Connection', value: status.connectionType });
-      rows.push({
-        label: 'Reaches the internet',
-        value: status.internetReachable ? 'yes, validated by the OS' : 'no',
-      });
-      if (status.captivePortal) rows.push({ label: 'Captive portal', value: 'yes — a sign-in page is in the way' });
-      if (status.expensive) rows.push({ label: 'Metered', value: 'yes — the user pays for these bytes' });
-      if (status.constrained) rows.push({ label: 'Low data mode', value: 'on' });
-    } catch (error) {
-      rows.push({ label: 'Native status', value: `could not be read: ${error}` });
+      rows.push({ label: 'Internet reachable', value: status.internetReachable ? 'yes' : 'no' });
+      rows.push({ label: 'Captive portal', value: status.captivePortal ? 'yes' : 'no' });
+      rows.push({ label: 'Metered', value: status.expensive ? 'yes' : 'no' });
+      rows.push({ label: 'Low data mode', value: status.constrained ? 'on' : 'off' });
+    } catch {
+      rows.push({ label: 'Connected', value: 'unknown' });
     }
 
+    rows.push({ label: 'Browser online', value: navigator.onLine ? 'yes' : 'no' });
+
+    // Labelled "estimated" on purpose. On Android these follow the radio and not
+    // the path, so they can read 4g on a link that takes two seconds for one read.
+    // Test 2 gives the measured figure.
     const estimate = (navigator as any).connection;
-    rows.push({ label: 'Browser says online', value: navigator.onLine ? 'yes' : 'no' });
     if (estimate) {
-      rows.push({
-        label: 'WebView estimate',
-        value: `${estimate.effectiveType}, ${estimate.downlink} Mbit/s, ${estimate.rtt} ms — follows the radio, not the path`,
-      });
+      rows.push({ label: 'Estimated type', value: String(estimate.effectiveType) });
+      rows.push({ label: 'Estimated speed', value: `${estimate.downlink} Mbit/s` });
+      rows.push({ label: 'Estimated round trip', value: `${estimate.rtt} ms` });
       rows.push({ label: 'Data saver', value: estimate.saveData ? 'on' : 'off' });
     }
     return rows;
@@ -199,21 +292,17 @@ export class DebugComponent implements OnInit {
   /** One small read of the API through the WebView, timed. This carries the key. */
   async testReachability(): Promise<void> {
     this.testing = true;
-    this.reach = [];
+    this.set(this.reach, 'API answers', NOT_YET);
+    this.set(this.reach, 'Time', NOT_YET);
     const started = Date.now();
     try {
       await this.commonUtilityService.pingService().toPromise();
       const ms = Date.now() - started;
-      this.reach = [
-        { label: 'API reachable', value: 'yes' },
-        { label: 'Time', value: `${ms} ms${ms > SLOW_MS ? ' — slow' : ''}` },
-      ];
+      this.set(this.reach, 'API answers', 'yes');
+      this.set(this.reach, 'Time', `${ms} ms${ms > SLOW_MS ? ' (slow)' : ''}`);
     } catch (error) {
-      this.reach = [
-        { label: 'API reachable', value: 'no' },
-        { label: 'Time', value: `${Date.now() - started} ms` },
-        { label: 'Error', value: String(error?.status ?? error).slice(0, 120) },
-      ];
+      this.set(this.reach, 'API answers', `no (${error?.status ?? 'error'})`);
+      this.set(this.reach, 'Time', `${Date.now() - started} ms`);
     } finally {
       this.testing = false;
       this.network = await this.readNetwork();
@@ -228,68 +317,40 @@ export class DebugComponent implements OnInit {
    */
   async testDeep(): Promise<void> {
     this.deepTesting = true;
-    this.deep = [];
+    for (const row of this.deep) row.value = NOT_YET;
     this.issues = [];
     const api = this.appConfig.getConfig().rest['wfnews'];
-    const capabilities = this.capabilitiesUrl();
 
     try {
-      const result = await NetworkDiagnostics.runDiagnostics({
-        // Only the API. The native path carries no key, so a 401 here is the
-        // answer we want: the host was reached. The map service is not probed with
-        // HEAD, because GeoServer answers 404 to a HEAD on GetCapabilities. The
-        // download and the loss test below already prove that host answers.
-        urls: [{ url: api, method: 'HEAD', timeoutMs: 15000 }],
-        ...(capabilities
-          ? {
-              download: { url: capabilities, maxBytes: DOWNLOAD_LIMIT_BYTES, timeoutMs: 30000 },
-              packetLoss: { mode: 'http', url: capabilities, count: LOSS_PROBES, timeoutMs: 5000 },
-            }
-          : {}),
+      // A HEAD on the API. The native path carries no key, so a 401 is the answer
+      // we want: the host was reached.
+      const url = await NetworkDiagnostics.testUrl({ url: api, method: 'HEAD', timeoutMs: 15000 });
+      this.set(
+        this.deep,
+        'API answers',
+        url.reachable ? `${url.statusCode ?? 'yes'} in ${url.durationMs} ms` : 'no answer',
+      );
+
+      this.set(this.deep, 'Download', await this.measureDownload());
+
+      // A TCP probe, not an HTTP one. An HTTP probe repeats one URL, and after the
+      // first answer the cache serves the rest, which makes the loss and the time
+      // meaningless. Opening a socket cannot be cached.
+      const loss = await NetworkDiagnostics.testPacketLoss({
+        mode: 'tcp',
+        host: this.apiHost(),
+        port: 443,
+        count: LOSS_PROBES,
+        timeoutMs: 5000,
       });
-
-      const rows: Row[] = [];
-      for (const url of result.urls || []) {
-        rows.push({
-          label: `Native reach ${this.hostOf(url.url)}`,
-          // A 401 is an answer. The server was reached and it refused, which is
-          // not the same as a server that could not be reached at all.
-          value: url.reachable
-            ? `answered ${url.statusCode ?? ''} in ${url.durationMs} ms`
-            : `no answer — ${url.errorCode || url.errorMessage || 'unknown'}`,
-        });
-      }
-
-      if (result.download) {
-        const d = result.download;
-        rows.push({
-          label: 'Download',
-          value: d.ok
-            ? `${Math.round(d.bytesDownloaded / 1024)} kB in ${d.durationMs} ms — ${d.mbps.toFixed(2)} Mbit/s`
-            : `failed — ${d.errorCode || d.errorMessage || 'unknown'}`,
-        });
-      }
-
-      if (result.packetLoss) {
-        const p = result.packetLoss;
-        rows.push({
-          label: 'Packet loss',
-          value:
-            `${p.lossPercent}% (${p.lost} of ${p.sent} lost)` +
-            (p.averageLatencyMs !== undefined ? `, average ${Math.round(p.averageLatencyMs)} ms` : ''),
-        });
-      }
-
-      this.deep = rows;
-      // A 401 from the API is the expected answer here, because the native test
-      // sends no key. Reporting it as a fault would teach a support person to
-      // ignore this list, and then it is worth nothing when it is right.
-      const expected401 = (result.urls || []).some((u) => u.url === api && u.statusCode === 401);
-      this.issues = (result.issues || []).filter(
-        (issue) => !(expected401 && issue.includes(api)),
+      this.set(this.deep, 'Packet loss', `${loss.lossPercent}% (${loss.lost} of ${loss.sent})`);
+      this.set(
+        this.deep,
+        'Connect time',
+        loss.averageLatencyMs !== undefined ? `${Math.round(loss.averageLatencyMs)} ms` : NOT_YET,
       );
     } catch (error) {
-      this.deep = [{ label: 'Native test', value: `failed: ${error}` }];
+      this.set(this.deep, 'API answers', `test failed: ${error}`);
     } finally {
       this.deepTesting = false;
       this.network = await this.readNetwork();
