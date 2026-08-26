@@ -42,6 +42,24 @@ const ESCALATE_UNDER_MS = 1500;
 /** Probes for the loss test. Ten is the plugin default and takes too long on 2G. */
 const LOSS_PROBES = 6;
 
+/** The work in one processor run. About 40 ms on a new phone, about 400 ms on an old one. */
+const CPU_ITERATIONS = 3000000;
+
+/** Processor runs. One run alone reports the core that the scheduler gave it. */
+const CPU_RUNS = 3;
+
+/**
+ * A fixed canvas and a fixed load, so two devices report numbers that compare.
+ * The load must stay above the cost of the read that times it: on a Pixel XL the
+ * read alone is about 3 ms, and this load is about 16 ms.
+ */
+const BENCH_SIZE = 512;
+const DRAWS_PER_FRAME = 16;
+
+/** Frames in the graphics test, and the first frames that hold the shader compile. */
+const FRAME_COUNT = 24;
+const WARMUP_FRAMES = 6;
+
 /** A value that has not been read yet. The row is there from the start, so the page does not jump. */
 const NOT_YET = '—';
 
@@ -77,8 +95,15 @@ export class DebugComponent implements OnInit {
     { label: 'Packet loss', value: NOT_YET },
     { label: 'Connect time', value: NOT_YET },
   ];
+  public graphics: Row[] = [];
+  public graphicsIssue = '';
+  public speed: Row[] = [
+    { label: 'Processor', value: NOT_YET },
+    { label: 'Graphics', value: NOT_YET },
+  ];
   public issues: string[] = [];
   public testing = false;
+  public speedTesting = false;
   public deepTesting = false;
   public refreshing = false;
   public readAt = '';
@@ -149,6 +174,7 @@ export class DebugComponent implements OnInit {
     ];
 
     this.device = await this.readDevice();
+    this.graphics = this.readGraphics();
     this.notifications = await this.readNotifications();
     this.network = await this.readNetwork();
     this.readAt = new Date().toLocaleTimeString();
@@ -211,13 +237,34 @@ export class DebugComponent implements OnInit {
       const info = await Device.getInfo();
       const id = await Device.getId();
       const permission = await this.capacitorService.refreshLocationPermission();
-      return [
+      const rows: Row[] = [
         { label: 'Model', value: `${info.manufacturer || ''} ${info.model || ''}`.trim() },
         { label: 'Platform', value: `${info.platform} ${info.osVersion || ''}`.trim() },
         { label: 'WebView', value: info.webViewVersion || 'unknown' },
-        { label: 'Device id', value: id.identifier },
-        { label: 'Location permission', value: permission },
       ];
+
+      if (info.androidSDKVersion) {
+        rows.push({ label: 'Android level', value: String(info.androidSDKVersion) });
+      }
+      if (info.isVirtual) rows.push({ label: 'Emulator', value: 'yes' });
+
+      rows.push({ label: 'Processor cores', value: String(navigator.hardwareConcurrency || 'unknown') });
+      rows.push({ label: 'Memory', value: this.memoryText() });
+      rows.push({ label: 'Screen', value: this.screenText() });
+
+      if (info.memUsed) {
+        rows.push({ label: 'App memory', value: `${Math.round(info.memUsed / 1048576)} MB` });
+      }
+      // The WebView stops the app when the heap reaches this. A small limit and a
+      // large Payload give the white screen that no error explains.
+      const limit = (performance as any).memory?.jsHeapSizeLimit;
+      if (limit) {
+        rows.push({ label: 'Memory limit', value: `${Math.round(limit / 1048576)} MB` });
+      }
+
+      rows.push({ label: 'Device id', value: id.identifier });
+      rows.push({ label: 'Location permission', value: permission });
+      return rows;
     } catch (error) {
       return [{ label: 'Device', value: `could not be read: ${error}` }];
     }
@@ -357,20 +404,195 @@ export class DebugComponent implements OnInit {
     }
   }
 
+  /**
+   * Chromium rounds this down to a power of two and stops at 8, so 8 means
+   * "8 or more". iOS reports nothing.
+   */
+  private memoryText(): string {
+    const gb = (navigator as any).deviceMemory;
+    if (!gb) return 'not reported';
+    return gb >= 8 ? '8 GB or more' : `about ${gb} GB`;
+  }
+
+  /** The pixels the GPU paints for one frame. This limits the map more than the GPU name does. */
+  private screenText(): string {
+    const ratio = window.devicePixelRatio || 1;
+    return `${Math.round(screen.width * ratio)} × ${Math.round(screen.height * ratio)} at ${ratio}×`;
+  }
+
+  /**
+   * The Active Wildfire Map draws its basemap with WebGL. No WebGL means no
+   * basemap, and software rendering means a map that a user watches redraw.
+   */
+  private readGraphics(): Row[] {
+    this.graphicsIssue = '';
+    const canvas = document.createElement('canvas');
+    const gl: WebGLRenderingContext =
+      (canvas.getContext('webgl2') as any) || (canvas.getContext('webgl') as any);
+    if (!gl) {
+      this.graphicsIssue = 'This device gives no WebGL. The map cannot draw its basemap.';
+      return [{ label: 'WebGL', value: 'none' }];
+    }
+
+    const two = (window as any).WebGL2RenderingContext
+      ? gl instanceof (window as any).WebGL2RenderingContext
+      : false;
+    // Chromium can refuse this extension. Then the name is hidden, and no test
+    // here can tell a GPU from a fallback.
+    const names = gl.getExtension('WEBGL_debug_renderer_info');
+    const renderer = names ? String(gl.getParameter(names.UNMASKED_RENDERER_WEBGL)) : 'hidden';
+
+    const rows: Row[] = [
+      { label: 'WebGL', value: two ? 'WebGL 2' : 'WebGL 1' },
+      { label: 'Renderer', value: renderer },
+      { label: 'Driver', value: String(gl.getParameter(gl.VERSION)) },
+      { label: 'Largest texture', value: `${gl.getParameter(gl.MAX_TEXTURE_SIZE)} px` },
+    ];
+
+    // Chromium draws with the processor when it cannot use the GPU. The name is
+    // the only signal, and it is the most important line on this screen.
+    if (/swiftshader|llvmpipe|software/i.test(renderer)) {
+      this.graphicsIssue = 'This device draws with the processor, not with the GPU. The map will be slow.';
+    }
+
+    gl.getExtension('WEBGL_lose_context')?.loseContext();
+    return rows;
+  }
+
+  private median(values: number[]): number {
+    const sorted = [...values].sort((a, b) => a - b);
+    return sorted[Math.floor(sorted.length / 2)];
+  }
+
+  /** Fixed work, timed. The result is read, or the engine removes the loop. */
+  private cpuRun(): number {
+    const started = performance.now();
+    let total = 0;
+    for (let i = 1; i <= CPU_ITERATIONS; i++) total += Math.sqrt(i) * Math.sin(i);
+    const ms = performance.now() - started;
+    if (!isFinite(total)) console.log(total);
+    return ms;
+  }
+
+  /**
+   * Two numbers for the device itself. Both tests spend what they measure, so a
+   * button starts them. A number means something only next to a Baseline.
+   */
+  async testSpeed(): Promise<void> {
+    this.speedTesting = true;
+    for (const row of this.speed) row.value = NOT_YET;
+    try {
+      const runs: number[] = [];
+      for (let i = 0; i < CPU_RUNS; i++) {
+        // The loop blocks the screen. Give the page a turn between the runs.
+        await this.pause(0);
+        runs.push(this.cpuRun());
+      }
+      this.set(this.speed, 'Processor', `${Math.round(this.median(runs))} ms`);
+
+      const frame = await this.measureFrame();
+      this.set(
+        this.speed,
+        'Graphics',
+        frame === null ? 'no WebGL' : `${frame.toFixed(1)} ms for each frame`,
+      );
+    } finally {
+      this.speedTesting = false;
+    }
+  }
+
+  /**
+   * Draws a fixed load, then reads one pixel back. The read is the timer: it waits
+   * for the GPU. `finish` does not wait in this WebView. Measured on a Pixel XL,
+   * `finish` reported 0.4 ms for every load, and the read reported 6 ms and 58 ms
+   * for loads that differed by 16 times.
+   */
+  private measureFrame(): Promise<number | null> {
+    const canvas = document.createElement('canvas');
+    canvas.width = BENCH_SIZE;
+    canvas.height = BENCH_SIZE;
+    const gl = canvas.getContext('webgl') as WebGLRenderingContext;
+    if (!gl) return Promise.resolve(null);
+
+    const vertex = 'attribute vec2 p; void main() { gl_Position = vec4(p, 0.0, 1.0); }';
+    // The loop is the load. GLSL ES 1.0 needs a constant bound, and the uniform
+    // keeps the driver from answering with the frame it drew before.
+    const fragment = `
+      precision mediump float;
+      uniform float seed;
+      void main() {
+        float v = seed;
+        for (int i = 0; i < 60; i++) v = fract(sin(v * 12.9898 + float(i)) * 43758.5453);
+        gl_FragColor = vec4(v, v, v, 1.0);
+      }`;
+
+    const compile = (type: number, source: string): WebGLShader => {
+      const shader = gl.createShader(type);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      return shader;
+    };
+
+    const program = gl.createProgram();
+    gl.attachShader(program, compile(gl.VERTEX_SHADER, vertex));
+    gl.attachShader(program, compile(gl.FRAGMENT_SHADER, fragment));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return Promise.resolve(null);
+    gl.useProgram(program);
+
+    // One triangle that covers the canvas.
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const position = gl.getAttribLocation(program, 'p');
+    gl.enableVertexAttribArray(position);
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+    const seed = gl.getUniformLocation(program, 'seed');
+
+    const pixel = new Uint8Array(4);
+    return new Promise((resolve) => {
+      const times: number[] = [];
+      let frame = 0;
+      const draw = () => {
+        const started = performance.now();
+        gl.uniform1f(seed, frame / FRAME_COUNT);
+        for (let i = 0; i < DRAWS_PER_FRAME; i++) gl.drawArrays(gl.TRIANGLES, 0, 3);
+        gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
+        if (frame >= WARMUP_FRAMES) times.push(performance.now() - started);
+        frame++;
+        if (frame < FRAME_COUNT) {
+          requestAnimationFrame(draw);
+        } else {
+          gl.getExtension('WEBGL_lose_context')?.loseContext();
+          resolve(times.length ? this.median(times) : null);
+        }
+      };
+      requestAnimationFrame(draw);
+    });
+  }
+
   /** All of it as text, so a user can paste it into a support message. */
   async copy(): Promise<void> {
     const sections: Array<[string, Row[]]> = [
       ['App', this.app],
       ['Device', this.device],
+      ['Graphics', this.graphics],
       ['Network', this.network],
       ['Reachability', this.reach],
       ['Native test', this.deep],
+      ['Device speed', this.speed],
     ];
 
     let block = sections
       .filter(([, rows]) => rows.length)
       .map(([title, rows]) => `${title}\n` + rows.map((r) => `  ${r.label}: ${r.value}`).join('\n'))
       .join('\n\n');
+
+    if (this.graphicsIssue) {
+      block += `
+
+Graphics issue
+  ${this.graphicsIssue}`;
+    }
 
     if (this.issues.length) {
       block += `\n\nIssues\n` + this.issues.map((i) => `  ${i}`).join('\n');
