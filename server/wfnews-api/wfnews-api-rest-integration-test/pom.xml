@@ -98,7 +98,6 @@
 		<dependency>
 			<groupId>ca.bc.gov.nrs.wfone.common</groupId>
 			<artifactId>wfone-common-webade-oauth2-test</artifactId>
-			<version>1.3.0</version>
 			<scope>test</scope>
 		</dependency>
 		
