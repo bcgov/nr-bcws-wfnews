@@ -31,6 +31,13 @@ export interface layerSettings {
   drivebcBaseUrl: string;
   wfnewsUrl: string;
   evacOrdersURL: string;
+  bansPgUrl: string;
+  bansCaribooUrl: string;
+  bansKamloopsUrl: string;
+  bansNorthwestUrl: string;
+  bansSoutheastUrl: string;
+  bansCoastalUrl: string;
+  bansRestrictionsUrl: string;
 }
 export function LayerConfig(
   mapServices: MapServices,
@@ -42,7 +49,14 @@ export function LayerConfig(
     drivebcBaseUrl: mapServices['drivebcBaseUrl'],
     services6BaseUrl: mapServices['services6BaseUrl'],
     wfnewsUrl: mapServices['wfnews'],
-    evacOrdersURL: appConfigService.getConfig().externalAppConfig['AGOLevacOrders'].toString()
+    evacOrdersURL: appConfigService.getConfig().externalAppConfig['AGOLevacOrders'].toString(),
+    bansPgUrl: appConfigService.getConfig().externalAppConfig['bansPgUrl'].toString(),
+    bansCaribooUrl: appConfigService.getConfig().externalAppConfig['bansCaribooUrl'].toString(),
+    bansKamloopsUrl: appConfigService.getConfig().externalAppConfig['bansKamloopsUrl'].toString(),
+    bansNorthwestUrl: appConfigService.getConfig().externalAppConfig['bansNorthwestUrl'].toString(),
+    bansSoutheastUrl: appConfigService.getConfig().externalAppConfig['bansSoutheastUrl'].toString(),
+    bansCoastalUrl: appConfigService.getConfig().externalAppConfig['bansCoastalUrl'].toString(),
+    bansRestrictionsUrl: appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString(),
   };
 
   return [

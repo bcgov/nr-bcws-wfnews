@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DISCLAIMER_TEXT } from '@app/constants';
+import { AppConfigService } from '@wf1/core-ui';
 
 export class DialogData {
   public title: string;
@@ -15,11 +16,14 @@ export class DialogData {
 export class DisclaimerDialogComponent {
   dontShowAgain = false;
 
-  disclaimerText = DISCLAIMER_TEXT.BCWS_GENERAL_DISCLAIMER;
+  disclaimerText = DISCLAIMER_TEXT.getBcwsGeneralDisclaimer(
+    this.appConfigService.getConfig().externalAppConfig,
+  );
 
   constructor(
     public dialogRef: MatDialogRef<DisclaimerDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private appConfigService: AppConfigService,
   ) {}
 
   cancel() {

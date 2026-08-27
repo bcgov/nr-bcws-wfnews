@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RelatedTopicsLink } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'fire-danger-details',
@@ -11,11 +12,11 @@ export class FireDangerDetailsComponent {
   relatedTopicLinks: RelatedTopicsLink[] = [
     {
       text: 'Fire Danger Rating',
-      url: 'https://www2.gov.bc.ca/gov/content?id=3DDDD01FBF674A619B3178603539E493'
+      url: this.appConfigService.getConfig().externalAppConfig['fireDangerUrl'].toString()
     },
     {
       text: 'Current Fire Bans and Restrictions',
-      url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions'
+      url: this.appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString()
     },
     {
       text: 'Fire Danger Class',
@@ -23,7 +24,9 @@ export class FireDangerDetailsComponent {
     },
     {
       text: 'High Risk Activities',
-      url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/for-industry-commercial-operators/high-risk-activities'
+      url: this.appConfigService.getConfig().externalAppConfig['highRiskActvitiesUrl'].toString()
     },
   ];
+
+  constructor(private appConfigService: AppConfigService) {}
 }

@@ -8,15 +8,10 @@ import ca.bc.gov.nrs.wfnews.api.model.v1.SituationReportList;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import ca.bc.gov.nrs.common.rest.resource.PagedResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 
 @XmlRootElement(namespace = ResourceTypes.NAMESPACE, name = ResourceTypes.SITUATION_REPORT_LIST_NAME)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonTypeName(ResourceTypes.SITUATION_REPORT_LIST)
 public class SituationReportListResource extends PagedResource implements SituationReportList<SituationReportResource> {
 	@Serial
 	private static final long serialVersionUID = 1L;

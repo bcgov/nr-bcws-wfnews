@@ -17,6 +17,11 @@ export class IncidentOverviewPanel {
   public Editor = Editor;
   public isMobileView = isMobileView;
   public getResponseTypeDescription = getResponseTypeDescription;
+  wildfireResponseUrl = this.appConfigService.getConfig().externalAppConfig['wildfireResponseUrl'].toString();
+  wildfireCrewsUrl = this.appConfigService.getConfig().externalAppConfig['wildfireCrewsUrl'].toString();
+  wildfireAviationUrl = this.appConfigService.getConfig().externalAppConfig['wildfireAviationUrl'].toString();
+  incidentManagementUrl = this.appConfigService.getConfig().externalAppConfig['incidentManagementTeamsUrl'].toString();
+  heavyEquipmentUrl = this.appConfigService.getConfig().externalAppConfig['heavyEquipmentUrl'].toString();
 
   constructor(
     private sanitizer: DomSanitizer,

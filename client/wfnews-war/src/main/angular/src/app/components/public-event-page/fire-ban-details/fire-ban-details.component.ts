@@ -41,17 +41,17 @@ export class FireBanDetailsComponent implements OnInit {
   };
 
   relatedTopicLinks: RelatedTopicsLink[] = [
-    { 
-      text: 'Current Fire Bans and Restrictions', 
-      url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions' 
+    {
+      text: 'Current Fire Bans and Restrictions',
+      url: this.appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString()
     },
-    { 
-      text: 'Forest Use Restrictions', 
-      url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions/forest-use-restrictions' 
+    {
+      text: 'Forest Use Restrictions',
+      url: this.appConfigService.getConfig().externalAppConfig['bansForestUseUrl'].toString()
     },
-    { 
-      text: 'Open Burning', 
-      url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions/open-burning' 
+    {
+      text: 'Open Burning',
+      url: this.appConfigService.getConfig().externalAppConfig['bansOpenBurningUrl'].toString()
     },
   ];
 
