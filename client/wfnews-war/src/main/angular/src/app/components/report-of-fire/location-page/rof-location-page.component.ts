@@ -91,7 +91,10 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   }
 
   get locationBannerAction(): string {
-    return locationBannerAction(this.locationPermission);
+    return locationBannerAction(
+      this.locationPermission,
+      this.capacitorService.isIOSPlatform,
+    );
   }
 
   async onTurnOnLocation(): Promise<void> {

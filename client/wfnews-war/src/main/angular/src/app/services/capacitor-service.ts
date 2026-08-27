@@ -489,18 +489,14 @@ export class CapacitorService {
   }
 
   /**
-   * Location fails two ways, and each way has its own page. Sending a user to the
-   * application page when the phone setting is the problem makes the app look broken.
+   * Location fails two ways, and each way has its own page. iOS is the exception:
+   * Apple supports the app page only, and the private URL for the phone location page
+   * opens nothing and gives no message.
    */
   async openLocationSettings(state: LocationPermissionState): Promise<void> {
     try {
       if (this.isIOSPlatform) {
-        await NativeSettings.openIOS({
-          option:
-            state === 'services-off'
-              ? IOSSettings.LocationServices
-              : IOSSettings.App,
-        });
+        await NativeSettings.openIOS({ option: IOSSettings.App });
       } else if (this.isAndroidPlatform) {
         await NativeSettings.openAndroid({
           option:

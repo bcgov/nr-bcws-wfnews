@@ -474,11 +474,6 @@ table tr:nth-child(even) td {
       overflow-x: hidden;
       overflow-y: visible;
       line-height: 18px;
-
-      &.icon-button-wrapper {
-        display: flex;
-        justify-content: center;
-      }
     }
   }
 

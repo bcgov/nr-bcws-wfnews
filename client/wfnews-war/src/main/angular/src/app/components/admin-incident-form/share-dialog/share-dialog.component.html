@@ -7,9 +7,9 @@
     {{data?.name}}
   </div>
   <div class="button-row">
-    <wfnews-button variant="secondary" iconPath="/assets/images/svg-icons/ph_link.svg"
+    <wfnews-button variant="secondary" [fullWidth]="true" iconPath="/assets/images/svg-icons/ph_link.svg"
       label="Copy Link" (buttonClicked)="copyLink()"></wfnews-button>
-    <wfnews-button variant="secondary" iconPath="/assets/images/svg-icons/carbon_email.svg"
+    <wfnews-button variant="secondary" [fullWidth]="true" iconPath="/assets/images/svg-icons/carbon_email.svg"
       label="Email" (buttonClicked)="email()"></wfnews-button>
   </div>
   <div class="link-copied-block" *ngIf="isLinkCopied">

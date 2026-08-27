@@ -46,12 +46,18 @@ export function locationBannerHeading(state: LocationPermissionState): string {
     : PERMISSION_BANNER.location.heading.off;
 }
 
-/** Location fails two ways, and each way has its own settings page. */
-export function locationBannerAction(state: LocationPermissionState): string {
+/**
+ * Location fails two ways, and each way has its own settings page. iOS has one page
+ * for both, so its word must not promise the phone location page.
+ */
+export function locationBannerAction(
+  state: LocationPermissionState,
+  isIOSPlatform = false,
+): string {
   if (locationCanPrompt(state)) {
     return PERMISSION_BANNER.location.action.turnOn;
   }
-  return state === 'services-off'
+  return state === 'services-off' && !isIOSPlatform
     ? PERMISSION_BANNER.location.action.locationSettings
     : PERMISSION_BANNER.location.action.appSettings;
 }

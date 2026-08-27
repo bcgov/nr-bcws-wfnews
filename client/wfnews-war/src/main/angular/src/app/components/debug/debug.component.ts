@@ -249,7 +249,10 @@ export class DebugComponent implements OnInit {
       if (info.isVirtual) rows.push({ label: 'Emulator', value: 'yes' });
 
       rows.push({ label: 'Processor cores', value: String(navigator.hardwareConcurrency || 'unknown') });
-      rows.push({ label: 'Memory', value: this.memoryText() });
+      // navigator.deviceMemory is Chromium only, so on iOS the row can only be empty.
+      if (!this.capacitorService.isIOSPlatform) {
+        rows.push({ label: 'Memory', value: this.memoryText() });
+      }
       rows.push({ label: 'Screen', value: this.screenText() });
 
       if (info.memUsed) {
@@ -285,12 +288,15 @@ export class DebugComponent implements OnInit {
       rows.push({ label: 'Permission', value: 'unknown' });
     }
 
-    try {
-      const enabled = await NotificationSettings.areEnabled();
-      rows.push({ label: 'Turned on', value: enabled.enabled ? 'yes' : 'no' });
-    } catch {
-      // The Android half is the only half. iOS and web reject, and that is expected.
-      rows.push({ label: 'Turned on', value: 'Android only' });
+    // The plugin has an Android half only. On iOS the permission row above already
+    // holds the true answer, because iOS reads it from the notification centre.
+    if (!this.capacitorService.isIOSPlatform) {
+      try {
+        const enabled = await NotificationSettings.areEnabled();
+        rows.push({ label: 'Turned on', value: enabled.enabled ? 'yes' : 'no' });
+      } catch {
+        rows.push({ label: 'Turned on', value: 'unknown' });
+      }
     }
 
     const token = this.capacitorService.notificationToken;
@@ -313,8 +319,12 @@ export class DebugComponent implements OnInit {
       const status = await NetworkDiagnostics.getNetworkStatus();
       rows.push({ label: 'Connected', value: status.connected ? 'yes' : 'no' });
       rows.push({ label: 'Connection', value: status.connectionType });
-      rows.push({ label: 'Internet reachable', value: status.internetReachable ? 'yes' : 'no' });
-      rows.push({ label: 'Captive portal', value: status.captivePortal ? 'yes' : 'no' });
+      // iOS copies `connected` into internetReachable, and it sends no captivePortal
+      // at all. Both rows would then answer without a look.
+      if (!this.capacitorService.isIOSPlatform) {
+        rows.push({ label: 'Internet reachable', value: status.internetReachable ? 'yes' : 'no' });
+        rows.push({ label: 'Captive portal', value: status.captivePortal ? 'yes' : 'no' });
+      }
       rows.push({ label: 'Metered', value: status.expensive ? 'yes' : 'no' });
       rows.push({ label: 'Low data mode', value: status.constrained ? 'on' : 'off' });
     } catch {
@@ -323,9 +333,9 @@ export class DebugComponent implements OnInit {
 
     rows.push({ label: 'Browser online', value: navigator.onLine ? 'yes' : 'no' });
 
-    // Labelled "estimated" on purpose. On Android these follow the radio and not
-    // the path, so they can read 4g on a link that takes two seconds for one read.
-    // Test 2 gives the measured figure.
+    // Labelled "estimated" on purpose. On Android these follow the radio and not the
+    // path, so they can read 4g on a link that takes two seconds for one read. Test 2
+    // gives the measured figure, and iOS gives none of it: the API is Chromium only.
     const estimate = (navigator as any).connection;
     if (estimate) {
       rows.push({ label: 'Estimated type', value: String(estimate.effectiveType) });
@@ -406,7 +416,7 @@ export class DebugComponent implements OnInit {
 
   /**
    * Chromium rounds this down to a power of two and stops at 8, so 8 means
-   * "8 or more". iOS reports nothing.
+   * "8 or more".
    */
   private memoryText(): string {
     const gb = (navigator as any).deviceMemory;
@@ -444,7 +454,10 @@ export class DebugComponent implements OnInit {
 
     const rows: Row[] = [
       { label: 'WebGL', value: two ? 'WebGL 2' : 'WebGL 1' },
-      { label: 'Renderer', value: renderer },
+      // WebKit always refuses the extension, so on iOS the row can only say "hidden".
+      ...(this.capacitorService.isIOSPlatform
+        ? []
+        : [{ label: 'Renderer', value: renderer }]),
       { label: 'Driver', value: String(gl.getParameter(gl.VERSION)) },
       { label: 'Largest texture', value: `${gl.getParameter(gl.MAX_TEXTURE_SIZE)} px` },
     ];
