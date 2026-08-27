@@ -43,6 +43,9 @@ npm run test:permissions      # the location permission tests only
 npm run test:screens          # go to each screen and take a screenshot
 ```
 
+From the Angular folder above, `npm run e2e:setup` does the install once, and
+`npm run e2e` runs everything.
+
 The app must already be installed. To build and install it, see section 6 of
 [CONTEXT.md](../../../../../CONTEXT.md).
 

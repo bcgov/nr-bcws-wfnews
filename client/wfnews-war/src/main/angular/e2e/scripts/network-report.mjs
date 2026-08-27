@@ -276,7 +276,8 @@ function main() {
     out.push('| What a user sees | Where |');
     out.push('|---|---|');
     for (const entry of order.slice(0, 30)) {
-      out.push(`| ${entry.text.replace(/\|/g, '\\|')} | ${whereText(entry)} |`);
+      // Escape the backslash too, or a trailing one escapes the cell divider.
+      out.push(`| ${entry.text.replace(/([\\|])/g, '\\$1')} | ${whereText(entry)} |`);
     }
   }
   out.push('');
