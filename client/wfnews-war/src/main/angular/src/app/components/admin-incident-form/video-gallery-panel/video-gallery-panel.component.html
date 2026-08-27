@@ -1,7 +1,7 @@
 <ng-container class="wfone-base-container">
     <div class="header-panel">
       <span style="font-size: 24px;">Videos</span>
-      <button mat-button color="primary" class="primary-button" (click)="upload()">Add Video</button>
+      <wfnews-button variant="primary" label="Add Video" (buttonClicked)="upload()"></wfnews-button>
     </div>
     <div class="video-gallery">
       <video-card-panel *ngFor="let video of externalUriList.collection" [video]="video" [incident]="incident" (loadPage)="loadPage()" (removePrimaryFlags)="removePrimaryFlags($event)"></video-card-panel>

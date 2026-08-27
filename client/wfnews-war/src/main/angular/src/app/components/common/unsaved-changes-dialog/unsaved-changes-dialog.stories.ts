@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { moduleMetadata, type Meta } from '@storybook/angular';
+import { WfnewsButtonComponent } from '@app/components/common/wfnews-button/wfnews-button.component';
 import { UnsavedChangesDialog } from './unsaved-changes-dialog.component';
 
 @Component({
@@ -27,7 +28,7 @@ const meta: Meta<LaunchDialogComponent> = {
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      declarations: [UnsavedChangesDialog],
+      declarations: [UnsavedChangesDialog, WfnewsButtonComponent],
       imports: [MatDialogModule, MatButtonModule],
     }),
   ],

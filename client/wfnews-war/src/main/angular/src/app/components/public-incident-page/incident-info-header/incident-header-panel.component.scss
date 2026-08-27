@@ -227,21 +227,6 @@
       padding-bottom: 7px;
     }
 
-    .mobile-button {
-      border-radius: 5px;
-      border: 1px solid #6e6e6e;
-      background-color: #fdfdfd;
-      color: #333333;
-      box-sizing: border-box;
-      align-items: center;
-      justify-content: center;
-      width: 40dvw;
-      height: 48px;
-
-      &.fixed-width {
-        width: 170px;
-      }
-    }
   }
 }
 
@@ -287,13 +272,6 @@
   }
 }
 
-.icon-contact {
-  position: relative;
-  top: 3px;
-  height: 17px;
-  width: 17px;
-}
-
 .contact-buttons {
   padding-top: 8px;
   display: flex;
@@ -301,27 +279,6 @@
   gap: 16px;
   align-self: stretch;
 
-  .mobile-buttons {
-    display: flex;
-    padding: 8px 8px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    flex: 1 0 0;
-    border-radius: 5px;
-    border: 1px solid var(--grays-gray-6, #c4c4c4);
-    background: #fff;
-    height: 40px;
-  }
-
-  .mobile-buttons.on-watchlist {
-    /* Add your additional styling for the button when onWatchlist is true */
-    /* For example, change background color or add a border */
-    background: var(--blues-blue-11, #f5f6f9);
-    font-weight: 500;
-    color: #10294e;
-    /* Add any other styles as needed */
-  }
 }
 
 .evac-cards {
@@ -450,22 +407,6 @@
   }
 }
 
-.desktop-buttons {
-  display: flex;
-  width: 132px;
-  padding: 6px 0px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  border-radius: 6px;
-  border: 1px solid #888;
-  background: #F5F7FA;
-  font-size: 16px;
-  font-weight: 500;
-  color: #242424;
-  text-align: center;
-}
-
 .contact-buttons.desktop {
   gap: 24px;
 }
@@ -500,19 +441,3 @@ hr {
   margin: 24px 0px 24px 0px;
 }
 
-.single-button {
-  display: flex;
-  width: 240px;
-  padding: 6px 0px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  border-radius: 6px;
-  border: 1px solid #888;
-  background: #F5F7FA;
-
-  .single-button-icon {
-    vertical-align: bottom;
-    padding-right: 8px;
-  }
-}

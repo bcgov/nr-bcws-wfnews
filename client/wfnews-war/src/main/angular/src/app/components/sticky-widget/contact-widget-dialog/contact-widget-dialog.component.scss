@@ -130,7 +130,7 @@
         input:focus,
         textarea:focus {
           outline: none;
-          box-shadow: 0 0 4px #3e7fff;
+          box-shadow: $focus-ring;
         }
       }
 
@@ -138,20 +138,6 @@
         justify-content: center;
       }
 
-      .contact-submit {
-        justify-self: center;
-        background-color: #1a5a96;
-        color: #ffffff;
-        height: 36px;
-        font-size: 15px;
-        line-height: 36px;
-        padding: 0 16px;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        border: none;
-        cursor: pointer;
-      }
     }
   }
 
@@ -289,7 +275,7 @@
         input:focus,
         textarea:focus {
           outline: none;
-          box-shadow: 0 0 4px #3e7fff;
+          box-shadow: $focus-ring;
         }
       }
 
@@ -297,20 +283,6 @@
         justify-content: center;
       }
 
-      .contact-submit {
-        justify-self: center;
-        background-color: #1a5a96;
-        color: #ffffff;
-        height: 36px;
-        font-size: 15px;
-        line-height: 36px;
-        padding: 0 16px;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        border: none;
-        cursor: pointer;
-      }
     }
   }
 
@@ -404,44 +376,6 @@
         width: 100% !important;
         border-radius: 3px !important;
         // background: var(--grays-gray-10, red) !important;
-      }
-    }
-
-    .contact-submit {
-      border-radius: 5px;
-      background: var(--blues-blue-2, #036);
-      display: flex;
-      height: 40px;
-      padding: 8px;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      align-self: stretch;
-      color: var(--grays-white, var(--White, #fdfdfd));
-      font-family: "Noto Sans", "BCSans", "Open Sans", Verdana, Arial,
-        sans-serif;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      cursor: pointer;
-      &-disabled {
-        border-radius: 5px;
-        background: #dfdfdf;
-        display: flex;
-        height: 40px;
-        padding: 8px;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        align-self: stretch;
-        color: #000;
-        font-family: "Noto Sans", "BCSans", "Open Sans", Verdana, Arial,
-          sans-serif;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
       }
     }
 

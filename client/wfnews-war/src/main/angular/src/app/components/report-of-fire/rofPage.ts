@@ -54,6 +54,15 @@ export class RoFPage {
     this.skipId = data.skipId || null;
   }
 
+  /** The wizard builds every page up front, so a page must know when it is on screen. */
+  onShown() {
+    // stub used for instantiation of extended components
+  }
+
+  onHidden() {
+    // stub used for instantiation of extended components
+  }
+
   previous() {
     // stub used for instantiation of extended components
   }

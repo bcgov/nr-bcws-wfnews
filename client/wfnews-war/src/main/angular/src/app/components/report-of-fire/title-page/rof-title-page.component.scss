@@ -1,7 +1,27 @@
 @import "../report-of-fire.component.scss";
 
+// Left and right only. A padding shorthand here would wipe the footer clearance.
+//
+// A column, so the page can fit the screen without a scroll. The words keep their size.
+// The picture is the part that gives way when the screen is short.
 .page-content {
-  padding: 0 48px;
+  padding-left: 48px;
+  padding-right: 48px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rof-text-title,
+.rof-text-secondary-header {
+  flex-shrink: 0;
+}
+
+// 30vh is a start, not a floor. min-height: 0 lets the picture shrink past it, and
+// object-fit keeps it square while it does, in place of the stretch it had before.
+.rof-image {
+  flex: 0 1 auto;
+  min-height: 0;
+  object-fit: contain;
 }
 .rof-button-container {
   width: calc(100% - 96px);

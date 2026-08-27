@@ -130,7 +130,6 @@ export class RoFPhotoPage extends RoFPage {
     this.commonUtilityService.checkOnline().then((result) => {
       if (!result) {
         this.reportOfFirePage.selectPage('distance-page', null, false);
-        this.reportOfFirePage.currentStep--;
       } else {
         this.previous();
       }

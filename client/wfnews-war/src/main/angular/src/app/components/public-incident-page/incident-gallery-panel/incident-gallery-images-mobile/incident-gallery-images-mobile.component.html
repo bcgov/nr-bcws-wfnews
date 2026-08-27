@@ -3,7 +3,8 @@
     <image-panel [item]="item" [settings]="settings" [onBeforeSlide]="onBeforeSlide" [onInit]="onInit" [i]="i"></image-panel>
   </div>
   <div #loadMoreButton class="load-more-row" *ngIf="displayLoadMoreImages">
-    <button mat-button class="load-more-button"(click)="loadMoreImages(loadMoreButton)">Load More</button>
+    <wfnews-button variant="secondary" label="Load More"
+      (buttonClicked)="loadMoreImages(loadMoreButton)"></wfnews-button>
   </div>
 </div>
 <ng-template class="disclaimer" #showDisclaimer>

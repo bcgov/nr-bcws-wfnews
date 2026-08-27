@@ -3,46 +3,67 @@
 
 :host {
   font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  // A wizard page is a flex item of .rof, and its own host is a custom tag, which is
+  // inline until it is told otherwise. An inline host stretches nothing.
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
 }
 
 .rof {
-  height: 100vh;
+  // Not a viewport height. The shell holds the wizard in a box that is the screen
+  // less the status bar inset, so 100dvh overflows that box by the inset and the
+  // page scrolls. Fill the box instead.
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   background-color: white !important;
   max-width: 850px;
   margin: auto;
 
+  // The review page is the one page that is longer than the screen.
+  &.rof-scrolls {
+    overflow-y: auto;
+  }
+
+  // The height belongs on the toggle itself, in .rof-toggle-group. Repeating it on
+  // the button inside made that button taller than the box that holds it, so its
+  // label sat low.
+
+  // "I'm not sure" is a mat-button-toggle and the other options are buttons, so they
+  // take their font from different rules. State one size and one face for both, or
+  // that option reads as a different kind of thing.
+  ::ng-deep.mat-button-toggle-label-content,
   ::ng-deep.mat-button-toggle-button {
-    height: 81px !important;
-    @media (max-width: 1023px) and (max-height: 700px) {
-      height: 8.5vh !important;
-    }
-    @media (min-width: 1024px) and (max-height: 780px) and (min-height: 650px) {
-      height: 8vh !important;
-    }
-    @media (min-width: 1024px) and (max-height: 649px) and (min-height: 600px) {
-      height: 7vh !important;
-    }
-    @media (min-width: 1024px) and (max-height: 599px) {
-      height: 6vh !important;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif !important;
+    // Take the size from the box the option sits in, so it matches the options beside
+    // it. Material sets its own size on the label, and that is what broke the row.
+    font-size: inherit !important;
+    font-weight: 600 !important;
+  }
+
+  // The yes/no pages have no flex-button box to take a size from.
+  ::ng-deep.simple-toggle .mat-button-toggle {
+    font-size: 19px;
+    @media (max-height: 699px) {
+      font-size: 2.2dvh;
     }
   }
 
   ::ng-deep.mat-button-toggle-label-content {
+    // An inline icon sits on the text baseline, which puts it above the middle of the
+    // words. A centred row lines the icon up with the text, and the text with the box.
+    display: flex;
+    align-items: center;
+    justify-content: center;
     line-height: 20px !important;
     color: #000;
     text-align: center;
-    font-size: 19px;
-    @media (max-height: 700px) {
-      font-size: 2.2vh;
-    }
-    @media (min-height: 701px) and (max-height: 800px) {
-      font-size: 2.6vh;
-      bottom: 5px;
-    }
     font-style: normal;
-    font-weight: 600;
     letter-spacing: -0.38px;
-    // margin-top: 16px;
   }
 }
 
@@ -62,6 +83,18 @@
   }
   .mobile-header-button {
     cursor: pointer;
+
+    // The words are the only thing a tap could hit: 58 x 24, against the 48 x 48 that
+    // Android asks for. Grow the hit area without moving the text.
+    > span {
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: -12px -12px;
+      }
+    }
   }
 }
 
@@ -144,6 +177,8 @@
   display: block;
 }
 
+// The footer band. It was once .page-content button as well, which put every plain
+// button on the page at this fixed position, one on top of another.
 .rof-button-container {
   max-width: 780px;
   justify-content: space-between;
@@ -156,55 +191,6 @@
   position: fixed;
   @media (max-height: 699px) {
     bottom: calc(2em + env(safe-area-inset-bottom, 20px));
-  }
-  .rof-button {
-    padding: 0 32px;
-    height: 43px;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    background-color: #f5f5f5;
-    border: solid 1px #b0b0b0;
-    border-radius: 6px;
-    &-primary {
-      padding: 0 32px;
-      height: 43px;
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      color: white;
-      background-color: #123262;
-      flex-direction: row-reverse;
-      border-radius: 6px;
-      &-review {
-        padding: 0 32px;
-        height: 43px;
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        color: white;
-        background-color: #123262;
-        flex-direction: none;
-        border-radius: 6px;
-      }
-    }
-    &-disabled {
-      padding: 0 32px;
-      height: 43px;
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      flex-direction: row-reverse;
-      color: rgba(0, 0, 0);
-      border-radius: 6px;
-    }
-  }
-  .flow-buttons {
-    padding-bottom: 500px !important;
   }
 }
 
@@ -260,10 +246,6 @@
   }
 }
 
-.left-padding {
-  padding-left: 10px;
-}
-
 .rof-toggle-group {
   margin: 20px 0;
   border: none;
@@ -272,10 +254,20 @@
     margin-right: 8px;
   }
   .mat-button-toggle {
+    // The host is a box of its own. Make it a flex parent so the button inside fills
+    // it exactly; with height: 100% the button hung 3px below its host.
+    display: flex;
     margin-bottom: 24px;
-    border: none;
+    // Transparent, not none. A border that appears only when the option is chosen
+    // takes 3px off the top of the box, and the label drops by that much.
+    border: 3px solid transparent;
     border-radius: 8px;
     height: 81px;
+    // the same movement as the Saved radius pills, from styles/component/_choice-pill
+    transition:
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      color 0.18s ease;
     @media (max-width: 1023px) and (max-height: 700px) {
       height: 8.5dvh !important;
     }
@@ -290,17 +282,35 @@
     }
   }
   .mat-button-toggle-appearance-standard {
-    padding-top: 3px;
     color: rgba(0, 0, 0, 0.87);
     background-color: #f1f1f1;
   }
   .mat-button-toggle-checked {
     background-color: #dfe5ee !important;
     border-radius: 8px;
-    border: 3px solid #4169a4;
+    border-color: #4169a4;
+    animation: wf1-choice-pill-select 0.18s ease;
   }
-  .mat-button-toggle-button {
+
+  @media (prefers-reduced-motion: reduce) {
+    .mat-button-toggle {
+      transition: none;
+    }
+    .mat-button-toggle-checked {
+      animation: none;
+    }
+  }
+  // Centre the label in the box, whatever the box is. Material centres with a
+  // line-height, and that moves as soon as the border changes.
+  // ::ng-deep, because this element belongs to Material's own view and carries none
+  // of this component's attributes.
+  ::ng-deep.mat-button-toggle-button {
     border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    min-height: 0;
   }
 }
 
@@ -377,8 +387,19 @@
   height: calc(100vh - 125px);
 }
 
+// The page fills the wizard box, so a page can size a child from what is left.
 .page-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  // This box is a flex item, so its height is what is left of the screen. Content taller
+  // than that spilled out of it and under the fixed footer band, because .rof is
+  // overflow: hidden and clipped it there. Scroll it instead.
+  //
+  // The clearance is a margin and not a padding. A padding sits inside the scroll box, so
+  // the words still paint in the strip behind the band. A margin ends the box above it.
+  overflow-y: auto;
   padding: 0 32px;
+  margin-bottom: calc(7em + env(safe-area-inset-bottom, 20px));
   font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-style: normal;
   font-size: 16px;
@@ -391,17 +412,16 @@
   }
 }
 
+.rof-scrolls .page-content {
+  flex: 0 0 auto;
+}
+
 .divider {
   border-top: 1px solid #ccc;
   width: 100%;
 }
 
 .question-mark {
-  vertical-align: baseline;
   color: #548adb;
   margin-right: 8px;
-  @media (max-height: 700px) {
-    position: inherit;
-    top: 2px;
-  }
 }

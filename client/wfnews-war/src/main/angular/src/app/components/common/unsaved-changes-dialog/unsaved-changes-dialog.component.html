@@ -5,7 +5,9 @@
     If you leave this page without publishing, the information you have entered will be lost.
   </div>
   <div mat-dialog-actions class="dialog-actions">
-    <button mat-raised-button color="primary" [mat-dialog-close]="returnResult(true)">Discard Changes</button>
-    <button mat-raised-button [mat-dialog-close]="returnResult(false)">Keep Editing</button>
+    <wfnews-button variant="primary" label="Discard Changes"
+      (buttonClicked)="close(true)"></wfnews-button>
+    <wfnews-button variant="secondary" label="Keep Editing"
+      (buttonClicked)="close(false)"></wfnews-button>
   </div>
 </div>

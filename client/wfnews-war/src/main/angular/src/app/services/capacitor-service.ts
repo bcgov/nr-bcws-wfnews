@@ -6,7 +6,9 @@ import { App, AppState } from '@capacitor/app';
 import { AppLauncher } from '@capacitor/app-launcher';
 import { Browser } from '@capacitor/browser';
 import { Device } from '@capacitor/device';
-import { Geolocation, Position } from '@capacitor/geolocation';
+import { Geolocation, PermissionStatus, Position } from '@capacitor/geolocation';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { NotificationSettings } from '@app/services/notification-settings.plugin';
 import {
   PushNotifications,
   PushNotificationSchema,
@@ -63,6 +65,19 @@ export type PushPermissionState =
   | 'prompt'
   | 'unsupported';
 
+/**
+ * Location fails one way more than push does. `services-off` means the app has the
+ * permission but the phone has location turned off, and no prompt can correct that.
+ * It needs a different settings page. See LOCATION_AND_STARTUP_PLAN_STE.md section 5.2.
+ */
+export type LocationPermissionState =
+  | 'granted'
+  | 'denied'
+  | 'denied-once'
+  | 'prompt'
+  | 'services-off'
+  | 'unsupported';
+
 export interface DeviceProperties {
   isIOSPlatform: boolean;
   isAndroidPlatform: boolean;
@@ -70,6 +85,14 @@ export interface DeviceProperties {
   isMobilePlatform: boolean;
   deviceId: string;
 }
+
+// The plugin reports the phone location setting with these codes: 0007 on both
+// platforms, and 0016/0017 from an Android position request.
+const LOCATION_OFF_CODES = [
+  'OS-PLUG-GLOC-0007',
+  'OS-PLUG-GLOC-0016',
+  'OS-PLUG-GLOC-0017',
+];
 
 const UPDATE_AFTER_INACTIVE_MILLIS = 1000 * 60; // 1 minute
 const REFRESH_INTERVAL_ACTIVE_MILLIS = 5 * 1000 * 60; // 5 minutes
@@ -97,6 +120,7 @@ export class CapacitorService {
   rofNotificationsDelay = 5000;
   notificationSnackbarPromise = Promise.resolve();
   pushPermission = new BehaviorSubject<PushPermissionState>('prompt');
+  locationPermission = new BehaviorSubject<LocationPermissionState>('prompt');
   private devicePropertiesPromise: Promise<DeviceProperties>;
 
   constructor(
@@ -171,6 +195,8 @@ export class CapacitorService {
   }
 
   init() {
+    this.setStatusBarStyle();
+
     const startRefreshTimer = () => {
       stopRefreshTimer();
 
@@ -304,6 +330,13 @@ export class CapacitorService {
         state = 'prompt';
       }
 
+      // Below Android 13 the plugin answers "granted" without looking, because
+      // POST_NOTIFICATIONS is a runtime permission only from 13. It also cannot see a
+      // blocked channel on any version. Ask the phone itself.
+      if (state === 'granted' && this.isAndroidPlatform) {
+        state = (await this.areNotificationsEnabled()) ? 'granted' : 'denied';
+      }
+
       if (state !== this.pushPermission.value) {
         this.pushPermission.next(state);
       }
@@ -311,6 +344,17 @@ export class CapacitorService {
     } catch (error) {
       console.error(error);
       return this.pushPermission.value;
+    }
+  }
+
+  /** Will the phone show our notifications? A missing plugin is not a No. */
+  private async areNotificationsEnabled(): Promise<boolean> {
+    try {
+      const { enabled } = await NotificationSettings.areEnabled();
+      return enabled;
+    } catch (error) {
+      console.error(error);
+      return true;
     }
   }
 
@@ -365,6 +409,113 @@ export class CapacitorService {
     }
   }
 
+  /**
+   * The app is white on every screen. A phone in night mode gives the status bar white
+   * icons, and they disappear against the app. Style.Light means dark icons.
+   */
+  private setStatusBarStyle(): void {
+    if (this.isWebPlatform) {
+      return;
+    }
+    StatusBar.setStyle({ style: Style.Light }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  /**
+   * Read the phone location permission and publish it. The banners read this.
+   * `checkPermissions` also reports the phone setting: it rejects with 0007 when
+   * location is off. That is the fast way, and the only reliable one. A position
+   * request cannot answer, because with the setting off the plugin never replies.
+   */
+  async refreshLocationPermission(): Promise<LocationPermissionState> {
+    if (this.isWebPlatform) {
+      this.publishLocationPermission('unsupported');
+      return 'unsupported';
+    }
+
+    let status: PermissionStatus;
+    try {
+      status = await Geolocation.checkPermissions();
+    } catch (error) {
+      if (LOCATION_OFF_CODES.includes(error?.code)) {
+        this.publishLocationPermission('services-off');
+        return 'services-off';
+      }
+      console.error(error);
+      return this.locationPermission.value;
+    }
+
+    const granted =
+      status.location === 'granted' || status.coarseLocation === 'granted';
+
+    let state: LocationPermissionState;
+    if (granted) {
+      state = 'granted';
+    } else if (status.location === 'denied') {
+      state = 'denied';
+    } else if (status.location === 'prompt-with-rationale') {
+      // The user refused once. Android will ask again, so the way back is a prompt
+      // and not the settings page.
+      state = 'denied-once';
+    } else {
+      state = 'prompt';
+    }
+
+    this.publishLocationPermission(state);
+    return state;
+  }
+
+
+  /**
+   * Ask the phone for the permission. Android shows its prompt approximately one time,
+   * so a denied state can only be repaired in the settings.
+   */
+  async requestLocationPermission(): Promise<LocationPermissionState> {
+    if (this.isWebPlatform) {
+      return 'unsupported';
+    }
+
+    try {
+      const status = await Geolocation.checkPermissions();
+      if (status.location !== 'granted' && status.location !== 'denied') {
+        await Geolocation.requestPermissions();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    return this.refreshLocationPermission();
+  }
+
+  /**
+   * Location fails two ways, and each way has its own page. iOS is the exception:
+   * Apple supports the app page only, and the private URL for the phone location page
+   * opens nothing and gives no message.
+   */
+  async openLocationSettings(state: LocationPermissionState): Promise<void> {
+    try {
+      if (this.isIOSPlatform) {
+        await NativeSettings.openIOS({ option: IOSSettings.App });
+      } else if (this.isAndroidPlatform) {
+        await NativeSettings.openAndroid({
+          option:
+            state === 'services-off'
+              ? AndroidSettings.Location
+              : AndroidSettings.ApplicationDetails,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  private publishLocationPermission(state: LocationPermissionState): void {
+    if (state !== this.locationPermission.value) {
+      this.locationPermission.next(state);
+    }
+  }
+
   /** A permission granted in the phone settings needs a register to give us a token. */
   private onReturnToForeground(): void {
     const before = this.pushPermission.value;
@@ -379,6 +530,11 @@ export class CapacitorService {
       .catch((error) => {
         console.error(error);
       });
+
+    // The user may have come back from the location settings page.
+    this.refreshLocationPermission().catch((error) => {
+      console.error(error);
+    });
   }
 
   handleRofPushNotification(notification: PushNotificationSchema) {

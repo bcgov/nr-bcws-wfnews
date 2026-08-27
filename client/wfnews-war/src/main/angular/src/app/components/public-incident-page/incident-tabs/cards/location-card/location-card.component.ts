@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { defaultSlimIconButtonStyle } from '../../../../common/icon-button/icon-button.component';
 
 @Component({
   selector: 'location-card',
@@ -11,7 +10,6 @@ export class LocationCardComponent {
   @Input() description: string;
   @Output() buttonClicked = new EventEmitter<void>();
 
-  iconButtonStyle = { ...defaultSlimIconButtonStyle, iconColor: '#242424' };
 
   clickHandler() {
     this.buttonClicked.emit();

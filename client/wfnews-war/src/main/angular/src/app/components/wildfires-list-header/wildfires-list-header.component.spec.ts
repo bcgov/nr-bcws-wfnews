@@ -5,7 +5,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import {
+  CapacitorService,
+  LocationPermissionState,
+} from '@app/services/capacitor-service';
 import { WFMapService } from '@app/services/wf-map.service';
+import { BehaviorSubject } from 'rxjs';
 
 import { WildfiresListHeaderComponent } from './wildfires-list-header.component';
 
@@ -25,7 +30,22 @@ describe('WildfiresListHeaderComponent', () => {
         NoopAnimationsModule,
       ],
       declarations: [WildfiresListHeaderComponent],
-      providers: [{ provide: WFMapService, useValue: {} }],
+      providers: [
+        { provide: WFMapService, useValue: {} },
+        // The real CapacitorService pulls in the NgRx Store. The header only reads
+        // the location permission and asks for a refresh.
+        {
+          provide: CapacitorService,
+          useValue: {
+            locationPermission: new BehaviorSubject<LocationPermissionState>(
+              'granted',
+            ),
+            refreshLocationPermission: () => Promise.resolve('granted'),
+            requestLocationPermission: () => Promise.resolve('granted'),
+            openLocationSettings: () => Promise.resolve(),
+          },
+        },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });

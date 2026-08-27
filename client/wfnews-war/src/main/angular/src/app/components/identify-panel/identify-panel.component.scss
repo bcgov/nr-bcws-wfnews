@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 @import "../draggable-panel/draggable-panel.component.scss";
 
 .identify-card{
@@ -14,11 +16,11 @@
     top: 110px;
     left: 5px;
     border-radius: 12px;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: $shadow-panel;
     max-height: calc(65vh - env(safe-area-inset-bottom, 0px) - env(safe-area-inset-top, 20px) - 10px) !important;
     border-top: 1px solid #ccc;
     z-index: 100000000 !important;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.23);
+    box-shadow: $shadow-panel;
     padding-bottom: 24px;
 }
 

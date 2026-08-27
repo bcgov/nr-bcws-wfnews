@@ -86,18 +86,29 @@ export class FilterByLocationDialogComponent {
     if (this.locationData.useUserLocation) {
       this.searchText = undefined;
 
-      const location =
-        await this.commonUtilityService.getCurrentLocationPromise();
-      this.locationData.latitude = location.coords.latitude;
-      this.locationData.longitude = location.coords.longitude;
-      this.searchText =
-        this.locationData.latitude.toString() +
-        ', ' +
-        this.locationData.longitude.toString();
+      try {
+        const location =
+          await this.commonUtilityService.getCurrentLocationPromise();
+        this.locationData.latitude = location.coords.latitude;
+        this.locationData.longitude = location.coords.longitude;
+        this.searchText =
+          this.locationData.latitude.toString() +
+          ', ' +
+          this.locationData.longitude.toString();
+      } catch (error) {
+        // The choice does not hold, so put the switch back.
+        this.locationData.useUserLocation = false;
+      }
     } else {
       this.searchText = null;
     }
 
     this.locationData.searchText = this.searchText;
+  }
+
+  // The Button cannot carry [mat-dialog-close], so the dialog closes itself. The close X
+  // still returns false, which the callers read as "clear the filter".
+  showResults() {
+    this.dialogRef.close(this.locationData);
   }
 }

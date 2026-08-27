@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 :host { display: block; }
 
 .content-card-container {
@@ -11,5 +13,7 @@
   border-radius: 16px;
 
   /* Information Cards */
-  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+  // Offset shadow plus a hairline edge: the shadow alone is invisible in sunlight.
+  box-shadow: $shadow-card;
+  border: $border-card;
 }

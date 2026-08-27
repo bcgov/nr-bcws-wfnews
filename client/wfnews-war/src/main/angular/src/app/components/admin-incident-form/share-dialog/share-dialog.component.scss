@@ -34,16 +34,10 @@
   .button-row {
     display: flex;
     gap: 16px;
-    flex-wrap: wrap;
-    justify-content: space-between;
     width: 100%;
 
-    icon-button{
-      width: 164px;
-      flex: 1;
-      justify-content: center;
-      align-items: center;
-    }
+    // Each Button takes an equal share of the row.
+    wfnews-button { flex: 1 1 0; }
   }
 
 }

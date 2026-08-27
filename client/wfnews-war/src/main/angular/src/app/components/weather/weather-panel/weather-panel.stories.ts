@@ -1,5 +1,6 @@
 import { WeatherPanelComponent } from '@app/components/weather/weather-panel/weather-panel.component';
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
+import { WfnewsButtonComponent } from '@app/components/common/wfnews-button/wfnews-button.component';
 
 const meta: Meta<WeatherPanelComponent> = {
     title: 'DesktopPreview/WeatherPanelComponent',
@@ -7,7 +8,7 @@ const meta: Meta<WeatherPanelComponent> = {
   tags: ['autodocs'], 
   decorators: [
     moduleMetadata({
-      declarations: [WeatherPanelComponent]
+      declarations: [WeatherPanelComponent, WfnewsButtonComponent]
     })
   ]
 };

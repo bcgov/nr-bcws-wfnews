@@ -27,4 +27,13 @@ export class PublishDialogComponent {
       publish: true,
     };
   }
+
+  // The Button cannot carry [mat-dialog-close], so the dialog closes itself.
+  publish() {
+    this.dialogRef.close(this.returnResult());
+  }
+
+  cancel() {
+    this.dialogRef.close(false);
+  }
 }

@@ -3,7 +3,7 @@ import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IconButtonComponent } from '@app/components/common/icon-button/icon-button.component';
+import { WfnewsButtonComponent } from '@app/components/common/wfnews-button/wfnews-button.component';
 import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
 
 const meta: Meta<ShareDialogComponent> = {
@@ -11,7 +11,7 @@ const meta: Meta<ShareDialogComponent> = {
     component: ShareDialogComponent,
     decorators: [
         moduleMetadata({
-            declarations: [ShareDialogComponent, IconButtonComponent],
+            declarations: [ShareDialogComponent, WfnewsButtonComponent],
             imports: [
                 CommonModule,
                 MatDialogModule,

@@ -22,9 +22,9 @@
     </div>
 
     <div class="rof-button-container">
-        <button class="rof-button" mat-flat-button (click)="previous()">Cancel</button>
-        <button mat-flat-button class="rof-button" style="background-color: #FFF"><mat-icon svgIcon="phone" style="width: 24px; height: 24px;"></mat-icon>
-            <a href="tel:+18006635555" style="text-decoration: none; color: inherit;">Call</a>
-        </button>
+        <wfnews-button variant="secondary" size="large" label="Cancel"
+          (buttonClicked)="previous()"></wfnews-button>
+        <wfnews-button variant="secondary" size="large" label="Call" iconPath="/assets/images/svg-icons/phone.svg"
+          (buttonClicked)="call()"></wfnews-button>
     </div>
 </div>

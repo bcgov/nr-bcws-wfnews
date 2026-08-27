@@ -3,29 +3,32 @@
       <div class="rof-text-primary-header">{{ title }}</div>
       <div class="rof-text-secondary-header">{{ message }}</div>
 
-      <!-- <mat-button-toggle-group> doesn't allow ngFor for whatever reason -->
-        <div class="rof-toggle-group rof-complex-group" style="justify-content: space-between;">
-          <div *ngFor="let button of buttons; let i = index" [ngClass]="{'condition-class': true, 'multi-select-class': allowMultiSelect, 'single-select-class': !allowMultiSelect, 'distance-class': id === 'distance-page'}">
-            <mat-button-toggle style="width: 100%; box-sizing: border-box;" class="flex-button" *ngIf="allowMultiSelect" #toggleButton (change)="onValChange(button.value, $event, i)" [value]="button.value">
-              <img alt="icon" [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" />
-              <mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}
-            </mat-button-toggle>
-            <button style="width: 100%; font-size: 19px; font-weight: 600; box-sizing: border-box;" class="flex-button" type="button" [id]="'btn-' + button.value" mat-flat-button *ngIf="!allowMultiSelect" (click)="onValChange(button.value, $event, i)" [class.btn-highlight]="buttonStates[i]">
-              <img alt="icon" [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" height="20" width="20" />
-              <mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}
-            </button>
-          </div>
-          <mat-button-toggle #notSureButton class="flex-button" style="width: 100%; box-sizing: border-box; align-items: center;" *ngIf="allowIDontKnowButton" value="skip" (click)="onValChange(null)"><img class="question-mark" alt="question_mark" src="/assets/images/svg-icons/question-mark.svg">I'm not sure</mat-button-toggle>
-        </div>
+      <mat-button-toggle-group class="rof-toggle-group rof-complex-group"
+          style="justify-content: space-between;"
+          [multiple]="allowMultiSelect"
+          [value]="selection"
+          (change)="onSelectionChange($event)">
+        <mat-button-toggle *ngFor="let button of buttons" class="flex-button"
+            [ngClass]="{'multi-select-class': allowMultiSelect, 'single-select-class': !allowMultiSelect, 'distance-class': id === 'distance-page'}"
+            style="box-sizing: border-box;" [id]="'btn-' + button.value" [value]="button.value">
+          <img alt="icon" [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" height="20" width="20" />
+          <mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}
+        </mat-button-toggle>
+        <mat-button-toggle class="flex-button" style="width: 100%; box-sizing: border-box;" *ngIf="allowIDontKnowButton" [value]="unknownValue"><img class="question-mark" alt="question_mark" src="/assets/images/svg-icons/question-mark.svg">I'm not sure</mat-button-toggle>
+      </mat-button-toggle-group>
 
       <div class="rof-button-container" *ngIf="!isEditMode">
-        <button class="rof-button" mat-flat-button (click)="previousPage()">Previous</button>
-        <button [class]="'rof-button' + (disableNext ? '-disabled' : '-primary')" [disabled]="disableNext" mat-flat-button color="primary" (click)="nextPage()">Next<mat-icon [svgIcon]="disableNext? 'arrow-forward-disabled' : 'arrow-forward-enabled'" class="left-padding" style="width: 24px; height: 24px;"></mat-icon></button>
+        <wfnews-button variant="secondary" size="large" label="Previous"
+          (buttonClicked)="previousPage()"></wfnews-button>
+        <wfnews-button variant="primary" size="large" label="Next" [disabled]="disableNext"
+          iconPathEnd="/assets/images/svg-icons/arrow-forward-enabled.svg" (buttonClicked)="nextPage()"></wfnews-button>
       </div>
 
       <div class="rof-button-container" *ngIf="isEditMode">
-        <button class="rof-button" mat-flat-button (click)="backToReview()">Cancel</button>
-        <button [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button color="primary" (click)="backToReview()">Save</button>
+        <wfnews-button variant="secondary" size="large" label="Cancel"
+          (buttonClicked)="backToReview()"></wfnews-button>
+        <wfnews-button variant="primary" size="large" label="Save" [disabled]="!isPageDirty"
+          (buttonClicked)="backToReview()"></wfnews-button>
       </div>
   </div>
 </div>

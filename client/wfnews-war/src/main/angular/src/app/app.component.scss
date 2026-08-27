@@ -1,3 +1,8 @@
+// A page that fills the screen needs a height to fill. The shell gives this box one.
+.route-host {
+  height: 100%;
+}
+
 @import "../styles/variables";
 
 ::ng-deep .wfnews-application {

@@ -1,17 +1,26 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 import moment from 'moment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'situation-widget',
   templateUrl: './situation-widget.component.html',
   styleUrls: ['./situation-widget.component.scss'],
 })
-export class SituationWidget implements AfterViewInit {
+export class SituationWidget implements AfterViewInit, OnDestroy {
   public startupComplete = false;
   public situationReport;
+
+  /**
+   * The situation report is the largest read the app makes, because the overview
+   * field holds the images. A subscription can be dropped; a promise cannot. When
+   * the user leaves the Dashboard the read must stop, or it takes the connection
+   * away from the screen the user went to.
+   */
+  private request: Subscription | undefined;
 
   public Editor = Editor;
 
@@ -28,11 +37,15 @@ export class SituationWidget implements AfterViewInit {
     editor.enableReadOnlyMode('ck-doc');
   }
 
+  ngOnDestroy(): void {
+    this.request?.unsubscribe();
+  }
+
   ngAfterViewInit(): void {
-    this.publishedIncidentService
+    this.request = this.publishedIncidentService
       .fetchSituationReportList(0, 10, true)
-      .toPromise()
-      .then((sitrep) => {
+      .subscribe({
+        next: (sitrep) => {
         if (sitrep?.collection?.length > 0) {
           const validReports = sitrep.collection.filter(
             (r) => r.publishedInd && !r.archivedInd,
@@ -50,11 +63,13 @@ export class SituationWidget implements AfterViewInit {
             new Date(this.situationReport.createdTimestamp),
           ).format('MMM Do YYYY');
         }
-      }).catch((error) => {
-        console.error('Error fetching situation report:', error);
-        this.situationReport = undefined;
-      }).finally(() => {
-        this.startupComplete = true;
+          this.startupComplete = true;
+        },
+        error: (error) => {
+          console.error('Error fetching situation report:', error);
+          this.situationReport = undefined;
+          this.startupComplete = true;
+        },
       });
   }
 }

@@ -2,22 +2,16 @@
   <div class="section">
       <div class="section-header-row">
           <span class="section-header">{{notificationsTitle}}</span>
-        <button type="button" class="section-button" (click)="addNewLocation()"
-            *ngIf="savedLocations?.length < 3">
-            <img alt="" src="/assets/images/svg-icons/Type.svg" class="button-icon">
-            Add new
-        </button>
+        <wfnews-button *ngIf="savedLocations?.length < 3" variant="secondary"
+            label="Add new" iconPath="/assets/images/svg-icons/Type.svg"
+            (buttonClicked)="addNewLocation()"></wfnews-button>
       </div>
-      <div class="notification-permission-banner" *ngIf="showPermissionBanner">
-          <img alt="warning" class="banner-icon" src="/assets/images/svg-icons/custom_warning.svg">
-          <div class="banner-text">
-              <span class="banner-title">Notifications are off</span>
-              <span class="banner-message">Your saved locations cannot send you wildfire alerts until notifications are on for this app.</span>
-              <button type="button" class="banner-button" (click)="onTurnOnNotifications()">
-                  {{ pushPermission === 'denied' ? 'Open settings' : 'Turn on notifications' }}
-              </button>
-          </div>
-      </div>
+      <permission-banner *ngIf="showPermissionBanner"
+          [heading]="bannerText.push.heading"
+          [message]="bannerText.push.message.savedLocations"
+          [actionLabel]="pushBannerAction"
+          (action)="onTurnOnNotifications()">
+      </permission-banner>
       <div class="section-card" *ngIf="!savedLocations.length" (click)="addNewLocation()">
           <div class="add-location-content flex-enabled">
               <img alt="icon" class="location-icon" src="/assets/images/svg-icons/location-grey.svg">

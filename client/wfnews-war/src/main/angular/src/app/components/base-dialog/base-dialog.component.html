@@ -9,8 +9,7 @@
 <div class="divider-2"></div>
 <div class="dialog-footer" *ngIf="showCancel || showOK">
     <div mat-dialog-actions>
-        <button class="wildfire-button" (click)="cancel()">Cancel</button>
-
-        <button class="wildfire-button-primary" (click)="ok()">OK</button>
+        <wfnews-button variant="secondary" label="Cancel" (buttonClicked)="cancel()"></wfnews-button>
+        <wfnews-button variant="primary" label="OK" (buttonClicked)="ok()"></wfnews-button>
     </div>
 </div>

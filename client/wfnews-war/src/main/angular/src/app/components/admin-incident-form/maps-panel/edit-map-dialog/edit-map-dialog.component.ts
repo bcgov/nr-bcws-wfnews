@@ -16,4 +16,13 @@ export class EditMapDialogComponent {
     public dialogRef: MatDialogRef<EditMapDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {}
+
+  // The Button cannot carry [mat-dialog-close], so the dialog closes itself.
+  save() {
+    this.dialogRef.close(true);
+  }
+
+  cancel() {
+    this.dialogRef.close(false);
+  }
 }

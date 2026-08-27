@@ -11,14 +11,10 @@
         </span>
       </div>
       <div class="info-panel-button-row">
-          <button mat-button class="single-button" (click)="navToMap()">
-            <img class="single-button-icon" src="/assets/images/svg-icons/map.svg" height="20" width="20" alt="Map" />
-            View on Map
-          </button>
-          <button mat-button class="single-button" (click)="openShareWindow()">
-            <img class="single-button-icon" src="/assets/images/svg-icons/share.svg" height="24" width="24" alt="Map" />
-            Share
-          </button>
+          <wfnews-button variant="secondary" label="View on Map"
+            iconPath="/assets/images/svg-icons/map.svg" (buttonClicked)="navToMap()"></wfnews-button>
+          <wfnews-button variant="secondary" label="Share"
+            iconPath="/assets/images/svg-icons/share.svg" (buttonClicked)="openShareWindow()"></wfnews-button>
       </div>
     </div>
   </div>

@@ -1,48 +1,200 @@
-@import "../../../../styles/variables.scss";
+@import "../../../../styles/bcds-tokens";
+@import "../../../../styles/variables";
 
-:host { display: block; }
+// A copy of the BC Gov Design System Button rules, in the states a plain <button> gives:
+// :hover, :active and :disabled in place of the React data- attributes.
+// A flex parent must not squeeze a Button below its own label. A caller that wants it to
+// share a row sets flex itself, as .mobile-button does with flex: 1 0 0.
+:host { display: inline-block; flex-shrink: 0; }
+// The width belongs on the host as well. Without it the host is a flex item that sizes to
+// its content, and the inner button then fills only that content width.
+:host(.full-width) { display: block; width: 100%; }
+:host(.full-width) .bcds-button { width: 100%; }
 
-:hover {
-  mask-image: linear-gradient(rgb(0, 0, 0, .7), rgb(0, 0, 0, .7));
+.bcds-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $bcds-padding-small;
+  min-height: 24px;
+  min-width: 24px;
+  border: none;
+  border-radius: $bcds-border-radius-medium;
+  cursor: pointer;
+  font: $bcds-typography-body $bcds-font-family;
+
+  &:disabled { cursor: not-allowed; }
+
+  &:focus-visible {
+    outline: solid $bcds-border-width-medium $bcds-border-color-active;
+    outline-offset: $bcds-margin-hair;
+  }
+
+  .label { white-space: normal; }
+
+  // The mask paints the shape; currentColor paints it in, so the icon follows the variant.
+  .mask-icon {
+    width: 1.25em;
+    height: 1.25em;
+    flex-shrink: 0;
+    background-color: currentColor;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+  }
 }
 
-.button-container {
-  // a button brings its own font and alignment; the div did not
-  font: inherit;
-  text-align: inherit;
+// Projected content keeps the caller's encapsulation attribute, so ::ng-deep is what
+// reaches it. An icon sizes with the label, and fill: currentColor gives it the variant
+// colour, so the same icon works on a dark fill and on a light one.
+:host ::ng-deep .bcds-button > img,
+:host ::ng-deep .bcds-button > svg,
+:host ::ng-deep .bcds-button > mat-icon {
+  width: 1.25em;
+  height: 1.25em;
+  flex-shrink: 0;
+}
 
-  display: flex;
-  min-width: $button-min-width;
-  padding: 12px 32px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  align-self: stretch;
-  cursor: pointer;
-  border-radius: 8px;
-  background: #FFFFFF;
-  border: 1px solid #dedede;
+// A guard. No Button projects a mat-icon today, because iconPath is the one way in. If
+// one appears, this keeps it the colour of the variant instead of the colour in its file.
+:host ::ng-deep .bcds-button > mat-icon svg,
+:host ::ng-deep .bcds-button > mat-icon path {
+  fill: currentColor;
+}
 
-  &.hide {
-    display: none;
+/* Sizes */
+.bcds-button.xsmall {
+  padding: $bcds-padding-hair $bcds-padding-small;
+  font: $bcds-typography-label $bcds-font-family;
+
+  &.icon { padding: 0; height: 24px; width: 24px; }
+}
+
+.bcds-button.small {
+  min-height: 32px;
+  padding: 0 0.75rem;
+  font: $bcds-typography-small-body $bcds-font-family;
+
+  &.icon { padding: 0; height: 32px; width: 32px; min-width: 32px; }
+}
+
+.bcds-button.medium {
+  min-height: 40px;
+  padding: 0 $bcds-padding-medium;
+
+  &.icon { padding: 0; height: 40px; width: 40px; min-width: 40px; }
+}
+
+.bcds-button.large {
+  min-height: 48px;
+  padding: 0 $bcds-padding-large;
+
+  &.icon { padding: 0; height: 48px; width: 48px; min-width: 48px; }
+}
+
+/* Variant - Primary */
+.bcds-button.primary {
+  background: $bcds-color-primary-default;
+  color: $bcds-text-color-invert;
+
+  &.danger { background-color: $bcds-color-danger-default; }
+  &:hover { background-color: $bcds-color-primary-hover; }
+  &.danger:hover { background-color: $bcds-color-danger-hover; }
+  &:active { background-color: $bcds-color-primary-pressed; }
+
+  &.danger:active {
+    background-color: $bcds-color-danger-surface;
+    color: $bcds-color-danger-default;
   }
 
-  &.slim {
-    padding: 8px 16px;
+  &:disabled {
+    background-color: $bcds-color-primary-disabled;
+    color: $bcds-text-color-disabled;
+  }
+}
+
+/* Variant - Secondary */
+.bcds-button.secondary {
+  background-color: $bcds-color-secondary-default;
+  border: $bcds-border-width-small solid $bcds-border-color-dark;
+  color: $bcds-text-color-primary;
+
+  &.danger {
+    border-color: $bcds-color-danger-default;
+    color: $bcds-color-danger-default;
   }
 
-  .label {
-    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
-      sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    color: #000000;
+  &:hover { background-color: $bcds-color-secondary-hover; }
+  &.danger:hover { background-color: $bcds-color-danger-surface; }
+  &:active { background-color: $bcds-color-secondary-pressed; }
 
-    &.slim {
-      font-weight: 400;
-    }
+  &.danger:active {
+    background-color: $bcds-color-danger-default;
+    color: $bcds-text-color-invert;
+  }
+
+  &:disabled {
+    background-color: $bcds-color-secondary-disabled;
+    border-color: $bcds-border-color-default;
+    color: $bcds-text-color-disabled;
+  }
+}
+
+/* Variant - Tertiary */
+.bcds-button.tertiary {
+  background-color: $bcds-color-tertiary-default;
+  color: $bcds-text-color-primary;
+
+  &.danger { color: $bcds-color-danger-default; }
+  &:hover { background-color: $bcds-color-tertiary-hover; }
+  &.danger:hover { background-color: $bcds-color-danger-surface; }
+  &:active { background-color: $bcds-color-tertiary-pressed; }
+  &.danger:active { background-color: $bcds-color-tertiary-pressed; }
+
+  &:disabled {
+    background-color: $bcds-color-tertiary-default;
+    color: $bcds-text-color-disabled;
+  }
+}
+
+/* Variant - Link */
+.bcds-button.link {
+  background-color: $bcds-color-tertiary-default;
+  color: $bcds-text-color-link;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+
+  &.danger { color: $bcds-color-danger-default; }
+  &:disabled { color: $bcds-text-color-disabled; }
+}
+
+/* Variant - Evacuation Order */
+.bcds-button.evacuationOrder {
+  background-color: $colour-evacuation-order;
+  color: $bcds-text-color-invert;
+
+  &:hover { background-color: darken($colour-evacuation-order, 7%); }
+  &:active { background-color: darken($colour-evacuation-order, 12%); }
+
+  &:disabled {
+    background-color: $bcds-color-primary-disabled;
+    color: $bcds-text-color-disabled;
+  }
+}
+
+/* Variant - Evacuation Alert */
+.bcds-button.evacuationAlert {
+  background-color: $colour-evacuation-alert;
+  color: $bcds-text-color-invert;
+
+  &:hover { background-color: darken($colour-evacuation-alert, 7%); }
+  &:active { background-color: darken($colour-evacuation-alert, 12%); }
+
+  &:disabled {
+    background-color: $bcds-color-primary-disabled;
+    color: $bcds-text-color-disabled;
   }
 }

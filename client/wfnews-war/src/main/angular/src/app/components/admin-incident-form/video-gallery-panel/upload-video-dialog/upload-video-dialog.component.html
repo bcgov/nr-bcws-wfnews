@@ -12,7 +12,8 @@
       </mat-form-field>
     </div>
     <div class="dialog-actions" mat-dialog-actions>
-        <button mat-raised-button color="primary" [mat-dialog-close]="returnResult()" [disabled]="url === null || title === null">Save</button>
-        <button mat-raised-button [mat-dialog-close]="false">Cancel</button>
+        <wfnews-button variant="primary" label="Save" [disabled]="url === null || title === null"
+          (buttonClicked)="save()"></wfnews-button>
+        <wfnews-button variant="secondary" label="Cancel" (buttonClicked)="cancel()"></wfnews-button>
     </div>
   </div>

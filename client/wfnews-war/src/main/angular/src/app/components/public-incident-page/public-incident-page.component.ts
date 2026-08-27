@@ -289,6 +289,10 @@ export class PublicIncidentPageComponent implements OnInit {
       });
   }
 
+  callFireCentre(phoneNumber: string) {
+    window.location.href = `tel:${phoneNumber}`;
+  }
+
   emailFireCentre(recipientEmail: string) {
     const mailtoUrl = `mailto:${recipientEmail}`;
     window.location.href = mailtoUrl;

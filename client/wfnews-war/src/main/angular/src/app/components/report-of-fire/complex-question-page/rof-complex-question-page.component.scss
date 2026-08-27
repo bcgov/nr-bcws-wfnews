@@ -7,28 +7,31 @@
   }
 }
 
-.btn-highlight {
-  border-radius: 8px !important;
-  border: 3px solid #4169a4 !important;
-  background-color: #dfe5ee !important;
+// The options are one mat-button-toggle-group now. Material gives a group a frame and
+// an inline-flex row, and this page wants a plain wrapping column.
+.page-content .rof-complex-group {
+  display: flex;
+  border: none;
+  border-radius: 0;
+  overflow-y: auto;
+
+  .mat-button-toggle {
+    margin-bottom: 0;
+  }
 }
 
 .btn-icon {
   margin-right: 8px;
-  position: inherit;
-  top: 2px;
 }
 
+// These sit on the option itself now, not on a wrapper. A wrapper left the toggle
+// inline, and an inline box takes no height.
 .multi-select-class {
   padding-top: 3px;
-  width: auto;
   flex: 0 0 calc(50% - 12px);
   max-width: calc(50% - 12px);
-  height: fit-content;
-  .flex-button {
-    white-space: normal;
-    align-items: center;
-  }
+  white-space: normal;
+  align-items: center;
 }
 
 .single-select-class {
@@ -37,11 +40,7 @@
 }
 
 .distance-class {
-  width: auto;
   flex: 0 0 calc(50% - 12px);
   max-width: calc(50% - 12px);
-  height: fit-content;
-  .flex-button {
-    white-space: nowrap;
-  }
+  white-space: nowrap;
 }

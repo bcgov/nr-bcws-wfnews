@@ -59,7 +59,11 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   public showProgress = false;
   public isEditMode = false;
   public progressSteps = [];
-  public currentStep = 0;
+
+  /** Read the step from the page on screen. A counter drifts when a page repeats. */
+  get currentStep(): number {
+    return this.progressSteps.indexOf(this.currentPage?.instance?.title) + 1;
+  }
 
   constructor(
     private locationService: Location,
@@ -204,23 +208,9 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       return;
     }
 
-    // For progress bar handling. If the page tracks progress and isn't a sub-page (title match), then incrememnt
-    // or decrement the progress bar depending on if we're going to next or previous
-    if (
-      operation !== PageOperation.previous &&
-      nextPage.instance.showProgress &&
-      nextPage.instance.title !== this.currentPage.instance.title
-    ) {
-      this.currentStep++;
-    } else if (
-      operation === PageOperation.previous &&
-      this.currentPage.instance.showProgress &&
-      nextPage.instance.title !== this.currentPage.instance.title
-    ) {
-      this.currentStep--;
-    }
+    // Tell the page it is leaving, so it can stop what only a visible page may do.
+    this.currentPage?.instance?.onHidden();
 
-    // get the new page index, for progress bar tracking and whatnot
     this.currentPage = nextPage;
     // update the component to use the latest parent reportOfFire object, just to be sure
     // all updates are matching on all forms
@@ -236,6 +226,10 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         locationPageComponent.loadMapConfig();
       }
     }
+
+    // Every page learns it is on screen. The location page asks for a position here,
+    // and the compass page starts to listen to the sensor.
+    this.currentPage.instance.onShown();
 
     if (editMode) {
       this.isEditMode = true;
@@ -367,7 +361,8 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       });
 
       dialogRef.afterClosed().subscribe((result) => {
-        if (result['confirm']) {
+        // A dismissed dialog closes with nothing, and reading through it threw.
+        if (result?.confirm) {
           //this.router.navigateByUrl('/dashboard')
           this.locationService.back();
         }

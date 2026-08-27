@@ -133,6 +133,14 @@
   top: 16px;
 }
 
+.version-hint {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: #4f4f4f;
+  padding-top: 4px;
+}
+
 .version-number{
   color: var(--Grays-Gray-1, #242424);
   font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;

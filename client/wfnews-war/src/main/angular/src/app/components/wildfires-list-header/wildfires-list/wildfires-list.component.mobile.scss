@@ -199,3 +199,16 @@
   left: 50vw;
   top: 20px;
 }
+
+.load-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 0;
+}
+
+.load-more-label {
+  font-size: 14px;
+  color: #605e5c;
+}

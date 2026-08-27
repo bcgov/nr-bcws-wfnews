@@ -28,33 +28,11 @@
     font-weight: 400;
     line-height: normal;
   }
+  // stretch, not center: each Button is fullWidth, so it needs the whole measure.
   .button-group {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    // gap: 16px;
-    // align-self: stretch;
-  }
-
-  .btn-block {
-    flex-grow: 1;
-    margin: 5px;
-    height: 38px;
-    width: calc(80vw - 48px);
-    border-radius: 5px;
-    border: 1px solid #c7c7c7;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-  }
-  .primary {
-    color: #fff;
-    background: #123262;
-  }
-  .secondary {
-    color: #000;
-    background: #f5f5f5;
+    align-items: stretch;
+    gap: 8px;
   }
 }

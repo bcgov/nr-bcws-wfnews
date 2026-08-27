@@ -265,6 +265,10 @@ export class BansFullDetailsComponent implements OnInit {
     );
   }
 
+  navToBcParksAdvisories() {
+    window.open('https://bcparks.ca/active-advisories/', '_blank');
+  }
+
   navToOpenBurning() {
     window.open(
       this.appConfigService.getConfig().externalAppConfig['bansOpenBurningUrl'].toString(),

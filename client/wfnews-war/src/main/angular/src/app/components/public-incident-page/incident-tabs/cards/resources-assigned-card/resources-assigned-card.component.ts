@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { defaultSlimIconButtonStyle } from '@app/components/common/icon-button/icon-button.component';
 
 @Component({
   selector: 'resources-assigned-card',
@@ -12,7 +11,6 @@ export class ResourcesAssignedCardComponent implements OnInit {
 
   resources = [];
 
-  defaultSlimIconButtonStyle = defaultSlimIconButtonStyle;
   
   ngOnInit(): void {
     this.populateResources();

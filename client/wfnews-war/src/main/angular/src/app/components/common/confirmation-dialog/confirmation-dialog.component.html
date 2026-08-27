@@ -1,12 +1,13 @@
 <div class="content">
     <div class="header">
+        <img alt="" class="header-icon" [src]="icon">
         <h2 mat-dialog-title class="title">{{ data.title }}</h2>
     </div>
     <p mat-dialog-content class="text">{{ data.text }}</p>
     <div mat-dialog-actions class="button-group">
-        <wfnews-button [nativeButton]="true" [label]="cancelLabel" [componentStyle]="cancelStyle"
+        <wfnews-button variant="secondary" [label]="cancelLabel"
             (buttonClicked)="closeDialog()"></wfnews-button>
-        <wfnews-button [nativeButton]="true" [label]="confirmLabel" [componentStyle]="confirmStyle"
+        <wfnews-button variant="primary" [danger]="!!data.destructive" [label]="confirmLabel"
             (buttonClicked)="confirm()"></wfnews-button>
     </div>
 </div>

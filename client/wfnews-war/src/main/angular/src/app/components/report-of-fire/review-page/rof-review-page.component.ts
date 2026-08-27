@@ -374,9 +374,14 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
     }
   }
 
+  /** Never throws. The report must continue with no position. */
   async useMyCurrentLocation() {
-    this.currentLocation =
-      await this.commonUtilityService.getCurrentLocationPromise();
+    try {
+      this.currentLocation =
+        await this.commonUtilityService.getCurrentLocationPromise();
+    } catch (error) {
+      this.currentLocation = undefined;
+    }
   }
 
   async submitRof() {

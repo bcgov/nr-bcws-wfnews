@@ -79,38 +79,29 @@
             </div>
             <div class="info-panel-button-row" *ngIf="!isMobileView()">
               <div class="contact-buttons" [ngClass]="{desktop: !isMobileView()}">
-                <button mat-button class="desktop-buttons" (click)="openContactUsWindow('desktop')">
-                  Contact Us
-                </button>
-                <button mat-button class="desktop-buttons" (click)="printPage()">
-                  <img class="icon-contact" src="/assets/images/svg-icons/printer.svg" alt="print" />
-                  Print
-                </button>
-                <button mat-button class="desktop-buttons" (click)="openShareWindow()">
-                  <img class="icon-contact" src="/assets/images/svg-icons/share.svg" alt="print" />
-                  Share
-                </button>
+                <wfnews-button variant="secondary" label="Contact Us"
+                  (buttonClicked)="openContactUsWindow('desktop')"></wfnews-button>
+                <wfnews-button variant="secondary" label="Print"
+                  iconPath="/assets/images/svg-icons/printer.svg" (buttonClicked)="printPage()"></wfnews-button>
+                <wfnews-button variant="secondary" label="Share"
+                  iconPath="/assets/images/svg-icons/share.svg" (buttonClicked)="openShareWindow()"></wfnews-button>
             </div>
             </div>
           </div>
         </div>
         <div *ngIf="isMobileView()">
           <div class="contact-buttons">
-            <button mat-button class="mobile-buttons" [class.on-watchlist]="onWatchlist()" (click)="addToWatchlist()">
-                <img *ngIf="!onWatchlist()" class="icon-contact" src="/assets/images/svg-icons/bookmark.svg"
-                    alt="bookmark" />
-                <img *ngIf="onWatchlist()" class="icon-contact" src="/assets/images/svg-icons/bookmark-blue.svg"
-                alt="bookmark" />
-                {{ onWatchlist() ? 'Saved' : 'Save' }}
-            </button>
-            <button mat-button class="mobile-buttons" (click)="openContactUsWindow()">
-                Contact Us
-            </button>
-            <button mat-button class="mobile-buttons" (click)="shareMobile()">
-              <img class="icon-contact" src="/assets/images/svg-icons/share.svg"
-                alt="share" />
-              Share  
-            </button>
+            <wfnews-button [variant]="onWatchlist() ? 'primary' : 'secondary'"
+                [label]="onWatchlist() ? 'Saved' : 'Save'"
+                [iconPath]="onWatchlist()
+                  ? '/assets/images/svg-icons/bookmark-filled.svg'
+                  : '/assets/images/svg-icons/bookmark.svg'"
+                (buttonClicked)="addToWatchlist()"></wfnews-button>
+            <wfnews-button variant="secondary" label="Contact Us"
+                (buttonClicked)="openContactUsWindow()"></wfnews-button>
+            <wfnews-button variant="secondary" label="Share"
+                iconPath="/assets/images/svg-icons/share.svg"
+                (buttonClicked)="shareMobile()"></wfnews-button>
         </div>
           <div class="divider"></div>
         </div>
@@ -151,14 +142,11 @@
             </span>
           </div>
           <div class="info-panel-button-row" *ngIf="!isMobileView()">
-              <button mat-button class="single-button" (click)="navToMap()">
-                <img class="single-button-icon" src="/assets/images/svg-icons/map.svg" height="20" width="20" alt="Map" />
-                View on Map
-              </button>
-              <button mat-button class="single-button" (click)="openShareWindow('evac')">
-                <img class="single-button-icon" src="/assets/images/svg-icons/share.svg" height="24" width="24" alt="Share" />
-                Share
-              </button>
+              <wfnews-button variant="secondary" label="View on Map"
+                iconPath="/assets/images/svg-icons/map.svg" (buttonClicked)="navToMap()"></wfnews-button>
+              <wfnews-button variant="secondary" label="Share"
+                iconPath="/assets/images/svg-icons/share.svg"
+                (buttonClicked)="openShareWindow('evac')"></wfnews-button>
           </div>
         </div>
       </div>

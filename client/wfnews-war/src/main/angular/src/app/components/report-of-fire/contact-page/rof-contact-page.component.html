@@ -12,24 +12,17 @@
   </mat-form-field>
 
   <div class="rof-button-container" *ngIf="!isEditMode">
-    <button class="rof-button" mat-flat-button (click)="reportOfFire.consentToCall = 'no'; previous();">Previous</button>
-    <button 
-      [class]="buttonClass" 
-      [disabled]="!isFormValid" 
-      mat-flat-button 
-      color="primary" 
-      (click)="nextPage()">Next
-      <mat-icon 
-        [svgIcon]="iconType" 
-        (click)="reportOfFire.consentToCall = 'yes'; nextPage();"
-        class="left-padding"
-        style="width: 24px; height: 24px;">
-      </mat-icon>
-    </button>
+    <wfnews-button variant="secondary" size="large" label="Previous"
+      (buttonClicked)="reportOfFire.consentToCall = 'no'; previous();"></wfnews-button>
+    <wfnews-button variant="primary" size="large" label="Next" [disabled]="!isFormValid"
+      iconPathEnd="/assets/images/svg-icons/arrow-forward-enabled.svg"
+      (buttonClicked)="reportOfFire.consentToCall = 'yes'; nextPage();"></wfnews-button>
   </div>
 
   <div class="rof-button-container" *ngIf="isEditMode">
-    <button class="rof-button" mat-flat-button (click)="backToReview();">Cancel</button>
-	  <button [class]="'rof-button' + (!reportOfFire.fullName || !reportOfFire.phoneNumber || !validatePhoneNumber(reportOfFire.phoneNumber) ? '-disabled' : '-primary')"  mat-flat-button (click)="reportOfFire.consentToCall = 'yes'; backToReview();" [disabled]="!reportOfFire.fullName || !reportOfFire.phoneNumber || !validatePhoneNumber(reportOfFire.phoneNumber)">Save</button>
+    <wfnews-button variant="secondary" size="large" label="Cancel"
+      (buttonClicked)="backToReview();"></wfnews-button>
+    <wfnews-button variant="primary" size="large" label="Save" [disabled]="!isFormValid"
+      (buttonClicked)="reportOfFire.consentToCall = 'yes'; backToReview();"></wfnews-button>
   </div>
 </div>

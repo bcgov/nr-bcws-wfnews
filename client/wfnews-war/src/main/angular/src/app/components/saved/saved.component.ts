@@ -5,6 +5,7 @@ import {
   ConfirmationDialogComponent,
   confirmationDialogConfig,
 } from '@app/components/common/confirmation-dialog/confirmation-dialog.component';
+import { PERMISSION_BANNER } from '@app/components/common/permission-banner/permission-banner.constants';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
@@ -36,6 +37,7 @@ export class SavedComponent implements OnInit, OnDestroy {
   public wildFireWatchlist: any[] = [];
   public errorString: string;
   public pushPermission: PushPermissionState = 'unsupported';
+  readonly bannerText = PERMISSION_BANNER;
   isMobileView = isMobileView;
   private permissionSubscription: Subscription;
 
@@ -67,6 +69,13 @@ export class SavedComponent implements OnInit, OnDestroy {
 
   get showPermissionBanner(): boolean {
     return this.pushPermission === 'denied' || this.pushPermission === 'prompt';
+  }
+
+  /** Push fails one way only, so a denial always means the settings page. */
+  get pushBannerAction(): string {
+    return this.pushPermission === 'denied'
+      ? PERMISSION_BANNER.push.action.appSettings
+      : PERMISSION_BANNER.push.action.turnOn;
   }
 
   ngOnInit(): void {

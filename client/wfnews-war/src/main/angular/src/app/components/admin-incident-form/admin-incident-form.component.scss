@@ -149,40 +149,6 @@ mat-mdc-select-panel-done-animating {
     border-bottom: 1px solid #a1a3a6;
   }
 
-  .resource-button {
-    display: flex;
-    width: 312px;
-    height: 37px;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-    position: relative;
-    color: #000;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    float: right;
-    border-radius: 5px;
-    border: 1px solid #000;
-    background: #F6F6F6;
-    right: 28px;
-
-    ::ng-deep .mdc-button__label {
-      bottom: 4px;
-    }
-
-    .icon {
-      width: 24px;
-      height: 24px;
-      margin-right: 8px;
-      top: 6px;
-      position: relative
-    }
-  }
-
   .news-form {
     display: flex;
     flex-wrap: wrap;
@@ -345,19 +311,6 @@ mat-card h3 {
   wf-icon {
     margin-right: 5px;
   }
-}
-
-.publish-btn {
-  background-color: var(--wf-header-background-color);
-  border: solid 1px #1a5a96;
-  color: #ffffff;
-}
-
-.preview-btn {
-  color: var(--wf-header-background-color);
-  background-color: #ffffff;
-  border: solid 1px #1a5a96;
-  margin-right: 10px;
 }
 
 .mat-expansion-panel {

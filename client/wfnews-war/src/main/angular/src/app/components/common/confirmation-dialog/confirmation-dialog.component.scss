@@ -2,20 +2,31 @@
 
 // Layout follows the BC Gov Alert Dialog: three bands on one horizontal measure, divided
 // by a hairline, with the buttons at the end. Its tokens are 1rem, 1.5rem, 0.5rem, 1px.
+// The phone keeps every band and every rule. Only the measurements change.
 .content {
   display: flex;
   flex-direction: column;
   .header {
     display: flex;
     flex-direction: row;
-    gap: 8px;
-    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
     padding: 16px 24px;
     border-bottom: 1px solid #d8d8d8;
   }
 
+  // The same mark as the permission banner, so one warning reads the same in both places.
+  .header-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
   .title {
-    flex-grow: 1;
+    // MDC gives its dialog title flex-shrink: 0, so a long title runs past the card
+    // instead of wrapping. Let it shrink, and the words wrap inside the band.
+    flex: 1 1 auto;
+    min-width: 0;
     margin: 0;
     padding: 0;
 
@@ -29,7 +40,8 @@
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
-    line-height: normal;
+    // A fixed ratio, so the icon holds the first line of a title that wraps.
+    line-height: 1.2;
   }
   .text {
     display: block;
@@ -58,14 +70,26 @@
 
 // The phone variant: a narrower measure, so the bands give the text more of the screen.
 @media (max-width: $mobile-max-width) {
-  .content .header,
-  .content .text,
-  .content .button-group {
-    padding: 16px;
-  }
+  .content {
+    .header,
+    .text,
+    .button-group {
+      padding: 16px;
+    }
 
-  .content .header,
-  .content .text {
-    border-bottom: none;
+    .header {
+      gap: 8px;
+    }
+
+    // 20px against an 18px title keeps the ratio the 24px icon has on a desktop.
+    .header-icon {
+      width: 20px;
+      height: 20px;
+      margin-top: 1px;
+    }
+
+    .title {
+      font-size: 18px;
+    }
   }
 }

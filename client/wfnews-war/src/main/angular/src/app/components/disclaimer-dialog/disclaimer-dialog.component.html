@@ -15,7 +15,7 @@
         </div>
         <div class="button-wrapper">
             <bc-checkbox [(ngModel)]="dontShowAgain">Don't show again</bc-checkbox>
-            <button mat-raised-button color="primary" class="cancel-button" (click)="cancel()">OK</button>
+            <wfnews-button variant="secondary" label="OK" (buttonClicked)="cancel()"></wfnews-button>
         </div>
     </div>
 </ng-container>

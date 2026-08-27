@@ -1,5 +1,5 @@
 import { ContentCardContainerComponent } from '@app/components/common/content-card-container/content-card-container.component';
-import { IconButtonComponent } from '@app/components/common/icon-button/icon-button.component';
+import { WfnewsButtonComponent } from '@app/components/common/wfnews-button/wfnews-button.component';
 import { IconListItemComponent } from '@app/components/common/icon-list-item/icon-list-item.component';
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { ContactUsCoreComponent } from './contact-us-core.component';
@@ -10,7 +10,7 @@ const meta: Meta<ContactUsCoreComponent> = {
   tags: ['autodocs'], 
   decorators: [
     moduleMetadata({
-      declarations: [ContactUsCoreComponent, ContentCardContainerComponent, IconListItemComponent, IconButtonComponent]
+      declarations: [ContactUsCoreComponent, ContentCardContainerComponent, IconListItemComponent, WfnewsButtonComponent]
     })
   ]
 };

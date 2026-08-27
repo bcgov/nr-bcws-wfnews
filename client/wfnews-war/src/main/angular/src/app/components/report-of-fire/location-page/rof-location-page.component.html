@@ -1,6 +1,12 @@
 <div class="page-content">
   <div class="rof-text-primary-header">{{ title }}</div>
   <div class="rof-text-secondary-header">{{ message }}</div>
+  <permission-banner *ngIf="showLocationBanner"
+      [heading]="locationBannerHeading"
+      [message]="locationBannerMessage"
+      [actionLabel]="locationBannerAction"
+      (action)="onTurnOnLocation()">
+  </permission-banner>
   <div class="map-container">
     <wf-map-container id="mapView" 
       *ngIf="mapConfig"
@@ -11,14 +17,16 @@
     <i class="photo-location material-icons">location_searching</i>
   </div>
   <div class="rof-button-container" *ngIf="!isEditMode">
-    <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-	  <!-- <button class="rof-button-primary" mat-flat-button (click)="next()">Continue</button> -->
-    <button mat-flat-button class="rof-button-primary" (click)="next(); confirmLocation()"><mat-icon svgIcon="arrow-forward-enabled" class="left-padding" style="width: 24px; height: 24px;"></mat-icon>Next</button>
+    <wfnews-button variant="secondary" size="large" label="Previous"
+      (buttonClicked)="previous()"></wfnews-button>
+    <wfnews-button variant="primary" size="large" label="Next" iconPathEnd="/assets/images/svg-icons/arrow-forward-enabled.svg"
+      (buttonClicked)="next(); confirmLocation()"></wfnews-button>
   </div>
 
   <div class="rof-button-container" *ngIf="isEditMode">
-    <button class="rof-button" mat-flat-button (click)="backToReview()">Cancel</button>
-	  <!-- <button class="rof-button-primary" mat-flat-button (click)="next()">Continue</button> -->
-    <button mat-flat-button class="rof-button-primary" (click)="confirmLocation(); backToReview();">Save</button>
+    <wfnews-button variant="secondary" size="large" label="Cancel"
+      (buttonClicked)="backToReview()"></wfnews-button>
+    <wfnews-button variant="primary" size="large" label="Save"
+      (buttonClicked)="confirmLocation(); backToReview();"></wfnews-button>
   </div>
 </div>

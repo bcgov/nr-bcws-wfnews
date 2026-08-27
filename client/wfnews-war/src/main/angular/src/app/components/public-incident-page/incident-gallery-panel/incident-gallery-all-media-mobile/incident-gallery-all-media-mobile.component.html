@@ -8,7 +8,8 @@
     </div>
   </div>
   <div #loadMoreButton class="load-more-row" *ngIf="displayLoadMore">
-    <button mat-button class="load-more-button"(click)="loadMoreMedia(loadMoreButton)">Load More</button>
+    <wfnews-button variant="secondary" label="Load More"
+      (buttonClicked)="loadMoreMedia(loadMoreButton)"></wfnews-button>
   </div>
 </div>
   <ng-template #showDisclaimer>

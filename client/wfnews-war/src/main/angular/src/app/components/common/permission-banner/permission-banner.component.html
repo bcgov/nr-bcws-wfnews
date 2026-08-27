@@ -1,0 +1,10 @@
+<div class="permission-banner">
+    <img alt="warning" class="banner-icon" [src]="icon">
+    <div class="banner-text">
+        <span class="banner-title">{{ heading }}</span>
+        <span class="banner-message">{{ message }}</span>
+        <button type="button" class="banner-button" (click)="action.emit()">
+            {{ actionLabel }}
+        </button>
+    </div>
+</div>

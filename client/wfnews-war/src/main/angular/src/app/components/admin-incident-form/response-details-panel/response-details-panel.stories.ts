@@ -1,5 +1,6 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
+import { WfnewsButtonComponent } from '@app/components/common/wfnews-button/wfnews-button.component';
 import { ResponseDetailsPanel } from './response-details-panel.component';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,7 +30,7 @@ const meta: Meta<ResponseDetailsPanel> = {
     component: ResponseDetailsPanel,
     decorators: [
         moduleMetadata({
-            declarations: [ResponseDetailsPanel],
+            declarations: [ResponseDetailsPanel, WfnewsButtonComponent],
             imports: [
                 CommonModule,
                 MatDialogModule,

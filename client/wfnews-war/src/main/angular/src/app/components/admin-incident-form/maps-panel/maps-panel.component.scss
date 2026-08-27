@@ -190,7 +190,7 @@ table tr:nth-child(even) td {
         font-size: $font-size;
         &:focus {
           outline: none;
-          box-shadow: 0 0 4px #3e7fff;
+          box-shadow: $focus-ring;
         }
       }
     }
@@ -236,7 +236,7 @@ table tr:nth-child(even) td {
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 4px #3e7fff;
+        box-shadow: $focus-ring;
       }
     }
   }
@@ -388,7 +388,7 @@ table tr:nth-child(even) td {
       font-size: $font-size;
       &:focus {
         outline: none;
-        box-shadow: 0 0 4px #3e7fff;
+        box-shadow: $focus-ring;
       }
     }
   }
@@ -434,7 +434,7 @@ table tr:nth-child(even) td {
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 4px #3e7fff;
+      box-shadow: $focus-ring;
     }
   }
 
@@ -474,11 +474,6 @@ table tr:nth-child(even) td {
       overflow-x: hidden;
       overflow-y: visible;
       line-height: 18px;
-
-      &.icon-button-wrapper {
-        display: flex;
-        justify-content: center;
-      }
     }
   }
 
@@ -510,8 +505,3 @@ table tr:nth-child(even) td {
   display: flex;
 }
 
-.primary-button {
-  margin-left: auto;
-  background: #003366;
-  color: white;
-}

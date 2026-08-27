@@ -1,0 +1,100 @@
+<div class="debug">
+  <div class="mobile-header">
+    <span class="mobile-header-button">
+      <span (click)="back()"><mat-icon style="transform: translatey(5px);">chevron_left</mat-icon>Exit</span>
+    </span>
+  </div>
+
+  <h1 class="debug-title">Diagnostics</h1>
+
+  <p class="debug-note">
+    Technical information for BC Wildfire Service support. Use the button at the bottom of the page to copy this
+    information and send to support.
+  </p>
+
+  <section class="debug-section">
+    <h2>App</h2>
+    <div class="debug-row" *ngFor="let row of app">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+  </section>
+
+  <section class="debug-section">
+    <h2>Device</h2>
+    <div class="debug-row" *ngFor="let row of device">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+  </section>
+
+  <section class="debug-section">
+    <h2>Graphics</h2>
+    <div class="debug-row" *ngFor="let row of graphics">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+    <div class="debug-issue" *ngIf="graphicsIssue">{{ graphicsIssue }}</div>
+  </section>
+
+  <section class="debug-section">
+    <h2>Notifications</h2>
+    <div class="debug-row" *ngFor="let row of notifications">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+  </section>
+
+  <section class="debug-section">
+    <h2>Network</h2>
+    <div class="debug-row" *ngFor="let row of network">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+  </section>
+
+  <section class="debug-section">
+    <h2>API test</h2>
+    <button type="button" class="debug-button" (click)="testReachability()" [disabled]="testing">
+      {{ testing ? 'Testing…' : 'Test the API' }}
+    </button>
+    <div class="debug-row" *ngFor="let row of reach">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+  </section>
+
+  <section class="debug-section">
+    <h2>Network speed test</h2>
+    <button type="button" class="debug-button" (click)="testDeep()" [disabled]="deepTesting">
+      {{ deepTesting ? 'Testing…' : 'Run the network test' }}
+    </button>
+    <div class="debug-row" *ngFor="let row of deep">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+    <div class="debug-issue" *ngFor="let issue of issues">{{ issue }}</div>
+  </section>
+
+  <section class="debug-section">
+    <h2>Device speed test</h2>
+    <button type="button" class="debug-button" (click)="testSpeed()" [disabled]="speedTesting">
+      {{ speedTesting ? 'Testing…' : 'Test this device' }}
+    </button>
+    <div class="debug-row" *ngFor="let row of speed">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+  </section>
+
+  <div class="debug-actions">
+    <button type="button" class="debug-button" (click)="refresh()" [disabled]="refreshing">
+      {{ refreshing ? 'Refreshing…' : 'Refresh diagnostics' }}
+    </button>
+    <button type="button" class="debug-button debug-button--primary" (click)="copy()">
+      {{ copied ? 'Copied' : 'Copy all' }}
+    </button>
+  </div>
+
+  <p class="debug-readat" *ngIf="readAt">Read at {{ readAt }}</p>
+</div>

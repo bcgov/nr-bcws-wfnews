@@ -15,6 +15,12 @@ $colour-lighter-yellow: #f9f9cd;
 $colour-black: #000000;
 $colour-red: #ff4545;
 $color-dark-red: #B91D38;
+
+// The two advisory colours. They are wildfire domain colours, not Design System tokens:
+// the system has no solid fill for a warning, and its danger red reads at 4.80:1 against
+// white where this red reads at 6.37:1.
+$colour-evacuation-order: #B91D38;
+$colour-evacuation-alert: #8F7100;
 $colour-green: #009e73;
 $colour-blue: #003366;
 $colour-white: #ffffff;
@@ -137,9 +143,6 @@ $colour-table-background-hover: $colour-medium-grey;
 
 $nav-bar-height: 62px;
 
-// A floor for button width, so a short label like Save or Cancel does not make a stub.
-// Roughly what the Save button measures at its 32px side padding.
-$button-min-width: 100px;
 
 // The four Saved screens share one measure, so the back link and the page content do not
 // move sideways between them. Content narrower than this centres inside it.
@@ -149,3 +152,14 @@ $mobile-max-width: 767px;
 $desktop-sm-min-width: 768px;
 $desktop-sm-max-width: 1250px;
 $desktop-md-min-width: 1251px;
+
+/**
+ Elevation. One value for each job, so a new card cannot invent a sixth shadow.
+ */
+$shadow-card: 0 4px 8px rgba(0, 0, 0, 0.05);
+$border-card: 1px solid rgba(0, 0, 0, 0.08);
+$shadow-panel: 0 0 15px 0 rgba(0, 0, 0, 0.23);
+$shadow-map-control:
+  0 1px 2px rgba(60, 64, 67, 0.3),
+  0 1px 3px 1px rgba(60, 64, 67, 0.15);
+$focus-ring: 0 0 4px #3e7fff;

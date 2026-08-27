@@ -12,24 +12,56 @@
     </div>
     <div id="current-stats-page" *ngIf="selectedTab === 0" class="panel-container">
       <!-- Re-Add *ngIf="!offseason()" before deploy to PROD! -->
-      <situation-widget class="widget"></situation-widget>
-      <summary-widget class="widget"></summary-widget>
-      <highlights-widget class="widget"></highlights-widget>
-      <overview-widget class="widget"></overview-widget>
-      <active-fires-widget class="widget"></active-fires-widget>
-      <resources-widget class="widget"></resources-widget>
-      <evacuations-widget class="widget"></evacuations-widget>
-      <bans-widget class="widget"></bans-widget>
-      <fires-of-note-widget class="widget"></fires-of-note-widget>
-      <fire-cause-widget class="widget" [yearly]="false"></fire-cause-widget>
-      <blog-widget class="widget"></blog-widget>
-      <videos-widget class="widget"></videos-widget>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.situation" wfnewsDeferLoad (visible)="show('situation')">
+        <situation-widget *ngIf="shown.situation"></situation-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.summary" wfnewsDeferLoad (visible)="show('summary')">
+        <summary-widget *ngIf="shown.summary"></summary-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.highlights" wfnewsDeferLoad (visible)="show('highlights')">
+        <highlights-widget *ngIf="shown.highlights"></highlights-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.overview" wfnewsDeferLoad (visible)="show('overview')">
+        <overview-widget *ngIf="shown.overview"></overview-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.activeFires" wfnewsDeferLoad (visible)="show('activeFires')">
+        <active-fires-widget *ngIf="shown.activeFires"></active-fires-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.resources" wfnewsDeferLoad (visible)="show('resources')">
+        <resources-widget *ngIf="shown.resources"></resources-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.evacuations" wfnewsDeferLoad (visible)="show('evacuations')">
+        <evacuations-widget *ngIf="shown.evacuations"></evacuations-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.bans" wfnewsDeferLoad (visible)="show('bans')">
+        <bans-widget *ngIf="shown.bans"></bans-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.firesOfNote" wfnewsDeferLoad (visible)="show('firesOfNote')">
+        <fires-of-note-widget *ngIf="shown.firesOfNote"></fires-of-note-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.fireCause" wfnewsDeferLoad (visible)="show('fireCause')">
+        <fire-cause-widget [yearly]="false" *ngIf="shown.fireCause"></fire-cause-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.blog" wfnewsDeferLoad (visible)="show('blog')">
+        <blog-widget *ngIf="shown.blog"></blog-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.videos" wfnewsDeferLoad (visible)="show('videos')">
+        <videos-widget *ngIf="shown.videos"></videos-widget>
+      </div>
     </div>
     <div id="totals-page" *ngIf="selectedTab === 1" class="panel-container">
-      <fire-totals-widget class="widget"></fire-totals-widget>
-      <fire-cause-widget class="widget" [yearly]="true"></fire-cause-widget>
-      <historical-comparison-widget class="widget"></historical-comparison-widget>
-      <fire-centre-stats-widget class="widget"></fire-centre-stats-widget>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.fireTotals" wfnewsDeferLoad (visible)="show('fireTotals')">
+        <fire-totals-widget *ngIf="shown.fireTotals"></fire-totals-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.fireCauseYearly" wfnewsDeferLoad (visible)="show('fireCauseYearly')">
+        <fire-cause-widget [yearly]="true" *ngIf="shown.fireCauseYearly"></fire-cause-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.historicalComparison" wfnewsDeferLoad (visible)="show('historicalComparison')">
+        <historical-comparison-widget *ngIf="shown.historicalComparison"></historical-comparison-widget>
+      </div>
+      <div class="widget widget-slot" [class.widget-slot--waiting]="!shown.fireCentreStats" wfnewsDeferLoad (visible)="show('fireCentreStats')">
+        <fire-centre-stats-widget *ngIf="shown.fireCentreStats"></fire-centre-stats-widget>
+      </div>
     </div>
   </div>
 </div>

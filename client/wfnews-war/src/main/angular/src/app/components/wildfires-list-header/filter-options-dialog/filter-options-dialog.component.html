@@ -39,6 +39,7 @@
     </div>
   </div>
   <div class="dialog-footer" mat-dialog-actions>
-  	<button class="footer-button" mat-raised-button color="primary" [mat-dialog-close]="filterData">Show Results</button>
+    <wfnews-button variant="primary" [fullWidth]="true" label="Show Results"
+      (buttonClicked)="showResults()"></wfnews-button>
   </div>
 </div>

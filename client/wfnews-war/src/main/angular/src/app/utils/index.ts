@@ -40,6 +40,7 @@ export enum ResourcesRoutes {
   CONTACT_US = 'contact-us',
   SAVED_LOCATION = 'saved-location',
   WEATHER_DETAILS = 'weather-details',
+  DEBUG = 'debug',
 }
 
 export const FireCentres = [

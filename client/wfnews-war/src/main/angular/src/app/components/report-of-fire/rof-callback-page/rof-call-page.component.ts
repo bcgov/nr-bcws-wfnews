@@ -56,8 +56,13 @@ export class RofCallPage extends RoFPage {
     window.open(phoneNumber, '_blank');
   }
 
+  /**
+   * Never throws, and never asks. The wizard calls initialize() on every page as
+   * soon as Report of Fire opens, so a prompt here would appear on the title page
+   * before the user has tapped Start.
+   */
   async useMyCurrentLocation() {
-    this.location = await this.commonUtilityService.getCurrentLocationPromise();
+    this.location = await this.commonUtilityService.getPositionIfPermitted();
   }
 
   formate(coordinate) {

@@ -25,7 +25,6 @@
   <link rel="apple-touch-icon" href="assets/icons/icon-128x128.png">
   <meta name="theme-color" content="#1976d2">
 
-  <link rel="preconnect" href="https://maps.int.bcwildfireservices.com">
   <link rel="preconnect" href="https://openmaps.gov.bc.ca">
   <link rel="preconnect" href="https://www2.gov.bc.ca">
   <link rel="preconnect" href="https://spt.apps.gov.bc.ca">
@@ -38,8 +37,12 @@
       style-src 'self' https://fonts.googleapis.com" -->
 
   <script src="assets/splash-screen/index.js"></script>
-  <script src="https://www.youtube.com/iframe_api"></script>
-  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <!--
+    Two external scripts used to load here, before the application code, and they
+    delayed the first screen on a weak connection. The YouTube iframe API had no
+    caller at all: videos use the same-origin youtube-embed page. The Google charts
+    loader now loads on demand, in GoogleChartsService.
+  -->
   <!-- script>SPLASH_SCREEN.show( { title: 'NEWS' } )</script -->
   <!-- Snowplow starts plowing - Standalone vE.2.14.0 -->
   <script type="text/javascript">

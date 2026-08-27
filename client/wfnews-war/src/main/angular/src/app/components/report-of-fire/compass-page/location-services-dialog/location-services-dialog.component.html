@@ -5,8 +5,8 @@
       </div>
     </div>
     <div class="dialog-actions" mat-dialog-actions>
-        <button mat-raised-button color="primary" [mat-dialog-close]="true">OK</button>
-        <button mat-raised-button [mat-dialog-close]="false">Cancel</button>
+        <wfnews-button variant="primary" label="OK" (buttonClicked)="close(true)"></wfnews-button>
+        <wfnews-button variant="secondary" label="Cancel" (buttonClicked)="close(false)"></wfnews-button>
     </div>
   </div>
   

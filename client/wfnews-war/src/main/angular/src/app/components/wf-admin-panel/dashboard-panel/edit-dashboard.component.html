@@ -1,6 +1,7 @@
 <div class="container">
   <div class="button-bar">
-    <button id="publish-btn" [disabled]="publishDisabled" class="publish-btn" mat-raised-button color="primary" (click)="publishChanges()">Publish Changes</button>
+    <wfnews-button id="publish-btn" variant="primary" label="Publish Changes"
+      [disabled]="publishDisabled" (buttonClicked)="publishChanges()"></wfnews-button>
   </div>
   <div class="report-panel">
     <h2>Resource Counts:</h2>

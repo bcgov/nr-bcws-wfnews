@@ -37,9 +37,8 @@
       </div>
     </div>
     <div class="buttons">
-      <button mat-flat-button class="desktop-button-primary" (click)="enterFullDetail()">
-          Full Details
-      </button>
+      <wfnews-button variant="primary" [fullWidth]="true" label="Full Details"
+        (buttonClicked)="enterFullDetail()"></wfnews-button>
     </div>
   </div>
   <ng-template #detailView>

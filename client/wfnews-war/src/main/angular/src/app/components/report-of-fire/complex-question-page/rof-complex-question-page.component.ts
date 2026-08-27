@@ -3,17 +3,18 @@ import {
   ChangeDetectionStrategy,
   ViewChild,
   ChangeDetectorRef,
-  ViewChildren,
-  QueryList,
 } from '@angular/core';
 import { RoFPage } from '../rofPage';
 import { ReportOfFire } from '../reportOfFireModel';
 import {
-  MatButtonToggle,
   MatButtonToggleChange,
+  MatButtonToggleGroup,
 } from '@angular/material/button-toggle';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+
+/** The value that "I'm not sure" stores, on this page and in the review. */
+const UNKNOWN = 'Unknown';
 
 @Component({
   selector: 'rof-complex-question-page',
@@ -26,13 +27,11 @@ export class RoFComplexQuestionPage extends RoFPage {
   public allowMultiSelect: boolean;
   public disableNext = true;
   public buttons: Array<any>;
-  public highlightedButton: HTMLElement;
   isEditMode = false;
   isPageDirty = false;
-  public buttonStates: boolean[] = Array(10).fill(false);
+  readonly unknownValue = UNKNOWN;
 
-  @ViewChild('notSureButton') notSureButton!: MatButtonToggle;
-  @ViewChildren('toggleButton') toggleButtons!: QueryList<MatButtonToggle>;
+  @ViewChild(MatButtonToggleGroup) group?: MatButtonToggleGroup;
 
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
@@ -47,6 +46,17 @@ export class RoFComplexQuestionPage extends RoFPage {
     this.allowIDontKnowButton = data.allowIDontKnowButton;
     this.allowMultiSelect = data.allowMultiSelect;
     this.buttons = data.buttons;
+    this.disableNext = !this.hasSelection();
+  }
+
+  /** What the group shows. The report holds the answer, so it is the one source. */
+  get selection(): string | string[] {
+    return this.reportOfFire?.[this.updateAttribute];
+  }
+
+  private hasSelection(): boolean {
+    const value = this.selection;
+    return Array.isArray(value) ? value.length > 0 : !!value;
   }
 
   editMode() {
@@ -55,85 +65,32 @@ export class RoFComplexQuestionPage extends RoFPage {
     this.cdr.detectChanges();
   }
 
-  onValChange(
-    value: string,
-    event: MatButtonToggleChange | PointerEvent,
-    index: number,
-  ) {
+  /**
+   * One group holds every option, so Material keeps the selection and the markup says
+   * what the control is. The only rule left here is that "I'm not sure" stands alone.
+   */
+  onSelectionChange(event: MatButtonToggleChange): void {
     this.isPageDirty = true;
-    this.buttonStates.fill(false);
-    this.buttonStates[index] = !this.buttonStates[index];
+    let value = event.value;
 
-    // Handler to ensure single select buttons highlight on click
-    // to match the toggle button appearance
-    if (event instanceof PointerEvent) {
-      // middle of the button will return the span, edges will return the button itself
-      // which is super annoying, so we need to check that we have an id set
-      // const clickedButton = (event.target as HTMLElement).id !== '' ? event.target as HTMLElement : (event.target as HTMLElement).parentElement;
-
-      const clickedElement = event.target as HTMLElement;
-      const clickedButton = clickedElement.closest('button');
-
-      // remove the highlight on the currently selected button
-      if (clickedButton) {
-        if (this.highlightedButton) {
-          this.highlightedButton.classList.remove('btn-highlight');
-        }
-
-        // highlight the new button
-        clickedButton.classList.add('btn-highlight');
-        // and store it for later events
-        this.highlightedButton = clickedButton;
-      }
+    if (
+      this.allowMultiSelect &&
+      Array.isArray(value) &&
+      value.length > 1 &&
+      value.includes(UNKNOWN)
+    ) {
+      value =
+        event.source.value === UNKNOWN
+          ? [UNKNOWN]
+          : value.filter((item: string) => item !== UNKNOWN);
+      this.group.value = value;
     }
 
-    if (value && this.updateAttribute && this.updateAttribute !== '') {
-      if (this.notSureButton?.checked) {
-        this.notSureButton.checked = false;
-        if (this.allowMultiSelect) {
-          this.reportOfFire[this.updateAttribute] = this.reportOfFire[
-            this.updateAttribute
-          ].filter((item) => item !== 'Unknown');
-        }
-      }
-      if (
-        Array.isArray(this.reportOfFire[this.updateAttribute]) &&
-        !this.reportOfFire[this.updateAttribute].includes(value)
-      ) {
-        this.reportOfFire[this.updateAttribute].push(value);
-      } else if (
-        Array.isArray(this.reportOfFire[this.updateAttribute]) &&
-        this.reportOfFire[this.updateAttribute].includes(value)
-      ) {
-        const idx = this.reportOfFire[this.updateAttribute].indexOf(value);
-        this.reportOfFire[this.updateAttribute].splice(idx, 1);
-      } else {
-        this.reportOfFire[this.updateAttribute] = value;
-      }
-    } else {
-      if (this.highlightedButton) {
-        this.highlightedButton.classList.remove('btn-highlight');
-      }
-      this.reportOfFire[this.updateAttribute] = '';
-    }
-
-    this.disableNext = false;
-
-    if (value === null) {
-      this.notSureButton.checked = true;
-      if (this.allowMultiSelect === true) {
-        this.reportOfFire[this.updateAttribute] = ['Unknown'];
-      } else {
-        this.reportOfFire[this.updateAttribute] = 'Unknown';
-      }
-      // Deselect all other buttons
-      this.toggleButtons.forEach((button) => {
-        if (button !== this.notSureButton) {
-          button.checked = false;
-        }
-      });
-    }
+    this.reportOfFire[this.updateAttribute] = value;
+    this.disableNext = !this.hasSelection();
+    this.cdr.markForCheck();
   }
+
   backToReview() {
     this.reportOfFirePage.edit('review-page');
   }
@@ -145,7 +102,6 @@ export class RoFComplexQuestionPage extends RoFPage {
         this.previous();
       } else {
         this.reportOfFirePage.selectPage('permissions-page', null, false);
-        this.reportOfFirePage.currentStep--;
       }
     } else {
       this.previous();
@@ -156,13 +112,60 @@ export class RoFComplexQuestionPage extends RoFPage {
     if (this.id === 'distance-page') {
       this.commonUtilityService.checkOnline().then((result) => {
         if (!result) {
-          this.reportOfFirePage.selectPage('photo-page', null, false);
+          // The location page is skipped with no network, because it holds a map and
+          // a map needs tiles. The position does not need tiles, so take it here.
+          // Without this the report goes with the [0, 0] default of the model.
+          this.captureLocationOffline().then(() =>
+            this.reportOfFirePage.selectPage('photo-page', null, false),
+          );
         } else {
           this.next();
         }
       });
     } else {
       this.next();
+    }
+  }
+
+  /**
+   * Writes the device position and the fire position into the report, with no map.
+   *
+   * The compass page and this page are answered before the skip, so the heading and
+   * the distance are known. `turf.destination` is the same calculation that places
+   * the fire on the location page, and it comes from `smk.js` in the bundle, so it
+   * works with no network.
+   *
+   * It does not ask for the permission. The permissions page banner is the one
+   * place that asks, and it is on the screen offline too. `getPositionIfPermitted`
+   * gives nothing when the user did not grant it, and the report goes without.
+   *
+   * Never throws. A report with no position must still go forward.
+   */
+  private async captureLocationOffline(): Promise<void> {
+    try {
+      const position = await this.commonUtilityService.getPositionIfPermitted();
+      if (!position?.coords) {
+        return;
+      }
+      const lat = Number(position.coords.latitude);
+      const lon = Number(position.coords.longitude);
+      this.reportOfFire.deviceLocation = [lat, lon];
+
+      const turf = window['turf'];
+      const km = Number(this.reportOfFire.estimatedDistance) / 1000;
+      const heading = Number(this.reportOfFire.compassHeading);
+      if (!turf || !km || Number.isNaN(heading)) {
+        // No heading or no distance. The device position is the best answer left.
+        this.reportOfFire.fireLocation = [lat, lon];
+        return;
+      }
+
+      // turf works in [longitude, latitude]. The report holds [latitude, longitude].
+      const point = turf.destination([lon, lat], km, heading);
+      const [fireLon, fireLat] = point.geometry.coordinates;
+      this.reportOfFire.fireLocation = [Number(fireLat), Number(fireLon)];
+    } catch (error) {
+      console.error('Could not take a position for the offline report', error);
     }
   }
 }

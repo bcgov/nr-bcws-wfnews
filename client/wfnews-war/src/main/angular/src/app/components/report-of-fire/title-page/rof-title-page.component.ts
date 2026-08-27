@@ -5,8 +5,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFireService } from '@app/services/report-of-fire-service';
@@ -33,11 +31,10 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   private appStateListener: PluginListenerHandle;
 
   public constructor(
-    protected dialog: MatDialog,
     private commonUtilityService: CommonUtilityService,
     private cdr: ChangeDetectorRef,
     private reportOfFirePage: ReportOfFirePage,
-    private reportOfFireService: ReportOfFireService
+    private reportOfFireService: ReportOfFireService,
   ) {
     super();
   }
@@ -118,24 +115,17 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     return rofSubmitted;
   }
 
-  triggerLocationServiceCheck() {
-    // re-check if user's device has gone offline since view was initialised and route to offline if so
-    this.commonUtilityService.checkOnline().then((result) => {
-      if (!result) {
-        this.nextId = 'disclaimer-page';
-      }
-    });
+  async startReport() {
+    // Await it. next() reads nextId, so a promise that has not settled sends an
+    // offline user to the permissions page.
+    const online = await this.commonUtilityService.checkOnline();
+    if (!online) {
+      this.nextId = 'disclaimer-page';
+    }
 
-    this.commonUtilityService.checkLocationServiceStatus().then((enabled) => {
-      if (!enabled) {
-        this.dialog.open(DialogLocationComponent, {
-          autoFocus: false,
-          width: '80vw',
-        });
-      } else {
-        this.next();
-      }
-    });
+    // No permission call here. A dialog with no words on the screen is jarring, so
+    // the permissions page carries the banner and the tap asks.
+    this.next();
   }
 
   checkOnlineStatus() {

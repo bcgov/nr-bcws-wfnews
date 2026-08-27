@@ -68,7 +68,7 @@
       top: 110px;
       left: 5px;
       border-radius: 12px;
-      box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
+      box-shadow: $shadow-panel;
       max-height: calc(100vh - 260px);
       overflow-x: hidden !important;
       overflow-y: auto !important;
@@ -230,16 +230,6 @@ mat-panel-title {
     display: none;
   }
 
-  ::ng-deep .sticky-widget {
-    position: fixed;
-    bottom: 100px !important;
-    right: 10px !important;
-    display: flex;
-    transition: 0.5s;
-    z-index: 10000000 !important;
-    flex-direction: column;
-  }
-
   .identify-panel {
     display: none !important;
   }
@@ -284,9 +274,7 @@ mat-panel-title {
       display: none !important; // Hiding this but included style to match other buttons we need to show
       right: 13px !important;
       top: 120px !important;
-      box-shadow:
-        0 1px 2px rgba(60, 64, 67, 0.3),
-        0 1px 3px 1px rgba(60, 64, 67, 0.15) !important;
+      box-shadow: $shadow-map-control !important;
       border-radius: 20px !important;
     }
     top: 22px !important;
@@ -367,124 +355,6 @@ mat-panel-title {
     }
   }
 
-  .draggable-panel {
-    display: block;
-    position: fixed;
-    top: 80vh;
-    background-color: white;
-    border-radius: 20px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    z-index: 999999;
-    border: 1px solid gray;
-    box-shadow: 0 0 4px #000000ad;
-    height: 100%;
-    width: 100%;
-
-    .grab-container {
-      position: sticky;
-      top: 0px;
-      background-color: white;
-      height: 15px;
-      width: 100%;
-      z-index: 10;
-      padding-top: 5px;
-      padding-bottom: 15px;
-      border-radius: 20px;
-
-      .drag-grabber {
-        height: 4px;
-        width: 100px;
-        background: #00000085;
-        margin: auto;
-        margin-top: 15px;
-        border-radius: 70px;
-        cursor: grab;
-      }
-    }
-
-    .panel-container {
-      font-weight: 600;
-      padding: 10px;
-      overflow: auto;
-      height: 90%;
-      border-radius: 20px;
-
-      .draggable-panel-title {
-        font-size: 18px;
-        color: #242424;
-        padding: 20px 10px;
-        border-bottom: 1px solid #dedede;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .criteria-title {
-        font-size: 18px;
-        color: #242424;
-        padding: 20px 10px;
-      }
-
-      .widget-card {
-        padding: 8px;
-      }
-
-      .widget-row {
-        display: flex;
-        padding: 12px;
-        align-items: center;
-        border-radius: 8px;
-        background: #f2f2f6;
-        justify-content: space-between;
-      }
-
-      .left-content {
-        display: flex;
-        align-items: center;
-      }
-
-      .incident-icon {
-        margin-right: 12px;
-      }
-
-      .circle-icon {
-        &.active-wildfires-holding {
-          background-color: #ffff00;
-          border: 1px solid black;
-          border-radius: 50%;
-          width: 18px;
-          height: 18px;
-          margin-right: 12px;
-        }
-        &.active-wildfires-out-of-control {
-          background-color: #ff0000;
-          border: 1px solid black;
-          border-radius: 50%;
-          width: 18px;
-          height: 18px;
-          margin-right: 12px;
-        }
-        &.active-wildfires-under-control {
-          background-color: #98e600;
-          border: 1px solid black;
-          border-radius: 50%;
-          width: 18px;
-          height: 18px;
-          margin-right: 12px;
-        }
-        &.active-wildfires-out {
-          background-color: #5c6671;
-          border: 1px solid black;
-          border-radius: 50%;
-          width: 18px;
-          height: 18px;
-          margin-right: 12px;
-        }
-      }
-    }
-  }
-
   .panel-container::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -527,26 +397,6 @@ mat-panel-title {
   margin-bottom: calc(24px + env(safe-area-inset-bottom, 20px));
   direction: rtl;
 
-  button {
-    color: #242424;
-    background-color: white;
-    text-align: center;
-
-    display: flex;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-
-    border-radius: 5px;
-    border: 1px solid var(--Grey-2, #a7a7a7);
-
-    /* Body 1 */
-    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 24px; /* 150% */
-  }
 }
 
 .search-fab {
@@ -582,9 +432,7 @@ mat-panel-title {
       height: 30px;
       border-radius: 20px;
       background: #fff;
-      box-shadow:
-        0 1px 2px rgba(60, 64, 67, 0.3),
-        0 1px 3px 1px rgba(60, 64, 67, 0.15);
+      box-shadow: $shadow-map-control;
       border: 1px solid #c4c4c4;
       &::placeholder {
         color: #767676;
@@ -615,9 +463,7 @@ mat-panel-title {
   background-color: #ffffff;
   margin-left: auto;
   height: 34px !important;
-  box-shadow:
-    0 1px 2px rgba(60, 64, 67, 0.3),
-    0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  box-shadow: $shadow-map-control;
 }
 
 .button-label {
@@ -646,9 +492,7 @@ mat-panel-title {
 .layer-scroll-button {
   position: absolute;
   background: white !important;
-  box-shadow:
-    0 1px 2px rgba(60, 64, 67, 0.3),
-    0 1px 3px 1px rgba(60, 64, 67, 0.15) !important;
+  box-shadow: $shadow-map-control !important;
   width: 30px;
   height: 30px;
   z-index: 2000 !important;
@@ -664,8 +508,3 @@ mat-panel-title {
   margin-top: 3px;
 }
 
-.notification-test-button {
-  position: absolute;
-  left: 20px;
-  z-index: 1000;
-}
