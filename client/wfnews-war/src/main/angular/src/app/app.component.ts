@@ -459,9 +459,14 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    setInterval(() => {
-      this.getLastSync();
-    }, 1000);
+    // Outside the zone. In it, this woke change detection over the whole tree once a
+    // second for as long as the app was open, and the tree holds the map. What it
+    // computes, lastSyncValue, is not read by any template, so nothing needs the pass.
+    this.zone.runOutsideAngular(() => {
+      setInterval(() => {
+        this.getLastSync();
+      }, 1000);
+    });
 
     setTimeout(() => {
       const headerImg = document.getElementsByClassName('bc-logo');

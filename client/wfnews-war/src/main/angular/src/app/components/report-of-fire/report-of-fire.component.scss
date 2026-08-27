@@ -22,6 +22,11 @@
   flex-direction: column;
   background-color: white !important;
   max-width: 850px;
+  // The width is needed. This is a flex item of :host, and an auto margin on a flex
+  // item takes the place of the stretch that would otherwise fill the cross axis, so
+  // the box fell back to fit-content and every page came out as wide as its own text.
+  // A short page (visible flames) then sat narrower, and centred, than a long one.
+  width: 100%;
   margin: auto;
 
   // The review page is the one page that is longer than the screen.
@@ -114,21 +119,27 @@
   }
 }
 
+// vh shrinks this on a short screen, which is what it was for. On its own it also grows
+// it on a tall one: 2.2vh is 21px at 956px of viewport, against the 16px the design asks
+// for, and the words on the Thank you page came out a third too big. Clamp it, so a short
+// screen still gives way and a tall one stops at the design size.
+$rof-secondary-header-size: 16px;
+
 .rof-text-secondary-header {
-  font-size: 2.2vh !important;
+  font-size: clamp(13px, 2.2vh, $rof-secondary-header-size) !important;
   transform: scale(1);
 }
 
 @media (max-width: 400px) and (min-width: 350px) {
   .rof-text-secondary-header {
-    font-size: 2vh !important;
+    font-size: clamp(13px, 2vh, $rof-secondary-header-size) !important;
     transform: scale(1);
   }
 }
 
 @media (max-width: 349px) {
   .rof-text-secondary-header {
-    font-size: 1.8vh !important;
+    font-size: clamp(12px, 1.8vh, $rof-secondary-header-size) !important;
     transform: scale(1);
   }
 }
@@ -187,10 +198,14 @@
   padding: 8px 0px;
   align-items: center;
   width: calc(100% - 64px);
-  bottom: calc(3em + env(safe-area-inset-bottom, 20px));
+  // 3em left 23px between the buttons and the page dots, which read as one clump, and 4em
+  // lifted them too far off the foot of the screen. The reserve on .page-content is this
+  // offset plus the 4em the bar itself occupies, so the two always move together: raise
+  // this without raising that and the content slides under the buttons.
+  bottom: calc(3.5em + env(safe-area-inset-bottom, 20px));
   position: fixed;
   @media (max-height: 699px) {
-    bottom: calc(2em + env(safe-area-inset-bottom, 20px));
+    bottom: calc(2.5em + env(safe-area-inset-bottom, 20px));
   }
 }
 
@@ -395,7 +410,13 @@
   // the words still paint in the strip behind the band. A margin ends the box above it.
   overflow-y: auto;
   padding: 0 32px;
-  margin-bottom: calc(7em + env(safe-area-inset-bottom, 20px));
+  // Holds the fixed button bar, and only that. No safe area term here: this box sits
+  // inside .wfnews-application, which already pads the inset, so adding it again left a
+  // strip the height of the inset between the content and the buttons on every page. The
+  // bar itself is fixed, positioned against the viewport rather than that padding, so it
+  // does carry the inset in its own offset. This is the bar's 3.5em offset plus the 4em
+  // it occupies, and the two move together.
+  margin-bottom: 7.5em;
   font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-style: normal;
   font-size: 16px;

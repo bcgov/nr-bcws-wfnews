@@ -4,11 +4,11 @@
   padding-top: 8px;
 }
 
-.rof-button-container {
-  position: inherit;
-  width: auto;
-  padding: 4rem 1rem;
-}
+// No .rof-button-container rule here on purpose. This page used to unpin the buttons
+// (position: inherit, width: auto, padding: 4rem 1rem), which put Cancel and Call at the
+// end of the longest page in the wizard, a scroll away, while the clearance the shared
+// rule holds at the foot of the scroll box stayed empty. The shared rule pins them the
+// way every other page does, and this is the longest page, so it needs that most.
 
 .location-detail {
   background-color: #f5f5f5;

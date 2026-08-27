@@ -1,6 +1,8 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  NgZone,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -30,17 +32,24 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
   public heading = '0° N';
   public locationSupported = false;
   private orientationListener: (e: DeviceOrientationEvent) => void;
+  // The sensor fires ~60Hz. Recomputing this per event, and again on every change
+  // detection pass from the template, read window dimensions each time and forced
+  // a layout. Cache it and refresh only when the viewport actually changes.
+  private landscapeMode = false;
+  private viewportListener: () => void;
   equalsIgnoreCase = equalsIgnoreCase;
 
   constructor(
     private commonUtilityService: CommonUtilityService,
     protected dialog: MatDialog,
+    private zone: NgZone,
+    private cdr: ChangeDetectorRef,
   ) {
     super();
   }
 
   isLandscapeMode(): boolean {
-    return this.commonUtilityService.checkIfLandscapeMode();
+    return this.landscapeMode;
   }
 
   initialize(data: any, index: number, reportOfFire: ReportOfFire) {
@@ -59,11 +68,28 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
   }
 
   onShown(): void {
+    this.landscapeMode = this.commonUtilityService.checkIfLandscapeMode();
+    this.viewportListener = () => {
+      const landscape = this.commonUtilityService.checkIfLandscapeMode();
+      if (landscape === this.landscapeMode) {
+        return;
+      }
+      this.landscapeMode = landscape;
+      this.cdr.detectChanges();
+    };
+    window.addEventListener('resize', this.viewportListener);
+    window.addEventListener('orientationchange', this.viewportListener);
+
     this.getOrientation();
     this.useMyCurrentLocation();
   }
 
   onHidden(): void {
+    if (this.viewportListener) {
+      window.removeEventListener('resize', this.viewportListener);
+      window.removeEventListener('orientationchange', this.viewportListener);
+      this.viewportListener = null;
+    }
     if (!this.orientationListener) {
       return;
     }
@@ -92,11 +118,16 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
       if (iOS) {
         const response = await requestPermission();
         if (equalsIgnoreCase(response, 'granted')) {
-          window.addEventListener(
-            'deviceorientation',
-            this.orientationListener,
-            true,
-          );
+          // Outside the zone: the sensor fires ~60Hz, and letting zone.js see each
+          // event ran a full application-wide change detection pass every time.
+          // handler() re-enters the zone only when the shown heading changes.
+          this.zone.runOutsideAngular(() => {
+            window.addEventListener(
+              'deviceorientation',
+              this.orientationListener,
+              true,
+            );
+          });
         } else {
           this.dialog.open(LocationServicesDialogComponent, {
             width: '350px',
@@ -106,11 +137,13 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
           });
         }
       } else {
-        window.addEventListener(
-          'deviceorientationabsolute',
-          this.orientationListener,
-          true,
-        );
+        this.zone.runOutsideAngular(() => {
+          window.addEventListener(
+            'deviceorientationabsolute',
+            this.orientationListener,
+            true,
+          );
+        });
       }
     } catch (err) {
       this.dialog.open(LocationServicesDialogComponent, {
@@ -122,27 +155,39 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
     }
   }
 
+  // Runs outside the Angular zone, once per sensor event. Keep it free of work that
+  // reads layout, and re-enter the zone only when something on screen actually changes.
   handler(e, self) {
     // Only the page on screen may move the wizard, and only while it reads the sensor.
     if (!self.reportOfFire?.headingDetectionActive) {
       return;
     }
-    if (this.commonUtilityService.checkIfLandscapeMode()) {
-      this.skip();
+    if (this.landscapeMode) {
+      this.zone.run(() => this.skip());
       return;
     }
     // A heading of exactly 0 is a true north reading, not a missing sensor.
     if (e.alpha == null && e.webkitCompassHeading == null) {
-      this.reportOfFire.motionSensor = 'no';
-      this.skip();
+      this.zone.run(() => {
+        this.reportOfFire.motionSensor = 'no';
+        this.skip();
+      });
       return;
-    } else {
-      this.reportOfFire.motionSensor = 'yes';
+    } else if (this.reportOfFire.motionSensor !== 'yes') {
+      // Drives the template's *ngIf, so this one needs the zone.
+      this.zone.run(() => {
+        this.reportOfFire.motionSensor = 'yes';
+      });
     }
 
     try {
       let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
       compassHeading = Math.trunc(compassHeading);
+      // Truncated to whole degrees, so most events repeat the last value. Redrawing
+      // only on a real change is what keeps this off the 60Hz change detection path.
+      if (compassHeading === this.compassHeading) {
+        return;
+      }
       let cardinalDirection = '';
 
       if (
@@ -173,6 +218,10 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
 
       self.reportOfFire.compassHeading = compassHeading;
       this.reportOfFire = self.reportOfFire;
+
+      // This component's own view is all that changed, so redraw just it rather
+      // than re-entering the zone and checking the whole tree.
+      this.cdr.detectChanges();
     } catch (err) {
       console.error('Could not set compass heading', err);
     }

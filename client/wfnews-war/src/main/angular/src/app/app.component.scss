@@ -324,6 +324,28 @@
     flex-direction: column;
     align-items: center;
     background: #fcfcfc;
+
+    // The highlight on these items comes from router.url, so it cannot appear until the
+    // destination component has been built. Every route here is eagerly loaded, and the
+    // map is expensive, so that is long enough to read as a dead tap. Answer the touch
+    // itself instead: this paints on touchdown, before any navigation work begins.
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: opacity 0.1s ease, transform 0.1s ease;
+
+    &:active {
+      opacity: 0.55;
+      transform: scale(0.94);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-navigation-bar li {
+      transition: none;
+      &:active {
+        transform: none;
+      }
+    }
   }
 
   .icon {
