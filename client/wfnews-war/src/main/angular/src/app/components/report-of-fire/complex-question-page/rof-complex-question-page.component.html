@@ -1,34 +1,32 @@
 <div class="page-content">
-  <div class="panel-wrapper">
-      <div class="rof-text-primary-header">{{ title }}</div>
-      <div class="rof-text-secondary-header">{{ message }}</div>
+  <div class="rof-text-primary-header">{{ title }}</div>
+  <div class="rof-text-secondary-header">{{ message }}</div>
 
-      <mat-button-toggle-group class="rof-toggle-group rof-complex-group"
-          style="justify-content: space-between;"
-          [multiple]="allowMultiSelect"
-          [value]="selection"
-          (change)="onSelectionChange($event)">
-        <mat-button-toggle *ngFor="let button of buttons" class="flex-button"
-            [ngClass]="{'multi-select-class': allowMultiSelect, 'single-select-class': !allowMultiSelect, 'distance-class': id === 'distance-page'}"
-            style="box-sizing: border-box;" [id]="'btn-' + button.value" [value]="button.value">
-          <img alt="icon" [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" height="20" width="20" />
-          <mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}
-        </mat-button-toggle>
-        <mat-button-toggle class="flex-button" style="width: 100%; box-sizing: border-box;" *ngIf="allowIDontKnowButton" [value]="unknownValue"><img class="question-mark" alt="question_mark" src="/assets/images/svg-icons/question-mark.svg">I'm not sure</mat-button-toggle>
-      </mat-button-toggle-group>
+  <mat-button-toggle-group class="rof-toggle-group rof-complex-group"
+      style="justify-content: space-between;"
+      [multiple]="allowMultiSelect"
+      [value]="selection"
+      (change)="onSelectionChange($event)">
+    <mat-button-toggle *ngFor="let button of buttons" class="flex-button"
+        [ngClass]="{'multi-select-class': allowMultiSelect, 'single-select-class': !allowMultiSelect, 'distance-class': id === 'distance-page'}"
+        style="box-sizing: border-box;" [id]="'btn-' + button.value" [value]="button.value">
+      <img alt="icon" [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" height="20" width="20" />
+      <mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}
+    </mat-button-toggle>
+    <mat-button-toggle class="flex-button" style="width: 100%; box-sizing: border-box;" *ngIf="allowIDontKnowButton" [value]="unknownValue"><img class="question-mark" alt="question_mark" src="/assets/images/svg-icons/question-mark.svg">I'm not sure</mat-button-toggle>
+  </mat-button-toggle-group>
 
-      <div class="rof-button-container" *ngIf="!isEditMode">
-        <wfnews-button variant="secondary" size="large" label="Previous"
-          (buttonClicked)="previousPage()"></wfnews-button>
-        <wfnews-button variant="primary" size="large" label="Next" [disabled]="disableNext"
-          iconPathEnd="/assets/images/svg-icons/arrow-forward-enabled.svg" (buttonClicked)="nextPage()"></wfnews-button>
-      </div>
+  <div class="rof-button-container" *ngIf="!isEditMode">
+    <wfnews-button variant="secondary" size="large" label="Previous"
+      (buttonClicked)="previousPage()"></wfnews-button>
+    <wfnews-button variant="primary" size="large" label="Next" [disabled]="disableNext"
+      iconPathEnd="/assets/images/svg-icons/arrow-forward-enabled.svg" (buttonClicked)="nextPage()"></wfnews-button>
+  </div>
 
-      <div class="rof-button-container" *ngIf="isEditMode">
-        <wfnews-button variant="secondary" size="large" label="Cancel"
-          (buttonClicked)="backToReview()"></wfnews-button>
-        <wfnews-button variant="primary" size="large" label="Save" [disabled]="!isPageDirty"
-          (buttonClicked)="backToReview()"></wfnews-button>
-      </div>
+  <div class="rof-button-container" *ngIf="isEditMode">
+    <wfnews-button variant="secondary" size="large" label="Cancel"
+      (buttonClicked)="backToReview()"></wfnews-button>
+    <wfnews-button variant="primary" size="large" label="Save" [disabled]="!isPageDirty"
+      (buttonClicked)="backToReview()"></wfnews-button>
   </div>
 </div>

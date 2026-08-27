@@ -8,8 +8,17 @@
   align-items: start !important;
 }
 
-// Hold the banner off the checkbox and the buttons.
+// Hold the banner off the checkbox. No bottom margin: the banner is the last block in
+// a scrolling box, so that margin only made the page scroll.
 .location-banner {
   display: block;
-  margin: 16px 0;
+  margin: 16px 0 0;
+}
+
+// With the banner shown, this page is about 30px taller than the box on a short screen.
+// Take the space back from the title margins, not from the words.
+@media (max-height: 699px) {
+  .rof-text-primary-header {
+    margin: 8px 0 12px;
+  }
 }

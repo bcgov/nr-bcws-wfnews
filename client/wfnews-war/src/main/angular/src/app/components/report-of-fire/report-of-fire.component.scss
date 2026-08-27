@@ -383,10 +383,6 @@
   }
 }
 
-.panel-wrapper {
-  height: calc(100vh - 125px);
-}
-
 // The page fills the wizard box, so a page can size a child from what is left.
 .page-content {
   flex: 1 1 auto;
