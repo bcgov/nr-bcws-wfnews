@@ -9,8 +9,10 @@
     <div class="compass-heading" id="compass-heading">{{ heading }}</div>
     <div class="location" id="location" *ngIf="currentLat && currentLong">{{ currentLat }},{{ currentLong }}</div>
     <div class="rof-button-container">
-      <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-        <button class="rof-button-primary" mat-flat-button (click)="confirmHeading()">Continue</button>
+      <wfnews-button variant="secondary" size="large" label="Previous"
+        (buttonClicked)="previous()"></wfnews-button>
+      <wfnews-button variant="primary" size="large" label="Continue"
+        (buttonClicked)="confirmHeading()"></wfnews-button>
     </div>
   </div>
   

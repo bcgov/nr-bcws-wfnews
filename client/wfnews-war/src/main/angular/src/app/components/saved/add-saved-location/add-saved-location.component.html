@@ -128,9 +128,8 @@
         </div>
         <div class="divider"></div>
         <div class="save-button-section">
-            <button class="save-button" (click)="saveLocation()" [disabled] = "disableSaveButton()" [ngClass]="{'disabled-button': disableSaveButton()}">
-                Save
-            </button>
+            <wfnews-button variant="primary" label="Save" [disabled]="disableSaveButton()"
+                (buttonClicked)="saveLocation()"></wfnews-button>
         </div>
     </div>
     <div class="bottom"></div>

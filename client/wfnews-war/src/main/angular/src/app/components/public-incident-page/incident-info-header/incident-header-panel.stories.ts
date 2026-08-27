@@ -10,6 +10,7 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import { WatchlistService } from '@app/services/watchlist-service';
 import { AppConfigService } from '@wf1/core-ui';
 import { of } from 'rxjs';
+import { WfnewsButtonComponent } from '@app/components/common/wfnews-button/wfnews-button.component';
 import { IncidentHeaderPanelComponent } from './incident-header-panel.component';
 
 // Mock services
@@ -45,7 +46,7 @@ const meta: Meta<IncidentHeaderPanelComponent> = {
     component: IncidentHeaderPanelComponent,
     decorators: [
         moduleMetadata({
-            declarations: [IncidentHeaderPanelComponent],
+            declarations: [IncidentHeaderPanelComponent, WfnewsButtonComponent],
             imports: [
                 CommonModule, 
                 RouterModule.forChild([]),

@@ -20,10 +20,13 @@
     </div>
   </div>
   <div *ngIf="!closeButton" class="rof-button-container" id="title-container">
-      <button mat-flat-button class="rof-button" style="background-color: #FFF" (click)="openCallPage()"><mat-icon svgIcon="phone" style="width: 24px; height: 24px;"></mat-icon>Call</button>
-      <button mat-flat-button class="rof-button-primary" (click)="startReport()"><mat-icon svgIcon="arrow-forward-enabled" class="left-padding" style="width: 24px; height: 24px;"></mat-icon>Start</button>
+      <wfnews-button variant="secondary" size="large" label="Call" iconPath="/assets/images/svg-icons/phone.svg"
+        (buttonClicked)="openCallPage()"></wfnews-button>
+      <wfnews-button variant="primary" size="large" label="Start" iconPathEnd="/assets/images/svg-icons/arrow-forward-enabled.svg"
+        (buttonClicked)="startReport()"></wfnews-button>
   </div>
   <div *ngIf="closeButton" class="rof-button-container" style="position: fixed; justify-content: center; margin-top: 55px;">
-    <button mat-flat-button class="rof-button" (click)="close()">Close</button>
+    <wfnews-button variant="secondary" size="large" label="Close"
+      (buttonClicked)="close()"></wfnews-button>
   </div>
 </div>

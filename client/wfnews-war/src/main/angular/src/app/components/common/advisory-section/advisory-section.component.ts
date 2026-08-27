@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IconButtonArgs } from '../icon-button/icon-button.component';
+import { WfnewsButtonVariant } from '../wfnews-button/wfnews-button.component';
 
 @Component({
   selector: 'advisory-section',
@@ -10,7 +10,7 @@ export class AdvisorySectionComponent {
   @Input() title: string;
   @Input() message: string;
   @Input() componentStyle: AdvisorySectionStyle;
-  @Input() buttonArgs: IconButtonArgs;
+  @Input() buttonArgs: AdvisoryButtonArgs;
   @Output() advisoryClicked = new EventEmitter<void>();
 
   handleAdvisoryClick = () => {
@@ -22,7 +22,7 @@ export interface AdvisorySectionArgs {
   title: string;
   message: string;
   componentStyle: AdvisorySectionStyle;
-  buttonArgs: IconButtonArgs;
+  buttonArgs: AdvisoryButtonArgs;
 }
 
 export interface AdvisorySectionStyle {
@@ -39,3 +39,10 @@ export interface AdvisorySectionStyle {
     logoPath: string;
   };
 };
+
+/** The advisory button. Its rank carries the colour, so no caller sends one. */
+export interface AdvisoryButtonArgs {
+  iconPath: string;
+  label: string;
+  variant: WfnewsButtonVariant;
+}

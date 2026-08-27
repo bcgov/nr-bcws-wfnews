@@ -29,14 +29,11 @@
         </div>
         <div class="button-row">
             <div class="buttons">
-                <button mat-flat-button class="mobile-button" (click)="zoomInWithLocationPin()">
-                    <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
-                    Zoom to
-                </button>
-                <button mat-flat-button class="mobile-button-primary" (click)="openDriveBC()">
-                    <mat-icon class="launch-icon" svgIcon='launch_white'></mat-icon>
-                    Drive BC
-                </button>
+                <wfnews-button variant="secondary" [fullWidth]="true" label="Zoom to"
+                  iconPath="/assets/images/svg-icons/zoom-in.svg" (buttonClicked)="zoomInWithLocationPin()"></wfnews-button>
+                <wfnews-button variant="primary" [fullWidth]="true" label="Drive BC"
+                  iconPath="/assets/images/svg-icons/launch_black.svg"
+                  (buttonClicked)="openDriveBC()"></wfnews-button>
             </div>
         </div>
     </div>

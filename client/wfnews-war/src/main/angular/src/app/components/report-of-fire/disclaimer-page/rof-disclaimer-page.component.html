@@ -7,8 +7,10 @@
         </p>
     </div>
     <div class="rof-button-container" *ngIf="!hideButtons">
-        <button class="rof-button" mat-flat-button (click)="previous()">Cancel</button>
-        <button class="rof-button-primary" mat-flat-button (click)="next()">Continue</button>
+        <wfnews-button variant="secondary" size="large" label="Cancel"
+          (buttonClicked)="previous()"></wfnews-button>
+        <wfnews-button variant="primary" size="large" label="Continue"
+          (buttonClicked)="next()"></wfnews-button>
     </div>
   </div>
   

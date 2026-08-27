@@ -9,24 +9,21 @@
   </mat-button-toggle-group>
 
   <div class="rof-button-container" *ngIf="!isEditMode">
-    <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-    <button [class]="'rof-button' + (!questionOptions.value ? '-disabled' : '-primary')" 
-            [disabled]="!questionOptions.value" 
-            mat-flat-button 
-            color="primary"
-            (click)="handleConfirmButtonClick()">
-      {{ getButtonText() }}
-      <mat-icon [svgIcon]="!questionOptions.value ? 'arrow-forward-disabled' : 'arrow-forward-enabled'" 
-                class="left-padding" 
-                style="width: 24px; height: 24px;">
-      </mat-icon>
-    </button>
+    <wfnews-button variant="secondary" size="large" label="Previous"
+      (buttonClicked)="previous()"></wfnews-button>
+    <wfnews-button variant="primary" size="large" [label]="getButtonText()"
+      [disabled]="!questionOptions.value" iconPathEnd="/assets/images/svg-icons/arrow-forward-enabled.svg"
+      (buttonClicked)="handleConfirmButtonClick()"></wfnews-button>
   </div>
 
   <div class="rof-button-container" *ngIf="isEditMode">
-    <button class="rof-button" mat-flat-button (click)="backToReview()">Cancel</button>
-    <button *ngIf="!twoPartsQuestions()" [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button (click)="backToReview()">Save</button>
-    <button *ngIf="twoPartsQuestions()" [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button color="primary" (click)="nextPart()">Next<mat-icon [svgIcon]="!isPageDirty? 'arrow-forward-disabled' : 'arrow-forward-enabled'" class="left-padding" style="width: 24px; height: 24px;"></mat-icon></button>
+    <wfnews-button variant="secondary" size="large" label="Cancel"
+      (buttonClicked)="backToReview()"></wfnews-button>
+    <wfnews-button *ngIf="!twoPartsQuestions()" variant="primary" size="large" label="Save"
+      [disabled]="!isPageDirty" (buttonClicked)="backToReview()"></wfnews-button>
+    <wfnews-button *ngIf="twoPartsQuestions()" variant="primary" size="large" label="Next"
+      [disabled]="!isPageDirty" iconPathEnd="/assets/images/svg-icons/arrow-forward-enabled.svg"
+      (buttonClicked)="nextPart()"></wfnews-button>
 
   </div>
 

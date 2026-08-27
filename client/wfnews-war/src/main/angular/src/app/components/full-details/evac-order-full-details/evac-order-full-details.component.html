@@ -6,10 +6,10 @@
         <p class="info">People in this area are at risk and should leave the area immediately. Follow instructions from your
             local government or First Nation.</p>
         <div class="button-row">
-            <button (click)="navToMap()" mat-button class="map-button"><img class="tertiary-icon map-icon"
-                src="/assets/images/svg-icons/map.svg" alt="Map" />View on Map</button>
-            <button (click)="shareMobile('Order')" mat-button class="map-button"><img height="20" width="20" class="tertiary-icon" src="/assets/images/svg-icons/share.svg"
-                alt="Share" />Share</button>
+            <wfnews-button variant="secondary" label="View on Map"
+              iconPath="/assets/images/svg-icons/map.svg" (buttonClicked)="navToMap()"></wfnews-button>
+            <wfnews-button variant="secondary" label="Share"
+              iconPath="/assets/images/svg-icons/share.svg" (buttonClicked)="shareMobile('Order')"></wfnews-button>
         </div>
     </div>
     <hr>
@@ -138,8 +138,8 @@
     <hr>
     <div class="bulletin">
         <p>Open the information bulletin for more details</p>
-        <button (click)="navToBulletinUrl()">Go to<img class="bulletin-link-icon"
-                src="/assets/images/svg-icons/fluent_open.svg" alt="Launch" /></button>
+        <wfnews-button variant="primary" label="Go to"
+          iconPathEnd="/assets/images/svg-icons/fluent_open.svg" (buttonClicked)="navToBulletinUrl()"></wfnews-button>
     </div>
     <wfnews-evac-other-info></wfnews-evac-other-info>
 </div>

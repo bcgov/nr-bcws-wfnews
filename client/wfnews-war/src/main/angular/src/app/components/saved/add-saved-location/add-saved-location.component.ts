@@ -85,7 +85,7 @@ export class AddSavedLocationComponent implements OnInit {
 
         if (val.length > 2) {
           this.filteredOptions = [];
-          this.placeData.searchAddresses(val).then(function(results) {
+          this.placeData.searchAddresses(val).then(function (results) {
             if (results) {
               results.forEach(() => {
                 self.sortedAddressList =
@@ -283,11 +283,11 @@ export class AddSavedLocationComponent implements OnInit {
         this.savedLocation = this.savedLocation.filter(
           (item) =>
             item.notificationName !==
-              this.locationToEditOrDelete.notificationName &&
+            this.locationToEditOrDelete.notificationName &&
             item.point.coordinates[0] !==
-              this.locationToEditOrDelete.point.coordinates[0] &&
+            this.locationToEditOrDelete.point.coordinates[0] &&
             item.point.coordinates[1] !==
-              this.locationToEditOrDelete.point.coordinates[1],
+            this.locationToEditOrDelete.point.coordinates[1],
         );
       }
       this.notificationService
@@ -366,9 +366,9 @@ export class AddSavedLocationComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       ...confirmationDialogConfig,
       data: {
-        title: 'Are you sure you want to exit?',
+        title: 'Confirm Action',
         confirmButton: 'Exit',
-        text: 'If you exit now, your progress will be lost.',
+        text: 'Are you sure you want to proceed? If you exit now, your unsaved changes will be lost.',
       },
     });
 

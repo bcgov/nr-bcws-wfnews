@@ -3,7 +3,9 @@
     <div class="icon"><mat-icon svgIcon="location-off"></mat-icon></div>
     <p>{{ message }}</p>
     <div class="button-group">
-        <button class="btn-block primary" *ngIf="showSettingsButton" (click)="goToSetting()"> Go to settings </button>
-        <button class="btn-block secondary" (click)="closeDialog()"> Cancel </button>
+        <wfnews-button *ngIf="showSettingsButton" variant="primary" [fullWidth]="true"
+          label="Go to settings" (buttonClicked)="goToSetting()"></wfnews-button>
+        <wfnews-button variant="secondary" [fullWidth]="true" label="Cancel"
+          (buttonClicked)="closeDialog()"></wfnews-button>
     </div>
 </div>

@@ -12,15 +12,16 @@
 
 
   <div class="rof-button-container" *ngIf="!isEditMode">
-    <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-	  <button class="rof-button-primary" mat-flat-button (click)="next()">
-      Next
-      <mat-icon svgIcon="arrow-forward-enabled" class="left-padding" style="width: 24px; height: 24px;"></mat-icon>
-    </button>
+    <wfnews-button variant="secondary" size="large" label="Previous"
+      (buttonClicked)="previous()"></wfnews-button>
+    <wfnews-button variant="primary" size="large" label="Next" iconPathEnd="/assets/images/svg-icons/arrow-forward-enabled.svg"
+      (buttonClicked)="next()"></wfnews-button>
   </div>
 
   <div class="rof-button-container" *ngIf="isEditMode">
-    <button class="rof-button" mat-flat-button (click)="backToReview()">Cancel</button>
-	  <button [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button (click)="backToReview()">Save</button>
+    <wfnews-button variant="secondary" size="large" label="Cancel"
+      (buttonClicked)="backToReview()"></wfnews-button>
+    <wfnews-button variant="primary" size="large" label="Save" [disabled]="!isPageDirty"
+      (buttonClicked)="backToReview()"></wfnews-button>
   </div>
 </div>

@@ -127,7 +127,6 @@ import { DownloadItemComponent } from './components/common/download-item/downloa
 import { DownloadItemsContainerComponent } from './components/common/download-items-container/download-items-container.component';
 import { EventInfoComponent } from './components/common/event-info/event-info.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
-import { IconButtonComponent } from './components/common/icon-button/icon-button.component';
 import { IconInfoChipComponent } from './components/common/icon-info-chip/icon-info-chip.component';
 import { IconListItemComponent } from './components/common/icon-list-item/icon-list-item.component';
 import { LinkButtonComponent } from './components/common/link-button/link-button.component';
@@ -135,7 +134,6 @@ import { MapToggleButtonComponent } from './components/common/map-toggle-button/
 import { MediaGalleryContainerComponent } from './components/common/media-gallery-container/media-gallery-container.component';
 import { MediaGalleryItemComponent } from './components/common/media-gallery-item/media-gallery-item.component';
 import { MobileSlidingDrawerComponent } from './components/common/mobile-sliding-drawer/mobile-sliding-drawer.component';
-import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
 import { TwoColumnContentCardsContainerComponent } from './components/common/two-column-content-cards-container/two-column-content-cards-container.component';
 import { UnsavedChangesDialog } from './components/common/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import { WarningBannerComponent } from './components/common/warning-banner/warning-banner.component';
@@ -277,7 +275,6 @@ import { SavedComponent } from './components/saved/saved.component';
 import { SearchPageComponent } from './components/search/search-page.component';
 import { SignOutPageComponent } from './components/sign-out-page/sign-out-page.component';
 import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
-import { StickyWidgetComponent } from './components/sticky-widget/sticky-widget.component';
 import { WeatherHistoryOptionsDialogComponent } from './components/weather/weather-history-options-dialog/weather-history-options-dialog.component';
 import { WeatherHistoryComponent } from './components/weather/weather-history/weather-history.component';
 import { WeatherPanelComponent } from './components/weather/weather-panel/weather-panel.component';
@@ -360,7 +357,6 @@ export const DATE_FORMATS = {
     ImageGalleryPanel,
     EditImageDialogComponent,
     UploadImageDialogComponent,
-    StickyWidgetComponent,
     ContactWidgetDialogComponent,
     PublishDialogComponent,
     UnsavedChangesDialog,
@@ -411,7 +407,6 @@ export const DATE_FORMATS = {
     IncidentGalleryVideosMobileComponent,
     VideoPanelComponent,
     ImagePanelComponent,
-    ScrollToTopComponent,
     MapToggleButtonComponent,
     AlertOrderBannerComponent,
     PermissionBannerComponent,
@@ -494,7 +489,6 @@ export const DATE_FORMATS = {
     BanHeaderComponent,
     DangerRatingHeaderComponent,
     AdvisorySectionComponent,
-    IconButtonComponent,
     ContentCardContainerComponent,
     TwoColumnContentCardsContainerComponent,
     RelatedTopicsCardComponent,

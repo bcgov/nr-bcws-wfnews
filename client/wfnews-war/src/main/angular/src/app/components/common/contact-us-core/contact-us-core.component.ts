@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { defaultSlimIconButtonStyle } from '../icon-button/icon-button.component';
 
 @Component({
   selector: 'contact-us-core',
@@ -9,7 +8,6 @@ import { defaultSlimIconButtonStyle } from '../icon-button/icon-button.component
 export class ContactUsCoreComponent {
   @Input() incident;
 
-  iconButtonStyling = { ...defaultSlimIconButtonStyle, backgroundColor: '#FFF' };
   
 
   call = () => {

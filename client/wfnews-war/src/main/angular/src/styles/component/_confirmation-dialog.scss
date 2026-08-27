@@ -1,39 +1,23 @@
-@import "../variables";
-
 // Sizing lives here, not in the dialog config: Material writes width and maxWidth as inline
 // styles on the overlay pane, and a config value is read once at open time, so it cannot
 // follow a breakpoint. !important is what beats those inline styles.
 //
 // The desktop numbers are the BC Gov Modal's own: 600px wide, capped at the viewport, with
-// a 1.5rem margin, 4px corners, a 1px #d8d8d8 border and their large shadow.
+// a 1.5rem margin, a 1px #d8d8d8 border and their large shadow. A phone needs no rule of
+// its own, because the cap already gives it the screen less the margin.
+//
+// The corner is 8px on both, to match the cards and the permission banner.
 .wfnews-confirmation-dialog {
   width: 600px !important;
   max-width: calc(100vw - 48px) !important;
   margin: 24px;
 
   .mat-mdc-dialog-container .mdc-dialog__surface {
-    border-radius: 4px;
+    border-radius: 8px;
     border: 1px solid #d8d8d8;
     background: #fff;
     box-shadow:
       0 4.8px 14.4px 0 #0000002e,
       0 25.6px 57.6px 0 #00000038;
-  }
-}
-
-// A phone has no room for a 600px card, so it takes the screen less a margin.
-@media (max-width: $mobile-max-width) {
-  .wfnews-confirmation-dialog {
-    // 16px on a 411px screen is 4% and reads as edge to edge. 24 is the Material
-    // minimum for a phone.
-    width: calc(100vw - 48px) !important;
-    max-width: none !important;
-    margin: 24px;
-
-    // 8px, to match the cards and the option tiles on the screen behind the dialog.
-    // Desktop keeps the 4px of the BC Gov Modal.
-    .mat-mdc-dialog-container .mdc-dialog__surface {
-      border-radius: 8px;
-    }
   }
 }

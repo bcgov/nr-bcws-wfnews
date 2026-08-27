@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AdvisorySectionStyle } from '@app/components/common/advisory-section/advisory-section.component';
-import { IconButtonArgs } from '@app/components/common/icon-button/icon-button.component';
+import {
+  AdvisoryButtonArgs,
+  AdvisorySectionStyle,
+} from '@app/components/common/advisory-section/advisory-section.component';
 import { RelatedTopicsLink } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
 import { SimpleIncident } from '@app/services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
@@ -36,15 +38,10 @@ export class AreaRestrictionDetailsComponent {
       iconCircleColor: '#D9DEEE',
     }
   };
-  advisorySectionButtonArgs: IconButtonArgs = {
+  advisorySectionButtonArgs: AdvisoryButtonArgs = {
     label: 'Go to the Bulletin',
     iconPath: '/assets/images/svg-icons/link.svg',
-    componentStyle: {
-      backgroundColor: '#036',
-      labelColor: '#FFFFFF',
-      iconColor: '#FFFFFF',
-      border: 'none'
-    }
+    variant: 'primary',
   };
 
   relatedTopicLinks: RelatedTopicsLink[] = [

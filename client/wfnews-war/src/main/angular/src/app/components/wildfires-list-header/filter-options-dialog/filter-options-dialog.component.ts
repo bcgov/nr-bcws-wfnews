@@ -64,4 +64,10 @@ this.addStageOfControl(soc);
       this.filterData.stagesOfControl.splice(index, 1);
     }
   }
+
+  // The Button cannot carry [mat-dialog-close], so the dialog closes itself. The close X
+  // still returns false, which the caller reads as "clear the filter".
+  showResults() {
+    this.dialogRef.close(this.filterData);
+  }
 }

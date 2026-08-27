@@ -45,10 +45,9 @@
                 <div class="contents">{{incident.structureProtectionRsrcDetail}}</div>
                 <hr>
             </div>
-            <button mat-button class="learn-more" (click)="navToLearnMore()">
-                <img class="icon" src="/assets/images/svg-icons/launch_black.svg" alt="Launch" />
-                <span class="button-text">Learn about Wildfire Resources</span>
-            </button>
+            <wfnews-button variant="secondary" label="Learn about Wildfire Resources"
+                iconPath="/assets/images/svg-icons/launch_black.svg"
+                (buttonClicked)="navToLearnMore()"></wfnews-button>
             <br>
             <hr>
         </div>

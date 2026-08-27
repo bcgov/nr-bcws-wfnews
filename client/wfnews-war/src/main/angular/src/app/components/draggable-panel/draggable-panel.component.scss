@@ -232,29 +232,10 @@
       display: flex;
       gap: 16px;
 
-      .mobile-button {
-        width: 100%;
-        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        color: #000;
-        background-color: #f5f5f5;
-        padding: 8px;
-        border: 1px solid var(--Grays-Gray-6, #C4C4C4);
-      }
-
-      .mobile-button-primary {
-        width: 100%;
-        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        color: #fdfdfd;
-        background-color: #036;
-        padding: 8px;
+      // Each Button takes an equal share of the row. A Button does not shrink by itself,
+      // so a caller that wants it to share a row says so.
+      wfnews-button {
+        flex: 1 1 0;
       }
     }
   }

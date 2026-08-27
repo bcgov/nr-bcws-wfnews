@@ -18,13 +18,17 @@
       </mat-button-toggle-group>
 
       <div class="rof-button-container" *ngIf="!isEditMode">
-        <button class="rof-button" mat-flat-button (click)="previousPage()">Previous</button>
-        <button [class]="'rof-button' + (disableNext ? '-disabled' : '-primary')" [disabled]="disableNext" mat-flat-button color="primary" (click)="nextPage()">Next<mat-icon [svgIcon]="disableNext? 'arrow-forward-disabled' : 'arrow-forward-enabled'" class="left-padding" style="width: 24px; height: 24px;"></mat-icon></button>
+        <wfnews-button variant="secondary" size="large" label="Previous"
+          (buttonClicked)="previousPage()"></wfnews-button>
+        <wfnews-button variant="primary" size="large" label="Next" [disabled]="disableNext"
+          iconPathEnd="/assets/images/svg-icons/arrow-forward-enabled.svg" (buttonClicked)="nextPage()"></wfnews-button>
       </div>
 
       <div class="rof-button-container" *ngIf="isEditMode">
-        <button class="rof-button" mat-flat-button (click)="backToReview()">Cancel</button>
-        <button [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button color="primary" (click)="backToReview()">Save</button>
+        <wfnews-button variant="secondary" size="large" label="Cancel"
+          (buttonClicked)="backToReview()"></wfnews-button>
+        <wfnews-button variant="primary" size="large" label="Save" [disabled]="!isPageDirty"
+          (buttonClicked)="backToReview()"></wfnews-button>
       </div>
   </div>
 </div>

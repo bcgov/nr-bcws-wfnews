@@ -2,11 +2,9 @@
   <div class="section">
       <div class="section-header-row">
           <span class="section-header">{{notificationsTitle}}</span>
-        <button type="button" class="section-button" (click)="addNewLocation()"
-            *ngIf="savedLocations?.length < 3">
-            <img alt="" src="/assets/images/svg-icons/Type.svg" class="button-icon">
-            Add new
-        </button>
+        <wfnews-button *ngIf="savedLocations?.length < 3" variant="secondary"
+            label="Add new" iconPath="/assets/images/svg-icons/Type.svg"
+            (buttonClicked)="addNewLocation()"></wfnews-button>
       </div>
       <permission-banner *ngIf="showPermissionBanner"
           [heading]="bannerText.push.heading"

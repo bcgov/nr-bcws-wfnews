@@ -25,23 +25,6 @@
     line-height: normal;
   }
 
-  .section-button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border: 1px solid #dedede;
-    border-radius: 8px;
-    background: #fff;
-    cursor: pointer;
-    color: var(--grays-gray-2, #484848);
-    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    min-width: $button-min-width;
-  }
 
   .section-card {
     box-sizing: border-box;
@@ -148,11 +131,6 @@
   .section-card-wildfires {
     @extend .section-card;
   }
-}
-
-.button-icon {
-  height: 20px;
-  width: 20px;
 }
 
 .location-icon {

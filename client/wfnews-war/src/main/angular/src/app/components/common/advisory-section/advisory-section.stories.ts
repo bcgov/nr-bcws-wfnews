@@ -1,5 +1,5 @@
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
-import { IconButtonComponent } from '../icon-button/icon-button.component';
+import { WfnewsButtonComponent } from '../wfnews-button/wfnews-button.component';
 import { AdvisorySectionComponent } from './advisory-section.component';
 
 
@@ -9,7 +9,7 @@ const meta: Meta<AdvisorySectionComponent> = {
   tags: ['autodocs'], 
   decorators: [
     moduleMetadata({
-      declarations: [IconButtonComponent, AdvisorySectionComponent],
+      declarations: [WfnewsButtonComponent, AdvisorySectionComponent],
     }),
   ]
 };
@@ -39,12 +39,7 @@ export const evacuationInformationOrder: Story = {
     buttonArgs: {
       iconPath: '/assets/images/svg-icons/launch.svg',
       label: 'Evacuation Information',
-      componentStyle: {
-        backgroundColor: '#B91D38',
-        labelColor: '#FFFFFF',
-        iconColor: '#FFFFFF',
-        border: 'none'
-      }
+      variant: 'evacuationOrder',
     },
   },
 };
@@ -70,12 +65,7 @@ export const evacuationInformationAlert: Story = {
     buttonArgs: {
       iconPath: '/assets/images/svg-icons/launch.svg',
       label: 'Evacuation Information',
-      componentStyle: {
-        backgroundColor: '#8F7100',
-        labelColor: '#FFFFFF',
-        iconColor: '#FFFFFF',
-        border: 'none'
-      }
+      variant: 'evacuationAlert',
     },
   },
 };
@@ -101,12 +91,7 @@ export const areaRestriction: Story = {
     buttonArgs: {
       label: 'Go to the Bulletin',
       iconPath: '/assets/images/svg-icons/link.svg',
-      componentStyle: {
-        backgroundColor: '#036',
-        labelColor: '#FFFFFF',
-        iconColor: '#FFFFFF',
-        border: 'none'
-      }
+      variant: 'primary',
     },
   },
 };

@@ -4,7 +4,7 @@
     Are you sure you want to publish?
   </div>
   <div mat-dialog-actions class="dialog-actions">
-  	<button mat-raised-button color="primary" [mat-dialog-close]="returnResult()">Publish</button>
-	  <button mat-raised-button [mat-dialog-close]="false">Keep Editing</button>
+    <wfnews-button variant="primary" label="Publish" (buttonClicked)="publish()"></wfnews-button>
+    <wfnews-button variant="secondary" label="Keep Editing" (buttonClicked)="cancel()"></wfnews-button>
   </div>
 </div>

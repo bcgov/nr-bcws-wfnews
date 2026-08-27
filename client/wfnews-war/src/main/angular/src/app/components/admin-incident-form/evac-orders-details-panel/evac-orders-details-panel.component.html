@@ -73,7 +73,6 @@
       </div>
     </fieldset>
   </mat-card>
-  <button mat-button color="primary" (click)="addEvacOrder()">
-    <img class="add-icon" src="/assets/images/svg-icons/add-icon.svg" alt="add-icon"/>
-  Add</button>
+  <wfnews-button variant="secondary" label="Add" iconPath="/assets/images/svg-icons/add-icon.svg"
+    (buttonClicked)="addEvacOrder()"></wfnews-button>
 </ng-container>

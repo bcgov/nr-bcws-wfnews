@@ -18,12 +18,16 @@
     </div>
   </div>
   <div class="rof-button-container" *ngIf="!isEditMode">
-    <button class="rof-button" mat-flat-button (click)="previousPage()">Previous</button>
-    <button mat-flat-button [class]="'rof-button' + (images.length === 0 ? '-disabled' : '-primary')" [disabled]="images.length === 0" (click)="next(); confirmPhotos()"><mat-icon [svgIcon]="images.length === 0? 'arrow-forward-disabled' : 'arrow-forward-enabled'"  class="left-padding" style="width: 24px; height: 24px;"></mat-icon>Next</button>
+    <wfnews-button variant="secondary" size="large" label="Previous"
+      (buttonClicked)="previousPage()"></wfnews-button>
+    <wfnews-button variant="primary" size="large" label="Next" [disabled]="images.length === 0"
+      iconPathEnd="/assets/images/svg-icons/arrow-forward-enabled.svg" (buttonClicked)="next(); confirmPhotos()"></wfnews-button>
   </div>
 
   <div class="rof-button-container" *ngIf="isEditMode">
-    <button class="rof-button" mat-flat-button (click)="backToReview();">Cancel</button>
-    <button mat-flat-button [class]="'rof-button' + (images.length === 0 ? '-disabled' : '-primary')" [disabled]="images.length === 0" (click)="confirmPhotos(); backToReview();">Save</button>
+    <wfnews-button variant="secondary" size="large" label="Cancel"
+      (buttonClicked)="backToReview();"></wfnews-button>
+    <wfnews-button variant="primary" size="large" label="Save" [disabled]="images.length === 0"
+      (buttonClicked)="confirmPhotos(); backToReview();"></wfnews-button>
   </div>
 </div>

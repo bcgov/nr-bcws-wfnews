@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { WfnewsButtonStyle } from '@app/components/common/wfnews-button/wfnews-button.component';
 
 export interface ConfirmationDialogData {
   title: string;
@@ -10,6 +9,8 @@ export interface ConfirmationDialogData {
   cancelButton?: string;
   /** Paints the confirm button red, for an action a user cannot undo. */
   destructive?: boolean;
+  /** Overrides the header mark. It defaults to the warning the permission banner shows. */
+  icon?: string;
 }
 
 /**
@@ -43,21 +44,14 @@ export class ConfirmationDialogComponent {
     return this.data.cancelButton || 'Cancel';
   }
 
-  readonly cancelStyle: WfnewsButtonStyle = {
-    slim: true,
-    backgroundColor: '#FFFFFF',
-    border: '1px solid #dedede',
-    labelColor: '#000000',
-  };
-
-  get confirmStyle(): WfnewsButtonStyle {
-    const fill = this.data.destructive ? '#B91D38' : '#003366';
-    return {
-      slim: true,
-      backgroundColor: fill,
-      border: `1px solid ${fill}`,
-      labelColor: '#FFFFFF',
-    };
+  /** Red when the user cannot undo the action, grey for every other question. */
+  get icon(): string {
+    if (this.data.icon) {
+      return this.data.icon;
+    }
+    return this.data.destructive
+      ? '/assets/images/svg-icons/red_warning.svg'
+      : '/assets/images/svg-icons/custom_warning.svg';
   }
 
   closeDialog() {

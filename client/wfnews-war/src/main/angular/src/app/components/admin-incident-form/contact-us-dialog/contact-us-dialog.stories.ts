@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactUsCoreComponent } from '@app/components/common/contact-us-core/contact-us-core.component';
-import { IconButtonComponent } from '@app/components/common/icon-button/icon-button.component';
+import { WfnewsButtonComponent } from '@app/components/common/wfnews-button/wfnews-button.component';
 import { IconListItemComponent } from '@app/components/common/icon-list-item/icon-list-item.component';
 import { ContactUsDialogComponent } from './contact-us-dialog.component';
 
@@ -13,7 +13,7 @@ const meta: Meta<ContactUsDialogComponent> = {
     component: ContactUsDialogComponent,
     decorators: [
         moduleMetadata({
-            declarations: [ContactUsDialogComponent, ContactUsCoreComponent, IconListItemComponent, IconButtonComponent],
+            declarations: [ContactUsDialogComponent, ContactUsCoreComponent, IconListItemComponent, WfnewsButtonComponent],
             imports: [
                 CommonModule,
                 MatDialogModule,

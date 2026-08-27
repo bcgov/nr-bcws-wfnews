@@ -17,8 +17,9 @@
     (action)="onTurnOnLocation()">
   </permission-banner>
   <div class="rof-button-container">
-    <button mat-flat-button class="rof-button" (click)="close()">Cancel</button>
-    <button mat-flat-button [class]="'rof-button' + (!dataShareAccepted ? '-disabled' : '-primary')"
-      (click)="nextPage()" [disabled]="!dataShareAccepted">Continue</button>
+    <wfnews-button variant="secondary" size="large" label="Cancel"
+      (buttonClicked)="close()"></wfnews-button>
+    <wfnews-button variant="primary" size="large" label="Continue"
+      [disabled]="!dataShareAccepted" (buttonClicked)="nextPage()"></wfnews-button>
   </div>
 </div>

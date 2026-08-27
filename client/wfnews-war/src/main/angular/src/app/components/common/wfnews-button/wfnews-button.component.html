@@ -1,19 +1,11 @@
-<ng-template #content>
-  <span class="label" [ngClass]="{'slim': componentStyle?.slim}"
-    [ngStyle]="componentStyle ? {'color': componentStyle.labelColor } : null">{{ label }}</span>
-</ng-template>
-
-<button *ngIf="nativeButton; else clickableDiv" type="button" class="button-container"
-  [ngClass]="{'slim': componentStyle?.slim, 'hide': !isVisible}"
-  [ngStyle]="componentStyle ? {'background': componentStyle.backgroundColor, 'border': componentStyle.border} : null"
-  (click)="clickHandler()">
-  <ng-container *ngTemplateOutlet="content"></ng-container>
+<button [type]="type" class="bcds-button" [ngClass]="[variant, size]"
+  [class.danger]="danger" [class.icon]="iconOnly" [disabled]="disabled"
+  [attr.aria-label]="ariaLabel || null" (click)="clickHandler()">
+  <ng-content></ng-content>
+  <span *ngIf="iconPath" class="mask-icon" [style.mask-image]="'url(' + iconPath + ')'"
+    [style.-webkit-mask-image]="'url(' + iconPath + ')'"></span>
+  <span *ngIf="label" class="label">{{ label }}</span>
+  <span *ngIf="iconPathEnd" class="mask-icon" [style.mask-image]="'url(' + iconPathEnd + ')'"
+    [style.-webkit-mask-image]="'url(' + iconPathEnd + ')'"></span>
+  <ng-content select="[iconEnd]"></ng-content>
 </button>
-
-<ng-template #clickableDiv>
-  <div class="button-container" [ngClass]="{'slim': componentStyle?.slim, 'hide': !isVisible}"
-    [ngStyle]="componentStyle ? {'background': componentStyle.backgroundColor, 'border': componentStyle.border} : null"
-    (keypress)="clickHandler()" (click)="clickHandler()">
-    <ng-container *ngTemplateOutlet="content"></ng-container>
-  </div>
-</ng-template>

@@ -134,22 +134,6 @@
         margin-bottom: 8px;
       }
 
-      .mobile-button {
-        border-radius: 5px;
-        border: 1px solid #6e6e6e;
-        background-color: #fdfdfd;
-        box-sizing: border-box;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        min-width: 130px;
-        height: 50px;
-
-        &.fixed-width {
-          width: 170px;
-        }
-      }
-
       .current-resources {
         color: #6e6e6e;
         text-align: left;
@@ -574,14 +558,6 @@ hr {
 .material-icons-outlined {
   position: relative;
   top: 4px;
-}
-
-.map-button {
-  color: #000;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 }
 
 .contact-info {

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AdvisorySectionStyle } from '@app/components/common/advisory-section/advisory-section.component';
-import { IconButtonArgs } from '@app/components/common/icon-button/icon-button.component';
+import {
+  AdvisoryButtonArgs,
+  AdvisorySectionStyle,
+} from '@app/components/common/advisory-section/advisory-section.component';
 import { SimpleIncident } from '@app/services/published-incident-service';
 
 @Component({
@@ -30,15 +32,10 @@ export class EvacAlertDetailsComponent {
       iconCircleColor: '#FEEFBE',
     }
   };
-  advisorySectionButtonArgs: IconButtonArgs = {
+  advisorySectionButtonArgs: AdvisoryButtonArgs = {
     label: 'Evacuation Information',
     iconPath: '/assets/images/svg-icons/link.svg',
-    componentStyle: {
-      backgroundColor: '#8F7100',
-      labelColor: '#FFFFFF',
-      iconColor: '#FFFFFF',
-      border: 'none'
-    }
+    variant: 'evacuationAlert',
   };
 
   handleBookmarkClicked = ($event) => {

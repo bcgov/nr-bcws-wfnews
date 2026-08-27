@@ -15,8 +15,8 @@
             </div>
         </div>
         <div class="button-row">
-            <button mat-flat-button class="notification-map-button" (click)="close()">Cancel</button>
-            <button mat-flat-button class="notification-map-button-primary" (click)="saveLocation()">Confirm</button>
+            <wfnews-button variant="secondary" label="Cancel" (buttonClicked)="close()"></wfnews-button>
+            <wfnews-button variant="primary" label="Confirm" (buttonClicked)="saveLocation()"></wfnews-button>
         </div>
     </div>
 </div>

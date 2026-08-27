@@ -314,27 +314,6 @@
   }
 }
 
-.save-button {
-  min-width: $button-min-width;
-  border-radius: 8px;
-  padding: 12px 32px;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  background: var(--blues-blue-2, #036);
-  color: #fff;
-  border: 1px solid var(--blues-blue-2, #036);
-}
-
-.disabled-button {
-  @extend .save-button;
-  background: #ededed;
-  color: var(--grays-gray-3, #666);
-  border: 1px solid var(--grays-gray-6, #c4c4c4);
-  cursor: not-allowed;
-}
-
 .save-button-section {
   width: 100%;
   text-align: right;

@@ -23,4 +23,13 @@ export class UploadVideoDialogComponent {
       url: this.url,
     };
   }
+
+  // The Button cannot carry [mat-dialog-close], so the dialog closes itself.
+  save() {
+    this.dialogRef.close(this.returnResult());
+  }
+
+  cancel() {
+    this.dialogRef.close(false);
+  }
 }

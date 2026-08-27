@@ -2,7 +2,7 @@
   <h1 mat-mdc-dialog-title>Upload Map</h1>
   <div class="dialog-content" mat-dialog-content>
     <input #pdfInput hidden="true" type="file" onclick="this.value=null" (change)="pdfInputChange($event)" accept=".pdf"/>
-    <button mat-flat-button color="primary" (click)="pdfInput.click()">Browse</button>
+    <wfnews-button variant="secondary" label="Browse" (buttonClicked)="pdfInput.click()"></wfnews-button>
     <mat-form-field class="item-full-width" floatLabel="always">
       <mat-label class="label">Title</mat-label>
       <input matInput #input maxlength="150" type="text" placeholder="Title" [(ngModel)]="title" [value]="title" required>
@@ -10,7 +10,9 @@
     </mat-form-field>
   </div>
   <div class="dialog-actions" mat-dialog-actions>
-  	<button mat-raised-button color="primary" [mat-dialog-close]="returnResult()" [disabled]="file === null || title === null || title === ''">Save</button>
-	  <button mat-raised-button [mat-dialog-close]="false">Cancel</button>
+    <wfnews-button variant="primary" label="Save"
+      [disabled]="file === null || title === null || title === ''"
+      (buttonClicked)="save()"></wfnews-button>
+    <wfnews-button variant="secondary" label="Cancel" (buttonClicked)="cancel()"></wfnews-button>
   </div>
 </div>

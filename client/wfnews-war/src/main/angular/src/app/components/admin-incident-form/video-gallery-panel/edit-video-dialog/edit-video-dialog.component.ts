@@ -15,4 +15,13 @@ export class EditVideoDialogComponent {
     public dialogRef: MatDialogRef<EditVideoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {}
+
+  // The Button cannot carry [mat-dialog-close], so the dialog closes itself.
+  save() {
+    this.dialogRef.close(this.data.video);
+  }
+
+  cancel() {
+    this.dialogRef.close(false);
+  }
 }

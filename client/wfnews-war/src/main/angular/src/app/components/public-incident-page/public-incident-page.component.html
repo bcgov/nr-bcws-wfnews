@@ -45,16 +45,12 @@
                     alt="carbon_phone" />{{incident.contactPhoneNumber}}</div>
         </div>
         <div class="contact-buttons">
-            <button mat-button class="mobile-buttons">
-                <img class="icon-contact" src="/assets/images/svg-icons/carbon_phone.svg"
-                    alt="carbon_phone" />
-                <a [href]="'tel:' + incident.contactPhoneNumber" style="text-decoration: none; color: inherit;">Call Us</a>
-            </button>
-            <button mat-button class="mobile-buttons" (click)="emailFireCentre(incident.contactEmailAddress)">
-                <img class="icon-contact" src="/assets/images/svg-icons/carbon_email.svg"
-                    alt="carbon_email" />
-                Email Us
-            </button>
+            <wfnews-button variant="secondary" label="Call Us"
+                iconPath="/assets/images/svg-icons/carbon_phone.svg"
+                (buttonClicked)="callFireCentre(incident.contactPhoneNumber)"></wfnews-button>
+            <wfnews-button variant="secondary" label="Email Us"
+                iconPath="/assets/images/svg-icons/carbon_email.svg"
+                (buttonClicked)="emailFireCentre(incident.contactEmailAddress)"></wfnews-button>
         </div>
     </div>
     </div>

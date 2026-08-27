@@ -1,5 +1,6 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
+import { WfnewsButtonComponent } from '@app/components/common/wfnews-button/wfnews-button.component';
 import { EvacOrdersDetailsPanel } from './evac-orders-details-panel.component';
 import {
     DefaultService as ExternalUriService,
@@ -24,7 +25,7 @@ const meta: Meta<EvacOrdersDetailsPanel> = {
     component: EvacOrdersDetailsPanel,
     decorators: [
         moduleMetadata({
-            declarations: [EvacOrdersDetailsPanel],
+            declarations: [EvacOrdersDetailsPanel, WfnewsButtonComponent],
             imports: [MatCardModule,
                 ReactiveFormsModule,
             ],

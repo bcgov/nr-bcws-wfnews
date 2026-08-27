@@ -4,7 +4,8 @@
   </div>
   <div class="divider"></div>
   <div #loadMoreButton class="load-more-row" *ngIf="displayLoadMoreVideos">
-    <button mat-button class="load-more-button"(click)="loadMoreVideos(loadMoreButton)">Load More</button>
+    <wfnews-button variant="secondary" label="Load More"
+      (buttonClicked)="loadMoreVideos(loadMoreButton)"></wfnews-button>
   </div>
 </div>
 <ng-template #showDisclaimer>

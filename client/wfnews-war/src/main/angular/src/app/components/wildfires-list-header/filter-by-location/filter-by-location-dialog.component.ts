@@ -105,4 +105,10 @@ export class FilterByLocationDialogComponent {
 
     this.locationData.searchText = this.searchText;
   }
+
+  // The Button cannot carry [mat-dialog-close], so the dialog closes itself. The close X
+  // still returns false, which the callers read as "clear the filter".
+  showResults() {
+    this.dialogRef.close(this.locationData);
+  }
 }

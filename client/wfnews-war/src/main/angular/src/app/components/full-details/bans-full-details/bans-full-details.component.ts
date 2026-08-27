@@ -265,6 +265,10 @@ export class BansFullDetailsComponent implements OnInit {
     );
   }
 
+  navToBcParksAdvisories() {
+    window.open('https://bcparks.ca/active-advisories/', '_blank');
+  }
+
   navToOpenBurning() {
     window.open(
       'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions/open-burning',

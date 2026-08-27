@@ -69,7 +69,9 @@
       min-height: unset;
       justify-content: flex-end;
 
-      button {
+      // Each Button takes an equal share of the footer row.
+      wfnews-button {
+        flex: 1 1 0;
         margin-left: 10px;
       }
     }
@@ -114,40 +116,3 @@
   }
 }
 
-.wildfire-button {
-  margin: 12px 8px 12px 12px;
-  display: flex;
-  padding: 8px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  flex: 1 0 0;
-  border-radius: 5px;
-  border: 1px solid #c7c7c7;
-  background: #f5f5f5;
-  color: #000;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  cursor: pointer;
-
-  &-primary {
-    margin: 12px 12px 12px 8px;
-    border-radius: 5px;
-    background: var(--blues-blue-2, #036);
-    display: flex;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    flex: 1 0 0;
-    border: 1px solid #c7c7c7;
-    color: #fff;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    cursor: pointer;
-  }
-}

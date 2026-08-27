@@ -9,7 +9,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class UnsavedChangesDialog {
   constructor(protected dialogRef: MatDialogRef<UnsavedChangesDialog>) {}
 
-  returnResult(value: boolean) {
-    return value;
+  close(value: boolean) {
+    this.dialogRef.close(value);
   }
 }

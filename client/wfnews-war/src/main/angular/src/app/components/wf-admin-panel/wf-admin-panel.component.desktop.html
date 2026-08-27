@@ -47,7 +47,9 @@
           </div>
 
           <div class="field">
-              <button mat-raised-button color="primary" (click)="clearSearchAndFilters()" style="width: 100px;"><mat-icon svgIcon="filter-cancel"></mat-icon>Clear</button>
+              <wfnews-button variant="secondary" label="Clear"
+                iconPath="/assets/images/svg-icons/filter-cancel.svg"
+                (buttonClicked)="clearSearchAndFilters()"></wfnews-button>
           </div>
       </div>
 

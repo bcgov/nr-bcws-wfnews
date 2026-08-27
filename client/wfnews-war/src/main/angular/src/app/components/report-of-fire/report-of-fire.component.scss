@@ -177,13 +177,8 @@
   display: block;
 }
 
-// A global rule sets BCSans on every .mdc-button with !important, so a plain rule
-// here loses and only the buttons that are not Material get the wizard font.
-.page-content button,
-.rof-button-container button {
-  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif !important;
-}
-
+// The footer band. It was once .page-content button as well, which put every plain
+// button on the page at this fixed position, one on top of another.
 .rof-button-container {
   max-width: 780px;
   justify-content: space-between;
@@ -196,55 +191,6 @@
   position: fixed;
   @media (max-height: 699px) {
     bottom: calc(2em + env(safe-area-inset-bottom, 20px));
-  }
-  .rof-button {
-    padding: 0 32px;
-    height: 43px;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    background-color: #f5f5f5;
-    border: solid 1px #b0b0b0;
-    border-radius: 6px;
-    &-primary {
-      padding: 0 32px;
-      height: 43px;
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      color: white;
-      background-color: #123262;
-      flex-direction: row-reverse;
-      border-radius: 6px;
-      &-review {
-        padding: 0 32px;
-        height: 43px;
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        color: white;
-        background-color: #123262;
-        flex-direction: none;
-        border-radius: 6px;
-      }
-    }
-    &-disabled {
-      padding: 0 32px;
-      height: 43px;
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      flex-direction: row-reverse;
-      color: rgba(0, 0, 0);
-      border-radius: 6px;
-    }
-  }
-  .flow-buttons {
-    padding-bottom: 500px !important;
   }
 }
 
@@ -298,10 +244,6 @@
     line-height: normal !important;
     letter-spacing: -0.38px !important;
   }
-}
-
-.left-padding {
-  padding-left: 10px;
 }
 
 .rof-toggle-group {
@@ -449,7 +391,15 @@
 .page-content {
   flex: 1 1 auto;
   min-height: 0;
+  // This box is a flex item, so its height is what is left of the screen. Content taller
+  // than that spilled out of it and under the fixed footer band, because .rof is
+  // overflow: hidden and clipped it there. Scroll it instead.
+  //
+  // The clearance is a margin and not a padding. A padding sits inside the scroll box, so
+  // the words still paint in the strip behind the band. A margin ends the box above it.
+  overflow-y: auto;
   padding: 0 32px;
+  margin-bottom: calc(7em + env(safe-area-inset-bottom, 20px));
   font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-style: normal;
   font-size: 16px;

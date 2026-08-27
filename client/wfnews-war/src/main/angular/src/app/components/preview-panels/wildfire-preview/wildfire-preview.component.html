@@ -54,13 +54,10 @@
             </div>
             <div class="button-row">
                 <div class="buttons">
-                    <button mat-flat-button class="mobile-button" (click)="zoomIn()">
-                        <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
-                        Zoom to
-                    </button>
-                    <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
-                        Full Details
-                    </button>
+                    <wfnews-button variant="secondary" [fullWidth]="true" label="Zoom to"
+                      iconPath="/assets/images/svg-icons/zoom-in.svg" (buttonClicked)="zoomIn()"></wfnews-button>
+                    <wfnews-button variant="primary" [fullWidth]="true" label="Full Details"
+                      (buttonClicked)="enterFullDetail()"></wfnews-button>
                 </div>
             </div>
         </div>

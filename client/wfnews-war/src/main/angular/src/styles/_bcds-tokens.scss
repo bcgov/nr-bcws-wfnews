@@ -1,0 +1,48 @@
+// BC Gov Design System tokens, for the Button only.
+// Source: bcgov/design-system, packages/design-tokens/build/scss/variables.scss.
+// Add a token here when a component needs it. Do not invent values.
+
+// The design system font is "BC Sans". WFNEWS keeps its own stack, so a button matches
+// the words beside it, and takes only the size, weight and line height from the tokens.
+$bcds-font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+
+$bcds-typography-label: 400 0.75rem/1.125rem;
+$bcds-typography-small-body: 400 0.875rem/1.313rem;
+$bcds-typography-body: 400 1rem/1.688rem;
+
+$bcds-color-primary-default: #013366;
+$bcds-color-primary-hover: #1e5189;
+$bcds-color-primary-pressed: #01264c;
+$bcds-color-primary-disabled: #edebe9;
+
+$bcds-color-danger-default: #ce3e39;
+$bcds-color-danger-hover: #a2312d;
+$bcds-color-danger-surface: #f4e1e2;
+
+$bcds-color-secondary-default: #ffffff;
+$bcds-color-secondary-hover: #edebe9;
+$bcds-color-secondary-pressed: #e0dedc;
+$bcds-color-secondary-disabled: #edebe9;
+
+$bcds-color-tertiary-default: rgba(255, 255, 255, 0);
+$bcds-color-tertiary-hover: #eceae8;
+$bcds-color-tertiary-pressed: #e0dedc;
+
+$bcds-border-color-default: #d8d8d8;
+$bcds-border-color-dark: #353433;
+$bcds-border-color-active: #2e5dd7;
+
+$bcds-text-color-primary: #2d2d2d;
+$bcds-text-color-invert: #ffffff;
+$bcds-text-color-disabled: #9f9d9c;
+$bcds-text-color-link: #255a90;
+
+$bcds-border-width-small: 1px;
+$bcds-border-width-medium: 2px;
+$bcds-border-radius-medium: 4px;
+
+$bcds-padding-hair: 0.125rem;
+$bcds-padding-small: 0.5rem;
+$bcds-padding-medium: 1rem;
+$bcds-padding-large: 1.5rem;
+$bcds-margin-hair: 0.125rem;

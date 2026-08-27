@@ -230,16 +230,6 @@ mat-panel-title {
     display: none;
   }
 
-  ::ng-deep .sticky-widget {
-    position: fixed;
-    bottom: 100px !important;
-    right: 10px !important;
-    display: flex;
-    transition: 0.5s;
-    z-index: 10000000 !important;
-    flex-direction: column;
-  }
-
   .identify-panel {
     display: none !important;
   }
@@ -407,26 +397,6 @@ mat-panel-title {
   margin-bottom: calc(24px + env(safe-area-inset-bottom, 20px));
   direction: rtl;
 
-  button {
-    color: #242424;
-    background-color: white;
-    text-align: center;
-
-    display: flex;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-
-    border-radius: 5px;
-    border: 1px solid var(--Grey-2, #a7a7a7);
-
-    /* Body 1 */
-    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 24px; /* 150% */
-  }
 }
 
 .search-fab {
@@ -538,8 +508,3 @@ mat-panel-title {
   margin-top: 3px;
 }
 
-.notification-test-button {
-  position: absolute;
-  left: 20px;
-  z-index: 1000;
-}

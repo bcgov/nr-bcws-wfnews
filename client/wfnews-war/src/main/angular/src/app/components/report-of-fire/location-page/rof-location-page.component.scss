@@ -6,8 +6,6 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  // room for the buttons and the page dots, which are fixed to the bottom
-  padding-bottom: calc(7em + env(safe-area-inset-bottom, 20px));
 }
 
 .map-container {
@@ -71,10 +69,6 @@ permission-banner {
 }
 
 :host ::ng-deep .smk-tool-BespokeTool--full-extent {
-  display: none !important;
-}
-
-:host ::ng-deep .sticky-widget {
   display: none !important;
 }
 

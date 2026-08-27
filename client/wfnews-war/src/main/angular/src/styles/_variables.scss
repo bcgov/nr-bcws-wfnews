@@ -15,6 +15,12 @@ $colour-lighter-yellow: #f9f9cd;
 $colour-black: #000000;
 $colour-red: #ff4545;
 $color-dark-red: #B91D38;
+
+// The two advisory colours. They are wildfire domain colours, not Design System tokens:
+// the system has no solid fill for a warning, and its danger red reads at 4.80:1 against
+// white where this red reads at 6.37:1.
+$colour-evacuation-order: #B91D38;
+$colour-evacuation-alert: #8F7100;
 $colour-green: #009e73;
 $colour-blue: #003366;
 $colour-white: #ffffff;
@@ -137,9 +143,6 @@ $colour-table-background-hover: $colour-medium-grey;
 
 $nav-bar-height: 62px;
 
-// A floor for button width, so a short label like Save or Cancel does not make a stub.
-// Roughly what the Save button measures at its 32px side padding.
-$button-min-width: 100px;
 
 // The four Saved screens share one measure, so the back link and the page content do not
 // move sideways between them. Content narrower than this centres inside it.

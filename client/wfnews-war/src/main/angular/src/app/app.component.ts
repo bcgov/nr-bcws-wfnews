@@ -58,15 +58,11 @@ export const ICON = {
   MAP_HOVER: 'map-hover',
   CAMPING: 'camping',
   LARGER: 'larger',
-  PHONE: 'phone',
-  ARROW_FORWARD_ENABLED: 'arrow-forward-enabled',
-  ARROW_FORWARD_DISABLED: 'arrow-forward-disabled',
   CAMERA: 'camera',
   IMAGE: 'image',
   CAMERA_GREY: 'camera-grey',
   IMAGE_GREY: 'image-grey',
   EDIT: 'edit',
-  SEND: 'send',
   LOCATION_OFF: 'location-off',
   DASHBOARD: 'dashboard',
   MORE: 'more',
@@ -96,7 +92,6 @@ export const ICON = {
   CARBON_GAUGE: 'carbon-gauge',
   ARROW_LEFT: 'arrow-left',
   CARBON_LAYER: 'carbon-layer',
-  LAUNCH_WHITE: 'launch_white'
 };
 
 @Component({
@@ -680,24 +675,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ),
     );
     this.matIconRegistry.addSvgIcon(
-      ICON.PHONE,
-      this.domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/images/svg-icons/phone.svg',
-      ),
-    );
-    this.matIconRegistry.addSvgIcon(
-      ICON.ARROW_FORWARD_ENABLED,
-      this.domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/images/svg-icons/arrow-forward-enabled.svg',
-      ),
-    );
-    this.matIconRegistry.addSvgIcon(
-      ICON.ARROW_FORWARD_DISABLED,
-      this.domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/images/svg-icons/arrow-forward-disabled.svg',
-      ),
-    );
-    this.matIconRegistry.addSvgIcon(
       ICON.CAMERA,
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/images/svg-icons/camera.svg',
@@ -725,12 +702,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ICON.EDIT,
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/images/svg-icons/edit.svg',
-      ),
-    );
-    this.matIconRegistry.addSvgIcon(
-      ICON.SEND,
-      this.domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/images/svg-icons/send.svg',
       ),
     );
     this.matIconRegistry.addSvgIcon(
@@ -905,12 +876,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ICON.CARBON_LAYER,
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/images/svg-icons/carbon_layers.svg',
-      ),
-    );
-    this.matIconRegistry.addSvgIcon(
-      ICON.LAUNCH_WHITE,
-      this.domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/images/svg-icons/launch_white.svg',
       ),
     );
   }

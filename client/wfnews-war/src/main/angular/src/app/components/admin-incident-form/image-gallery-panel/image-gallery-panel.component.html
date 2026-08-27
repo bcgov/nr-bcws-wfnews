@@ -1,7 +1,7 @@
 <ng-container class="wfone-base-container">
   <div class="header-panel">
     <span style="font-size: 24px;">Images</span>
-    <button mat-button color="primary" class="primary-button" (click)="upload()">Upload Image</button>
+    <wfnews-button variant="primary" label="Upload Image" (buttonClicked)="upload()"></wfnews-button>
   </div>
   <div class="image-gallery">
     <image-card-panel *ngFor="let image of attachments" [attachment]="image" [incident]="incident" (loadPage)="loadPage()" (removePrimaryFlags)="removePrimaryFlags($event)"></image-card-panel>

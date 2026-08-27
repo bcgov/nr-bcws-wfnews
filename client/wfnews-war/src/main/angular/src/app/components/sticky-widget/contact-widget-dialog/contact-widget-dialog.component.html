@@ -36,11 +36,8 @@
           maxlength="500"></textarea>
       </mat-form-field>
     </div>
-    <button [class]="!contactForm.valid ? 'contact-submit-disabled' : 'contact-submit'" (click)="onSubmit()"
-      [disabled]="!contactForm.valid">
-      Submit Message
-      <img height="20" width="20" src="/assets/images/svg-icons/send-white.svg" alt="submit" />
-    </button>
+    <wfnews-button variant="primary" label="Submit Message" [disabled]="!contactForm.valid"
+      iconPathEnd="/assets/images/svg-icons/send.svg" (buttonClicked)="onSubmit()"></wfnews-button>
     <div class="spacer"></div>
     <div class="subtitle">Phone Numbers</div>
     <div class="phone-number-box">
@@ -126,8 +123,8 @@
               </div>
             </div>
             <div class="row submit-row">
-              <button class="contact-submit" (click)="onSubmit()" [disabled]="!contactForm.valid">Submit
-                Message</button>
+              <wfnews-button variant="primary" label="Submit Message"
+                [disabled]="!contactForm.valid" (buttonClicked)="onSubmit()"></wfnews-button>
             </div>
           </div>
         </div>

@@ -60,10 +60,9 @@
           </div>
         </div>
         <div *ngIf="page.id === 'location-page' && !isOffLine" style="position: relative;">
-          <button (click)="edit(page.id)" class="edit-button">
-            <mat-icon svgIcon="edit"></mat-icon>
-            Edit
-          </button>
+          <wfnews-button class="edit-button" variant="secondary" size="small" label="Edit"
+            iconPath="/assets/images/svg-icons/edit.svg"
+            (buttonClicked)="edit(page.id)"></wfnews-button>
           <div *ngIf="!isOffLine" id="map" class="map-container">
           </div>
         </div>
@@ -71,11 +70,11 @@
     </div>
 
     <div class="submit-button-row">
-      <button [disabled]="submitting" mat-flat-button class="action-button" (click)="submitRof()">
-        <span>Submit Report</span>
-        <mat-icon *ngIf="!submitting" svgIcon="send"></mat-icon>
-        <mat-spinner *ngIf="submitting" [diameter]="20" [color]="'accent'"></mat-spinner>
-      </button>
+      <wfnews-button variant="primary" size="large" label="Submit Report" [disabled]="submitting"
+        [iconPathEnd]="submitting ? null : '/assets/images/svg-icons/send.svg'"
+        (buttonClicked)="submitRof()">
+        <mat-spinner iconEnd *ngIf="submitting" [diameter]="20" [color]="'accent'"></mat-spinner>
+      </wfnews-button>
       <div *ngIf="submitting" class="submitting-text">
         This may take a few moments.<br>
         Please stay on this screen.
