@@ -1,16 +1,16 @@
-FROM tomcat:8.5-jdk17-openjdk
+FROM tomcat:9.0-jdk17-temurin-noble
 
 COPY *.war .
 
 ENV TOMCAT_HOME=/usr/local/tomcat \
   CATALINA_HOME=/usr/local/tomcat \
   CATALINA_OUT=/usr/local/tomcat/logs \
-  TOMCAT_MAJOR=8 \
+  TOMCAT_MAJOR=9 \
   JAVA_OPTS="$JAVA_OPTS" 
 
 RUN apt-get update &&\
   apt-get install -y telnet &&\
-  apt-get install -y sed  &&\
+  apt-get install -y sed unzip &&\
   rm -rf /usr/local/tomcat/webapps/ROOT  &&\
   mkdir /usr/local/tomcat/webapps/ROOT &&\
   unzip -d /usr/local/tomcat/webapps/ROOT/ '*.war' &&\
