@@ -243,7 +243,9 @@ jobs:
           releaseFiles: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
           track: internal
           status: completed
-          changesNotSentForReview: true
+          # Play only accepts true while a release waits for review.
+          # No release waits now, so true is refused on commit.
+          changesNotSentForReview: false
 
       - uses: actions/upload-artifact@v4
         name: Upload Build Artifact to GitHub
