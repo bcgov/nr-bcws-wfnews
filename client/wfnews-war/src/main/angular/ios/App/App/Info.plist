@@ -29,15 +29,15 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>To take photos of wildfires</string>
+	<string>BC Wildfire Service uses your camera when you report a fire. For example, you can take a photo of smoke to send with your fire report.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>App requires user's location to determine whether user is near a wildfire and must be sent an alert</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>App requires user's current location to center map and show incidents around user's location.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>To add photos from library to app</string>
+	<string>BC Wildfire Service can save a photo that you take for a fire report to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To Pick Photos from Library</string>
+	<string>BC Wildfire Service uses your photo library when you report a fire. For example, you can attach up to 3 photos of smoke or flames to your fire report.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
