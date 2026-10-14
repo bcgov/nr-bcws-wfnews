@@ -107,7 +107,6 @@ export const direction = (start: LonLat, end: LonLat): string => {
 };
 
 const TIME_FORMAT = Intl.DateTimeFormat('en-CA', {
-  timeZone: undefined,
   hour12: false,
   year: 'numeric',
   month: 'numeric',
@@ -115,10 +114,8 @@ const TIME_FORMAT = Intl.DateTimeFormat('en-CA', {
   hour: 'numeric',
   minute: 'numeric',
   second: 'numeric',
-  timeZoneName: 'short',
 });
 const DATE_FORMAT = Intl.DateTimeFormat('en-CA', {
-  timeZone: undefined,
   hour12: false,
   year: 'numeric',
   month: 'numeric',

@@ -141,7 +141,6 @@ include.module("plugin-wfim-util", [], function () {
   }
 
   var TIME_FORMAT = Intl.DateTimeFormat("en-CA", {
-    timeZone: undefined,
     hour12: false,
     year: "numeric",
     month: "numeric",
@@ -149,10 +148,8 @@ include.module("plugin-wfim-util", [], function () {
     hour: "numeric",
     minute: "numeric",
     second: "numeric",
-    timeZoneName: "short",
   });
   var DATE_FORMAT = Intl.DateTimeFormat("en-CA", {
-    timeZone: undefined,
     hour12: false,
     year: "numeric",
     month: "numeric",

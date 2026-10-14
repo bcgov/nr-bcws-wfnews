@@ -605,7 +605,7 @@ export function getStageOfControlIcon(code: string) {
 }
 
 export function convertToDateTimeTimeZone(date: Date | string): string {
-  // e.g. July 19, 2022 at 10:22 a.m. PST/PDT
+  // e.g. July 19, 2022 at 10:22 a.m.
   const updateOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
@@ -613,7 +613,6 @@ export function convertToDateTimeTimeZone(date: Date | string): string {
     hour: 'numeric',
     minute: 'numeric',
     second: undefined, // this removes the seconds
-    timeZoneName: 'short', // Automatically handles PDT/PST
   };
 
   let convertedDate = date
