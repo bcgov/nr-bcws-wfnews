@@ -14,6 +14,9 @@ import { PermissionDialogService } from '@app/components/common/permission-dialo
 import { PermissionService } from '@app/services/permission.service';
 import { equalsIgnoreCase } from '../../../utils';
 
+// A browser with no compass sends no reading at all, so the wait needs an end.
+const NO_READING_MS = 2000;
+
 @Component({
   selector: 'rof-compass-page',
   templateUrl: './rof-compass-page.component.html',
@@ -28,6 +31,8 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
   public currentLong: string;
   public heading = '0° N';
   public locationSupported = false;
+  public compassUnsupported = false;
+  private noReadingTimer: ReturnType<typeof setTimeout>;
   private orientationListener: (e: DeviceOrientationEvent) => void;
   // The sensor fires ~60Hz. Recomputing this per event, and again on every change
   // detection pass from the template, read window dimensions each time and forced
@@ -80,9 +85,27 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
 
     this.getOrientation();
     this.useMyCurrentLocation();
+
+    this.noReadingTimer = setTimeout(() => {
+      if (this.reportOfFire.motionSensor !== 'yes') {
+        this.showUnsupported();
+      }
+    }, NO_READING_MS);
+  }
+
+  showUnsupported(): void {
+    this.reportOfFire.motionSensor = 'no';
+    this.compassUnsupported = true;
+    this.cdr.detectChanges();
+  }
+
+  continueWithoutCompass(): void {
+    this.reportOfFire.headingDetectionActive = false;
+    this.next();
   }
 
   onHidden(): void {
+    clearTimeout(this.noReadingTimer);
     if (this.viewportListener) {
       window.removeEventListener('resize', this.viewportListener);
       window.removeEventListener('orientationchange', this.viewportListener);
@@ -156,14 +179,15 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
     }
     // A heading of exactly 0 is a true north reading, not a missing sensor.
     if (e.alpha == null && e.webkitCompassHeading == null) {
-      this.zone.run(() => {
-        this.reportOfFire.motionSensor = 'no';
-        this.skip();
-      });
+      if (!this.compassUnsupported) {
+        this.zone.run(() => this.showUnsupported());
+      }
       return;
     } else if (this.reportOfFire.motionSensor !== 'yes') {
       // Drives the template's *ngIf, so this one needs the zone.
       this.zone.run(() => {
+        clearTimeout(this.noReadingTimer);
+        this.compassUnsupported = false;
         this.reportOfFire.motionSensor = 'yes';
       });
     }
