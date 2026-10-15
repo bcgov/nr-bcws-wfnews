@@ -741,9 +741,9 @@ export function readableDate(date) {
 }
 
 export function readableHour(hourString) {
-  //e.g. 2023-10-04 at 24:00
+  // e.g. 2023-10-04 at 12:00 pm
   const local = moment(hourString + '-0800', 'YYYYMMDDHHZZ').local();
-  return local.format('YYYY-MM-DD [at] HH:mm');
+  return local.format('YYYY-MM-DD [at] h:mm a');
 }
 
 export function getActiveMap(smk: any | null = null) {
