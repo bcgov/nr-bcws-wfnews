@@ -75,10 +75,10 @@ export class PublicIncidentPageComponent implements OnInit {
             };
             // set date strings
             this.incident.declaredOutDate = this.incident.declaredOutDate
-              ? new Date(this.incident.declaredOutDate).toLocaleTimeString(
-                'en-US',
-                options,
-              )
+              ? new Date(this.incident.declaredOutDate)
+                .toLocaleTimeString('en-US', options)
+                .replace('AM', 'am')
+                .replace('PM', 'pm')
               : 'Pending';
             this.incident.lastUpdatedTimestamp = this.incident
               .lastUpdatedTimestamp

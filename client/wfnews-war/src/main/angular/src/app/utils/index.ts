@@ -522,7 +522,7 @@ export function hideOnMobileView() {
 export function convertToMobileFormat(dateString) {
   const formattedDate = moment(
     dateString,
-    'dddd, MMMM D, YYYY [at] h:mm:ss A',
+    'dddd, MMMM D, YYYY [at] h:mm:ss a',
   ).format('MMMM D, YYYY');
   return formattedDate;
 }
@@ -605,7 +605,7 @@ export function getStageOfControlIcon(code: string) {
 }
 
 export function convertToDateTimeTimeZone(date: Date | string): string {
-  // e.g. July 19, 2022 at 10:22 a.m.
+  // e.g. July 19, 2022 at 10:22 am
   const updateOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
@@ -620,9 +620,8 @@ export function convertToDateTimeTimeZone(date: Date | string): string {
     : 'Pending';
 
   if (convertedDate !== 'Pending') {
-    // add full stops and lowercase
-    convertedDate = convertedDate.replace('AM', 'a.m.');
-    convertedDate = convertedDate.replace('PM', 'p.m.');
+    convertedDate = convertedDate.replace('AM', 'am');
+    convertedDate = convertedDate.replace('PM', 'pm');
   }
   return convertedDate;
 }
@@ -741,13 +740,9 @@ export function readableDate(date) {
 }
 
 export function readableHour(hourString) {
-  //e.g. 2023-10-04 at 24:00
-  const year = hourString.slice(0, 4);
-  const day = hourString.slice(4, 6);
-  const month = hourString.slice(6, 8);
-  const hour = hourString.slice(-2);
-
-  return year + '-' + day + '-' + month + ' at ' + hour + ':00';
+  // e.g. 2023-10-04 at 12:00 pm
+  const local = moment(hourString + '-0800', 'YYYYMMDDHHZZ').local();
+  return local.format('YYYY-MM-DD [at] h:mm a');
 }
 
 export function getActiveMap(smk: any | null = null) {
