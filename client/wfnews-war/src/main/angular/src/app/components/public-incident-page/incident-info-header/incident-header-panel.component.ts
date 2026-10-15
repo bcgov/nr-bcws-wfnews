@@ -524,7 +524,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     // Should probably be MMM for month formats to prevent long strings
     const formattedDate = moment(
       dateString,
-      'dddd, MMMM D, YYYY [at] h:mm:ss A',
+      'dddd, MMMM D, YYYY [at] h:mm:ss a',
     ).format('MMMM D, YYYY');
     return formattedDate;
   }
