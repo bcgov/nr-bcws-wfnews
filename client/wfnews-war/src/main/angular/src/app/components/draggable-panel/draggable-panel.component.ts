@@ -720,7 +720,10 @@ return 'Unknown';
       month: 'long',
       day: 'numeric',
     };
-    return new Date(time).toLocaleTimeString('en-US', options);
+    return new Date(time)
+      .toLocaleTimeString('en-US', options)
+      .replace('AM', 'am')
+      .replace('PM', 'pm');
   }
 
   displayEvacTitle(item) {
