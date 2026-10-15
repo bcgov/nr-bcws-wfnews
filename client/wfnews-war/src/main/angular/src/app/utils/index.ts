@@ -742,12 +742,8 @@ export function readableDate(date) {
 
 export function readableHour(hourString) {
   //e.g. 2023-10-04 at 24:00
-  const year = hourString.slice(0, 4);
-  const day = hourString.slice(4, 6);
-  const month = hourString.slice(6, 8);
-  const hour = hourString.slice(-2);
-
-  return year + '-' + day + '-' + month + ' at ' + hour + ':00';
+  const local = moment(hourString + '-0800', 'YYYYMMDDHHZZ').local();
+  return local.format('YYYY-MM-DD [at] HH:mm');
 }
 
 export function getActiveMap(smk: any | null = null) {
