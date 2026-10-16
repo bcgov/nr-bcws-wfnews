@@ -232,6 +232,14 @@ jobs:
       - name: Rename and Move Signed AAB
         run: cp ${{ steps.sign_app.outputs.signedReleaseFile }} wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
 
+      # Before the Play upload, so a failed upload still leaves a bundle to upload by hand
+      - uses: actions/upload-artifact@v4
+        name: Upload Build Artifact to GitHub
+        with:
+          name: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
+          path: "wfnews-release-${{ steps.vars.outputs.short_sha }}.aab"
+          retention-days: 3
+
       - name: Upload to Play Store
         if: ${{ inputs.upload_to_play_store == true || inputs.upload_to_play_store == 'true' }}
         uses: r0adkll/upload-google-play@v1
@@ -244,13 +252,6 @@ jobs:
           # Play only accepts true while a release waits for review.
           # No release waits now, so true is refused on commit.
           changesNotSentForReview: false
-
-      - uses: actions/upload-artifact@v4
-        name: Upload Build Artifact to GitHub
-        with:
-          name: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
-          path: "wfnews-release-${{ steps.vars.outputs.short_sha }}.aab"
-          retention-days: 3
 
       - name: "Increment Build Number for next upload"
         if: ${{ !cancelled() }}
