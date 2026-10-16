@@ -8,10 +8,10 @@ const config: CapacitorConfig = {
     androidScheme: "https",
   },
   ios: {
-    overrideUserAgent: 'bc-wildfire-ios'
+    appendUserAgent: ' bc-wildfire-ios'
   },
   android: {
-    overrideUserAgent: 'bc-wildfire-android'
+    appendUserAgent: ' bc-wildfire-android'
   }
 };
 
