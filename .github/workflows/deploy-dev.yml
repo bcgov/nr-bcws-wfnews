@@ -135,12 +135,12 @@ jobs:
       skip_slack_notification: false
     secrets: inherit
 
-  # android-deploy:
-  #   if: ${{ github.event_name == 'pull_request_target' || inputs.SKIP_MOBILE != true }}
-  #   uses: ./.github/workflows/android.yml
-  #   needs: [call-mvn-client]
-  #   with:
-  #     build_environment: DEV
-  #     upload_to_play_store: true
-  #     skip_slack_notification: false
-  #   secrets: inherit
+  android-deploy:
+    if: ${{ github.event_name == 'pull_request_target' || inputs.SKIP_MOBILE != true }}
+    uses: ./.github/workflows/android.yml
+    needs: [call-mvn-client]
+    with:
+      build_environment: DEV
+      upload_to_play_store: true
+      skip_slack_notification: false
+    secrets: inherit

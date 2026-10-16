@@ -44,6 +44,11 @@ jobs:
     environment:
       name: ${{ inputs.build_environment }}
 
+    # id-token for the Google workload identity sign-in; contents for checkout
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
       - uses: actions/checkout@v3
 

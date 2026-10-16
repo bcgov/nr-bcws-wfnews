@@ -126,12 +126,12 @@ jobs:
       skip_slack_notification: false
     secrets: inherit
 
-  # android-deploy:
-  #   if: ${{ github.event_name == 'release' || inputs.SKIP_MOBILE != true }}
-  #   uses: ./.github/workflows/android.yml
-  #   needs: [tag-images]
-  #   with:
-  #     build_environment: TEST
-  #     upload_to_play_store: true
-  #     skip_slack_notification: false
-  #   secrets: inherit
+  android-deploy:
+    if: ${{ github.event_name == 'release' || inputs.SKIP_MOBILE != true }}
+    uses: ./.github/workflows/android.yml
+    needs: [tag-images]
+    with:
+      build_environment: TEST
+      upload_to_play_store: true
+      skip_slack_notification: false
+    secrets: inherit
