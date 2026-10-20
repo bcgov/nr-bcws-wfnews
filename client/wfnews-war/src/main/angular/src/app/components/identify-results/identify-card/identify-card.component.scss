@@ -1,0 +1,99 @@
+// No box of its own, so the card is a flex item of the panel, as it was in the panel's template.
+:host {
+  display: contents;
+}
+
+.identify-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  flex: 1 0 0;
+  align-self: stretch;
+
+  &.phone {
+    min-height: 0;
+  }
+
+  &.desktop {
+    margin: 16px 20px 0;
+  }
+
+  &.desktop.compact {
+    margin: 16px 20px 24px 20px;
+  }
+}
+
+.identify-card-title {
+  color: var(--grays-gray-1, #242424);
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  padding-bottom: 4px;
+}
+
+.identify-card-item {
+  display: inline-flex;
+  color: var(--grays-gray-2, #484848);
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.408px;
+  align-items: center;
+}
+
+.description-section {
+  padding-top: 12px;
+  width: 100%;
+}
+
+.identify-card-description {
+  color: var(--grays-gray-2, #484848);
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.408px;
+  padding-bottom: 24px;
+}
+
+.incident-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 12px;
+}
+
+// The icon fills a 14px box, so the text of the line keeps its place.
+.circle-icon {
+  width: 14px;
+  height: 14px;
+  margin-right: 12px;
+  margin-left: 1px;
+}
+
+.identify-card.phone {
+  .incident-icon,
+  .circle-icon {
+    flex: none;
+  }
+
+  .load-failed {
+    flex-wrap: wrap;
+    column-gap: 8px;
+  }
+}
+
+.identify-subtitle {
+  color: var(--grays-gray-2, #484848);
+  font-family: Noto sans, BCSans, Open Sans, Verdana, Arial, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -.408px;
+}

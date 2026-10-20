@@ -1,0 +1,212 @@
+<ng-container [ngSwitch]="kind">
+
+    <ng-container *ngSwitchCase="'wildfire'">
+        <div class="identify-card phone" *ngIf="phone">
+            <div class="identify-card-title">{{wildfireName}}</div>
+            <div class="identify-card-item" *ngIf="incidentLoad === 'loading'" role="status">{{texts.WILDFIRE_LOADING}}</div>
+            <div class="identify-card-item load-failed" *ngIf="incidentLoad === 'failed'" role="status">
+                {{texts.WILDFIRE_DID_NOT_LOAD}}
+                <wfnews-button variant="link" label="Try again" (buttonClicked)="retry.emit()"></wfnews-button>
+            </div>
+            <div class="identify-card-item" *ngIf="incidentLoad === 'unavailable'" role="status">{{texts.WILDFIRE_NOT_AVAILABLE}}</div>
+            <ng-container *ngIf="incident">
+                <ng-container *ngTemplateOutlet="wildfireLines"></ng-container>
+            </ng-container>
+        </div>
+        <ng-container *ngIf="!phone">
+            <div class="identify-card desktop" *ngIf="!incident">
+                <div class="identify-card-description">
+                    {{incidentLoad === 'loading' ? texts.WILDFIRE_LOADING : texts.WILDFIRE_NOT_AVAILABLE}}
+                </div>
+            </div>
+            <div class="identify-card desktop" *ngIf="incident">
+                <div class="identify-card-title">{{incident.incidentName}}</div>
+                <ng-container *ngTemplateOutlet="wildfireLines"></ng-container>
+            </div>
+        </ng-container>
+    </ng-container>
+
+    <div class="identify-card {{cardClass}}" *ngSwitchCase="'evacuation'">
+        <div class="identify-card-title" *ngIf="p.EVENT_NAME">{{evacuationTitle}}</div>
+        <div class="identify-card-item">
+            <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+            Updated on {{convertToDateYear(p.DATE_MODIFIED)}}
+        </div>
+        <div class="identify-card-item">
+            <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/carbon_finance.svg">
+            Issued by {{p.ISSUING_AGENCY}}
+        </div>
+        <div class="description-section">
+            <div class="identify-card-description" *ngFor="let text of evacuationTexts">{{text}}</div>
+        </div>
+    </div>
+
+    <div class="identify-card {{cardClass}}" *ngSwitchCase="'area-restriction'">
+        <div class="identify-card-title">{{areaTitle}}</div>
+        <div class="identify-card-item">
+            <img alt="icon" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon">
+            <span>{{p.FIRE_CENTRE_NAME ? p.FIRE_CENTRE_NAME : null}}</span>
+        </div>
+        <div class="identify-card-item">
+            <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+            <span>Issued on {{formatDate(p.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+        </div>
+        <ng-container *ngTemplateOutlet="description; context: { text: variant.texts.AREA_RESTRICTION }"></ng-container>
+    </div>
+
+    <div class="identify-card {{cardClass}}" *ngSwitchCase="'ban'">
+        <div class="identify-card-title">{{banTitle}}</div>
+        <div class="identify-card-item" *ngIf="phone || p.FIRE_CENTRE_NAME">
+            <img alt="icon" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon">
+            <span>{{p.FIRE_CENTRE_NAME ? p.FIRE_CENTRE_NAME + ' Fire Centre' : null}}</span>
+        </div>
+        <div class="identify-card-item">
+            <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+            <span>Issued on {{formatDate(p.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+        </div>
+        <ng-container *ngTemplateOutlet="description; context: { html: bansInfo }"></ng-container>
+    </div>
+
+    <div class="identify-card {{cardClass}}" *ngSwitchCase="'danger-rating'">
+        <div class="identify-card-title" *ngIf="!phone || p.DANGER_RATING_DESC">{{p.DANGER_RATING_DESC}} Fire Danger</div>
+        <ng-container *ngTemplateOutlet="description; context: { text: displayDangerRatingDescription(p.DANGER_RATING_DESC), bare: true }"></ng-container>
+    </div>
+
+    <div class="identify-card {{cardClass}}" *ngSwitchCase="'closed-recreation-site'">
+        <div class="identify-card-title">{{p.PROJECT_NAME}}</div>
+        <div class="identify-card-item">
+            <img alt="icon" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon">
+            <span>{{p.RECREATION_DISTRICT_NAME}}</span>
+        </div>
+        <div class="identify-card-item">
+            <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+            <span>Closed on {{convertToDateYear(p.CLOSURE_DATE)}}</span>
+        </div>
+        <ng-container *ngTemplateOutlet="description; context: { text: variant.closureComment ? p.CLOSURE_COMMENT : texts.CLOSED_RECREATION_SITE }"></ng-container>
+    </div>
+
+    <div class="identify-card {{cardClass}}" *ngSwitchCase="'road-event'">
+        <div class="identify-card-title">{{item.title}}</div>
+        <div class="identify-card-item">{{roadSeverity}} Severity</div>
+        <div class="identify-card-item">
+            <img alt="icon" src="/assets/images/svg-icons/carbon_finance.svg" class="incident-icon">
+            <span>{{p.AREA}}</span>
+        </div>
+        <div class="identify-card-item">
+            <img alt="icon" src="/assets/images/svg-icons/calendar.svg" class="incident-icon">
+            <span>Created on {{convertToDateYear(p.CREATED_TIME)}}</span>
+        </div>
+        <ng-container *ngTemplateOutlet="description; context: { text: p.DESCRIPTION }"></ng-container>
+    </div>
+
+    <div class="identify-card {{cardClass}}" *ngSwitchCase="'protected-land'">
+        <div class="identify-card-title">{{p.PROTECTED_LANDS_NAME}}</div>
+        <div class="identify-card-item" *ngIf="phone">{{p.ACCESS_STATUS}}</div>
+        <div class="identify-card-item" *ngIf="!phone"><span>{{p.ACCESS_STATUS}}</span></div>
+        <div class="identify-card-item" *ngIf="variant.campfireBan">
+            <ng-container *ngIf="campfireBan">
+                <img class="incident-icon" src="/assets/images/svg-icons/ban.svg" alt="Ban">
+                <span>Campfire Ban</span>
+            </ng-container>
+        </div>
+        <!-- With no date, formatDate throws, so the line is left out. -->
+        <div class="identify-card-item" *ngIf="p.ACCESS_STATUS_EFFECTIVE_DATE">
+            <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+            <span>Effective on {{formatDate(p.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+        </div>
+        <ng-container *ngTemplateOutlet="description; context: { text: p.ACCESS_DETAILS || (variant.parkClosedFallback ? texts.PARK_CLOSED : p.ACCESS_DETAILS) }"></ng-container>
+    </div>
+
+    <div class="identify-card {{cardClass}}" *ngSwitchCase="'forest-service-road'">
+        <div class="identify-card-title">{{roadAlert}} </div>
+        <ng-container *ngIf="phone">
+            <div class="identify-card-item"></div>
+            <div class="identify-card-item"></div>
+        </ng-container>
+        <ng-container *ngTemplateOutlet="description; context: { text: p.INFORMATION }"></ng-container>
+    </div>
+
+    <div class="identify-card {{cardClass}}" *ngSwitchCase="'local-authority'">
+        <div class="identify-card-title">{{item.title}} </div>
+        <ng-container *ngIf="phone">
+            <div>{{displayLocalAuthorityType(item.layerId)}}</div>
+            <div class="identify-card-item"></div>
+            <div class="identify-card-item"></div>
+        </ng-container>
+        <div class="identify-subtitle" *ngIf="!phone">{{displayLocalAuthorityType(item.layerId)}}</div>
+        <ng-container *ngTemplateOutlet="description; context: { html: localAuthorityInfo }"></ng-container>
+    </div>
+
+    <div class="identify-card {{cardClass}}" *ngSwitchCase="'weather-station'">
+        <div class="identify-card-title">Weather Station: {{item.title}}</div>
+        <ng-container *ngIf="item?.data?.validHour">
+            <div class="identify-card-item">{{weatherHour}}</div>
+            <div class="identify-card-item">
+                <img alt="icon" height="20" width="20" src="/assets/images/svg-icons/carbon_temperature-celsius.svg" class="incident-icon">
+                {{item.data.validHour.temp}}° C
+            </div>
+            <div class="identify-card-item">
+                <img alt="icon" height="20" width="20" src="/assets/images/svg-icons/carbon_humidity.svg" class="incident-icon">
+                Precipitation: {{item.data.validHour.precipitation}}mm | Humidity: {{item.data.validHour.relativeHumidity}}%
+            </div>
+            <div class="identify-card-item">
+                <img alt="icon" height="20" width="20" src="/assets/images/svg-icons/carbon_windy-strong.svg" class="incident-icon">
+                Wind: {{item.data.validHour.windSpeed}}km/h {{item.data.validHour.windCardinalDir}}
+            </div>
+        </ng-container>
+        <div class="description-section" *ngIf="item?.data === undefined">
+            <div class="identify-card-description">{{texts.WEATHER_LOADING}}</div>
+        </div>
+        <div class="description-section" *ngIf="item?.data !== undefined && !item?.data?.validHour">
+            <div class="identify-card-description">{{texts.WEATHER_NO_READING}}</div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #wildfireLines>
+    <div class="identify-card-item">
+        <span class="circle-icon {{getStageOfControlIcon(incident.stageOfControlCode)}}"></span>
+        {{getStageOfControlLabel(incident.stageOfControlCode)}}
+    </div>
+    <ng-container *ngIf="variant.fireCentreFirst">
+        <ng-container *ngTemplateOutlet="fireCentre"></ng-container>
+    </ng-container>
+    <div class="identify-card-item">
+        <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/carbon_ruler.svg">
+        {{wildfireSize}}
+    </div>
+    <div class="identify-card-item">
+        <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+        Discovered on {{convertToDateYear(incident.discoveryDate)}}
+    </div>
+    <ng-container *ngIf="!variant.fireCentreFirst">
+        <ng-container *ngTemplateOutlet="fireCentre"></ng-container>
+    </ng-container>
+    <div class="description-section">
+        <div class="identify-card-description" [style.padding]="phone ? '0' : null"
+            *ngIf="item?.layerId === 'active-wildfires-fire-of-note'">{{texts.FIRE_OF_NOTE}}</div>
+        <div class="identify-card-description">{{getStageOfControlDescription(incident.stageOfControlCode)}}</div>
+    </div>
+</ng-template>
+
+<ng-template #fireCentre>
+    <div class="identify-card-item">
+        <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/location-pin.svg">
+        {{incident.fireCentreName}}
+    </div>
+</ng-template>
+
+<!-- The old desktop Area Restriction, ban, danger rating and Protected Lands previews put the text in a card line. -->
+<ng-template #description let-text="text" let-html="html" let-bare="bare">
+    <div class="identify-card-item" *ngIf="compact">
+        <span *ngIf="html; else plain" [innerHTML]="html"></span>
+        <ng-template #plain><span>{{text}}</span></ng-template>
+    </div>
+    <div class="description-section" *ngIf="!compact">
+        <div class="identify-card-description" *ngIf="bare">{{text}}</div>
+        <div class="identify-card-description" *ngIf="!bare">
+            <span *ngIf="html; else plainSection" [innerHTML]="html"></span>
+            <ng-template #plainSection><span>{{text}}</span></ng-template>
+        </div>
+    </div>
+</ng-template>

@@ -52,7 +52,7 @@ import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stag
 import { AGOLService } from '@app/services/AGOL-service';
 import { MapConfigService } from '@app/services/map-config.service';
 import moment from 'moment';
-import { WildfirePreviewComponent } from '@app/components/preview-panels/wildfire-preview/wildfire-preview.component';
+import { IdentifyPreviewComponent } from '@app/components/identify-results/identify-preview/identify-preview.component';
 import * as turf from '@turf/turf';
 const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
 
@@ -548,7 +548,7 @@ message = err.message;
       id: incident.incidentNumberLabel,
     });
     this.wildfirePanelContainer.clear();
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(WildfirePreviewComponent);
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(IdentifyPreviewComponent);
     const componentRef = this.wildfirePanelContainer.createComponent(componentFactory);
     componentRef.instance.setContent(incident);
   

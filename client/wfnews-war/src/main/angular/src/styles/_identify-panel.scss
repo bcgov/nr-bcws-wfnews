@@ -1,0 +1,78 @@
+// The frame of an identify panel: the phone Drawer content, the desktop list and the desktop preview.
+// Each one imports this file, so the rules stay scoped to it; the list and the cards style themselves.
+@import "src/styles/variables";
+
+.panel-container {
+  font-weight: 600;
+  overflow: hidden;
+  height: 90%;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+
+  .preview-panel-title {
+    background-color: white;
+    position: sticky;
+    top: 0;
+    font-size: 14px;
+    color: #242424;
+    padding: 12px 20px;
+    border-bottom: 1px solid #dedede;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .preview-title {
+      display: flex;
+      align-items: center;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+    }
+  }
+
+  .button-row {
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 20px;
+    align-items: center;
+
+    .buttons {
+      display: flex;
+      gap: 16px;
+
+      // Each Button takes an equal share of the row. A Button does not shrink by itself,
+      // so a caller that wants it to share a row says so.
+      wfnews-button {
+        flex: 1 1 0;
+      }
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  display: inline;
+}
+
+
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 24px;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+  border-radius: 24px;
+}

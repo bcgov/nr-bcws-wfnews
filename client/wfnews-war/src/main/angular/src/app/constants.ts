@@ -48,3 +48,35 @@ export const CARD_TEXTS = {
   TALK_TO_YOUR_LOCAL_AUTHORITY: 'Regardless of whether a BC Wildfire Service fire ban is in effect, you must always check with local government authorities for local fire bans. <br><br> Municipalities, some regional districts and some land managed by First Nations’ governments have bylaws related to fire and other activities.',
   CAMPGROUNDS: 'BC Wildfire Service fire bans (prohibitions) apply within BC Parks. Search the BC Parks Active Advisories webpage for park-specific information and advisories. <br><br> Always check the local campfire policy for the campground you are visiting.',
 };
+
+// The phone and desktop identify results say these differently; the business will choose one of each.
+export const IDENTIFY_TEXTS = {
+  phone: {
+    EVACUATION_ALERT: [
+      'An evacuation alert is a warning about a potential threat to life and/or property. It is intended to give you time to be ready for a possible evacuation. Follow instructions from your local government or First Nation.',
+    ],
+    EVACUATION_ORDER: [
+      'People in this area are at risk and should leave the area immediately. Failing to leave puts you and others at risk.',
+    ],
+    AREA_RESTRICTION: 'Access to this area is prohibited in order to limit the risk of a fire, to address a public safety concern or to avoid interference with fire control.',
+  },
+  desktop: {
+    EVACUATION_ALERT: [
+      'A wildfire in this area has the potential to pose an imminent risk, and so people should be ready to leave at a moment’s notice.',
+    ],
+    EVACUATION_ORDER: [
+      'A wildfire poses an imminent risk to a community. When the order is released, residents should evacuate immediately.',
+      'Local municipalities, regional districts, Indigenous and First Nation communities and the RCMP implement and enforce Evacuation Alerts and Orders.',
+    ],
+    AREA_RESTRICTION: 'Public access is restricted due to ongoing fire suppression activity, to ensure public safety, or to prevent fires.',
+  },
+  // The same on both. Desktop shows a Closed Recreation Site's own comment in place of this text.
+  CLOSED_RECREATION_SITE: 'The Recreation Site/Trail is closed due to an active wildfire in the area. Find further information at www.bcwildfire.ca',
+  FIRE_OF_NOTE: 'An incident that is creating an increased level of interest. We use this designation to make it easier to find and access response information on the wildfire map.',
+  WILDFIRE_LOADING: 'Loading wildfire details...',
+  WILDFIRE_NOT_AVAILABLE: 'Details for this wildfire are not available.',
+  WILDFIRE_DID_NOT_LOAD: 'The wildfire details did not load.',
+  PARK_CLOSED: 'This park is currently closed due to wildfire.',
+  WEATHER_LOADING: 'Loading weather...',
+  WEATHER_NO_READING: 'No current weather reading found for this station',
+};
