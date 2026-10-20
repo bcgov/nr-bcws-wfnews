@@ -35,8 +35,11 @@ permissions:
   packages: write
   id-token: write
 
+# Closing a PR without a merge also fires pull_request_target, even from a fork.
+# Each job without needs checks for a merge; the rest skip with them.
 jobs:
   call-lambda-zip:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.merged }}
     uses: ./.github/workflows/lambda-zip.yml
     secrets: inherit
     with:
@@ -44,6 +47,7 @@ jobs:
       REGISTRY: ${{ vars.REGISTRY }}
 
   call-mvn-client:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.merged }}
     uses: ./.github/workflows/mvn-client.yml
     secrets: inherit
     with:
@@ -51,6 +55,7 @@ jobs:
       TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   wfnews-api-server-build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.merged }}
     uses: ./.github/workflows/mvn-server.yml
     secrets: inherit
     with:
@@ -59,6 +64,7 @@ jobs:
       TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   wfone-notifications-api-server-build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.merged }}
     uses: ./.github/workflows/mvn-server.yml
     secrets: inherit
     with:
@@ -67,6 +73,7 @@ jobs:
       TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   wfone-notification-push-api-server-build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.merged }}
     uses: ./.github/workflows/mvn-server.yml
     secrets: inherit
     with:
@@ -75,6 +82,7 @@ jobs:
       TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   wfss-pointid-api-server-build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.merged }}
     uses: ./.github/workflows/mvn-server.yml
     secrets: inherit
     with:
@@ -83,6 +91,7 @@ jobs:
       TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   liquibase-build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.merged }}
     uses: ./.github/workflows/liquibase.yml
     secrets: inherit
     with:
@@ -90,6 +99,7 @@ jobs:
       TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   nginx-build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.merged }}
     uses: ./.github/workflows/nginx.yml
     secrets: inherit
     with:
@@ -97,6 +107,7 @@ jobs:
       TAG: ${{inputs.IMAGE_TAG || format( 'pr-{0}', github.event.pull_request.number) }}
 
   sanitize-tag:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     outputs:
       image-tag-sanitized: ${{ steps.sanitize.outputs.tag }}
@@ -134,7 +145,7 @@ jobs:
   # Build the Angular mobile bundle once; the iOS and Android jobs below
   # consume the same artifact instead of each running their own ng build.
   mobile-web-build:
-    if: ${{ github.event_name == 'pull_request_target' || inputs.SKIP_MOBILE != true }}
+    if: ${{ github.event.pull_request.merged || (github.event_name == 'workflow_dispatch' && inputs.SKIP_MOBILE != true) }}
     uses: ./.github/workflows/mobile-web-build.yml
     with:
       build_environment: DEV
