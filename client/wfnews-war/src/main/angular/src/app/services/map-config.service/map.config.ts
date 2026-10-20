@@ -251,6 +251,8 @@ export const previewMapConfig = (option: {
   maxZoom?: number;
   /** The +/- control and a reset to the configured view. reset-view needs both. */
   zoomControl?: boolean;
+  /** Wheel, double click (or double tap) and box zoom, for a map the user explores. */
+  zoomGestures?: boolean;
   pan?: boolean;
 } = {}) => ({
   viewer: {
@@ -262,15 +264,14 @@ export const previewMapConfig = (option: {
   },
   tools: [
     { type: 'pan', enabled: option.pan !== false },
-    // The wheel, double click and box are off: these maps are a picture with
-    // a control.
+    // Most of these maps are a picture with a control, so the gestures are off by default.
     {
       type: 'zoom',
-      enabled: !!option.zoomControl,
-      control: true,
-      mouseWheel: false,
-      doubleClick: false,
-      box: false,
+      enabled: !!option.zoomControl || !!option.zoomGestures,
+      control: !!option.zoomControl,
+      mouseWheel: !!option.zoomGestures,
+      doubleClick: !!option.zoomGestures,
+      box: !!option.zoomGestures,
     },
     { type: 'reset-view', enabled: !!option.zoomControl },
     { type: 'baseMaps', enabled: false },

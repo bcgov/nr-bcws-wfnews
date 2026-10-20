@@ -42,7 +42,7 @@ export class NotificationMapComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.mapConfigService.getPreviewMapConfig().then((cfg) => {
+    this.mapConfigService.getPreviewMapConfig({ zoomGestures: true }).then((cfg) => {
       this.mapConfig = [cfg];
       this.cdr.detectChanges();
     });

@@ -37,17 +37,9 @@ export class MapConfigService {
   }
 
   /** A small read-only map for the preview and detail panels. */
-  getPreviewMapConfig(option?: {
-    extent?: number[];
-    center?: number[];
-    zoom?: number;
-    baseMap?: string;
-    layers?: any[];
-    maxZoom?: number;
-    zoomControl?: boolean;
-    pan?: boolean;
-  }): Promise<any> {
-    return this.appConfig.loadAppConfig().then(() => previewMapConfig(option));
+  getPreviewMapConfig(option?: Parameters<typeof previewMapConfig>[0]): Promise<any> {
+    // It needs nothing from the app config, so it does not fetch the config again.
+    return Promise.resolve(previewMapConfig(option));
   }
 
   getReportOfFireMapConfig(): Promise<any> {
