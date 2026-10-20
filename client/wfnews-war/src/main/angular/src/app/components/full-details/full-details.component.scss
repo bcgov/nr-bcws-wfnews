@@ -186,7 +186,7 @@ hr {
   position: fixed;
   left: 16px;
   right: 16px;
-  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom));
   border-radius: 8px;
   border: $border-card;
   background: #fff;
@@ -222,7 +222,7 @@ hr {
 // Room under the last content for the floating bulletin.
 .spacer {
   position: relative !important;
-  height: calc(108px + env(safe-area-inset-bottom, 0px)) !important;
+  height: calc(108px + env(safe-area-inset-bottom)) !important;
   width: 100% !important;
 }
 

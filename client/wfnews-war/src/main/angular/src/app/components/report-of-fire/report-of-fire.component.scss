@@ -12,6 +12,12 @@
   height: 100%;
 }
 
+// Every wizard page imports this file, but only the wizard sits under the header and
+// the menu bar (126px). The class follows the shell's own test, see desktopLayout.
+:host(.rof-desktop) {
+  height: calc(100% - 126px);
+}
+
 .rof {
   // Not a viewport height. The shell holds the wizard in a box that is the screen
   // less the status bar inset, so 100dvh overflows that box by the inset and the
@@ -159,7 +165,7 @@ $rof-secondary-header-size: 16px;
   margin: 0 auto;
   padding-top: 0em;
   padding-right: 0;
-  padding-bottom: calc(1em + env(safe-area-inset-bottom, 20px));
+  padding-bottom: calc(1em + env(safe-area-inset-bottom));
   padding-left: 0;
   list-style: none;
   display: flex;
@@ -202,10 +208,20 @@ $rof-secondary-header-size: 16px;
   // lifted them too far off the foot of the screen. The reserve on .page-content is this
   // offset plus the 4em the bar itself occupies, so the two always move together: raise
   // this without raising that and the content slides under the buttons.
-  bottom: calc(3.5em + env(safe-area-inset-bottom, 20px));
+  bottom: calc(3.5em + env(safe-area-inset-bottom));
   position: fixed;
   @media (max-height: 699px) {
-    bottom: calc(2.5em + env(safe-area-inset-bottom, 20px));
+    bottom: calc(2.5em + env(safe-area-inset-bottom));
+  }
+
+  // The buttons share the bar, so no empty gap is left between them.
+  > wfnews-button {
+    flex: 1 1 0;
+    min-width: 0;
+
+    ::ng-deep .bcds-button {
+      width: 100%;
+    }
   }
 }
 
@@ -441,4 +457,86 @@ $rof-secondary-header-size: 16px;
 .question-mark {
   color: #548adb;
   margin-right: 8px;
+}
+
+// The desktop layout: the width of the Saved page, and only as tall as the page needs.
+// The buttons and the page dots leave the foot of the window and follow the content.
+:host-context(.rof-desktop) {
+  .rof {
+    max-width: $saved-container-max;
+    height: auto;
+    max-height: 100%;
+    overflow-y: auto;
+    margin: 0 auto;
+  }
+
+  // In line with the Saved page titles.
+  .mobile-header {
+    padding: 24px 16px 0;
+  }
+
+  .page-content {
+    margin-bottom: 0;
+    padding: 0 16px;
+  }
+
+  // Sticky, so a long page scrolls under the buttons and they stay in view.
+  .rof-button-container {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    max-width: none;
+    margin-top: 24px;
+    padding: 16px 0;
+    background-color: white;
+    z-index: 1;
+
+    > wfnews-button {
+      flex: 0 0 auto;
+      min-width: 140px;
+    }
+  }
+
+  .wrapper {
+    position: static;
+    width: 100%;
+    margin: 0;
+    padding: 4px 0 24px;
+  }
+
+  .ProgressBar {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: 0;
+  }
+
+  // A wide screen has room for answers side by side, so they need less height.
+  .rof-toggle-group .mat-button-toggle {
+    height: 56px !important;
+    margin-bottom: 12px;
+  }
+
+  .simple-toggle {
+    flex-direction: row !important;
+    gap: 12px;
+
+    .mat-button-toggle {
+      flex: 1 1 0;
+      margin-bottom: 0;
+    }
+  }
+
+  // These were sized from the viewport, which is the screen width only on a phone.
+  .rof-complex-group {
+    gap: 12px;
+
+    .flex-button {
+      width: calc((100% - 24px) / 3);
+      height: 56px !important;
+    }
+    .mat-flat-button {
+      width: 100%;
+    }
+  }
 }

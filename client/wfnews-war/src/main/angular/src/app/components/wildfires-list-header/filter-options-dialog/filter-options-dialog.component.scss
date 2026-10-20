@@ -1,7 +1,7 @@
 .dialog {
   height: 100%;
   width: 100%;
-  padding-top: env(safe-area-inset-top, 20px);
+  padding-top: env(safe-area-inset-top);
 }
 
 .dialog-footer {

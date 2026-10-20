@@ -26,6 +26,14 @@
   }
 }
 
+// The desktop page takes the height of its content, so the map needs one of its own.
+:host-context(.rof-desktop) .map-container {
+  flex: none;
+  max-width: none;
+  // The window less the header, the words and the buttons: no scroll at 720px high.
+  height: clamp(220px, calc(100vh - 480px), 480px);
+}
+
 permission-banner {
   flex: 0 0 auto;
   margin-bottom: 12px;

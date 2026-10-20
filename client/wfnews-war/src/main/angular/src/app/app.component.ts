@@ -519,14 +519,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   storeViewportSize() {
     this.orientation = this.applicationStateService.getOrientation();
-    document.documentElement.style.setProperty(
-      '--viewport-height',
-      `${window.innerHeight}px`,
-    );
-    document.documentElement.style.setProperty(
-      '--viewport-width',
-      `${window.innerWidth}px`,
-    );
   }
 
   ngOnDestroy() {

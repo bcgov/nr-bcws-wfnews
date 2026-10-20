@@ -44,3 +44,12 @@
   max-width: calc(50% - 12px);
   white-space: nowrap;
 }
+
+// A wide screen fits three options in a row, as the single choice pages do.
+:host-context(.rof-desktop) {
+  .multi-select-class,
+  .distance-class {
+    flex: 0 0 calc((100% - 24px) / 3);
+    max-width: calc((100% - 24px) / 3);
+  }
+}
