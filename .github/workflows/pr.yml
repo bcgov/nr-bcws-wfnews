@@ -83,4 +83,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Run offline tests
-        run: mvn --settings server/${{ matrix.project }}/mvn_settings/settings.xml --batch-mode -f server/${{ matrix.project }}/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -Dwfnews.it=false test
+        env:
+          REPO_LOGIN: ${{ secrets.IDIR_AS_EMAIL }}
+          REPO_PASSWORD: ${{ secrets.IDIR_PASSWORD }}
+        run: mvn --settings server/${{ matrix.project }}/mvn_settings/settings.xml --batch-mode -f server/${{ matrix.project }}/pom.xml -Drepo.login="$REPO_LOGIN" -Drepo.password="$REPO_PASSWORD" -Dwfnews.it=false test

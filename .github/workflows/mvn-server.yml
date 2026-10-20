@@ -34,7 +34,10 @@ jobs:
           distribution: 'temurin'
       
       - name: Build with Maven
-        run: mvn --settings server/${{ inputs.PROJECT_NAME }}/mvn_settings/settings.xml --batch-mode --update-snapshots -f server/${{ inputs.PROJECT_NAME }}/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
+        env:
+          REPO_LOGIN: ${{ secrets.IDIR_AS_EMAIL }}
+          REPO_PASSWORD: ${{ secrets.IDIR_PASSWORD }}
+        run: mvn --settings server/${{ inputs.PROJECT_NAME }}/mvn_settings/settings.xml --batch-mode --update-snapshots -f server/${{ inputs.PROJECT_NAME }}/pom.xml -Drepo.login="$REPO_LOGIN" -Drepo.password="$REPO_PASSWORD" -DskipTests package
         
       - name: Copy files to neccessary folders
         run: mkdir staging && cp server/${{ inputs.PROJECT_NAME }}/${{ inputs.PROJECT_NAME }}-rest-endpoints/target/*.war staging
