@@ -25,20 +25,20 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_branch }}
 
-      - uses: montudor/action-zip@v1
+      - uses: montudor/action-zip@a8e75c9faefcd80fac3baf53ef40b9b119d5b702 # v1
         with:
           args: zip -qq -r -j active-fire-monitor.zip lambda/active-fire-monitor/active_fire
 
-      - uses: montudor/action-zip@v1
+      - uses: montudor/action-zip@a8e75c9faefcd80fac3baf53ef40b9b119d5b702 # v1
         with:
           args: zip -qq -r -j area-restrictions-monitor.zip lambda/area-restrictions-monitor/area-restrictions
 
-      - uses: montudor/action-zip@v1
+      - uses: montudor/action-zip@a8e75c9faefcd80fac3baf53ef40b9b119d5b702 # v1
         with:
           args: zip -qq -r -j bans-and-prohibitions-monitor.zip lambda/bans-and-prohibitions-monitor/bans-and-prohibitions
 
 
-      - uses: montudor/action-zip@v1
+      - uses: montudor/action-zip@a8e75c9faefcd80fac3baf53ef40b9b119d5b702 # v1
         with:
           args: zip -qq -r -j evacuation-orders-monitor.zip lambda/evacuation-orders-monitor/evacuation-orders
 
@@ -52,7 +52,7 @@ jobs:
           npm install
 
       - name: Install zip
-        uses: montudor/action-zip@v1
+        uses: montudor/action-zip@a8e75c9faefcd80fac3baf53ef40b9b119d5b702 # v1
 
       - name: Zip node
         working-directory: lambda/cache-invalidator/nodejs
@@ -76,7 +76,7 @@ jobs:
           cp lambda/lambda-layer/python.zip staging/python.zip
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355 # v2.2.0
         with:
           role-to-assume: ${{ secrets.AWS_TERRAFORM_ROLE_TO_ASSUME }}
           role-session-name: wfnews-terraform-s3

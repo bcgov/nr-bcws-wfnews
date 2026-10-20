@@ -53,18 +53,18 @@ jobs:
       #     path: ${{env.TG_SRC_PATH}}/lambda-functions
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355 # v2.2.0
         with:
           role-to-assume: ${{ secrets.AWS_TERRAFORM_ROLE_TO_ASSUME }}
           role-session-name: wfnews-terraform-s3
           aws-region: ca-central-1
 
-      - uses: hashicorp/setup-terraform@v2
+      - uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 # v2.0.3
         with:
           terraform_version: ${{ env.TF_VERSION }}
           cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
 
-      - uses: peter-murray/terragrunt-github-action@v1.0.0
+      - uses: peter-murray/terragrunt-github-action@79428622b586790f60ff29e8b263265959f32445 # v1.0.0
         with:
           terragrunt_version: ${{ env.TG_VERSION }}
       

@@ -84,7 +84,7 @@ jobs:
             client/wfnews-war/src/main/angular/package.json
 
       - name: Configure ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@824c0e29fdfc7d689c191c27acc969d2d04b7dd8 # v1.331.0
         with:
           ruby-version: 2.7
           bundler-cache: true
@@ -95,7 +95,7 @@ jobs:
       # device platform for its default Xcode, so pinning an older one on the
       # image fails archiving with "iOS <version> is not installed".
       - name: Select Xcode
-        uses: maxim-lobanov/setup-xcode@v1
+        uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1.7.0
         with:
           xcode-version: latest-stable
 
@@ -205,7 +205,7 @@ jobs:
           retention-days: 3
 
       - name: "Upload app to TestFlight"
-        uses: apple-actions/upload-testflight-build@v1
+        uses: apple-actions/upload-testflight-build@54dc215b4cd5529730db39f11c84efdb71414e07 # v1
         if: ${{ inputs.upload_to_app_store == true }}
         with:
           app-path: ${{ runner.temp }}/build/App.ipa
@@ -216,7 +216,7 @@ jobs:
       # NOTE: This step requires a github access token with access to the repository to update the variable - if this fails, the token may have expired or belong to a user without repo access
       - name: "Increment Build Number for next upload"
         if: ${{ !cancelled() }}
-        uses: action-pack/increment@v2
+        uses: action-pack/increment@1458c307cedd62641619be2480c6263cf39864ac # v2.18
         with:
           name: "APPLE_APP_STORE_BUILD_NUMBER"
           token: ${{ secrets.VARIABLE_UPDATE_ACCESS_TOKEN }}
@@ -224,7 +224,7 @@ jobs:
       - name: Post to a Slack channel
         id: slack
         if: ${{ !cancelled() && inputs.skip_slack_notification == false }}
-        uses: slackapi/slack-github-action@v1.24.0
+        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
         env:
           STATUS_EMOJI: ${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

@@ -27,7 +27,7 @@ jobs:
         run: cat load-testing/WFNEWS_Load_Test.jmx && sleep 30
       
       - name: execute test
-        uses: rbhadti94/apache-jmeter-action@v0.6.0
+        uses: rbhadti94/apache-jmeter-action@3bab17fba188858cd0b0f0ef0f9b53e18bb712af # v0.6.0
         with:
           testFilePath: load-testing/WFNEWS_Load_Test.jmx
           args: -Jthreads=${{ env.NUM_USERS }} -Jenvironment=${{ env.ENVIRONMENT }}.bcwildfireservices.com -Jiterations=${{env.NUM_ITERATIONS}}

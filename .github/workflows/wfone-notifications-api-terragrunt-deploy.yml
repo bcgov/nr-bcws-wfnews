@@ -178,12 +178,12 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v7
 
-      - uses: hashicorp/setup-terraform@v1
+      - uses: hashicorp/setup-terraform@ed3a0531877aca392eb870f440d9ae7aba83a6bd # v1.4.0
         with:
           terraform_version: ${{ env.TF_VERSION }}
           cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
 
-      - uses: peter-murray/terragrunt-github-action@v1.0.0
+      - uses: peter-murray/terragrunt-github-action@79428622b586790f60ff29e8b263265959f32445 # v1.0.0
         with:
           terragrunt_version: ${{ env.TG_VERSION }}
       

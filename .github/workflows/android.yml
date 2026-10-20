@@ -68,7 +68,7 @@ jobs:
 
       - name: Sign in to Google service account
         id: google-auth
-        uses: 'google-github-actions/auth@v3'
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
         with:
           service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
           workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
@@ -144,7 +144,7 @@ jobs:
         run: ./gradlew bundleRelease
 
       - name: Sign AAB
-        uses: r0adkll/sign-android-release@v1
+        uses: r0adkll/sign-android-release@349ebdef58775b1e0d8099458af0816dc79b6407 # v1
         id: sign_app
         with:
           releaseDirectory: ${{ env.ANGULAR_DIRECTORY }}/android/app/build/outputs/bundle/release
@@ -166,7 +166,7 @@ jobs:
 
       - name: Upload to Play Store
         if: ${{ inputs.upload_to_play_store == true || inputs.upload_to_play_store == 'true' }}
-        uses: r0adkll/upload-google-play@v1
+        uses: r0adkll/upload-google-play@e738b9dd8f2476ea806d921b64aacd24f34515a5 # v1.1.5
         with:
           serviceAccountJson: ${{ steps.google-auth.outputs.credentials_file_path }}
           packageName: ${{ vars.PACKAGE_NAME }}
@@ -179,7 +179,7 @@ jobs:
 
       - name: "Increment Build Number for next upload"
         if: ${{ !cancelled() }}
-        uses: action-pack/increment@v2
+        uses: action-pack/increment@1458c307cedd62641619be2480c6263cf39864ac # v2.18
         with:
           name: "GOOGLE_PLAY_STORE_BUILD_NUMBER"
           token: ${{ secrets.VARIABLE_UPDATE_ACCESS_TOKEN }}
@@ -187,7 +187,7 @@ jobs:
       - name: Post to a Slack channel
         id: slack
         if: ${{ !cancelled() && inputs.skip_slack_notification == false }}
-        uses: slackapi/slack-github-action@v1.24.0
+        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
         env:
           STATUS_EMOJI: ${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

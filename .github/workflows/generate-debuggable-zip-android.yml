@@ -51,13 +51,13 @@ jobs:
 
       - name: Get XML Info
         id: version
-        uses: mavrosxristoforos/get-xml-info@1.1.1
+        uses: mavrosxristoforos/get-xml-info@749cc7ecda18372226181a390717a4cab5439eb5 # 1.1.1
         with:
           xml-file: "client/pom.xml"
           xpath: "/*[local-name()='project']/*[local-name()='version']"
 
       - name: Replace tokens
-        uses: cschleiden/replace-tokens@v1.2
+        uses: cschleiden/replace-tokens@8e091844c27eb36853efbfade5ffca07260f0250 # v1.2
         with:
           files: ${{ env.APP_CONFIG_FILE }}
         env:
@@ -160,7 +160,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Install zip
-        uses: montudor/action-zip@v1
+        uses: montudor/action-zip@a8e75c9faefcd80fac3baf53ef40b9b119d5b702 # v1
 
       - name: Zip output
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
