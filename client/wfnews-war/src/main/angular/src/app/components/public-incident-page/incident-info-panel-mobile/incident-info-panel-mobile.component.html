@@ -16,9 +16,7 @@
                 <hr>
             </div>
             <div class="content-panel-stack">
-                <div class="sub-title">
-                    <h1>Overview</h1>
-                </div>
+                <h1>Overview</h1>
             <div class="sub-content">
                 <div class="icon-label fire-of-note" *ngIf="incident.fireOfNoteInd">
                     <img class="fire-icon" height="24" width="24" src="/assets/images/svg-icons/wildfire-of-note.svg"
@@ -62,42 +60,33 @@
         </div>
 
         <div class="content-panel-stack">
-            <div class="sub-title">
-                <h1>Stage of Control</h1>
-            </div>
+            <h1>Stage of Control</h1>
             <div class="wildfire-of-note" *ngIf="incident.fireOfNoteInd">
-                <div class="sub-content">
-                    <div class="icon-title">
-                        <img class="fire-icon" style="padding-right: 18px !important" height="22" width="22"
-                            src="/assets/images/svg-icons/wildfire-of-note.svg" alt="local_fire_department" />
-                        <span>Wildfire Of Note</span>
-                    </div>
+                <div class="icon-label strong">
+                    <img height="24" width="24" src="/assets/images/svg-icons/wildfire-of-note.svg"
+                        alt="local_fire_department" />
+                    <span>Wildfire Of Note</span>
                 </div>
                 <div class="sub-content">
                     This incident is creating an increased level of interest.
                 </div>
             </div>
-            <div>
-                <div class="sub-title">
-                    <span class="circle-icon {{incident.stageOfControlCode}}"></span>
-                    <h4>{{getStageOfControlLabel(incident.stageOfControlCode)}}</h4>
-                </div>
-                <div class="sub-content" style="display: flex; align-items: baseline;">
-                    {{getStageOfControlDescription(incident.stageOfControlCode)}}
-                </div>
+            <div class="icon-label strong">
+                <span class="circle-icon {{incident.stageOfControlCode}}"></span>
+                <span>{{getStageOfControlLabel(incident.stageOfControlCode)}}</span>
+            </div>
+            <div class="sub-content">
+                {{getStageOfControlDescription(incident.stageOfControlCode)}}
             </div>
             <div class="divider"></div>
         </div>
 
         <div class="content-panel-stack">
-            <div class="sub-title">
-                <h1 style="margin-bottom: 4px;">Fire Size</h1>
-            </div>
-            <div class="sub-content" style="color:#3e4347; display: flex; align-items: baseline;">
-                <img class="icon-top" height="24" width="24" src="/assets/images/svg-icons/carbon_ruler.svg"
-                    alt="carbon_ruler" />
-                {{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}}
-                Hectares
+            <h1>Fire Size</h1>
+            <div class="icon-label strong">
+                <img height="24" width="24" src="/assets/images/svg-icons/carbon_ruler.svg" alt="carbon_ruler" />
+                <span>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}}
+                    Hectares</span>
             </div>
             <div class="sub-content">
                 {{incident.incidentSizeDetail || 'Fire size is estimated and based on the most current information
@@ -108,24 +97,26 @@
 
         <div class="content-panel-stack">
             <h1>Location</h1>
-            <div *ngIf="incident.traditionalTerritoryDetail">
-                <div class="sub-title"><img class="icon" height="24" width="24"
-                        src="/assets/images/svg-icons/carbon_map.svg" alt="carbon_map" /> Traditional Territory
+            <div class="location-part" *ngIf="incident.traditionalTerritoryDetail">
+                <div class="icon-label strong">
+                    <img height="24" width="24" src="/assets/images/svg-icons/carbon_map.svg" alt="carbon_map" />
+                    <span>Traditional Territory</span>
                 </div>
                 <div class="sub-content">
                     {{incident.traditionalTerritoryDetail}}
                 </div>
             </div>
-            <div *ngIf="incident.incidentLocation">
-                <div class="sub-title">Description</div>
+            <div class="location-part" *ngIf="incident.incidentLocation">
+                <div class="sub-heading">Description</div>
                 <div class="sub-content">
                     {{incident.incidentLocation}}
                 </div>
             </div>
-            <br />
-            <wfnews-button variant="secondary" label="View on Map"
-                iconPath="/assets/images/svg-icons/map.svg"
-                (buttonClicked)="navigateToMap()"></wfnews-button>
+            <div class="section-action">
+                <wfnews-button variant="secondary" label="View on Map"
+                    iconPath="/assets/images/svg-icons/map.svg"
+                    (buttonClicked)="navigateToMap()"></wfnews-button>
+            </div>
             <div class="divider"></div>
         </div>
 
@@ -226,22 +217,17 @@
 
         <div class="content-panel-stack">
             <h1>Suspected Cause</h1>
-
-            <div class="sub-title">
-                <div class="sub-content-title">
-                    <div *ngIf='incident.generalIncidentCauseCatId === 1'>
-                        <img class="icon-cause" src="/assets/images/svg-icons/human.svg" alt="human" />
-                        {{getCauseLabel(incident.generalIncidentCauseCatId)}}
-                    </div>
-                    <div *ngIf='incident.generalIncidentCauseCatId === 2'>
-                        <img class="icon-cause" src="/assets/images/svg-icons/lightning.svg" alt="lightning" />
-                        {{getCauseLabel(incident.generalIncidentCauseCatId)}}
-                    </div>
-                    <div *ngIf='incident.generalIncidentCauseCatId === 3'>
-                        <img class="icon-cause" src="/assets/images/svg-icons/help.svg" alt="question" />
-                        {{getCauseLabel(incident.generalIncidentCauseCatId)}}
-                    </div>
-                </div>
+            <div class="icon-label strong" *ngIf="incident.generalIncidentCauseCatId === 1">
+                <img height="24" width="24" src="/assets/images/svg-icons/human.svg" alt="human" />
+                <span>{{getCauseLabel(incident.generalIncidentCauseCatId)}}</span>
+            </div>
+            <div class="icon-label strong" *ngIf="incident.generalIncidentCauseCatId === 2">
+                <img height="24" width="24" src="/assets/images/svg-icons/lightning.svg" alt="lightning" />
+                <span>{{getCauseLabel(incident.generalIncidentCauseCatId)}}</span>
+            </div>
+            <div class="icon-label strong" *ngIf="incident.generalIncidentCauseCatId === 3">
+                <img height="24" width="24" src="/assets/images/svg-icons/help.svg" alt="question" />
+                <span>{{getCauseLabel(incident.generalIncidentCauseCatId)}}</span>
             </div>
             <div class="sub-content">
                 {{incident.incidentCauseDetail || getCauseDescription(incident.generalIncidentCauseCatId)}}

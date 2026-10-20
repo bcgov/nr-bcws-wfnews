@@ -17,3 +17,10 @@
   box-shadow: $shadow-card;
   border: $border-card;
 }
+
+// The phone pages show the cards as flat sections.
+:host-context(.flat-cards) .content-card-container:not(.raised) {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}

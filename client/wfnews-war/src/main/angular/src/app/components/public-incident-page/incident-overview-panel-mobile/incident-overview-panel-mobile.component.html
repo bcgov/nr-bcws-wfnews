@@ -6,7 +6,7 @@
         <div *ngIf="incident.responseTypeCode" class="content-panel-stack">
             <h1>Response</h1>
             <div class="description">{{getResponseTypeDescription(incident.responseTypeCode)}}</div>
-            <hr>
+            <hr class="section-rule">
         </div>
         <div *ngIf="incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd"
             class="content-panel-stack">
@@ -45,18 +45,18 @@
                 <div class="contents">{{incident.structureProtectionRsrcDetail}}</div>
                 <hr>
             </div>
-            <wfnews-button variant="secondary" label="Learn about Wildfire Resources"
-                iconPath="/assets/images/svg-icons/launch_black.svg"
-                (buttonClicked)="navToLearnMore()"></wfnews-button>
-            <br>
-            <hr>
+            <div class="section-action">
+                <wfnews-button variant="secondary" label="Learn about Wildfire Resources"
+                    iconPath="/assets/images/svg-icons/launch_black.svg"
+                    (buttonClicked)="navToLearnMore()"></wfnews-button>
+            </div>
+            <hr class="section-rule">
         </div>
         <div class="content-panel-stack" *ngIf="incident.incidentOverview">
             <h1>Response Update</h1>
             <div class="update-date"><img class="icon" src="/assets/images/svg-icons/fluent_edit.svg" alt="Edit" />{{incident.lastUpdatedTimestamp}}</div>
             <div class="overview" [innerHTML]="incident.incidentOverview"></div>
-            <br>
-            <hr>
+            <hr class="section-rule">
         </div>
     </div>
 </div>

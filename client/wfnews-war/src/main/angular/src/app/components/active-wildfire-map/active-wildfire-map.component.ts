@@ -576,6 +576,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   panToLocation(long, lat, zoom?) {
+    // A link that names only a layer has no point, so the map keeps the BC view.
+    if (!Number.isFinite(long) || !Number.isFinite(lat)) {
+      return;
+    }
     this.smkApiReady.then(() => {
       this.smkApi.panToFeature(turf.point([long, lat]), zoom ? zoom : null);
     });

@@ -16,68 +16,19 @@
     <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_layers.svg" alt="Layers" />BC Wildfire Fire Bans and Prohibitions Layer</div>
   </div>
   <hr>
-  <div class="info-container">
-    <div class="full-details-secondary-title">Other Burning Restrictions</div>
-    <div class="info-container-section-title"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/authorities.svg" alt="Calendar" />Talk to your Local Authority</div>
-    <p class="info" [innerHTML]="talkToYourLocalAuthorityText"></p>
-    <div class="info-container-section-title"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/campfire.svg" alt="Calendar" />Campgrounds</div>
-    <p class="info" [innerHTML]="campgroundsText"></p>
-    <wfnews-button variant="secondary" [fullWidth]="true" label="BC Parks Active Advisories"
-      (buttonClicked)="navToBcParksAdvisories()"></wfnews-button>
+  <!-- The same cards as the desktop page, so each text is written once. -->
+  <div class="event-cards">
+    <other-burning-restrictions-card></other-burning-restrictions-card>
+    <category-1-fires-card *ngIf="banData.isCat1"></category-1-fires-card>
+    <category-2-fires-card *ngIf="banData.isCat2"></category-2-fires-card>
+    <category-3-fires-card *ngIf="banData.isCat3"></category-3-fires-card>
+    <related-topics-card [links]="relatedTopicLinks"></related-topics-card>
   </div>
-  <hr>
-  <div class="info-container" *ngIf="banData.isCat1">
-    <div class="full-details-secondary-title">Category 1 Fires (Campfires)</div>
-    <img class="image-size-cat1-cat2" src="/assets/images/CampFireSize.svg" alt="Category 1" />
-    <p class="info">A campfire is defined as:</p>
-    <ul>
-      <li>Any fire no larger than 0.5 metres high by 0.5 metres wide (a fire larger than this is considered a Category 2 fire).</li>
-      <li>Used by any person for recreational purposes or by a First Nation for a ceremonial purpose.</li>
-    </ul>
-  </div>
-  <hr>
-  <div class="info-container" *ngIf="banData.isCat2">
-    <div class="full-details-secondary-title">Category 2 Open Fires</div>
-    <img class="image-size-cat1-cat2" src="/assets/images/Category 2 Size.svg" alt="Category 2" />
-    <p class="info">This category refers to fires, other than a campfire, that burn:</p>
-    <ul>
-      <li>Material in one pile not exceeding 2 metres in height and 3 metres in width</li>
-      <li>Material concurrently in 2 piles each not exceeding 2 metres in height and 3 metres in width</li>
-      <li>Stubble or grass over an area that does not exceed 0.2 hectares</li>
-    </ul>
-  </div>
-  <hr>
-  <div class="info-container" *ngIf="banData.isCat3">
-    <div class="full-details-secondary-title">Category 3 Open Fires</div>
-    <img class="image-size-cat3" src="/assets/images/Category 3 Image.svg" alt="Category 3" />
-    <p class="info">This category means an open fire that burns</p>
-    <ul>
-      <li>Material concurrently in 3 or more piles each not exceeding 2 metres in height and 3 metres in width</li>
-      <li>Material in one or more piles each exceeding 2 metres in height or 3 metres in width</li>
-      <li>One or more windrows, none of which exceed 200 metres in length or 15 metres in width</li>
-      <li>Stubble or grass over an area exceeding 0.2 hectares</li>
-    </ul>
-  </div>
-  <hr>
-  <div class="info-container">
-    <div class="full-details-secondary-title">Related Topics</div>
-    <p class="info">Links will open in your internet browser.</p>
-  </div>
-  <div class="links">
-    <div class="links-relative">
-      <p>Current Fire Bans and Restrictions<img (click)="navToCurrentRestrictions()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
-    </div>
-    <div class="links-relative">
-      <p>Forest Use Restrictions<img (click)="navToForestUseRestrictions()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
-    </div>
-    <div class="links-relative">
-      <p>Open Burning<img (click)="navToOpenBurning()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
-    </div>
-  </div>
-  <div class="bulletin">
+  <div class="bulletin" *ngIf="!bulletinDismissed">
     <p>Open the information bulletin for more details</p>
     <wfnews-button variant="primary" label="Go to"
       iconPathEnd="/assets/images/svg-icons/fluent_open.svg" (buttonClicked)="navToBulletinUrl()"></wfnews-button>
+    <button type="button" class="bulletin-close" aria-label="Close" (click)="bulletinDismissed = true"><img src="/assets/images/svg-icons/carbon_cancel.svg" alt="" height="20" width="20" /></button>
   </div>
-  <div class="spacer"></div>
+  <div class="spacer" *ngIf="!bulletinDismissed"></div>
 </div>

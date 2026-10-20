@@ -2,6 +2,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ResourcesRoutes, convertToDateTimeTimeZone, displayDangerRatingDescription} from '@app/utils';
+import { extentToParam, ringsToExtent } from '@app/utils/preview-map';
 
 @Component({
   selector: 'wfnews-danger-rating-header',
@@ -27,6 +28,7 @@ export class DangerRatingHeaderComponent {
           longitude: this.dangerRating.centroid.x,
           latitude: this.dangerRating.centroid.y,
           dangerRating: true,
+          extent: extentToParam(ringsToExtent(this.dangerRating.geometry?.rings)),
         },
       });
     }, 200);

@@ -1,17 +1,21 @@
+import {
+  EVACUATION_DRAWING_INFO,
+  FIRE_PERIMETER_DRAWING_INFO,
+} from '@app/services/map-config.service/layers/evacuation-orders-and-alerts-wms.config';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
+import { EventFeatureService } from '@app/services/event-feature.service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import {
   PublishedIncidentService,
   SimpleIncident,
 } from '@app/services/published-incident-service';
 import { WatchlistService } from '@app/services/watchlist-service';
-import { ResourcesRoutes, convertToDateTime, convertToDateYear, currentFireYear, getStageOfControlIcon, getStageOfControlLabel, openLink } from '@app/utils';
+import { ResourcesRoutes, convertToDateTime, convertToDateYear, currentFireYear, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
 import { FullDetailsMapService } from '@app/services/full-details-map.service';
 import { MapConfigService } from '@app/services/map-config.service';
-import { boundsToExtent, drawNearbyIncidents } from '@app/utils/preview-map';
+import { boundsToExtent, drawNearbyIncidents, extentToParam } from '@app/utils/preview-map';
 import { filter, take } from 'rxjs/operators';
 import { AppConfigService } from '@wf1/core-ui';
 import { setDisplayColor } from '../../../utils';
@@ -33,6 +37,9 @@ export class EvacData {
   styleUrls: ['./evac-alert-full-details.component.scss'],
 })
 export class EvacAlertFullDetailsComponent implements OnInit {
+  // Closed for this visit only; the next full details page shows it again.
+  bulletinDismissed = false;
+  private evacFeature: any = null;
   @Input() id: string;
   @Input() name: string;
   @Input() eventNumber: string;
@@ -40,15 +47,16 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   public evacData: EvacData;
   public incident: SimpleIncident | null;
   public map: any;
+  // The polygon box, so View on Map can fit the area instead of a fixed zoom.
+  public extent: number[] | undefined;
 
   convertToDateTime = convertToDateTime;
   convertToDateYear = convertToDateYear;
-  openLink = openLink;
   getStageOfControlIcon = getStageOfControlIcon;
   getStageOfControlLabel = getStageOfControlLabel;
 
   constructor(
-    private agolService: AGOLService,
+    private eventFeatureService: EventFeatureService,
     private publishedIncidentService: PublishedIncidentService,
     private appConfigService: AppConfigService,
     private cdr: ChangeDetectorRef,
@@ -61,11 +69,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    await this.populateEvacByID({
-      returnGeometry: true,
-      returnCentroid: true,
-      returnExtent: false,
-    });
+    await this.populateEvacByID();
     this.initMap();
     this.metaService.updateTag({ property: 'og:title', content: `Evacuation Alert for ${this.evacData.name}`});
     this.metaService.updateTag({ property: 'og:description', content: `Evacuation Alert for ${this.evacData.name}` });
@@ -78,36 +82,22 @@ export class EvacAlertFullDetailsComponent implements OnInit {
       Number(this.evacData?.centroidLatitude),
       Number(this.evacData?.centroidLongitude),
     ];
-    let bounds = null;
-    this.agolService
-      .getEvacOrdersById(
-        this.id,
-        {
-          returnGeometry: true,
-        },
-      )
-      .toPromise()
-      .then((response) => {
-        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
-          const matchingFeature = response.features.find(feature => feature.attributes.EVENT_NUMBER === this.eventNumber);
-          const polygonData = this.commonUtilityService.extractPolygonData(matchingFeature.geometry.rings);
-          if (polygonData?.length) {
-            bounds = this.commonUtilityService.getPolygonBond(polygonData);
-            this.createMap(location, bounds);
-          }
-        }
-        else {
-          this.createMap(location)
-        }
-      });
+    const rings = this.evacFeature?.geometry?.rings;
+    const polygonData = rings?.length ? this.commonUtilityService.extractPolygonData(rings) : [];
+    if (polygonData.length) {
+      this.createMap(location, this.commonUtilityService.getPolygonBond(polygonData));
+    } else {
+      this.createMap(location);
+    }
   }
 
   async createMap(location: number[], bounds?: any) {
     const external = this.appConfigService.getConfig()['externalAppConfig'];
 
+    this.extent = boundsToExtent(bounds);
     const cfg = await this.mapConfigService.getPreviewMapConfig({
       baseMap: 'navigation',
-      extent: boundsToExtent(bounds),
+      extent: this.extent,
       layers: [
         {
           type: 'esri-feature',
@@ -115,7 +105,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
           title: 'Fire perimeters',
           serviceUrl: external['AGOLperimetres'].toString(),
           isVisible: true,
-          style: { strokeColor: '#e60000', strokeWidth: 2, fillOpacity: 0 },
+          drawingInfo: FIRE_PERIMETER_DRAWING_INFO,
         },
         {
           type: 'esri-feature',
@@ -123,16 +113,8 @@ export class EvacAlertFullDetailsComponent implements OnInit {
           title: 'Evacuation Orders and Alerts',
           serviceUrl: external['AGOLevacOrders'].toString(),
           isVisible: true,
-          // An Order is red and an Alert is orange.
-          style: {
-            strokeWidth: 2.25,
-            fillOpacity: 0.5,
-            where: {
-              field: 'ORDER_ALERT_STATUS',
-              Order: { fillColor: '#ff3a35', strokeColor: '#ff3a35' },
-              Alert: { fillColor: '#fa9600', strokeColor: '#fa9600' },
-            },
-          },
+          // esri-feature takes drawingInfo; it has no style option.
+          drawingInfo: EVACUATION_DRAWING_INFO,
         },
       ],
     });
@@ -165,14 +147,12 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  async populateEvacByID(options: AgolOptions = null) {
+  async populateEvacByID() {
     this.evacData = null;
-    const response = this.id ?
-      await this.agolService.getEvacOrdersByParam(`EMRG_OAA_SYSID='${this.id}'`, options).toPromise():
-      await this.agolService.getEvacOrdersByParam(`EVENT_NAME='${this.name}'`, options).toPromise() ;
-    if (response?.features?.length > 0) {
-      const matchingFeature = response.features.find(feature => feature.attributes.EVENT_NUMBER === this.eventNumber);
-      const evac = matchingFeature;
+    const evac = await this.eventFeatureService.getEvacuation({ id: this.id, name: this.name, eventNumber: this.eventNumber });
+    // The map reads the same feature, so it does not download it again.
+    this.evacFeature = evac;
+    if (evac) {
       this.evacData = new EvacData();
       this.evacData.name = evac.attributes.EVENT_NAME;
       this.evacData.eventNumber = evac.attributes.EVENT_NUMBER;
@@ -191,8 +171,9 @@ export class EvacAlertFullDetailsComponent implements OnInit {
 
   async populateIncident(eventNumber: string) {
     let simpleIncident: SimpleIncident = new SimpleIncident;
-    try {
-      this.publishedIncidentService.fetchPublishedIncident(eventNumber,currentFireYear().toString()).subscribe(response => {
+    // A 404 is an evacuation with no published fire, not a fault.
+    this.publishedIncidentService.fetchPublishedIncident(eventNumber,currentFireYear().toString()).subscribe({
+      next: response => {
         if (response) {
           simpleIncident.discoveryDate = convertToDateYear(response.discoveryDate);
           simpleIncident.incidentName = response.incidentName?.replace('Fire', '').trim() + ' Wildfire';
@@ -209,13 +190,11 @@ export class EvacAlertFullDetailsComponent implements OnInit {
           );
           this.incident = simpleIncident;
         }
-      })
-    } catch (error) {
-      console.error(
-        'Caught error while populating associated incident for evacuation: ' +
-        error,
-      );
-    }
+      },
+      error: error => {
+        console.warn('No associated incident for evacuation ' + eventNumber + ': ' + (error?.status ?? error));
+      },
+    });
   }
 
   navToMap() {
@@ -225,6 +204,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
           longitude: this.evacData.centroidLongitude,
           latitude: this.evacData.centroidLatitude,
           evacuationAlert: true,
+          extent: extentToParam(this.extent),
         },
       });
     }, 200);
@@ -257,12 +237,11 @@ export class EvacAlertFullDetailsComponent implements OnInit {
       .includes(incident.fireYear + ':' + incident.incidentNumberLabel);
   }
 
-  addToWatchlist(incident) {
-    if (!this.onWatchlist(incident)) {
-      this.watchlistService.saveToWatchlist(
-        incident.fireYear,
-        incident.incidentNumberLabel,
-      );
+  setWatchlist(incident, bookmarked: boolean) {
+    if (bookmarked) {
+      this.watchlistService.saveToWatchlist(incident.fireYear, incident.incidentNumberLabel);
+    } else {
+      this.watchlistService.removeFromWatchlist(incident.fireYear, incident.incidentNumberLabel);
     }
   }
 

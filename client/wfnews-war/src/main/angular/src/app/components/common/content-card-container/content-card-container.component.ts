@@ -7,4 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class ContentCardContainerComponent {
   @Input() backgroundColor?: string;
+  /** Stays a card on a flat page, for an item the user taps. */
+  @Input() raised = false;
 }

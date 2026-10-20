@@ -92,17 +92,17 @@
         </div>
         <div *ngIf="isMobileView()">
           <div class="contact-buttons">
-            <wfnews-button [variant]="onWatchlist() ? 'primary' : 'secondary'"
+            <wfnews-button class="share" variant="secondary" label="Share" [fullWidth]="true"
+                iconPath="/assets/images/svg-icons/share.svg"
+                (buttonClicked)="shareMobile()"></wfnews-button>
+            <wfnews-button [variant]="onWatchlist() ? 'primary' : 'secondary'" [fullWidth]="true"
                 [label]="onWatchlist() ? 'Saved' : 'Save'"
                 [iconPath]="onWatchlist()
                   ? '/assets/images/svg-icons/bookmark-filled.svg'
                   : '/assets/images/svg-icons/bookmark.svg'"
                 (buttonClicked)="addToWatchlist()"></wfnews-button>
-            <wfnews-button variant="secondary" label="Contact Us"
+            <wfnews-button variant="secondary" label="Contact Us" [fullWidth]="true"
                 (buttonClicked)="openContactUsWindow()"></wfnews-button>
-            <wfnews-button variant="secondary" label="Share"
-                iconPath="/assets/images/svg-icons/share.svg"
-                (buttonClicked)="shareMobile()"></wfnews-button>
         </div>
           <div class="divider"></div>
         </div>

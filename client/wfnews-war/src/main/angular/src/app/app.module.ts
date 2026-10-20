@@ -183,7 +183,6 @@ import { WhereShouldIGoCardComponent } from './components/full-details/cards/whe
 import { DangerRatingFullDetailsComponent } from './components/full-details/danger-rating-full-details/danger-rating-full-details.component';
 import { EvacAlertFullDetailsComponent } from './components/full-details/evac-alert-full-details/evac-alert-full-details.component';
 import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
-import { EvacOtherInfoComponent } from './components/full-details/evac-other-info/evac-other-info.component';
 import { FullDetailsComponent } from './components/full-details/full-details.component';
 import { IdentifyPanel } from './components/identify-panel/identify-panel.component';
 import { IdentifyStatusComponent } from './components/identify-status/identify-status.component';
@@ -465,7 +464,6 @@ export const DATE_FORMATS = {
     BansFullDetailsComponent,
     EvacAlertFullDetailsComponent,
     EvacOrderFullDetailsComponent,
-    EvacOtherInfoComponent,
     BaseLegendComponent,
     MapLegendComponent,
     FireLegendComponent,
