@@ -18,7 +18,8 @@
         <img height="17" width="17" src="/assets/images/svg-icons/under-control.svg" alt="Under Control" class="icon"><span class="checkbox-label">Under Control</span>
       </div>
     </div>
-    <div (click)="toggleMapView()" (mouseenter)="showViewMapButton = true" (mouseleave)="showViewMapButton = false" id="dashboard-map" class="dashboard-map-container">
+    <div (click)="toggleMapView()" (mouseenter)="showViewMapButton = true" (mouseleave)="showViewMapButton = false" class="dashboard-map-container">
+      <wf-map-container *ngIf="mapConfig" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"></wf-map-container>
       <div class="map-overlay" *ngIf="showViewMapButton">
         <a class="link">View Full Map</a>
       </div>

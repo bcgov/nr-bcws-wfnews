@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ParamMap, ActivatedRoute, Router } from '@angular/router';
 import { ResourcesRoutes } from '@app/utils';
 import { AGOLService } from '@app/services/AGOL-service';
+import { FullDetailsMapService } from '@app/services/full-details-map.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'wfnews-full-details',
@@ -10,14 +12,22 @@ import { AGOLService } from '@app/services/AGOL-service';
 })
 export class FullDetailsComponent implements OnInit, OnDestroy {
   public params: ParamMap;
+  /** The active panel supplies this; the panel knows what belongs on the map. */
+  mapConfig: any[] = null;
+  private mapConfigSub: Subscription;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private agolService: AGOLService,
+    private fullDetailsMap: FullDetailsMapService,
   ) { }
 
   ngOnInit(): void {
+    this.fullDetailsMap.reset();
+    this.mapConfigSub = this.fullDetailsMap.config$.subscribe((cfg) => {
+      this.mapConfig = cfg;
+    });
     this.route.queryParams.subscribe((params: ParamMap) => {
       this.params = params;
     });
@@ -26,7 +36,13 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  onMapInitialized(smk: any): void {
+    this.fullDetailsMap.setSmk(smk);
+  }
+
   ngOnDestroy(): void {
+    this.mapConfigSub?.unsubscribe();
+    this.fullDetailsMap.reset();
     if (document.getElementById('mobile-navigation-bar')) {
       document.getElementById('mobile-navigation-bar').style.display = 'block';
     }

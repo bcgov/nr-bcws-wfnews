@@ -1,4 +1,3 @@
-import { isAndroidViaNavigator } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import { WfDevice } from '@wf1/wfcc-application-ui';
 import { MapServices, MapServiceStatus } from '.';
@@ -37,10 +36,10 @@ export const mapConfig = (
   appConfigService: AppConfigService
 ) => ({
   viewer: {
-    type: 'leaflet',
+    type: 'maplibre',
     device,
     location: bcLocation(),
-    baseMap: isAndroidViaNavigator() ? 'openstreetmap' : 'navigation',
+    baseMap: 'navigation',
     minZoom: 4,
     maxZoom: 30,
   },
@@ -186,12 +185,12 @@ export const reportOfFireMapConfig = (
   appConfigService: AppConfigService,
 ) => ({
   viewer: {
-    type: 'leaflet',
+    type: 'maplibre',
     device,
     location: {
       extent: [-136.3, 49, -116, 60.2],
     },
-    baseMap: 'imagery',
+    baseMap: 'topography',
     minZoom: 4,
   },
   tools: [
@@ -243,6 +242,61 @@ export const reportOfFireMapConfig = (
   ],
 });
 
+/**
+ * A small read-only map, for the preview and detail panels that used to build
+ * their own Leaflet map. No toolbar: the screen around it supplies the controls.
+ */
+export const previewMapConfig = (option: {
+  extent?: number[];
+  center?: number[];
+  zoom?: number;
+  baseMap?: string;
+  layers?: any[];
+  maxZoom?: number;
+  /** The +/- control and a reset to the configured view. reset-view needs both. */
+  zoomControl?: boolean;
+  pan?: boolean;
+} = {}) => ({
+  viewer: {
+    type: 'maplibre',
+    location: previewLocation(option),
+    baseMap: option.baseMap || 'topography',
+    minZoom: 4,
+    maxZoom: option.maxZoom || 30,
+  },
+  tools: [
+    { type: 'pan', enabled: option.pan !== false },
+    // The wheel, double click and box are off: these maps are a picture with
+    // a control, as the Leaflet ones were.
+    {
+      type: 'zoom',
+      enabled: !!option.zoomControl,
+      control: true,
+      mouseWheel: false,
+      doubleClick: false,
+      box: false,
+    },
+    { type: 'reset-view', enabled: !!option.zoomControl },
+    { type: 'baseMaps', enabled: false },
+    { type: 'scale', enabled: false },
+    { type: 'search', enabled: false },
+    { type: 'layers', enabled: false },
+    { type: 'identify', enabled: false },
+  ],
+  layers: option.layers || [],
+});
+
+/** An extent wins over a centre, and reset-view returns to whichever is set. */
+function previewLocation(option: { extent?: number[]; center?: number[]; zoom?: number }) {
+  if (option.extent) {
+    return { extent: option.extent };
+  }
+  if (option.center) {
+    return { center: option.center, zoom: option.zoom ?? 9 };
+  }
+  return { extent: [-139, 48.3, -114, 60.2] };
+}
+
 export const reportOfFireOfflineMapConfig = (
   mapServices: MapServices,
   serviceStatus: MapServiceStatus,
@@ -250,12 +304,12 @@ export const reportOfFireOfflineMapConfig = (
   appConfigService: AppConfigService,
 ) => ({
   viewer: {
-    type: 'leaflet',
+    type: 'maplibre',
     device,
     location: {
       extent: [-136.3, 49, -116, 60.2],
     },
-    baseMap: 'imagery',
+    baseMap: 'topography',
     zoomControl: false,
     doubleClickZoom: false,
     boxZoom: false,

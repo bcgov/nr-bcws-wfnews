@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ResourcesRoutes } from '@app/utils';
+import { MapConfigService } from '@app/services/map-config.service';
 import { AppConfigService } from '@wf1/core-ui';
-import * as L from 'leaflet';
 
 @Component({
   selector: 'bans-widget',
@@ -19,6 +19,7 @@ import * as L from 'leaflet';
 export class BansWidget implements OnInit, AfterViewInit {
   public startupComplete = false;
   public map: any = null;
+  mapConfig = null;
   public showViewMapButton = false;
   bansRestrictionsUrl = this.appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString();
 
@@ -28,104 +29,62 @@ export class BansWidget implements OnInit, AfterViewInit {
     private httpClient: HttpClient,
     private el: ElementRef,
     private router: Router,
+    private mapConfigService: MapConfigService,
   ) {}
 
   ngOnInit(): void {
-    const observer = new ResizeObserver(() => {
-      if (this.map) {
-        this.map.invalidateSize();
-      }
+    new ResizeObserver(() => {
+      this.map?.resize();
     }).observe(this.el.nativeElement);
   }
 
   ngAfterViewInit(): void {
-    Promise.all([
+    const databcUrl = this.appConfigService
+      .getConfig()['mapServices']['openmapsBaseUrl'].toString();
+
+    const sld = (name: string) =>
       this.httpClient
-        .get('assets/js/smk/bans-cat1.sld', { responseType: 'text' })
-        .toPromise(),
-      this.httpClient
-        .get('assets/js/smk/bans-cat2.sld', { responseType: 'text' })
-        .toPromise(),
-      this.httpClient
-        .get('assets/js/smk/bans-cat3.sld', { responseType: 'text' })
-        .toPromise(),
-    ]).then(([cat1sld, cat2sld, cat3sld]) => {
-      // set startupComplete to true
-      this.startupComplete = true;
-      this.cdr.detectChanges();
+        .get('assets/js/smk/' + name, { responseType: 'text' })
+        .toPromise();
 
-      // Create map and append data to the map component
-      const southWest = L.latLng(60.2, -116);
-        const northEast = L.latLng(49, -136.3);
-        const bounds = L.latLngBounds(southWest, northEast);
-        const location = [Number(55), Number(-126)];
-
-      this.map = L.map('bans-map', {
-        maxBounds: bounds,
-        attributionControl: false,
-        zoomControl: false,
-        dragging: false,
-        doubleClickZoom: false,
-        boxZoom: false,
-        trackResize: false,
-        scrollWheelZoom: false,
-        maxZoom: 10,
-      }).setView(location, 10);
-      // configure map data
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(this.map);
-
-      const databcUrl = this.appConfigService
-        .getConfig()
-        ['mapServices']['openmapsBaseUrl'].toString();
-      L.tileLayer
-        .wms(databcUrl, {
-          layers:
-            'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-          format: 'image/png',
-          transparent: true,
+    Promise.all([sld('bans-cat1.sld'), sld('bans-cat2.sld'), sld('bans-cat3.sld')])
+      .then(([cat1sld, cat2sld, cat3sld]) => {
+        // SMK's wms layer takes the SLD and the CQL filter, so the three
+        // categories are layers in the config rather than hand-made tile layers.
+        const category = (id: string, sldBody: string, where: string) => ({
+          type: 'wms',
+          id,
+          title: id,
+          serviceUrl: databcUrl,
+          layerName: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
           version: '1.1.1',
-          sld_body: cat3sld,
-          cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 3%\'',
-          tileSize: 1000,
+          sld: sldBody,
+          where,
           opacity: 0.5,
-        })
-        .addTo(this.map);
+          isVisible: true,
+        });
 
-      L.tileLayer
-        .wms(databcUrl, {
-          layers:
-            'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          sld_body: cat2sld,
-          cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 2%\'',
-          tileSize: 1000,
-          opacity: 0.5,
-        })
-        .addTo(this.map);
+        return this.mapConfigService.getPreviewMapConfig({
+          baseMap: 'navigation',
+          maxZoom: 10,
+          layers: [
+            category('bans-cat3', cat3sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 3%'"),
+            category('bans-cat2', cat2sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 2%'"),
+            category('bans-cat1', cat1sld,
+              "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 1%' OR ACCESS_PROHIBITION_DESCRIPTION LIKE '%Campfire%'"),
+          ],
+        });
+      })
+      .then((cfg) => {
+        this.mapConfig = [cfg];
+        this.startupComplete = true;
+        this.cdr.detectChanges();
+      });
+  }
 
-      L.tileLayer
-        .wms(databcUrl, {
-          layers:
-            'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          sld_body: cat1sld,
-          cql_filter:
-            'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 1%\' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfire%\'',
-          tileSize: 1000,
-          opacity: 0.5,
-        })
-        .addTo(this.map);
-
-      this.map.fitBounds(bounds);
-      this.cdr.detectChanges();
-    });
+  initMap(smk: any) {
+    this.map = smk.$viewer.map;
+    this.cdr.detectChanges();
   }
 
   toggleMapView(){

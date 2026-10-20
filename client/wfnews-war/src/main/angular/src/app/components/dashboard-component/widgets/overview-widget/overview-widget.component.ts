@@ -5,7 +5,7 @@ import {
   ElementRef,
   OnInit,
 } from '@angular/core';
-import * as L from 'leaflet';
+import { MapConfigService } from '@app/services/map-config.service';
 import { AppConfigService } from '@wf1/core-ui';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -19,6 +19,9 @@ import { ResourcesRoutes } from '@app/utils';
 export class OverviewWidget implements OnInit, AfterViewInit {
   public startupComplete = false;
   public map: any = null;
+  mapConfig = null;
+  smk: any;
+  private incidents: any = {};
   public showViewMapButton = false;
 
   constructor(
@@ -27,13 +30,12 @@ export class OverviewWidget implements OnInit, AfterViewInit {
     private httpClient: HttpClient,
     private el: ElementRef,
     private router: Router,
+    private mapConfigService: MapConfigService,
   ) {}
 
   ngOnInit(): void {
-    const observer = new ResizeObserver(() => {
-      if (this.map) {
-        this.map.invalidateSize();
-      }
+    new ResizeObserver(() => {
+      this.map?.resize();
     }).observe(this.el.nativeElement);
   }
 
@@ -76,95 +78,63 @@ export class OverviewWidget implements OnInit, AfterViewInit {
         })
         .toPromise(),
     ]).then(([firesOfNote, outOfControl, holding, underControl]) => {
-      // set startupComplete to true
-      this.startupComplete = true;
-      this.cdr.detectChanges();
-
-      // Create map and append data to the map component
-      const southWest = L.latLng(60.2, -116);
-        const northEast = L.latLng(49, -136.3);
-        const bounds = L.latLngBounds(southWest, northEast);
-        const location = [Number(55), Number(-126)];
-
-      this.map = L.map('dashboard-map', {
-        maxBounds: bounds,
-        attributionControl: false,
-        zoomControl: false,
-        dragging: false,
-        doubleClickZoom: false,
-        boxZoom: false,
-        trackResize: false,
-        scrollWheelZoom: false,
-        maxZoom: 10,
-      }).setView(location, 10);
-
-      // configure map data
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(this.map);
+      this.incidents = { firesOfNote, outOfControl, holding, underControl };
 
       const databcUrl = this.appConfigService
-        .getConfig()
-        ['mapServices']['openmapsBaseUrl'].toString();
-      L.tileLayer
-        .wms(databcUrl, {
-          layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP',
-          styles: '1751_1752',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-        })
-        .addTo(this.map);
+        .getConfig()['mapServices']['openmapsBaseUrl'].toString();
 
-      const fonIcon = L.icon({
-        iconUrl: '/assets/images/local_fire_department.png',
-        iconSize: [20, 20],
-        shadowAnchor: [4, 42],
-        shadowSize: [31, 31],
+      return this.mapConfigService.getPreviewMapConfig({
+        baseMap: 'navigation',
+        maxZoom: 10,
+        layers: [
+          {
+            type: 'wms',
+            id: 'current-fire-polys',
+            title: 'Fire perimeters',
+            serviceUrl: databcUrl,
+            layerName: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP',
+            styleName: '1751_1752',
+            version: '1.1.1',
+            isVisible: true,
+          },
+        ],
       });
-      const ucIcon = L.icon({
-        iconUrl: '/assets/images/svg-icons/under-control.svg',
-        iconSize: [10, 10],
-        shadowAnchor: [4, 32],
-        shadowSize: [10, 10],
-      });
-      const holdIcon = L.icon({
-        iconUrl: '/assets/images/svg-icons/being-held.svg',
-        iconSize: [10, 10],
-        shadowAnchor: [4, 32],
-        shadowSize: [10, 10],
-      });
-      const oocIcon = L.icon({
-        iconUrl: '/assets/images/svg-icons/out-of-control.svg',
-        iconSize: [10, 10],
-        shadowAnchor: [4, 32],
-        shadowSize: [10, 10],
-      });
-
-      try {
-        this.addDataToMap(underControl, ucIcon);
-        this.addDataToMap(holding, holdIcon);
-        this.addDataToMap(outOfControl, oocIcon);
-        this.addDataToMap(firesOfNote, fonIcon);
-    } catch (err) {
-      console.error(err);
-    }
-
-      this.map.fitBounds(bounds);
-
+    })
+    .then((cfg) => {
+      this.mapConfig = [cfg];
+      this.startupComplete = true;
       this.cdr.detectChanges();
     });
   }
 
-  addDataToMap(data, icon) {
+  initMap(smk: any) {
+    this.smk = smk;
+    this.map = smk.$viewer.map;
+
+    // One acetate per stage of control, drawn least urgent first so a fire of
+    // note ends up on top, as the leaflet add order did.
     try {
-      L.geoJSON(data, {
-        pointToLayer(feature: any, latlng: any) {
-          return L.marker(latlng, { icon: icon });
-        },
-      }).addTo(this.map);
-    } catch(err) {
+      this.addDataToMap('under-control', this.incidents.underControl,
+        '/assets/images/svg-icons/under-control.svg', 10);
+      this.addDataToMap('holding', this.incidents.holding,
+        '/assets/images/svg-icons/being-held.svg', 10);
+      this.addDataToMap('out-of-control', this.incidents.outOfControl,
+        '/assets/images/svg-icons/out-of-control.svg', 10);
+      this.addDataToMap('fires-of-note', this.incidents.firesOfNote,
+        '/assets/images/local_fire_department.png', 20);
+    } catch (err) {
+      console.error(err);
+    }
+
+    this.cdr.detectChanges();
+  }
+
+  addDataToMap(acetate: string, data: any, iconUrl: string, size: number) {
+    try {
+      this.smk.showFeature(acetate, data, {
+        htmlMarker: () => incidentIcon(iconUrl, size),
+      });
+    } catch (err) {
       console.error('Feature data not loaded. No data found.');
     }
   }
@@ -173,4 +143,15 @@ export class OverviewWidget implements OnInit, AfterViewInit {
     this.showViewMapButton = !this.showViewMapButton;
     this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
   }
+}
+
+/** A MapLibre marker takes a DOM element, which is what a Leaflet icon gave us. */
+function incidentIcon(src: string, size: number): HTMLElement {
+  const img = document.createElement('img');
+  img.alt = '';
+  img.src = src;
+  img.width = size;
+  img.height = size;
+  img.style.pointerEvents = 'none';
+  return img;
 }

@@ -226,23 +226,6 @@
     }
   }
 
-  &.smk-viewer-leaflet {
-    .smk-overlay {
-      .smk-status {
-        left: 0;
-        flex-direction: row-reverse;
-
-        .smk-scale {
-          margin-left: 20px;
-          margin-bottom: -33px;
-        }
-        .smk-coordinate {
-          margin-bottom: -33px;
-        }
-      }
-    }
-  }
-
   .smk-time-dimension {
     cursor: pointer;
     pointer-events: all;

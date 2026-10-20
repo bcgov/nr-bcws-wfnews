@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MapConfigService } from '@app/services/map-config.service';
-import { convertToDateYear, getActiveMap, hidePanel, showPanel, zoomInWithLocationPin } from '@app/utils';
+import { clearLocationPin, convertToDateYear, hidePanel, showPanel, zoomInWithLocationPin } from '@app/utils';
 
 @Component({
   selector: 'wfnews-closed-rec-sites',
@@ -12,15 +12,13 @@ export class ClosedRecSitesComponent implements OnDestroy {
 
   convertToDateYear = convertToDateYear;
   zoomInWithLocationPin = zoomInWithLocationPin;
+  clearLocationPin = clearLocationPin;
   public data;
   defaultZoomLevel = 11;
   pinDrop;
 
   ngOnDestroy(): void {
-    const viewer = getActiveMap().$viewer;
-    if (this.pinDrop) {
-      viewer.map.removeLayer(this.pinDrop);
-    }
+    this.clearLocationPin();
   }
 
 

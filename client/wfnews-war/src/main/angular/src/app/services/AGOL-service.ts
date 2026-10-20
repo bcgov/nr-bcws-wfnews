@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConfigService } from '@wf1/core-ui';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import * as turf from '@turf/turf';
 
 export interface AgolOptions {
   returnCentroid?: boolean;
@@ -117,7 +118,6 @@ export class AGOLService {
 
     if (location) {
       if (location.radius) {
-        const turf = window['turf'];
         const point = turf.point([location.x, location.y]);
         const buffered = turf.buffer(point, location.radius, {
           units: 'kilometers',
@@ -190,7 +190,6 @@ export class AGOLService {
 
     if (location) {
       if (location.radius) {
-        const turf = window['turf'];
         const point = turf.point([location.x, location.y]);
         const buffered = turf.buffer(point, location.radius, {
           units: 'kilometers',
@@ -264,7 +263,6 @@ export class AGOLService {
 
     if (location) {
       if (location.radius) {
-        const turf = window['turf'];
         const point = turf.point([location.x, location.y]);
         const buffered = turf.buffer(point, location.radius, {
           units: 'kilometers',
@@ -387,7 +385,6 @@ export class AGOLService {
     }&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`;
     if (location) {
       if (location.radius) {
-        const turf = window['turf'];
         const point = turf.point([location.x, location.y]);
         const buffered = turf.buffer(point, location.radius, {
           units: 'kilometers',

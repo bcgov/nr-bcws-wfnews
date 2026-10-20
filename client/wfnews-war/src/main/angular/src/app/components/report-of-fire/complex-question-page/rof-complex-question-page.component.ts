@@ -12,6 +12,7 @@ import {
 } from '@angular/material/button-toggle';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import * as turf from '@turf/turf';
 
 /** The value that "I'm not sure" stores, on this page and in the review. */
 const UNKNOWN = 'Unknown';
@@ -151,7 +152,6 @@ export class RoFComplexQuestionPage extends RoFPage {
       const lon = Number(position.coords.longitude);
       this.reportOfFire.deviceLocation = [lat, lon];
 
-      const turf = window['turf'];
       const km = Number(this.reportOfFire.estimatedDistance) / 1000;
       const heading = Number(this.reportOfFire.compassHeading);
       if (!turf || !km || Number.isNaN(heading)) {

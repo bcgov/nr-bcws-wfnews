@@ -66,10 +66,18 @@
 }
 
 .map-container {
+  position: relative;
+  display: flex;
   width: 100%;
   min-height: 400px !important;
   border-radius: 8px;
   max-width: 780px;
+
+  wf-map-container {
+    display: block;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
 }
 
 .divider {
@@ -80,23 +88,46 @@
   width: calc(100% + 20px);
 }
 
-::ng-deep .fireLocationIcon {
-  color: yellow;
-  font-size: 48px;
-}
+::ng-deep.smk-map-frame {
+  // A MapLibre marker is a bare div: it gets no size from the map, unlike a
+  // Leaflet divIcon with its iconSize. So each marker states its own box.
+  .maplibregl-marker {
+    box-sizing: border-box;
 
-::ng-deep .rof-location {
-  border: 4px solid white;
-  border-radius: 14px;
-  background-color: blue;
-  position: relative;
-}
+    &.fireLocationIcon {
+      width: 48px;
+      height: 48px;
+      color: yellow;
+      font-size: 48px;
+    }
 
-.rof-arrow-head {
-  color: yellow;
-  text-shadow:
-    2px 2px 3px rgba(0, 0, 0, 36%),
-    -2px 2px 3px rgba(0, 0, 0, 36%),
-    2px -2px 3px rgba(0, 0, 0, 36%),
-    -2px -2px 3px rgba(0, 0, 0, 36%);
+    &.rof-location {
+      width: 20px;
+      height: 20px;
+      border: 4px solid white;
+      border-radius: 14px;
+      background-color: blue;
+    }
+
+    &.rof-arrow-head {
+      width: 24px;
+      height: 24px;
+      color: yellow;
+      text-shadow:
+        2px 2px 3px rgba(0, 0, 0, 36%),
+        -2px 2px 3px rgba(0, 0, 0, 36%),
+        2px -2px 3px rgba(0, 0, 0, 36%),
+        -2px -2px 3px rgba(0, 0, 0, 36%);
+    }
+
+    &.rof-arrow-label {
+      padding: 2px 6px;
+      border-radius: 3px;
+      background-color: white;
+      border: 1px solid #767676;
+      color: #313132;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+  }
 }

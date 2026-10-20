@@ -9,9 +9,11 @@ import {
 } from '@app/services/published-incident-service';
 import { WatchlistService } from '@app/services/watchlist-service';
 import { ResourcesRoutes, convertToDateTime, convertToDateYear, currentFireYear, getStageOfControlIcon, getStageOfControlLabel, openLink } from '@app/utils';
+import { FullDetailsMapService } from '@app/services/full-details-map.service';
+import { MapConfigService } from '@app/services/map-config.service';
+import { boundsToExtent, drawNearbyIncidents } from '@app/utils/preview-map';
+import { filter, take } from 'rxjs/operators';
 import { AppConfigService } from '@wf1/core-ui';
-import * as esri from 'esri-leaflet';
-import L from 'leaflet';
 import { setDisplayColor } from '../../../utils';
 import { Meta } from '@angular/platform-browser';
 
@@ -54,6 +56,8 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     private watchlistService: WatchlistService,
     private commonUtilityService: CommonUtilityService,
     private metaService: Meta,
+    private mapConfigService: MapConfigService,
+    private fullDetailsMap: FullDetailsMapService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -99,103 +103,65 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   }
 
   async createMap(location: number[], bounds?: any) {
-    const mapOptions = this.commonUtilityService.getMapOptions(bounds, location);
+    const external = this.appConfigService.getConfig()['externalAppConfig'];
 
-    // Create the map using the mapOptions
-    this.map = L.map('restrictions-map', mapOptions);
-
-    // If bounds exist, fit the map to the bounds; otherwise, set the view to the default location and zoom level
-    if (bounds) {
-      this.map.fitBounds(bounds);
-    }
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
-
-    esri.featureLayer({
-      url: this.appConfigService.getConfig()['externalAppConfig']['AGOLperimetres'].toString(),
-      ignoreRenderer: true,
-      precision: 10,
-      style: (feature) => ({
-        fillColor: '#e60000',
-        color: '#e60000',
-        weight: 2,
-        fillOpacity: 0
-      })
-    })
-      .addTo(this.map);
-
-    esri.featureLayer({
-      url: this.appConfigService.getConfig()['externalAppConfig']['AGOLevacOrders'].toString(),
-      ignoreRenderer: true,
-      precision: 10,
-      style: (feature) => {
-        if (feature.properties.ORDER_ALERT_STATUS === 'Order') {
-          return {
-            fillColor: '#ff3a35',
-            color: '#ff3a35',
-            weight: 2.25,
-            fillOpacity: 0.5
-          };
-        } else if (feature.properties.ORDER_ALERT_STATUS === 'Alert') {
-          return {
-            fillColor: '#fa9600',
-            color: '#fa9600',
-            weight: 2.25,
-            fillOpacity: 0.5
-          };
-        }
-      }
-    })
-      .addTo(this.map);
-
-    const fireOfNoteIcon = L.icon({
-      iconUrl: '/assets/images/local_fire_department.png',
-      iconSize: [35, 35],
-      shadowAnchor: [4, 62],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41],
+    const cfg = await this.mapConfigService.getPreviewMapConfig({
+      baseMap: 'navigation',
+      extent: boundsToExtent(bounds),
+      layers: [
+        {
+          type: 'esri-feature',
+          id: 'agol-perimeters',
+          title: 'Fire perimeters',
+          serviceUrl: external['AGOLperimetres'].toString(),
+          isVisible: true,
+          style: { strokeColor: '#e60000', strokeWidth: 2, fillOpacity: 0 },
+        },
+        {
+          type: 'esri-feature',
+          id: 'agol-evac-orders',
+          title: 'Evacuation Orders and Alerts',
+          serviceUrl: external['AGOLevacOrders'].toString(),
+          isVisible: true,
+          // An Order is red and an Alert is orange, as the leaflet style did.
+          style: {
+            strokeWidth: 2.25,
+            fillOpacity: 0.5,
+            where: {
+              field: 'ORDER_ALERT_STATUS',
+              Order: { fillColor: '#ff3a35', strokeColor: '#ff3a35' },
+              Alert: { fillColor: '#fa9600', strokeColor: '#fa9600' },
+            },
+          },
+        },
+      ],
     });
+    this.fullDetailsMap.setConfig(cfg);
 
-    // now fetch the rest of the incidents in the area and display on map
+    const smk = await this.fullDetailsMap.smk$
+      .pipe(filter((v) => !!v), take(1))
+      .toPromise();
+    this.map = smk.$viewer.map;
+
     try {
       const locationData = new LocationData();
       locationData.latitude = Number(this.evacData.centroidLatitude);
       locationData.longitude = Number(this.evacData.centroidLongitude);
       locationData.radius = 100;
-      const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
       const incidents = await this.publishedIncidentService
-        .fetchPublishedIncidentsList(
-          0,
-          9999,
-          locationData,
-          null,
-          null,
-          stageOfControlCodes,
-        )
+        .fetchPublishedIncidentsList(0, 9999, locationData, null, null, [
+          'OUT_CNTRL',
+          'HOLDING',
+          'UNDR_CNTRL',
+        ])
         .toPromise();
-      if (incidents?.collection && incidents?.collection?.length > 0) {
-        for (const item of incidents.collection) {
-          const incidentLocation = [Number(item.latitude), Number(item.longitude)];
-          if (item.fireOfNoteInd) {
-            L.marker(incidentLocation, { icon: fireOfNoteIcon }).addTo(this.map);
-          } else {
-            const colorToDisplay = setDisplayColor(item.stageOfControlCode);
-            L.circleMarker(incidentLocation, {
-              radius: 5,
-              fillOpacity: 1,
-              color: 'black',
-              fillColor: colorToDisplay,
-            }).addTo(this.map);
-          }
-        }
-      }
+      drawNearbyIncidents(smk, incidents?.collection);
     } catch (err) {
       console.error(
         'Could not retrieve surrounding incidents for evacuation alert',
       );
     }
+
     this.cdr.detectChanges();
   }
 

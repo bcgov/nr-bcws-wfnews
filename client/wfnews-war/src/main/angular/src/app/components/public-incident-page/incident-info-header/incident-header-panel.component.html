@@ -5,7 +5,8 @@
     <img (click)="backToMap()" height="20" width="20" src="/assets/images/svg-icons/cancel.svg"
     alt="Cancel" />
   </div>
-  <div id="map" class="map-container-mobile" *ngIf="isMobileView()">
+  <div class="map-container-mobile" *ngIf="isMobileView() && mapConfig">
+    <wf-map-container [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"></wf-map-container>
   </div>
   <div class="incident-details" [ngClass]="{desktop: !isMobileView()}">
     <div class="details-content">
@@ -162,6 +163,7 @@
     </div>
     
   </div>
-  <div id="map" class="map-container" *ngIf="!isMobileView()">
+  <div class="map-container" *ngIf="!isMobileView() && mapConfig">
+    <wf-map-container [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"></wf-map-container>
   </div>
 </div>

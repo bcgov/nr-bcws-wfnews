@@ -18,6 +18,7 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import {
   ResourcesRoutes,
   addMarker,
+  clearMarker,
   convertToDateTime,
   convertToDateYear,
   displayDangerRatingDescription,
@@ -31,9 +32,11 @@ import {
   showPanel,
   snowPlowHelper
 } from '@app/utils';
+import { pinDropElement } from '@app/utils/map-markers';
+import { highlightArea, zoomToCoords } from '@app/utils/preview-map';
 import { AppConfigService } from '@wf1/core-ui';
-import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
+import * as turf from '@turf/turf';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -67,7 +70,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   identifyItem: any;
   identifyIncident: any = {};
   map: any;
-  highlightPolygons: L.Polygon[] = [];
   pinDrop: any;
   defaultZoomLevel = 13;
   wildfireLayerIds: string[] = [
@@ -85,13 +87,13 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   displayLocalAuthorityType = displayLocalAuthorityType;
   displayItemTitle = displayItemTitle;
   addMarker = addMarker;
+  clearMarker = clearMarker;
   getStageOfControlDescription = getStageOfControlDescription;
   displayDangerRatingDescription = displayDangerRatingDescription;
   
   removeIdentity = false;
 
   private previousZoom: number;
-  private marker: any;
   private markerAnimation;
   public snowPlowHelper = snowPlowHelper;
   constructor(
@@ -107,9 +109,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    if (this.markerAnimation) {
-      clearInterval(this.markerAnimation);
-    }
+    this.clearMarker();
   }
 
   ngOnInit(): void {}
@@ -136,14 +136,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     returnFromPreiviewPanel: boolean = false,
     openPreviewPanel: boolean = false,
   ) {
-    if (this.marker) {
-      this.marker.remove();
-      this.marker = null;
-    }
-
-    if (this.markerAnimation) {
-      clearInterval(this.markerAnimation);
-    }
+    this.clearMarker();
     if (returnFromPreiviewPanel && this.storedIncidentRefs) {
       // clicked back from preiview panel
       this.currentIncidentRefs = this.storedIncidentRefs;
@@ -181,11 +174,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       showPanel('identify-panel-wrapper');
       hidePanel('desktop-preview');
       const viewer = getActiveMap().$viewer;
-      for (const polygon of this.highlightPolygons) {
-        viewer.map.removeLayer(polygon);
-      }
+      // Passing no geometry empties the acetate.
+      getActiveMap().showFeature('area-highlight');
       if (this.pinDrop) {
-        viewer.map.removeLayer(this.pinDrop);
+        getActiveMap().showFeature('pin-drop');
+        this.pinDrop = false;
       }
 
       // single feature within clicked area
@@ -229,7 +222,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
         if (
           ['bans-and-prohibitions', 'evacuation-orders-and-alerts', 'area-restrictions', 'weather-stations', 'danger-rating'].some(str => this.identifyItem.layerId.includes(str))
         ) {
-          this.zoomIn(getActiveMap().$viewer.map._zoom, true);
+          this.zoomIn(getActiveMap().$viewer.map.getZoom(), true);
         } else {
           this.zoomIn(this.defaultZoomLevel);
         }
@@ -321,25 +314,16 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   closePanel() {
-    const viewer = getActiveMap().$viewer;
-    for (const polygon of this.highlightPolygons) {
-      viewer.map.removeLayer(polygon);
-    }
+    getActiveMap().showFeature('area-highlight');
     if (this.pinDrop) {
-      viewer.map.removeLayer(this.pinDrop);
+      getActiveMap().showFeature('pin-drop');
+      this.pinDrop = false;
     }
 
     this.showPanel = false;
     this.allowBackToIncidentsPanel = false;
     this.identifyIncident = {};
-    if (this.marker) {
-      this.marker.remove();
-      this.marker = null;
-    }
-
-    if (this.markerAnimation) {
-      clearInterval(this.markerAnimation);
-    }
+    this.clearMarker();
     const SMK = window['SMK'];
     const map = SMK?.MAP?.[1];
 
@@ -409,14 +393,14 @@ return 'Unknown';
 
   zoomIn(level?: number, polygon?: boolean) {
     const viewer = getActiveMap().$viewer;
-    this.previousZoom = getActiveMap().$viewer.map._zoom;
+    this.previousZoom = getActiveMap().$viewer.map.getZoom();
     let long;
     let lat;
     if (this.identifyIncident?.longitude && this.identifyIncident?.latitude) {
       long = Number(this.identifyIncident.longitude);
       lat = Number(this.identifyIncident.latitude);
       viewer.panToFeature(
-        window['turf'].point([long, lat]),
+        turf.point([long, lat]),
         level ? level : this.defaultZoomLevel,
       );
     } else if (
@@ -433,31 +417,20 @@ return 'Unknown';
       this.mapConfigService.getMapConfig().then(() => {
         const layerId = this.identifyItem?.layerId;
         if (layerId && ['drive-bc-active-events', 'bc-fsr', 'closed-recreation-site'].some(str => layerId.includes(str))) {
-          const markerOptions = {
-            icon: L.divIcon({
-              className: 'custom-icon-class',
-              html: `<div class="custom-marker" style="margin-top:-30px">
-                    <img alt="icon" src="/assets/images/svg-icons/pin-drop.svg"/>
-                  </div>`,
-              iconSize: [32, 32],
-            }),
-            draggable: false,
-          };
-
-          const pinDropLocation = [this.identifyItem?.geometry?.coordinates[1],this.identifyItem?.geometry?.coordinates[0]];
-          if (pinDropLocation) {
+          const coords = this.identifyItem?.geometry?.coordinates;
+          if (coords) {
             viewer.panToFeature(
-              window['turf'].point([this.identifyItem?.geometry?.coordinates[0], this.identifyItem?.geometry?.coordinates[1]]),
+              turf.point([coords[0], coords[1]]),
               this.defaultZoomLevel
             );
-            if (this.pinDrop) {
-              viewer.map.removeLayer(this.pinDrop);
-            }
-  
-            this.pinDrop = L.marker(
-              pinDropLocation,
-              markerOptions,
-            ).addTo(viewer.map);
+
+            // showFeature replaces the acetate each call, so the old pin goes.
+            getActiveMap().showFeature(
+              'pin-drop',
+              turf.point([coords[0], coords[1]]),
+              { htmlMarker: () => pinDropElement() },
+            );
+            this.pinDrop = true;
           }
         } else if (layerId && ['bans-and-prohibitions', 'evacuation-orders-and-alerts', 'area-restrictions', 'danger-rating'].some(str => layerId.includes(str))) {
 
@@ -546,7 +519,7 @@ return 'Unknown';
           }
         } else if (layerId.includes('weather-stations')) {
           viewer.panToFeature(
-            window['turf'].point([long, lat]),
+            turf.point([long, lat]),
             this.defaultZoomLevel,
           );
         } else if (layerId.includes('protected-lands-access-restrictions')) {
@@ -591,7 +564,7 @@ return 'Unknown';
       }
   
       // detect current zoom level for routing back from full details page
-      const currentZoomLevel = getActiveMap().$viewer?.map?._zoom;
+      const currentZoomLevel = getActiveMap().$viewer?.map?.getZoom();
       
       switch (this.identifyItem.layerId) {
         case 'area-restrictions':
@@ -817,33 +790,11 @@ return 'Unknown';
     return `${precip.toFixed(1)}mm`;
   }
 
-  fixPolygonToMap(polygonData,response?) {
-    //calculate the bounding box (bounds) for a set of polygon coordinates (polygonData).
-    const viewer = getActiveMap().$viewer;
-    const convex = this.commonUtilityService.createConvex(polygonData);
-    const bounds = convex?.reduce((acc, coord) => [
-      [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
-      [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
-    ], [[Infinity, Infinity], [-Infinity, -Infinity]]);
-      viewer.map.fitBounds([
-        bounds
-    ]);
-
-    for (const polygon of this.highlightPolygons) {
-      viewer.map.removeLayer(polygon);
-    }
-    
-    //highlight the area
-    for (const ring of response) {
-      const multiSwappedPolygonData: number[][] = ring.map(([latitude, longitude]) => [longitude, latitude]);
-      const polygon = L.polygon(multiSwappedPolygonData, {
-        weight: 3,
-        color: 'black',
-        fillColor: 'white',
-        fillOpacity: 0.3
-      }).addTo(viewer.map);
-      this.highlightPolygons.push(polygon);
-    }
-
+  fixPolygonToMap(polygonData, response?) {
+    // Two call sites give no rings, so the highlight clears instead of drawing.
+    const smk = getActiveMap();
+    zoomToCoords(smk, polygonData);
+    highlightArea(smk, response);
   }
 }
+

@@ -2,9 +2,10 @@ import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ResourcesRoutes, showPanel, hidePanel } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
-import { snowPlowHelper, displayItemTitle, setDisplayColor, getStageOfControlIcon, getStageOfControlLabel, convertToDateYear, getStageOfControlDescription, getActiveMap, formatNumber, addMarker } from '@app/utils';
+import { snowPlowHelper, displayItemTitle, setDisplayColor, getStageOfControlIcon, getStageOfControlLabel, convertToDateYear, getStageOfControlDescription, getActiveMap, formatNumber, addMarker, clearMarker } from '@app/utils';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { MapConfigService } from '@app/services/map-config.service';
+import * as turf from '@turf/turf';
 
 @Component({
   selector: 'wfnews-wildfire-preview',
@@ -15,7 +16,6 @@ export class WildfirePreviewComponent implements OnDestroy{
   public data;
   incident: any
   defaultZoomLevel = 13;
-  private marker: any;
   private markerAnimation;
 
   constructor(
@@ -39,6 +39,7 @@ export class WildfirePreviewComponent implements OnDestroy{
   formatNumber = formatNumber;
   setDisplayColor = setDisplayColor;
   addMarker = addMarker;
+  clearMarker = clearMarker;
   
   closePanel() {
     this.removeMarker();
@@ -90,7 +91,7 @@ export class WildfirePreviewComponent implements OnDestroy{
     if(long && lat) {
       this.mapConfigService.getMapConfig().then(() => {
         getActiveMap().$viewer.panToFeature(
-          window['turf'].point([long, lat]),
+          turf.point([long, lat]),
           this.defaultZoomLevel,
         );
       });
@@ -117,11 +118,7 @@ export class WildfirePreviewComponent implements OnDestroy{
   }
 
   removeMarker() {
-    if (this.markerAnimation) {
-      clearInterval(this.markerAnimation);
-    }
-    const icon = document.querySelector('.animated-icon') as HTMLElement;
-    icon?.remove();
+    this.clearMarker();
   }
 
 }
