@@ -8,6 +8,12 @@ on:
         required: false
         default: latest
 
+# Set explicitly so the read-only token default (2026-11-30) changes nothing.
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
 jobs:
   terragrunt-deploy-dev:
     uses: ./.github/workflows/terragrunt.yml

@@ -29,6 +29,12 @@ on:
         required: false
         default: false
 
+# Set explicitly so the read-only token default (2026-11-30) changes nothing.
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
 jobs:
   call-lambda-zip:
     uses: ./.github/workflows/lambda-zip.yml

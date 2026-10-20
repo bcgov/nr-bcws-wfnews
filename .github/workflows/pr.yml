@@ -4,6 +4,11 @@ on:
   pull_request:
     branches: ["main", "release/**"]
 
+# Set explicitly so the read-only token default (2026-11-30) changes nothing.
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   # https://github.com/marketplace/actions/aqua-security-trivy
   trivy-repo:
