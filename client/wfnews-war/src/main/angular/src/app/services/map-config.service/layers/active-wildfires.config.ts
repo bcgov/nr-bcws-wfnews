@@ -22,9 +22,9 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings, key: string) {
         },
       ],
       style: {
-        markerSize: ['24', '24'],
-        markerOffset: ['12', '12'],
-        markerUrl: '/assets/images/local_fire_department.png',
+        markerSize: ['30', '30'],
+        markerOffset: ['15', '15'],
+        markerUrl: '/assets/images/map-markers/wildfire-of-note.png',
       },
     },
     {
@@ -46,14 +46,11 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings, key: string) {
           visible: true,
         },
       ],
+      // A circle layer cannot draw the soft shadow, so the marker is an image.
       style: {
-        strokeWidth: '7',
-        strokeStyle: '1',
-        strokeColor: '#00000069',
-        strokeOpacity: '1',
-        fillColor: '#FF0000',
-        fillOpacity: '1',
-        fill: true,
+        markerSize: ['20', '20'],
+        markerOffset: ['10', '10'],
+        markerUrl: '/assets/images/map-markers/wildfire-out-of-control.png',
       },
     },
     {
@@ -76,13 +73,9 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings, key: string) {
         },
       ],
       style: {
-        strokeWidth: '7',
-        strokeStyle: '1',
-        strokeColor: '#00000069',
-        strokeOpacity: '1',
-        fillColor: '#FFFF00',
-        fillOpacity: '1',
-        fill: true,
+        markerSize: ['20', '20'],
+        markerOffset: ['10', '10'],
+        markerUrl: '/assets/images/map-markers/wildfire-holding.png',
       },
     },
     {
@@ -105,13 +98,9 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings, key: string) {
         },
       ],
       style: {
-        strokeWidth: '7',
-        strokeStyle: '1',
-        strokeColor: '#00000069',
-        strokeOpacity: '1',
-        fillColor: '#98E600',
-        fillOpacity: '1',
-        fill: true,
+        markerSize: ['20', '20'],
+        markerOffset: ['10', '10'],
+        markerUrl: '/assets/images/map-markers/wildfire-under-control.png',
       },
     },
   ];

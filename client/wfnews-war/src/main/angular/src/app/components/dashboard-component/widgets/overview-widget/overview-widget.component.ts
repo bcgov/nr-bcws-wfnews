@@ -10,6 +10,7 @@ import { AppConfigService } from '@wf1/core-ui';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ResourcesRoutes } from '@app/utils';
+import { fireOfNote, stageDot } from '@app/utils/preview-map';
 
 @Component({
   selector: 'overview-widget',
@@ -114,14 +115,15 @@ export class OverviewWidget implements OnInit, AfterViewInit {
     // One acetate per stage of control, drawn least urgent first so a fire of
     // note ends up on top.
     try {
+      // The widget's own stage icons, so the legend still matches.
       this.addDataToMap('under-control', this.incidents.underControl,
-        '/assets/images/svg-icons/under-control.svg', 10);
+        () => stageDot('UNDR_CNTRL'));
       this.addDataToMap('holding', this.incidents.holding,
-        '/assets/images/svg-icons/being-held.svg', 10);
+        () => stageDot('HOLDING'));
       this.addDataToMap('out-of-control', this.incidents.outOfControl,
-        '/assets/images/svg-icons/out-of-control.svg', 10);
+        () => stageDot('OUT_CNTRL'));
       this.addDataToMap('fires-of-note', this.incidents.firesOfNote,
-        '/assets/images/local_fire_department.png', 20);
+        () => fireOfNote(20));
     } catch (err) {
       console.error(err);
     }
@@ -129,11 +131,9 @@ export class OverviewWidget implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  addDataToMap(acetate: string, data: any, iconUrl: string, size: number) {
+  addDataToMap(acetate: string, data: any, marker: () => HTMLElement) {
     try {
-      this.smk.showFeature(acetate, data, {
-        htmlMarker: () => incidentIcon(iconUrl, size),
-      });
+      this.smk.showFeature(acetate, data, { htmlMarker: marker });
     } catch (err) {
       console.error('Feature data not loaded. No data found.');
     }
@@ -143,15 +143,4 @@ export class OverviewWidget implements OnInit, AfterViewInit {
     this.showViewMapButton = !this.showViewMapButton;
     this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
   }
-}
-
-/** The DOM element a MapLibre marker draws. */
-function incidentIcon(src: string, size: number): HTMLElement {
-  const img = document.createElement('img');
-  img.alt = '';
-  img.src = src;
-  img.width = size;
-  img.height = size;
-  img.style.pointerEvents = 'none';
-  return img;
 }

@@ -41,7 +41,6 @@ import {
 
 export const ICON = {
   ADVISORIES: 'advisories',
-  BACK_ICON: 'back-icon',
   BOOKMARK: 'bookmark',
   CLOUD_SUN: 'cloud-sun',
   CONTACT_US: 'contact-us',
@@ -82,8 +81,6 @@ export const ICON = {
   REGIONAL_DISTRICTS: 'regional-districts',
   BROWN_SQUARE: 'brown-square',
   INDIAN_RESERVE: 'indian-reserve',
-  BACK_ICON_PANEL: 'back-icon-panel',
-  FIRE_NOTE: 'fire-note',
   LOCATION_DISABLED: 'location-disabled',
   LOCATION_ENABLED: 'location-enabled',
   CALENDAR: 'calendar',
@@ -91,7 +88,10 @@ export const ICON = {
   AGENCY: 'agency',
   CARBON_GAUGE: 'carbon-gauge',
   ARROW_LEFT: 'arrow-left',
+  ARROW_RIGHT: 'arrow-right',
   CARBON_LAYER: 'carbon-layer',
+  PHONE_SQUARE: 'phone-square',
+  EXT_LINK_SQUARE: 'external-link-square',
 };
 
 @Component({
@@ -647,13 +647,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     );
 
     this.matIconRegistry.addSvgIcon(
-      ICON.BACK_ICON,
-      this.domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/images/svg-icons/back-icon.svg',
-      ),
-    );
-
-    this.matIconRegistry.addSvgIcon(
       ICON.DOT,
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/images/svg-icons/dot.svg',
@@ -823,18 +816,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ),
     );
     this.matIconRegistry.addSvgIcon(
-      ICON.BACK_ICON_PANEL,
-      this.domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/images/svg-icons/back-icon-panel.svg',
-      ),
-    );
-    this.matIconRegistry.addSvgIcon(
-      ICON.FIRE_NOTE,
-      this.domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/images/svg-icons/fire-note.svg',
-      ),
-    );
-    this.matIconRegistry.addSvgIcon(
       ICON.LOCATION_DISABLED,
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/images/svg-icons/location-disabled.svg',
@@ -865,6 +846,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ),
     );
     this.matIconRegistry.addSvgIcon(
+      ICON.ARROW_RIGHT,
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/images/svg-icons/arrow-right.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
       ICON.AGENCY,
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/images/svg-icons/carbon_finance.svg',
@@ -880,6 +867,18 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ICON.CARBON_LAYER,
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/images/svg-icons/carbon_layers.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.PHONE_SQUARE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/images/drivebc/phone-square.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.EXT_LINK_SQUARE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/images/svg-icons/external-link-square.svg',
       ),
     );
   }

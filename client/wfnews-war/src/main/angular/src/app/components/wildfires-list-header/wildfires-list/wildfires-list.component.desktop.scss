@@ -140,11 +140,19 @@ table tr:nth-child(even) td {
 
 .stage-of-control-cell {
   display: inline-block;
-  
+
   span {
     position: relative;
     top: 1px;
   }
+}
+
+// Every cell div clips for the ellipsis, which cut the marker shadow.
+// The padding moves the clip out; the negative margin takes it out of the layout.
+.stage-of-control-cell,
+.fire-label-container {
+  padding: 3px;
+  margin: -3px;
 }
 
 .btn-icon {

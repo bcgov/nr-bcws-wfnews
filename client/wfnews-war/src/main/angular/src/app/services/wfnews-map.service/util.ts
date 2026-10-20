@@ -378,21 +378,6 @@ export class Translate {
     return result[1];
   }
 
-  formatIndicator(
-    value: boolean | null,
-    tString = '✔️ Yes',
-    fString = '❌ No',
-    nString = '❓ Unknown',
-  ): string {
-    if (value === undefined || value === null) {
-      return nString;
-    } else if (value) {
-      return tString;
-    } else {
-      return fString;
-    }
-  }
-
   parseIndicator(indString: string, flip = false): boolean | null {
     if (indString === 'Y') {
       return !flip;

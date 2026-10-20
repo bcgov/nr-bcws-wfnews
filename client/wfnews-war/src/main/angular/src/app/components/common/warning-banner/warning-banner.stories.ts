@@ -34,7 +34,7 @@ export const warningExample: Story = {
 export const nonMaskedIcon: Story = {
   args: {
     label: 'Only perform the following tasks if there is time and it is safe to do so.',
-    iconPath: '/assets/images/svg-icons/fire-note.svg',
+    iconPath: '/assets/images/svg-icons/wildfire-of-note.svg',
     componentStyle: {
       backgroundColor: '#FEF1F2',
       labelColor: '#242424',

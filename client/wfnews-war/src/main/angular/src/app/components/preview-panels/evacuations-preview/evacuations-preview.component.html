@@ -1,7 +1,7 @@
 <div class="prev-panel" *ngIf="data">
     <div class="panel-container" >
         <div class="draggable-panel-title">
-            <mat-icon svgIcon="back-icon-panel" (click)="goBack()"></mat-icon>
+            <mat-icon svgIcon="arrow-left" (click)="goBack()"></mat-icon>
             <span class="preview-title">
                 <span *ngIf="data.ORDER_ALERT_STATUS === 'Alert'" class="preview-title">
                     Evacuation Alert

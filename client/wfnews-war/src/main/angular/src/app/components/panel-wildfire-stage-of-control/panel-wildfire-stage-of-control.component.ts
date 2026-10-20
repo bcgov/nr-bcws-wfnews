@@ -43,9 +43,10 @@ import {
   checkLayerVisible,
   convertToFireCentreDescription,
   getActiveMap,
+  getStageOfControlIconPath,
   snowPlowHelper,
 } from '../../utils';
-import { animatedIcon, pulse } from '../../utils/map-markers';
+import { animatedIcon } from '../../utils/map-markers';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
 import { AGOLService } from '@app/services/AGOL-service';
@@ -115,7 +116,6 @@ export class PanelWildfireStageOfControlComponent
 
   private handlePanelEnterTimeout;
   private handlePanelExitTImeout;
-  private markerAnimation;
   /** Set once the map events are hooked. */
   private mapHooked = false;
   private initInterval;
@@ -187,7 +187,6 @@ export class PanelWildfireStageOfControlComponent
 
     clearInterval(this.initInterval);
     clearInterval(this.mapPanProgressBar);
-    clearInterval(this.markerAnimation);
     clearTimeout(this.ignorePanDebounce);
     clearInterval(this.cdrScan);
   }
@@ -465,7 +464,7 @@ message = err.message;
   private addMarker(incident: any) {
     this.clearMarker();
 
-    const icon = animatedIcon(this.markerColour(incident));
+    const icon = animatedIcon(this.markerIcon(incident));
 
     getActiveMap().showFeature(
       'stage-of-control-marker',
@@ -475,32 +474,24 @@ message = err.message;
       ]),
       { htmlMarker: () => icon },
     );
-
-    this.markerAnimation = setInterval(() => pulse(icon), 1000);
   }
 
-  /** Nothing for a stage this does not name, so the SCSS default colour stays. */
-  private markerColour(incident: any): string {
+  /** Nothing for a stage this does not name, so the default blue dot stays. */
+  private markerIcon(incident: any): string {
     if (incident.fireOfNoteInd) {
-      return '#aa0d0d';
+      return '/assets/images/svg-icons/wildfire-of-note.svg';
     }
     switch (incident.stageOfControlCode) {
       case 'OUT_CNTRL':
-        return '#FF0000';
       case 'HOLDING':
-        return '#FFFF00';
       case 'UNDR_CNTRL':
-        return '#98E600';
+        return getStageOfControlIconPath(incident.stageOfControlCode);
       default:
         return null;
     }
   }
 
   private clearMarker() {
-    if (this.markerAnimation) {
-      clearInterval(this.markerAnimation);
-      this.markerAnimation = null;
-    }
     try {
       getActiveMap().showFeature('stage-of-control-marker');
     } catch (err) {

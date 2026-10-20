@@ -11,7 +11,7 @@
                         <div class="widget-row" (click)="openPreviewPanel(wildfire)">
                             <div class="left-content">
                                 <img alt="icon" *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'"
-                                    class="incident-icon-title" src="/assets/images/local_fire_department.png" />
+                                    class="incident-icon-title" src="/assets/images/svg-icons/wildfire-of-note.svg" />
                                 <span
                                     class="circle-icon {{wildfire.layerId === 'fire-perimeters' ? convertFirePerimeterFireStatus(wildfire.properties.FIRE_STATUS) : wildfire.layerId }} list"></span>
                                 {{displayWildfireName(wildfire)}}

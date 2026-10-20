@@ -278,7 +278,7 @@
     &::before {
       border-color: $bcds-color-primary-default;
       background-color: $bcds-color-primary-default;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath fill='white' d='M9.09 1.16a.96.96 0 0 0-1.35.16L3.64 6.56 2.22 4.86a.96.96 0 0 0-1.48 1.23l2.18 2.61a.96.96 0 0 0 1.47-.02L9.26 2.51a.96.96 0 0 0-.17-1.35z'/%3E%3C/svg%3E");
+      background-image: url("/assets/images/svg-icons/checkbox-tick.svg");
     }
 
     &:hover::before {

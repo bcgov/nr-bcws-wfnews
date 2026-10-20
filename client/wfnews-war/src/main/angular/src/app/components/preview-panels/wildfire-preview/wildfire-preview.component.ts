@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ResourcesRoutes, showPanel, hidePanel } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
-import { snowPlowHelper, displayItemTitle, setDisplayColor, getStageOfControlIcon, getStageOfControlLabel, convertToDateYear, getStageOfControlDescription, getActiveMap, formatNumber, addMarker, clearMarker } from '@app/utils';
+import { snowPlowHelper, displayItemTitle, setDisplayColor, getStageOfControlIcon, getStageOfControlLabel, convertToDateYear, getStageOfControlDescription, getActiveMap, formatNumber, addMarker, clearMarker, pingMarkerAgain } from '@app/utils';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { MapConfigService } from '@app/services/map-config.service';
 import * as turf from '@turf/turf';
@@ -17,7 +17,6 @@ export class WildfirePreviewComponent implements OnDestroy{
   incident: any
   loading = true;
   defaultZoomLevel = 13;
-  private markerAnimation;
 
   constructor(
     private router: Router,
@@ -41,6 +40,7 @@ export class WildfirePreviewComponent implements OnDestroy{
   setDisplayColor = setDisplayColor;
   addMarker = addMarker;
   clearMarker = clearMarker;
+  pingMarkerAgain = pingMarkerAgain;
   
   closePanel() {
     this.removeMarker();
@@ -100,6 +100,7 @@ export class WildfirePreviewComponent implements OnDestroy{
           turf.point([long, lat]),
           this.defaultZoomLevel,
         );
+        this.pingMarkerAgain();
       });
     }
   }

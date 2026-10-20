@@ -57,8 +57,9 @@ permission-banner {
         width: 28px;
         height: 28px;
         position: absolute;
-        top: -14px;
-        left: -14px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
     }
     &.rof-arrow-head {
