@@ -7,7 +7,7 @@ export function WeatherStationsLayerConfig(ls: layerSettings) {
       id: 'weather-stations',
       title: 'BC Wildfire Active Weather Stations',
       isVisible: true,
-      isQueryable: false,
+      isQueryable: true,
       isDisplayed: false,
       opacity: 1,
       minScale: null,

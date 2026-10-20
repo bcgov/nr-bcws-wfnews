@@ -1,0 +1,2 @@
+# update-smk.mjs writes LF, so an unchanged rebuild shows no diff on Windows.
+smk/** text eol=lf

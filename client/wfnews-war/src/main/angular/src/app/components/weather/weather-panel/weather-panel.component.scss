@@ -40,10 +40,11 @@
 
 .popup-header{
   padding: 10px 16px;
-  color: var(--Grays-Gray-2, #484848);
+  // The same font as the identify panel's "Results" header.
+  color: #242424;
   text-align: center;
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;

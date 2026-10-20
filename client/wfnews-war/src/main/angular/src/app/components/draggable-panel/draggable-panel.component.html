@@ -279,15 +279,6 @@
                         <mat-icon *ngIf="!allowBackToIncidentsPanel"></mat-icon>
 
                         <span class="preview-title">
-                            <ng-container
-                                *ngIf="identifyItem.layerId === 'active-wildfires-fire-of-note'; else fireIcon">
-                                <img alt="icon" class="incident-icon-title" height="24" width="24"
-                                    src="/assets/images/local_fire_department.png" />
-                            </ng-container>
-                            <ng-template #fireIcon>
-                                <img alt="icon" style="width: 20px; height: 20px;" class="incident-icon-title"
-                                    src="/assets/images/svg-icons/wildfire.svg">
-                            </ng-template>
                             {{displayItemTitle(identifyItem)}}
                         </span>
                         <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
@@ -351,13 +342,9 @@
 
                         <span class="preview-title">
                             <span *ngIf="identifyItem.properties.ORDER_ALERT_STATUS === 'Alert'" class="preview-title">
-                                <img class="incident-icon-title" src="/assets/images/svg-icons/evacuation-alert.svg"
-                                    alt="Alert">
                                 Evacuation Alert
                             </span>
                             <span *ngIf="identifyItem.properties.ORDER_ALERT_STATUS === 'Order'" class="preview-title">
-                                <img class="incident-icon-title" src="/assets/images/svg-icons/evacuation-order.svg"
-                                    alt="Order">
                                 Evacuation Order
                             </span>
                         </span>
@@ -410,41 +397,29 @@
                         <mat-icon *ngIf="!allowBackToIncidentsPanel"></mat-icon>
 
                         <span class="preview-title" *ngIf="identifyItem.layerId === 'area-restrictions'">
-                            <img class="incident-icon-title" src="/assets/images/svg-icons/area-restriction.svg"
-                                alt="Area Restrictions">
                             Area Restrictions
                         </span>
                         <span class="preview-title" *ngIf="identifyItem.layerId.includes('bans-and-prohibitions')">
-                            <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/ban.svg">
                             Fire Bans
                         </span>
 
                         <span class="preview-title" *ngIf="identifyItem.layerId === 'closed-recreation-sites'">
-                            <img alt="icon" class="incident-icon-title"
-                                src="/assets/images/svg-icons/carbon_layers.svg">
                             Closed Recreational Sites
                         </span>
                         <span class="preview-title" *ngIf="identifyItem.layerId === 'drive-bc-active-events'">
-                            <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/road-event.svg">
                             Road Events
                         </span>
 
                         <span class="preview-title"
                             *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions'">
-                            <img alt="icon" class="incident-icon-title"
-                                src="/assets/images/svg-icons/carbon_layers.svg">
                             Protected Lands
                         </span>
 
                         <span class="preview-title" *ngIf="identifyItem.layerId === 'bc-fsr'">
-                            <img alt="icon" class="incident-icon-title"
-                                src="/assets/images/svg-icons/carbon_layers.svg">
                             Forest Service Roads
                         </span>
 
                         <span class="preview-title" *ngIf="isLocalAuthoritiesLayer(identifyItem.layerId)">
-                            <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_finance.svg"
-                                alt="Local Authorities">
                             Local Authorities
                         </span>
 
@@ -566,8 +541,6 @@
                         <mat-icon *ngIf="!allowBackToIncidentsPanel"></mat-icon>
 
                         <span class="preview-title">
-                            <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_gauge.svg"
-                                alt="Danger Rating">
                             Wildfire Danger Rating
                         </span>
                         <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
@@ -604,8 +577,6 @@
                         <mat-icon *ngIf="!allowBackToIncidentsPanel"></mat-icon>
 
                         <span class="preview-title">
-                            <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_partly-cloudy.svg"
-                                alt="weather station">
                             Active Weather Stations
                         </span>
                         <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
@@ -636,7 +607,11 @@
                                     {{identifyItem.data.validHour.windCardinalDir}}
                                 </div>
                             </ng-container>
-                            <div class="description-section" *ngIf="!identifyItem?.data?.validHour">
+                            <div class="description-section" *ngIf="identifyItem?.data === undefined">
+                                <div class="identify-card-description">Loading weather...</div>
+                            </div>
+                            <div class="description-section"
+                                *ngIf="identifyItem?.data !== undefined && !identifyItem?.data?.validHour">
                                 <div class="identify-card-description">No current weather reading found for this station
                                 </div>
                             </div>

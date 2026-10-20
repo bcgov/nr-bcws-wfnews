@@ -1,21 +1,14 @@
-import { isAndroidViaNavigator } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import { WfDevice } from '@wf1/wfcc-application-ui';
 import { MapServices, MapServiceStatus } from '.';
 import { LayerDisplayConfig } from './layer-display.config';
 import { LayerConfig } from './layers';
 
-const BC_EXTENT = [-136.3, 49, -116, 60.2];
+const BC_EXTENT = [-139.1, 46.52, -114.06, 61.4];
 
-// Leaflet fits an extent at a whole zoom level and rounds down (zoomSnap is 1). BC is
-// 20.3 degrees wide, which needs zoom 4.93 in a phone's width, so the fit settles for 4
-// and gives up most of a level of scale. A phone screen is tall, and that spare height
-// then fills with everything from the Yukon down to Mexico.
-//
-// Round up instead, but only where the rounding costs that much: on a narrow screen there
-// is height to spare, so trimming a little from the east and west edges of the province
-// is the cheaper of the two. A wide screen already lands on a sensible level, and a named
-// zoom there would push the view back out, so it keeps the plain fit.
+// A fit rounds down to a whole zoom (zoomSnap is 1). On a phone this extent loses most
+// of a level, and the tall screen fills from the Yukon to Mexico. So a narrow screen
+// rounds up and trims the east and west edges instead.
 const NARROW_VIEWPORT_MAX_WIDTH = 600;
 
 const bcLocation = () => {
@@ -37,10 +30,10 @@ export const mapConfig = (
   appConfigService: AppConfigService
 ) => ({
   viewer: {
-    type: 'leaflet',
+    type: 'maplibre',
     device,
     location: bcLocation(),
-    baseMap: isAndroidViaNavigator() ? 'openstreetmap' : 'navigation',
+    baseMap: 'topography',
     minZoom: 4,
     maxZoom: 30,
   },
@@ -74,6 +67,8 @@ export const mapConfig = (
       showTitle: false,
       showWidget: false,
       showPanel: false,
+      // WFNEWS shows the search and "No features found" in its own panel.
+      showStatus: false,
       radius: 20,
       command: {
         attributeMode: false,
@@ -186,12 +181,12 @@ export const reportOfFireMapConfig = (
   appConfigService: AppConfigService,
 ) => ({
   viewer: {
-    type: 'leaflet',
+    type: 'maplibre',
     device,
     location: {
       extent: [-136.3, 49, -116, 60.2],
     },
-    baseMap: 'imagery',
+    baseMap: 'topography',
     minZoom: 4,
   },
   tools: [
@@ -243,6 +238,65 @@ export const reportOfFireMapConfig = (
   ],
 });
 
+/**
+ * A small read-only map for the preview and detail panels. No toolbar: the
+ * screen around it supplies the controls.
+ */
+export const previewMapConfig = (option: {
+  extent?: number[];
+  center?: number[];
+  zoom?: number;
+  baseMap?: string;
+  layers?: any[];
+  maxZoom?: number;
+  /** The +/- control and a reset to the configured view. reset-view needs both. */
+  zoomControl?: boolean;
+  pan?: boolean;
+} = {}) => ({
+  viewer: {
+    type: 'maplibre',
+    location: previewLocation(option),
+    baseMap: option.baseMap || 'topography',
+    minZoom: 4,
+    maxZoom: option.maxZoom || 30,
+  },
+  tools: [
+    { type: 'pan', enabled: option.pan !== false },
+    // The wheel, double click and box are off: these maps are a picture with
+    // a control.
+    {
+      type: 'zoom',
+      enabled: !!option.zoomControl,
+      control: true,
+      mouseWheel: false,
+      doubleClick: false,
+      box: false,
+    },
+    { type: 'reset-view', enabled: !!option.zoomControl },
+    { type: 'baseMaps', enabled: false },
+    { type: 'scale', enabled: false },
+    { type: 'search', enabled: false },
+    { type: 'layers', enabled: false },
+    { type: 'identify', enabled: false },
+    // SMK turns it on by default, so a click dropped a pin and an address popup.
+    { type: 'location', enabled: false },
+    { type: 'bespoke', instance: 'full-extent', enabled: false },
+    { type: 'measure', enabled: false },
+  ],
+  layers: option.layers || [],
+});
+
+/** An extent wins over a centre, and reset-view returns to whichever is set. */
+function previewLocation(option: { extent?: number[]; center?: number[]; zoom?: number }) {
+  if (option.extent) {
+    return { extent: option.extent };
+  }
+  if (option.center) {
+    return { center: option.center, zoom: option.zoom ?? 9 };
+  }
+  return { extent: [-139, 48.3, -114, 60.2] };
+}
+
 export const reportOfFireOfflineMapConfig = (
   mapServices: MapServices,
   serviceStatus: MapServiceStatus,
@@ -250,12 +304,12 @@ export const reportOfFireOfflineMapConfig = (
   appConfigService: AppConfigService,
 ) => ({
   viewer: {
-    type: 'leaflet',
+    type: 'maplibre',
     device,
     location: {
       extent: [-136.3, 49, -116, 60.2],
     },
-    baseMap: 'imagery',
+    baseMap: 'topography',
     zoomControl: false,
     doubleClickZoom: false,
     boxZoom: false,

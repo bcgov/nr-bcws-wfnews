@@ -31,7 +31,6 @@
               "angular2-uuid",
               "@ckeditor/ckeditor5-build-decoupled-document",
               "qrcode",
-              "leaflet",
               "moment",
               "vanilla-text-mask",
               "clone-deep"
@@ -52,9 +51,9 @@
                 "output": "assets"
               },
               {
-                "glob": "**/*",
-                "input": "node_modules/@qqnluaq/smk/dist/assets",
-                "output": "assets/smk/assets"
+                "glob": "smk-template-compiler.js",
+                "input": "vendor/smk",
+                "output": "assets/smk"
               },
               {
                 "glob": "splash-screen/**/*",
@@ -74,12 +73,12 @@
             ],
             "styles": [
               "src/styles/main.scss",
-              "node_modules/leaflet/dist/leaflet.css",
               "node_modules/ng-pick-datetime/assets/style/picker.min.css",
-              "node_modules/lightgallery/scss/lightgallery.scss"
+              "node_modules/lightgallery/scss/lightgallery.scss",
+              "vendor/smk/smk.css"
             ],
             "scripts": [
-              "node_modules/@qqnluaq/smk/dist/smk.js"
+              "vendor/smk/smk.js"
             ]
           },
           "configurations": {
@@ -171,11 +170,9 @@
             "tsConfig": "src/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "scripts": [
-              "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/leaflet/dist/leaflet.js"
+              "node_modules/popper.js/dist/umd/popper.min.js"
             ],
             "styles": [
-              "node_modules/leaflet/dist/leaflet.css",
               "node_modules/ng-pick-datetime/assets/style/picker.min.css",
               "node_modules/lightgallery/scss/lightgallery.scss"
             ],
@@ -215,7 +212,6 @@
             ],
             "styles": [
               "src/styles/main.scss",
-              "node_modules/leaflet/dist/leaflet.css",
               "node_modules/ng-pick-datetime/assets/style/picker.min.css",
               "node_modules/lightgallery/scss/lightgallery.scss"
             ],
@@ -236,7 +232,6 @@
             ],
             "styles": [
               "src/styles/main.scss",
-              "node_modules/leaflet/dist/leaflet.css",
               "node_modules/ng-pick-datetime/assets/style/picker.min.css",
               "node_modules/lightgallery/scss/lightgallery.scss"
             ],

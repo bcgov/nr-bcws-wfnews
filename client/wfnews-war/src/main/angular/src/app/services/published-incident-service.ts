@@ -14,6 +14,7 @@ import { shareReplay } from 'rxjs/operators';
 // A wildfire moves fast, so a held answer must not get old.
 const REQUEST_CACHE_AGE = 10 * 60 * 1000;
 import { concatMap, map } from 'rxjs/operators';
+import * as turf from '@turf/turf';
 
 export class SimpleIncident {
   public incidentName: string;
@@ -387,7 +388,6 @@ export class PublishedIncidentService {
   async populateIncidentByPoint(restrictionPolygon: [][]) {
     let incident: SimpleIncident = null;
 
-    const turf = window['turf'];
 
     const poly: number[][] = restrictionPolygon[0];
     const polyArray: Array<number>[] = [];
@@ -414,7 +414,7 @@ export class PublishedIncidentService {
       null,
       stageOfControlCodes,
       null,
-      bbox,
+      bbox.join(','),
     ).toPromise();
     if (incidents?.collection && incidents?.collection?.length === 1) {
       const firstIncident = incidents.collection[0];
@@ -442,7 +442,6 @@ export class PublishedIncidentService {
   }
 
   async populateIncidentsByPoint(restrictionPolygon: [][]): Promise<SimpleIncident[]> {
-    const turf = window['turf'];
 
     const poly: number[][] = restrictionPolygon[0];
     const polyArray: Array<number>[] = [];
@@ -469,7 +468,7 @@ export class PublishedIncidentService {
       null,
       stageOfControlCodes,
       null,
-      bbox,
+      bbox.join(','),
     ).toPromise();
 
     if (!incidents?.collection?.length) {

@@ -18,6 +18,8 @@ type Story = StoryObj<WeatherPanelComponent>;
 
 export const example: Story = {
     args: {
+      stationName: 'AFTON',
+      loading: false,
       stationData: {
         stationName: 'AFTON',
         latitude: 51.0486,

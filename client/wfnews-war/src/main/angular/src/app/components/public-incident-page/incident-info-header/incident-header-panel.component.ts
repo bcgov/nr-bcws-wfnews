@@ -20,9 +20,9 @@ import { LocationData } from '@app/components/wildfires-list-header/filter-by-lo
 import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
+import { MapConfigService } from '@app/services/map-config.service';
+import { boundsToExtent, dot, drawNearbyIncidents, image } from '@app/utils/preview-map';
 import { AppConfigService } from '@wf1/core-ui';
-import * as esri from 'esri-leaflet';
-import * as L from 'leaflet';
 import * as moment from 'moment';
 import { toCanvas } from 'qrcode';
 import { EvacOrderOption } from '../../../conversion/models';
@@ -37,6 +37,7 @@ import {
   setDisplayColor
 } from '../../../utils';
 import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
+import * as turf from '@turf/turf';
 
 @Component({
   selector: 'incident-header-panel',
@@ -72,43 +73,10 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     isCat3: false,
   };
 
+  mapConfig = null;
   private map: any;
-
-  private perimeterLayer = esri.featureLayer({
-    url: this.appConfigService.getConfig()['externalAppConfig']['AGOLperimetres'].toString(),
-    ignoreRenderer: true,
-    precision: 10,
-    style: (feature) => ({
-      fillColor: '#e60000',
-      color: '#e60000',
-      weight: 2,
-      fillOpacity: 0
-    })
-  });
-
-  private evacOrdersLayer = esri.featureLayer({
-    url: this.appConfigService.getConfig()['externalAppConfig']['AGOLevacOrders'].toString(),
-    ignoreRenderer: true,
-    precision: 10,
-    style: (feature) => {
-      if (feature.properties.ORDER_ALERT_STATUS === 'Order') {
-        return {
-          fillColor: '#ff3a35',
-          color: '#ff3a35',
-          weight: 2.25,
-          fillOpacity: 0.5
-        };
-      } else if (feature.properties.ORDER_ALERT_STATUS === 'Alert') {
-        return {
-          fillColor: '#fa9600',
-          color: '#fa9600',
-          weight: 2.25,
-          fillOpacity: 0.5
-        };
-      }
-    }
-  });
-
+  private mapLocation: number[];
+  private banExtent: number[];
 
   constructor(
     private appConfigService: AppConfigService,
@@ -123,6 +91,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private metaService: Meta,
+    private mapConfigService: MapConfigService,
 
   ) {
     /* Empty, just here for injection */
@@ -130,7 +99,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.map.invalidateSize();
+    this.map?.resize();
   }
 
   ngOnInit(): void {
@@ -158,26 +127,32 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     this.initializeMap();
   }
 
+  /**
+   * The map is one preview config plus markers, as the full-details panels are.
+   * Each branch works out where to look and which layers say why.
+   */
   async initializeMap() {
-    let location;
+    const external = this.appConfigService.getConfig()['externalAppConfig'];
+    const databcUrl = this.appConfigService
+      .getConfig()['mapServices']['openmapsBaseUrl'].toString();
+
+    let location: number[];
+    let layers: any[] = [];
 
     if (this.incident) {
-      location = [
-        Number(this.incident.latitude),
-        Number(this.incident.longitude),
-      ];
+      location = [Number(this.incident.latitude), Number(this.incident.longitude)];
+      layers = this.incidentLayers(external);
     } else if (this.evac) {
-      location = [
-        Number(this.evac.centroid?.y),
-        Number(this.evac.centroid?.x),
-      ];
+      location = [Number(this.evac.centroid?.y), Number(this.evac.centroid?.x)];
+      layers = this.incidentLayers(external);
       const response = await this.agolService
-        .getEvacOrdersById(this.params['id'], {
-          returnGeometry: true,
-        }).toPromise();
+        .getEvacOrdersById(this.params['id'], { returnGeometry: true })
+        .toPromise();
 
       if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
-        const matchingFeature = response.features.find(feature => feature.attributes.EVENT_NUMBER === this.params['eventNumber']);
+        const matchingFeature = response.features.find(
+          (feature) => feature.attributes.EVENT_NUMBER === this.params['eventNumber'],
+        );
         const polygonData = this.commonUtilityService.extractPolygonData(matchingFeature.geometry.rings);
         if (polygonData?.length) {
           this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
@@ -192,20 +167,30 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       if (polygonData?.length) {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
+      layers = [
+        {
+          type: 'wms',
+          id: 'restricted-areas',
+          title: 'Area Restrictions',
+          serviceUrl: databcUrl,
+          layerName: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_RESTRICTED_AREAS_SP',
+          version: '1.1.1',
+          opacity: 0.8,
+          isVisible: true,
+        },
+      ];
     } else if (this.ban) {
       this.banCategories.isCat1 =
         this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('1') ||
         this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.toLowerCase().includes('campfires');
       this.banCategories.isCat2 = this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('2');
       this.banCategories.isCat3 = this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('3');
-      location = [
-        Number(this.ban.centroid?.y),
-        Number(this.ban.centroid?.x),
-      ];
+      location = [Number(this.ban.centroid?.y), Number(this.ban.centroid?.x)];
       const polygonData = this.commonUtilityService.extractPolygonData(this.ban.geometry?.rings);
       if (polygonData?.length) {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
+      layers = await this.banLayers(databcUrl);
     } else if (this.dangerRating) {
       location = [
         Number(this.dangerRating.centroid?.y),
@@ -215,256 +200,143 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       if (polygonData?.length) {
         this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
       }
-    }
-
-    if (location) {
-      this.map = L.map('map', {
-        attributionControl: false,
-        zoomControl: false,
-        dragging: false,
-        doubleClickZoom: false,
-        boxZoom: false,
-        trackResize: false,
-        scrollWheelZoom: false,
-      }).setView(location, 9);
-    }
-
-    if (this.bounds) {
-      this.map.fitBounds(this.bounds);
-    }
-    if (!this.isMobileView()) {
-      // only apply these in desktop
-      L.control.zoom({
-        position: 'topright'
-      }).addTo(this.map);
-    }
-
-    if (!this.isMobileView()) {
-      L.Control.ZoomToExtent = L.Control.extend({
-        onAdd: (map) => {
-          const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
-          const btn = L.DomUtil.create('button', '', container);
-          this.createZoomIcon(btn);
-          btn.style.backgroundColor = 'white';
-          btn.style.backgroundClip = 'padding-box';
-          btn.style.boxSizing = 'content-box';
-          btn.style.width = '30px';
-          btn.style.height = '30px';
-          btn.style.padding = '0px';
-          btn.style.cursor = 'pointer';
-          btn.style.border = '2px solid rgba(0, 0, 0, 0.2)';
-          btn.style.borderBottomLeftRadius = '4px';
-          btn.style.borderBottomRightRadius = '4px';
-          btn.style.display = 'flex';
-          btn.style.alignItems = 'center';
-          btn.style.justifyContent = 'center';
-          btn.style.marginTop = '-3px';
-          btn.style.borderTop = '1px solid #CCC';
-          btn.onclick = () => {
-            if (this.bounds) {
-              this.map.fitBounds(this.bounds);
-            } else {
-              this.map.setZoom(9);
-            }
-          };
-
-          return btn;
-        }
-      });
-
-      L.control.zoomToExtent = (opts) => new L.Control.ZoomToExtent(opts);
-      L.control.zoomToExtent({ position: 'topright' }).addTo(this.map);
-    }
-
-    let bounds;
-    if (this.extent) {
-      bounds = new L.LatLngBounds(
-        [this.extent.ymin, this.extent.xmin],
-        [this.extent.ymax, this.extent.xmax],
-      );
-      this.map.fitBounds(bounds);
-    }
-
-    // configure map data
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
-
-    const databcUrl = this.appConfigService
-      .getConfig()
-    ['mapServices']['openmapsBaseUrl'].toString();
-
-    if (this.evac) {
-      this.perimeterLayer.addTo(this.map);
-      this.evacOrdersLayer.addTo(this.map);
-    }
-
-    if (this.areaRestriction) {
-      L.tileLayer
-        .wms(databcUrl, {
-          layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_RESTRICTED_AREAS_SP ',
-          format: 'image/png',
-          transparent: true,
+      layers = [
+        {
+          type: 'wms',
+          id: 'danger-rating',
+          title: 'Danger Rating',
+          serviceUrl: databcUrl,
+          layerName: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
+          styleName: '7734',
           version: '1.1.1',
           opacity: 0.8,
-          tileSize: 1000,
-          bounds: bounds,
+          isVisible: true,
+        },
+      ];
+    }
+
+    if (!location) {
+      return;
+    }
+    this.mapLocation = location;
+
+    this.mapConfig = await this.mapConfigService.getPreviewMapConfig({
+      baseMap: 'navigation',
+      extent: this.viewExtent(),
+      center: [location[1], location[0]],
+      zoom: 9,
+      pan: false,
+      zoomControl: !this.isMobileView(),
+      layers,
+    });
+    this.cdr.detectChanges();
+  }
+
+  /** The extent the map opens at, and the one reset-view returns to. */
+  private viewExtent(): number[] | undefined {
+    if (this.banExtent) {
+      return this.banExtent;
+    }
+    if (this.extent) {
+      return [this.extent.xmin, this.extent.ymin, this.extent.xmax, this.extent.ymax];
+    }
+    return boundsToExtent(this.bounds);
+  }
+
+  private incidentLayers(external: any) {
+    return [
+      {
+        type: 'esri-feature',
+        id: 'agol-perimeters',
+        title: 'Fire perimeters',
+        serviceUrl: external['AGOLperimetres'].toString(),
+        isVisible: true,
+        style: { strokeColor: '#e60000', strokeWidth: 2, fillOpacity: 0 },
+      },
+      {
+        type: 'esri-feature',
+        id: 'agol-evac-orders',
+        title: 'Evacuation Orders and Alerts',
+        serviceUrl: external['AGOLevacOrders'].toString(),
+        isVisible: true,
+        // An Order is red and an Alert is orange.
+        style: {
+          strokeWidth: 2.25,
+          fillOpacity: 0.5,
+          where: {
+            field: 'ORDER_ALERT_STATUS',
+            Order: { fillColor: '#ff3a35', strokeColor: '#ff3a35' },
+            Alert: { fillColor: '#fa9600', strokeColor: '#fa9600' },
+          },
+        },
+      },
+    ];
+  }
+
+  /** One WMS layer for each category the ban holds, each with its own SLD. */
+  private async banLayers(databcUrl: string) {
+    const [cat1sld, cat2sld, cat3sld, extent] = await Promise.all([
+      this.http.get('assets/js/smk/bans-cat1.sld', { responseType: 'text' }).toPromise(),
+      this.http.get('assets/js/smk/bans-cat2.sld', { responseType: 'text' }).toPromise(),
+      this.http.get('assets/js/smk/bans-cat3.sld', { responseType: 'text' }).toPromise(),
+      this.agolService
+        .getBansAndProhibitionsById(this.params['eventNumber'], {
+          returnGeometry: false,
+          returnCentroid: false,
+          returnExtent: true,
         })
-        .addTo(this.map);
+        .toPromise(),
+    ]);
+
+    if (extent?.extent) {
+      this.banExtent = [
+        extent.extent.xmin, extent.extent.ymin,
+        extent.extent.xmax, extent.extent.ymax,
+      ];
     }
 
-    if (this.ban) {
-      console.log('this.ban', this.ban);
-
-      Promise.all([
-        this.http
-          .get('assets/js/smk/bans-cat1.sld', { responseType: 'text' })
-          .toPromise(),
-        this.http
-          .get('assets/js/smk/bans-cat2.sld', { responseType: 'text' })
-          .toPromise(),
-        this.http
-          .get('assets/js/smk/bans-cat3.sld', { responseType: 'text' })
-          .toPromise(),
-        this.agolService
-          .getBansAndProhibitionsById(this.params['eventNumber'], {
-            returnGeometry: false,
-            returnCentroid: false,
-            returnExtent: true,
-          })
-          .toPromise(),
-      ]).then(async ([cat1sld, cat2sld, cat3sld, extent]) => {
-        let banBounds: L.LatLngBounds;
-
-        if (extent?.extent) {
-          bounds = new L.LatLngBounds(
-            [extent.extent.ymin, extent.extent.xmin],
-            [extent.extent.ymax, extent.extent.xmax],
-          );
-          this.map.fitBounds(bounds);
-        }
-
-        if (this.banCategories.isCat3) {
-          L.tileLayer
-            .wms(databcUrl, {
-              layers:
-                'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-              format: 'image/png',
-              transparent: true,
-              version: '1.1.1',
-              sld_body: cat3sld,
-              cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 3%\'',
-              tileSize: 1000,
-              bounds: banBounds,
-              opacity: 0.5,
-            })
-            .addTo(this.map);
-        }
-
-        if (this.banCategories.isCat2) {
-          L.tileLayer
-            .wms(databcUrl, {
-              layers:
-                'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-              format: 'image/png',
-              transparent: true,
-              version: '1.1.1',
-              sld_body: cat2sld,
-              cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 2%\'',
-              tileSize: 1000,
-              bounds: banBounds,
-              opacity: 0.5,
-            })
-            .addTo(this.map);
-        }
-
-        if (this.banCategories.isCat1) {
-          L.tileLayer
-            .wms(databcUrl, {
-              layers:
-                'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-              format: 'image/png',
-              transparent: true,
-              version: '1.1.1',
-              sld_body: cat1sld,
-              cql_filter:
-                'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 1%\' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfire%\'',
-              tileSize: 1000,
-              bounds: banBounds,
-              opacity: 0.5,
-            })
-            .addTo(this.map);
-        }
-      });
-    }
-
-    if (this.dangerRating) {
-      const rating = this.convertDangerRating(this.dangerRating.attributes?.DANGER_RATING_DESC);
-
-      this.http
-        .get('assets/js/smk/' + rating + '-danger-rating.sld', { responseType: 'text' })
-        .toPromise()
-        .then((dangerRating) => {
-          L.tileLayer
-            .wms(databcUrl, {
-              layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
-              format: 'image/png',
-              transparent: true,
-              version: '1.1.1',
-              opacity: 0.8,
-              tileSize: 1000,
-              bounds: bounds,
-              style: '7734'
-            })
-            .addTo(this.map);
-        });
-    }
-    const icon = L.icon({
-      iconUrl: '/assets/images/local_fire_department.png',
-      iconSize: [35, 35],
-      shadowAnchor: [4, 62],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41],
+    const category = (id: string, sldBody: string, where: string) => ({
+      type: 'wms',
+      id,
+      title: id,
+      serviceUrl: databcUrl,
+      layerName: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
+      version: '1.1.1',
+      sld: sldBody,
+      where,
+      opacity: 0.5,
+      isVisible: true,
     });
 
-    if (this.incident) {
-      if (this.incident.fireOfNoteInd) {
-        L.marker(location, { icon }).addTo(this.map);
-      } else {
-        let colorToDisplay;
-        switch (this.incident.stageOfControlCode) {
-          case 'OUT_CNTRL':
-            colorToDisplay = '#FF0000';
-            break;
-          case 'HOLDING':
-            colorToDisplay = '#ffff00';
-            break;
-          case 'UNDR_CNTRL':
-            colorToDisplay = '#98E600';
-            break;
-          case 'OUT':
-            colorToDisplay = '#999999';
-            break;
-          default:
-            colorToDisplay = 'white';
-        }
-        L.circleMarker(location, {
-          radius: 15,
-          fillOpacity: 1,
-          color: 'black',
-          fillColor: colorToDisplay,
-        }).addTo(this.map);
-      }
+    const layers = [];
+    if (this.banCategories.isCat3) {
+      layers.push(category('bans-cat3', cat3sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 3%'"));
+    }
+    if (this.banCategories.isCat2) {
+      layers.push(category('bans-cat2', cat2sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 2%'"));
+    }
+    if (this.banCategories.isCat1) {
+      layers.push(category('bans-cat1', cat1sld,
+        "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 1%' OR ACCESS_PROHIBITION_DESCRIPTION LIKE '%Campfire%'"));
+    }
+    return layers;
+  }
 
-      this.perimeterLayer.addTo(this.map);
-      this.evacOrdersLayer.addTo(this.map);
+  initMap(smk: any) {
+    this.map = smk.$viewer.map;
 
-      this.cdr.detectChanges();
+    if (this.incident && this.mapLocation) {
+      const [lat, lon] = this.mapLocation;
+      smk.showFeature('this-incident', turf.point([lon, lat]), {
+        htmlMarker: () =>
+          this.incident.fireOfNoteInd
+            ? image('/assets/images/local_fire_department.png', 35)
+            : dot(setDisplayColor(this.incident.stageOfControlCode), 15),
+      });
+      this.addSurroundingIncidents(smk);
     }
 
-    // fetch incidents in surrounding area and add to map
-    this.addSurroundingIncidents();
+    this.cdr.detectChanges();
   }
 
   onWatchlist(): boolean {
@@ -671,7 +543,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     }
   }
 
-  async addSurroundingIncidents() {
+  async addSurroundingIncidents(smk: any) {
     // now fetch the rest of the incidents in the area and display on map
     try {
       const locationData = new LocationData();
@@ -689,18 +561,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           stageOfControlCodes,
         )
         .toPromise();
-      if (incidents?.collection && incidents?.collection?.length > 0) {
-        for (const item of incidents.collection) {
-          const location = [Number(item.latitude), Number(item.longitude)];
-          const colorToDisplay = setDisplayColor(item.stageOfControlCode);
-          L.circleMarker(location, {
-            radius: 5,
-            fillOpacity: 1,
-            color: 'black',
-            fillColor: colorToDisplay,
-          }).addTo(this.map);
-        }
-      }
+      drawNearbyIncidents(smk, incidents?.collection);
     } catch (err) {
       console.error(
         'Could not retrieve surrounding incidents for area restriction',
@@ -747,16 +608,5 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
 
   shareMobile() {
     this.commonUtilityService.shareMobile(this.incident.incidentName);
-  }
-
-  private createZoomIcon(btn: HTMLElement): void {
-    const icon = L.DomUtil.create('div', '', btn);
-    icon.style.width = '20px';
-    icon.style.height = '20px';
-    icon.style.maskImage = 'url("/assets/images/svg-icons/zoom-to-extent.svg")';
-    icon.style.maskSize = 'contain';
-    icon.style.maskRepeat = 'no-repeat';
-    icon.style.maskPosition = 'center';
-    icon.style.backgroundColor = 'black';
   }
 }

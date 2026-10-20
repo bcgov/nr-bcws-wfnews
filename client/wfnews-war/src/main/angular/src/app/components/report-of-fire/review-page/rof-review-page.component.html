@@ -63,7 +63,9 @@
           <wfnews-button class="edit-button" variant="secondary" size="small" label="Edit"
             iconPath="/assets/images/svg-icons/edit.svg"
             (buttonClicked)="edit(page.id)"></wfnews-button>
-          <div *ngIf="!isOffLine" id="map" class="map-container">
+          <div *ngIf="!isOffLine && mapConfig" class="map-container">
+            <wf-map-container [mapConfig]="mapConfig"
+              (mapInitialized)="initMap($event)"></wf-map-container>
           </div>
         </div>
       </div>

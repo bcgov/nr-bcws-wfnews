@@ -4,11 +4,9 @@
             <mat-icon svgIcon="back-icon-panel" (click)="goBack()"></mat-icon>
             <span class="preview-title">
                 <span *ngIf="data.ORDER_ALERT_STATUS === 'Alert'" class="preview-title">
-                    <img class="incident-icon-title" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Alert">
                     Evacuation Alert
                 </span>
                 <span *ngIf="data.ORDER_ALERT_STATUS === 'Order'" class="preview-title">
-                    <img class="incident-icon-title" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order">
                     Evacuation Order
                 </span>
             </span>

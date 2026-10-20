@@ -6,7 +6,7 @@ export function FirePerimetersLayerConfig(ls: layerSettings) {
       type: 'esri-feature',
       id: 'fire-perimeters',
       title: 'BC Wildfire Fire Perimeters',
-      attribution: 'Copyright 117 DataBC, Government of British Columbia',
+      attribution: 'Copyright © DataBC, Government of British Columbia',
       serviceUrl:
         ls.services6BaseUrl + '/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0',
       where: 'FIRE_STATUS <> \'Out\'',

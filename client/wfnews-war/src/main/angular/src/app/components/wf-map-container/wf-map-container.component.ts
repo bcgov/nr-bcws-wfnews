@@ -1,8 +1,5 @@
 import {
-  ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
-  ComponentRef,
   EventEmitter,
   Injector,
   Input,
@@ -11,15 +8,11 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
-  Type,
   ViewChild,
-  ViewContainerRef,
 } from '@angular/core';
-import { CommonUtilityService } from '@app/services/common-utility.service';
-import { getCurrentCondition, hasOwn } from '@app/utils';
+import { hasOwn } from '@app/utils';
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
-import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
 
 let mapIndexAuto = 0;
 let initPromise = Promise.resolve();
@@ -30,8 +23,6 @@ let initPromise = Promise.resolve();
   styleUrls: ['./wf-map-container.component.scss'],
 })
 export class WFMapContainerComponent implements OnDestroy, OnChanges {
-  @ViewChild('identifyContainer', { read: ViewContainerRef })
-  identifyContainer: ViewContainerRef;
   @Input() mapIndex = 0;
   @Input() mapConfig: Array<any>;
 
@@ -39,22 +30,18 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
   @Output() toggleAccordion = new EventEmitter<any>();
   @Output() fullScreen = new EventEmitter<any>();
   @Output() selectIncidents = new EventEmitter<any>();
+  @Output() identifyState = new EventEmitter<'searching' | null>();
 
   @ViewChild('mapContainer') mapContainer;
 
   private initPromise: Promise<any>; // = Promise.resolve()
   private mapIndexAuto;
-  private lastClickedLocation;
   private zone: NgZone;
-  private componentRef: ComponentRef<any>;
 
   constructor(
     protected wfMap: WFMapService,
     protected pointIdService: PointIdService,
     protected injector: Injector,
-    protected cdr: ChangeDetectorRef,
-    protected componentFactoryResolver: ComponentFactoryResolver,
-    protected commonUtilityService: CommonUtilityService
   ) {
     mapIndexAuto += 1;
     this.mapIndexAuto = mapIndexAuto;
@@ -94,72 +81,21 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
           .then((smk) => {
             self.mapInitialized.emit(smk);
 
-            // force bc fire centres to the front
-            // Note, this will move any active tile layer
-            // over to the overlay pane on app startup. If the tile
-            // is not active, it will not be moved
-            // note: When we disable the tile layer, we can (and should) remove this
-            smk.$viewer.map.eachLayer((lyr) => {
-              if (lyr?._smk_id === 'bc-fire-centres') {
-                lyr.bringToFront();
-                lyr.options.pane = 'tileOverlay';
-                let tileOverlay = smk.$viewer.map.getPane('tileOverlay');
-                if (!tileOverlay) {
-                  smk.$viewer.map.createPane('tileOverlay');
-                  tileOverlay = smk.$viewer.map.getPane('tileOverlay');
-                  //If you want to change the custom pane order,
-                  // set tileOverlay.style.zIndex = ###; to whatever number makes sense
-                }
-                // this will move the initially visible layer over on init, as it will
-                // be placed in the default div on app start. Not really a great way to
-                // do this so we should implement a better solution for layer pane order
-                // in smk directly. note that this requires the tile layer to be visible
-                // by default
-                const tilePanes = smk.$viewer.map.getPane('tilePane').childNodes;
-                tileOverlay.appendChild(tilePanes[tilePanes.length - 1]);
+            // On this map's viewer, so each map gets only its own results.
+            smk.$viewer.startedIdentify(({ location }) => {
+              if (location) {
+                self.zone.run(() => self.identifyState.emit('searching'));
               }
             });
 
-            // enforce a max zoom setting, in case we're using cluster/heatmapping
-            smk.$viewer.map._layersMaxZoom = 20;
-
-            smk.$viewer.handlePick(3, (location) => {
-              self.lastClickedLocation = location;
-              // If the layer is visible only
-              if (
-                smk?.$viewer.displayContext.layers.itemId['weather-stations'] &&
-                smk?.$viewer.displayContext.layers.itemId['weather-stations'][0]
-                  .isVisible
-              ) {
-                self.addNearbyWeatherStation(smk);
-                (
-                  document
-                    .getElementsByClassName('identify-panel')
-                    .item(0) as HTMLElement
-                ).style.display = 'none';
+            smk.$viewer.finishedIdentify(({ location }) => {
+              // A clear also ends an identify. It has no location, and it must
+              // not close the panel that made it.
+              if (!location) {
+                return;
               }
-            });
-
-            self.wfMap.setIdentifyDoneCallback(() => {
-              // Apply a delay to the identify complete callback
-              // to allow for the weather station query to complete
-              // this is primarily for Mobile, which doesn't append
-              // the station to the identify results
-              if (
-                smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'] &&
-                smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'][0].isVisible 
-              ) {
-                setTimeout(() => {
-                  self.addSelectedIncidentPanels(smk);
-                }, 1000);
-                // setTimeout(() => {
-                //   self.addNearbyWeatherStation(smk);
-                // }, 1000);
-              } else {
-                // if the weather stations layer is turned off, we can ignore the debounce
-                // and immediately execute
-                self.addSelectedIncidentPanels(smk);
-              }
+              self.loadStationWeather(smk);
+              self.addSelectedIncidentPanels(smk);
             });
 
             return smk;
@@ -190,128 +126,44 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     const identified = smk.$viewer.identified;
     const map = smk.$viewer.map;
 
-    // Variable to store the timeout ID
-    // Function to handle the timeout logic
+    // SMK identifies outside the Angular zone, so an emit from here changes
+    // nothing on screen unless it runs inside it.
     function handleTimeout() {
-      self.selectIncidents.emit(identified.featureSet);
+      self.zone.run(() => {
+        self.selectIncidents.emit(identified.featureSet);
+      });
     }
 
-    // Set a timeout to emit selectIncidents event after 500 milliseconds
-    const delayTimer = setTimeout(handleTimeout, 500);
-
-    // Listen for the zoomend event
-    map.on('zoomend', () => {
-      // Clear the timeout to prevent the selectIncidents event from being emitted
-      clearTimeout(delayTimer);
-    });
-
-    let lastFeature;
-    let featureCount = 0;
-    for (const fid in identified.featureSet) {
-      if (hasOwn(identified.featureSet, fid)) {
-        const feature = identified.featureSet[fid];
-        featureCount++;
-        if (
-          [
-            'active-wildfires-fire-of-note',
-            'active-wildfires-out-of-control',
-            'active-wildfires-holding',
-            'active-wildfires-under-control',
-            'active-wildfires-out',
-            'fire-perimeters',
-          ].includes(feature.layerId)
-        ) {
-          lastFeature = feature;
-        }
-      }
-    }
-
-    if (lastFeature && featureCount === 1) {
-      // force the call from the list view (should auto-trigger but wont if identify called from list view)
-      lastFeature.properties.createContent();
-    }
-  }
-
-  async addNearbyWeatherStation(smk) {
-    const self = this;
-    let lat, long;
-    if (this.lastClickedLocation?.map) {
-      lat = this.lastClickedLocation.map.latitude;
-      long = this.lastClickedLocation.map.longitude;
-    } else {
-      // With no position there is no "nearby" station, so leave the layer off.
-      try {
-        const userLocation =
-          await this.commonUtilityService.getPositionIfPermitted();
-        if (!userLocation) return;
-        lat = userLocation.coords.latitude;
-        long = userLocation.coords.longitude;
-      } catch (error) {
+    // A zoom by the user means they moved on, so drop the panel for the old
+    // point. SMK's pan to a single result also ends in zoomend, but has no
+    // originalEvent.
+    const cancel = (e) => {
+      if (!e?.originalEvent) {
         return;
       }
-    }
+      clearTimeout(delayTimer);
+      map.off('zoomend', cancel);
+      self.zone.run(() => self.identifyState.emit(null));
+    };
+    map.on('zoomend', cancel);
 
-    this.pointIdService
-      .fetchNearestWeatherStation(
-        lat,
-        long,
-      )
-      .then(function(station) {
-        station.validHour = getCurrentCondition(station);
-
-        station.latitude = lat;
-        station.longitude = long;
-
-        smk.$viewer.identified.add('weather-stations', [
-          {
-            type: 'Feature',
-            title: station.stationName,
-            data: station,
-            properties: {
-              code: station.stationCode,
-              createContent(el) {
-                self.zone.run(function() {
-                  const compRef = self.makeComponent(WeatherPanelComponent);
-                  (compRef.instance as any).setWeatherStation(
-                    station
-                  );
-                  const panel = document
-                    .getElementsByClassName('desktop-preview')
-                    .item(0) as HTMLElement;
-                  panel.appendChild(compRef.location.nativeElement);
-                  self.cdr.detectChanges();
-                  // display the panel
-                  (
-                    document
-                      .getElementsByClassName('desktop-preview')
-                      .item(0) as HTMLElement
-                  ).style.display = 'block';
-                });
-              },
-            },
-            geometry: {
-              type: 'Point',
-              coordinates: [
-                long,
-                lat,
-              ],
-            },
-          },
-        ]);
-      });
+    const delayTimer = setTimeout(() => {
+      map.off('zoomend', cancel);
+      handleTimeout();
+    }, 500);
   }
 
-  makeComponent<C>(component: Type<C>): ComponentRef<C> {
-    if (this.componentRef) {
-this.componentRef.destroy();
-}
-
-    this.identifyContainer.clear();
-    this.componentRef = this.identifyContainer.createComponent(
-      this.componentFactoryResolver.resolveComponentFactory(component),
-    );
-
-    return this.componentRef;
+  // Start the weather now, so it is often ready before the user opens the
+  // station. The panels show the station name until it arrives.
+  loadStationWeather(smk) {
+    const featureSet = smk.$viewer.identified.featureSet;
+    this.zone.run(() => {
+      for (const fid in featureSet) {
+        if (hasOwn(featureSet, fid) && featureSet[fid].layerId === 'weather-stations') {
+          this.pointIdService.loadStationWeather(featureSet[fid]);
+        }
+      }
+    });
   }
 }
 

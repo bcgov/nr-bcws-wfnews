@@ -1,0 +1,14 @@
+<div [class.identify-panel]="!mobile" [class.draggable-panel]="mobile" role="status">
+    <div class="panel-container">
+        <div [class.identify-panel-title]="!mobile" [class.draggable-panel-title]="mobile">
+            Results <mat-icon svgIcon="cancel" (click)="closed.emit()"></mat-icon>
+        </div>
+        <div class="identify-status-content">
+            <ng-container *ngIf="status === 'searching'">
+                <mat-spinner [diameter]="20"></mat-spinner>
+                Searching...
+            </ng-container>
+            <ng-container *ngIf="status === 'empty'">No features found</ng-container>
+        </div>
+    </div>
+</div>

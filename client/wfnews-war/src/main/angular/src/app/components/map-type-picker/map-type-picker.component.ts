@@ -14,12 +14,7 @@ export class MapTypePickerComponent {
   }
 
   getMapType() {
-    const basemap = this.mapService.getBaseMap();
-    if (Array.isArray(basemap) && basemap.length > 0) {
-      return this.mapService.getBaseMap()[0].id;
-    } else {
-      return '';
-    }
+    return this.mapService.getBaseMap() ?? '';
   }
 
   onSelect(mapTypeId) {

@@ -271,7 +271,8 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         case 'review-page':
           const reviewPageComponent = this.currentPage
             .instance as RoFReviewPage;
-          if (reviewPageComponent.map) {
+          if (reviewPageComponent.mapConfig) {
+            // A new config object rebuilds the map.
             reviewPageComponent.loadMap();
           }
         default:

@@ -94,6 +94,10 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   loadLayers() {
     const smkApi = new SmkApi(getActiveMap());
     const visibleLayers = smkApi.getVisibleLayers();
+    // The page says the map is loaded before the map exists; the refresh after it arrives fills this in.
+    if (!visibleLayers) {
+      return;
+    }
 
     Object.keys(visibleLayers).forEach((layerId) => {
       switch (layerId) {

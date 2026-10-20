@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { SpatialUtilsService } from '@wf1/core-ui';
+import * as turf from '@turf/turf';
 
 export type LonLat = [number, number];
 export type LatLon = [number, number];
 
-export const toPoint = (lonLat: LonLat): any => window['turf'].point(lonLat);
+export const toPoint = (lonLat: LonLat): any => turf.point(lonLat);
 
 export const toLatLon = (lonLat: LonLat): LatLon => [lonLat[1], lonLat[0]];
 
@@ -68,7 +69,7 @@ export const fetchJsonP = (
       cleanup();
       rej(new Error('cancelled'));
     };
-    const script = window['L'].DomUtil.create('script');
+    const script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
     script.src = req;
@@ -87,7 +88,7 @@ export const fetchJsonP = (
 };
 
 // distance in km
-export const distance = (loc1: LonLat, loc2: LonLat): number => window['turf'].distance(toPoint(loc1), toPoint(loc2));
+export const distance = (loc1: LonLat, loc2: LonLat): number => turf.distance(toPoint(loc1), toPoint(loc2));
 
 export const formatDistance = (dist: number, unit: string): string => {
   if (dist == null) {
@@ -102,7 +103,7 @@ export const formatDistance = (dist: number, unit: string): string => {
 const DIRECTION = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
 export const direction = (start: LonLat, end: LonLat): string => {
-  const bearing = window['turf'].bearing(toPoint(start), toPoint(end));
+  const bearing = turf.bearing(toPoint(start), toPoint(end));
   return DIRECTION[Math.floor((bearing + 382.5) / 45) % 8];
 };
 

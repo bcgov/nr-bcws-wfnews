@@ -28,7 +28,8 @@
   <link rel="preconnect" href="https://openmaps.gov.bc.ca">
   <link rel="preconnect" href="https://www2.gov.bc.ca">
   <link rel="preconnect" href="https://spt.apps.gov.bc.ca">
-  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="preconnect" href="https://cdn.arcgis.com">
+  <link rel="preconnect" href="https://basemaps.arcgis.com">
   <!-- meta http-equiv="Content-Security-Policy" content="
       default-src 'self' 'unsafe-inline';
       img-src https://* 'self' data:;
@@ -197,19 +198,6 @@
         if (!evalBlocked) { showUnsupported('syntax'); }
       }
 
-      // 1b. esri-leaflet's request path calls String.prototype.replaceAll
-      //     (Chrome 85 / Safari 13.1). That is an API, not syntax, so supply it
-      //     rather than refuse to start over a missing function.
-      if (typeof String.prototype.replaceAll !== 'function') {
-        String.prototype.replaceAll = function (search, replacement) {
-          if (Object.prototype.toString.call(search) === '[object RegExp]') {
-            return this.replace(search, replacement);  // caller must pass a global regex
-          }
-          return this.split(search).join(replacement);
-        };
-        report('polyfilled-replaceAll');
-      }
-
       // 2. Boot watchdog. A bundle error is proof of failure, so it fires at once.
       //    Absence of proof only waits: a slow device is not a broken one, and the
       //    poll stops the moment the app renders or main.ts sets its flag.
@@ -263,17 +251,5 @@
   <app-root id="app-root">
   </app-root>
 </body>
-
-<template id="wf-weather-station-feature-template">
-  <div class="wf-weather-station-feature">
-    <div class="smk-bespoke-content" v-content="content"></div>
-  </div>
-</template>
-
-<template id="wf-incident-feature-template">
-  <div class="wf-incident-feature">
-    <div class="smk-bespoke-content" v-content="content"></div>
-  </div>
-</template>
 
 </html>

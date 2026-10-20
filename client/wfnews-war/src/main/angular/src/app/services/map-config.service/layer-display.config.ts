@@ -2,30 +2,40 @@ import { MapServices } from '.';
 
 export function LayerDisplayConfig(mapServices: MapServices) {
   return [
+    // A folder, not a group: each stage keeps its own check box.
     {
-      id: 'active-wildfires-fire-of-note',
+      id: 'active-wildfires',
+      type: 'folder',
+      title: 'Wildfires',
       isVisible: true,
-      alwaysShowLegend: false,
-    },
-    {
-      id: 'active-wildfires-out-of-control',
-      isVisible: true,
-      alwaysShowLegend: false,
-    },
-    {
-      id: 'active-wildfires-holding',
-      isVisible: true,
-      alwaysShowLegend: false,
-    },
-    {
-      id: 'active-wildfires-under-control',
-      isVisible: true,
-      alwaysShowLegend: false,
-    },
-    {
-      id: 'active-wildfires-out',
-      isVisible: false,
-      class: 'smk-inline-legend',
+      isExpanded: true,
+      items: [
+        {
+          id: 'active-wildfires-fire-of-note',
+          isVisible: true,
+          alwaysShowLegend: false,
+        },
+        {
+          id: 'active-wildfires-out-of-control',
+          isVisible: true,
+          alwaysShowLegend: false,
+        },
+        {
+          id: 'active-wildfires-holding',
+          isVisible: true,
+          alwaysShowLegend: false,
+        },
+        {
+          id: 'active-wildfires-under-control',
+          isVisible: true,
+          alwaysShowLegend: false,
+        },
+        {
+          id: 'active-wildfires-out',
+          isVisible: false,
+          class: 'smk-inline-legend',
+        },
+      ],
     },
     {
       id: 'evacuation-orders-and-alerts-wms',
@@ -104,10 +114,6 @@ export function LayerDisplayConfig(mapServices: MapServices) {
     },
     {
       id: 'current-conditions--default',
-      isVisible: false,
-    },
-    {
-      id: 'bc-hillshade',
       isVisible: false,
     },
     // use tilecache centres. we can go back to wms and add zones

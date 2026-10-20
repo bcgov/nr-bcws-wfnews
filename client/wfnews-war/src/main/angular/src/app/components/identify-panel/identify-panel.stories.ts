@@ -10,6 +10,7 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import { HttpClient } from '@angular/common/http';
 import { MapConfigService } from '@app/services/map-config.service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { PointIdService } from '@app/services/point-id.service';
 
 const mockHttpClient = {
     get: () => ({}),
@@ -21,6 +22,10 @@ const mockMapService = {
 
 const mockCommonUtilityService = {
     get: () => ({}),
+};
+
+const mockPointIdService = {
+    loadStationWeather: () => Promise.resolve(null),
 };
 
 const mockAppConfigService = {
@@ -54,6 +59,7 @@ const meta: Meta<IdentifyPanel>= {
                 { provide: HttpClient, useValue: mockHttpClient},
                 { provide: MapConfigService, useValue: mockMapService },
                 { provide: CommonUtilityService, useValue: mockCommonUtilityService },
+                { provide: PointIdService, useValue: mockPointIdService },
             ]
         }),
     ],

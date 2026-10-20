@@ -25,11 +25,12 @@ import { MapConfigService } from '@app/services/map-config.service';
 import { LatLon, LonLat } from '@app/services/wfnews-map.service/util';
 import { getActiveMap, hasOwn } from '@app/utils';
 import { SmkApi } from '@app/utils/smk';
-import * as L from 'leaflet';
+import { drawArrow, markerElement } from '../rof-arrow';
 import { Subscription } from 'rxjs';
 import offlineMapJson from '../../../../assets/maps/british-columbia.json';
 import { ReportOfFire } from '../reportOfFireModel';
 import { RoFPage } from '../rofPage';
+import * as turf from '@turf/turf';
 
 @Component({
   selector: 'rof-location-page',
@@ -204,7 +205,6 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
       return;
     }
 
-    const L = window['L'];
     const lat = Number(this.location.coords.latitude);
     const lon = Number(this.location.coords.longitude);
 
@@ -218,13 +218,13 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
       const map = this.smk?.$viewer?.map;
       if (area && map) {
         // Measure first. Fitting against a stale size puts the view in the wrong place.
-        map.invalidateSize();
+        map.resize();
         // Fit the area, do not only pan to it. A pan alone keeps the province-wide
         // zoom the map opened with, and the marker is a dot in the middle of BC.
-        const box = window['turf'].bbox(area);
+        const box = turf.bbox(area);
         map.fitBounds([
-          [box[1], box[0]],
-          [box[3], box[2]],
+          [box[0], box[1]],
+          [box[2], box[3]],
         ]);
         this.viewIsAtDevice = true;
       }
@@ -233,17 +233,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
     this.smk.showFeature(
       'location',
       { type: 'Point', coordinates: [lon, lat] },
-      {
-        pointToLayer(geojson, latlng) {
-          return L.marker(latlng, {
-            icon: L.divIcon({
-              className: 'rof-location',
-              iconSize: [20, 20],
-              iconAnchor: [14, 14],
-            }),
-          });
-        },
-      },
+      { htmlMarker: () => markerElement('rof-location') },
     );
     this.cdr.markForCheck();
   }
@@ -285,7 +275,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
         this.location.coords.latitude,
       ] as LonLat;
 
-      this.arrow(smk, loc, [photo.lng, photo.lat]);
+      this.distance = drawArrow(smk, loc, [photo.lng, photo.lat]);
     };
 
     connector();
@@ -319,74 +309,9 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
     this.reportOfFire[this.updateAttribute] = this.fireLocation;
   }
 
-  // start -----> end
-  arrow(smk: any, start: LonLat, end: LonLat) {
-    const L = window['L'];
-    const T = window['turf'];
-    const view = smk.$viewer.getView();
-    const lineStartOffsetPx = 15;
-    const lineEndOffsetPx = 35;
-
-    const arrowLine = T.lineString([start, end]);
-    const arrowLen = T.length(arrowLine);
-    this.distance = arrowLen;
-
-    const startOffset = (view.metersPerPixel * lineStartOffsetPx) / 1000;
-    const endOffset = (view.metersPerPixel * lineEndOffsetPx) / 1000;
-
-    const headPt = T.along(T.lineString([end, start]), endOffset);
-    const headRot = T.bearing(headPt.geometry.coordinates, end);
-    smk.showFeature('arrow-head', headPt, {
-      pointToLayer(geojson, latlng) {
-        return L.marker(latlng, {
-          icon: L.divIcon({
-            className: 'rof-arrow-head',
-            html: `<i class="material-icons" style="transform:rotateZ(${headRot}deg);">navigation</i>`,
-            iconSize: [24, 24],
-            iconAnchor: [12, 12],
-          }),
-          interactive: false,
-        });
-      },
-    });
-
-    const startPt = T.along(
-      T.lineString([start, headPt.geometry.coordinates]),
-      startOffset,
-    ).geometry.coordinates;
-    const line = T.lineString([startPt, headPt.geometry.coordinates]);
-
-    smk.showFeature('arrow-line', line, {
-      style() {
-        return {
-          color: 'yellow',
-          weight: 5,
-          lineCap: 'butt',
-          interactive: false,
-        };
-      },
-      onEachFeature(ft, ly) {
-        ly.bindTooltip(formatDist(arrowLen) + ' km', {
-          permanent: true,
-        });
-      },
-    });
-
-    smk.showFeature('arrow-line-shadow', line, {
-      style() {
-        return {
-          color: 'rgba(0,0,0,36%)',
-          weight: 7,
-          lineCap: 'butt',
-          interactive: false,
-        };
-      },
-    });
-  }
-
   /**
-   * The banner takes height from the map, and Leaflet only measures when it is told to.
-   * A timer had to guess when the row had gone; the box itself says when.
+   * The banner takes height from the map box, so the map re-measures when the
+   * box changes size.
    */
   private watchMapBox(): void {
     const box = this.elementRef.nativeElement.querySelector('.map-container');
@@ -394,7 +319,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
       return;
     }
     this.mapBoxObserver = new ResizeObserver(() =>
-      this.smk?.$viewer?.map?.invalidateSize(),
+      this.smk?.$viewer?.map?.resize(),
     );
     this.mapBoxObserver.observe(box);
   }
@@ -404,7 +329,6 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
     if (!this.location?.coords) {
       return null;
     }
-    const turf = window['turf'];
     const loc = [
       this.location.coords.longitude,
       this.location.coords.latitude,
@@ -424,7 +348,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   private extentAroundDevice(): any {
     const area = this.areaAroundDevice();
     return area
-      ? { viewer: { location: { extent: window['turf'].bbox(area) } } }
+      ? { viewer: { location: { extent: turf.bbox(area) } } }
       : null;
   }
 
@@ -458,40 +382,41 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
     const SMK = window['SMK'];
     for (const smkMap in SMK.MAP) {
       if (hasOwn(SMK.MAP, smkMap)) {
-        const geoJsonData = offlineMapJson;
-        const offlineLyaer = L.geoJson(geoJsonData, {
-          style: {
-            color: '#6495ED',
-            weight: 8,
-            fillColor: '',
-            fillOpacity: 0.00001,
-          },
-          zoom: 6,
-          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-        });
-        getActiveMap(SMK).$viewer.map;
-        offlineLyaer.addTo(getActiveMap(SMK).$viewer.map);
-        getActiveMap(SMK).$viewer.map.setZoom(5);
-        const offlineUrl = '/assets/offline-maps/{z}/{y}/{x}.jpg';
-        L.tileLayer(offlineUrl, {
-          zoom: 5,
-          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-        }).addTo(getActiveMap(SMK).$viewer.map);
+        const map = getActiveMap(SMK).$viewer.map;
+
+        // The raster tiles go under the outline, so add that source first.
+        if (!map.getSource('offline-tiles')) {
+          // Only zoom 5 is on disk, so cap the source there and let MapLibre
+          // scale those tiles. Without the cap it asks for tiles that 404.
+          map.addSource('offline-tiles', {
+            type: 'raster',
+            tiles: ['/assets/offline-maps/{z}/{y}/{x}.jpg'],
+            tileSize: 256,
+            minzoom: 5,
+            maxzoom: 5,
+          });
+          map.addLayer({
+            id: 'offline-tiles',
+            type: 'raster',
+            source: 'offline-tiles',
+          });
+        }
+
+        if (!map.getSource('offline-outline')) {
+          map.addSource('offline-outline', {
+            type: 'geojson',
+            data: offlineMapJson,
+          });
+          map.addLayer({
+            id: 'offline-outline',
+            type: 'line',
+            source: 'offline-outline',
+            paint: { 'line-color': '#6495ED', 'line-width': 8 },
+          });
+        }
+
+        map.setZoom(5);
       }
     }
   }
-}
-
-function formatDist(dist: number): string {
-  if (dist == null) {
-    return '';
-  }
-
-  const rounded = parseFloat(dist.toPrecision(6));
-  const a = Math.abs(rounded);
-  const s = Math.sign(rounded);
-  const i = Math.floor(a);
-  const f = a - i;
-
-  return (s * i).toLocaleString() + f.toFixed(3).substr(1);
 }

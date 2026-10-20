@@ -1,0 +1,14 @@
+// The results panel's own rules, so the box and the header cannot drift apart.
+@import "../identify-panel/identify-panel.component.scss";
+
+.identify-status-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px 0 20px;
+  color: #484848;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22px;
+}

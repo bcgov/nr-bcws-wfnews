@@ -1,4 +1,5 @@
 @import "src/styles/variables";
+@import "src/styles/bcds-tokens";
 
 .map-container {
   display: flex;
@@ -19,8 +20,32 @@
  
 }
 
+// The scale in the corner under the actionbar, and the coordinate beside it.
+// 25px clears MapLibre's attribution button by 4px.
 ::ng-deep .smk-map-frame .smk-overlay .smk-status {
-  bottom: 50px !important;
+  bottom: 25px !important;
+  right: 0 !important;
+  // The time widget is positioned against this box, so it spans the map.
+  left: 0;
+  // Base is column-reverse, which stacked the coordinate above the scale.
+  flex-direction: row-reverse !important;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 12px;
+
+  // SMK's 1px edge ran into the basemap labels' own halos. A wider soft one wins.
+  .smk-scale,
+  .smk-coordinate {
+    text-shadow:
+      0 0 1px #fff,
+      0 0 2px #fff,
+      0 0 3px #fff,
+      0 0 4px #fff;
+  }
+
+  .smk-scale .smk-sections {
+    filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 2px #fff);
+  }
 }
 
 ::ng-deep .smk-map-frame {
@@ -30,11 +55,6 @@
     .smk-sidepanel {
       border-radius: 10px;
     }
-  }
-
-  .smk-actionbar {
-    top: unset !important;
-    bottom: 65px !important;
   }
 
   @media (min-width: 1150px) {
@@ -90,8 +110,36 @@
     padding-left: 23px;
   } */
 
-  &.smk-theme-wf .smk-actionbar {
-    padding: 5px 0;
+  // The toolbar's map-control pill, stood on end. Not gated on smk-theme-wf:
+  // only the Active Wildfire Map sets that theme, and every map has the bar.
+  .smk-actionbar {
+    top: unset !important;
+    // 8px above the 46px scale row.
+    bottom: 79px !important;
+    box-sizing: border-box;
+    width: 40px;
+    padding: 4px 0;
+    gap: 2px;
+    border: 1px solid #c4c4c4;
+    border-radius: 20px;
+    box-shadow: $shadow-map-control;
+
+    .smk-tool {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: 50%;
+      color: #242424;
+      cursor: pointer;
+
+      &:hover {
+        border: 0;
+        background-color: #edebe9;
+      }
+    }
   }
 
   &.smk-theme-wf .smk-toolbar {
@@ -112,7 +160,10 @@
         sans-serif;
       color: #242424 !important;
       gap: 5px;
+      // The media queries above set `padding: unset !important`, so the
+      // shorthand here loses and only an !important side survives.
       padding-left: 12px !important;
+      padding-right: 12px !important;
 
       &.smk-tool-LayersTool::after {
         content: "All Layers";
@@ -128,30 +179,279 @@
     }
   }
 
-  .smk-base-map-sample {
-    height: 80px !important;
-    width: 280px !important;
-  }
-
-  .smk-active {
-    background-color: unset !important;
-    border: 2px solid #548adb !important;
-    border-radius: 6px !important;
-  }
-
-  .smk-layers-panel .smk-panel {
-    .smk-display .smk-item {
-      flex-wrap: wrap;
-      .smk-layer-title {
-        width: calc(100% - 32px);
+  // The SMK panels take the identify panel's card and the map controls' font,
+  // so they read as WFNEWS and not as a library.
+  .smk-sidepanel {
+    .smk-measure-panel,
+    .smk-layers-panel,
+    .smk-base-maps-panel {
+      &.smk-elastic-panel {
+        box-sizing: border-box;
+        overflow: hidden;
+        border: 1px solid #dddddd;
+        border-radius: 12px;
+        box-shadow: $shadow-panel;
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+          sans-serif;
+        color: #242424;
       }
 
-      margin-bottom: 0;
-      padding: 0;
+      .smk-panel {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .smk-header {
+        border-bottom-color: #dedede;
+        margin-bottom: 12px;
+        padding-top: 4px;
+      }
+
+      .smk-panel-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #242424;
+      }
     }
-    .smk-display.smk-inline-legend .smk-item {
-      .smk-layer-title {
-        width: calc(100% - 60px);
+  }
+
+  // A tertiary Icon Button's fill, in place of the wf theme's black border.
+  .smk-sidepanel {
+    .smk-command.smk-icon,
+    .smk-command-button.smk-icon .smk-command {
+      border-color: transparent;
+      border-radius: $bcds-border-radius-medium;
+      outline: none;
+
+      &:hover {
+        border-color: transparent;
+        background-color: $bcds-color-tertiary-hover;
+      }
+
+      &:active {
+        background-color: $bcds-color-tertiary-pressed;
+      }
+
+      &:focus-visible {
+        outline: solid $bcds-border-width-medium $bcds-border-color-active;
+        outline-offset: $bcds-margin-hair;
+      }
+    }
+
+    .smk-command.smk-icon.smk-disabled:hover {
+      background-color: transparent;
+    }
+
+    .smk-command:hover {
+      outline: none;
+    }
+  }
+
+  // The bc-checkbox box and tick, drawn over SMK's black glyph. The row's
+  // classes say whether the layer is on.
+  .smk-layers-panel .smk-display .smk-item .smk-visibility {
+    font-size: 0;
+
+    &::before {
+      content: "";
+      box-sizing: border-box;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #898785;
+      border-radius: 2px;
+      background: #ffffff center / 12px no-repeat;
+    }
+
+    &:hover {
+      background-color: transparent;
+
+      &::before {
+        border-color: #313132;
+      }
+    }
+  }
+
+  .smk-layers-panel
+    .smk-display.smk-visible:not(.smk-disabled)
+    > .smk-item
+    > .smk-visibility {
+    &::before {
+      border-color: $bcds-color-primary-default;
+      background-color: $bcds-color-primary-default;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath fill='white' d='M9.09 1.16a.96.96 0 0 0-1.35.16L3.64 6.56 2.22 4.86a.96.96 0 0 0-1.48 1.23l2.18 2.61a.96.96 0 0 0 1.47-.02L9.26 2.51a.96.96 0 0 0-.17-1.35z'/%3E%3C/svg%3E");
+    }
+
+    &:hover::before {
+      border-color: #002c56;
+      background-color: #002c56;
+    }
+  }
+
+  // The legend's chevron in place of SMK's arrow, and narrower, so it clears
+  // the check box. Down when closed and up when open, as in the legend.
+  .smk-layers-panel .smk-display .smk-item .smk-folder-expand {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: -22px;
+    width: 20px;
+    height: 28px;
+    padding: 0;
+    font-size: 0;
+
+    &::after {
+      content: "";
+      padding: 3px;
+      border: solid #1c5a97;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  .smk-layers-panel
+    .smk-display.smk-expanded
+    > .smk-item
+    > .smk-folder-expand::after {
+    transform: rotate(225deg);
+  }
+
+  // The body clips at its edge, and SMK's 12px left no room for the chevron.
+  .smk-layers-panel .smk-body > .smk-display > .smk-display {
+    padding-left: 26px;
+  }
+
+  // Pills, as the Find Me and toolbar buttons are. The units drop to their
+  // own line, as four 14px pills do not fit in one 300px panel.
+  .smk-measure-panel .smk-panel .smk-commands {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+
+    .smk-command-button {
+      flex: 1 1 0;
+
+      .smk-command {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        height: 32px;
+        padding: 0 12px;
+        border: 1px solid #c4c4c4;
+        border-radius: 20px;
+        background-color: #ffffff;
+        color: #242424;
+        font-size: 14px;
+        font-weight: 500;
+        outline: none;
+
+        &:hover {
+          border-color: #c4c4c4;
+          background-color: #edebe9;
+        }
+      }
+
+      &.smk-disabled .smk-command,
+      &.smk-disabled .smk-command:hover {
+        border-color: #d8d8d8;
+        background-color: #ffffff;
+        color: #9f9d9c;
+        font-style: normal;
+      }
+    }
+
+    .smk-select-dropdown {
+      flex: 1 0 100%;
+
+      select {
+        width: 100%;
+        height: 32px;
+        padding: 0 32px 0 12px;
+        border: 1px solid #c4c4c4;
+        border-radius: 20px;
+        background-position: calc(100% - 10px) 50%;
+        color: #242424;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .smk-measure-panel .smk-result {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  // As wide as the legend beside the map, so the long layer names fit.
+  .smk-sidepanel:has(> .smk-layers-panel) {
+    width: min(400px, 100%);
+  }
+
+  // SMK pads each row 8px. WFNEWS lines the check boxes up with the panel title.
+  .smk-layers-panel .smk-display .smk-item {
+    padding-left: 0;
+    margin-bottom: 4px;
+  }
+
+  // One full-width option per row. A fixed 280px ran past the 300px panel.
+  .smk-base-maps-panel {
+    .smk-body {
+      padding-bottom: 12px;
+    }
+
+    .smk-base-map {
+      box-sizing: border-box;
+      flex: 1 0 100%;
+      margin-bottom: 8px;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      cursor: pointer;
+
+      &:hover {
+        border-color: #c4c4c4;
+      }
+
+      // Same as a checked map-toggle-button pill.
+      &.smk-active {
+        background-color: #e9f0f8;
+        border-color: #38598a;
+
+        .smk-base-map-option-image::after {
+          color: #38598a;
+          font-weight: 600;
+        }
+      }
+    }
+
+    // SMK sets the size inline from the tool config, so only !important wins.
+    .smk-base-map-sample,
+    .smk-base-map-option-image,
+    .smk-base-map-option-text {
+      width: auto !important;
+      height: 80px !important;
+      margin: 2px;
+      overflow: hidden;
+      border-radius: 6px;
+    }
+
+    // SMK shows the name only as a tooltip; mobile shows it under the picture.
+    .smk-base-map-option-image {
+      flex-direction: column;
+      height: auto !important;
+
+      img {
+        height: 80px;
+        border-radius: 6px;
+        object-fit: cover;
+      }
+
+      &::after {
+        content: attr(title);
+        padding: 6px 2px 2px;
+        font-size: 14px;
+        color: #242424;
       }
     }
   }
@@ -226,27 +526,12 @@
     }
   }
 
-  &.smk-viewer-leaflet {
-    .smk-overlay {
-      .smk-status {
-        left: 0;
-        flex-direction: row-reverse;
-
-        .smk-scale {
-          margin-left: 20px;
-          margin-bottom: -33px;
-        }
-        .smk-coordinate {
-          margin-bottom: -33px;
-        }
-      }
-    }
-  }
-
   .smk-time-dimension {
     cursor: pointer;
     pointer-events: all;
     position: absolute;
+    // The pause and the time stay on one line, whatever the date reads.
+    white-space: nowrap;
     font-size: 14px;
     font-weight: bold;
     background-color: white;
