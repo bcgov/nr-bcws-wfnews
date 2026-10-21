@@ -6,7 +6,6 @@ import { ActiveWildfiresLayerConfig } from './active-wildfires.config';
 import { ActiveWildfiresHeatmapLayerConfig } from './active-wildfires.heatmap.config';
 import { AreaRestrictionsLayerConfig } from './area-restrictions.config';
 import { BansAndProhibitionsLayerConfig } from './bans-and-prohibitions.config';
-import { BasemapLayerConfig } from './basemap.config';
 import { FireCentresLayerConfig } from './bc-fire-centres.config';
 import { ProtectedLandsAccessRestrictionsLayerConfig } from './bc-parks-closures.config';
 import { WildfiresInactiveLayerConfig } from './bcws-activefires-publicview-inactive.config';
@@ -85,7 +84,6 @@ export function LayerConfig(
     ...AbmsMunicipalitiesLayerConfig(ls),
     ...AbmsRegionalDistrictsLayerConfig(ls),
     ...ProtectedLandsAccessRestrictionsLayerConfig(ls),
-    ...BasemapLayerConfig(ls),
     // ...FuelTreatmentLayerConfig(ls),
   ];
 }

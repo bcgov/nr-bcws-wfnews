@@ -49,7 +49,7 @@ export class EvacuationsPreviewComponent {
   }
 
   enterFullDetail() {
-    const currentZoomLevel = getActiveMap().$viewer?.map?._zoom;
+    const currentZoomLevel = getActiveMap().$viewer?.map?.getZoom();
     if (this.data) {
       const url = this.router.serializeUrl(
         this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {

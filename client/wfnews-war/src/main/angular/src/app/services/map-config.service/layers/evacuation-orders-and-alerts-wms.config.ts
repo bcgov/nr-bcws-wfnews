@@ -6,7 +6,7 @@ export function EvacuationOrdersLayerConfig(ls: layerSettings) {
       type: 'esri-feature',
       id: 'evacuation-orders-and-alerts-wms',
       title: 'Evacuation Orders and Alerts',
-      attribution: 'Copyright 117 DataBC, Government of British Columbia',
+      attribution: 'Copyright © DataBC, Government of British Columbia',
       serviceUrl: ls.evacOrdersURL,
       where: 'ORDER_ALERT_STATUS <> \'All Clear\' and (EVENT_TYPE = \'Fire\' or EVENT_TYPE = \'Wildfire\')',
       opacity: 0.65,

@@ -140,17 +140,18 @@
 }
 
 .dashboard-map-container {
+  position: relative;
   width: 100%;
   height: calc(100% - 50px);
   border-radius: 10px;
 }
 
+// Over the map, not after it: the map fills the box.
 .map-overlay {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  top: 0px;
+  position: absolute;
+  inset: 0;
   z-index: 10000;
+  cursor: pointer;
   background-color: #00000039;
 }
 

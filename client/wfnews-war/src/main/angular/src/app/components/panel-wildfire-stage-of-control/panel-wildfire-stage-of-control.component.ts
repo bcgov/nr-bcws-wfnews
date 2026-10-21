@@ -25,7 +25,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppConfigService, TokenService } from '@wf1/core-ui';
-import * as L from 'leaflet';
 import {
   AreaRestrictionsOption,
   EvacOrderOption,
@@ -46,12 +45,14 @@ import {
   getActiveMap,
   snowPlowHelper,
 } from '../../utils';
+import { animatedIcon, pulse } from '../../utils/map-markers';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
 import { AGOLService } from '@app/services/AGOL-service';
 import { MapConfigService } from '@app/services/map-config.service';
 import moment from 'moment';
 import { WildfirePreviewComponent } from '@app/components/preview-panels/wildfire-preview/wildfire-preview.component';
+import * as turf from '@turf/turf';
 const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
 
 @Directive()
@@ -115,12 +116,12 @@ export class PanelWildfireStageOfControlComponent
   private handlePanelEnterTimeout;
   private handlePanelExitTImeout;
   private markerAnimation;
-  private highlightLayer;
+  /** Set once the map events are hooked. */
+  private mapHooked = false;
   private initInterval;
   private mapEventDebounce;
   private ignorePan = true;
   private ignorePanDebounce;
-  private marker: any;
   private cdrScan;
 
   constructor(
@@ -181,14 +182,8 @@ export class PanelWildfireStageOfControlComponent
       ).style.display = 'none';
     }
 
-    try {
-      getActiveMap().$viewer.map.removeLayer(this.highlightLayer);
-    } catch (err) {
-      console.error(
-        'Ignoring highlight layer clear. This may occur from the mobile side destruction',
-        err,
-      );
-    }
+    this.mapHooked = false;
+    this.clearMarker();
 
     clearInterval(this.initInterval);
     clearInterval(this.mapPanProgressBar);
@@ -228,8 +223,8 @@ export class PanelWildfireStageOfControlComponent
         const SMK = window['SMK'];
         this.viewer = getActiveMap(SMK)?.$viewer;
         this.map = this.viewer?.map;
-        if (!this.highlightLayer) {
-          this.highlightLayer = window['L'].layerGroup().addTo(this.map);
+        if (!this.mapHooked) {
+          this.mapHooked = true;
           this.map.on('zoomend', () => {
             this.mapEventHandler(false);
           });
@@ -454,8 +449,8 @@ message = err.message;
         if (this.progressValues.get(incident.incidentName) >= 100) {
           this.lastPanned = incident.incidentName;
           this.viewer.panToFeature(
-            window['turf'].point([incident.longitude + 1, incident.latitude]),
-            this.map._zoom,
+            turf.point([incident.longitude + 1, incident.latitude]),
+            this.map.getZoom(),
           );
           clearInterval(this.mapPanProgressBar);
           this.mapPanProgressBar = null;
@@ -468,53 +463,49 @@ message = err.message;
   }
 
   private addMarker(incident: any) {
-    const pointerIcon = L.divIcon({
-      iconSize: [20, 20],
-      iconAnchor: [12, 12],
-      popupAnchor: [10, 0],
-      shadowSize: [0, 0],
-      className: 'animated-icon',
-    });
+    this.clearMarker();
 
-    if (this.marker) {
-      this.marker.remove();
-      this.marker = null;
-    }
+    const icon = animatedIcon(this.markerColour(incident));
 
-    this.marker = L.marker(
-      [Number(incident.latitude), Number(incident.longitude)],
-      { icon: pointerIcon },
+    getActiveMap().showFeature(
+      'stage-of-control-marker',
+      turf.point([
+        Number(incident.longitude),
+        Number(incident.latitude),
+      ]),
+      { htmlMarker: () => icon },
     );
-    this.marker.on('add', function() {
-      const icon: any = document.querySelector('.animated-icon');
-      
 
-      if (incident.fireOfNoteInd) {
-        icon.style.backgroundColor = '#aa0d0d';
-      } else if (incident.stageOfControlCode === 'OUT_CNTRL') {
-        icon.style.backgroundColor = '#FF0000';
-      } else if (incident.stageOfControlCode === 'HOLDING') {
-        icon.style.backgroundColor = '#FFFF00';
-      } else if (incident.stageOfControlCode === 'UNDR_CNTRL') {
-        icon.style.backgroundColor = '#98E600';
-      }
+    this.markerAnimation = setInterval(() => pulse(icon), 1000);
+  }
 
-      if (this.markerAnimation) {
-        clearInterval(this.markerAnimation);
-      }
+  /** Nothing for a stage this does not name, so the SCSS default colour stays. */
+  private markerColour(incident: any): string {
+    if (incident.fireOfNoteInd) {
+      return '#aa0d0d';
+    }
+    switch (incident.stageOfControlCode) {
+      case 'OUT_CNTRL':
+        return '#FF0000';
+      case 'HOLDING':
+        return '#FFFF00';
+      case 'UNDR_CNTRL':
+        return '#98E600';
+      default:
+        return null;
+    }
+  }
 
-      this.markerAnimation = setInterval(() => {
-        icon.style.width = icon.style.width === '10px' ? '20px' : '10px';
-        icon.style.height = icon.style.height === '10px' ? '20px' : '10px';
-        icon.style.marginLeft = icon.style.width === '20px' ? '-10px' : '-5px';
-        icon.style.marginTop = icon.style.width === '20px' ? '-10px' : '-5px';
-        icon.style.boxShadow =
-          icon.style.width === '20px'
-            ? '4px 4px 4px rgba(0, 0, 0, 0.65)'
-            : '0px 0px 0px transparent';
-      }, 1000);
-    });
-    this.marker.addTo(this.map);
+  private clearMarker() {
+    if (this.markerAnimation) {
+      clearInterval(this.markerAnimation);
+      this.markerAnimation = null;
+    }
+    try {
+      getActiveMap().showFeature('stage-of-control-marker');
+    } catch (err) {
+      // The map is already gone on a mobile destroy, so there is nothing to clear.
+    }
   }
 
   onPanelMouseEnter(incident: any) {
@@ -539,20 +530,13 @@ message = err.message;
       clearInterval(this.mapPanProgressBar);
       this.mapPanProgressBar = null;
     }
-    if (this.markerAnimation) {
-      clearInterval(this.markerAnimation);
-    }
+    this.clearMarker();
     if (incident) {
       this.progressValues.set(incident.incidentName, 0);
     } else {
       for (const key of this.progressValues.keys()) {
         this.progressValues.set(key, 0);
       }
-    }
-    this.highlightLayer.clearLayers();
-    if (this.marker) {
-      this.marker.remove();
-      this.marker = null;
     }
 
     if (this.ignorePanDebounce) {
@@ -704,7 +688,7 @@ message = err.message;
     this.mapConfigService.getMapConfig().then(() => {
       const viewer = getActiveMap().$viewer;
       viewer.panToFeature(
-        window['turf'].point([evac.centroid.x, evac.centroid.y]),
+        turf.point([evac.centroid.x, evac.centroid.y]),
         12,
       );
     });
@@ -718,7 +702,7 @@ message = err.message;
     this.mapConfigService.getMapConfig().then(() => {
       const viewer = getActiveMap().$viewer;
       viewer.panToFeature(
-        window['turf'].point([area.centroid.x, area.centroid.y]),
+        turf.point([area.centroid.x, area.centroid.y]),
         12,
       );
     });

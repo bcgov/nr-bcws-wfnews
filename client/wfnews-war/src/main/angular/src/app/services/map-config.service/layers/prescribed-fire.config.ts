@@ -7,7 +7,7 @@ export function PrescribedFireLayerConfig(ls: layerSettings) {
       id: 'prescribed-fire',
       title: 'BC Wildfire Prescribed Fire',
       isQueryable: true,
-      attribution: 'Copyright 117 DataBC, Government of British Columbia',
+      attribution: 'Copyright © DataBC, Government of British Columbia',
       serviceUrl:
         ls.services6BaseUrl + '/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Prescribed_Fire_-_View/FeatureServer/4',
       titleAttribute: 'Fire_Zone',

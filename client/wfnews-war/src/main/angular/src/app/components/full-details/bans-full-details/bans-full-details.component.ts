@@ -8,8 +8,11 @@ import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
+import { FullDetailsMapService } from '@app/services/full-details-map.service';
+import { MapConfigService } from '@app/services/map-config.service';
+import { boundsToExtent, drawNearbyIncidents } from '@app/utils/preview-map';
+import { filter, take } from 'rxjs/operators';
 import { AppConfigService } from '@wf1/core-ui';
-import * as L from 'leaflet';
 
 export class BanProhibition {
   public id: string;
@@ -49,6 +52,8 @@ export class BansFullDetailsComponent implements OnInit {
     private route: Route,
     private commonUtilityService: CommonUtilityService,
     private metaService: Meta,
+    private mapConfigService: MapConfigService,
+    private fullDetailsMap: FullDetailsMapService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -63,39 +68,15 @@ export class BansFullDetailsComponent implements OnInit {
   }
 
   async initMap() {
-    // Create map and append data to the map component
-    const location = [
-      Number(this.banData.centroidLatitude),
-      Number(this.banData.centroidLongitude),
-    ];
+    const sld = (name: string) =>
+      this.httpClient
+        .get('assets/js/smk/' + name, { responseType: 'text' })
+        .toPromise();
 
-    // this code is duplicated in a few places now. Might make sense to move into
-    // a specific component or util factory class
-    this.map = L.map('restrictions-map', {
-      attributionControl: false,
-      zoomControl: false,
-      dragging: false,
-      doubleClickZoom: false,
-      boxZoom: false,
-      trackResize: false,
-      scrollWheelZoom: false,
-    }).setView(location, 5);
-    // configure map  - change from osm to ESRI eventually. Needs to be done elsewhere too
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
-
-    Promise.all([
-      this.httpClient
-        .get('assets/js/smk/bans-cat1.sld', { responseType: 'text' })
-        .toPromise(),
-      this.httpClient
-        .get('assets/js/smk/bans-cat2.sld', { responseType: 'text' })
-        .toPromise(),
-      this.httpClient
-        .get('assets/js/smk/bans-cat3.sld', { responseType: 'text' })
-        .toPromise(),
+    const [cat1sld, cat2sld, cat3sld, extent] = await Promise.all([
+      sld('bans-cat1.sld'),
+      sld('bans-cat2.sld'),
+      sld('bans-cat3.sld'),
       this.agolService
         .getBansAndProhibitionsById(this.id, {
           returnGeometry: false,
@@ -103,105 +84,64 @@ export class BansFullDetailsComponent implements OnInit {
           returnExtent: true,
         })
         .toPromise(),
-    ]).then(async ([cat1sld, cat2sld, cat3sld, extent]) => {
-      // zoom to the polygon extent
-      if (extent?.extent) {
-        this.map.fitBounds(
-          new L.LatLngBounds(
-            [extent.extent.ymin, extent.extent.xmin],
-            [extent.extent.ymax, extent.extent.xmax],
-          ),
-        );
-      }
+    ]);
 
-      const databcUrl = this.appConfigService
-        .getConfig()
-        ['mapServices']['openmapsBaseUrl'].toString();
-      L.tileLayer
-        .wms(databcUrl, {
-          layers:
-            'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          sld_body: cat3sld,
-          cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 3%\'',
-          opacity: 0.5,
-        })
-        .addTo(this.map);
+    const databcUrl = this.appConfigService
+      .getConfig()['mapServices']['openmapsBaseUrl'].toString();
 
-      L.tileLayer
-        .wms(databcUrl, {
-          layers:
-            'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          sld_body: cat2sld,
-          cql_filter: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 2%\'',
-          opacity: 0.5,
-        })
-        .addTo(this.map);
-
-      L.tileLayer
-        .wms(databcUrl, {
-          layers:
-            'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-          format: 'image/png',
-          transparent: true,
-          version: '1.1.1',
-          sld_body: cat1sld,
-          cql_filter:
-            'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 1%\' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfire%\'',
-          opacity: 0.5,
-        })
-        .addTo(this.map);
-
-      const fireOfNoteIcon = L.icon({
-        iconUrl: '/assets/images/local_fire_department.png',
-        iconSize: [35, 35],
-        shadowAnchor: [4, 62],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41],
-      });
-
-      // now fetch the rest of the incidents in the area and display on map
-      try {
-        const locationData = new LocationData();
-        locationData.latitude = Number(this.banData.centroidLatitude);
-        locationData.longitude = Number(this.banData.centroidLongitude);
-        locationData.radius = 100;
-        const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
-        const incidents = await this.publishedIncidentService
-          .fetchPublishedIncidentsList(
-            0,
-            9999,
-            locationData,
-            null,
-            null,
-            stageOfControlCodes,
-          )
-          .toPromise();
-        if (incidents?.collection && incidents?.collection?.length > 0) {
-          for (const item of incidents.collection) {
-            const incidentLocation = [Number(item.latitude), Number(item.longitude)];
-            if (item.fireOfNoteInd) {
-              L.marker(incidentLocation, { icon: fireOfNoteIcon }).addTo(this.map);
-            } else {
-              const colorToDisplay = setDisplayColor(item.stageOfControlCode);
-              L.circleMarker(incidentLocation, {
-                radius: 5,
-                fillOpacity: 1,
-                color: 'black',
-                fillColor: colorToDisplay,
-              }).addTo(this.map);
-            }
-          }
-        }
-      } catch (err) {
-        console.error('Could not retrieve surrounding incidents');
-      }
+    // SMK's wms layer takes the SLD and the CQL filter directly.
+    const category = (id: string, sldBody: string, where: string) => ({
+      type: 'wms',
+      id,
+      title: id,
+      serviceUrl: databcUrl,
+      layerName: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
+      version: '1.1.1',
+      sld: sldBody,
+      where,
+      opacity: 0.5,
+      isVisible: true,
     });
+
+    const cfg = await this.mapConfigService.getPreviewMapConfig({
+      baseMap: 'navigation',
+      extent: extent?.extent
+        ? [extent.extent.xmin, extent.extent.ymin, extent.extent.xmax, extent.extent.ymax]
+        : undefined,
+      layers: [
+        category('bans-cat3', cat3sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 3%'"),
+        category('bans-cat2', cat2sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 2%'"),
+        category('bans-cat1', cat1sld,
+          "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 1%' OR ACCESS_PROHIBITION_DESCRIPTION LIKE '%Campfire%'"),
+      ],
+    });
+    this.fullDetailsMap.setConfig(cfg);
+
+    const smk = await this.fullDetailsMap.smk$
+      .pipe(filter((v) => !!v), take(1))
+      .toPromise();
+    this.map = smk.$viewer.map;
+
+    try {
+      const incidents = await this.publishedIncidentService
+        .fetchPublishedIncidentsList(
+          0,
+          9999,
+          {
+            latitude: Number(this.banData.centroidLatitude),
+            longitude: Number(this.banData.centroidLongitude),
+            radius: 100,
+          } as any,
+          null,
+          null,
+          ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'],
+        )
+        .toPromise();
+      drawNearbyIncidents(smk, incidents?.collection);
+    } catch (err) {
+      console.error('Could not retrieve surrounding incidents');
+    }
+
     this.cdr.detectChanges();
   }
 

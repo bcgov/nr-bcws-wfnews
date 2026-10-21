@@ -16,6 +16,7 @@ import { map } from 'rxjs/operators';
 import { CapacitorService } from './capacitor-service';
 import { IonicStorageService } from './ionic-storage.service';
 import { ReportOfFireService } from './report-of-fire-service';
+import * as turf from '@turf/turf';
 
 const MAX_CACHE_AGE = 30 * 1000;
 const POSITION_LIMIT = 10 * 1000;
@@ -332,9 +333,9 @@ export class CommonUtilityService {
   }
 
   createConvex(polygonData) {
-    const turfPoints = polygonData.map(coord => window['turf'].point(coord));
-    const pointsFeatureCollection = window['turf'].featureCollection(turfPoints);
-    const convexHull = window['turf'].convex(pointsFeatureCollection)?.geometry?.coordinates[0];
+    const turfPoints = polygonData.map(coord => turf.point(coord));
+    const pointsFeatureCollection = turf.featureCollection(turfPoints);
+    const convexHull = turf.convex(pointsFeatureCollection)?.geometry?.coordinates[0];
     return convexHull;
   }
 

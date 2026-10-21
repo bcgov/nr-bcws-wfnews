@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   mapConfig,
   reportOfFireMapConfig,
-  reportOfFireOfflineMapConfig,
-} from './map.config';
+  reportOfFireOfflineMapConfig, previewMapConfig } from './map.config';
 import { AppConfigService } from '@wf1/core-ui';
 
 export interface MapServiceStatus {
@@ -35,6 +34,12 @@ export class MapConfigService {
           this.appConfig,
         ),
       );
+  }
+
+  /** A small read-only map for the preview and detail panels. */
+  getPreviewMapConfig(option?: Parameters<typeof previewMapConfig>[0]): Promise<any> {
+    // It needs nothing from the app config, so it does not fetch the config again.
+    return Promise.resolve(previewMapConfig(option));
   }
 
   getReportOfFireMapConfig(): Promise<any> {

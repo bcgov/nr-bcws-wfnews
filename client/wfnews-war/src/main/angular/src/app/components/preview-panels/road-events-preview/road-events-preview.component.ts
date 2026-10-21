@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MapConfigService } from '@app/services/map-config.service';
-import { convertToDateYear, hidePanel, showPanel, openLink, zoomInWithLocationPin, getActiveMap } from '@app/utils';
+import { clearLocationPin, convertToDateYear, hidePanel, showPanel, openLink, zoomInWithLocationPin } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
@@ -17,15 +17,13 @@ export class RoadEventsPreviewComponent implements OnDestroy {
   convertToDateYear = convertToDateYear;
   openLink = openLink
   zoomInWithLocationPin = zoomInWithLocationPin;
+  clearLocationPin = clearLocationPin;
   public data;
   defaultZoomLevel = 11;
   pinDrop;
 
   ngOnDestroy(): void {
-    const viewer = getActiveMap().$viewer;
-    if (this.pinDrop) {
-      viewer.map.removeLayer(this.pinDrop);
-    }
+    this.clearLocationPin();
   }
 
   setContent(data) {

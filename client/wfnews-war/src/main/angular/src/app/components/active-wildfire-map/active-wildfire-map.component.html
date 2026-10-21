@@ -7,6 +7,8 @@
       <div class="identify-panel"></div>
       <wfnews-identify-panel *ngIf="!isMobileView() && showPanel" [incidentRefs]="incidentRefs"></wfnews-identify-panel>
       <div class="desktop-preview"></div>
+      <wfnews-identify-status *ngIf="!isMobileView() && identifyStatus" [status]="identifyStatus"
+        (closed)="onIdentifyStatusClosed()"></wfnews-identify-status>
       <div class="search-row">
         <div class="search-bar">
           <input type="text" placeholder="Search" aria-label="Search" matInput [formControl]="searchByLocationControl"
@@ -41,7 +43,8 @@
             class="button-icon">my_location</mat-icon><span class="button-label">Find Me</span></button>
       </div>
       <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
-        (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
+        (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"
+        (identifyState)="onIdentifyState($event)"></wf-map-container>
       <div class="layers-container" *ngIf="this.isMapLoaded" (mouseover)="setupScrollForLayersComponent()">
         <button *ngIf="!isMobileView() && showLeftLayerScroller()" mat-fab class="layer-scroll-button"
           (mousedown)="sliderButtonHold = true; slideLayerButtons(-40); $event.stopPropagation()"
@@ -92,11 +95,11 @@
       <button mat-fab class="mat-white-40 legend-btn" *ngIf="isMapLoaded && isMobileView()" (click)="showLegend()">
         <img alt="Legend" src="/assets/images/svg-icons/legend.svg">
       </button>
-      <button mat-fab class="mat-white-48 search-fab right-20" *ngIf="isMapLoaded && isMobileView()"
+      <button mat-fab class="mat-white-40 search-fab right-20" *ngIf="isMapLoaded && isMobileView()"
         (click)="openSearchPage()">
         <img alt="search" class="search-fab-icon" src="/assets/images/svg-icons/search.svg">
       </button>
-      <button mat-fab class="mat-white-48 bottom-77 right-20" *ngIf="isMapLoaded && isMobileView()"
+      <button mat-fab class="mat-white-40 location-fab right-20" *ngIf="isMapLoaded && isMobileView()"
         (click)="clickedMyLocation ? clearMyLocation() : useMyCurrentLocation()">
         <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
         <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
@@ -104,6 +107,8 @@
     </div>
   </div>
   <wfnews-draggable-panel *ngIf="isMobileView() && showPanel" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
+  <wfnews-identify-status *ngIf="isMobileView() && identifyStatus" [status]="identifyStatus" [mobile]="true"
+    (closed)="onIdentifyStatusClosed()"></wfnews-identify-status>
   <mobile-sliding-drawer *ngIf="isMobileView()" [(isVisible)]="isAllLayersOpen"
     (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Map Settings'">
     <div *ngIf="!isDataSourcesOpen">

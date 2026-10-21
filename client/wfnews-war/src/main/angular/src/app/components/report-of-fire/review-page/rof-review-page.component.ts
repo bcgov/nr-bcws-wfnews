@@ -11,15 +11,15 @@ import {
   ReportOfFireService,
   ReportOfFireType,
 } from '@app/services/report-of-fire-service';
-import { SmkApi } from '@app/utils/smk';
+import { MapConfigService } from '@app/services/map-config.service';
+import { coordsToExtent } from '@app/utils/preview-map';
 import * as fnv from 'fnv-plus';
-import * as L from 'leaflet';
-import { LatLng } from 'leaflet';
-import offlineMapJson from '../../../../assets/maps/british-columbia.json';
 import { equalsIgnoreCase } from '../../../utils';
+import { drawArrow, markerElement, toLonLat } from '../rof-arrow';
 import ConfigJson from '../report-of-fire.config.json';
 import { ReportOfFire } from '../reportOfFireModel';
 import { RoFPage } from '../rofPage';
+import * as turf from '@turf/turf';
 
 @Component({
   selector: 'rof-review-page',
@@ -29,8 +29,7 @@ import { RoFPage } from '../rofPage';
 })
 export class RoFReviewPage extends RoFPage implements AfterViewInit {
   public reportOfFirePages: any;
-  map: any;
-  smkApi: SmkApi;
+  mapConfig = null;
   isOffLine: boolean;
   currentLocation: any;
   submitting: boolean = false;
@@ -39,6 +38,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
     private commonUtilityService: CommonUtilityService,
     private cdr: ChangeDetectorRef,
     private reportOfFireService: ReportOfFireService,
+    private mapConfigService: MapConfigService,
     protected snackbarService: MatSnackBar,
   ) {
     super();
@@ -205,145 +205,51 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
     }
   }
 
-  loadMap() {
-    if (this.map) {
-      this.map.remove();
+  /**
+   * The map is only in the DOM when online, so there is no offline branch here.
+   * The extent holds both points; previewMapConfig caps how far it zooms in.
+   */
+  async loadMap() {
+    const fire = this.reportOfFire?.fireLocation;
+    if (!fire?.length) {
+      return;
     }
-    const location = this.reportOfFire.fireLocation;
-    this.map = L.map('map', {
-      attributionControl: false,
-      zoomControl: false,
-      dragging: false,
-      doubleClickZoom: false,
-      boxZoom: false,
-      trackResize: false,
-      scrollWheelZoom: false,
+
+    const coords = [toLonLat(fire)];
+    const here = this.reportOfFire?.currentLocation;
+    if (here?.length) {
+      coords.push(toLonLat(here));
+    }
+
+    this.mapConfig = await this.mapConfigService.getPreviewMapConfig({
+      extent: coordsToExtent(coords),
+      maxZoom: 18,
+    });
+    this.cdr.markForCheck();
+  }
+
+  initMap(smk: any) {
+    const fire = toLonLat(this.reportOfFire.fireLocation);
+
+    smk.showFeature('rof-fire-location', turf.point(fire), {
+      htmlMarker: () =>
+        markerElement(
+          'fireLocationIcon',
+          '<i class="fireLocationIcon material-icons">location_searching</i>',
+        ),
     });
 
-    // Calculate the bounding box
-    if (this.reportOfFire.currentLocation && this.reportOfFire.fireLocation) {
-      const bbox = L.latLngBounds(
-        this.reportOfFire.currentLocation,
-        this.reportOfFire.fireLocation,
-      );
-      const zoomLevel = this.map.getBoundsZoom(bbox);
-      this.map.setView(bbox.getCenter(), zoomLevel);
+    const here = this.reportOfFire?.currentLocation;
+    if (!here?.length || !this.reportOfFire.estimatedDistance) {
+      return;
     }
-    // Calculate the ideal zoom level to fit the bounding box within the map's view
-    // configure map data
-    L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      {
-        zoom: 5,
-        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-      },
-    ).addTo(this.map);
 
-    this.commonUtilityService.checkOnline().then((result) => {
-      if (!result) {
-        const geoJsonData = offlineMapJson;
-        L.geoJson(geoJsonData, {
-          style: {
-            color: '#6495ED',
-            weight: 8,
-            fillColor: '',
-            fillOpacity: 0.00001,
-          },
-          zoom: 6,
-          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-        }).addTo(this.map);
-      }
+    const start = toLonLat(here);
+    smk.showFeature('rof-current-location', turf.point(start), {
+      htmlMarker: () => markerElement('rof-location'),
     });
 
-    const fireLocationIcon = L.divIcon({
-      html: '<i class="fireLocationIcon material-icons">location_searching</i>',
-      iconSize: [48, 48],
-      className: 'fireLocationIcon',
-    });
-    L.marker(location, { icon: fireLocationIcon }).addTo(this.map);
-
-    L.marker(this.reportOfFire.currentLocation, {
-      icon: L.divIcon({
-        className: 'rof-location',
-        iconSize: [20, 20],
-        iconAnchor: [14, 14],
-      }),
-    }).addTo(this.map);
-
-    // draw the arrow and lines between fire location and current location
-    const latlngs = Array();
-    if (
-      this.reportOfFire?.fireLocation?.length &&
-      this.reportOfFire?.currentLocation?.length &&
-      this.reportOfFire.estimatedDistance
-    ) {
-      // Code to be executed if both fireLocation and currentLocation arrays have elements
-      const direction = this.commonUtilityService.calculateBearing(
-        this.reportOfFire.currentLocation[0],
-        this.reportOfFire.currentLocation[1],
-        this.reportOfFire.fireLocation[0],
-        this.reportOfFire.fireLocation[1],
-      );
-
-      const initialFirePoint: LatLng = L.latLng(
-        this.reportOfFire.fireLocation[0],
-        this.reportOfFire.fireLocation[1],
-      );
-      const currentLocationFirePoint: LatLng = L.latLng(
-        this.reportOfFire.currentLocation[0],
-        this.reportOfFire.currentLocation[1],
-      );
-      const pointI = this.map.latLngToContainerPoint(initialFirePoint); // convert to containerpoint (px);
-      const pointC = this.map.latLngToContainerPoint(currentLocationFirePoint); // convert to containerpoint (px);
-
-      const distanceInPixels = this.calculateDistanceInPixels(
-        pointI.x,
-        pointI.y,
-        pointC.x,
-        pointC.y,
-      );
-      const metersPerPixel =
-        this.reportOfFire.estimatedDistance / distanceInPixels;
-      const offSet = metersPerPixel * 35;
-      const angleInRadians = ((direction + 180) * Math.PI) / 180;
-      // calculates a new latitude value by adding a offset (in meters) to the initial latitude,
-      // considering the angle and the Earth's radius
-      const newLatitude =
-        initialFirePoint.lat +
-        (offSet * Math.cos(angleInRadians)) / ((Math.PI * 6378137) / 180);
-      const newLongitude =
-        initialFirePoint.lng +
-        (offSet * Math.sin(angleInRadians)) /
-        ((Math.PI * 6378137) / 180) /
-        Math.cos((initialFirePoint.lat * Math.PI) / 180);
-      const newFirePoint = [newLatitude, newLongitude];
-
-      latlngs.push(newFirePoint);
-      latlngs.push(this.reportOfFire.currentLocation);
-      L.polyline(latlngs, { color: 'yellow', opacity: 0.7 }).addTo(this.map);
-
-      L.marker(newFirePoint, {
-        icon: L.divIcon({
-          className: 'rof-arrow-head',
-          html: `<i class="material-icons" style="transform:rotateZ(${direction}deg);color:yellow;">navigation</i>`,
-          iconSize: [24, 24],
-          iconAnchor: [12, 12],
-        }),
-      }).addTo(this.map);
-
-      const middlePoint = this.calculateMiddlePoint(
-        this.reportOfFire.fireLocation[0],
-        this.reportOfFire.fireLocation[1],
-        this.reportOfFire.currentLocation[0],
-        this.reportOfFire.currentLocation[1],
-      );
-      L.tooltip({})
-        .setContent(
-          (this.reportOfFire.estimatedDistance / 1000).toFixed(3) + ' km',
-        )
-        .setLatLng(middlePoint)
-        .addTo(this.map);
-    }
+    drawArrow(smk, start, fire);
   }
 
   edit(pageId: string, secondStep?: boolean) {
@@ -462,23 +368,4 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
     return !value ? null : value;
   }
 
-  calculateMiddlePoint(
-    lat1: number,
-    lon1: number,
-    lat2: number,
-    lon2: number,
-  ): { lat: number; lon: number } {
-    const middleLat = (lat1 + lat2) / 2;
-    const middleLon = (lon1 + lon2) / 2;
-    return { lat: middleLat, lon: middleLon };
-  }
-
-  calculateDistanceInPixels(x1, y1, x2, y2) {
-    const xDistance = x2 - x1;
-    const yDistance = y2 - y1;
-    // Calculate the distance using the Pythagorean theorem
-    const distance = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
-
-    return distance;
-  }
 }

@@ -17,6 +17,8 @@ export class WeatherPanelComponent implements OnDestroy {
   public daily;
   public latitude;
   public longitude;
+  public stationName;
+  public loading = true;
 
   constructor(
     protected cdr: ChangeDetectorRef,
@@ -30,15 +32,20 @@ export class WeatherPanelComponent implements OnDestroy {
     ).style.removeProperty('width');
   }
 
+  // A null station means the weather request failed or found nothing.
   setWeatherStation(station) {
+    this.loading = false;
     this.stationData = station;
-    // The same hour as the mobile card.
-    this.hourly = station.validHour ?? getCurrentCondition(station);
+    if (station) {
+      this.stationName = this.stationName || station.stationName;
+      // The same hour as the mobile card.
+      this.hourly = station.validHour ?? getCurrentCondition(station);
 
-    this.latitude = this.stationData.latitude;
-    this.longitude = this.stationData.longitude;
+      this.latitude = this.stationData.latitude;
+      this.longitude = this.stationData.longitude;
 
-    this.daily = station.daily && station.daily[0] ? station.daily[0] : null;
+      this.daily = station.daily && station.daily[0] ? station.daily[0] : null;
+    }
 
     this.cdr.detectChanges()
   }

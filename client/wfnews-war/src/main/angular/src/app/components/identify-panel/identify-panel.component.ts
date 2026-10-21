@@ -41,8 +41,11 @@ export class IdentifyPanel extends DraggablePanelComponent {
         this.handleLayersSelection();
       }
 
-      if(this.currentIncidentRefs?.length == 1) {
-        this.enterPreview(this.currentIncidentRefs[0])
+      // A map click always shows the list; only a link to one incident opens it.
+      // The preview containers sit under an ngIf, so wait for the list to render.
+      if (this.currentIncidentRefs?.length == 1 && this.currentIncidentRefs[0].notification) {
+        const item = this.currentIncidentRefs[0];
+        setTimeout(() => this.enterPreview(item));
       }
     }
   }
@@ -155,7 +158,14 @@ export class IdentifyPanel extends DraggablePanelComponent {
 
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(WeatherPanelComponent);
     const componentRef = this.weatherPanelContainer.createComponent(componentFactory);
-    componentRef.instance.setWeatherStation(item.data);
+    componentRef.instance.stationName = item.title;
+    componentRef.changeDetectorRef.detectChanges();
+    this.pointIdService.loadStationWeather(item).then((station) => {
+      // The user may have opened another item before the weather arrived.
+      if (!componentRef.hostView.destroyed) {
+        componentRef.instance.setWeatherStation(station);
+      }
+    });
 
     const panel = document.getElementsByClassName('desktop-preview').item(0) as HTMLElement;
     panel.innerHTML = '';

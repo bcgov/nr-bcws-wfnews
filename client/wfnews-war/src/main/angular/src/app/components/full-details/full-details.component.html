@@ -7,7 +7,11 @@
 </div>
 
 <div class="contents">
-  <div id="restrictions-map" class="map-container-mobile"></div>
+  <div class="map-container-mobile">
+    <wf-map-container *ngIf="mapConfig"
+      [mapConfig]="mapConfig"
+      (mapInitialized)="onMapInitialized($event)"></wf-map-container>
+  </div>
   <div class="full-details">
     <!-- This is probably fine for now, but we can change to use an injector like what we do in RoF pages -->
     <wfnews-area-restrictions-full-details

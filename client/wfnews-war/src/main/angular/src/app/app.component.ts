@@ -182,7 +182,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     this.wfMapService.patch();
-    this.wfMapService.changeBasemapCacheToken();
     this.addCustomMaterialIcons();
     this.updateService.checkForUpdates();
     this.checkUserPermissions();

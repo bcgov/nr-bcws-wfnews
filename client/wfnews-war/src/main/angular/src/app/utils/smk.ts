@@ -1,4 +1,4 @@
-import { GeoJsonTypes } from 'geojson';
+import { GeoJSON } from 'geojson';
 
 export type SmkMap = any;
 
@@ -13,7 +13,7 @@ export class SmkApi {
     return block(this.smkMap);
   }
 
-  showFeature(acetate: string, geometry?: GeoJsonTypes, opt?: object): void {
+  showFeature(acetate: string, geometry?: GeoJSON, opt?: object): void {
     if (!this.smkMap) {
 return;
 }
@@ -21,7 +21,7 @@ return;
     this.smkMap.showFeature(acetate, geometry, opt);
   }
 
-  panToFeature(geometry: GeoJsonTypes, zoomIn?) {
+  panToFeature(geometry: GeoJSON, zoomIn?) {
     if (!this.smkMap) {
 return;
 }

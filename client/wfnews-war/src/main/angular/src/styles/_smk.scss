@@ -78,6 +78,8 @@
 .smk-layer-eccc-pm25-smoke-forecast span.smk-legend-title,
 [title="id: eccc-pm25-smoke-forecast"] span.smk-legend-title {
   display: block !important;
+  // SMK pads the title, and 100% plus that padding scrolled the legend.
+  box-sizing: border-box;
   width: 100% !important;
   padding-top: 8px !important;
 }

@@ -40,7 +40,7 @@ export class DangerRatingPreviewComponent {
   }
 
   enterFullDetail() {
-    const currentZoomLevel = getActiveMap().$viewer?.map?._zoom;
+    const currentZoomLevel = getActiveMap().$viewer?.map?.getZoom();
     const location = new LocationData();
     const url = this.router.serializeUrl(
       this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {

@@ -1,21 +1,19 @@
-<div *ngIf="incident && data">
+<div *ngIf="data">
     <div class="prev-panel">
         <div class="panel-container">
             <div class="draggable-panel-title">
                 <mat-icon svgIcon="back-icon-panel" (click)="goBack()"></mat-icon>
                 <span class="preview-title">
-                    <ng-container *ngIf="data.layerId === 'active-wildfires-fire-of-note'; else fireIcon">
-                        <img alt="icon" class="incident-icon-title"
-                            src="/assets/images/local_fire_department.png" />
-                    </ng-container>
-                    <ng-template #fireIcon>
-                        <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/wildfire.svg">
-                    </ng-template>
-                    {{displayItemTitle(data)}}
+                    {{incident ? displayItemTitle(data) : 'Wildfire'}}
                 </span>
                 <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
             </div>
-            <div class="identify-card">
+            <div class="identify-card" *ngIf="!incident">
+                <div class="identify-card-description">
+                    {{loading ? 'Loading wildfire details...' : 'Details for this wildfire are not available.'}}
+                </div>
+            </div>
+            <div class="identify-card" *ngIf="incident">
                 <div class="identify-card-title">{{incident.incidentName}}</div>
                 <div class="identify-card-item">
                     <span class="circle-icon {{getStageOfControlIcon(incident.stageOfControlCode)}}"></span>
@@ -52,7 +50,7 @@
                     </div>
                 </div>
             </div>
-            <div class="button-row">
+            <div class="button-row" *ngIf="incident">
                 <div class="buttons">
                     <wfnews-button variant="secondary" [fullWidth]="true" label="Zoom to"
                       iconPath="/assets/images/svg-icons/zoom-in.svg" (buttonClicked)="zoomIn()"></wfnews-button>

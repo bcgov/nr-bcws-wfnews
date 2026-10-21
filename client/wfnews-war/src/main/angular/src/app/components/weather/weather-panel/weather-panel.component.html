@@ -1,10 +1,9 @@
-<div class="smk-popup" *ngIf="stationData">
+<div class="smk-popup" *ngIf="stationName">
   <div class="popup-header">
     <span class="back-button">
       <mat-icon svgIcon="back-icon-panel" (click)="goBack()"></mat-icon>
     </span>
     <span class="title">
-      <img class="desktop-preview-icon" src="/assets/images/svg-icons/carbon_partly-cloudy.svg" width='20' height='20' alt="active weather station">
       Active Weather Station
     </span>
     <span class="close-button">
@@ -13,7 +12,9 @@
   </div>
   <div *ngIf="!isDetailView; else detailView">
     <div class="popup-content">
-      <div class="popup-title">Weather Station: {{stationData.stationName}}</div>
+      <div class="popup-title">Weather Station: {{stationName}}</div>
+      <div class="label" *ngIf="loading">Loading weather...</div>
+      <div class="label" *ngIf="!loading && !stationData">No current weather reading found for this station</div>
       <div *ngIf="hourly && hourly.hour">
         <div class="label">{{formatHourlyData()}}</div>
       </div>
@@ -36,7 +37,7 @@
         </div>
       </div>
     </div>
-    <div class="buttons">
+    <div class="buttons" *ngIf="stationData">
       <wfnews-button variant="primary" [fullWidth]="true" label="Full Details"
         (buttonClicked)="enterFullDetail()"></wfnews-button>
     </div>

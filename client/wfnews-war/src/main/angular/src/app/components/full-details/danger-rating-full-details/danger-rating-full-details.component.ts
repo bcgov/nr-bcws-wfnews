@@ -6,8 +6,11 @@ import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { displayDangerRatingDescription, ResourcesRoutes, setDisplayColor } from '@app/utils';
+import { FullDetailsMapService } from '@app/services/full-details-map.service';
+import { MapConfigService } from '@app/services/map-config.service';
+import { boundsToExtent, drawNearbyIncidents } from '@app/utils/preview-map';
+import { filter, take } from 'rxjs/operators';
 import { AppConfigService } from '@wf1/core-ui';
-import * as L from 'leaflet';
 
 @Component({
   selector: 'wfnews-danger-rating-full-details',
@@ -31,6 +34,8 @@ export class DangerRatingFullDetailsComponent implements OnInit {
     private agolService: AGOLService,
     private commonUtilityService: CommonUtilityService,
     private metaService: Meta,
+    private mapConfigService: MapConfigService,
+    private fullDetailsMap: FullDetailsMapService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -68,78 +73,48 @@ export class DangerRatingFullDetailsComponent implements OnInit {
   }
 
   async createMap(locationData: LocationData, bounds?: any) {
-    const location = [locationData.latitude, locationData.longitude];
-
-    const mapOptions = this.commonUtilityService.getMapOptions(bounds, location);
-
-    // Create the map using the mapOptions
-    this.map = L.map('restrictions-map', mapOptions);
-
-    // If bounds exist, fit the map to the bounds; otherwise, set the view to the default location and zoom level
-    if (bounds) {
-      this.map.fitBounds(bounds);
-    }
-    // configure map  - change from osm to ESRI eventually. Needs to be done elsewhere too
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
-
     const databcUrl = this.appConfigService
-      .getConfig()
-    ['mapServices']['openmapsBaseUrl'].toString();
-    L.tileLayer
-      .wms(databcUrl, {
-        layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.1',
-        opacity: 0.5,
-        style: '7734',
-      })
-      .addTo(this.map);
+      .getConfig()['mapServices']['openmapsBaseUrl'].toString();
 
-    const fireOfNoteIcon = L.icon({
-      iconUrl: '/assets/images/local_fire_department.png',
-      iconSize: [35, 35],
-      shadowAnchor: [4, 62],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41],
+    const cfg = await this.mapConfigService.getPreviewMapConfig({
+      baseMap: 'navigation',
+      extent: boundsToExtent(bounds),
+      layers: [
+        {
+          type: 'wms',
+          id: 'danger-rating',
+          title: 'Danger Rating',
+          serviceUrl: databcUrl,
+          layerName: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
+          styleName: '7734',
+          version: '1.1.1',
+          opacity: 0.5,
+          isVisible: true,
+        },
+      ],
     });
+    this.fullDetailsMap.setConfig(cfg);
 
-    // now fetch the rest of the incidents in the area and display on map
+    // The parent builds the map, so wait for it before drawing on it.
+    const smk = await this.fullDetailsMap.smk$
+      .pipe(filter((v) => !!v), take(1))
+      .toPromise();
+    this.map = smk.$viewer.map;
+
     try {
       locationData.radius = 100;
-      const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
       const incidents = await this.publishedIncidentService
-        .fetchPublishedIncidentsList(
-          0,
-          9999,
-          locationData,
-          null,
-          null,
-          stageOfControlCodes,
-        )
+        .fetchPublishedIncidentsList(0, 9999, locationData, null, null, [
+          'OUT_CNTRL',
+          'HOLDING',
+          'UNDR_CNTRL',
+        ])
         .toPromise();
-      if (incidents?.collection && incidents?.collection?.length > 0) {
-        for (const item of incidents.collection) {
-          const incidentLocation = [Number(item.latitude), Number(item.longitude)];
-          if (item.fireOfNoteInd) {
-            L.marker(incidentLocation, { icon: fireOfNoteIcon }).addTo(this.map);
-          } else {
-            const colorToDisplay = setDisplayColor(item.stageOfControlCode);
-            L.circleMarker(incidentLocation, {
-              radius: 5,
-              fillOpacity: 1,
-              color: 'black',
-              fillColor: colorToDisplay,
-            }).addTo(this.map);
-          }
-        }
-      }
+      drawNearbyIncidents(smk, incidents?.collection);
     } catch (err) {
       console.error('Could not retrieve surrounding incidents');
     }
+
     this.cdr.detectChanges();
   }
 

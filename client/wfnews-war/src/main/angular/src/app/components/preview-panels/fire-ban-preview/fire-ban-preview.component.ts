@@ -40,7 +40,7 @@ export class FireBanPreviewComponent {
   }
 
   enterFullDetail() {
-    const currentZoomLevel = getActiveMap().$viewer?.map?._zoom;
+    const currentZoomLevel = getActiveMap().$viewer?.map?.getZoom();
     const url = this.router.serializeUrl(
       this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
         queryParams: {

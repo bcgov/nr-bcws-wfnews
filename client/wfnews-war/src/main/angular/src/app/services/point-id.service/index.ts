@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@wf1/core-ui';
+import { getCurrentCondition } from '@app/utils';
 import { WeatherStationConditions, WeatherStationResult } from './interfaces';
 
 export {
@@ -61,6 +62,28 @@ export class PointIdService {
     ).then(function(resp: WeatherStationResult) {
       return resp.stations[0];
     });
+  }
+
+  // The identify gives the station; its weather follows. Every panel that
+  // holds the feature waits on the same request.
+  loadStationWeather(feature): Promise<WeatherStationConditions | null> {
+    if (!feature.weather) {
+      feature.weather = feature.data !== undefined
+        ? Promise.resolve(feature.data)
+        : this.fetchWeatherStation(feature.properties.STATION_CODE)
+            .then((station) => {
+              if (!station) {
+                return null;
+              }
+              station.validHour = getCurrentCondition(station);
+              station.latitude = feature.properties.LATITUDE;
+              station.longitude = feature.properties.LONGITUDE;
+              return station;
+            })
+            .catch(() => null)
+            .then((station) => (feature.data = station));
+    }
+    return feature.weather;
   }
 
   fetchNearestWeatherStation(

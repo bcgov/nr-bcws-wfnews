@@ -11,10 +11,11 @@ import {
 } from '@app/services/point-id.service';
 import { EffectSources } from '@ngrx/effects';
 import { SortDirection } from '@wf1/core-ui';
-import * as L from 'leaflet';
 import * as moment from 'moment';
 import { PagingInfoRequest } from '../store/application/application.state';
+import { animatedIcon, pinDropElement, pulse } from './map-markers';
 import { formatWeatherDay, formatWeatherHour } from './weather-time';
+import * as turf from '@turf/turf';
 
 export * from './weather-time';
 
@@ -749,9 +750,7 @@ export function getActiveMap(smk: any | null = null) {
   const SMK = smk || window['SMK'];
   const key = Object.keys(SMK.MAP)[Object.keys(SMK.MAP).length - 1];
   if (key) {
-    const map = SMK.MAP[key];
-    map.$viewer.map._layersMaxZoom = 20;
-    return map;
+    return SMK.MAP[key];
   }
   // Sort of a fail-safe if the object doesn't have a key to force-retry with the window SMK object
   else {
@@ -883,76 +882,68 @@ export function formatNumber(number) {
   return number.toLocaleString('en-US');
 }
 
+/**
+ * These four are bound onto a component as a field, so `this` is the component.
+ * Each draws into one acetate, which is what removes the last drawing.
+ */
 export function addMarker(incident: any) {
-  if (this.marker) {
-    this.marker.remove();
-    this.marker = null;
-  }
+  clearMarker.call(this);
 
+  const icon = animatedIcon(setDisplayColor(incident.stageOfControlCode));
+
+  getActiveMap().showFeature(
+    'incident-marker',
+    turf.point([
+      Number(incident.longitude),
+      Number(incident.latitude),
+    ]),
+    { htmlMarker: () => icon },
+  );
+
+  this.markerAnimation = setInterval(() => pulse(icon), 1000);
+}
+
+export function clearMarker() {
   if (this.markerAnimation) {
     clearInterval(this.markerAnimation);
+    this.markerAnimation = null;
   }
-
-  const pointerIcon = L.divIcon({
-    iconSize: [20, 20],
-    iconAnchor: [12, 12],
-    popupAnchor: [10, 0],
-    shadowSize: [0, 0],
-    className: 'animated-icon',
-  });
-  this.marker = L.marker(
-    [Number(incident.latitude), Number(incident.longitude)],
-    { icon: pointerIcon },
-  );
-  this.marker.on('add', function () {
-    const icon: any = document.querySelector('.animated-icon');
-    icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
-
-    this.markerAnimation = setInterval(() => {
-      icon.style.width = icon.style.width === '10px' ? '20px' : '10px';
-      icon.style.height = icon.style.height === '10px' ? '20px' : '10px';
-      icon.style.marginLeft = icon.style.width === '20px' ? '-10px' : '-5px';
-      icon.style.marginTop = icon.style.width === '20px' ? '-10px' : '-5px';
-      icon.style.boxShadow =
-        icon.style.width === '20px'
-          ? '4px 4px 4px rgba(0, 0, 0, 0.65)'
-          : '0px 0px 0px transparent';
-    }, 1000);
-  });
-
-  const viewer = getActiveMap().$viewer;
-  this.marker.addTo(viewer.map);
+  try {
+    getActiveMap().showFeature('incident-marker');
+  } catch (err) {
+    // The map is already gone on a destroy, so there is nothing to clear.
+  }
 }
 
 export function zoomInWithLocationPin() {
-  const viewer = getActiveMap().$viewer;
   const long = Number(this.data?.geometry?.coordinates[0]);
   const lat = Number(this.data?.geometry?.coordinates[1]);
 
-  if (long && lat) {
-    this.mapConfigService.getMapConfig().then(() => {
-      getActiveMap().$viewer.panToFeature(
-        window['turf'].point([long, lat]),
-        this.defaultZoomLevel
-      );
-    });
-    const markerOptions = {
-      icon: L.divIcon({
-        className: 'custom-icon-class',
-        html: `<div class="custom-marker" style="margin-top:-30px">
-              <img alt="icon" src="/assets/images/svg-icons/pin-drop.svg"/>
-            </div>`,
-        iconSize: [32, 32],
-      }),
-      draggable: false,
-    };
-    if (this.pinDrop) {
-      viewer.map.removeLayer(this.pinDrop);
-    }
-
-    this.pinDrop = L.marker(
-      [lat, long],
-      markerOptions,
-    ).addTo(viewer.map);
+  if (!long || !lat) {
+    return;
   }
+
+  this.mapConfigService.getMapConfig().then(() => {
+    getActiveMap().$viewer.panToFeature(
+      turf.point([long, lat]),
+      this.defaultZoomLevel,
+    );
+  });
+
+  getActiveMap().showFeature('pin-drop', turf.point([long, lat]), {
+    htmlMarker: () => pinDropElement(),
+  });
+  this.pinDrop = true;
+}
+
+export function clearLocationPin() {
+  if (!this.pinDrop) {
+    return;
+  }
+  try {
+    getActiveMap().showFeature('pin-drop');
+  } catch (err) {
+    // The map is already gone on a destroy, so there is nothing to clear.
+  }
+  this.pinDrop = false;
 }

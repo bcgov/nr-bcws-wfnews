@@ -7,7 +7,7 @@ export function ForestServiceRoadsLayerConfig(ls: layerSettings) {
       id: 'bc-fsr',
       title: 'Forest Service Roads',
       isQueryable: true,
-      attribution: 'Copyright 117 DataBC, Government of British Columbia',
+      attribution: 'Copyright © DataBC, Government of British Columbia',
       serviceUrl:
         ls.services6BaseUrl + '/ubm4tcTYICKBpist/ArcGIS/rest/services/FSR_Safety_Information_View/FeatureServer/0',
       opacity: 1,

@@ -12,8 +12,10 @@
   margin-right: 8px;
 }
 
+// The header (72px and a 2px border) and the menu bar (52px). One pixel less
+// and the map runs past the page, which then scrolls.
 .container {
-  height: calc(100dvh - 125px) !important;
+  height: calc(100dvh - 126px) !important;
   overflow: hidden;
 }
 
@@ -86,6 +88,11 @@
       &::-webkit-scrollbar-thumb {
         background: #888;
         border-radius: 24px;
+      }
+
+      // The same size as the identify panel's "Results" header.
+      ::ng-deep .draggable-panel-title {
+        font-size: 18px;
       }
     }
   }
@@ -399,12 +406,13 @@ mat-panel-title {
 
 }
 
+// The scale takes the bottom 79px of the map, so the FABs start 12px above it.
 .search-fab {
-  bottom: 137px !important;
+  bottom: 141px !important;
 }
 
-.bottom-77 {
-  bottom: 77px !important;
+.location-fab {
+  bottom: 91px !important;
 }
 
 .search-row {
