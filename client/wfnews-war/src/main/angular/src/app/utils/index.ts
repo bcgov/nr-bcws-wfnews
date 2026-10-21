@@ -526,7 +526,7 @@ export function hideOnMobileView() {
 export function convertToMobileFormat(dateString) {
   const formattedDate = moment(
     dateString,
-    'dddd, MMMM D, YYYY [at] h:mm:ss A',
+    'dddd, MMMM D, YYYY [at] h:mm:ss a',
   ).format('MMMM D, YYYY');
   return formattedDate;
 }
@@ -609,7 +609,7 @@ export function getStageOfControlIcon(code: string) {
 }
 
 export function convertToDateTimeTimeZone(date: Date | string): string {
-  // e.g. July 19, 2022 at 10:22 a.m. PST/PDT
+  // e.g. July 19, 2022 at 10:22 am
   const updateOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
@@ -617,7 +617,6 @@ export function convertToDateTimeTimeZone(date: Date | string): string {
     hour: 'numeric',
     minute: 'numeric',
     second: undefined, // this removes the seconds
-    timeZoneName: 'short', // Automatically handles PDT/PST
   };
 
   let convertedDate = date
@@ -625,9 +624,8 @@ export function convertToDateTimeTimeZone(date: Date | string): string {
     : 'Pending';
 
   if (convertedDate !== 'Pending') {
-    // add full stops and lowercase
-    convertedDate = convertedDate.replace('AM', 'a.m.');
-    convertedDate = convertedDate.replace('PM', 'p.m.');
+    convertedDate = convertedDate.replace('AM', 'am');
+    convertedDate = convertedDate.replace('PM', 'pm');
   }
   return convertedDate;
 }

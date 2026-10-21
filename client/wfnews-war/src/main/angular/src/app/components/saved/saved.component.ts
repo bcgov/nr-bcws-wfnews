@@ -329,7 +329,10 @@ export class SavedComponent implements OnInit, OnDestroy {
         };
         incident.lastUpdatedTimestamp = new Date(
           incident.lastUpdatedTimestamp,
-        ).toLocaleTimeString('en-US', options);
+        )
+          .toLocaleTimeString('en-US', options)
+          .replace('AM', 'am')
+          .replace('PM', 'pm');
         this.wildFireWatchlist.push(incident);
       }
     }
