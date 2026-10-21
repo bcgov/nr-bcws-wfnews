@@ -16,7 +16,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { hasOwn } from '@app/utils';
+import { getCurrentCondition, hasOwn } from '@app/utils';
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
@@ -250,12 +250,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
         long,
       )
       .then(function(station) {
-        for (const hours of station.hourly) {
-          if (hours.temp !== null) {
-            station.validHour = hours;
-            break;
-          }
-        }
+        station.validHour = getCurrentCondition(station);
 
         station.latitude = lat;
         station.longitude = long;
