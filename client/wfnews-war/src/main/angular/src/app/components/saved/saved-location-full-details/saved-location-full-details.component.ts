@@ -8,6 +8,7 @@ import {
   convertToDateTimeTimeZone,
   convertToDateYear,
   displayDangerRatingDescription,
+  formatWeatherHourRelative,
   getStageOfControlIcon,
   getStageOfControlLabel,
   isMobileView,
@@ -167,7 +168,9 @@ export class SavedLocationFullDetailsComponent implements OnInit {
               if (hours.temp !== null) {
                 this.station = hours;
                 if (this.station?.hour) {
-                  this.stationHour = this.station?.hour.slice(-2) + ':00';
+                  this.stationHour = formatWeatherHourRelative(
+                    this.station.hour,
+                  );
                 }
                 break;
               }
