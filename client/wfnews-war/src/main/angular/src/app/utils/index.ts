@@ -784,6 +784,8 @@ export function displayDangerRatingDescription(danger) {
   }
 }
 
+// PointID lists the newest hour first and sends no temp until an hour is observed.
+// Compare with null, not truthiness: 0° C is a reading.
 export function getCurrentCondition(
   conditions: WeatherStationConditions,
 ): WeatherHourlyCondition {

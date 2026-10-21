@@ -1,5 +1,10 @@
 import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
-import { formatWeatherHourRelative, hidePanel, showPanel } from '@app/utils';
+import {
+  formatWeatherHourRelative,
+  getCurrentCondition,
+  hidePanel,
+  showPanel,
+} from '@app/utils';
 
 @Component({
   selector: 'weather-panel',
@@ -27,9 +32,8 @@ export class WeatherPanelComponent implements OnDestroy {
 
   setWeatherStation(station) {
     this.stationData = station;
-    this.hourly = station.hourly[0].temperature
-      ? station.hourly[0]
-      : station.hourly[1];
+    // The same hour as the mobile card.
+    this.hourly = station.validHour ?? getCurrentCondition(station);
 
     this.latitude = this.stationData.latitude;
     this.longitude = this.stationData.longitude;
