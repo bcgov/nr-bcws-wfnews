@@ -8,6 +8,7 @@ import {
   convertToDateTimeTimeZone,
   displayDangerRatingDescription,
   formatWeatherHourRelative,
+  getCurrentCondition,
   isMobileView,
 } from '@app/utils';
 import { SpatialUtilsService } from '@wf1/core-ui';
@@ -161,16 +162,11 @@ export class SavedLocationFullDetailsComponent implements OnInit {
             if (response?.stationName) {
               this.stationName = response.stationName;
 }
-            for (const hours of response.hourly) {
-              if (hours.temp !== null) {
-                this.station = hours;
-                if (this.station?.hour) {
-                  this.stationHour = formatWeatherHourRelative(
-                    this.station.hour,
-                  );
-                }
-                break;
-              }
+            // The template reads station.temp unguarded, so keep [] when no hour has a reading.
+            const hour = getCurrentCondition(response);
+            if (hour) {
+              this.station = hour;
+              this.stationHour = formatWeatherHourRelative(hour.hour);
             }
           });
       } catch (error) {

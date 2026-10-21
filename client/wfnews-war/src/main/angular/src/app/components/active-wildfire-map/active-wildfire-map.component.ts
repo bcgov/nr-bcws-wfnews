@@ -42,6 +42,7 @@ import { PlaceData } from "../../services/wfnews-map.service/place-data";
 import {
   ResourcesRoutes,
   getActiveMap,
+  getCurrentCondition,
   hasOwn,
   isMobileView,
   isMobileView as mobileView,
@@ -829,12 +830,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           this.userLocation?.coords.latitude,
           this.userLocation?.coords.longitude,
         );
-        for (const hours of station.hourly) {
-          if (hours.temp !== null) {
-            station.validHour = hours;
-            break;
-          }
-        }
+        station.validHour = getCurrentCondition(station);
         const weatherStation = {
           type: "Feature",
           layerId: "weather-stations",
