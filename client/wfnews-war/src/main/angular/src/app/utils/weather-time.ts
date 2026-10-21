@@ -6,7 +6,7 @@
  *
  * Formatting workflow:
  * 1. Convert the UTC-8 wall-clock string to an absolute UTC Date object.
- * 2. Format the Date object into the user's local timezone (with explicit zone abbreviation).
+ * 2. Format the Date object into the user's local timezone, with no zone abbreviation.
  */
 
 /**
@@ -125,18 +125,22 @@ function daysBeforeToday(date: Date, now: Date, timeZone: string): number {
 }
 
 /**
- * Formats time of day with an explicit timezone suffix (e.g., "3:00 p.m. PDT").
+ * Formats time of day on a 12-hour clock (e.g., "3:00 pm").
+ * Built from parts, because ICU spells the day period differently per locale and version.
  */
 export function formatWeatherTimeOfDay(
   date: Date,
   timeZone: string = viewerTimeZone(),
 ): string {
-  return new Intl.DateTimeFormat(LOCALE, {
+  const parts = new Intl.DateTimeFormat('en-US', {
     hour: 'numeric',
+    hourCycle: 'h12',
     minute: '2-digit',
     timeZone,
-    timeZoneName: 'short',
-  }).format(date);
+  }).formatToParts(date);
+  const lookup = (type: string) =>
+    parts.find((part) => part.type === type)?.value ?? '';
+  return `${lookup('hour')}:${lookup('minute')} ${lookup('dayPeriod').toLowerCase()}`;
 }
 
 /**
@@ -154,25 +158,23 @@ export function formatWeatherDate(
   }).format(date);
 }
 
+function formatWeatherDateTime(date: Date, timeZone: string): string {
+  return `${calendarDayIn(date, timeZone)} at ${formatWeatherTimeOfDay(date, timeZone)}`;
+}
+
 /**
- * Formats an hourstamp into a full date and time string (e.g., "August 10, 2026 at 3:00 p.m. PDT").
+ * Formats an hourstamp into a date and time string (e.g., "2026-08-10 at 3:00 pm").
  */
 export function formatWeatherHour(
   hourstamp: string,
   timeZone: string = viewerTimeZone(),
 ): string {
   const date = weatherHourToDate(hourstamp);
-  if (!date) {
-    return '';
-  }
-  return (
-    `${formatWeatherDate(date, timeZone)} at ` +
-    `${formatWeatherTimeOfDay(date, timeZone)}`
-  );
+  return date ? formatWeatherDateTime(date, timeZone) : '';
 }
 
 /**
- * Formats an hourstamp relative to today (e.g., "Today at 3:00 p.m. PDT", "Yesterday at 11:00 p.m. PDT").
+ * Formats an hourstamp relative to today (e.g., "Today at 3:00 pm", "Yesterday at 11:00 pm").
  * Falls back to full date format if older than yesterday or in the future.
  */
 export function formatWeatherHourRelative(
@@ -192,7 +194,7 @@ export function formatWeatherHourRelative(
     case 1:
       return `Yesterday at ${time}`;
     default:
-      return `${formatWeatherDate(date, timeZone)} at ${time}`;
+      return formatWeatherDateTime(date, timeZone);
   }
 }
 
@@ -222,19 +224,13 @@ export function formatWeatherDay(daystamp: string): string {
 }
 
 /**
- * Formats the daily observation timestamp (noon LST) into local time (e.g., "August 10, 2026 at 1:00 p.m. PDT").
+ * Formats the daily observation timestamp (noon LST) into local time (e.g., "2026-08-10 at 1:00 pm").
  */
 export function formatWeatherDailyObservation(
   daystamp: string,
   timeZone: string = viewerTimeZone(),
 ): string {
   const date = weatherDayToDate(daystamp);
-  if (!date) {
-    return '';
-  }
-  return (
-    `${formatWeatherDate(date, timeZone)} at ` +
-    `${formatWeatherTimeOfDay(date, timeZone)}`
-  );
+  return date ? formatWeatherDateTime(date, timeZone) : '';
 }
 

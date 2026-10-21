@@ -735,8 +735,8 @@ export function readableDate(date) {
 }
 
 /**
- * A weather hourstamp (YYYYMMDDHH) as a readable local time with its timezone
- * named, e.g. "October 4, 2023 at 12:00 a.m. PDT".
+ * A weather hourstamp (YYYYMMDDHH) as a readable local time,
+ * e.g. "2023-10-04 at 12:00 am".
  *
  * Rendered in the viewer's own timezone -- see utils/weather-time.ts for why
  * the hourstamp cannot simply be printed as written.
