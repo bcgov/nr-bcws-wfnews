@@ -13,7 +13,7 @@ import {
  * already localised to a fixed UTC-8, with no daylight-savings shift ever
  * applied -- the Fire Weather Index Local Standard Time convention. The UI's
  * job is to recover the real instant from that fixed offset and then render it
- * in the viewer's own timezone, naming the zone.
+ * in the viewer's own timezone, without naming the zone.
  *
  * The two failure modes these specs exist to prevent:
  *   - re-localising an already-local value (e.g. `new Date(y, m, d, h)`), which
@@ -21,10 +21,8 @@ import {
  *   - letting daylight savings leak into step 1, which moves a reading by an
  *     hour depending on the time of year it was taken.
  *
- * Zone abbreviations and the "p.m." spelling come from the platform's ICU data,
- * so assertions about them are deliberately tolerant. Assertions about the
- * instant -- which is entirely our own arithmetic -- are exact, and are pinned
- * to the vectors in the server's WeatherHourTests.java.
+ * The output is built from date parts, so assertions are exact. The instants are
+ * pinned to the vectors in the server's WeatherHourTests.java.
  */
 
 /** Pacific: observes DST today, and is what most of BC is on. */
@@ -89,46 +87,43 @@ describe('weatherHourToDate', () => {
 
 describe('formatWeatherHour', () => {
   it('renders a winter reading in Pacific standard time', () => {
-    const formatted = formatWeatherHour('2021021518', VANCOUVER);
-    expect(formatted).toContain('February 15, 2021');
-    expect(formatted).toContain('6:00');
-    expect(formatted).toContain('PST');
+    expect(formatWeatherHour('2021021518', VANCOUVER)).toBe(
+      '2021-02-15 at 6:00 pm',
+    );
   });
 
   it('advances a summer reading by an hour for Pacific daylight time', () => {
     // The hourstamp reads 18 because it is recorded in fixed PST. A viewer in
     // Vancouver in June is on PDT, where that instant is 19:00. Showing "18:00"
     // here -- as the UI used to -- is the off-by-one-hour bug this guards.
-    const formatted = formatWeatherHour('2021061518', VANCOUVER);
-    expect(formatted).toContain('June 15, 2021');
-    expect(formatted).toContain('7:00');
-    expect(formatted).toContain('PDT');
+    expect(formatWeatherHour('2021061518', VANCOUVER)).toBe(
+      '2021-06-15 at 7:00 pm',
+    );
   });
 
   it('renders in Mountain time for the Peace region, year round', () => {
-    // Dawson Creek sits on MST permanently, so both readings land at 19:00 and
-    // neither is labelled with a daylight abbreviation.
-    const winter = formatWeatherHour('2021021518', DAWSON_CREEK);
-    const summer = formatWeatherHour('2021061518', DAWSON_CREEK);
-
-    expect(winter).toContain('7:00');
-    expect(winter).toContain('MST');
-    expect(summer).toContain('7:00');
-    expect(summer).toContain('MST');
+    // Dawson Creek sits on MST permanently, so both readings land at 19:00.
+    expect(formatWeatherHour('2021021518', DAWSON_CREEK)).toBe(
+      '2021-02-15 at 7:00 pm',
+    );
+    expect(formatWeatherHour('2021061518', DAWSON_CREEK)).toBe(
+      '2021-06-15 at 7:00 pm',
+    );
   });
 
   it('shows hour 24 as midnight on the following day', () => {
-    const formatted = formatWeatherHour('2021021524', VANCOUVER);
-    expect(formatted).toContain('February 16, 2021');
-    expect(formatted).toContain('12:00');
-    expect(formatted).not.toContain('24:00');
+    expect(formatWeatherHour('2021021524', VANCOUVER)).toBe(
+      '2021-02-16 at 12:00 am',
+    );
   });
 
-  it('always names a timezone', () => {
-    // TAC: no weather timestamp may be displayed without timezone context.
+  it('never names a timezone or writes "a.m."/"p.m."', () => {
+    // Ruled 2026-10-15 (WFNEWS-2971): the acronym is wrong for most BC devices.
     for (const stamp of ['2021021518', '2021061518', '2021021524']) {
       for (const zone of [VANCOUVER, DAWSON_CREEK]) {
-        expect(formatWeatherHour(stamp, zone)).toMatch(/\b[PM][SD]T\b/);
+        const formatted = formatWeatherHour(stamp, zone);
+        expect(formatted).not.toMatch(/\b[PM][SD]T\b/);
+        expect(formatted).not.toMatch(/[ap]\.m\./);
       }
     }
   });
@@ -142,22 +137,18 @@ describe('formatWeatherHour', () => {
 describe('formatWeatherHourRelative', () => {
   it('says "Today" for a reading on the viewer\'s current calendar day', () => {
     const now = new Date('2021-02-15T22:00:00Z'); // 14:00 PST, same day
-    const formatted = formatWeatherHourRelative('2021021512', now, VANCOUVER);
-
-    expect(formatted).toContain('Today at');
-    expect(formatted).toContain('12:00');
-    expect(formatted).toContain('PST');
+    expect(formatWeatherHourRelative('2021021512', now, VANCOUVER)).toBe(
+      'Today at 12:00 pm',
+    );
   });
 
   it('says "Yesterday" for last night\'s reading seen after midnight', () => {
     // The previous implementation compared elapsed milliseconds, so a reading
     // 1.5 hours old that had crossed midnight still read "Today".
     const now = new Date('2021-02-16T08:30:00Z'); // 00:30 PST on the 16th
-    const formatted = formatWeatherHourRelative('2021021523', now, VANCOUVER);
-
-    expect(formatted).toContain('Yesterday at');
-    expect(formatted).toContain('11:00');
-    expect(formatted).toContain('PST');
+    expect(formatWeatherHourRelative('2021021523', now, VANCOUVER)).toBe(
+      'Yesterday at 11:00 pm',
+    );
   });
 
   it('decides the calendar day in the viewer\'s zone, not the source zone', () => {
@@ -175,20 +166,17 @@ describe('formatWeatherHourRelative', () => {
 
   it('falls back to the absolute form for older readings', () => {
     const now = new Date('2021-02-20T20:00:00Z');
-    const formatted = formatWeatherHourRelative('2021021518', now, VANCOUVER);
-
-    expect(formatted).toContain('February 15, 2021');
-    expect(formatted).not.toContain('Today');
-    expect(formatted).not.toContain('Yesterday');
+    expect(formatWeatherHourRelative('2021021518', now, VANCOUVER)).toBe(
+      '2021-02-15 at 6:00 pm',
+    );
   });
 
   it('does not call a future reading "Today"', () => {
     // Math.abs() on the elapsed difference used to make future readings relative.
     const now = new Date('2021-02-10T20:00:00Z');
-    const formatted = formatWeatherHourRelative('2021021518', now, VANCOUVER);
-
-    expect(formatted).toContain('February 15, 2021');
-    expect(formatted).not.toContain('Today');
+    expect(formatWeatherHourRelative('2021021518', now, VANCOUVER)).toBe(
+      '2021-02-15 at 6:00 pm',
+    );
   });
 
   it('returns an empty string rather than throwing on bad input', () => {
@@ -213,21 +201,20 @@ describe('formatWeatherDay', () => {
 describe('formatWeatherDailyObservation', () => {
   it('reports the noon Local Standard Time reading in the viewer zone', () => {
     // Noon PST is 13:00 during Pacific daylight time.
-    const summer = formatWeatherDailyObservation('20210615', VANCOUVER);
-    expect(summer).toContain('June 15, 2021');
-    expect(summer).toContain('1:00');
-    expect(summer).toContain('PDT');
-
-    const winter = formatWeatherDailyObservation('20210215', VANCOUVER);
-    expect(winter).toContain('12:00');
-    expect(winter).toContain('PST');
+    expect(formatWeatherDailyObservation('20210615', VANCOUVER)).toBe(
+      '2021-06-15 at 1:00 pm',
+    );
+    expect(formatWeatherDailyObservation('20210215', VANCOUVER)).toBe(
+      '2021-02-15 at 12:00 pm',
+    );
   });
 
   it('anchors the reading to noon in the source zone, not the viewer zone', () => {
     // Noon fixed-UTC-8 is 20:00 UTC whatever the viewer is on, so the same
     // daystamp is a single instant that each zone then labels differently.
-    expect(formatWeatherDailyObservation('20210215', 'UTC')).toContain('8:00');
-    expect(formatWeatherDailyObservation('20210215', 'UTC')).toContain('p.m.');
+    expect(formatWeatherDailyObservation('20210215', 'UTC')).toBe(
+      '2021-02-15 at 8:00 pm',
+    );
   });
 
   it('returns an empty string rather than throwing on bad input', () => {
