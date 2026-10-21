@@ -10,7 +10,7 @@ android {
         applicationId "ca.bc.gov.WildfireInformation"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1097
+        versionCode 1099
         versionName "2.7.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
