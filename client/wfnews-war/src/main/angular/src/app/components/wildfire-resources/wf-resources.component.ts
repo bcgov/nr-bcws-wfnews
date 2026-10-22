@@ -97,7 +97,7 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
           subtitle: 'Prepared BC',
           url: 'https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/know-your-hazards/wildfires',
           description:
-            'Overview of what to do before, during and after a wildfire, and a downloadable PFD of the Wildfire Preparedness Guide.',
+            'Overview of what to do before, during and after a wildfire, and a downloadable PDF of the Wildfire Preparedness Guide.',
         },
         {
           title: 'FireSmart BC',
