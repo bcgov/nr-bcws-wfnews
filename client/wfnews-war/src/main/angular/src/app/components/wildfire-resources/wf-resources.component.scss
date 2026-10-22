@@ -31,7 +31,8 @@
       .icon {
         height: 20px;
         padding-right: 10px;
-        .facebook {
+        &.facebook {
+          width: 17.5px;
           color: #3b5998;
         }
       }

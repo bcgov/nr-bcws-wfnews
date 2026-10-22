@@ -12,7 +12,7 @@
                 <div *ngFor="let wildfire of filteredWildfires" class="widget-card">
                     <div class="widget-row" (click)="enterPreview(wildfire)">
                         <div class="left-content">
-                            <img alt="icon" *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="incident-icon-title" src="/assets/images/local_fire_department.png"/>
+                            <img alt="icon" *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="incident-icon-title" height="24" width="24" src="/assets/images/svg-icons/wildfire-of-note.svg"/>
                             <div class="wildfire-icon"><span class="circle-icon {{wildfire.layerId === 'fire-perimeters' ? convertFirePerimeterFireStatus(wildfire.properties.FIRE_STATUS) : wildfire.layerId }} list"></span></div>
                             {{displayWildfireName(wildfire)}}
                         </div>

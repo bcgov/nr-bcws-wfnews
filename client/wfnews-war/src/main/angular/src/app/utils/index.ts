@@ -13,7 +13,7 @@ import { EffectSources } from '@ngrx/effects';
 import { SortDirection } from '@wf1/core-ui';
 import * as moment from 'moment';
 import { PagingInfoRequest } from '../store/application/application.state';
-import { animatedIcon, pinDropElement, pulse } from './map-markers';
+import { animatedIcon, pinDropElement, replayPing } from './map-markers';
 import { formatWeatherDay, formatWeatherHour } from './weather-time';
 import * as turf from '@turf/turf';
 
@@ -883,13 +883,15 @@ export function formatNumber(number) {
 }
 
 /**
- * These four are bound onto a component as a field, so `this` is the component.
+ * These are bound onto a component as a field, so `this` is the component.
  * Each draws into one acetate, which is what removes the last drawing.
  */
 export function addMarker(incident: any) {
   clearMarker.call(this);
 
-  const icon = animatedIcon(setDisplayColor(incident.stageOfControlCode));
+  const code = incident.stageOfControlCode;
+  const icon = animatedIcon(code ? getStageOfControlIconPath(code) : undefined);
+  this.selectedMarker = icon;
 
   getActiveMap().showFeature(
     'incident-marker',
@@ -899,15 +901,27 @@ export function addMarker(incident: any) {
     ]),
     { htmlMarker: () => icon },
   );
+}
 
-  this.markerAnimation = setInterval(() => pulse(icon), 1000);
+/** Pings the selected marker again once a zoom lands, so the ring plays where it is seen. */
+export function pingMarkerAgain() {
+  // Read the marker after the current call stack: a zoom on open runs before addMarker.
+  setTimeout(() => {
+    const marker = this.selectedMarker;
+    const map = getActiveMap()?.$viewer?.map;
+    if (!marker || !map) {
+      return;
+    }
+    if (map.isMoving()) {
+      map.once('moveend', () => replayPing(marker));
+    } else {
+      replayPing(marker);
+    }
+  });
 }
 
 export function clearMarker() {
-  if (this.markerAnimation) {
-    clearInterval(this.markerAnimation);
-    this.markerAnimation = null;
-  }
+  this.selectedMarker = null;
   try {
     getActiveMap().showFeature('incident-marker');
   } catch (err) {

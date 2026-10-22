@@ -5,28 +5,39 @@
  * can use it without an import cycle.
  */
 
-/** The pulsing dot that marks a selected Incident. The SCSS owns its size. */
-export function animatedIcon(fillColour?: string): HTMLElement {
+/**
+ * The marker for a selected Incident: its icon, pinged by the marker-ping SCSS.
+ * iconUrl is the stage or fire of note SVG, so it matches every other marker.
+ */
+export function animatedIcon(iconUrl?: string): HTMLElement {
   const el = document.createElement('div');
-  el.className = 'animated-icon';
-  if (fillColour) {
-    el.style.backgroundColor = fillColour;
+  el.className = 'animated-icon marker-ping';
+  if (iconUrl) {
+    el.style.backgroundImage = `url("${iconUrl}")`;
+  } else {
+    el.style.backgroundColor = '#355992';
   }
   el.style.pointerEvents = 'none';
   return el;
 }
 
-/**
- * One beat of the marker. MapLibre centres the element with a percent
- * transform, so a size change re-centres it and no margin is needed.
- */
-export function pulse(icon: HTMLElement): void {
-  const grow = icon.style.width === '10px';
-  icon.style.width = grow ? '20px' : '10px';
-  icon.style.height = grow ? '20px' : '10px';
-  icon.style.boxShadow = grow
-    ? '4px 4px 4px rgba(0, 0, 0, 0.65)'
-    : '0px 0px 0px transparent';
+/** Plays the ping again; the reflow between the class changes restarts the CSS animation. */
+export function replayPing(el: HTMLElement | null): void {
+  if (!el) {
+    return;
+  }
+  el.classList.remove('marker-ping');
+  void el.offsetWidth;
+  el.classList.add('marker-ping');
+}
+
+/** Pings any marker element; an img cannot carry the ring itself, so it is wrapped. */
+export function pingMarker(marker: HTMLElement): HTMLElement {
+  const el = document.createElement('div');
+  el.className = 'marker-ping';
+  el.style.pointerEvents = 'none';
+  el.appendChild(marker);
+  return el;
 }
 
 /** The pin a preview panel drops on the place it zooms to. */

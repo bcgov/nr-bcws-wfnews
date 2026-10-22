@@ -20,6 +20,7 @@ import {
   ResourcesRoutes,
   addMarker,
   clearMarker,
+  pingMarkerAgain,
   convertToDateTime,
   convertToDateYear,
   displayDangerRatingDescription,
@@ -89,13 +90,13 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   displayItemTitle = displayItemTitle;
   addMarker = addMarker;
   clearMarker = clearMarker;
+  pingMarkerAgain = pingMarkerAgain;
   getStageOfControlDescription = getStageOfControlDescription;
   displayDangerRatingDescription = displayDangerRatingDescription;
   
   removeIdentity = false;
 
   private previousZoom: number;
-  private markerAnimation;
   public snowPlowHelper = snowPlowHelper;
   constructor(
     private publishedIncidentService: PublishedIncidentService,
@@ -411,6 +412,7 @@ return 'Unknown';
         turf.point([long, lat]),
         level ? level : this.defaultZoomLevel,
       );
+      this.pingMarkerAgain();
     } else if (
       this.identifyItem?._identifyPoint?.longitude &&
       this.identifyItem?._identifyPoint?.latitude

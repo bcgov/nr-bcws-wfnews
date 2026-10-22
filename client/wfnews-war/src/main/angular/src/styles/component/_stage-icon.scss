@@ -1,0 +1,46 @@
+// One shadow for every fire marker, on a map or in a panel; it gives the white ring an edge.
+// scripts/make-map-markers.mjs bakes the same values into the main map PNGs.
+:root {
+  --marker-shadow: 0 0.5px 1.5px rgba(0, 0, 0, 0.55);
+}
+
+// Stage of control dots use the same SVGs as the map markers.
+// Components set only the size; the SVG fills it and keeps its ring in fixed pixels.
+.circle-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  &.OUT_CNTRL,
+  &.active-wildfires-out-of-control {
+    background-image: url("/assets/images/svg-icons/out-of-control.svg");
+  }
+
+  &.HOLDING,
+  &.active-wildfires-holding {
+    background-image: url("/assets/images/svg-icons/being-held.svg");
+  }
+
+  &.UNDR_CNTRL,
+  &.active-wildfires-under-control {
+    background-image: url("/assets/images/svg-icons/under-control.svg");
+  }
+
+  &.OUT,
+  &.active-wildfires-out,
+  &.bcws-activefires-publicview-inactive {
+    background-image: url("/assets/images/svg-icons/out-fire.svg");
+  }
+}
+
+// Matched by file so every img of a marker gets the shadow, in any template or map.
+.circle-icon,
+img[src*="svg-icons/out-of-control.svg"],
+img[src*="svg-icons/being-held.svg"],
+img[src*="svg-icons/under-control.svg"],
+img[src*="svg-icons/out-fire.svg"],
+img[src*="svg-icons/wildfire-of-note.svg"] {
+  filter: drop-shadow(var(--marker-shadow));
+}

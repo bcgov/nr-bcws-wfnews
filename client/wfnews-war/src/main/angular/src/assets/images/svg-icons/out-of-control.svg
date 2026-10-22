@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-<g transform="translate(1.046 1.2315) scale(1.4117)">
-<rect x="1.17578" y="1.04443" width="13.1669" height="13.1667" rx="6.58333" fill="#D74532"/>
-<rect x="1.17578" y="1.04443" width="13.1669" height="13.1667" rx="6.58333" stroke="#242424"/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg">
+<!-- No viewBox: the disc scales with the image, the ring stays 1.5px white. -->
+<defs><clipPath id="c"><circle cx="50%" cy="50%" r="50%"/></clipPath></defs>
+<circle cx="50%" cy="50%" r="50%" fill="#FF0000" stroke="#FFFFFF" stroke-width="3" clip-path="url(#c)"/>
 </svg>

@@ -21,7 +21,8 @@ import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { MapConfigService } from '@app/services/map-config.service';
-import { boundsToExtent, dot, drawNearbyIncidents, image } from '@app/utils/preview-map';
+import { boundsToExtent, drawNearbyIncidents, fireOfNote, stageDot } from '@app/utils/preview-map';
+import { pingMarker } from '@app/utils/map-markers';
 import { AppConfigService } from '@wf1/core-ui';
 import * as moment from 'moment';
 import { toCanvas } from 'qrcode';
@@ -34,7 +35,6 @@ import {
   getStageOfControlLabel,
   isMobileView,
   ResourcesRoutes,
-  setDisplayColor
 } from '../../../utils';
 import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
 import * as turf from '@turf/turf';
@@ -329,9 +329,11 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       const [lat, lon] = this.mapLocation;
       smk.showFeature('this-incident', turf.point([lon, lat]), {
         htmlMarker: () =>
-          this.incident.fireOfNoteInd
-            ? image('/assets/images/local_fire_department.png', 35)
-            : dot(setDisplayColor(this.incident.stageOfControlCode), 15),
+          pingMarker(
+            this.incident.fireOfNoteInd
+              ? fireOfNote(35)
+              : stageDot(this.incident.stageOfControlCode, 32),
+          ),
       });
       this.addSurroundingIncidents(smk);
     }
@@ -561,7 +563,13 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           stageOfControlCodes,
         )
         .toPromise();
-      drawNearbyIncidents(smk, incidents?.collection);
+      // This incident has its own larger marker; a nearby dot on top made a target.
+      drawNearbyIncidents(
+        smk,
+        (incidents?.collection || []).filter(
+          (i) => i.incidentNumberLabel !== this.incident.incidentNumberLabel,
+        ),
+      );
     } catch (err) {
       console.error(
         'Could not retrieve surrounding incidents for area restriction',

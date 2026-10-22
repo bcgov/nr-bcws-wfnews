@@ -78,6 +78,11 @@ export const mapConfig = (
         custom: true,
       },
       internalLayer: {
+        // No SMK teardrop pin on a picked point; the fire's own marker is already there.
+        // A point style with no image and no colours draws nothing.
+        'highlight-point': {
+          style: { markerUrl: '', shadowUrl: '' },
+        },
         'search-area': {
           style: {
             stroke: false,

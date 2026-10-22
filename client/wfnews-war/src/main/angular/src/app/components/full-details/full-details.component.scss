@@ -296,41 +296,9 @@ h4 {
 }
 
 .circle-icon {
-  &.active-wildfires-holding {
-    display: inline-block;
-    background-color: #ffff00;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    margin: 0px 10px 0px 4px;
-  }
-
-  &.active-wildfires-out-of-control {
-    display: inline-block;
-    background-color: #ff0000;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    margin: 0px 10px 0px 4px;
-  }
-
-  &.active-wildfires-under-control {
-    display: inline-block;
-    background-color: #98e600;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    margin: 0px 10px 0px 4px;
-  }
-
-  &.bcws-activefires-publicview-inactive {
-    display: inline-block;
-    background-color: #5c6671;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    margin: 0px 10px 0px 4px;
-  }
+  width: 16px;
+  height: 16px;
+  margin: 0px 10px 0px 4px;
 }
 
 hr {

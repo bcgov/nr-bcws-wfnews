@@ -1,6 +1,6 @@
 <div class="rof" [class.rof-scrolls]="currentPage.instance.id === 'review-page'">
   <div class="mobile-header">
-    <span class="mobile-header-button"><span (click)="exit()"><mat-icon style="transform: translatey(5px);">chevron_left</mat-icon>{{exitText()}}</span></span>
+    <span class="mobile-header-button"><span (click)="exit()"><mat-icon svgIcon="arrow-left" style="transform: translatey(5px); margin-right: 4px;"></mat-icon>{{exitText()}}</span></span>
     <span class="mobile-header-button"><span *ngIf="allowSkip" (click)="skip()" class="skip">Skip</span></span>
   </div>
   <div #dynamic class="page-container">

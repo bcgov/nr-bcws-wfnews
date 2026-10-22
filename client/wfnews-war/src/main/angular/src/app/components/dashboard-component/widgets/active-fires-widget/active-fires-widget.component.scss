@@ -118,17 +118,16 @@
     align-items: center;
   }
 
+  // 64px, as the Resources Assigned circles; the flame is as tall as their glyphs.
   .stat-box-icon {
     display: flex;
-    padding: 12px;
+    padding: 14px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 8px;
     border-radius: 60px;
     background: var(--Summary-Blue, #dfe5f1);
-    position: relative;
-    top: -5px;
     width: 36px;
     height: 36px;
   }
@@ -277,17 +276,16 @@
     align-items: center;
   }
 
+  // 64px, as the Resources Assigned circles; the flame is as tall as their glyphs.
   .stat-box-icon {
     display: flex;
-    padding: 12px;
+    padding: 14px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 8px;
     border-radius: 60px;
     background: var(--Summary-Blue, #dfe5f1);
-    position: relative;
-    top: -5px;
     width: 36px;
     height: 36px;
   }
@@ -408,7 +406,9 @@
     background: linear-gradient(0deg, #f5f6f9, #f5f6f9),
       linear-gradient(0deg, #dedede, #dedede);
     border: 1.5px solid #dedede;
-    height: 116px;
+    // Grows for a two-line label; the row stretches both boxes to match.
+    min-height: 116px;
+    gap: 4px;
     width: calc(50% - 24px);
     place-content: space-between;
   }
@@ -420,19 +420,18 @@
     margin-bottom: 10px;
   }
 
+  // 52px, as the Resources Assigned circles on a phone.
   .stat-box-icon {
     display: flex;
-    padding: 6px;
+    padding: 13.5px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 8px;
     border-radius: 60px;
     background: var(--Summary-Blue, #dfe5f1);
-    position: relative;
-    top: 0px;
-    height: 24px;
-    width: 24px;
+    height: 25px;
+    width: 25px;
     margin-left: 0;
   }
 
@@ -574,6 +573,6 @@
   margin-top: 10px;
 }
 
-.red {
-  background: #aa1d3e !important;
+.stat-box-icon.of-note {
+  background: #aa1d3e;
 }

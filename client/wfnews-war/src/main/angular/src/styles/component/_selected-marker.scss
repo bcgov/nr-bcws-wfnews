@@ -1,0 +1,55 @@
+// The selected wildfire on any map: a ring spreads out three times, then stops.
+// Never set position or transform on the marker itself; MapLibre owns both.
+.marker-ping {
+  display: block;
+  border-radius: 50%;
+
+  > img {
+    display: block;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid #1a5a96;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    animation: marker-ping 1.2s ease-out 3;
+  }
+}
+
+@keyframes marker-ping {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marker-ping::after {
+    animation: none;
+  }
+}
+
+// The selected Incident on the main map; the icon SVG brings its own ring.
+// box-shadow, not filter, so the ping ring casts no shadow.
+.animated-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  background-size: 100% 100%;
+  box-shadow: var(--marker-shadow);
+}
+
+// The ring a Zoom to plays on a place with no wildfire marker.
+.zoom-ping {
+  width: 18px;
+  height: 18px;
+}

@@ -2,7 +2,7 @@
   <div class="dialog-panel">
     <div class="search-panel">
       <div class="field search-input">
-        <mat-icon class="search-icon" matSuffix [mat-dialog-close]="false">arrow_back_ios</mat-icon>
+        <mat-icon class="search-icon" matSuffix [mat-dialog-close]="false" svgIcon="arrow-left"></mat-icon>
         <input matInput class="search-input" aria-label="Search Here" placeholder="Search Here" [(ngModel)]="searchText" (ngModelChange)="search()">
         <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText" aria-label="Clear" (click)="clearSearch(); $event.stopPropagation()" matTooltip="Clear">
           <span class="button-wrapper"><mat-icon>close</mat-icon></span>
@@ -36,7 +36,7 @@
       </div>
       <div class="home-panel" *ngIf="fonData?.length > 0 && allResultData?.length === 0">
         <div class="header">
-          <img alt="Wildfires of note" class="header-icon" src="/assets/images/svg-icons/fire-note.svg" >
+          <img alt="Wildfires of note" class="header-icon" height="24" width="24" src="/assets/images/svg-icons/wildfire-of-note.svg" >
           <div class="header-title">Wildfires of Note</div>
         </div>
         <div *ngFor="let item of fonData; let i = index" class="result-card" [mat-dialog-close]="item">

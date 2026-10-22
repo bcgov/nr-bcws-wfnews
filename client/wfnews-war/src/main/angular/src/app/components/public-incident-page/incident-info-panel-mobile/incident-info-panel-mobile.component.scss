@@ -13,8 +13,8 @@
       margin-bottom: 32px;
 
       .circle-icon {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
       }
 
       h1 {
@@ -259,29 +259,8 @@
 .circle-icon {
   margin-left: 3px;
   margin-right: 18px;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-
-  &.HOLDING {
-    background-color: #ffff00;
-    border: 1px solid black;
-  }
-
-  &.OUT_CNTRL {
-    background-color: #ff0000;
-    border: 1px solid black;
-  }
-
-  &.UNDR_CNTRL {
-    background-color: #98e600;
-    border: 1px solid black;
-  }
-
-  &.OUT {
-    background-color: #5c6671;
-    border: 1px solid black;
-  }
+  width: 20px;
+  height: 20px;
 }
 
 hr {

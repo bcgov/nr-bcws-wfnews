@@ -104,66 +104,16 @@
     }
   }
 
+  // The icon fills a 14px box, so the text of the row keeps its place.
   .circle-icon {
-    &.active-wildfires-holding {
-      background-color: #ffff00;
-      border: 1px solid black;
-      border-radius: 50%;
-      width: 12px;
-      height: 12px;
-      margin-right: 12px;
-      margin-left: 1px;
+    width: 14px;
+    height: 14px;
+    margin-right: 12px;
+    margin-left: 1px;
 
-      &.list {
-        width: 22px;
-        height: 22px;
-      }
-    }
-
-    &.active-wildfires-out-of-control {
-      background-color: #ff0000;
-      border: 1px solid black;
-      border-radius: 50%;
-      width: 12px;
-      height: 12px;
-      margin-right: 12px;
-      margin-left: 1px;
-
-      &.list {
-        width: 22px;
-        height: 22px;
-      }
-    }
-
-    &.active-wildfires-under-control {
-      background-color: #98e600;
-      border: 1px solid black;
-      border-radius: 50%;
-      width: 12px;
-      height: 12px;
-      margin-right: 12px;
-      margin-left: 1px;
-
-      &.list {
-        width: 22px;
-        height: 22px;
-      }
-    }
-
-    &.bcws-activefires-publicview-inactive,
-    &.active-wildfires-out {
-      background-color: #5c6671;
-      border: 1px solid black;
-      border-radius: 50%;
-      width: 12px;
-      height: 12px;
-      margin-right: 12px;
-      margin-left: 1px;
-
-      &.list {
-        width: 22px;
-        height: 22px;
-      }
+    &.list {
+      width: 24px;
+      height: 24px;
     }
   }
 

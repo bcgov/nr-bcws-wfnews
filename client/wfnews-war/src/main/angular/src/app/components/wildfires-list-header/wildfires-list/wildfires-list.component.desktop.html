@@ -68,7 +68,7 @@
       </bc-checkbox>
       <bc-checkbox class="wildfire-of-note-checkbox" (change)="stageOfControlChanges($event)"
         [(ngModel)]="wildfiresOfNoteInd">
-        <img height="17" width="17" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon"><span
+        <img height="17" width="17" src="/assets/images/svg-icons/wildfire-of-note.svg" alt="Wildfire" class="icon"><span
           class="checkbox-label">Wildfire of Note</span>
       </bc-checkbox>
     </section>
@@ -83,7 +83,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Wildfire Name</th>
       <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="item.incidentName">
         <div class="fire-label-container">
-          <img *ngIf="item.fireOfNoteInd" height="24" width="24" src="/assets/images/local_fire_department.png"
+          <img *ngIf="item.fireOfNoteInd" height="24" width="24" src="/assets/images/svg-icons/wildfire-of-note.svg"
             alt="Wildfire" class="icon fire-label-icon">
           <div class="fire-label-holder">
             <span #el

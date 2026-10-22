@@ -1,4 +1,4 @@
-import { setDisplayColor } from '@app/utils';
+import { getStageOfControlIconPath } from '@app/utils';
 
 /**
  * Shared drawing for the small read-only maps. Everything here goes through
@@ -105,36 +105,35 @@ export function drawNearbyIncidents(smk: any, incidents: any[]): void {
   smk.showFeature(
     'nearby-incidents',
     collection(list.filter((i) => !i.fireOfNoteInd).map(point)),
-    { htmlMarker: (f: any) => dot(setDisplayColor(f.properties.stage)) },
+    { htmlMarker: (f: any) => stageDot(f.properties.stage) },
   );
 
   // Drawn second so a fire of note sits above the dots.
   smk.showFeature(
     'nearby-fires-of-note',
     collection(list.filter((i) => i.fireOfNoteInd).map(point)),
-    { htmlMarker: () => image('/assets/images/local_fire_department.png', 35) },
+    { htmlMarker: () => fireOfNote(35) },
   );
 }
 
-/** The DOM elements a MapLibre marker draws. */
-export function dot(fillColour: string, radius = 5): HTMLElement {
-  const el = document.createElement('div');
-  el.style.width = radius * 2 + 'px';
-  el.style.height = radius * 2 + 'px';
-  el.style.borderRadius = '50%';
-  el.style.backgroundColor = fillColour;
-  el.style.border = '1px solid black';
-  el.style.boxSizing = 'border-box';
-  el.style.pointerEvents = 'none';
-  return el;
+/**
+ * A MapLibre marker takes a DOM element. These use the Legend SVGs, the same
+ * files the main map markers are made from, so every map shows one design.
+ */
+export function stageDot(stageCode: string, size = 14): HTMLElement {
+  return markerImage(stageCode ? getStageOfControlIconPath(stageCode) : '', size);
 }
 
-export function image(src: string, size: number): HTMLElement {
+export function fireOfNote(size: number): HTMLElement {
+  return markerImage('/assets/images/svg-icons/wildfire-of-note.svg', size);
+}
+
+function markerImage(src: string, size: number): HTMLElement {
   const img = document.createElement('img');
   img.alt = '';
   img.src = src;
-  img.width = size;
-  img.height = size;
+  img.width = img.height = size;
+  img.style.filter = 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4))';
   img.style.pointerEvents = 'none';
   return img;
 }

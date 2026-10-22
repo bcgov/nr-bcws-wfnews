@@ -33,7 +33,7 @@ export const evacuationOrder: Story = {
 export const wildfireOfNote: Story = {
   args: {
     label: 'Wildfire of Note',
-    iconPath: '/assets/images/svg-icons/fire-note.svg',
+    iconPath: '/assets/images/svg-icons/wildfire-of-note.svg',
     componentStyle: {
       backgroundColor: '#FFFFFF',
       labelColor: '#98273B',

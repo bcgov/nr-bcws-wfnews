@@ -321,27 +321,10 @@ section {
 }
 
 .circle-icon {
-  display: inline-block;
   width: 16px;
   height: 16px;
   vertical-align: middle;
   margin-top: -4px;
-  &.HOLDING {
-    background-color: #ffd966;
-    border-radius: 50%;
-  }
-  &.OUT_CNTRL {
-    background-color: #aa0d0d;
-    border-radius: 50%;
-  }
-  &.UNDR_CNTRL {
-    background-color: #6aa84f;
-    border-radius: 50%;
-  }
-  &.OUT {
-    background-color: #5c6671;
-    border-radius: 50%;
-  }
 }
 
 .showing-summary {
@@ -390,16 +373,6 @@ section {
   height: 2px !important;
   margin-left: -16px;
   width: calc(100% + 16px) !important;
-}
-
-::ng-deep .animated-icon {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid #00000069;
-  background-color: #355992;
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.65);
-  transition: all 1s;
 }
 
 ::ng-deep .mat-mdc-checkbox-touch-target {
