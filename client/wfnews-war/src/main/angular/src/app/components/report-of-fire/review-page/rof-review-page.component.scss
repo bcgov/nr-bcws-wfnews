@@ -6,6 +6,11 @@
   overflow-y: visible;
 }
 
+// This page has no buttons, so it needs no room for them.
+:host-context(.rof-desktop) .page-content {
+  padding-bottom: 0;
+}
+
 .item {
   border-radius: 8px;
   background: #f5f5f5;

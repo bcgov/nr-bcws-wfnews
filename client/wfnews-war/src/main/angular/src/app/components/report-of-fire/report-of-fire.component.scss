@@ -155,6 +155,10 @@ $rof-secondary-header-size: 16px;
   bottom: 0px;
   margin: 0px 0px 0px 20px;
   width: calc(100% - 20px);
+
+  &.progress-hidden {
+    display: none;
+  }
 }
 
 .ProgressBar {
@@ -459,12 +463,17 @@ $rof-secondary-header-size: 16px;
   margin-right: 8px;
 }
 
-// The desktop layout: the width of the Saved page, and only as tall as the page needs.
-// The buttons and the page dots leave the foot of the window and follow the content.
+// The desktop layout: the width of the Saved page, and less tall than the window.
+// The buttons sit at the foot of one box height, so they do not move between pages.
 :host-context(.rof-desktop) {
+  // The page host holds the buttons at its foot.
+  position: relative;
+
   .rof {
     max-width: $saved-container-max;
     height: auto;
+    // The tallest page (Location). A taller page scrolls above the buttons.
+    min-height: min(640px, 100%);
     max-height: 100%;
     overflow-y: auto;
     margin: 0 auto;
@@ -475,18 +484,22 @@ $rof-secondary-header-size: 16px;
     padding: 24px 16px 0;
   }
 
+  // The bottom padding is the room for the buttons: an 80px bar and a 24px gap.
   .page-content {
     margin-bottom: 0;
-    padding: 0 16px;
+    padding: 0 16px 104px;
   }
 
-  // Sticky, so a long page scrolls under the buttons and they stay in view.
+  // At the foot of the page host and not after the words, so the buttons do not move
+  // between pages. The page host is outside the scroll box, so the bar stays in view.
   .rof-button-container {
-    position: sticky;
+    position: absolute;
     bottom: 0;
-    width: 100%;
+    left: 16px;
+    right: 16px;
+    width: auto;
     max-width: none;
-    margin-top: 24px;
+    margin: 0;
     padding: 16px 0;
     background-color: white;
     z-index: 1;
@@ -504,6 +517,17 @@ $rof-secondary-header-size: 16px;
     width: 100%;
     margin: 0;
     padding: 4px 0 24px;
+
+    // Keep the space of the dots, so a page with no dots has its buttons in the same place.
+    &.progress-hidden {
+      display: block;
+      visibility: hidden;
+    }
+  }
+
+  // The review page has no buttons to hold in place.
+  .rof-scrolls .wrapper.progress-hidden {
+    display: none;
   }
 
   .ProgressBar {
