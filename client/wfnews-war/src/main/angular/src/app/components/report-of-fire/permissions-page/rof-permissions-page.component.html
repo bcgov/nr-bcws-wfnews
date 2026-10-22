@@ -20,6 +20,6 @@
     <wfnews-button variant="secondary" size="large" label="Cancel"
       (buttonClicked)="close()"></wfnews-button>
     <wfnews-button variant="primary" size="large" label="Continue"
-      [disabled]="!dataShareAccepted" (buttonClicked)="nextPage()"></wfnews-button>
+      [disabled]="!dataShareAccepted || checkingLocation" (buttonClicked)="nextPage()"></wfnews-button>
   </div>
 </div>

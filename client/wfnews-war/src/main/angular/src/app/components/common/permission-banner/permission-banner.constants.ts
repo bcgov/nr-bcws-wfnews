@@ -17,7 +17,7 @@ export const PERMISSION_BANNER = {
     },
     message: {
       reportOfFire:
-        'Enabling location can help improve the accuracy of this report.',
+        'A report needs your location. Turn on location to continue.',
       nearestFirst:
         'These lists sort by how near a place is to you. Turn on location to see that order.',
     },

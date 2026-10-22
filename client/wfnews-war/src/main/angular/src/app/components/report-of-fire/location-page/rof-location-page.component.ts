@@ -140,7 +140,8 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
    */
   async onShown(): Promise<void> {
     const state = await this.capacitorService.refreshLocationPermission();
-    if (state === 'granted') {
+    // A browser has no state to read, but the permissions page has asked already.
+    if (state === 'granted' || this.capacitorService.isWebPlatform) {
       await this.useMyCurrentLocation();
     }
     this.cdr.markForCheck();

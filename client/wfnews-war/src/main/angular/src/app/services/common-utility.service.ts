@@ -89,10 +89,11 @@ export class CommonUtilityService {
   private requestPosition(): Promise<Position> {
     return withLimit(
       Geolocation.getCurrentPosition({
-        // With no options the plugin takes its LocationManager fallback, measured at
-        // over five seconds indoors and often failing. Off, the fused provider
-        // answers in under a tenth of a second.
-        enableLocationFallback: false,
+        // Off, the plugin shows Google's Location Accuracy dialog on every request
+        // when that setting is off. On, those users get the LocationManager, which
+        // gave no position in 15 s at low accuracy and one in 4 s at high.
+        enableLocationFallback: true,
+        enableHighAccuracy: true,
         maximumAge: MAX_CACHE_AGE,
         timeout: POSITION_LIMIT,
       }),
@@ -208,6 +209,24 @@ export class CommonUtilityService {
    */
   async checkLocation(): Promise<boolean> {
     return (await this.getPositionIfPermitted()) !== undefined;
+  }
+
+  /**
+   * Asks the browser, so the browser shows its own prompt. Its timeout starts after
+   * the user answers; requestPosition's limit would count the prompt as well.
+   */
+  canGetBrowserPosition(): Promise<boolean> {
+    return new Promise((resolve) => {
+      if (!navigator.geolocation) {
+        resolve(false);
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        () => resolve(true),
+        () => resolve(false),
+        { timeout: POSITION_LIMIT, maximumAge: MAX_CACHE_AGE },
+      );
+    });
   }
 
   async checkLocationServiceStatus(): Promise<boolean> {

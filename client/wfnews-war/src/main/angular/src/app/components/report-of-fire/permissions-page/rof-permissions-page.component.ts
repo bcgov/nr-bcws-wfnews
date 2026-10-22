@@ -5,12 +5,14 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {
   locationBannerAction,
   locationBannerHeading,
   locationCanPrompt,
   PERMISSION_BANNER,
 } from '@app/components/common/permission-banner/permission-banner.constants';
+import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import {
   CapacitorService,
@@ -31,6 +33,7 @@ export class RoFPermissionsPage extends RoFPage implements OnInit, OnDestroy {
   public dataShareAccepted = false;
   readonly bannerText = PERMISSION_BANNER;
   locationPermission: LocationPermissionState = 'prompt';
+  checkingLocation = false;
   private permissionSubscription: Subscription;
 
   public constructor(
@@ -38,6 +41,7 @@ export class RoFPermissionsPage extends RoFPage implements OnInit, OnDestroy {
     private commonUtilityService: CommonUtilityService,
     private capacitorService: CapacitorService,
     private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
   ) {
     super();
   }
@@ -102,7 +106,20 @@ export class RoFPermissionsPage extends RoFPage implements OnInit, OnDestroy {
     this.dataShareAccepted = event;
   }
 
-  nextPage() {
+  async nextPage() {
+    this.checkingLocation = true;
+    this.cdr.markForCheck();
+    const hasLocation = await this.ensureLocation();
+    this.checkingLocation = false;
+    this.cdr.markForCheck();
+    if (!hasLocation) {
+      this.dialog.open(DialogLocationComponent, {
+        autoFocus: false,
+        width: '80vw',
+      });
+      return;
+    }
+
     if (this.isMotionSensorActive()  && !this.commonUtilityService.checkIfLandscapeMode()) {
       this.reportOfFire.headingDetectionActive = true;
       this.next();
@@ -110,6 +127,18 @@ export class RoFPermissionsPage extends RoFPage implements OnInit, OnDestroy {
       this.reportOfFirePage.selectPage('distance-page', null, false);
       // this.reportOfFirePage.currentStep++;
     }
+  }
+
+  /** A report needs location access. Every path to a report passes this page. */
+  private async ensureLocation(): Promise<boolean> {
+    if (this.capacitorService.isWebPlatform) {
+      return this.commonUtilityService.canGetBrowserPosition();
+    }
+    let state = await this.capacitorService.refreshLocationPermission();
+    if (locationCanPrompt(state)) {
+      state = await this.capacitorService.requestLocationPermission();
+    }
+    return state === 'granted';
   }
 
   isMotionSensorActive(): boolean {
