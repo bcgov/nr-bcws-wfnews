@@ -283,6 +283,9 @@ const APP_BASEMAPS = [
     internal: true,
     type: 'esri-tiled-map',
     url: 'https://services.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer',
+    // Above 16 the service answers "Map data not yet available", which covers the map.
+    // SMK 1.0 stopped here too; MapLibre enlarges the zoom 16 tiles instead.
+    option: { maxNativeZoom: 16 },
   },
   {
     ...esriVectorBasemap('terrain-vector', 'Terrain', 101, '7dc6cea0b1764a1f9af2e679f642f0f5', ESRI_WORLD_VECTOR_URL),
