@@ -490,6 +490,8 @@ $rof-secondary-header-size: 16px;
     padding: 16px 0;
     background-color: white;
     z-index: 1;
+    // Both on the right, where a desktop form puts its actions.
+    justify-content: flex-end;
 
     > wfnews-button {
       flex: 0 0 auto;
