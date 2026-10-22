@@ -392,18 +392,9 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       (this.currentPage.instance as RoFComplexQuestionPage).skipPage();
       return;
     }
+    // The call back pages come last, so their skip goes to the review like any other.
+    // A rule left from an older order sent a landscape screen back to the distance page.
     if (
-      this.currentPage.instance.id === 'callback-page' ||
-      this.currentPage.instance.id === 'contact-page'
-    ) {
-      this.reportOfFire.headingDetectionActive = true;
-
-      if (this.commonUtilityService.checkIfLandscapeMode() || this.reportOfFire.motionSensor === 'no') {
-        this.selectPage('distance-page', null, false);
-      } else {
-        this.currentPage.instance.skip();
-      }
-    } else if (
       this.currentPage.instance.nextId ||
       this.currentPage.instance.skipId
     ) {
