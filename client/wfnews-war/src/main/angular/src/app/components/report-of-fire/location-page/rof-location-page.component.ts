@@ -11,7 +11,6 @@ import {
 import {
   locationBannerAction,
   locationBannerHeading,
-  locationCanPrompt,
   PERMISSION_BANNER,
 } from '@app/components/common/permission-banner/permission-banner.constants';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
@@ -22,6 +21,10 @@ import {
 } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { MapConfigService } from '@app/services/map-config.service';
+import {
+  fromLocationState,
+  PermissionService,
+} from '@app/services/permission.service';
 import { LatLon, LonLat } from '@app/services/wfnews-map.service/util';
 import { getActiveMap, hasOwn } from '@app/utils';
 import { SmkApi } from '@app/utils/smk';
@@ -69,6 +72,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
     private elementRef: ElementRef,
     private reportOfFirePage: ReportOfFirePage,
     private capacitorService: CapacitorService,
+    private permissionService: PermissionService,
   ) {
     super();
   }
@@ -84,7 +88,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   }
 
   get locationBannerHeading(): string {
-    return locationBannerHeading(this.locationPermission);
+    return locationBannerHeading();
   }
 
   get locationBannerMessage(): string {
@@ -99,14 +103,13 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   }
 
   async onTurnOnLocation(): Promise<void> {
-    if (locationCanPrompt(this.locationPermission)) {
-      const state = await this.capacitorService.requestLocationPermission();
-      if (state === 'granted') {
-        await this.useMyCurrentLocation();
-      }
-      return;
+    const state = await this.permissionService.enable(
+      'location',
+      fromLocationState(this.locationPermission),
+    );
+    if (state === 'granted') {
+      await this.useMyCurrentLocation();
     }
-    await this.capacitorService.openLocationSettings(this.locationPermission);
   }
 
   ngAfterViewInit(): void {

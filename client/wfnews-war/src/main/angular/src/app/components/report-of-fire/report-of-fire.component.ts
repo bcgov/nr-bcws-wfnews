@@ -387,12 +387,10 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * displayed components "skip"
    */
   skip() {
+    // Offline, Skip places the fire and passes the map page, the same as Next.
     if (this.currentPage.instance.id === 'distance-page') {
-      this.commonUtilityService.checkOnline().then((result) => {
-        if (!result) {
-          this.selectPage('photo-page', null, false);
-        }
-      });
+      (this.currentPage.instance as RoFComplexQuestionPage).skipPage();
+      return;
     }
     if (
       this.currentPage.instance.id === 'callback-page' ||

@@ -20,6 +20,8 @@ import * as turf from '@turf/turf';
 
 const MAX_CACHE_AGE = 30 * 1000;
 const POSITION_LIMIT = 10 * 1000;
+// MDN: a GPS fix "can take a minute or more". With no network, only GPS can answer.
+const GPS_POSITION_LIMIT = 60 * 1000;
 
 /**
  * The Android plugin does not apply its own `timeout`. A request measured on a
@@ -107,12 +109,36 @@ export class CommonUtilityService {
    * it does not ask on load. See LOCATION_AND_STARTUP_PLAN_STE.md section 5.1.
    */
   async getPositionIfPermitted(): Promise<Position | undefined> {
+    return this.ifPermitted(() => this.getCurrentLocationPromise());
+  }
+
+  /**
+   * The same, for a device with no network. The Play services check fails offline,
+   * so only the fallback reaches the GPS provider (plugin README).
+   */
+  async getGpsPositionIfPermitted(): Promise<Position | undefined> {
+    return this.ifPermitted(() =>
+      withLimit(
+        Geolocation.getCurrentPosition({
+          enableHighAccuracy: true,
+          enableLocationFallback: true,
+          maximumAge: MAX_CACHE_AGE,
+          timeout: GPS_POSITION_LIMIT,
+        }),
+        GPS_POSITION_LIMIT,
+      ),
+    );
+  }
+
+  private async ifPermitted(
+    get: () => Promise<Position>,
+  ): Promise<Position | undefined> {
     try {
       const status = await Geolocation.checkPermissions();
       if (status.location !== 'granted' && status.coarseLocation !== 'granted') {
         return undefined;
       }
-      return await this.getCurrentLocationPromise();
+      return await get();
     } catch (error) {
       return undefined;
     }
@@ -209,24 +235,6 @@ export class CommonUtilityService {
    */
   async checkLocation(): Promise<boolean> {
     return (await this.getPositionIfPermitted()) !== undefined;
-  }
-
-  /**
-   * Asks the browser, so the browser shows its own prompt. Its timeout starts after
-   * the user answers; requestPosition's limit would count the prompt as well.
-   */
-  canGetBrowserPosition(): Promise<boolean> {
-    return new Promise((resolve) => {
-      if (!navigator.geolocation) {
-        resolve(false);
-        return;
-      }
-      navigator.geolocation.getCurrentPosition(
-        () => resolve(true),
-        () => resolve(false),
-        { timeout: POSITION_LIMIT, maximumAge: MAX_CACHE_AGE },
-      );
-    });
   }
 
   async checkLocationServiceStatus(): Promise<boolean> {
