@@ -1,0 +1,12 @@
+<wfnews-identify-card-frame [layout]="layout" [compact]="compact" [heading]="p.PROTECTED_LANDS_NAME">
+    <wfnews-identify-card-line><span>{{p.ACCESS_STATUS}}</span></wfnews-identify-card-line>
+    <!-- With no ban, the line stays and is empty. -->
+    <wfnews-identify-card-line *ngIf="variant.campfireBan" [icon]="campfireBan ? 'ban' : null" iconAlt="Ban">
+        <span *ngIf="campfireBan">Campfire Ban</span>
+    </wfnews-identify-card-line>
+    <!-- With no date, formatDate throws, so the line is left out. -->
+    <wfnews-identify-card-line *ngIf="p.ACCESS_STATUS_EFFECTIVE_DATE" icon="calendar">
+        <span>Effective on {{formatDate(p.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+    </wfnews-identify-card-line>
+    <wfnews-identify-card-description [mode]="descriptionMode" [text]="details"></wfnews-identify-card-description>
+</wfnews-identify-card-frame>

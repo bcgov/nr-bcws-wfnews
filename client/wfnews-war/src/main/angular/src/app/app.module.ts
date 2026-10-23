@@ -207,6 +207,20 @@ import { MapTypePickerComponent } from './components/map-type-picker/map-type-pi
 import { MoreComponent } from './components/more/more.component';
 import { PanelWildfireStageOfControlComponentDesktop } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component.desktop';
 import { IdentifyCardComponent } from './components/identify-results/identify-card/identify-card.component';
+import { IdentifyCardDescriptionComponent } from './components/identify-results/identify-card/identify-card-description/identify-card-description.component';
+import { IdentifyCardFrameComponent } from './components/identify-results/identify-card/identify-card-frame/identify-card-frame.component';
+import { IdentifyCardLineComponent } from './components/identify-results/identify-card/identify-card-line/identify-card-line.component';
+import { IdentifyWildfireCardComponent } from './components/identify-results/identify-card/identify-wildfire-card/identify-wildfire-card.component';
+import { IdentifyEvacuationCardComponent } from './components/identify-results/identify-card/identify-evacuation-card/identify-evacuation-card.component';
+import { IdentifyAreaRestrictionCardComponent } from './components/identify-results/identify-card/identify-area-restriction-card/identify-area-restriction-card.component';
+import { IdentifyBanCardComponent } from './components/identify-results/identify-card/identify-ban-card/identify-ban-card.component';
+import { IdentifyDangerRatingCardComponent } from './components/identify-results/identify-card/identify-danger-rating-card/identify-danger-rating-card.component';
+import { IdentifyClosedRecreationSiteCardComponent } from './components/identify-results/identify-card/identify-closed-recreation-site-card/identify-closed-recreation-site-card.component';
+import { IdentifyRoadEventCardComponent } from './components/identify-results/identify-card/identify-road-event-card/identify-road-event-card.component';
+import { IdentifyProtectedLandCardComponent } from './components/identify-results/identify-card/identify-protected-land-card/identify-protected-land-card.component';
+import { IdentifyForestServiceRoadCardComponent } from './components/identify-results/identify-card/identify-forest-service-road-card/identify-forest-service-road-card.component';
+import { IdentifyLocalAuthorityCardComponent } from './components/identify-results/identify-card/identify-local-authority-card/identify-local-authority-card.component';
+import { IdentifyWeatherStationCardComponent } from './components/identify-results/identify-card/identify-weather-station-card/identify-weather-station-card.component';
 import { IdentifyPreviewComponent } from './components/identify-results/identify-preview/identify-preview.component';
 import { IdentifyResultListComponent } from './components/identify-results/identify-result-list/identify-result-list.component';
 import { AreaRestrictionDetailsComponent } from './components/public-event-page/area-restriction-details/area-restriction-details.component';
@@ -531,6 +545,20 @@ export const DATE_FORMATS = {
     ContactUsBannerComponent,
     IdentifyResultListComponent,
     IdentifyCardComponent,
+    IdentifyCardDescriptionComponent,
+    IdentifyCardFrameComponent,
+    IdentifyCardLineComponent,
+    IdentifyWildfireCardComponent,
+    IdentifyEvacuationCardComponent,
+    IdentifyAreaRestrictionCardComponent,
+    IdentifyBanCardComponent,
+    IdentifyDangerRatingCardComponent,
+    IdentifyClosedRecreationSiteCardComponent,
+    IdentifyRoadEventCardComponent,
+    IdentifyProtectedLandCardComponent,
+    IdentifyForestServiceRoadCardComponent,
+    IdentifyLocalAuthorityCardComponent,
+    IdentifyWeatherStationCardComponent,
     IdentifyPreviewComponent,
     MediaGalleryItemComponent,
     MediaGalleryContainerComponent,

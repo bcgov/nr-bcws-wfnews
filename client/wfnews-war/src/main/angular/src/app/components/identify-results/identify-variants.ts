@@ -22,6 +22,8 @@ export interface IdentifyVariant {
   sizeSeparators: boolean;
   /** The Fire Centre comes before the size and the discovery date. */
   fireCentreFirst: boolean;
+  /** A wildfire of note keeps a gap between its two description texts. */
+  fireOfNoteGap: boolean;
 }
 
 // Where the phone and desktop results differ today; the business will choose one of each.
@@ -37,6 +39,7 @@ export const IDENTIFY_VARIANTS: Record<IdentifyLayout, IdentifyVariant> = {
     fireOfNoteDot: false,
     sizeSeparators: false,
     fireCentreFirst: true,
+    fireOfNoteGap: false,
   },
   desktop: {
     texts: IDENTIFY_TEXTS.desktop,
@@ -49,6 +52,7 @@ export const IDENTIFY_VARIANTS: Record<IdentifyLayout, IdentifyVariant> = {
     fireOfNoteDot: true,
     sizeSeparators: true,
     fireCentreFirst: false,
+    fireOfNoteGap: true,
   },
 };
 

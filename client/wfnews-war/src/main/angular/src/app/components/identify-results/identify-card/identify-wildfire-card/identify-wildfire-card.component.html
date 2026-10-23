@@ -1,0 +1,22 @@
+<wfnews-identify-card-frame [layout]="layout" [heading]="heading">
+    <ng-container *ngIf="phone">
+        <wfnews-identify-card-line *ngIf="incidentLoad === 'loading'" role="status">{{texts.WILDFIRE_LOADING}}</wfnews-identify-card-line>
+        <wfnews-identify-card-line *ngIf="incidentLoad === 'failed'" class="load-failed" role="status">
+            {{texts.WILDFIRE_DID_NOT_LOAD}}
+            <wfnews-button variant="link" label="Try again" (buttonClicked)="retry.emit()"></wfnews-button>
+        </wfnews-identify-card-line>
+        <wfnews-identify-card-line *ngIf="incidentLoad === 'unavailable'" role="status">{{texts.WILDFIRE_NOT_AVAILABLE}}</wfnews-identify-card-line>
+    </ng-container>
+    <wfnews-identify-card-description *ngIf="!phone && !incident" mode="plain"
+        [text]="incidentLoad === 'loading' ? texts.WILDFIRE_LOADING : texts.WILDFIRE_NOT_AVAILABLE"></wfnews-identify-card-description>
+    <ng-container *ngIf="incident">
+        <wfnews-identify-card-line [stage]="getStageOfControlIcon(incident.stageOfControlCode)">
+            {{getStageOfControlLabel(incident.stageOfControlCode)}}
+        </wfnews-identify-card-line>
+        <wfnews-identify-card-line *ngIf="variant.fireCentreFirst" icon="location-pin">{{incident.fireCentreName}}</wfnews-identify-card-line>
+        <wfnews-identify-card-line icon="carbon_ruler">{{size}}</wfnews-identify-card-line>
+        <wfnews-identify-card-line icon="calendar">Discovered on {{convertToDateYear(incident.discoveryDate)}}</wfnews-identify-card-line>
+        <wfnews-identify-card-line *ngIf="!variant.fireCentreFirst" icon="location-pin">{{incident.fireCentreName}}</wfnews-identify-card-line>
+        <wfnews-identify-card-description [text]="descriptions" [joined]="!variant.fireOfNoteGap"></wfnews-identify-card-description>
+    </ng-container>
+</wfnews-identify-card-frame>

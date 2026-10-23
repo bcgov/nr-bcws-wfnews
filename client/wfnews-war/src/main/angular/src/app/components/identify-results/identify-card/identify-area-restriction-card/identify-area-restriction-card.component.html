@@ -1,0 +1,5 @@
+<wfnews-identify-card-frame [layout]="layout" [compact]="compact" [heading]="heading">
+    <wfnews-identify-card-line icon="location-pin"><span>{{p.FIRE_CENTRE_NAME}}</span></wfnews-identify-card-line>
+    <wfnews-identify-card-line icon="calendar"><span>Issued on {{formatDate(p.ACCESS_STATUS_EFFECTIVE_DATE)}}</span></wfnews-identify-card-line>
+    <wfnews-identify-card-description [mode]="descriptionMode" [text]="variant.texts.AREA_RESTRICTION"></wfnews-identify-card-description>
+</wfnews-identify-card-frame>
