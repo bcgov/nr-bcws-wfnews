@@ -7,8 +7,40 @@
 }
 
 // On desktop the page scrolls inside the box, above the buttons, like the other pages.
-:host-context(.rof-desktop) .page-content {
-  overflow-y: auto;
+// Two columns and a smaller map and photos fit more of it in that box.
+:host-context(.rof-desktop) {
+  .page-content {
+    overflow-y: auto;
+  }
+
+  .review-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+
+    // The pages that the review leaves out still render an empty block.
+    > :empty {
+      display: none;
+    }
+
+    > .review-wide {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .item {
+    width: auto;
+  }
+
+  .map-container {
+    min-height: 240px !important;
+    height: 240px;
+    max-width: none;
+  }
+
+  .images .image {
+    height: 120px;
+  }
 }
 
 .item {
