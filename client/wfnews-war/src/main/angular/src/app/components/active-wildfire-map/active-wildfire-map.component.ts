@@ -1002,7 +1002,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 26 */ { itemId: "bc-fire-centres-labels", visible: true }, // Always on
 
       // Not in a feature but need to be cleared
-      { itemId: "bc-fsr", visible: false },
       { itemId: "current-conditions--default", visible: false },
       { itemId: "precipitation", visible: false },
       { itemId: "protected-lands-access-restrictions", visible: false },

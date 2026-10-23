@@ -16,7 +16,6 @@ import { DriveBCEventsLayerConfig } from './drive-bc-active-events.config';
 import { EvacuationOrdersLayerConfig } from './evacuation-orders-and-alerts-wms.config';
 import { FirePerimetersLayerConfig } from './fire-perimeters.config';
 import { FntTreatyLandLayerConfig } from './fnt-treaty-land.config';
-import { ForestServiceRoadsLayerConfig } from './fsr-safety.config';
 import { SmokeForecastLayerConfig } from './eccc-pm25-smoke-forecast.config';
 import { PrecipitationLayerConfig } from './precipitation.config';
 import { WeatherStationsLayerConfig } from './weather-stations.config';
@@ -77,7 +76,6 @@ export function LayerConfig(
     ...WeatherLayerConfig(ls),
     ...WeatherStationsLayerConfig(ls),
     ...PrecipitationLayerConfig(ls),
-    ...ForestServiceRoadsLayerConfig(ls),
     ...ActiveWildfiresHeatmapLayerConfig(ls),
     ...CLABIndianReservesLayerConfig(ls),
     ...FntTreatyLandLayerConfig(ls),

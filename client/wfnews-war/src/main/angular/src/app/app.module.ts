@@ -218,7 +218,6 @@ import { IdentifyDangerRatingCardComponent } from './components/identify-results
 import { IdentifyClosedRecreationSiteCardComponent } from './components/identify-results/identify-card/identify-closed-recreation-site-card/identify-closed-recreation-site-card.component';
 import { IdentifyRoadEventCardComponent } from './components/identify-results/identify-card/identify-road-event-card/identify-road-event-card.component';
 import { IdentifyProtectedLandCardComponent } from './components/identify-results/identify-card/identify-protected-land-card/identify-protected-land-card.component';
-import { IdentifyForestServiceRoadCardComponent } from './components/identify-results/identify-card/identify-forest-service-road-card/identify-forest-service-road-card.component';
 import { IdentifyLocalAuthorityCardComponent } from './components/identify-results/identify-card/identify-local-authority-card/identify-local-authority-card.component';
 import { IdentifyWeatherStationCardComponent } from './components/identify-results/identify-card/identify-weather-station-card/identify-weather-station-card.component';
 import { IdentifyPreviewComponent } from './components/identify-results/identify-preview/identify-preview.component';
@@ -556,7 +555,6 @@ export const DATE_FORMATS = {
     IdentifyClosedRecreationSiteCardComponent,
     IdentifyRoadEventCardComponent,
     IdentifyProtectedLandCardComponent,
-    IdentifyForestServiceRoadCardComponent,
     IdentifyLocalAuthorityCardComponent,
     IdentifyWeatherStationCardComponent,
     IdentifyPreviewComponent,

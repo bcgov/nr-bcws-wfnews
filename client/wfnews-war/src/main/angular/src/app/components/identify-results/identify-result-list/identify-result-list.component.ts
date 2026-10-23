@@ -54,7 +54,6 @@ export class IdentifyResultListComponent {
     },
     { key: 'roadEvents', title: 'Road Events', icon: () => 'ban.svg', label: (item) => item.title },
     { key: 'closedRecreationSites', title: 'Closed Recreation Sites', icon: () => 'closed-recreation-site.svg', label: (item) => item.title },
-    { key: 'forestServiceRoads', title: 'Forest Service Roads', label: (item) => item.title },
     { key: 'protectedLandsAccessRestrictions', title: 'Protected Lands Access Restrictions', label: (item) => item.title },
     { key: 'regionalDistricts', title: 'Regional Districts', icon: () => 'regional-districts.svg', label: (item) => item.title },
     { key: 'municipalities', title: 'Municipalities', icon: () => 'regional-districts.svg', label: (item) => item.title },

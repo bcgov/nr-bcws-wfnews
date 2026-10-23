@@ -411,7 +411,7 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
         // A MultiPolygon is one level deeper than a Polygon.
         const identifyRings = polygonRings(this.identifyItem?.geometry);
         const agolArea = this.actions.agolArea(this.identifyItem);
-        if (layerId && ['drive-bc-active-events', 'bc-fsr', 'closed-recreation-site'].some(str => layerId.includes(str))) {
+        if (layerId && ['drive-bc-active-events', 'closed-recreation-site'].some(str => layerId.includes(str))) {
           const coords = this.identifyItem?.geometry?.coordinates;
           if (coords) {
             this.fitFocus([coords[0], coords[1], coords[0], coords[1]], this.defaultZoomLevel);
@@ -479,7 +479,6 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
         this.identifyItem.layerId === 'closed-recreation-sites' ||
         this.identifyItem.layerId === 'drive-bc-active-events' ||
         this.identifyItem.layerId === 'protected-lands-access-restrictions' ||
-        this.identifyItem.layerId === 'bc-fsr' ||
         LOCAL_AUTHORITY_LAYER_IDS.includes(this.identifyItem.layerId))
     ) {
       return true;
