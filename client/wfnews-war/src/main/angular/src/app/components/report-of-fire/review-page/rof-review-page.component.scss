@@ -6,9 +6,9 @@
   overflow-y: visible;
 }
 
-// This page has no buttons, so it needs no room for them.
+// On desktop the page scrolls inside the box, above the buttons, like the other pages.
 :host-context(.rof-desktop) .page-content {
-  padding-bottom: 0;
+  overflow-y: auto;
 }
 
 .item {
@@ -56,14 +56,21 @@
   }
 }
 
+// The wizard button bar, so Submit stays in view at the same place as Next. This page
+// scrolls, so on a phone the bar is a white band to the foot of the screen.
 .submit-button-row {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 12vh 0;
+  flex-wrap: wrap;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  max-width: none;
+  padding: 8px 32px calc(2.5em + 8px + env(safe-area-inset-bottom));
+  background-color: white;
+  z-index: 1;
   .submitting-text {
-    margin-top: 16px;
+    flex: 1 0 100%;
+    margin-top: 8px;
     text-align: center;
     font-size: 14px;
     color: #313132;
