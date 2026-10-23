@@ -836,7 +836,6 @@ export function displayItemTitle(identifyItem) {
         return 'Wildfire of Note';
       case 'active-wildfires-out-of-control':
       case 'active-wildfires-under-control':
-      case 'bcws-activefires-publicview-inactive':
       case 'active-wildfires-holding':
       case 'active-wildfires-out':
       case 'fire-perimeters':

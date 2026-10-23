@@ -20,7 +20,7 @@ import { IncidentLoad } from '../identify-card/identify-card.component';
 // The old previews of these kept a rounder panel, a card bottom margin and a tighter button row.
 const COMPACT: IdentifyKind[] = ['area-restriction', 'ban', 'danger-rating', 'protected-land'];
 const DETAILS: IdentifyKind[] = ['wildfire', 'evacuation', 'area-restriction', 'ban', 'danger-rating'];
-const PIN_ZOOM: IdentifyKind[] = ['road-event', 'closed-recreation-site', 'forest-service-road'];
+const PIN_ZOOM: IdentifyKind[] = ['road-event', 'closed-recreation-site'];
 
 /** The desktop preview of one identify result, beside the identify list. */
 @Component({

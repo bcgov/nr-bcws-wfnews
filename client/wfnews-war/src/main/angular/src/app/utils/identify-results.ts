@@ -6,7 +6,6 @@ export const WILDFIRE_LAYER_IDS = [
   'active-wildfires-out-of-control',
   'active-wildfires-holding',
   'active-wildfires-under-control',
-  'bcws-activefires-publicview-inactive',
   'fire-perimeters',
   'active-wildfires-out',
 ];
@@ -20,7 +19,6 @@ export interface IdentifyResults {
   dangerRatings: any[];
   roadEvents: any[];
   closedRecreationSites: any[];
-  forestServiceRoads: any[];
   protectedLandsAccessRestrictions: any[];
   regionalDistricts: any[];
   municipalities: any[];
@@ -39,7 +37,6 @@ export function groupIdentifyResults(items: any[]): IdentifyResults {
     dangerRatings: on('danger-rating'),
     roadEvents: on('drive-bc-active-events'),
     closedRecreationSites: on('closed-recreation-sites'),
-    forestServiceRoads: on('bc-fsr'),
     protectedLandsAccessRestrictions: on('protected-lands-access-restrictions'),
     regionalDistricts: on('abms-regional-districts'),
     municipalities: on('abms-municipalities'),
@@ -53,7 +50,7 @@ export const LOCAL_AUTHORITY_LAYER_IDS = ['abms-regional-districts', 'clab-india
 
 export type IdentifyKind =
   | 'wildfire' | 'evacuation' | 'area-restriction' | 'ban' | 'danger-rating' | 'closed-recreation-site'
-  | 'road-event' | 'protected-land' | 'forest-service-road' | 'local-authority' | 'weather-station';
+  | 'road-event' | 'protected-land' | 'local-authority' | 'weather-station';
 
 /** The card an identify result opens. A wildfire from the wildfire list has no layer, only its incident fields. */
 export function identifyKind(item: any): IdentifyKind | null {
@@ -74,7 +71,6 @@ export function identifyKind(item: any): IdentifyKind | null {
     'closed-recreation-sites': 'closed-recreation-site',
     'drive-bc-active-events': 'road-event',
     'protected-lands-access-restrictions': 'protected-land',
-    'bc-fsr': 'forest-service-road',
     'weather-stations': 'weather-station',
   };
   return kinds[layerId] ?? null;
@@ -87,7 +83,6 @@ const KIND_TITLES: Partial<Record<IdentifyKind, string>> = {
   'closed-recreation-site': 'Closed Recreational Sites',
   'road-event': 'Road Events',
   'protected-land': 'Protected Lands',
-  'forest-service-road': 'Forest Service Roads',
   'local-authority': 'Local Authorities',
   'weather-station': 'Active Weather Stations',
 };
