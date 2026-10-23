@@ -112,7 +112,6 @@ export class CapacitorService {
   pnNav = null;
   notificationToken = null;
   updateMainMapLayers = new EventEmitter();
-  currentHeadingPromise: Promise<CompassHeading>;
   locationNotifications = new EventEmitter<LocationNotification>();
   rofNotifications = new EventEmitter<ReportOfFireNotification>();
   inactiveStart: number;
@@ -732,30 +731,6 @@ export class CapacitorService {
 
   isIOS() {
     return this.isIOSPlatform;
-  }
-
-  getCurrentHeading(): Promise<CompassHeading> {
-    const compass = navigator['compass'];
-    if (!compass) {
-      return Promise.reject(Error('navigator.compass not available'));
-    } else {
-      const currentHeading = new Promise((res, rej) => {
-        compass.getCurrentHeading(
-          (heading: CompassHeading) => {
-            res(heading);
-            this.currentHeadingPromise = null;
-          },
-          (error) => {
-            rej(Error('Failed to get heading: ' + JSON.stringify(error)));
-            this.currentHeadingPromise = null;
-          },
-        );
-      });
-
-      this.currentHeadingPromise = currentHeading;
-
-      return this.currentHeadingPromise;
-    }
   }
 
   async checkDeviceSystem() {

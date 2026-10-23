@@ -8,7 +8,7 @@ import {
   Position,
 } from '@app/services/common-utility.service';
 
-export type PermissionKind = 'location' | 'compass';
+export type PermissionKind = 'location';
 
 /** A position, or the state that explains why there is none. */
 export interface LocateResult {
@@ -29,19 +29,12 @@ export type PermissionState =
   | 'no-position'
   | 'unsupported';
 
-interface OrientationPermission {
-  requestPermission?: () => Promise<'granted' | 'denied'>;
-}
-
 // The browser timeout starts after the user answers its prompt.
 const BROWSER_POSITION_LIMIT = 10 * 1000;
 const BROWSER_GPS_POSITION_LIMIT = 60 * 1000;
 const BROWSER_POSITION_AGE = 30 * 1000;
 
-/**
- * Reads, asks for and repairs permissions. `check` never asks. `request` can show a
- * prompt, so call it from a tap: WebKit refuses the compass request outside one.
- */
+/** Reads, asks for and repairs permissions. `check` never asks; `request` can prompt. */
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
   constructor(
@@ -72,9 +65,6 @@ export class PermissionService {
   }
 
   async check(kind: PermissionKind): Promise<PermissionState> {
-    if (kind === 'compass') {
-      return this.checkCompass();
-    }
     if (this.isWeb) {
       return this.checkBrowserLocation();
     }
@@ -84,9 +74,6 @@ export class PermissionService {
   }
 
   async request(kind: PermissionKind): Promise<PermissionState> {
-    if (kind === 'compass') {
-      return this.requestCompass();
-    }
     if (this.isWeb) {
       return this.requestBrowserLocation();
     }
@@ -178,42 +165,6 @@ export class PermissionService {
         return 'no-position';
       default:
         return 'services-off';
-    }
-  }
-
-  private async checkCompass(): Promise<PermissionState> {
-    if (typeof DeviceOrientationEvent === 'undefined') {
-      return 'unsupported';
-    }
-    const ask = (DeviceOrientationEvent as unknown as OrientationPermission)
-      .requestPermission;
-    if (typeof ask !== 'function') {
-      return 'granted';
-    }
-    try {
-      const status = await navigator.permissions.query({
-        name: 'accelerometer' as PermissionName,
-      });
-      return status.state as PermissionState;
-    } catch {
-      // WebKit has no query. Its answer comes only from a request.
-      return 'prompt';
-    }
-  }
-
-  private async requestCompass(): Promise<PermissionState> {
-    const ask = (DeviceOrientationEvent as unknown as OrientationPermission)
-      .requestPermission;
-    if (typeof ask !== 'function') {
-      return this.checkCompass();
-    }
-    try {
-      return (await ask.call(DeviceOrientationEvent)) === 'granted'
-        ? 'granted'
-        : 'denied';
-    } catch (error) {
-      // NotAllowedError: the request came outside a tap. A tap can still ask.
-      return error?.name === 'NotAllowedError' ? 'prompt' : 'unsupported';
     }
   }
 }

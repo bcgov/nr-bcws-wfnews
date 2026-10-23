@@ -106,9 +106,6 @@ export class PermissionDialogComponent implements OnDestroy {
   }
 
   get title(): string {
-    if (this.data.kind === 'compass') {
-      return this.text.compass.title.off;
-    }
     const title = this.text.location.title;
     switch (this.state) {
       case 'no-position':
@@ -121,11 +118,6 @@ export class PermissionDialogComponent implements OnDestroy {
   }
 
   get message(): string {
-    if (this.data.kind === 'compass') {
-      return this.state === 'prompt'
-        ? this.text.compass.message.prompt
-        : this.text.compass.message.denied;
-    }
     const message = this.text.location.message;
     switch (this.state) {
       case 'no-position':
@@ -163,9 +155,8 @@ export class PermissionDialogComponent implements OnDestroy {
         this.capacitorService.isIOSPlatform,
       );
     }
-    // A browser location change needs no tap: recheckBrowser sees it. The compass
-    // tap asks the browser again, the same as the first time.
-    return this.data.kind === 'compass' ? this.text.compass.action.turnOn : null;
+    // A browser location change needs no tap: recheckBrowser sees it.
+    return null;
   }
 
   /** Nothing can change a device with no location, so the dialog only closes. */

@@ -8,10 +8,10 @@ import {
 } from '@angular/core';
 import { RoFPage } from '../rofPage';
 import { ReportOfFire } from '../reportOfFireModel';
+import { Capacitor, PluginListenerHandle } from '@capacitor/core';
+import { Compass, Heading } from '@capawesome/capacitor-compass';
 import { CommonUtilityService } from '../../../services/common-utility.service';
-import { PERMISSION_DIALOG } from '@app/components/common/permission-banner/permission-banner.constants';
-import { PermissionDialogService } from '@app/components/common/permission-dialog/permission-dialog.service';
-import { PermissionService } from '@app/services/permission.service';
+import { declinationAt, toTrueNorth } from '@app/utils/true-north';
 import { equalsIgnoreCase } from '../../../utils';
 
 // A browser with no compass sends no reading at all, so the wait needs an end.
@@ -33,7 +33,9 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
   public locationSupported = false;
   public compassUnsupported = false;
   private noReadingTimer: ReturnType<typeof setTimeout>;
-  private orientationListener: (e: DeviceOrientationEvent) => void;
+  private headingListener: PluginListenerHandle;
+  // The sensor reads magnetic north; the report and the map use true north.
+  private declination = 0;
   // The sensor fires ~60Hz. Recomputing this per event, and again on every change
   // detection pass from the template, read window dimensions each time and forced
   // a layout. Cache it and refresh only when the viewport actually changes.
@@ -43,8 +45,6 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
 
   constructor(
     private commonUtilityService: CommonUtilityService,
-    private permissionService: PermissionService,
-    private permissionDialog: PermissionDialogService,
     private zone: NgZone,
     private cdr: ChangeDetectorRef,
   ) {
@@ -83,7 +83,7 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
     window.addEventListener('resize', this.viewportListener);
     window.addEventListener('orientationchange', this.viewportListener);
 
-    this.getOrientation();
+    this.startCompass();
     this.useMyCurrentLocation();
 
     this.noReadingTimer = setTimeout(() => {
@@ -111,79 +111,53 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
       window.removeEventListener('orientationchange', this.viewportListener);
       this.viewportListener = null;
     }
-    if (!this.orientationListener) {
-      return;
+    if (this.headingListener) {
+      this.headingListener.remove();
+      this.headingListener = null;
+      Compass.stopHeadingUpdates();
     }
-    window.removeEventListener(
-      'deviceorientationabsolute',
-      this.orientationListener,
-      true,
-    );
-    window.removeEventListener(
-      'deviceorientation',
-      this.orientationListener,
-      true,
-    );
-    this.orientationListener = null;
   }
 
-  async getOrientation() {
-    let state = await this.permissionService.check('compass');
-    // The tap that opened this page can still count, so try before the dialog asks.
-    if (state === 'prompt') {
-      state = await this.permissionService.request('compass');
-    }
-    if (state === 'prompt' || state === 'denied') {
-      const result = await this.permissionDialog.open('compass', state, {
-        cancelLabel: PERMISSION_DIALOG.action.skip,
-      });
-      if (result === 'granted') {
-        state = 'granted';
-      }
-    }
-    // The user may have left the page while the dialog was open.
+  async startCompass() {
+    // Only the app reads the compass: the browser events are not on every browser.
+    const available =
+      Capacitor.isNativePlatform() &&
+      (await Compass.isAvailable().then((result) => result.available, () => false));
+    // The user may have left the page during the check.
     if (!this.viewportListener) {
       return;
     }
-    if (state !== 'granted') {
-      this.skip();
+    if (!available) {
+      this.showUnsupported();
       return;
     }
 
-    this.orientationListener = (e: DeviceOrientationEvent) =>
-      this.handler(e, this);
-    // Chrome has requestPermission now too, so pick the event, not the platform.
-    // Only the absolute event gives a compass heading there; iOS has its own field.
-    const event =
-      'ondeviceorientationabsolute' in window
-        ? 'deviceorientationabsolute'
-        : 'deviceorientation';
-    // Outside the zone: the sensor fires ~60Hz, and letting zone.js see each
-    // event ran a full application-wide change detection pass every time.
-    // handler() re-enters the zone only when the shown heading changes.
-    this.zone.runOutsideAngular(() => {
-      window.addEventListener(event, this.orientationListener, true);
-    });
+    // The permissions page will not continue without the device position.
+    const [latitude, longitude] = this.reportOfFire.deviceLocation;
+    this.declination = declinationAt(latitude, longitude);
+    const listener = await Compass.addListener('headingChange', (heading) =>
+      this.handler(heading),
+    );
+    if (!this.viewportListener) {
+      listener.remove();
+      return;
+    }
+    this.headingListener = listener;
+    await Compass.startHeadingUpdates();
   }
 
   // Runs outside the Angular zone, once per sensor event. Keep it free of work that
   // reads layout, and re-enter the zone only when something on screen actually changes.
-  handler(e, self) {
+  handler(heading: Heading) {
     // Only the page on screen may move the wizard, and only while it reads the sensor.
-    if (!self.reportOfFire?.headingDetectionActive) {
+    if (!this.reportOfFire?.headingDetectionActive) {
       return;
     }
     if (this.landscapeMode) {
       this.zone.run(() => this.skip());
       return;
     }
-    // A heading of exactly 0 is a true north reading, not a missing sensor.
-    if (e.alpha == null && e.webkitCompassHeading == null) {
-      if (!this.compassUnsupported) {
-        this.zone.run(() => this.showUnsupported());
-      }
-      return;
-    } else if (this.reportOfFire.motionSensor !== 'yes') {
+    if (this.reportOfFire.motionSensor !== 'yes') {
       // Drives the template's *ngIf, so this one needs the zone.
       this.zone.run(() => {
         clearTimeout(this.noReadingTimer);
@@ -193,8 +167,9 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
     }
 
     try {
-      let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
-      compassHeading = Math.trunc(compassHeading);
+      const compassHeading = Math.trunc(
+        toTrueNorth(heading.magneticHeading, this.declination),
+      );
       // Truncated to whole degrees, so most events repeat the last value. Redrawing
       // only on a real change is what keeps this off the 60Hz change detection path.
       if (compassHeading === this.compassHeading) {
@@ -228,8 +203,7 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
       this.compassHeading = compassHeading;
       this.heading = compassHeading.toString() + '° ' + cardinalDirection;
 
-      self.reportOfFire.compassHeading = compassHeading;
-      this.reportOfFire = self.reportOfFire;
+      this.reportOfFire.compassHeading = compassHeading;
 
       // This component's own view is all that changed, so redraw just it rather
       // than re-entering the zone and checking the whole tree.
