@@ -10,3 +10,11 @@
 
 
 }
+
+// Centred over the centred answers.
+:host-context(.rof-desktop) {
+  .rof-text-primary-header,
+  .rof-text-secondary-header {
+    text-align: center;
+  }
+}

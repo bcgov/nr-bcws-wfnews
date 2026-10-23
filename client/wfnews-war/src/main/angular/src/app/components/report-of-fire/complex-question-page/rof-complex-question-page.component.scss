@@ -47,6 +47,12 @@
 
 // A wide screen: options of one fixed width, three to a row, centred.
 :host-context(.rof-desktop) {
+  // Centred over the centred options.
+  .rof-text-primary-header,
+  .rof-text-secondary-header {
+    text-align: center;
+  }
+
   // !important beats the inline space-between, which would spread a short row apart.
   .rof-complex-group {
     justify-content: center !important;
