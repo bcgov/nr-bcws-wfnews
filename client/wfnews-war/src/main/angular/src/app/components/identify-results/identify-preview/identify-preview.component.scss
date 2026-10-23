@@ -1,0 +1,22 @@
+@import "src/styles/identify-panel";
+
+.panel-container {
+  border-radius: 5px;
+
+  .button-row {
+    overflow: hidden;
+    padding: 12px 20px 12px 20px;
+  }
+
+  &.compact {
+    border-radius: 20px;
+
+    .button-row {
+      padding: 4px 20px 12px 20px;
+    }
+  }
+}
+
+.prev-panel {
+  max-height: calc(65vh - env(safe-area-inset-bottom, 0px) - env(safe-area-inset-top, 20px) - 10px) !important;
+}

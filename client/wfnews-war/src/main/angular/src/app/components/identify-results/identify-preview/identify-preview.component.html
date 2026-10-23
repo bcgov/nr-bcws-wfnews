@@ -1,0 +1,29 @@
+<div *ngIf="item">
+    <div class="prev-panel" *ngIf="kind === 'wildfire'; else body">
+        <ng-container *ngTemplateOutlet="body"></ng-container>
+    </div>
+</div>
+
+<ng-template #body>
+    <div class="panel-container" [class.compact]="compact">
+        <div class="preview-panel-title">
+            <mat-icon svgIcon="arrow-left" (click)="goBack()"></mat-icon>
+            <span class="preview-title">
+                <span *ngIf="kind === 'evacuation'; else plainTitle" class="preview-title">{{title}}</span>
+                <ng-template #plainTitle>{{title}}</ng-template>
+            </span>
+            <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+        </div>
+        <wfnews-identify-card [item]="item" layout="desktop" [incident]="incident" [incidentLoad]="incidentLoad"></wfnews-identify-card>
+        <div class="button-row" *ngIf="showButtons">
+            <div class="buttons">
+                <wfnews-button variant="secondary" [fullWidth]="true" label="Zoom to"
+                    iconPath="/assets/images/svg-icons/zoom-in.svg" (buttonClicked)="zoomIn()"></wfnews-button>
+                <wfnews-button *ngIf="hasDetails" variant="primary" [fullWidth]="true" label="Full Details"
+                    (buttonClicked)="openDetails()"></wfnews-button>
+                <wfnews-button *ngIf="kind === 'road-event'" variant="primary" [fullWidth]="true" label="Drive BC"
+                    iconPath="/assets/images/svg-icons/launch_black.svg" (buttonClicked)="openDriveBc()"></wfnews-button>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,86 @@
+// No box of its own, so the groups lay out in the panel as they did in its template.
+:host {
+  display: contents;
+}
+
+.criteria-title {
+  font-size: 18px;
+  color: #242424;
+  padding: 16px 20px 0 20px;
+}
+
+.widget-card {
+  padding: 8px 20px 0 20px;
+}
+
+.widget-row {
+  display: flex;
+  padding: 12px;
+  align-items: center;
+  border-radius: 8px;
+  background: #f2f2f6;
+  justify-content: space-between;
+}
+
+.left-content {
+  display: flex;
+  align-items: center;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+}
+
+.incident-icon-title {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+// The same box as the row icons, so every label starts at the same place.
+.circle-icon.list {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+}
+
+// The Drawer pads and scrolls its content, so the rows drop their side padding.
+.group.phone {
+  .criteria-title {
+    padding: 16px 0 0 0;
+  }
+
+  &:first-child > .criteria-title {
+    padding-top: 0;
+  }
+
+  .widget-card {
+    padding: 8px 0 0 0;
+  }
+
+  // A long name wraps before it reaches the arrow.
+  .widget-row {
+    gap: 12px;
+  }
+
+  .left-content {
+    min-width: 0;
+  }
+
+  .incident-icon-title,
+  .circle-icon {
+    flex: none;
+  }
+}
+
+.group.desktop {
+  .wildfire-icon,
+  .circle-icon.list {
+    display: block;
+  }
+
+  .widget-card:hover {
+    cursor: pointer;
+  }
+}

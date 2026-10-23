@@ -157,7 +157,7 @@ import { SituationWidget } from './components/dashboard-component/widgets/situat
 import { SummaryWidget } from './components/dashboard-component/widgets/summary-widget/summary-widget.component';
 import { VideosWidget } from './components/dashboard-component/widgets/videos-widget/videos-widget.component';
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
-import { DraggablePanelComponent } from './components/draggable-panel/draggable-panel.component';
+import { IdentifyDrawerComponent } from './components/identify-drawer/identify-drawer.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { AreaRestrictionsFullDetailsComponent } from './components/full-details/area-restrictions-full-details/area-restrictions-full-details.component';
 import { BansFullDetailsComponent } from './components/full-details/bans-full-details/bans-full-details.component';
@@ -206,15 +206,23 @@ import { MapLayersDrawerSectionComponent } from './components/map-layers-drawer-
 import { MapTypePickerComponent } from './components/map-type-picker/map-type-picker.component';
 import { MoreComponent } from './components/more/more.component';
 import { PanelWildfireStageOfControlComponentDesktop } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component.desktop';
-import { AreaRestrictionPreviewComponent } from './components/preview-panels/area-restriction-preview/area-restriction-preview.component';
-import { ClosedRecSitesComponent } from './components/preview-panels/closed-rec-sites/closed-rec-sites.component';
-import { DangerRatingPreviewComponent } from './components/preview-panels/danger-rating-preview/danger-rating-preview.component';
-import { EvacuationsPreviewComponent } from './components/preview-panels/evacuations-preview/evacuations-preview.component';
-import { FireBanPreviewComponent } from './components/preview-panels/fire-ban-preview/fire-ban-preview.component';
-import { LocalAuthoritiesComponent } from './components/preview-panels/local-authorities/local-authorities.component';
-import { ProtectedLandPreviewComponent } from './components/preview-panels/protected-land-preview/protected-land-preview.component';
-import { RoadEventsPreviewComponent } from './components/preview-panels/road-events-preview/road-events-preview.component';
-import { WildfirePreviewComponent } from './components/preview-panels/wildfire-preview/wildfire-preview.component';
+import { IdentifyCardComponent } from './components/identify-results/identify-card/identify-card.component';
+import { IdentifyCardDescriptionComponent } from './components/identify-results/identify-card/identify-card-description/identify-card-description.component';
+import { IdentifyCardFrameComponent } from './components/identify-results/identify-card/identify-card-frame/identify-card-frame.component';
+import { IdentifyCardLineComponent } from './components/identify-results/identify-card/identify-card-line/identify-card-line.component';
+import { IdentifyWildfireCardComponent } from './components/identify-results/identify-card/identify-wildfire-card/identify-wildfire-card.component';
+import { IdentifyEvacuationCardComponent } from './components/identify-results/identify-card/identify-evacuation-card/identify-evacuation-card.component';
+import { IdentifyAreaRestrictionCardComponent } from './components/identify-results/identify-card/identify-area-restriction-card/identify-area-restriction-card.component';
+import { IdentifyBanCardComponent } from './components/identify-results/identify-card/identify-ban-card/identify-ban-card.component';
+import { IdentifyDangerRatingCardComponent } from './components/identify-results/identify-card/identify-danger-rating-card/identify-danger-rating-card.component';
+import { IdentifyClosedRecreationSiteCardComponent } from './components/identify-results/identify-card/identify-closed-recreation-site-card/identify-closed-recreation-site-card.component';
+import { IdentifyRoadEventCardComponent } from './components/identify-results/identify-card/identify-road-event-card/identify-road-event-card.component';
+import { IdentifyProtectedLandCardComponent } from './components/identify-results/identify-card/identify-protected-land-card/identify-protected-land-card.component';
+import { IdentifyForestServiceRoadCardComponent } from './components/identify-results/identify-card/identify-forest-service-road-card/identify-forest-service-road-card.component';
+import { IdentifyLocalAuthorityCardComponent } from './components/identify-results/identify-card/identify-local-authority-card/identify-local-authority-card.component';
+import { IdentifyWeatherStationCardComponent } from './components/identify-results/identify-card/identify-weather-station-card/identify-weather-station-card.component';
+import { IdentifyPreviewComponent } from './components/identify-results/identify-preview/identify-preview.component';
+import { IdentifyResultListComponent } from './components/identify-results/identify-result-list/identify-result-list.component';
 import { AreaRestrictionDetailsComponent } from './components/public-event-page/area-restriction-details/area-restriction-details.component';
 import { EvacAlertDetailsComponent } from './components/public-event-page/evac-alert-details/evac-alert-details.component';
 import { EvacOrderDetailsComponent } from './components/public-event-page/evac-order-details/evac-order-details.component';
@@ -442,7 +450,7 @@ export const DATE_FORMATS = {
     FireTotalsWidget,
     HistoricalComparisonWidget,
     FireCentreStatsWidget,
-    DraggablePanelComponent,
+    IdentifyDrawerComponent,
     MobileSlidingDrawerComponent,
     MapTypePickerComponent,
     CheckboxButtonComponent,
@@ -525,10 +533,6 @@ export const DATE_FORMATS = {
     IndustrialActivitiesCardComponent,
     UpdateFrequencyCardComponent,
     FireDangerDetailsComponent,
-    AreaRestrictionPreviewComponent,
-    FireBanPreviewComponent,
-    DangerRatingPreviewComponent,
-    ProtectedLandPreviewComponent,
     ResponseUpdateCardComponent,
     ContactUsCardComponent,
     ResponseTypeCardComponent,
@@ -539,11 +543,23 @@ export const DATE_FORMATS = {
     DownloadItemComponent,
     DownloadItemsContainerComponent,
     ContactUsBannerComponent,
-    WildfirePreviewComponent,
-    EvacuationsPreviewComponent,
-    RoadEventsPreviewComponent,
-    LocalAuthoritiesComponent,
-    ClosedRecSitesComponent,
+    IdentifyResultListComponent,
+    IdentifyCardComponent,
+    IdentifyCardDescriptionComponent,
+    IdentifyCardFrameComponent,
+    IdentifyCardLineComponent,
+    IdentifyWildfireCardComponent,
+    IdentifyEvacuationCardComponent,
+    IdentifyAreaRestrictionCardComponent,
+    IdentifyBanCardComponent,
+    IdentifyDangerRatingCardComponent,
+    IdentifyClosedRecreationSiteCardComponent,
+    IdentifyRoadEventCardComponent,
+    IdentifyProtectedLandCardComponent,
+    IdentifyForestServiceRoadCardComponent,
+    IdentifyLocalAuthorityCardComponent,
+    IdentifyWeatherStationCardComponent,
+    IdentifyPreviewComponent,
     MediaGalleryItemComponent,
     MediaGalleryContainerComponent,
     WfnewsSelectComponent,
