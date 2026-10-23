@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { IdentifyActionsService } from '@app/services/identify-actions.service';
-import { MapConfigService } from '@app/services/map-config.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import {
   addMarker,
@@ -11,16 +10,16 @@ import {
   hidePanel,
   pingMarkerAgain,
   showPanel,
-  zoomInWithLocationPin,
 } from '@app/utils';
 import { IdentifyKind, identifyKind, identifyTitle } from '@app/utils/identify-results';
+import { pinDropElement } from '@app/utils/map-markers';
+import { pingPoint } from '@app/utils/preview-map';
 import * as turf from '@turf/turf';
 import { IncidentLoad } from '../identify-card/identify-card.component';
 
 // The old previews of these kept a rounder panel, a card bottom margin and a tighter button row.
 const COMPACT: IdentifyKind[] = ['area-restriction', 'ban', 'danger-rating', 'protected-land'];
 const DETAILS: IdentifyKind[] = ['wildfire', 'evacuation', 'area-restriction', 'ban', 'danger-rating'];
-const PIN_ZOOM: IdentifyKind[] = ['road-event', 'closed-recreation-site'];
 
 /** The desktop preview of one identify result, beside the identify list. */
 @Component({
@@ -38,25 +37,17 @@ export class IdentifyPreviewComponent implements OnDestroy {
   readonly addMarker = addMarker;
   readonly clearMarker = clearMarker;
   readonly pingMarkerAgain = pingMarkerAgain;
-  readonly zoomInWithLocationPin = zoomInWithLocationPin;
   readonly clearLocationPin = clearLocationPin;
 
   constructor(
     private cdr: ChangeDetectorRef,
     private actions: IdentifyActionsService,
     private publishedIncidentService: PublishedIncidentService,
-    // Read by zoomInWithLocationPin.
-    public mapConfigService: MapConfigService,
   ) {}
 
   ngOnDestroy(): void {
     this.clearMarker();
     this.clearLocationPin();
-  }
-
-  /** zoomInWithLocationPin reads the record as `data`. */
-  get data(): any {
-    return this.item;
   }
 
   get defaultZoomLevel(): number {
@@ -118,27 +109,28 @@ export class IdentifyPreviewComponent implements OnDestroy {
   }
 
   zoomIn() {
-    const kind = this.kind;
-    if (kind === 'wildfire') {
-      const long = Number(this.incident?.longitude);
-      const lat = Number(this.incident?.latitude);
-      if (long && lat) {
-        this.mapConfigService.getMapConfig().then(() => {
-          getActiveMap().$viewer.panToFeature(turf.point([long, lat]), this.defaultZoomLevel);
-          this.pingMarkerAgain();
-        });
+    const item = this.item;
+    this.actions.zoomTarget(item, this.incident).then((target) => {
+      if (!target || item !== this.item) {
+        return;
       }
-    } else if (PIN_ZOOM.includes(kind)) {
-      this.zoomInWithLocationPin();
-    } else if (kind === 'protected-land' || kind === 'local-authority') {
-      this.actions.fitIdentifyGeometry(this.item);
-    } else {
-      this.actions.agolArea(this.item)?.toPromise().then((rings) => {
-        if (rings?.length) {
-          this.actions.fitArea(rings);
-        }
-      });
-    }
+      if (target.type === 'area') {
+        this.actions.fitArea(target.rings);
+        return;
+      }
+      const [x, y] = target.point;
+      getActiveMap().$viewer.panToFeature(turf.point([x, y]), this.defaultZoomLevel);
+      if (target.type === 'incident') {
+        this.pingMarkerAgain();
+        return;
+      }
+      if (target.type === 'pin') {
+        getActiveMap().showFeature('pin-drop', turf.point([x, y]), { htmlMarker: () => pinDropElement() });
+        this.pinDrop = true;
+      } else {
+        pingPoint(getActiveMap(), x, y);
+      }
+    });
   }
 
   openDetails() {

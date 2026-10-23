@@ -8,7 +8,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { IdentifyActionsService } from '@app/services/identify-actions.service';
-import { MapConfigService } from '@app/services/map-config.service';
 import { PointIdService } from '@app/services/point-id.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import {
@@ -22,21 +21,18 @@ import {
 import {
   IdentifyResults,
   LOCAL_AUTHORITY_LAYER_IDS,
-  WILDFIRE_LAYER_IDS,
   clearIdentifyOnMap,
   groupIdentifyResults,
-  identifyKind,
   identifyTitle,
 } from '@app/utils/identify-results';
 import { pinDropElement } from '@app/utils/map-markers';
-import { coordsToExtent, flashArea, highlightArea, pingPoint, polygonRings } from '@app/utils/preview-map';
+import { flashArea, highlightArea, pingPoint, ringsToExtent } from '@app/utils/preview-map';
 import { MobileSlidingDrawerComponent } from '../common/mobile-sliding-drawer/mobile-sliding-drawer.component';
 import { IncidentLoad } from '../identify-results/identify-card/identify-card.component';
 import * as turf from '@turf/turf';
-import { Observable } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 
-// After this, a detail or an area that has not come is given up, so it cannot move the map later.
+// After this, a detail that has not come is given up, so it cannot move the map later.
 const DETAIL_TIMEOUT_MS = 10000;
 // Room round a fitted area: the layer buttons sit on the top of the map.
 const FOCUS_PADDING = { top: 88, side: 32, bottom: 24 };
@@ -78,7 +74,6 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
   constructor(
     private publishedIncidentService: PublishedIncidentService,
     private cdr: ChangeDetectorRef,
-    private mapConfigService: MapConfigService,
     private actions: IdentifyActionsService,
     private pointIdService: PointIdService,
   ) {}
@@ -348,98 +343,34 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
   zoomIn(level?: number, ping = false) {
     this.previousZoom = getActiveMap().$viewer.map.getZoom();
     const zoomRequest = this.zoomRequest;
-    const current = () => zoomRequest === this.zoomRequest;
-    let long;
-    let lat;
-    if (this.identifyIncident?.longitude && this.identifyIncident?.latitude) {
-      const x = Number(this.identifyIncident.longitude);
-      const y = Number(this.identifyIncident.latitude);
-      this.fitFocus([x, y, x, y], level ? level : this.defaultZoomLevel);
-      this.pingMarkerAgain();
-      return;
-    }
-    if (this.identifyItem?.geometry?.type === 'Point' && WILDFIRE_LAYER_IDS.includes(this.identifyItem.layerId)) {
-      // The fire itself, not the place the user tapped near it.
-      long = Number(this.identifyItem.geometry.coordinates[0]);
-      lat = Number(this.identifyItem.geometry.coordinates[1]);
-    } else if (
-      this.identifyItem?._identifyPoint?.longitude &&
-      this.identifyItem?._identifyPoint?.latitude
-    ) {
-      long = Number(this.identifyItem._identifyPoint.longitude);
-      lat = Number(this.identifyItem._identifyPoint.latitude);
-    } else if (this.identifyItem?.geometry?.coordinates) {
-      long = Number(this.identifyItem.geometry.coordinates[0]);
-      lat = Number(this.identifyItem.geometry.coordinates[1]);
-    }
-    if (long && lat) {
-      const fitPoint = () => {
-        if (current()) {
-          this.fitFocus([long, lat, long, lat], level || this.defaultZoomLevel);
-          if (ping) {
-            pingPoint(getActiveMap(), long, lat);
-          }
+    this.actions.zoomTarget(this.identifyItem, this.identifyIncident).then((target) => {
+      if (!target || zoomRequest !== this.zoomRequest) {
+        return;
+      }
+      if (target.type === 'area') {
+        this.fitFocus(ringsToExtent(target.rings));
+        // The area keeps its own map colours; Zoom to marks it with a glow instead.
+        highlightArea(getActiveMap());
+        if (ping) {
+          flashArea(getActiveMap(), target.rings);
         }
-      };
-      // Without the area, the point still moves the map, so the button is never dead.
-      const fitRings = (rings: number[][][] | undefined) => {
-        if (!this.fixPolygonToMap(rings?.flat() ?? [])) {
-          fitPoint();
-        } else if (ping) {
-          flashArea(getActiveMap(), rings);
-        }
-      };
-      const fitArea = (request: Observable<number[][][] | undefined>, what: string) =>
-        request
-          .pipe(timeout(DETAIL_TIMEOUT_MS))
-          .toPromise()
-          .then((rings) => {
-            if (!current()) {
-              return;
-            }
-            fitRings(rings);
-          })
-          .catch((error) => {
-            console.error(`Unable to zoom to the ${what}`, error);
-            fitPoint();
-          });
-      this.mapConfigService.getMapConfig().then(() => {
-        if (!current()) {
-          return;
-        }
-        const layerId = this.identifyItem?.layerId;
-        // A MultiPolygon is one level deeper than a Polygon.
-        const identifyRings = polygonRings(this.identifyItem?.geometry);
-        const agolArea = this.actions.agolArea(this.identifyItem);
-        if (layerId && ['drive-bc-active-events', 'closed-recreation-site'].some(str => layerId.includes(str))) {
-          const coords = this.identifyItem?.geometry?.coordinates;
-          if (coords) {
-            this.fitFocus([coords[0], coords[1], coords[0], coords[1]], this.defaultZoomLevel);
-
-            // showFeature replaces the acetate each call, so the old pin goes.
-            getActiveMap().showFeature(
-              'pin-drop',
-              turf.point([coords[0], coords[1]]),
-              { htmlMarker: () => pinDropElement() },
-            );
-            this.pinDrop = true;
-            if (ping) {
-              pingPoint(getActiveMap(), coords[0], coords[1]);
-            }
-          }
-        } else if (identifyRings && agolArea) {
-          // The identify already holds the area. The AGOL copy of one ban can be 6 MB.
-          fitRings(identifyRings);
-        } else if (agolArea) {
-          fitArea(agolArea, identifyKind(this.identifyItem).replace('-', ' '));
-        } else if (LOCAL_AUTHORITY_LAYER_IDS.includes(layerId) || layerId?.includes('protected-lands-access-restrictions')) {
-          fitRings(identifyRings);
-        } else {
-          // A point with nothing better to fit, for example an incident whose details did not load.
-          fitPoint();
-        }
-      });
-    }
+        return;
+      }
+      const [x, y] = target.point;
+      this.fitFocus([x, y, x, y], (target.type !== 'pin' && level) || this.defaultZoomLevel);
+      if (target.type === 'incident') {
+        this.pingMarkerAgain();
+        return;
+      }
+      if (target.type === 'pin') {
+        // showFeature replaces the acetate each call, so the old pin goes.
+        getActiveMap().showFeature('pin-drop', turf.point([x, y]), { htmlMarker: () => pinDropElement() });
+        this.pinDrop = true;
+      }
+      if (ping) {
+        pingPoint(getActiveMap(), x, y);
+      }
+    });
   }
 
   openPreviewPanel(item) {
@@ -483,16 +414,5 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
     ) {
       return true;
     }
-  }
-
-  /** False when the data has no area to fit. */
-  fixPolygonToMap(polygonData): boolean {
-    const extent = coordsToExtent(polygonData);
-    if (extent) {
-      this.fitFocus(extent);
-    }
-    // The area keeps its own map colours; Zoom to marks it with a glow instead.
-    highlightArea(getActiveMap());
-    return !!extent;
   }
 }

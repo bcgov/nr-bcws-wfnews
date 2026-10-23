@@ -13,7 +13,7 @@ import { EffectSources } from '@ngrx/effects';
 import { SortDirection } from '@wf1/core-ui';
 import * as moment from 'moment';
 import { PagingInfoRequest } from '../store/application/application.state';
-import { animatedIcon, pinDropElement, replayPing } from './map-markers';
+import { animatedIcon, replayPing } from './map-markers';
 import { formatWeatherDay, formatWeatherHour } from './weather-time';
 import * as turf from '@turf/turf';
 
@@ -926,27 +926,6 @@ export function clearMarker() {
   } catch (err) {
     // The map is already gone on a destroy, so there is nothing to clear.
   }
-}
-
-export function zoomInWithLocationPin() {
-  const long = Number(this.data?.geometry?.coordinates[0]);
-  const lat = Number(this.data?.geometry?.coordinates[1]);
-
-  if (!long || !lat) {
-    return;
-  }
-
-  this.mapConfigService.getMapConfig().then(() => {
-    getActiveMap().$viewer.panToFeature(
-      turf.point([long, lat]),
-      this.defaultZoomLevel,
-    );
-  });
-
-  getActiveMap().showFeature('pin-drop', turf.point([long, lat]), {
-    htmlMarker: () => pinDropElement(),
-  });
-  this.pinDrop = true;
 }
 
 export function clearLocationPin() {

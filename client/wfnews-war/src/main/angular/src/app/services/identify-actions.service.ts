@@ -3,16 +3,32 @@ import { Router } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CapacitorService } from '@app/services/capacitor-service';
+import { MapConfigService } from '@app/services/map-config.service';
 import { ResourcesRoutes, getActiveMap, snowPlowHelper } from '@app/utils';
-import { identifyKind } from '@app/utils/identify-results';
-import { highlightArea, zoomToCoords } from '@app/utils/preview-map';
+import { IdentifyKind, WILDFIRE_LAYER_IDS, identifyKind } from '@app/utils/identify-results';
+import { highlightArea, polygonRings, ringsToExtent, zoomToCoords } from '@app/utils/preview-map';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, timeout } from 'rxjs/operators';
 
 type Rings = number[][][];
 
+/** Where Zoom to goes. Each layout only draws it, so the two cannot choose different places. */
+export type ZoomTarget =
+  | { type: 'incident' | 'pin' | 'point'; point: number[] }
+  | { type: 'area'; rings: Rings };
+
+// After this, an AGOL area that has not come is given up, so it cannot move the map later.
+const AREA_TIMEOUT_MS = 10000;
+const PIN_KINDS: IdentifyKind[] = ['road-event', 'closed-recreation-site'];
+const AREA_KINDS: IdentifyKind[] = ['ban', 'evacuation', 'area-restriction', 'danger-rating', 'local-authority', 'protected-land'];
+
 const flatten = <T>(nested: T[][]): T[] => [].concat(...(nested || []));
+
+const lonLat = (lon: any, lat: any): number[] | null => {
+  const point = [Number(lon), Number(lat)];
+  return point.every(Boolean) ? point : null;
+};
 
 /** Zoom to and Full Details for an identify result, on the phone and on desktop. */
 @Injectable({ providedIn: 'root' })
@@ -22,7 +38,56 @@ export class IdentifyActionsService {
     private agolService: AGOLService,
     private appConfigService: AppConfigService,
     private capacitorService: CapacitorService,
+    private mapConfigService: MapConfigService,
   ) {}
+
+  /** Where Zoom to goes, on both layouts; null when the result has no place on the map. */
+  async zoomTarget(item: any, incident?: any): Promise<ZoomTarget | null> {
+    await this.mapConfigService.getMapConfig();
+    const fire = lonLat(incident?.longitude, incident?.latitude);
+    if (fire) {
+      return { type: 'incident', point: fire };
+    }
+    const point = this.identifyPoint(item);
+    if (!point) {
+      return null;
+    }
+    const kind = identifyKind(item);
+    if (PIN_KINDS.includes(kind)) {
+      const pin = lonLat(item.geometry?.coordinates?.[0], item.geometry?.coordinates?.[1]);
+      return pin && { type: 'pin', point: pin };
+    }
+    if (!AREA_KINDS.includes(kind)) {
+      return { type: 'point', point };
+    }
+    // The identify already holds the area; on INT the AGOL danger rating IDs name other DataBC areas.
+    const rings = polygonRings(item.geometry) ?? (await this.agolRings(item));
+    // Without the area, the point still moves the map, so the button is never dead.
+    return ringsToExtent(rings) ? { type: 'area', rings } : { type: 'point', point };
+  }
+
+  private identifyPoint(item: any): number[] | null {
+    const coordinates = item?.geometry?.coordinates;
+    if (item?.geometry?.type === 'Point' && WILDFIRE_LAYER_IDS.includes(item.layerId)) {
+      // The fire itself, not the place the user tapped near it.
+      return lonLat(coordinates[0], coordinates[1]);
+    }
+    return lonLat(item?._identifyPoint?.longitude, item?._identifyPoint?.latitude) ?? lonLat(coordinates?.[0], coordinates?.[1]);
+  }
+
+  private agolRings(item: any): Promise<Rings | undefined> {
+    const request = this.agolArea(item);
+    if (!request) {
+      return Promise.resolve(undefined);
+    }
+    return request
+      .pipe(timeout(AREA_TIMEOUT_MS))
+      .toPromise()
+      .catch((error) => {
+        console.error(`Unable to zoom to the ${identifyKind(item).replace('-', ' ')}`, error);
+        return undefined;
+      });
+  }
 
   /** The AGOL area of a ban, evacuation, Area Restriction or danger rating; null for any other result. */
   agolArea(item: any): Observable<Rings | undefined> | null {
@@ -61,29 +126,6 @@ export class IdentifyActionsService {
     const smk = getActiveMap();
     zoomToCoords(smk, flatten(rings));
     highlightArea(smk, rings);
-  }
-
-  /** Desktop Zoom to for a result whose area came with the identify answer. */
-  fitIdentifyGeometry(item: any) {
-    const coordinates = item?.geometry?.coordinates;
-    if (!coordinates?.length) {
-      return;
-    }
-    if (identifyKind(item) === 'protected-land') {
-      this.fitArea(coordinates);
-      return;
-    }
-    // A local authority can be a MultiPolygon, one level deeper than a Polygon.
-    const isPoint = (value: any) => typeof value?.[0] === 'number';
-    if (isPoint(coordinates[0][0]?.[0])) {
-      const smk = getActiveMap();
-      zoomToCoords(smk, flatten(flatten(coordinates)));
-      highlightArea(smk, flatten(coordinates));
-    } else if (isPoint(coordinates[0]?.[0])) {
-      const smk = getActiveMap();
-      zoomToCoords(smk, coordinates[0]);
-      highlightArea(smk, coordinates);
-    }
   }
 
   /** The Drive BC page of a road event. */
