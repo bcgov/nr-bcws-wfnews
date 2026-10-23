@@ -531,6 +531,7 @@ $rof-secondary-header-size: 16px;
   // Answers have one fixed width, not the full row. 280px holds the longest label.
   .simple-toggle {
     flex-direction: row !important;
+    justify-content: center;
     gap: 12px;
 
     .mat-button-toggle {

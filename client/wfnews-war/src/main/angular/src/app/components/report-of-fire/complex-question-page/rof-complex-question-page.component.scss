@@ -45,11 +45,14 @@
   white-space: nowrap;
 }
 
-// A wide screen: options of one fixed width, from the left, not the full row.
+// A wide screen: options of one fixed width, three to a row, centred.
 :host-context(.rof-desktop) {
-  // !important beats the inline space-between, which would spread the options apart.
+  // !important beats the inline space-between, which would spread a short row apart.
   .rof-complex-group {
-    justify-content: flex-start !important;
+    justify-content: center !important;
+    max-width: calc(3 * 280px + 2 * 12px);
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .multi-select-class,
