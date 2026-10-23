@@ -2,15 +2,30 @@
 @import "notosans-fontface/scss/notosans-fontface";
 
 // This page is the one that scrolls at the shell, in .rof-scrolls. Let it through.
-.page-content {
-  overflow-y: visible;
+// Both boxes take the height of their content, so the margin keeps the last answer
+// above the 72px footer. A shrunk box leaves the margin out of the scroll.
+:host {
+  flex: none;
+  height: auto;
 }
 
-// On desktop the page scrolls inside the box, above the buttons, like the other pages.
-// Two columns and a smaller map and photos fit more of it in that box.
+.page-content {
+  overflow-y: visible;
+  flex: none;
+  margin-bottom: calc(72px + 16px);
+}
+
+// On desktop this page grows and uses the page scroll, and Submit stays at the foot of
+// the window. Two columns and a smaller map and photos keep the page short.
 :host-context(.rof-desktop) {
   .page-content {
-    overflow-y: auto;
+    padding-bottom: 0;
+  }
+
+  // The row sits inside the grid, so it spans both columns.
+  .submit-button-row {
+    position: sticky;
+    grid-column: 1 / -1;
   }
 
   .review-sections {
@@ -88,8 +103,8 @@
   }
 }
 
-// The wizard button bar, so Submit stays in view at the same place as Next. This page
-// scrolls, so on a phone the bar is a white band to the foot of the screen.
+// The wizard button bar, so Submit stays in view. This page scrolls and has no page
+// dots, so on a phone the bar is a short white band at the foot of the screen.
 .submit-button-row {
   flex-wrap: wrap;
   left: 0;
@@ -97,7 +112,7 @@
   bottom: 0;
   width: auto;
   max-width: none;
-  padding: 8px 32px calc(2.5em + 8px + env(safe-area-inset-bottom));
+  padding: 12px 32px calc(12px + env(safe-area-inset-bottom));
   background-color: white;
   z-index: 1;
   .submitting-text {

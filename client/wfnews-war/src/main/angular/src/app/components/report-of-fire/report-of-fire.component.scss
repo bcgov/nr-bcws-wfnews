@@ -466,11 +466,24 @@ $rof-secondary-header-size: 16px;
     height: min(640px, 100%);
     overflow-y: auto;
     margin: 0 auto;
+
+    // The review page is the one long page, so it grows and uses the page scroll.
+    &.rof-scrolls {
+      height: auto;
+      overflow: visible;
+    }
   }
 
   // In line with the Saved page titles.
   .mobile-header {
     padding: 24px 16px 0;
+  }
+
+  // Centred, like the answers and the buttons.
+  .rof-text-title,
+  .rof-text-primary-header,
+  .rof-text-secondary-header {
+    text-align: center;
   }
 
   // The bottom padding is the room for the buttons: a 70px bar and a 24px gap.
