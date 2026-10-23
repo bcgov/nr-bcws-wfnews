@@ -15,7 +15,7 @@ $scroll-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
   bottom: 0;
   left: 0;
   width: 0;
-  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px) 0;
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom) 0;
   visibility: hidden;
   pointer-events: none;
 }
@@ -183,7 +183,7 @@ $scroll-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
   bottom: 0;
   z-index: $drawer-z-index + 1;
   box-sizing: border-box;
-  padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 0px)) 20px;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom)) 20px;
   background-color: $colour-white;
   border-top: $drawer-border;
   transform: translate3d(0, 100%, 0);

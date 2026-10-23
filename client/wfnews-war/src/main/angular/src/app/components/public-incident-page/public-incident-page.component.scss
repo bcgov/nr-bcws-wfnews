@@ -132,7 +132,7 @@
 
 // The Details tab ends on a rule with 24px under it, so the heading needs no top margin.
 .contact-section {
-  padding: 0 24px calc(32px + env(safe-area-inset-bottom, 0px)) 24px;
+  padding: 0 24px calc(32px + env(safe-area-inset-bottom)) 24px;
 
   h1 {
     margin: 0 0 12px 0;

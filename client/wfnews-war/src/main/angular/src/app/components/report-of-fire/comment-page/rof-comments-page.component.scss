@@ -8,11 +8,12 @@
   border-radius: 3px;
   min-height: 150px;
   max-width: 790px;
+  // Wider screens also lose the 126px header and menu bar above the wizard.
   @media all and (min-width: $desktop-sm-min-width) and (orientation: portrait) {
-    height: calc(100dvh - 440px);
+    height: calc(100dvh - 566px);
   }
   @media all and (min-width: 1024px) and (orientation: landscape) {
-    height: calc(100dvh - 440px);
+    height: calc(100dvh - 566px);
   }
   .text-area {
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -24,6 +25,9 @@
     border: none;
     background-color: #f5f5f5 !important;
     height: calc(100dvh - 500px);
+    @media all and (min-width: $desktop-sm-min-width) {
+      height: calc(100dvh - 626px);
+    }
     min-height: 100px;
   }
   .comment-divider {
@@ -33,6 +37,16 @@
   .word-count {
     margin-top: 10px;
     text-align: end;
+  }
+}
+
+// In the desktop card the box takes its size from the card, not from the window.
+:host-context(.rof-desktop) .text-container {
+  width: 100%;
+  max-width: none;
+  height: auto;
+  .text-area {
+    height: 200px;
   }
 }
 

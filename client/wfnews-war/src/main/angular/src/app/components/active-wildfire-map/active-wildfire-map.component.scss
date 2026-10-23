@@ -6,10 +6,10 @@
   background-color: white;
 }
 
-// The header (72px and a 2px border) and the menu bar (52px). One pixel less
-// and the map runs past the page, which then scrolls.
+// The header (72px and a 2px border) and the menu bar (52px). A % of .content,
+// not dvh: the Shell already takes the insets, so dvh would scroll by them.
 .container {
-  height: calc(100dvh - 126px) !important;
+  height: calc(100% - 126px) !important;
   overflow: hidden;
 }
 
@@ -190,9 +190,7 @@
   }
 
   .container {
-    height: calc(
-      100dvh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px)
-    ) !important;
+    height: 100% !important;
     overflow: hidden;
   }
 
@@ -253,17 +251,7 @@
     }
 
     .map {
-      // was height: calc(100% - 10vh) !important;
-      // NEVER use calc with 2 % or vh values as it will never work properly accross any other screen.
-      // One value must always be a fixed value!
-      // additionally, this is a vh calc, not a height%, otherwise heights will be different across
-      // devices
-      height: calc(
-        100dvh - env(safe-area-inset-bottom, 90px) - env(
-            safe-area-inset-top,
-            90px
-          ) - $nav-bar-height
-      ) !important;
+      height: calc(100% - #{$nav-bar-height}) !important;
 
       .identify-panel {
         height: 100% !important;

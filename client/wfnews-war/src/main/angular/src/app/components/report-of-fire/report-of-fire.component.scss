@@ -12,6 +12,12 @@
   height: 100%;
 }
 
+// Every wizard page imports this file, but only the wizard sits under the header and
+// the menu bar (126px). The class follows the shell's own test, see desktopLayout.
+:host(.rof-desktop) {
+  height: calc(100% - 126px);
+}
+
 .rof {
   // Not a viewport height. The shell holds the wizard in a box that is the screen
   // less the status bar inset, so 100dvh overflows that box by the inset and the
@@ -149,6 +155,10 @@ $rof-secondary-header-size: 16px;
   bottom: 0px;
   margin: 0px 0px 0px 20px;
   width: calc(100% - 20px);
+
+  &.progress-hidden {
+    display: none;
+  }
 }
 
 .ProgressBar {
@@ -159,7 +169,7 @@ $rof-secondary-header-size: 16px;
   margin: 0 auto;
   padding-top: 0em;
   padding-right: 0;
-  padding-bottom: calc(1em + env(safe-area-inset-bottom, 20px));
+  padding-bottom: calc(1em + env(safe-area-inset-bottom));
   padding-left: 0;
   list-style: none;
   display: flex;
@@ -198,14 +208,19 @@ $rof-secondary-header-size: 16px;
   padding: 8px 0px;
   align-items: center;
   width: calc(100% - 64px);
-  // 3em left 23px between the buttons and the page dots, which read as one clump, and 4em
-  // lifted them too far off the foot of the screen. The reserve on .page-content is this
-  // offset plus the 4em the bar itself occupies, so the two always move together: raise
-  // this without raising that and the content slides under the buttons.
-  bottom: calc(3.5em + env(safe-area-inset-bottom, 20px));
+  // About 15px above the page dots. The reserve on .page-content is this offset plus
+  // the 4em of the bar, so change the two together.
+  bottom: calc(2.5em + env(safe-area-inset-bottom));
   position: fixed;
-  @media (max-height: 699px) {
-    bottom: calc(2.5em + env(safe-area-inset-bottom, 20px));
+
+  // The buttons share the bar, so no empty gap is left between them.
+  > wfnews-button {
+    flex: 1 1 0;
+    min-width: 0;
+
+    ::ng-deep .bcds-button {
+      width: 100%;
+    }
   }
 }
 
@@ -410,13 +425,9 @@ $rof-secondary-header-size: 16px;
   // the words still paint in the strip behind the band. A margin ends the box above it.
   overflow-y: auto;
   padding: 0 32px;
-  // Holds the fixed button bar, and only that. No safe area term here: this box sits
-  // inside .wfnews-application, which already pads the inset, so adding it again left a
-  // strip the height of the inset between the content and the buttons on every page. The
-  // bar itself is fixed, positioned against the viewport rather than that padding, so it
-  // does carry the inset in its own offset. This is the bar's 3.5em offset plus the 4em
-  // it occupies, and the two move together.
-  margin-bottom: 7.5em;
+  // Room for the fixed bar: its 2.5em offset plus its 4em. No inset term, because
+  // .wfnews-application already pads the inset.
+  margin-bottom: 6.5em;
   font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-style: normal;
   font-size: 16px;
@@ -441,4 +452,117 @@ $rof-secondary-header-size: 16px;
 .question-mark {
   color: #548adb;
   margin-right: 8px;
+}
+
+// The desktop layout: the width of the Saved page, and less tall than the window.
+// The buttons sit at the foot of one box height, so they do not move between pages.
+:host-context(.rof-desktop) {
+  // The page host holds the buttons at its foot.
+  position: relative;
+
+  // One height for every page. A taller page scrolls above the buttons.
+  .rof {
+    max-width: $saved-container-max;
+    height: min(640px, 100%);
+    overflow-y: auto;
+    margin: 0 auto;
+
+    // The review page is the one long page, so it grows and uses the page scroll.
+    &.rof-scrolls {
+      height: auto;
+      overflow: visible;
+    }
+  }
+
+  // In line with the Saved page titles.
+  .mobile-header {
+    padding: 24px 16px 0;
+  }
+
+  // Centred, like the answers and the buttons.
+  .rof-text-title,
+  .rof-text-primary-header,
+  .rof-text-secondary-header {
+    text-align: center;
+  }
+
+  // The bottom padding is the room for the buttons: a 70px bar and a 24px gap.
+  .page-content {
+    margin-bottom: 0;
+    padding: 0 16px 94px;
+  }
+
+  // At the foot of the page host and not after the words, so the buttons do not move
+  // between pages. The page host is outside the scroll box, so the bar stays in view.
+  .rof-button-container {
+    position: absolute;
+    bottom: 0;
+    left: 16px;
+    right: 16px;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    // About 15px above the page dots.
+    padding: 16px 0 6px;
+    background-color: white;
+    z-index: 1;
+    // Centred, over the page dots.
+    justify-content: center;
+
+    > wfnews-button {
+      flex: 0 0 auto;
+      min-width: 140px;
+    }
+  }
+
+  .wrapper {
+    position: static;
+    width: 100%;
+    margin: 0;
+    padding: 4px 0 24px;
+
+    // Keep the space of the dots, so a page with no dots has its buttons in the same place.
+    &.progress-hidden {
+      display: block;
+      visibility: hidden;
+    }
+  }
+
+  .ProgressBar {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: 0;
+  }
+
+  // A wide screen has room for answers side by side, so they need less height.
+  .rof-toggle-group .mat-button-toggle {
+    height: 56px !important;
+    margin-bottom: 12px;
+  }
+
+  // Answers have one fixed width, not the full row. 280px holds the longest label.
+  .simple-toggle {
+    flex-direction: row !important;
+    justify-content: center;
+    gap: 12px;
+
+    .mat-button-toggle {
+      flex: 0 0 280px;
+      margin-bottom: 0;
+    }
+  }
+
+  .rof-complex-group {
+    gap: 12px;
+
+    // !important beats the inline full width on "I'm not sure".
+    .flex-button {
+      width: 280px !important;
+      height: 56px !important;
+    }
+    .mat-flat-button {
+      width: 100%;
+    }
+  }
 }

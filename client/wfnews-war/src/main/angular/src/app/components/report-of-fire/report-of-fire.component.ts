@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ComponentRef,
+  HostBinding,
   OnInit,
   ViewChild,
   ViewContainerRef,
@@ -16,6 +17,7 @@ import {
 } from '@app/components/common/confirmation-dialog/confirmation-dialog.component';
 import { RofCallPage } from '@app/components/report-of-fire/rof-callback-page/rof-call-page.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { isMobileView } from '@app/utils';
 import { RoFCommentsPage } from './comment-page/rof-comments-page.component';
 import { RoFCompassPage } from './compass-page/rof-compass-page.component';
 import { RoFComplexQuestionPage } from './complex-question-page/rof-complex-question-page.component';
@@ -59,6 +61,15 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   public showProgress = false;
   public isEditMode = false;
   public progressSteps = [];
+
+  /**
+   * The shell picks its layout with this test, not with a CSS width: a phone on its
+   * side is wider than 768px and still has no header. The styles follow the shell.
+   */
+  @HostBinding('class.rof-desktop')
+  get desktopLayout(): boolean {
+    return !isMobileView();
+  }
 
   /** Read the step from the page on screen. A counter drifts when a page repeats. */
   get currentStep(): number {
