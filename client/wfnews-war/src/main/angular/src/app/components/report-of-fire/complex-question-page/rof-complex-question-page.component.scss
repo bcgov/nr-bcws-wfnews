@@ -45,11 +45,17 @@
   white-space: nowrap;
 }
 
-// A wide screen fits three options in a row, as the single choice pages do.
+// A wide screen: options of one fixed width, from the left, not the full row.
 :host-context(.rof-desktop) {
+  // !important beats the inline space-between, which would spread the options apart.
+  .rof-complex-group {
+    justify-content: flex-start !important;
+  }
+
   .multi-select-class,
+  .single-select-class,
   .distance-class {
-    flex: 0 0 calc((100% - 24px) / 3);
-    max-width: calc((100% - 24px) / 3);
+    flex: 0 0 280px;
+    max-width: 280px;
   }
 }

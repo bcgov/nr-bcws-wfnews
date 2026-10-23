@@ -493,8 +493,8 @@ $rof-secondary-header-size: 16px;
     padding: 16px 0 6px;
     background-color: white;
     z-index: 1;
-    // Both on the right, where a desktop form puts its actions.
-    justify-content: flex-end;
+    // Centred, over the page dots.
+    justify-content: center;
 
     > wfnews-button {
       flex: 0 0 auto;
@@ -528,22 +528,23 @@ $rof-secondary-header-size: 16px;
     margin-bottom: 12px;
   }
 
+  // Answers have one fixed width, not the full row. 280px holds the longest label.
   .simple-toggle {
     flex-direction: row !important;
     gap: 12px;
 
     .mat-button-toggle {
-      flex: 1 1 0;
+      flex: 0 0 280px;
       margin-bottom: 0;
     }
   }
 
-  // These were sized from the viewport, which is the screen width only on a phone.
   .rof-complex-group {
     gap: 12px;
 
+    // !important beats the inline full width on "I'm not sure".
     .flex-button {
-      width: calc((100% - 24px) / 3);
+      width: 280px !important;
       height: 56px !important;
     }
     .mat-flat-button {
