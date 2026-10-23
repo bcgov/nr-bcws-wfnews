@@ -32,23 +32,27 @@
           <incident-maps-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel-mobile>
         </mat-tab>
       </mat-tab-group>
-      <div class="content-panel-stack">
+      <div class="contact-section">
         <h1>Contact Us</h1>
-        <div>
-            <div class="contact-buttons"><img class="icon-bottom" src="/assets/images/centre.png"
-                    alt="centre" />{{incident.fireCentreName}}</div>
-            <div class="contact-buttons"> <img class="icon-bottom"
-                    src="/assets/images/svg-icons/carbon_email.svg"
-                    alt="carbon_email" />{{incident.contactEmailAddress}}</div>
-            <div class="contact-buttons"><img class="icon-bottom"
-                    src="/assets/images/svg-icons/carbon_phone.svg"
-                    alt="carbon_phone" />{{incident.contactPhoneNumber}}</div>
+        <div class="contact-row">
+            <img height="24" width="24" src="/assets/images/centre.png" alt="centre" />
+            <span>{{incident.fireCentreName}}</span>
         </div>
-        <div class="contact-buttons">
-            <wfnews-button variant="secondary" label="Call Us"
+        <div class="contact-row">
+            <img height="24" width="24" src="/assets/images/svg-icons/carbon_email.svg" alt="carbon_email" />
+            <!-- A narrow screen breaks the address after the @, not inside the domain. -->
+            <span *ngIf="incident.contactEmailAddress?.split('@') as parts">{{parts[0]}}<ng-container
+                *ngIf="parts.length > 1">@<wbr>{{parts[1]}}</ng-container></span>
+        </div>
+        <div class="contact-row">
+            <img height="24" width="24" src="/assets/images/svg-icons/carbon_phone.svg" alt="carbon_phone" />
+            <span>{{incident.contactPhoneNumber}}</span>
+        </div>
+        <div class="contact-actions">
+            <wfnews-button variant="secondary" label="Call Us" [fullWidth]="true"
                 iconPath="/assets/images/svg-icons/carbon_phone.svg"
                 (buttonClicked)="callFireCentre(incident.contactPhoneNumber)"></wfnews-button>
-            <wfnews-button variant="secondary" label="Email Us"
+            <wfnews-button variant="secondary" label="Email Us" [fullWidth]="true"
                 iconPath="/assets/images/svg-icons/carbon_email.svg"
                 (buttonClicked)="emailFireCentre(incident.contactEmailAddress)"></wfnews-button>
         </div>

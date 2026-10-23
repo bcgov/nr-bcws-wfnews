@@ -112,12 +112,7 @@ export class PublicIncidentPageComponent implements OnInit {
               this.incident.incidentSizeEstimatedHa =
                 this.incident.incidentSizeEstimatedHa.toLocaleString();
             }
-            // fetch the fire perimetre
-            await this.getFirePerimetre();
-            // load evac orders and area restrictions nearby
-            await this.getEvacOrders();
-            await this.getExternalUriEvacOrders();
-            await this.getAreaRestrictions();
+            await this.loadRelated();
             // activate page
             this.isLoading = false;
             this.cdr.detectChanges();
@@ -140,12 +135,7 @@ export class PublicIncidentPageComponent implements OnInit {
 
   async loadPreview() {
     this.incident = JSON.parse(localStorage.getItem('preview_incident'));
-    // fetch the fire perimetre
-    await this.getFirePerimetre();
-    // load evac orders and area restrictions nearby
-    await this.getEvacOrders();
-    await this.getExternalUriEvacOrders();
-    await this.getAreaRestrictions();
+    await this.loadRelated();
 
     this.publishedIncidentService
       .fetchPublishedIncidentAttachments(this.incident.incidentGuid)
@@ -192,6 +182,14 @@ export class PublicIncidentPageComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  // The perimetre, the evacuations and the restrictions do not depend on each other, so they load together.
+  async loadRelated() {
+    const linkedEvacOrders = this.getExternalUriEvacOrders();
+    await Promise.all([this.getFirePerimetre(), this.getEvacOrders(), this.getAreaRestrictions()]);
+    // The linked orders list after the AGOL orders.
+    this.evacOrders.push(...(await linkedEvacOrders));
+  }
+
   async getFirePerimetre() {
     return this.agolService
       .getFirePerimetre(this.incidentNumber, {
@@ -235,7 +233,8 @@ export class PublicIncidentPageComponent implements OnInit {
       });
   }
 
-  async getExternalUriEvacOrders() {
+  async getExternalUriEvacOrders(): Promise<EvacOrderOption[]> {
+    const orders: EvacOrderOption[] = [];
     return this.publishedIncidentService
       .fetchExternalUri(this.incident.incidentGuid)
       .toPromise()
@@ -243,7 +242,7 @@ export class PublicIncidentPageComponent implements OnInit {
         if (results?.collection?.length > 0) {
           for (const uri of results.collection) {
             if (uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
-              this.evacOrders.push({
+              orders.push({
                 eventName: uri.externalUriDisplayLabel,
                 eventType: uri.externalUriCategoryTag.split(':')[1],
                 orderAlertStatus: uri.externalUriCategoryTag.split(':')[1],
@@ -258,9 +257,11 @@ export class PublicIncidentPageComponent implements OnInit {
             }
           }
         }
+        return orders;
       })
       .catch((err) => {
         console.error(err);
+        return orders;
       });
   }
 

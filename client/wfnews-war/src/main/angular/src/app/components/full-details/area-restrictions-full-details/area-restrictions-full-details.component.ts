@@ -1,8 +1,12 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
-import { PublishedIncidentService } from '@app/services/published-incident-service';
+import {
+  RelatedTopicsLink,
+  areaRestrictionRelatedTopics,
+} from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
+import { EventFeatureService } from '@app/services/event-feature.service';
+import { PublishedIncidentService, SimpleIncident } from '@app/services/published-incident-service';
 import {
   ResourcesRoutes,
   convertToDateYear,
@@ -11,7 +15,7 @@ import {
 } from '@app/utils';
 import { FullDetailsMapService } from '@app/services/full-details-map.service';
 import { MapConfigService } from '@app/services/map-config.service';
-import { boundsToExtent, drawNearbyIncidents } from '@app/utils/preview-map';
+import { boundsToExtent, drawNearbyIncidents, extentToParam } from '@app/utils/preview-map';
 import { filter, take } from 'rxjs/operators';
 import { AppConfigService } from '@wf1/core-ui';
 import { setDisplayColor } from '@app/utils';
@@ -29,28 +33,23 @@ export class AreaRestriction {
   public fireCentre: string;
 }
 
-export class SimpleIncident {
-  public incidentName: string;
-  public incidentNumber: string;
-  public discoveryDate: string;
-  public stageOfControlCode: string;
-  public stageOfControlLabel: string;
-  public stageOfControlIcon: string;
-  public fireOfNoteInd: boolean;
-}
-
 @Component({
   selector: 'wfnews-area-restrictions-full-details',
   templateUrl: './area-restrictions-full-details.component.html',
   styleUrls: ['./area-restrictions-full-details.component.scss'],
 })
 export class AreaRestrictionsFullDetailsComponent implements OnInit {
+  // Closed for this visit only; the next full details page shows it again.
+  bulletinDismissed = false;
+  relatedTopicLinks: RelatedTopicsLink[] = areaRestrictionRelatedTopics(this.appConfigService);
   @Input() id: string;
   @Input() name: string;
 
   public restrictionData: AreaRestriction | null;
   public incidents: SimpleIncident[] | null;
   public map: any;
+  // The polygon box, so View on Map can fit the area instead of a fixed zoom.
+  public extent: number[] | undefined;
 
   public getStageOfControlLabel = getStageOfControlLabel;
   public getStageOfControlIcon = getStageOfControlIcon;
@@ -58,7 +57,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private appConfigService: AppConfigService,
-    private agolService: AGOLService,
+    private eventFeatureService: EventFeatureService,
     private publishedIncidentService: PublishedIncidentService,
     private watchlistService: WatchlistService,
     private commonUtilityService: CommonUtilityService,
@@ -70,11 +69,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    await this.populateAreaRestrictionByID({
-      returnGeometry: true,
-      returnCentroid: true,
-      returnExtent: false,
-    });
+    await this.populateAreaRestrictionByID();
     this.initMap();
     this.metaService.updateTag({ property: 'og:title', content: this.restrictionData?.name });
     this.metaService.updateTag({ property: 'og:description', content: this.restrictionData?.name });
@@ -88,36 +83,24 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
       Number(this.restrictionData.centroidLongitude),
     ];
 
-    let bounds = null;
-    this.agolService
-    .getAreaRestrictions(
-      `NAME='${this.name}'`,
-      null,
-      {
-        returnGeometry: true,
-      },
-    )
-    .toPromise()
-    .then((response) => {
-      if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-        const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
-        if (polygonData?.length) {
-          bounds = this.commonUtilityService.getPolygonBond(polygonData);
-          this.createMap(location, bounds);
-        }                
-      } else {
-        this.createMap(location);
-      }
-    });
+    const areaRestriction = await this.eventFeatureService.getAreaRestriction({ id: this.id, name: this.name });
+    const rings = areaRestriction?.geometry?.rings;
+    const polygonData = rings?.length ? this.commonUtilityService.extractPolygonData(rings) : [];
+    if (polygonData.length) {
+      this.createMap(location, this.commonUtilityService.getPolygonBond(polygonData));
+    } else {
+      this.createMap(location);
+    }
   }
 
   async createMap(location: number[], bounds?: any) {
     const databcUrl = this.appConfigService
       .getConfig()['mapServices']['openmapsBaseUrl'].toString();
 
+    this.extent = boundsToExtent(bounds);
     const cfg = await this.mapConfigService.getPreviewMapConfig({
       baseMap: 'navigation',
-      extent: boundsToExtent(bounds),
+      extent: this.extent,
       layers: [
         {
           type: 'wms',
@@ -169,15 +152,10 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
     });
   }
 
-  async populateAreaRestrictionByID(options: AgolOptions = null) {
+  async populateAreaRestrictionByID() {
     this.restrictionData = null;
-
-  const response = this.name ?
-    await this.agolService.getAreaRestrictions(`NAME='${this.name}'`, null, options).toPromise() :
-    await this.agolService.getAreaRestrictions(`PROT_RA_SYSID='${this.id}'`, null, options).toPromise();
-    // could also do response length === 1
-    if (response?.features[0]?.attributes) {
-      const areaRestriction = response.features[0];
+    const areaRestriction = await this.eventFeatureService.getAreaRestriction({ id: this.id, name: this.name });
+    if (areaRestriction?.attributes) {
 
       this.restrictionData = new AreaRestriction();
 
@@ -221,41 +199,21 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
           longitude: this.restrictionData.centroidLongitude,
           latitude: this.restrictionData.centroidLatitude,
           areaRestriction: true,
+          extent: extentToParam(this.extent),
         },
       });
     }, 200);
   }
 
-  navToCurrentRestrictions() {
-    window.open(
-      this.appConfigService.getConfig().externalAppConfig[
-        'currentRestrictions'
-      ] as unknown as string,
-      '_blank',
-    );
-  }
-
-  navToRecClosures() {
-    window.open(
-      this.appConfigService.getConfig().externalAppConfig[
-        'recSiteTrailsClosures'
-      ] as unknown as string,
-      '_blank',
-    );
-  }
-
-  navToParksClosures() {
-    window.open(
-      this.appConfigService.getConfig().externalAppConfig[
-        'parksClosures'
-      ] as unknown as string,
-      '_blank',
-    );
-  }
-
   navToBulletinUrl() {
     window.open(this.restrictionData.bulletinUrl ? this.restrictionData.bulletinUrl 
       : this.appConfigService.getConfig().externalAppConfig['currentRestrictions'] as unknown as string, '_blank');
+  }
+
+  bookmarkedIncidentNumbers(): string[] {
+    return (this.incidents ?? [])
+      .filter((incident) => this.onWatchlist(incident))
+      .map((incident) => incident.fireYear + ':' + incident.incidentNumberLabel);
   }
 
   onWatchlist(incident): boolean {

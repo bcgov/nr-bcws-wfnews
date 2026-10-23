@@ -130,79 +130,48 @@
   display: none;
 }
 
-.content-panel-stack {
-  margin-bottom: 32px;
-  padding: 0px 24px;
+// The Details tab ends on a rule with 24px under it, so the heading needs no top margin.
+.contact-section {
+  padding: 0 24px calc(32px + env(safe-area-inset-bottom, 0px)) 24px;
 
   h1 {
-    color: var(--Black-1, #242424);
-    align-self: stretch;
+    margin: 0 0 12px 0;
+    color: #252628;
     font-size: 22px;
-    font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 33px;
   }
 
-  .contact-info {
-    color: var(--Black-2, #484848);
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 21px;
-    padding-bottom: 10px;
-    display: flex;
-    word-break: break-all;
-  }
-
-  .contact-buttons {
-    padding-top: 16px;
+  .contact-row {
     display: flex;
     align-items: flex-start;
     gap: 16px;
-    align-self: stretch;
-    word-break: break-all;
+    margin-bottom: 8px;
+    color: #484848;
+    font-size: 16px;
+    line-height: 24px;
 
-    .mobile-buttons {
-      display: flex;
-      padding: 8px 24px;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      flex: 1 0 0;
-      border-radius: 5px;
-      border: 1px solid var(--grays-gray-6, #c4c4c4);
-      background: #fff;
-      height: 40px;
+    img {
+      flex: none;
+      width: 24px;
+      height: 24px;
     }
 
-    ::ng-deep .mdc-button__label {
-      bottom: 5px;
-
-      @media screen and (max-width: 350px) {
-        font-size: 12px;
-        white-space: nowrap;
-      }
+    // An email address wraps only when it is wider than the screen.
+    span {
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
   }
 
-  .icon {
-    padding-right: 16px;
-    position: relative;
-    top: 5px;
-  }
+  .contact-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
 
-  .icon-bottom {
-    padding-right: 16px;
-    position: relative;
-    bottom: 2px;
-    height: 24px;
-    width: 24px;
-  }
-
-  .icon-contact {
-    position: relative;
-    top: 7px;
-    height: 24px;
-    width: 24px;
+    // A Button does not shrink by itself, so each one asks for an equal share of the row.
+    wfnews-button {
+      flex: 1 1 0;
+    }
   }
 }

@@ -1,5 +1,42 @@
 import { layerSettings } from '.';
 
+/** An Order is red and an Alert is orange, on every map that draws them. */
+export const EVACUATION_DRAWING_INFO = {
+  renderer: {
+    type: 'uniqueValue',
+    field1: 'ORDER_ALERT_STATUS',
+    field2: null,
+    defaultSymbol: null,
+    uniqueValueInfos: [
+      { value: 'Order', label: 'Order', symbol: areaSymbol([255, 58, 53]) },
+      { value: 'Alert', label: 'Alert', symbol: areaSymbol([250, 150, 0]) },
+    ],
+  },
+  transparency: 0,
+};
+
+/** A fire perimeter is a red outline with no fill. */
+export const FIRE_PERIMETER_DRAWING_INFO = {
+  renderer: {
+    type: 'simple',
+    symbol: {
+      type: 'esriSFS',
+      style: 'esriSFSSolid',
+      color: [0, 0, 0, 0],
+      outline: { type: 'esriSLS', style: 'esriSLSSolid', color: [230, 0, 0, 255], width: 2 },
+    },
+  },
+};
+
+function areaSymbol(rgb: number[]) {
+  return {
+    type: 'esriSFS',
+    style: 'esriSFSSolid',
+    color: [...rgb, 75],
+    outline: { type: 'esriSLS', style: 'esriSLSSolid', color: [...rgb, 200], width: 2.25 },
+  };
+}
+
 export function EvacuationOrdersLayerConfig(ls: layerSettings) {
   return [
     {
@@ -14,7 +51,7 @@ export function EvacuationOrdersLayerConfig(ls: layerSettings) {
       popupTemplate:
         '<div class="smk-popup"><div class="popup-header"><mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">error</mat-icon><span class="title-label">Evacuation Orders and Alerts</span></div><div class="popup-title">{{feature.properties["EVENT_NAME"]}}</div><div class="popup-attributes"><div class="label">Date Active:</div><div class="attribute">{{new Date(feature.properties["DATE_MODIFIED"]).toISOString().slice(0, 10)}}</div></div><div class="popup-attributes"><div class="label">Agency:</div><div class="attribute">{{feature.properties["ISSUING_AGENCY"]}}</div></div><div class="popup-attributes"><div class="label">Status:</div><div class="attribute attribute-red">{{feature.properties["ORDER_ALERT_STATUS"]}}</div></div><div class="popup-button-container"><a class="popup-button" target="_blank" rel="noopener" v-if="feature.properties[\'BULLETIN_URL\']" v-bind:href="feature.properties[\'BULLETIN_URL\']">Learn More</a></div></div>',
       geometryAttribute: 'SHAPE',
-      drawingInfo: {"renderer":{"type":"uniqueValue","field1":"ORDER_ALERT_STATUS","field2":null,"defaultSymbol":null,"uniqueValueInfos":[{"value":"Order","symbol":{"color":[255,58,53,75],"outline":{"color":[255,58,53,200],"width":2.25,"type":"esriSLS","style":"esriSLSSolid"},"type":"esriSFS","style":"esriSFSSolid"},"label":"Order"},{"value":"Alert","symbol":{"color":[250,150,0,75],"outline":{"color":[250,150,0,200],"width":2.25,"type":"esriSLS","style":"esriSLSSolid"},"type":"esriSFS","style":"esriSFSSolid"},"label":"Alert"}]},"transparency":0},
+      drawingInfo: EVACUATION_DRAWING_INFO,
       attributes: [
         {
           name: 'EVENT_NAME',
