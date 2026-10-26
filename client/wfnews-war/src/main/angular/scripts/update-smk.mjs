@@ -33,11 +33,16 @@ try {
   const fontFace = /@font-face\{font-family:\s*["']?Material Icons["']?;[^}]*\}/g;
   if ((css.match(fontFace) ?? []).length !== 1) throw new Error('expected one Material Icons @font-face in smk.maplibre.css');
 
+  // Offline, a remote @import fails and styles.css never leaves media="print".
+  const remoteImport = /@import\s*(?:url\(\s*)?(["']?)https?:\/\/[^"')]*\1\s*\)?[^;]*;/g;
+  const vendored = css.replace(fontFace, '').replace(remoteImport, '');
+  if (/@import/.test(vendored)) throw new Error('an @import is left in smk.maplibre.css');
+
   // The MapLibre build inlines its images, so it needs no assets/ folder.
   rmSync(vendor, { recursive: true, force: true });
   mkdirSync(vendor, { recursive: true });
   copyFileSync(join(out, 'smk.maplibre.js'), join(vendor, 'smk.js'));
-  writeFileSync(join(vendor, 'smk.css'), css.replace(fontFace, ''));
+  writeFileSync(join(vendor, 'smk.css'), vendored);
   copyFileSync(join(out, 'smk-template-compiler.js'), join(vendor, 'smk-template-compiler.js'));
   writeFileSync(
     join(vendor, 'smk.version.json'),
