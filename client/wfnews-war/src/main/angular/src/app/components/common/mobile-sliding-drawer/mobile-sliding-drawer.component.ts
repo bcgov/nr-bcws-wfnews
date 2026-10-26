@@ -17,7 +17,7 @@ import { ManagedDrawer, MobileDrawerService } from './mobile-drawer.service';
 // The Drawer Stops, as parts of the height under the top Inset.
 const STOP_PARTS = [0.25, 0.5, 0.7, 1];
 // Keep in step with $drawer-duration in the SCSS.
-const DURATION_MS = 300;
+export const DRAWER_DURATION_MS = 300;
 // Below the screen by this much, the shadow does not show either.
 const OFFSCREEN_MARGIN = 32;
 const DRAG_THRESHOLD = 6;
@@ -412,7 +412,7 @@ export class MobileSlidingDrawerComponent
   }
 
   private duration(): number {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : DURATION_MS;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : DRAWER_DURATION_MS;
   }
 
   // The footer stays on the screen bottom. The header pushes it down when the Drawer is short.
