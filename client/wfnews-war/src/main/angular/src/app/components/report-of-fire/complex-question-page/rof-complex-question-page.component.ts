@@ -110,62 +110,51 @@ export class RoFComplexQuestionPage extends RoFPage {
   }
 
   nextPage() {
-    if (this.id === 'distance-page') {
-      this.commonUtilityService.checkOnline().then((result) => {
-        if (!result) {
-          // The location page is skipped with no network, because it holds a map and
-          // a map needs tiles. The position does not need tiles, so take it here.
-          // Without this the report goes with the [0, 0] default of the model.
-          this.captureLocationOffline().then(() =>
-            this.reportOfFirePage.selectPage('photo-page', null, false),
-          );
-        } else {
-          this.next();
-        }
-      });
-    } else {
-      this.next();
-    }
+    return this.leave(() => this.next());
+  }
+
+  /** The wizard header calls this. Offline, Skip also passes the map page. */
+  skipPage() {
+    return this.leave(() => this.skip());
   }
 
   /**
-   * Writes the device position and the fire position into the report, with no map.
-   *
-   * The compass page and this page are answered before the skip, so the heading and
-   * the distance are known. `turf.destination` is the same calculation that places
-   * the fire on the location page, and it comes from `smk.js` in the bundle, so it
-   * works with no network.
-   *
-   * It does not ask for the permission. The permissions page banner is the one
-   * place that asks, and it is on the screen offline too. `getPositionIfPermitted`
-   * gives nothing when the user did not grant it, and the report goes without.
-   *
-   * Never throws. A report with no position must still go forward.
+   * With no network the location page is skipped, because a map needs tiles. The
+   * fire is placed here instead, from the position the Permissions page took.
    */
-  private async captureLocationOffline(): Promise<void> {
-    try {
-      const position = await this.commonUtilityService.getPositionIfPermitted();
-      if (!position?.coords) {
-        return;
-      }
-      const lat = Number(position.coords.latitude);
-      const lon = Number(position.coords.longitude);
-      this.reportOfFire.deviceLocation = [lat, lon];
-
-      const km = Number(this.reportOfFire.estimatedDistance) / 1000;
-      const heading = Number(this.reportOfFire.compassHeading);
-      if (!turf || !km || Number.isNaN(heading)) {
-        // No heading or no distance. The device position is the best answer left.
-        this.reportOfFire.fireLocation = [lat, lon];
-        return;
-      }
-
-      // turf works in [longitude, latitude]. The report holds [latitude, longitude].
-      const point = turf.destination([lon, lat], km, heading);
-      const [fireLon, fireLat] = point.geometry.coordinates;
-      this.reportOfFire.fireLocation = [Number(fireLat), Number(fireLon)];
-    } catch (error) {
-      console.error('Could not take a position for the offline report', error);
+  private async leave(online: () => void) {
+    if (
+      this.id !== 'distance-page' ||
+      (await this.commonUtilityService.checkOnline())
+    ) {
+      online();
+      return;
     }
+    this.placeFireOffline();
+    this.reportOfFirePage.selectPage('photo-page', null, false);
+  }
+
+  /**
+   * `turf.destination` is the same calculation that places the fire on the location
+   * page, and it is in the bundle, so it works with no network.
+   */
+  private placeFireOffline(): void {
+    const [lat, lon] = (this.reportOfFire.deviceLocation ?? []).map(Number);
+    if (!lat && !lon) {
+      return;
+    }
+
+    const km = Number(this.reportOfFire.estimatedDistance) / 1000;
+    const heading = Number(this.reportOfFire.compassHeading);
+    if (!turf || !km || Number.isNaN(heading)) {
+      // No heading or no distance. The device position is the best answer left.
+      this.reportOfFire.fireLocation = [lat, lon];
+      return;
+    }
+
+    // turf works in [longitude, latitude]. The report holds [latitude, longitude].
+    const point = turf.destination([lon, lat], km, heading);
+    const [fireLon, fireLat] = point.geometry.coordinates;
+    this.reportOfFire.fireLocation = [Number(fireLat), Number(fireLon)];
   }
 }

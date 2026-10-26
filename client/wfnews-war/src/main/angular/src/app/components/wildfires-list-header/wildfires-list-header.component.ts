@@ -10,13 +10,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   locationBannerAction,
   locationBannerHeading,
-  locationCanPrompt,
   PERMISSION_BANNER,
 } from '@app/components/common/permission-banner/permission-banner.constants';
 import {
   CapacitorService,
   LocationPermissionState,
 } from '@app/services/capacitor-service';
+import {
+  fromLocationState,
+  PermissionService,
+} from '@app/services/permission.service';
 import { WFMapService } from '@app/services/wf-map.service';
 import { isMobileView } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
@@ -44,6 +47,7 @@ export class WildfiresListHeaderComponent implements OnInit, OnDestroy {
     protected dialog: MatDialog,
     protected wfMapService: WFMapService,
     private capacitorService: CapacitorService,
+    private permissionService: PermissionService,
   ) {}
 
   /**
@@ -60,7 +64,7 @@ export class WildfiresListHeaderComponent implements OnInit, OnDestroy {
   }
 
   get locationBannerHeading(): string {
-    return locationBannerHeading(this.locationPermission);
+    return locationBannerHeading();
   }
 
   get locationBannerAction(): string {
@@ -71,11 +75,10 @@ export class WildfiresListHeaderComponent implements OnInit, OnDestroy {
   }
 
   async onTurnOnLocation(): Promise<void> {
-    if (locationCanPrompt(this.locationPermission)) {
-      await this.capacitorService.requestLocationPermission();
-      return;
-    }
-    await this.capacitorService.openLocationSettings(this.locationPermission);
+    await this.permissionService.enable(
+      'location',
+      fromLocationState(this.locationPermission),
+    );
   }
 
   ngOnDestroy() {
