@@ -19,6 +19,12 @@
       width: 68px;
       height: 68px;
     }
+    // A font icon sizes by its font, so it needs the same box in font units.
+    .font-icon {
+      font-size: 68px;
+      line-height: 68px;
+      color: #6e6e6e;
+    }
   }
   p {
     color: #6e6e6e;

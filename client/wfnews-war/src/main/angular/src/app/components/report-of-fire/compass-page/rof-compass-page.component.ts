@@ -9,13 +9,10 @@ import {
 import { RoFPage } from '../rofPage';
 import { ReportOfFire } from '../reportOfFireModel';
 import { CommonUtilityService } from '../../../services/common-utility.service';
-import { MatDialog } from '@angular/material/dialog';
-import { LocationServicesDialogComponent } from './location-services-dialog/location-services-dialog.component';
+import { PERMISSION_DIALOG } from '@app/components/common/permission-banner/permission-banner.constants';
+import { PermissionDialogService } from '@app/components/common/permission-dialog/permission-dialog.service';
+import { PermissionService } from '@app/services/permission.service';
 import { equalsIgnoreCase } from '../../../utils';
-
-interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
-  requestPermission?: () => Promise<'granted' | 'denied'>;
-}
 
 @Component({
   selector: 'rof-compass-page',
@@ -41,7 +38,8 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
 
   constructor(
     private commonUtilityService: CommonUtilityService,
-    protected dialog: MatDialog,
+    private permissionService: PermissionService,
+    private permissionDialog: PermissionDialogService,
     private zone: NgZone,
     private cdr: ChangeDetectorRef,
   ) {
@@ -107,52 +105,42 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
   }
 
   async getOrientation() {
-    try {
-      const self = this;
-      const requestPermission = (
-        DeviceOrientationEvent as unknown as DeviceOrientationEventiOS
-      ).requestPermission;
-      const iOS = typeof requestPermission === 'function';
-      this.orientationListener = (e: DeviceOrientationEvent) =>
-        this.handler(e, self);
-      if (iOS) {
-        const response = await requestPermission();
-        if (equalsIgnoreCase(response, 'granted')) {
-          // Outside the zone: the sensor fires ~60Hz, and letting zone.js see each
-          // event ran a full application-wide change detection pass every time.
-          // handler() re-enters the zone only when the shown heading changes.
-          this.zone.runOutsideAngular(() => {
-            window.addEventListener(
-              'deviceorientation',
-              this.orientationListener,
-              true,
-            );
-          });
-        } else {
-          this.dialog.open(LocationServicesDialogComponent, {
-            width: '350px',
-            data: {
-              message: 'Location services are required',
-            },
-          });
-        }
-      } else {
-        this.zone.runOutsideAngular(() => {
-          window.addEventListener(
-            'deviceorientationabsolute',
-            this.orientationListener,
-            true,
-          );
-        });
-      }
-    } catch (err) {
-      this.dialog.open(LocationServicesDialogComponent, {
-        width: '350px',
-        data: {
-          message: 'Location services are not supported',
-        },
-      });
+    let state = await this.permissionService.check('compass');
+    // The tap that opened this page can still count, so try before the dialog asks.
+    if (state === 'prompt') {
+      state = await this.permissionService.request('compass');
     }
+    if (state === 'prompt' || state === 'denied') {
+      const result = await this.permissionDialog.open('compass', state, {
+        cancelLabel: PERMISSION_DIALOG.action.skip,
+      });
+      if (result === 'granted') {
+        state = 'granted';
+      }
+    }
+    // The user may have left the page while the dialog was open.
+    if (!this.viewportListener) {
+      return;
+    }
+    if (state !== 'granted') {
+      this.skip();
+      return;
+    }
+
+    this.orientationListener = (e: DeviceOrientationEvent) =>
+      this.handler(e, this);
+    // Chrome has requestPermission now too, so pick the event, not the platform.
+    // Only the absolute event gives a compass heading there; iOS has its own field.
+    const event =
+      'ondeviceorientationabsolute' in window
+        ? 'deviceorientationabsolute'
+        : 'deviceorientation';
+    // Outside the zone: the sensor fires ~60Hz, and letting zone.js see each
+    // event ran a full application-wide change detection pass every time.
+    // handler() re-enters the zone only when the shown heading changes.
+    this.zone.runOutsideAngular(() => {
+      window.addEventListener(event, this.orientationListener, true);
+    });
   }
 
   // Runs outside the Angular zone, once per sensor event. Keep it free of work that
