@@ -454,7 +454,7 @@ export class MobileSlidingDrawerComponent
 
   private measureFooter() {
     this.footerHeight = this.footer?.nativeElement.offsetHeight ?? 0;
-    // The content and its fade end above the footer, or above the bottom Inset.
+    // The content ends above the footer, or above the bottom Inset.
     this.sheet.nativeElement.style.setProperty(
       '--footer-space',
       `${this.footerHeight || this.insetBottom}px`,
