@@ -27,6 +27,7 @@
       border-radius: 4px;
       border: 1px solid var(--grays-gray-7, #dedede);
       background: var(--grays-gray-10, #f5f5f5);
+      margin-bottom: 24px;
     }
   }
 
@@ -37,7 +38,7 @@
       font-style: normal;
       font-weight: 500;
       line-height: 33px;
-      margin-top: 32px;
+      margin: 0 0 12px 0;
     }
 
     h4 {
@@ -90,7 +91,19 @@
       font-style: normal;
       font-weight: 400;
       line-height: normal;
-      padding-bottom: 24px;
+    }
+
+    .update-date {
+      margin-bottom: 12px;
+    }
+
+    .section-action {
+      margin-top: 16px;
+    }
+
+    hr.section-rule {
+      margin: 24px 0 !important;
+      width: 100%;
     }
 
     .resource-panel {

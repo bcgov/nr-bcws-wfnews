@@ -1,0 +1,32 @@
+:host {
+  display: inline-flex;
+  color: var(--grays-gray-2, #484848);
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.408px;
+  align-items: center;
+}
+
+.incident-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 12px;
+}
+
+// The icon fills a 14px box, so the text of the line keeps its place.
+.circle-icon {
+  width: 14px;
+  height: 14px;
+  margin-right: 12px;
+  margin-left: 1px;
+}
+
+:host-context(.identify-card.phone) {
+  .incident-icon,
+  .circle-icon {
+    flex: none;
+  }
+}

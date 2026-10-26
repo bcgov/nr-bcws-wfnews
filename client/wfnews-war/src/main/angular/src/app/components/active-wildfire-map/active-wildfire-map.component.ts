@@ -9,8 +9,6 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Input,
-  NgZone,
   OnInit,
   QueryList,
   ViewChild,
@@ -19,7 +17,6 @@ import {
 import { UntypedFormControl } from "@angular/forms";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { MatDialog } from "@angular/material/dialog";
-import { MatExpansionPanel } from "@angular/material/expansion";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { DialogLocationComponent } from "@app/components/report-of-fire/dialog-location/dialog-location.component";
@@ -30,7 +27,6 @@ import { NotificationService } from "@app/services/notification.service";
 import { PointIdService } from "@app/services/point-id.service";
 import { App } from "@capacitor/app";
 import { Preferences } from "@capacitor/preferences";
-import { PushNotification } from "@capacitor/push-notifications";
 import { AppConfigService } from "@wf1/core-ui";
 import { Observable } from "rxjs";
 import { debounceTime } from "rxjs/operators";
@@ -49,6 +45,7 @@ import {
   snowPlowHelper,
 } from "../../utils";
 import { SmkApi } from "../../utils/smk";
+import { padExtent, paramToExtent } from "../../utils/preview-map";
 import {
   SearchPageComponent,
   SearchResult,
@@ -68,6 +65,9 @@ export type SelectedLayer =
   | "all-layers";
 
 declare const window: any;
+// At the start zoom the province fills the screen, so centring a point there only shifts it.
+const POINT_LINK_ZOOM = 8;
+
 @Component({
   selector: "active-wildfire-map",
   templateUrl: "./active-wildfire-map.component.html",
@@ -75,19 +75,6 @@ declare const window: any;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
-  @Input() incidents: any;
-
-  @ViewChild("WildfireStageOfControl")
-  wildfireStageOfControlPanel: MatExpansionPanel;
-  @ViewChild("EvacuationOrdersAndAlerts")
-  evacuationOrdersAndAlertsPanel: MatExpansionPanel;
-  @ViewChild("AreaRestrictions") areaRestrictionsPanel: MatExpansionPanel;
-  @ViewChild("BansAndProhibitions") bansAndProhibitionsPanel: MatExpansionPanel;
-  @ViewChild("SmokeForecast") smokeForecastPanel: MatExpansionPanel;
-  @ViewChild("FireDanger") fireDangerPanel: MatExpansionPanel;
-  @ViewChild("LocalAuthorities") localAuthoritiesPanel: MatExpansionPanel;
-  @ViewChild("RoutesImpacted") routesImpactedPanel: MatExpansionPanel;
-
   @ViewChildren("locationOptions") locationOptions: QueryList<ElementRef>;
   @ViewChild(MatAutocompleteTrigger, { read: MatAutocompleteTrigger })
   inputAutoComplete: MatAutocompleteTrigger;
@@ -95,38 +82,23 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   incidentsServiceUrl: string;
   mapConfig = null;
   smkApi: SmkApi;
-  activeFireCountPromise;
+  private resolveSmkApi: (api: SmkApi) => void;
+  // getActiveMap() can still answer the page we came from, so wait for this page's own map.
+  private smkApiReady = new Promise<SmkApi>((resolve) => (this.resolveSmkApi = resolve));
   selectedLayer: SelectedLayer;
   selectedPanel = "wildfire-stage-of-control";
   showAccordion: boolean;
   searchText = undefined;
-  zone: NgZone;
   resizeObserver: ResizeObserver;
 
   placeData: PlaceData;
   searchByLocationControl = new UntypedFormControl();
   public filteredOptions: SearchResult[] = [];
   SMK: any;
-  searchLocationsLayerGroup: any;
   /** Search markers by rounded lat/lng, so a hover can replace the right one. */
   markers: Record<string, any> = {};
   url;
-  sortedAddressList: string[];
   incidentRefs: any[];
-  filteredWildfires: any[];
-  filteredFirePerimeters: any[];
-  filteredEvacs: any[];
-  filteredAreaRestrictions: any[];
-  filteredBansAndProhibitions: any[];
-  filteredDangerRatings: any[];
-  filteredRoadEvents: any[];
-  filteredClosedRecreationSites: any[];
-  filteredForestServiceRoads: any[];
-  filteredProtectedLandsAccessRestrictions: any[];
-  filteredRegionalDistricts: any[];
-  filteredMunicipalities: any[];
-  filteredFirstNationsTreatyLand: any[];
-  filteredIndianReserve: any[];
   savedLocationlabelsToShow: any[] = [];
   savedLocationlabels: any[] = [];
 
@@ -137,11 +109,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   isLegendOpen = false;
   refreshAllLayers = false;
   isDataSourcesOpen = false;
-  notificationState = 0;
   wildfireYear: string;
-
-  safeAreaInsetTopValue;
-  safeAreaInsetBottomValue: string;
 
   public searchData: SearchResult;
 
@@ -150,13 +118,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   identifyStatus: 'searching' | 'empty' | null = null;
   private identifyStatusTimer;
 
-  wildfireLayerIds: string[] = [
-    "active-wildfires-fire-of-note",
-    "active-wildfires-out-of-control",
-    "active-wildfires-holding",
-    "active-wildfires-under-control",
-    "active-wildfires-out",
-  ];
   public isMobileView = mobileView;
   public snowPlowHelper = snowPlowHelper;
 
@@ -405,7 +366,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       });
     });
 
-    this.appConfig.configEmitter.subscribe((config) => {
+    this.appConfig.configEmitter.subscribe(() => {
       const mapConfig = [];
 
       this.mapConfigService
@@ -425,12 +386,16 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         });
     });
     this.activedRouter.queryParams.subscribe((params: ParamMap) => {
+      // A Danger Rating link from a phone has a box but no centre.
       if (
         (params && params["longitude"] && params["latitude"]) ||
-        (params && params["featureType"])
+        (params && params["featureType"]) ||
+        (params && params["extent"])
       ) {
         const long = Number(params["longitude"]);
         const lat = Number(params["latitude"]);
+        // View on Map sends the area's box; a fixed zoom cut big areas off and shrank small ones.
+        const extent = paramToExtent(params["extent"]);
 
         // set timeout to load smk features to load
         setTimeout(async () => {
@@ -476,7 +441,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                   }
                 });
               } else {
-                this.panToLocation(long, lat);
+                this.panToLocation(long, lat, params["zoom"] || POINT_LINK_ZOOM);
               }
             } catch (error) {
               fireIsOutOrNotFound = true;
@@ -492,6 +457,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                 },
               });
             }
+          } else if (extent) {
+            this.zoomToExtent(extent);
           } else if (
             (params["areaRestriction"] &&
               params["areaRestriction"] === "true") ||
@@ -516,7 +483,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           ) {
             this.panToLocation(long, lat, 8);
           } else {
-            this.panToLocation(long, lat);
+            this.panToLocation(long, lat, params["zoom"] || POINT_LINK_ZOOM);
           }
 
           // turn on layers
@@ -597,16 +564,30 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             }
           }, 2000);
         }, 1000);
+
+        // The link is used once, so a reload starts from the whole province again.
+        this.router.navigate([], {
+          relativeTo: this.activedRouter,
+          queryParams: {},
+          replaceUrl: true,
+        });
       }
     });
   }
 
   panToLocation(long, lat, zoom?) {
-    this.mapConfigService.getMapConfig().then(() => {
-      getActiveMap().$viewer.panToFeature(
-        turf.point([long, lat]),
-        zoom ? zoom : null,
-      );
+    // A link that names only a layer has no point, so the map keeps the BC view.
+    if (!Number.isFinite(long) || !Number.isFinite(lat)) {
+      return;
+    }
+    this.smkApiReady.then(() => {
+      this.smkApi.panToFeature(turf.point([long, lat]), zoom ? zoom : null);
+    });
+  }
+
+  zoomToExtent(extent: number[]) {
+    this.smkApiReady.then(() => {
+      this.smkApi.with((smk) => smk.$viewer.setView({ extent: padExtent(extent) }));
     });
   }
 
@@ -617,28 +598,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.snowPlowHelper(this.url);
     this.showAccordion = true;
     this.updateLocationEnabledVariable();
-  }
-
-  getFullAddress(location) {
-    let result = "";
-
-    if (location.civicNumber) {
-      result += location.civicNumber;
-    }
-
-    if (location.streetName) {
-      result += " " + location.streetName;
-    }
-
-    if (location.streetQualifier) {
-      result += " " + location.streetQualifier;
-    }
-
-    if (location.streetType) {
-      result += " " + location.streetType;
-    }
-
-    return result;
   }
 
   get maplibre() {
@@ -796,6 +755,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   initMap(smk: any) {
     this.smkApi = new SmkApi(smk);
+    this.resolveSmkApi(this.smkApi);
     this.initializeLayers();
   }
 
@@ -876,8 +836,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    // Ensure this logic executes after incidentRefs is updated
-    if (this.incidentRefs.length && this.incidentRefs[0]._identifyPoint) {
+    // On mobile the results Drawer keeps the point above itself.
+    if (!this.isMobileView() && this.incidentRefs[0]._identifyPoint) {
       this.panToLocation(
         this.incidentRefs[0]._identifyPoint.longitude,
         this.incidentRefs[0]._identifyPoint.latitude,
@@ -982,8 +942,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   private removeAllSavedLocationLabels() {
-    const map = getActiveMap(this.SMK).$viewer.map;
-
     // Iterate over the array of markers and remove them from the map
     for (const label of this.savedLocationlabelsToShow) {
       label.remove();
@@ -1048,7 +1006,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 26 */ { itemId: "bc-fire-centres-labels", visible: true }, // Always on
 
       // Not in a feature but need to be cleared
-      { itemId: "bc-fsr", visible: false },
       { itemId: "current-conditions--default", visible: false },
       { itemId: "precipitation", visible: false },
       { itemId: "protected-lands-access-restrictions", visible: false },
@@ -1113,14 +1070,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     } catch (error) {
       console.error("Error activating layers:", error);
     }
-    // initialize smkApi if undefined
-    if (!this.smkApi) {
-      let event: Event;
-      this.initMap(event);
-    }
-
-    this.smkApi.setDisplayContextItemsVisible(...layers);
-    this.refreshAllLayers = true;
+    // A link to the map can pick a layer before the map exists.
+    this.smkApiReady.then(() => {
+      this.smkApi.setDisplayContextItemsVisible(...layers);
+      this.refreshAllLayers = true;
+    });
   }
 
   async useMyCurrentLocation() {
@@ -1188,12 +1142,12 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       steps: 40,
       units: "kilometers",
     });
-    this.smkApi.showFeature("near-me-highlight3x", circle);
-    this.smkApi.panToFeature(circle, 10);
+    this.smkApi?.showFeature("near-me-highlight3x", circle);
+    this.smkApi?.panToFeature(circle, 10);
   }
 
   showLocationMarker(point) {
-    this.smkApi.showFeature("my-location", point, {
+    this.smkApi?.showFeature("my-location", point, {
       htmlMarker: () => {
         const el = document.createElement("div");
         el.className = "wfone-my-location";
@@ -1205,59 +1159,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   clearMyLocation() {
-    this.smkApi.showFeature("near-me-highlight3x");
-    this.smkApi.showFeature("my-location");
+    this.smkApi?.showFeature("near-me-highlight3x");
+    this.smkApi?.showFeature("my-location");
     this.clickedMyLocation = false;
     this.useNearMe = false;
-  }
-
-  searchTextUpdated() {
-    // will need to call News API to fetch the results
-  }
-
-  @ViewChild("grabber") grabber: ElementRef;
-  @ViewChild("resizeBox") resizeBox: ElementRef;
-
-  get grabberElement(): HTMLElement {
-    return this.grabber.nativeElement;
-  }
-
-  get resizeBoxElement(): HTMLElement {
-    return this.resizeBox.nativeElement;
-  }
-
-  private lastPointerPosition = 0;
-  dragMove(event) {
-    this.resizeBoxElement.style.height = `${
-      window.innerHeight - event.pointerPosition.y + 20
-    }px`;
-    this.lastPointerPosition = event.pointerPosition.y;
-    if (this.lastTranslate) {
-      this.resizeBoxElement.style.transform = this.lastTranslate;
-      this.lastTranslate = undefined;
-      this.resizeBoxElement.style.top = "80vh";
-      this.resizeBoxElement.style.borderRadius = "20px";
-      this.resizeBoxElement.style.borderBottomRightRadius = "0px";
-      this.resizeBoxElement.style.borderBottomLeftRadius = "0px";
-    }
-  }
-
-  private lastTranslate = undefined;
-  dragDropped(event) {
-    if (event.dropPoint.y < 65) {
-      this.lastTranslate = this.resizeBoxElement.style.transform;
-      this.resizeBoxElement.style.transform = "none";
-      this.resizeBoxElement.style.top = "50px";
-      this.resizeBoxElement.style.borderRadius = "0px";
-    } else if (event.dropPoint.y > window.innerHeight - 50) {
-      this.lastTranslate = this.resizeBoxElement.style.transform;
-      this.resizeBoxElement.style.height = "50px";
-      this.resizeBoxElement.style.transform = "none";
-      this.resizeBoxElement.style.top = window.innerHeight - 50 + "px";
-    }
-    this.resizeBoxElement.style.height = `${
-      window.innerHeight - this.lastPointerPosition + 20
-    }px`;
   }
 
   isChecked(layer: SelectedLayer) {
@@ -1426,60 +1331,4 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       layerButtons.scrollWidth - mapContainer.scrollWidth
     );
   }
-
-  onPushNotificationClick() {
-    const n =
-      this.testNotifications[
-        this.notificationState % this.testNotifications.length
-      ];
-    this.notificationState += 1;
-    this.capacitorService.handleLocationPushNotification(n);
-  }
-
-  testNotifications = [
-    makeLocation({
-      latitude: 48.461763, // uvic fire
-      longitude: -123.31067,
-      radius: 20,
-      featureId: "V65425", //FIRE_NUMBER
-      featureType: "BCWS_ActiveFires_PublicView",
-      fireYear: 2023,
-    }),
-    makeLocation({
-      latitude: 48.507955, // OUT - beaver lake
-      longitude: -123.393515,
-      radius: 20,
-      featureId: "V60164", //FIRE_NUMBER
-      featureType: "BCWS_ActiveFires_PublicView",
-      fireYear: 2022,
-    }),
-    makeLocation({
-      latitude: 48.463259, // uvic
-      longitude: -123.312635,
-      radius: 20,
-      featureId: "V65055", //FIRE_NUMBER
-      featureType: "BCWS_ActiveFires_PublicView",
-      fireYear: 2022,
-    }),
-  ];
-}
-
-function makeLocation(loc): PushNotification {
-  return {
-    title: `Near Me Notification for [${loc.featureId}]`,
-    // subtitle?: string;
-    body: `There is a new active fire [${loc.featureId}] within your saved location, tap here to view the current situation`,
-    id: "1",
-    // badge?: number;
-    // notification?: any;
-    data: {
-      type: "location",
-      coords: `[ ${loc.latitude}, ${loc.longitude} ]`,
-      radius: "" + loc.radius,
-      messageID: loc.featureId,
-      topicKey: loc.featureType,
-    },
-    // click_action?: string;
-    // link?: string;
-  };
 }

@@ -106,11 +106,13 @@
       </button>
     </div>
   </div>
-  <wfnews-draggable-panel *ngIf="isMobileView() && showPanel" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
-  <wfnews-identify-status *ngIf="isMobileView() && identifyStatus" [status]="identifyStatus" [mobile]="true"
+  <wfnews-identify-drawer *ngIf="isMobileView() && showPanel" [incidentRefs]="incidentRefs"></wfnews-identify-drawer>
+  <!-- Always rendered on mobile, so its Drawer can slide out. -->
+  <wfnews-identify-status *ngIf="isMobileView()" [status]="identifyStatus" [mobile]="true"
     (closed)="onIdentifyStatusClosed()"></wfnews-identify-status>
   <mobile-sliding-drawer *ngIf="isMobileView()" [(isVisible)]="isAllLayersOpen"
-    (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Map Settings'">
+    (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Map Settings'"
+    [showBack]="isDataSourcesOpen" (back)="isDataSourcesOpen = false">
     <div *ngIf="!isDataSourcesOpen">
       <map-type-picker></map-type-picker>
       <hr class="drawer-section-divider">
@@ -124,7 +126,7 @@
     <map-layers-datasource-section *ngIf="isDataSourcesOpen"></map-layers-datasource-section>
   </mobile-sliding-drawer>
   <mobile-sliding-drawer *ngIf="isMobileView()" [(isVisible)]="isLegendOpen"
-    (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Legend'" [isGreyBackground]="true">
+    (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Legend'">
     <wfnews-base-legend [featureLayerID]="selectedLayer"></wfnews-base-legend>
   </mobile-sliding-drawer>
 </div>

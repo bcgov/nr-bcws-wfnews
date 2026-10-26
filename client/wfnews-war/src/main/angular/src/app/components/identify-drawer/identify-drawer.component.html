@@ -1,0 +1,25 @@
+<mobile-sliding-drawer [isVisible]="isOpen()" (isVisibleChange)="!$event && closePanel()" (restingHeightChange)="onDrawerRest($event)" [title]="drawerTitle()"
+    [showBack]="!!identifyItem && allowBackToIncidentsPanel" (back)="backToIdentifyPanel()">
+    <div class="panel-container identify-body">
+        <div class="identify-list" *ngIf="!identifyItem">
+            <wfnews-identify-result-list [results]="results" layout="phone" (selected)="openPreviewPanel($event)"></wfnews-identify-result-list>
+        </div>
+
+        <ng-container *ngIf="identifyItem">
+            <div>
+                <wfnews-identify-card [item]="identifyItem" layout="phone" [incident]="identifyIncident"
+                    [incidentLoad]="incidentLoad" (retry)="loadIncident()"></wfnews-identify-card>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- The Drawer keeps its footer in view. -->
+    <div drawerFooter class="identify-footer" *ngIf="identifyItem">
+        <wfnews-button *ngIf="identifyItem.layerId !== 'weather-stations'" variant="secondary" [fullWidth]="true"
+            label="Zoom to" iconPath="/assets/images/svg-icons/zoom-in.svg" (buttonClicked)="zoomToClicked()"></wfnews-button>
+        <wfnews-button *ngIf="hasFullDetails()" variant="primary" [fullWidth]="true" label="Full Details"
+            (buttonClicked)="enterFullDetail()"></wfnews-button>
+        <wfnews-button *ngIf="identifyItem.layerId === 'drive-bc-active-events'" variant="primary" [fullWidth]="true" label="Drive BC"
+            iconPath="/assets/images/svg-icons/launch_black.svg" (buttonClicked)="openDriveBc()"></wfnews-button>
+    </div>
+</mobile-sliding-drawer>

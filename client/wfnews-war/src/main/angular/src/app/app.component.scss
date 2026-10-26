@@ -1,8 +1,3 @@
-// A page that fills the screen needs a height to fill. The shell gives this box one.
-.route-host {
-  height: 100%;
-}
-
 @import "../styles/variables";
 
 ::ng-deep .wfnews-application {
@@ -12,8 +7,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  padding-top: env(safe-area-inset-top, 20px);
-  padding-bottom: env(safe-area-inset-bottom, 20px);
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
 }
@@ -282,8 +277,8 @@
     right: 0;
     bottom: 0;
     background-color: white;
-    padding-top: env(safe-area-inset-top, 20px);
-    padding-bottom: env(safe-area-inset-bottom, 20px);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
   }
@@ -295,7 +290,7 @@
     background-color: white;
     box-shadow: 0px 0px 24px 0px rgba(0, 0, 0, 0.14);
     padding-top: 8px;
-    padding-bottom: calc(8px + env(safe-area-inset-bottom, 20px));
+    padding-bottom: calc(8px + env(safe-area-inset-bottom));
     display: block;
   }
 

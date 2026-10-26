@@ -264,7 +264,8 @@ export const previewMapConfig = (option: {
     type: 'maplibre',
     location: previewLocation(option),
     baseMap: option.baseMap || 'topography',
-    minZoom: 4,
+    // A phone-wide box needs zoom 3.4 to fit BC; a floor of 4 cut the province off.
+    minZoom: 3,
     maxZoom: option.maxZoom || 30,
   },
   tools: [

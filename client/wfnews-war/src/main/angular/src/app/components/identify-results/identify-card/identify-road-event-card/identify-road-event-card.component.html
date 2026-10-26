@@ -1,0 +1,6 @@
+<wfnews-identify-card-frame [layout]="layout" [heading]="item.title">
+    <wfnews-identify-card-line>{{severity}} Severity</wfnews-identify-card-line>
+    <wfnews-identify-card-line icon="carbon_finance"><span>{{p.AREA}}</span></wfnews-identify-card-line>
+    <wfnews-identify-card-line icon="calendar"><span>Created on {{convertToDateYear(p.CREATED_TIME)}}</span></wfnews-identify-card-line>
+    <wfnews-identify-card-description [text]="p.DESCRIPTION"></wfnews-identify-card-description>
+</wfnews-identify-card-frame>

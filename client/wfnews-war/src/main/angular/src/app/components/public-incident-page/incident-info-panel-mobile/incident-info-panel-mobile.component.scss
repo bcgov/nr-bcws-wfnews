@@ -10,16 +10,9 @@
   .content-panel {
 
     .content-panel-stack {
-      margin-bottom: 32px;
-
-      .circle-icon {
-        width: 18px;
-        height: 18px;
-      }
-
       h1 {
+        margin: 0 0 12px 0;
         font-size: 22px;
-        height: 33px;
         background-color: rgba(255, 255, 255, 0);
         box-sizing: border-box;
         font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -27,6 +20,57 @@
         color: #252628;
         text-align: left;
         line-height: 33px;
+      }
+
+      // One row shape for every icon and label: a 24px icon box, then the text.
+      .icon-label {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 8px;
+        font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+        line-height: 24px;
+        color: #6e6e6e;
+
+        > img,
+        > .circle-icon {
+          flex: none;
+          width: 24px;
+          height: 24px;
+          margin: 0;
+          padding: 0;
+          position: static;
+        }
+
+        // The dot fills its box, where a line icon does not, so it needs a smaller one.
+        > .circle-icon {
+          width: 20px;
+          height: 20px;
+          margin: 2px;
+        }
+
+        &.strong {
+          font-size: 16px;
+          font-weight: 600;
+          color: #333333;
+        }
+      }
+
+      .sub-heading {
+        font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+        color: #333333;
+        margin-bottom: 4px;
+      }
+
+      .location-part + .location-part {
+        margin-top: 16px;
+      }
+
+      .section-action {
+        margin-top: 16px;
       }
 
       h4 {
@@ -86,12 +130,9 @@
         line-height: 24px;
 
         .icon-label {
-          display: flex;
-          vertical-align: middle;
-          margin-bottom: 8px;
-
           &.fire-of-note {
-            width: 160px;
+            width: fit-content;
+            gap: 8px;
             color: var(--reds-red-1, #852a2d);
             font-size: 16px;
             font-style: normal;
@@ -121,7 +162,7 @@
       }
 
       .wildfire-of-note {
-        padding-bottom: 24px;
+        padding-bottom: 16px;
       }
 
       .evac-title {
@@ -242,7 +283,7 @@
 
       .divider {
         border-bottom: 1px lightgray solid;
-        margin-top: 32px;
+        margin: 24px 0;
       }
     }
   }

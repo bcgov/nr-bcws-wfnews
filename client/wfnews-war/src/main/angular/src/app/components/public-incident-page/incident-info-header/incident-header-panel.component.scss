@@ -256,6 +256,26 @@
   .title {
     color: black !important;
   }
+
+  .incident-details .details-content {
+    margin: 20px 24px;
+  }
+
+  // Three equal Buttons do not fit a phone. Share, the one used most, takes the first
+  // line; Save and Contact Us share the second.
+  .contact-buttons:not(.desktop) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    .share {
+      grid-column: 1 / -1;
+    }
+  }
+
+  // An empty spacer under the buttons; the tabs already mark the end of the header.
+  .contact-buttons + .divider {
+    display: none;
+  }
 }
 
 .mobile-header {

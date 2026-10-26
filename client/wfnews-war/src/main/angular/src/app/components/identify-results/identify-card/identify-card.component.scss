@@ -1,0 +1,4 @@
+// No box of its own, so the card frame is a flex item of the panel.
+:host {
+  display: contents;
+}

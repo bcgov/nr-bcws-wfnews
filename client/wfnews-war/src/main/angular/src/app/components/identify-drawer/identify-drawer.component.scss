@@ -1,0 +1,19 @@
+@import "src/styles/identify-panel";
+
+// The mobile results in the Drawer. The Drawer pads and scrolls its content.
+.panel-container.identify-body {
+  display: block;
+  height: auto;
+  overflow: visible;
+  border-radius: 0;
+}
+
+.identify-footer {
+  display: flex;
+  gap: 16px;
+
+  // A Button does not shrink by itself, so each one asks for an equal share of the row.
+  wfnews-button {
+    flex: 1 1 0;
+  }
+}

@@ -315,11 +315,9 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     );
   }
 
-  redirectToPublicMobile() {
-    return (
-      (window.innerWidth < 768 && window.innerHeight < 1024) ||
-      (window.innerWidth < 1024 && window.innerHeight < 768)
-    );
+  /** The page fills the screen, with no header and no nav bar. */
+  isFullScreenPage() {
+    return this.isMobileView() && this.isIncidentsPage();
   }
 
   getAppStoreLink() {
@@ -519,14 +517,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   storeViewportSize() {
     this.orientation = this.applicationStateService.getOrientation();
-    document.documentElement.style.setProperty(
-      '--viewport-height',
-      `${window.innerHeight}px`,
-    );
-    document.documentElement.style.setProperty(
-      '--viewport-width',
-      `${window.innerWidth}px`,
-    );
   }
 
   ngOnDestroy() {

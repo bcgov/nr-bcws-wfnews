@@ -1,0 +1,12 @@
+<wfnews-identify-card-line *ngIf="mode === 'line'">
+    <span *ngIf="html; else lineText" [innerHTML]="html"></span>
+    <ng-template #lineText><span>{{text}}</span></ng-template>
+</wfnews-identify-card-line>
+<div class="description-section" *ngIf="mode === 'section'">
+    <div class="identify-card-description" *ngIf="html; else sectionText"><span [innerHTML]="html"></span></div>
+    <ng-template #sectionText>
+        <div class="identify-card-description" *ngFor="let paragraph of paragraphs; let last = last"
+            [class.joined]="joined && !last">{{paragraph}}</div>
+    </ng-template>
+</div>
+<div class="identify-card-description" *ngIf="mode === 'plain'">{{text}}</div>

@@ -2,13 +2,17 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { Router as Route } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { AGOLService } from '@app/services/AGOL-service';
+import {
+  RelatedTopicsLink,
+  dangerRatingRelatedTopics,
+} from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
+import { EventFeatureService } from '@app/services/event-feature.service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { displayDangerRatingDescription, ResourcesRoutes, setDisplayColor } from '@app/utils';
 import { FullDetailsMapService } from '@app/services/full-details-map.service';
 import { MapConfigService } from '@app/services/map-config.service';
-import { boundsToExtent, drawNearbyIncidents } from '@app/utils/preview-map';
+import { boundsToExtent, drawNearbyIncidents, extentToParam } from '@app/utils/preview-map';
 import { filter, take } from 'rxjs/operators';
 import { AppConfigService } from '@wf1/core-ui';
 
@@ -18,11 +22,14 @@ import { AppConfigService } from '@wf1/core-ui';
   styleUrls: ['./danger-rating-full-details.component.scss'],
 })
 export class DangerRatingFullDetailsComponent implements OnInit {
+  relatedTopicLinks: RelatedTopicsLink[] = dangerRatingRelatedTopics(this.appConfigService);
   @Input() rating: string;
   @Input() location: string;
   @Input() sysid: string;
 
   public map: any;
+  // The polygon box, so View on Map can fit the area instead of a fixed zoom.
+  public extent: number[] | undefined;
 
   displayDangerRatingDescription = displayDangerRatingDescription;
 
@@ -31,7 +38,7 @@ export class DangerRatingFullDetailsComponent implements OnInit {
     private appConfigService: AppConfigService,
     private publishedIncidentService: PublishedIncidentService,
     private route: Route,
-    private agolService: AGOLService,
+    private eventFeatureService: EventFeatureService,
     private commonUtilityService: CommonUtilityService,
     private metaService: Meta,
     private mapConfigService: MapConfigService,
@@ -51,34 +58,22 @@ export class DangerRatingFullDetailsComponent implements OnInit {
   async initMap() {
     // Create map and append data to the map component
     const locationData = JSON.parse(this.location) as LocationData;
-    let bounds = null;
-    this.agolService
-      .getDangerRatings(
-        `PROT_DR_SYSID ='${this.sysid}'`,
-        null,
-        {
-          returnGeometry: true,
-        },
-      )
-      .toPromise()
-      .then((response) => {
-        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
-          const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
-          if (polygonData?.length) {
-            bounds = this.commonUtilityService.getPolygonBond(polygonData);
-            this.createMap(locationData, bounds);
-          }
-        }
-      });
+    const dangerRating = await this.eventFeatureService.getDangerRating(this.sysid);
+    const rings = dangerRating?.geometry?.rings;
+    const polygonData = rings?.length ? this.commonUtilityService.extractPolygonData(rings) : [];
+    if (polygonData.length) {
+      this.createMap(locationData, this.commonUtilityService.getPolygonBond(polygonData));
+    }
   }
 
   async createMap(locationData: LocationData, bounds?: any) {
     const databcUrl = this.appConfigService
       .getConfig()['mapServices']['openmapsBaseUrl'].toString();
 
+    this.extent = boundsToExtent(bounds);
     const cfg = await this.mapConfigService.getPreviewMapConfig({
       baseMap: 'navigation',
-      extent: boundsToExtent(bounds),
+      extent: this.extent,
       layers: [
         {
           type: 'wms',
@@ -126,43 +121,10 @@ export class DangerRatingFullDetailsComponent implements OnInit {
           longitude: locationData.longitude,
           latitude: locationData.latitude,
           dangerRating: true,
+          extent: extentToParam(this.extent),
         },
       });
     }, 200);
-  }
-
-  navToCurrentRestrictions() {
-    window.open(
-      this.appConfigService.getConfig().externalAppConfig[
-      'currentRestrictions'
-      ] as unknown as string,
-      '_blank',
-    );
-  }
-
-  navToDangerSummary() {
-    window.open(
-      'https://www2.gov.bc.ca/gov/content?id=3DDDD01FBF674A619B3178603539E493',
-      '_blank',
-    );
-  }
-
-  navToDangerClass() {
-    window.open(
-      this.appConfigService.getConfig().externalAppConfig[
-      'dangerSummary'
-      ] as unknown as string,
-      '_blank',
-    );
-  }
-
-  navToHighRiskActivities() {
-    window.open(
-      this.appConfigService.getConfig().externalAppConfig[
-      'highRiskActivities'
-      ] as unknown as string,
-      '_blank',
-    );
   }
 
   shareMobile() {

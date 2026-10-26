@@ -1,10 +1,6 @@
 @import "src/styles/variables";
 
-@import "../draggable-panel/draggable-panel.component.scss";
-
-.identify-card{
-  margin: 16px 20px 24px 20px;
-}
+@import "src/styles/identify-panel";
 
 .identify-panel {
     position: absolute;
@@ -17,7 +13,7 @@
     left: 5px;
     border-radius: 12px;
     box-shadow: $shadow-panel;
-    max-height: calc(65vh - env(safe-area-inset-bottom, 0px) - env(safe-area-inset-top, 20px) - 10px) !important;
+    max-height: calc(65dvh - env(safe-area-inset-bottom) - env(safe-area-inset-top) - 10px) !important;
     border-top: 1px solid #ccc;
     z-index: 100000000 !important;
     box-shadow: $shadow-panel;
@@ -43,24 +39,3 @@
         align-items: center;
     }
 }
-
-.wildfire-icon {
-   display: block;
-}
-
-.circle-icon {
-    width: 18px;
-    height: 18px;
-    margin-right: 12px;
-    &.list {
-      width: 24px;
-      height: 24px;
-      display: block;
-    }
-  }
-
-  .widget-card{
-    &:hover {
-      cursor: pointer !important;
-    } 
-  }
