@@ -106,24 +106,9 @@ export const PERMISSION_DIALOG = {
       turnOn: 'Turn on location',
     },
   },
-  compass: {
-    title: {
-      off: 'Compass turned off',
-    },
-    message: {
-      prompt:
-        'An accurate direction can help with the report. Turn on the compass to continue.',
-      denied:
-        'An accurate direction can help with the report. Allow motion and orientation access in your browser settings, then tap Turn on compass.',
-    },
-    action: {
-      turnOn: 'Turn on compass',
-    },
-  },
   action: {
     cancel: 'Cancel',
     close: 'Close',
-    skip: 'Skip',
   },
 } as const;
 
