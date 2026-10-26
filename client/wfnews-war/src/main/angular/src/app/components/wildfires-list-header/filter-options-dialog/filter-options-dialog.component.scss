@@ -4,16 +4,18 @@
   padding-top: env(safe-area-inset-top);
 }
 
+// The 8px is Material's own; the inset keeps Show Results above the OS navigation bar.
 .dialog-footer {
   position: absolute;
   bottom: 0px;
   width: 100%;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom));
 }
 
 .dialog-panel {
   padding: 16px;
   overflow: auto;
-  height: calc(100% - 100px);
+  height: calc(100% - 100px - env(safe-area-inset-bottom));
 }
 
 .dialog-header {
