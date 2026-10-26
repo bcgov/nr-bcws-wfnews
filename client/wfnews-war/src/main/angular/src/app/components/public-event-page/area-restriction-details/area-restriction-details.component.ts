@@ -3,7 +3,7 @@ import {
   AdvisoryButtonArgs,
   AdvisorySectionStyle,
 } from '@app/components/common/advisory-section/advisory-section.component';
-import { RelatedTopicsLink } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
+import { RelatedTopicsLink, areaRestrictionRelatedTopics } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
 import { SimpleIncident } from '@app/services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
 
@@ -44,20 +44,7 @@ export class AreaRestrictionDetailsComponent {
     variant: 'primary',
   };
 
-  relatedTopicLinks: RelatedTopicsLink[] = [
-    {
-      text: 'Current Area Restrictions',
-      url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions'
-    },
-    {
-      text: 'Recreational Sites and Trail Closures',
-      url: 'https://www.sitesandtrailsbc.ca/search?status=closed&view=list'
-    },
-    {
-      text: 'BC Parks Closures',
-      url: 'https://bcparks.ca/active-advisories/?type=wildfire'
-    },
-  ];
+  relatedTopicLinks: RelatedTopicsLink[] = areaRestrictionRelatedTopics(this.appConfigService);
 
   constructor(private appConfigService: AppConfigService) { }
 

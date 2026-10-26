@@ -1,0 +1,10 @@
+<wfnews-identify-card-frame [layout]="layout" [heading]="item.title">
+    <!-- On the phone, two empty lines add the card's gap twice. -->
+    <ng-container *ngIf="phone">
+        <div>{{type}}</div>
+        <wfnews-identify-card-line></wfnews-identify-card-line>
+        <wfnews-identify-card-line></wfnews-identify-card-line>
+    </ng-container>
+    <div class="identify-subtitle" *ngIf="!phone">{{type}}</div>
+    <wfnews-identify-card-description [html]="info"></wfnews-identify-card-description>
+</wfnews-identify-card-frame>

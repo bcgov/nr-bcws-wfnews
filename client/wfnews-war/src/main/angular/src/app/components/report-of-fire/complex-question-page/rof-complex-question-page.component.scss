@@ -44,3 +44,21 @@
   max-width: calc(50% - 12px);
   white-space: nowrap;
 }
+
+// A wide screen: options of one fixed width, three to a row, centred.
+:host-context(.rof-desktop) {
+  // !important beats the inline space-between, which would spread a short row apart.
+  .rof-complex-group {
+    justify-content: center !important;
+    max-width: calc(3 * 280px + 2 * 12px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .multi-select-class,
+  .single-select-class,
+  .distance-class {
+    flex: 0 0 280px;
+    max-width: 280px;
+  }
+}

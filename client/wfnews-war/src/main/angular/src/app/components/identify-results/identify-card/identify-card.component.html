@@ -1,0 +1,14 @@
+<ng-container [ngSwitch]="kind">
+    <wfnews-identify-wildfire-card *ngSwitchCase="'wildfire'" [item]="item" [layout]="layout" [incident]="incident"
+        [incidentLoad]="incidentLoad" (retry)="retry.emit()"></wfnews-identify-wildfire-card>
+    <wfnews-identify-evacuation-card *ngSwitchCase="'evacuation'" [item]="item" [layout]="layout"></wfnews-identify-evacuation-card>
+    <wfnews-identify-area-restriction-card *ngSwitchCase="'area-restriction'" [item]="item" [layout]="layout"></wfnews-identify-area-restriction-card>
+    <wfnews-identify-ban-card *ngSwitchCase="'ban'" [item]="item" [layout]="layout"></wfnews-identify-ban-card>
+    <wfnews-identify-danger-rating-card *ngSwitchCase="'danger-rating'" [item]="item" [layout]="layout"></wfnews-identify-danger-rating-card>
+    <wfnews-identify-closed-recreation-site-card *ngSwitchCase="'closed-recreation-site'" [item]="item"
+        [layout]="layout"></wfnews-identify-closed-recreation-site-card>
+    <wfnews-identify-road-event-card *ngSwitchCase="'road-event'" [item]="item" [layout]="layout"></wfnews-identify-road-event-card>
+    <wfnews-identify-protected-land-card *ngSwitchCase="'protected-land'" [item]="item" [layout]="layout"></wfnews-identify-protected-land-card>
+    <wfnews-identify-local-authority-card *ngSwitchCase="'local-authority'" [item]="item" [layout]="layout"></wfnews-identify-local-authority-card>
+    <wfnews-identify-weather-station-card *ngSwitchCase="'weather-station'" [item]="item" [layout]="layout"></wfnews-identify-weather-station-card>
+</ng-container>

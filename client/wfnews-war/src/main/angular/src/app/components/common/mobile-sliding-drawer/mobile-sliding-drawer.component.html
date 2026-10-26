@@ -1,16 +1,38 @@
-<div class="sliding-drawer-boundary" [ngClass]="isVisible ? 'show' : 'hide'">
-  <div class="sliding-drawer" [ngClass]="{'fullscreen': isFullScreen()}" #drawerElement cdkDrag cdkDragLockAxis="y" (cdkDragEnded)="calculatePosition($event)" [cdkDragFreeDragPosition]="dragPosition">
-    <div class="header" #drawerHeaderElement style="padding-top: 10px;" cdkDragHandle>
-      <div class="handle"></div>
-      <div class="title">
-        <img class="icon" [ngClass]="{'arrow-down': isFullScreen()}" (click)="setPosition()" src="/assets/images/svg-icons/carbon_up-arrow.svg" alt="Expand" height="24" width="24" />
-        {{title}}
-        <img class="icon" (click)="closeDrawer()" src="/assets/images/svg-icons/carbon_cancel.svg" alt="Cancel" height="24" width="24" />
+<!-- Measures the screen and the Insets, so the Drawer does not use viewport units. -->
+<div class="probe" #probe aria-hidden="true"></div>
+
+<ng-container *ngIf="rendered">
+  <section class="sheet" #sheet [attr.aria-label]="title"
+    (keydown.escape)="closeDrawer()">
+    <div class="header" #header (pointerdown)="onPointerDown($event)">
+      <button type="button" class="grabber" aria-label="Change the drawer size" (click)="toggleSize()"
+        (keydown.arrowup)="$event.preventDefault(); stepSize(1)"
+        (keydown.arrowdown)="$event.preventDefault(); stepSize(-1)">
+        <span class="grabber-bar"></span>
+      </button>
+      <div class="title-row">
+        <div class="title-start">
+          <button *ngIf="showBack" type="button" class="icon-button" aria-label="Back" (click)="back.emit()">
+            <img src="/assets/images/svg-icons/arrow-left.svg" alt="" height="24" width="24" />
+          </button>
+        </div>
+        <h2 class="title">{{ title }}</h2>
+        <div class="title-end">
+          <button type="button" class="icon-button" aria-label="Close" (click)="closeDrawer()">
+            <img src="/assets/images/svg-icons/carbon_cancel.svg" alt="" height="24" width="24" />
+          </button>
+        </div>
       </div>
     </div>
-    <div class="content" [ngClass]="{'grey-background': isGreyBackground}" #drawerContentElement>
-      <ng-content></ng-content>
+    <div class="body">
+      <div class="content" #content>
+        <div #contentInner>
+          <ng-content></ng-content>
+        </div>
+      </div>
+      <div class="fade" aria-hidden="true"></div>
     </div>
-    <div class="filler"></div>
-  </div>
-</div>
+  </section>
+  <!-- Outside the sheet, so it stays on the screen bottom while the sheet moves. -->
+  <div class="sheet-footer" #footer><ng-content select="[drawerFooter]"></ng-content></div>
+</ng-container>

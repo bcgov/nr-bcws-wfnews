@@ -39,6 +39,7 @@
 
 @media (min-width: 1024px) {
   .rof-image {
-    height: 23vh;
+    // 184px is 23vh of an 800px window, and fits the 640px desktop box.
+    height: min(23vh, 184px);
   }
 }

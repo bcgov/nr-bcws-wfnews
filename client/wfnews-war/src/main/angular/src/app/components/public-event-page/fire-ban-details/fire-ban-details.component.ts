@@ -3,7 +3,10 @@ import {
   AdvisoryButtonArgs,
   AdvisorySectionStyle,
 } from '@app/components/common/advisory-section/advisory-section.component';
-import { RelatedTopicsLink } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
+import {
+  RelatedTopicsLink,
+  fireBanRelatedTopics,
+} from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
 import { AppConfigService } from '@wf1/core-ui';
 import { INFORMATION_TEXTS } from '../../../constants';
 
@@ -40,20 +43,7 @@ export class FireBanDetailsComponent implements OnInit {
     variant: 'primary',
   };
 
-  relatedTopicLinks: RelatedTopicsLink[] = [
-    {
-      text: 'Current Fire Bans and Restrictions',
-      url: this.appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString()
-    },
-    {
-      text: 'Forest Use Restrictions',
-      url: this.appConfigService.getConfig().externalAppConfig['bansForestUseUrl'].toString()
-    },
-    {
-      text: 'Open Burning',
-      url: this.appConfigService.getConfig().externalAppConfig['bansOpenBurningUrl'].toString()
-    },
-  ];
+  relatedTopicLinks: RelatedTopicsLink[] = fireBanRelatedTopics(this.appConfigService);
 
   constructor( private appConfigService: AppConfigService ) {
   }

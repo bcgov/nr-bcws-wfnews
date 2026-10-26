@@ -1,0 +1,35 @@
+<ng-container *ngFor="let group of groups">
+    <div *ngIf="results?.[group.key]?.length" class="group" [class.phone]="phone" [class.desktop]="!phone">
+        <div class="criteria-title">{{group.title}}</div>
+        <div *ngFor="let item of results[group.key]" class="widget-card">
+            <div class="widget-row" (click)="selected.emit(item)">
+                <ng-container [ngSwitch]="group.key">
+                    <div *ngSwitchCase="'wildfires'" class="left-content">
+                        <img *ngIf="isFireOfNote(item)" alt="icon" class="incident-icon-title"
+                            [attr.height]="phone ? null : 24" [attr.width]="phone ? null : 24"
+                            src="/assets/images/svg-icons/wildfire-of-note.svg" />
+                        <ng-container *ngIf="variant.fireOfNoteDot || !isFireOfNote(item)">
+                            <div *ngIf="!phone; else dot" class="wildfire-icon"><span class="circle-icon {{stageClass(item)}} list"></span></div>
+                            <ng-template #dot><span class="circle-icon {{stageClass(item)}} list"></span></ng-template>
+                        </ng-container>
+                        {{group.label(item)}}
+                    </div>
+                    <!-- A danger rating with no known level shows no row text, as before. -->
+                    <div *ngSwitchCase="'dangerRatings'">
+                        <div *ngIf="iconPath(group, item) as icon" class="left-content">
+                            <img class="incident-icon-title" [src]="icon" alt="Fire Danger">
+                            {{group.label(item)}}
+                        </div>
+                    </div>
+                    <div *ngSwitchDefault class="left-content">
+                        <img *ngIf="iconPath(group, item) as icon" class="incident-icon-title" [src]="icon" [alt]="group.title">
+                        {{group.label(item)}}
+                    </div>
+                </ng-container>
+                <div class="right-content">
+                    <mat-icon svgIcon='arrow'></mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

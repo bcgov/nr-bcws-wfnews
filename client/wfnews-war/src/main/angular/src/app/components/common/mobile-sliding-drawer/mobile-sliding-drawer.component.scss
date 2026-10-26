@@ -1,115 +1,215 @@
+@import "src/styles/bcds-tokens";
 @import "src/styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
-.sliding-drawer-boundary {
+// Keep in step with DURATION_MS in the component.
+$drawer-duration: 300ms;
+$drawer-easing: cubic-bezier(0.2, 0, 0, 1);
+$drawer-border: 1px solid #dedede;
+$drawer-z-index: 100000000;
+$scroll-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+
+.probe {
   position: fixed;
+  top: 0;
   bottom: 0;
   left: 0;
-  width: 100%;
-  z-index: 100000000 !important;
+  width: 0;
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom) 0;
   visibility: hidden;
+  pointer-events: none;
+}
 
-  &.show {
-    transform: translateY(0%) !important;
-    transition: transform 300ms;
-    visibility: visible;
-  }
+.sheet {
+  --drawer-bg: #{$colour-white};
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $drawer-z-index;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: $colour-white;
+  border-top: $drawer-border;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  box-shadow: $shadow-panel;
+  // The component places the sheet before the first paint.
+  transform: translate3d(0, 100%, 0);
+  transition: transform $drawer-duration $drawer-easing;
+  will-change: transform;
+}
 
-  &.hide {
-    transform: translateY(100%) !important;
-    transition: transform 300ms;
-    visibility: hidden;
-  }
+.header {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  padding: 0 20px 14px 20px;
+  background-color: $colour-white;
+  border-bottom: $drawer-border;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transition: box-shadow 150ms;
 
-  .sliding-drawer {
-    width: 100%;
-    height: 45vh;
-    bottom: 0;
-    left: 0;
-    cursor: grab;
-    background-color: $colour-white;
-    border-top: 1px solid #dedede;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    box-shadow: $shadow-panel;
-
-    .header {
-      border-bottom: 1px solid #dedede;
-      padding-top: 6px !important;
-      padding-bottom: 14px;
-      padding-left: 20px;
-      padding-right: 20px;
-      overflow: auto;
-
-      .handle {
-        width: 43px;
-        height: 4px;
-        margin: auto;
-        border-radius: 100px;
-        opacity: 0.4;
-        background-color: #79747e;
-      }
-
-      .title {
-        padding-top: 12px;
-        font-size: 15px;
-        line-height: 20px;
-        font-weight: 600;
-        font-style: normal;
-        font-family: "Noto Sans", "BCSans", "Open Sans", Verdana, Arial,
-          sans-serif;
-        text-align: center;
-        color: #484848;
-        display: flex;
-        justify-content: space-between;
-
-        .arrow-down {
-          rotate: 180deg;
-          transition: rotate 0.5s;
-        }
-      }
-    }
-
-    .content {
-      height: calc(45vh - 105px);
-      background-color: $colour-white;
-      padding: 16px 20px 24px 20px;
-      overflow-y: auto;
-      transition: all 300ms cubic-bezier(0, 0, 0.2, 1);
-      cursor: grab;
-    }
-
-    .grey-background {
-      background-color: #f5f6f9;
-    }
-
-    .filler {
-      height: 100dvh;
-      background: $colour-white;
-    }
-  }
-
-  .fullscreen {
-    border-radius: 0;
-    .header {
-      border-top: 1px solid #dedede;
-      padding-top: 10px;
-      padding-bottom: 10px;
-
-      .title {
-        font-size: 16px;
-        font-weight: 400;
-        line-height: normal;
-        padding-top: 0;
-      }
-
-      .handle {
-        visibility: hidden;
-      }
-    }
+  .more-above & {
+    box-shadow: $scroll-shadow;
   }
 }
 
-.cdk-drag {
-  transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+// A button centres its content, which put the bar 12px down. Pin it 6px under the top edge.
+.grabber {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 64px;
+  height: 18px;
+  margin: 0 auto;
+  padding: 6px 0 0 0;
+  border: none;
+  background: none;
+  cursor: grab;
+
+  .grabber-bar {
+    display: block;
+    width: 43px;
+    height: 4px;
+    margin: 0 auto;
+    border-radius: 100px;
+    opacity: 0.4;
+    background-color: #79747e;
+  }
+}
+
+// Equal side columns keep the title in the centre with or without the back button.
+.title-row {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, auto) 1fr;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.title-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.title-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+// The same type as the desktop identify panel title.
+.title {
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  font-family: "Noto Sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #242424;
+}
+
+// A 40px target round a 24px icon. The negative margin keeps the icon where it was.
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: -8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+
+  img {
+    display: block;
+  }
+}
+
+.icon-button,
+.grabber {
+  &:focus-visible {
+    outline: solid $bcds-border-width-medium $bcds-border-color-active;
+    outline-offset: $bcds-margin-hair;
+  }
+}
+
+.body {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px 20px calc(24px + var(--footer-space, 0px)) 20px;
+  background-color: var(--drawer-bg);
+}
+
+// Tells the user that there is more below. It sits on the bottom of the visible content.
+.fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--footer-space, 0px);
+  height: 48px;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--drawer-bg));
+  transition: opacity 150ms;
+
+  .more-below & {
+    opacity: 1;
+  }
+}
+
+// Not ".footer": the map page hides every .footer on mobile.
+.sheet-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $drawer-z-index + 1;
+  box-sizing: border-box;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom)) 20px;
+  background-color: $colour-white;
+  border-top: $drawer-border;
+  transform: translate3d(0, 100%, 0);
+  transition: transform $drawer-duration $drawer-easing, box-shadow 150ms;
+  will-change: transform;
+
+  &:empty {
+    display: none;
+  }
+
+  &.more-below {
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.sheet,
+.sheet-footer {
+  &.instant,
+  &.dragging {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet,
+  .sheet-footer {
+    transition: none;
+  }
 }

@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 ::ng-deep .mat-accordion .mat-expansion-panel:last-of-type {
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
@@ -12,12 +14,11 @@
   display: flex;
   flex-direction: column;
   align-self: stretch;
-  background-color: #f5f6f9;
   gap: 24px;
 }
 
+// The panel takes the colour of what holds it: white in the Drawer, grey on desktop.
 .legend-panel {
-  background-color: #f5f6f9;
   &-title {
     align-self: stretch;
     color: var(--grays-gray-1, #242424);
@@ -90,4 +91,38 @@
 
 ::ng-deep .mat-expansion-panel-header {
   border-bottom: 1px solid #dedede !important;
+}
+
+// One card for each legend, with the edge it needs on a white Drawer.
+.legend-card,
+.legend-panel > mat-accordion {
+  display: block;
+  overflow: hidden;
+  background-color: #ffffff;
+  border: $border-card;
+  border-radius: 6px;
+  box-shadow: $shadow-card;
+}
+
+.legend-card > .legend-accordion + .legend-accordion,
+.legend-card > .legend-accordion + mat-accordion {
+  border-top: 1px solid #dedede;
+}
+
+// The card border closes the last row, so its own line would double it.
+.legend-card,
+.legend-panel > mat-accordion {
+  ::ng-deep .mat-expansion-panel:last-child {
+    .mat-expansion-panel-header {
+      border-bottom: none !important;
+    }
+
+    &.mat-expanded .mat-expansion-panel-header {
+      border-bottom: 1px solid #dedede !important;
+    }
+
+    .legend-accordion-content {
+      border-bottom: none;
+    }
+  }
 }

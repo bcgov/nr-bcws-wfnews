@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable object-shorthand */
+import {
+  EVACUATION_DRAWING_INFO,
+  FIRE_PERIMETER_DRAWING_INFO,
+} from '@app/services/map-config.service/layers/evacuation-orders-and-alerts-wms.config';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -21,7 +25,7 @@ import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { MapConfigService } from '@app/services/map-config.service';
-import { boundsToExtent, drawNearbyIncidents, fireOfNote, stageDot } from '@app/utils/preview-map';
+import { boundsToExtent, drawNearbyIncidents, extentToParam, fireOfNote, stageDot } from '@app/utils/preview-map';
 import { pingMarker } from '@app/utils/map-markers';
 import { AppConfigService } from '@wf1/core-ui';
 import * as moment from 'moment';
@@ -251,7 +255,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         title: 'Fire perimeters',
         serviceUrl: external['AGOLperimetres'].toString(),
         isVisible: true,
-        style: { strokeColor: '#e60000', strokeWidth: 2, fillOpacity: 0 },
+        drawingInfo: FIRE_PERIMETER_DRAWING_INFO,
       },
       {
         type: 'esri-feature',
@@ -259,16 +263,8 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         title: 'Evacuation Orders and Alerts',
         serviceUrl: external['AGOLevacOrders'].toString(),
         isVisible: true,
-        // An Order is red and an Alert is orange.
-        style: {
-          strokeWidth: 2.25,
-          fillOpacity: 0.5,
-          where: {
-            field: 'ORDER_ALERT_STATUS',
-            Order: { fillColor: '#ff3a35', strokeColor: '#ff3a35' },
-            Alert: { fillColor: '#fa9600', strokeColor: '#fa9600' },
-          },
-        },
+        // esri-feature takes drawingInfo; it has no style option.
+        drawingInfo: EVACUATION_DRAWING_INFO,
       },
     ];
   }
@@ -609,6 +605,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
           longitude: this.evac.centroid.x,
           latitude: this.evac.centroid.y,
           evacuationAlert: true,
+          extent: extentToParam(boundsToExtent(this.bounds)),
         },
       });
     }, 200);

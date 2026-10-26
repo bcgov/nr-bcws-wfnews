@@ -1,0 +1,5 @@
+<wfnews-identify-card-frame [layout]="layout" [heading]="p.PROJECT_NAME">
+    <wfnews-identify-card-line icon="location-pin"><span>{{p.RECREATION_DISTRICT_NAME}}</span></wfnews-identify-card-line>
+    <wfnews-identify-card-line icon="calendar"><span>Closed on {{convertToDateYear(p.CLOSURE_DATE)}}</span></wfnews-identify-card-line>
+    <wfnews-identify-card-description [text]="description"></wfnews-identify-card-description>
+</wfnews-identify-card-frame>

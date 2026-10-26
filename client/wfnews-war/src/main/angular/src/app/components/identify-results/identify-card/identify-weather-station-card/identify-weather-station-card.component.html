@@ -1,0 +1,13 @@
+<wfnews-identify-card-frame [layout]="layout" heading="Weather Station: {{item.title}}">
+    <ng-container *ngIf="item?.data?.validHour as reading">
+        <wfnews-identify-card-line>{{hour}}</wfnews-identify-card-line>
+        <wfnews-identify-card-line icon="carbon_temperature-celsius" [iconSize]="20">{{reading.temp}}° C</wfnews-identify-card-line>
+        <wfnews-identify-card-line icon="carbon_humidity" [iconSize]="20">
+            Precipitation: {{reading.precipitation}}mm | Humidity: {{reading.relativeHumidity}}%
+        </wfnews-identify-card-line>
+        <wfnews-identify-card-line icon="carbon_windy-strong" [iconSize]="20">Wind: {{reading.windSpeed}}km/h {{reading.windCardinalDir}}</wfnews-identify-card-line>
+    </ng-container>
+    <wfnews-identify-card-description *ngIf="item?.data === undefined" [text]="texts.WEATHER_LOADING"></wfnews-identify-card-description>
+    <wfnews-identify-card-description *ngIf="item?.data !== undefined && !item?.data?.validHour"
+        [text]="texts.WEATHER_NO_READING"></wfnews-identify-card-description>
+</wfnews-identify-card-frame>

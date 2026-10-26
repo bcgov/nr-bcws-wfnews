@@ -1,0 +1,4 @@
+<span *ngIf="stage" class="circle-icon {{stage}}"></span>
+<img *ngIf="icon" [alt]="iconAlt" [attr.height]="iconSize" [attr.width]="iconSize" class="incident-icon"
+    src="/assets/images/svg-icons/{{icon}}.svg">
+<ng-content></ng-content>

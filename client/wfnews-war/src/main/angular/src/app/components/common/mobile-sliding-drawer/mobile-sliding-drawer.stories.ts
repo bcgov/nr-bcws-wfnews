@@ -1,5 +1,4 @@
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { componentWrapperDecorator, moduleMetadata, type Meta } from '@storybook/angular';
+import { componentWrapperDecorator, type Meta } from '@storybook/angular';
 import { MobileSlidingDrawerComponent } from './mobile-sliding-drawer.component';
 
 const meta: Meta<MobileSlidingDrawerComponent> = {
@@ -17,12 +16,9 @@ const meta: Meta<MobileSlidingDrawerComponent> = {
     },
   },
   decorators: [
-    moduleMetadata({
-      imports: [DragDropModule],
-    }),
     componentWrapperDecorator((story) =>
       `<div class="bottom">${story}</div>`
-    ) 
+    )
   ],
 };
 
@@ -33,10 +29,11 @@ const template = (args: MobileSlidingDrawerComponent) => ({
   template: `
     <mobile-sliding-drawer
       [isVisible]="isVisible"
-      [isGreyBackground]="isGreyBackground"
       [title]="title"
+      [showBack]="showBack"
     >
-      Content
+      <p *ngFor="let line of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]">Content line {{ line }}</p>
+      <div drawerFooter *ngIf="showBack">Footer</div>
     </mobile-sliding-drawer>
   `,
 });
@@ -44,6 +41,12 @@ const template = (args: MobileSlidingDrawerComponent) => ({
 export const basic = template.bind({});
 basic.args = {
   isVisible: true,
-  isGreyBackground: false,
   title: 'Content Title',
+  showBack: false,
+} as Partial<MobileSlidingDrawerComponent>;
+
+export const withBackAndFooter = template.bind({});
+withBackAndFooter.args = {
+  ...basic.args,
+  showBack: true,
 } as Partial<MobileSlidingDrawerComponent>;

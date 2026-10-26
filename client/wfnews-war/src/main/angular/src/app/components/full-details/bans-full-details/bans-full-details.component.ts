@@ -3,14 +3,18 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { Router as Route } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { CARD_TEXTS, INFORMATION_TEXTS } from '@app/constants';
-import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
+import { INFORMATION_TEXTS } from '@app/constants';
+import {
+  RelatedTopicsLink,
+  fireBanRelatedTopics,
+} from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
+import { EventFeatureService } from '@app/services/event-feature.service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
 import { FullDetailsMapService } from '@app/services/full-details-map.service';
 import { MapConfigService } from '@app/services/map-config.service';
-import { boundsToExtent, drawNearbyIncidents } from '@app/utils/preview-map';
+import { drawNearbyIncidents, ringsToExtent } from '@app/utils/preview-map';
 import { filter, take } from 'rxjs/operators';
 import { AppConfigService } from '@wf1/core-ui';
 
@@ -34,19 +38,20 @@ export class BanProhibition {
   styleUrls: ['./bans-full-details.component.scss'],
 })
 export class BansFullDetailsComponent implements OnInit {
+  // Closed for this visit only; the next full details page shows it again.
+  bulletinDismissed = false;
   @Input() id: string;
 
   public banData: BanProhibition | null;
   public map: any;
 
   bansDecisionText = INFORMATION_TEXTS.BANS_DECISION_INFO;
-  talkToYourLocalAuthorityText = CARD_TEXTS.TALK_TO_YOUR_LOCAL_AUTHORITY;
-  campgroundsText = CARD_TEXTS.CAMPGROUNDS;
+  relatedTopicLinks: RelatedTopicsLink[] = fireBanRelatedTopics(this.appConfigService);
 
   constructor(
     private cdr: ChangeDetectorRef,
     private appConfigService: AppConfigService,
-    private agolService: AGOLService,
+    private eventFeatureService: EventFeatureService,
     private publishedIncidentService: PublishedIncidentService,
     private httpClient: HttpClient,
     private route: Route,
@@ -57,11 +62,7 @@ export class BansFullDetailsComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    await this.populateBansByID({
-      returnGeometry: true,
-      returnCentroid: true,
-      returnExtent: false,
-    });
+    await this.populateBansByID();
     this.initMap();
     this.metaService.updateTag({ property: 'og:title', content: `Fire Ban on ${this.banData.description} Open Fires`});
     this.metaService.updateTag({ property: 'og:description', content: `Fire Ban on ${this.banData.description} Open Fires` });
@@ -73,17 +74,11 @@ export class BansFullDetailsComponent implements OnInit {
         .get('assets/js/smk/' + name, { responseType: 'text' })
         .toPromise();
 
-    const [cat1sld, cat2sld, cat3sld, extent] = await Promise.all([
+    const [cat1sld, cat2sld, cat3sld, ban] = await Promise.all([
       sld('bans-cat1.sld'),
       sld('bans-cat2.sld'),
       sld('bans-cat3.sld'),
-      this.agolService
-        .getBansAndProhibitionsById(this.id, {
-          returnGeometry: false,
-          returnCentroid: false,
-          returnExtent: true,
-        })
-        .toPromise(),
+      this.eventFeatureService.getBan(this.id),
     ]);
 
     const databcUrl = this.appConfigService
@@ -105,9 +100,7 @@ export class BansFullDetailsComponent implements OnInit {
 
     const cfg = await this.mapConfigService.getPreviewMapConfig({
       baseMap: 'navigation',
-      extent: extent?.extent
-        ? [extent.extent.xmin, extent.extent.ymin, extent.extent.xmax, extent.extent.ymax]
-        : undefined,
+      extent: ringsToExtent(ban?.geometry?.rings),
       layers: [
         category('bans-cat3', cat3sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 3%'"),
         category('bans-cat2', cat2sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 2%'"),
@@ -145,14 +138,10 @@ export class BansFullDetailsComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  async populateBansByID(options: AgolOptions = null) {
+  async populateBansByID() {
     this.banData = null;
-    const response = await this.agolService
-      .getBansAndProhibitionsById(this.id, options)
-      .toPromise();
-    // could also do response length === 1
-    if (response?.features[0]?.attributes) {
-      const ban = response.features[0];
+    const ban = await this.eventFeatureService.getBan(this.id);
+    if (ban?.attributes) {
 
       this.banData = new BanProhibition();
 
@@ -187,33 +176,6 @@ export class BansFullDetailsComponent implements OnInit {
         },
       });
     }, 200);
-  }
-
-  navToCurrentRestrictions() {
-    window.open(
-      this.appConfigService.getConfig().externalAppConfig[
-        'currentRestrictions'
-      ] as unknown as string,
-      '_blank',
-    );
-  }
-
-  navToForestUseRestrictions() {
-    window.open(
-      this.appConfigService.getConfig().externalAppConfig['bansForestUseUrl'].toString(),
-      '_blank',
-    );
-  }
-
-  navToBcParksAdvisories() {
-    window.open('https://bcparks.ca/active-advisories/', '_blank');
-  }
-
-  navToOpenBurning() {
-    window.open(
-      this.appConfigService.getConfig().externalAppConfig['bansOpenBurningUrl'].toString(),
-      '_blank',
-    );
   }
 
   navToBulletinUrl() {

@@ -4,10 +4,8 @@
     [(state)]="applicationState"
 >
 <div #topAnchor class="top"></div>
-<div class="route-host" *ngIf="redirectToPublicMobile() && isIncidentsPage(); else mainPage">
-  <router-outlet></router-outlet>
-</div>
-<ng-template #mainPage>
+<!-- One outlet only: a second one rebuilds the page when the window crosses the mobile test. -->
+<ng-container *ngIf="!isFullScreenPage()">
     <div class="header-wrapper">
       <wf-header class="hide" [config]="applicationConfig" [(state)]="applicationState" [useAppLogo]="false"
         [useSystemAndUser]="isAdminPage()" [useSupportLink]="isAdminPage()" [useMenu]="true"
@@ -40,7 +38,9 @@
       [config]="applicationConfig"
       [(state)]="applicationState"
     ></wf-menu-bar>
-    <router-outlet></router-outlet>
+</ng-container>
+<router-outlet></router-outlet>
+<ng-container *ngIf="!isFullScreenPage()">
     <div class="mobile-navigation-bar" id="mobile-navigation-bar">
         <ul>
           <li (click)="setActive('dashboard')">
@@ -80,5 +80,5 @@
           </li>
         </ul>
     </div>
-</ng-template>
+</ng-container>
 </wf-application>

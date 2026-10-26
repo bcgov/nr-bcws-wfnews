@@ -2,6 +2,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ResourcesRoutes, convertToDateYear } from '@app/utils';
+import { extentToParam, ringsToExtent } from '@app/utils/preview-map';
 
 @Component({
   selector: 'wfnews-area-restriction-header',
@@ -28,6 +29,7 @@ export class AreaRestrictionHeaderComponent {
           longitude: this.areaRestriction.centroid.x,
           latitude: this.areaRestriction.centroid.y,
           areaRestriction: true,
+          extent: extentToParam(ringsToExtent(this.areaRestriction.geometry?.rings)),
         },
       });
     }, 200);

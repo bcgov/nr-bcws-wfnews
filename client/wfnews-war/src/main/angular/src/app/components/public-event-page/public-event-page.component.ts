@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
+import { EventFeatureService } from '@app/services/event-feature.service';
 import { PublishedIncidentService, SimpleIncident } from '@app/services/published-incident-service';
 import { WatchlistService } from '@app/services/watchlist-service';
 import { ResourcesRoutes, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel, currentFireYear } from '@app/utils';
@@ -27,7 +27,7 @@ export class PublicEventPageComponent {
   public isAssociatedWildfireBookmarked: boolean;
 
   constructor(
-    private agolService: AGOLService,
+    private eventFeatureService: EventFeatureService,
     private activatedRoute: ActivatedRoute,
     private watchlistService: WatchlistService,
     private publishedIncidentService: PublishedIncidentService,
@@ -40,11 +40,9 @@ export class PublicEventPageComponent {
           (params['eventType'] === 'Order' || params['eventType'] === 'Alert')) {
         this.eventNumber = params['eventNumber'];
         this.id = params['id'];
-        this.populateEvacByID({
-          returnGeometry: true,
-          returnCentroid: true,
-          returnExtent: false,
-        });
+        this.populateEvacByID();
+        // Only an evacuation's event number is a fire number; a ban's or a rating's is a record id.
+        this.populateIncident(this.eventNumber);
       } else if(params && params['eventName'] && params['eventType'] === 'area-restriction'){
         this.eventName = params['eventName'];
         this.populateAreaRestrictionByName();
@@ -55,102 +53,51 @@ export class PublicEventPageComponent {
         this.eventNumber = params['eventNumber'];
         this.populateDangerRatingById();
       }
-
-      this.populateIncident(this.eventNumber);
     });
   }
 
-  async populateEvacByID(options: AgolOptions = null) {
-    this.agolService
-      .getEvacOrdersById(
-        this.id,
-        options
-      )
-      .toPromise()
-      .then((response) => {
-        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
-          // testing purpose: EMRG_OAA_SYSID (id) is supposed to be unique ID. 
-          // However in AGOL TEST, all the evacucation orders and alerts' id are 0, so we need to use the event number to filter them out
-          const matchingFeature = response.features.find(feature => feature.attributes.EVENT_NUMBER === this.eventNumber);
-          this.evac = matchingFeature;
-          this.isLoading = false;
-        }
-      });
+  async populateEvacByID() {
+    const evac = await this.eventFeatureService.getEvacuation({ id: this.id, eventNumber: this.eventNumber });
+    if (evac?.geometry?.rings?.length) {
+      this.evac = evac;
+      this.isLoading = false;
+    }
   }
 
-  async populateAreaRestrictionByName(options: AgolOptions = null) {
-    this.agolService
-    .getAreaRestrictions(
-      `NAME='${this.eventName}'`,
-      null,
-      {
-        returnGeometry: true,
-        returnCentroid: true,
-        returnExtent: false,
-      },
-    )
-      .toPromise()
-      .then(async (response) => {
-        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
-          this.areaRestriction = response.features[0];
-          this.isLoading = false;
-            if (this.areaRestriction) {
-              const restrictionPolygon = this.areaRestriction.geometry.rings;
-              try {
-                this.incidents =
-                  await this.publishedIncidentService.populateIncidentsByPoint(
-                    restrictionPolygon,
-                  );
-                  this.bookmarkedIncidentNumbers = this.incidents
-                    .filter(incident => this.onWatchlist(incident))
-                    .map(incident => incident.fireYear + ':' + incident.incidentNumberLabel);
-                  this.cdr.detectChanges();
-              } catch (error) {
-                console.error(
-                  'Error while populating associated incident for area restriction: ' +
-                    error,
-                );
-              }
-            
-            }
-        }
-      });
+  async populateAreaRestrictionByName() {
+    const areaRestriction = await this.eventFeatureService.getAreaRestriction({ name: this.eventName });
+    if (!areaRestriction?.geometry?.rings?.length) {
+      return;
+    }
+    this.areaRestriction = areaRestriction;
+    this.isLoading = false;
+    try {
+      this.incidents = await this.publishedIncidentService.populateIncidentsByPoint(
+        areaRestriction.geometry.rings,
+      );
+      this.bookmarkedIncidentNumbers = this.incidents
+        .filter(incident => this.onWatchlist(incident))
+        .map(incident => incident.fireYear + ':' + incident.incidentNumberLabel);
+      this.cdr.detectChanges();
+    } catch (error) {
+      console.error('Error while populating associated incident for area restriction: ' + error);
+    }
   }
 
-  async populateBanById(options: AgolOptions = null) {
-    this.agolService
-    .getBansAndProhibitionsById(
-      this.eventNumber, {
-        returnGeometry: true,
-        returnCentroid: true,
-        returnExtent: false,
-      })
-      .toPromise()
-      .then((response) => {
-        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
-          this.ban = response.features[0];
-          this.isLoading = false;
-        }
-      });
+  async populateBanById() {
+    const ban = await this.eventFeatureService.getBan(this.eventNumber);
+    if (ban?.geometry?.rings?.length) {
+      this.ban = ban;
+      this.isLoading = false;
+    }
   }
 
-  async populateDangerRatingById(options: AgolOptions = null) {
-    this.agolService
-    .getDangerRatings(
-      `PROT_DR_SYSID ='${this.eventNumber}'`,
-      null,
-      {
-        returnGeometry: true,
-        returnCentroid: true,
-      },
-    )
-      .toPromise()
-      .then((response) => {
-        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0) {
-          this.dangerRating = response.features[0];
-          this.isLoading = false;
-        }
-      });
+  async populateDangerRatingById() {
+    const dangerRating = await this.eventFeatureService.getDangerRating(this.eventNumber);
+    if (dangerRating?.geometry?.rings?.length) {
+      this.dangerRating = dangerRating;
+      this.isLoading = false;
+    }
   }
 
   async populateIncident(eventNumber: string) {
@@ -158,8 +105,9 @@ export class PublicEventPageComponent {
     if (!eventNumber) {
       return;
     }
-    try {
-        this.publishedIncidentService.fetchPublishedIncident(eventNumber,currentFireYear().toString()).subscribe(response => {
+    // A 404 is an evacuation with no published fire, not a fault.
+    this.publishedIncidentService.fetchPublishedIncident(eventNumber,currentFireYear().toString()).subscribe({
+        next: response => {
           if (response) {
             simpleIncident.discoveryDate = convertToDateYear(response.discoveryDate);
             simpleIncident.incidentName = response.incidentName?.replace('Fire', '').trim() + ' Wildfire';
@@ -178,13 +126,11 @@ export class PublicEventPageComponent {
             this.isAssociatedWildfireBookmarked = this.onWatchlist(this.incident);
             this.cdr.detectChanges();
           }
-        });
-    } catch (error) {
-      console.error(
-        'Caught error while populating associated incident for evacuation: ' +
-          error,
-      );
-    }
+        },
+        error: error => {
+          console.warn('No associated incident for evacuation ' + eventNumber + ': ' + (error?.status ?? error));
+        },
+      });
   }
 
   onWatchlist(incident): boolean {
