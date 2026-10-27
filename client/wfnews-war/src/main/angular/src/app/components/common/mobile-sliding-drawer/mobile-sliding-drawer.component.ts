@@ -179,15 +179,23 @@ export class MobileSlidingDrawerComponent
     const target =
       fromHeight === null
         ? this.startStop
-        : Math.max(this.nearestStop(fromHeight), this.startStop);
+        : this.nearestStop(fromHeight);
     if (fromHeight === null) {
       this.jump(target, -OFFSCREEN_MARGIN, this.hiddenFooterOffset());
       // The first open shares a long task with the identify, which would use up the slide.
       this.stop = target;
       this.afterFirstPaint(() => this.animateTo(target));
+    } else if (Math.abs(target - fromHeight) < 2) {
+      this.settle(target);
+      this.setInstant(true);
+      this.afterFirstPaint(() => this.setInstant(false));
     } else {
       this.jump(this.maxHeight, fromHeight);
-      this.animateTo(target);
+      this.setInstant(true);
+      this.afterFirstPaint(() => {
+        this.setInstant(false);
+        this.animateTo(target);
+      });
     }
   }
 
@@ -359,15 +367,14 @@ export class MobileSlidingDrawerComponent
 
   // Place the Drawer with no animation.
   private jump(sheetHeight: number, visible: number, footerOffset = this.footerOffsetFor(visible)) {
-    const elements = this.motionElements();
-    elements.forEach((element) => element.classList.add('instant'));
+    this.setInstant(true);
     this.sheetHeight = sheetHeight;
     this.sheet.nativeElement.style.height = `${sheetHeight}px`;
     this.moveSheet(sheetHeight - visible);
     this.moveFooter(footerOffset);
     // Commit the new place before the next transition starts from it.
     void this.sheet.nativeElement.offsetHeight;
-    elements.forEach((element) => element.classList.remove('instant'));
+    this.setInstant(false);
   }
 
   private moveSheet(offset: number) {
@@ -378,6 +385,12 @@ export class MobileSlidingDrawerComponent
     if (this.footer) {
       this.footer.nativeElement.style.transform = `translate3d(0, ${offset}px, 0)`;
     }
+  }
+
+  private setInstant(instant: boolean) {
+    this.motionElements().forEach((element) =>
+      element.classList.toggle('instant', instant),
+    );
   }
 
   private setDragging(dragging: boolean) {
