@@ -128,7 +128,8 @@
   position: relative;
   display: flex;
   width: 100%;
-  min-height: 400px !important;
+  // Short enough that the next answer shows above Submit, so the page reads as scrollable.
+  min-height: 240px !important;
   border-radius: 8px;
   max-width: 780px;
 

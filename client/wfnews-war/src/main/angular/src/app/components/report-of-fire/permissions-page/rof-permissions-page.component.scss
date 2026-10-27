@@ -13,6 +13,20 @@
 .location-banner {
   display: block;
   margin: 16px 0 0;
+  transition: opacity 300ms ease-in;
+
+  &.leaving {
+    opacity: 0;
+  }
+}
+
+// One line, not a full button: the page is already tall on a short screen.
+.call-option {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: 12px;
 }
 
 // With the banner shown, this page is about 30px taller than the box on a short screen.

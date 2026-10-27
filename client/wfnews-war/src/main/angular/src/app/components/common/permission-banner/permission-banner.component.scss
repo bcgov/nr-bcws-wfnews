@@ -26,6 +26,19 @@
     margin-top: 2px;
   }
 
+  // The same dark grey as the warning icon it replaces.
+  mat-spinner ::ng-deep circle {
+    stroke: #313132;
+  }
+
+  .banner-success {
+    animation: banner-success-pop 400ms ease-out;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
   .banner-text {
     display: flex;
     flex-direction: column;
@@ -58,5 +71,19 @@
     font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 16px;
     font-weight: 600;
+  }
+}
+
+@keyframes banner-success-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
   }
 }

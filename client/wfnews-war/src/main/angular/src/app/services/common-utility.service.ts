@@ -20,6 +20,8 @@ import * as turf from '@turf/turf';
 
 const MAX_CACHE_AGE = 30 * 1000;
 const POSITION_LIMIT = 10 * 1000;
+// MDN: a GPS fix "can take a minute or more". With no network, only GPS can answer.
+const GPS_POSITION_LIMIT = 60 * 1000;
 
 /**
  * The Android plugin does not apply its own `timeout`. A request measured on a
@@ -89,10 +91,11 @@ export class CommonUtilityService {
   private requestPosition(): Promise<Position> {
     return withLimit(
       Geolocation.getCurrentPosition({
-        // With no options the plugin takes its LocationManager fallback, measured at
-        // over five seconds indoors and often failing. Off, the fused provider
-        // answers in under a tenth of a second.
-        enableLocationFallback: false,
+        // Off, the plugin shows Google's Location Accuracy dialog on every request
+        // when that setting is off. On, those users get the LocationManager, which
+        // gave no position in 15 s at low accuracy and one in 4 s at high.
+        enableLocationFallback: true,
+        enableHighAccuracy: true,
         maximumAge: MAX_CACHE_AGE,
         timeout: POSITION_LIMIT,
       }),
@@ -106,12 +109,36 @@ export class CommonUtilityService {
    * it does not ask on load. See LOCATION_AND_STARTUP_PLAN_STE.md section 5.1.
    */
   async getPositionIfPermitted(): Promise<Position | undefined> {
+    return this.ifPermitted(() => this.getCurrentLocationPromise());
+  }
+
+  /**
+   * The same, for a device with no network. The Play services check fails offline,
+   * so only the fallback reaches the GPS provider (plugin README).
+   */
+  async getGpsPositionIfPermitted(): Promise<Position | undefined> {
+    return this.ifPermitted(() =>
+      withLimit(
+        Geolocation.getCurrentPosition({
+          enableHighAccuracy: true,
+          enableLocationFallback: true,
+          maximumAge: MAX_CACHE_AGE,
+          timeout: GPS_POSITION_LIMIT,
+        }),
+        GPS_POSITION_LIMIT,
+      ),
+    );
+  }
+
+  private async ifPermitted(
+    get: () => Promise<Position>,
+  ): Promise<Position | undefined> {
     try {
       const status = await Geolocation.checkPermissions();
       if (status.location !== 'granted' && status.coarseLocation !== 'granted') {
         return undefined;
       }
-      return await this.getCurrentLocationPromise();
+      return await get();
     } catch (error) {
       return undefined;
     }

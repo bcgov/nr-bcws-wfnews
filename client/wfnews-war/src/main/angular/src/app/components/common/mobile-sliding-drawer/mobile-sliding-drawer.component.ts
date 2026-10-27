@@ -17,7 +17,7 @@ import { ManagedDrawer, MobileDrawerService } from './mobile-drawer.service';
 // The Drawer Stops, as parts of the height under the top Inset.
 const STOP_PARTS = [0.25, 0.5, 0.7, 1];
 // Keep in step with $drawer-duration in the SCSS.
-const DURATION_MS = 300;
+export const DRAWER_DURATION_MS = 300;
 // Below the screen by this much, the shadow does not show either.
 const OFFSCREEN_MARGIN = 32;
 const DRAG_THRESHOLD = 6;
@@ -179,15 +179,23 @@ export class MobileSlidingDrawerComponent
     const target =
       fromHeight === null
         ? this.startStop
-        : Math.max(this.nearestStop(fromHeight), this.startStop);
+        : this.nearestStop(fromHeight);
     if (fromHeight === null) {
       this.jump(target, -OFFSCREEN_MARGIN, this.hiddenFooterOffset());
       // The first open shares a long task with the identify, which would use up the slide.
       this.stop = target;
       this.afterFirstPaint(() => this.animateTo(target));
+    } else if (Math.abs(target - fromHeight) < 2) {
+      this.settle(target);
+      this.setInstant(true);
+      this.afterFirstPaint(() => this.setInstant(false));
     } else {
       this.jump(this.maxHeight, fromHeight);
-      this.animateTo(target);
+      this.setInstant(true);
+      this.afterFirstPaint(() => {
+        this.setInstant(false);
+        this.animateTo(target);
+      });
     }
   }
 
@@ -359,15 +367,14 @@ export class MobileSlidingDrawerComponent
 
   // Place the Drawer with no animation.
   private jump(sheetHeight: number, visible: number, footerOffset = this.footerOffsetFor(visible)) {
-    const elements = this.motionElements();
-    elements.forEach((element) => element.classList.add('instant'));
+    this.setInstant(true);
     this.sheetHeight = sheetHeight;
     this.sheet.nativeElement.style.height = `${sheetHeight}px`;
     this.moveSheet(sheetHeight - visible);
     this.moveFooter(footerOffset);
     // Commit the new place before the next transition starts from it.
     void this.sheet.nativeElement.offsetHeight;
-    elements.forEach((element) => element.classList.remove('instant'));
+    this.setInstant(false);
   }
 
   private moveSheet(offset: number) {
@@ -378,6 +385,12 @@ export class MobileSlidingDrawerComponent
     if (this.footer) {
       this.footer.nativeElement.style.transform = `translate3d(0, ${offset}px, 0)`;
     }
+  }
+
+  private setInstant(instant: boolean) {
+    this.motionElements().forEach((element) =>
+      element.classList.toggle('instant', instant),
+    );
   }
 
   private setDragging(dragging: boolean) {
@@ -412,7 +425,7 @@ export class MobileSlidingDrawerComponent
   }
 
   private duration(): number {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : DURATION_MS;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : DRAWER_DURATION_MS;
   }
 
   // The footer stays on the screen bottom. The header pushes it down when the Drawer is short.
@@ -454,7 +467,7 @@ export class MobileSlidingDrawerComponent
 
   private measureFooter() {
     this.footerHeight = this.footer?.nativeElement.offsetHeight ?? 0;
-    // The content and its fade end above the footer, or above the bottom Inset.
+    // The content ends above the footer, or above the bottom Inset.
     this.sheet.nativeElement.style.setProperty(
       '--footer-space',
       `${this.footerHeight || this.insetBottom}px`,
