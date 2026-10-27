@@ -200,8 +200,13 @@
   }
 
   // A touch screen has no hover, so the link shows before the tap.
+  // A corner and no grey, so the map stays clear; the "i" is bottom right.
   @media (hover: none) {
     display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 12px;
+    background-color: transparent;
   }
 }
 
