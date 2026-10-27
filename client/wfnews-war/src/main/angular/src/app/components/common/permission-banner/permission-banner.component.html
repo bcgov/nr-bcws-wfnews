@@ -1,9 +1,11 @@
-<div class="permission-banner">
-    <img alt="warning" class="banner-icon" [src]="icon">
+<div class="permission-banner" role="status">
+    <img *ngIf="success" alt="" class="banner-icon banner-success" src="/assets/images/svg-icons/check-circle-green.svg">
+    <mat-spinner *ngIf="!success && busy" class="banner-icon" [diameter]="20"></mat-spinner>
+    <img *ngIf="!success && !busy" alt="warning" class="banner-icon" [src]="icon">
     <div class="banner-text">
-        <span class="banner-title">{{ heading }}</span>
+        <span *ngIf="heading" class="banner-title">{{ heading }}</span>
         <span class="banner-message">{{ message }}</span>
-        <button type="button" class="banner-button" (click)="action.emit()">
+        <button *ngIf="actionLabel" type="button" class="banner-button" (click)="action.emit()">
             {{ actionLabel }}
         </button>
     </div>

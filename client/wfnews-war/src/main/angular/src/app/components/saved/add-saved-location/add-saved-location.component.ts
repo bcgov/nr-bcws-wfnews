@@ -7,7 +7,8 @@ import {
   ConfirmationDialogComponent,
   confirmationDialogConfig,
 } from '@app/components/common/confirmation-dialog/confirmation-dialog.component';
-import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
+import { PERMISSION_DIALOG } from '@app/components/common/permission-banner/permission-banner.constants';
+import { PermissionDialogService } from '@app/components/common/permission-dialog/permission-dialog.service';
 import { NotificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
 import {
   CapacitorService,
@@ -66,6 +67,7 @@ export class AddSavedLocationComponent implements OnInit {
     protected snackbarService: MatSnackBar,
     private route: ActivatedRoute,
     private capacitor: CapacitorService,
+    private permissionDialog: PermissionDialogService,
   ) {
     this.locationData = new LocationData();
     this.placeData = new PlaceData();
@@ -183,33 +185,26 @@ export class AddSavedLocationComponent implements OnInit {
   }
 
   async useUserLocation() {
-    // A tap asks. checkLocationServiceStatus is silent by design, so the prompt has
-    // to be explicit here.
-    await this.capacitor.requestLocationPermission();
-    this.commonUtilityService
-      .checkLocationServiceStatus()
-      .then(async (enabled) => {
-        if (!enabled) {
-          const dialogRef = this.dialog.open(DialogLocationComponent, {
-            autoFocus: 'dialog',
-            width: '80vw',
-            maxWidth: '400px',
-          });
-        } else {
-          this.setLocationSource('device');
+    // A tap asks. When a prompt cannot help, the dialog gives the way out.
+    const reason = PERMISSION_DIALOG.location.reason.useLocation;
+    if ((await this.permissionDialog.ensure('location', { reason })) !== 'granted') {
+      return;
+    }
+    try {
+      const location =
+        await this.commonUtilityService.getCurrentLocationPromise();
+      this.setLocationSource('device');
+      this.locationData.latitude = location.coords.latitude;
+      this.locationData.longitude = location.coords.longitude;
+      this.searchText =
+        this.locationData.latitude.toFixed(2).toString() +
+        ', ' +
+        this.locationData.longitude.toFixed(2).toString();
 
-          const location =
-            await this.commonUtilityService.getCurrentLocationPromise();
-          this.locationData.latitude = location.coords.latitude;
-          this.locationData.longitude = location.coords.longitude;
-          this.searchText =
-            this.locationData.latitude.toFixed(2).toString() +
-            ', ' +
-            this.locationData.longitude.toFixed(2).toString();
-
-          this.locationData.searchText = this.searchText;
-        }
-      });
+      this.locationData.searchText = this.searchText;
+    } catch (error) {
+      console.error('Could not get the device position', error);
+    }
     this.cdr.detectChanges();
   }
 

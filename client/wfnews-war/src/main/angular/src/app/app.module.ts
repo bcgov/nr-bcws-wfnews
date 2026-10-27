@@ -116,6 +116,7 @@ import { BaseDialogComponent } from './components/base-dialog/base-dialog.compon
 import { AdvisorySectionComponent } from './components/common/advisory-section/advisory-section.component';
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
 import { PermissionBannerComponent } from './components/common/permission-banner/permission-banner.component';
+import { PermissionDialogComponent } from './components/common/permission-dialog/permission-dialog.component';
 import { DeferLoadDirective } from './components/common/defer-load/defer-load.directive';
 import { DebugComponent } from './components/debug/debug.component';
 import { BcCheckboxComponent } from './components/common/bc-checkbox/bc-checkbox.component';
@@ -262,11 +263,9 @@ import { ContactUsBannerComponent } from './components/public-incident-page/inci
 import { IncidentTabsComponent } from './components/public-incident-page/incident-tabs/incident-tabs.component';
 import { PublicIncidentPageComponent } from './components/public-incident-page/public-incident-page.component';
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
-import { LocationServicesDialogComponent } from './components/report-of-fire/compass-page/location-services-dialog/location-services-dialog.component';
 import { RoFCompassPage } from './components/report-of-fire/compass-page/rof-compass-page.component';
 import { RoFComplexQuestionPage } from './components/report-of-fire/complex-question-page/rof-complex-question-page.component';
 import { RoFContactPage } from './components/report-of-fire/contact-page/rof-contact-page.component';
-import { DialogLocationComponent } from './components/report-of-fire/dialog-location/dialog-location.component';
 import { RoFDisclaimerPage } from './components/report-of-fire/disclaimer-page/rof-disclaimer-page.component';
 import { RoFLocationPage } from './components/report-of-fire/location-page/rof-location-page.component';
 import { RoFPermissionsPage } from './components/report-of-fire/permissions-page/rof-permissions-page.component';
@@ -417,6 +416,7 @@ export const DATE_FORMATS = {
     MapToggleButtonComponent,
     AlertOrderBannerComponent,
     PermissionBannerComponent,
+    PermissionDialogComponent,
     DeferLoadDirective,
     DebugComponent,
     ReportOfFirePage,
@@ -430,8 +430,6 @@ export const DATE_FORMATS = {
     RoFCommentsPage,
     RoFReviewPage,
     RoFCompassPage,
-    LocationServicesDialogComponent,
-    DialogLocationComponent,
     RoFDisclaimerPage,
     RofCallPage,
     OverviewWidget,

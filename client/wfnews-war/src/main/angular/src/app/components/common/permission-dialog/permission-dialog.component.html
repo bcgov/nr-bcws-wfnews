@@ -1,0 +1,13 @@
+<div class="content">
+  <div class="title">{{ title }}</div>
+  <div class="icon">
+    <mat-icon *ngIf="data.kind === 'location'" svgIcon="location-off"></mat-icon>
+  </div>
+  <p>{{ message }}</p>
+  <div class="button-group">
+    <wfnews-button *ngIf="actionLabel" variant="primary" [fullWidth]="true"
+      [label]="actionLabel" [disabled]="busy" (buttonClicked)="act()"></wfnews-button>
+    <wfnews-button variant="secondary" [fullWidth]="true" [label]="cancelLabel"
+      (buttonClicked)="close('cancel')"></wfnews-button>
+  </div>
+</div>
