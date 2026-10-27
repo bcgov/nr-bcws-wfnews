@@ -229,6 +229,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
     this.mapConfig = await this.mapConfigService.getPreviewMapConfig({
       extent: coordsToExtent(coords),
       maxZoom: 18,
+      // A drag on the map scrolls the page; Edit is the way to change the location.
+      pan: false,
     });
     this.cdr.markForCheck();
   }

@@ -144,6 +144,12 @@
   width: 100%;
   height: calc(100% - 50px);
   border-radius: 10px;
+  cursor: pointer;
+
+  // The map is a link to the Active Wildfire Map, so a pan or a pinch goes to the box.
+  wf-map-container {
+    pointer-events: none;
+  }
 }
 
 // Over the map, not after it: the map fills the box.
