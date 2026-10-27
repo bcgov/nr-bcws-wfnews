@@ -1,5 +1,5 @@
 <mobile-sliding-drawer [isVisible]="isOpen()" (isVisibleChange)="!$event && closePanel()" (restingHeightChange)="onDrawerRest($event)" [title]="drawerTitle()"
-    [showBack]="!!identifyItem && allowBackToIncidentsPanel" (back)="backToIdentifyPanel()">
+    [showBack]="true" (back)="onBack()">
     <div class="panel-container identify-body">
         <div class="identify-list" *ngIf="!identifyItem">
             <wfnews-identify-result-list [results]="results" layout="phone" (selected)="openPreviewPanel($event)"></wfnews-identify-result-list>

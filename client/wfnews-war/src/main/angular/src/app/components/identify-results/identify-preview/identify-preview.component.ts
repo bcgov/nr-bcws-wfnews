@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
-import { IdentifyActionsService } from '@app/services/identify-actions.service';
+import { IdentifyActionsService, currentView } from '@app/services/identify-actions.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import {
   addMarker,
@@ -20,6 +20,8 @@ import { IncidentLoad } from '../identify-card/identify-card.component';
 // The old previews of these kept a rounder panel, a card bottom margin and a tighter button row.
 const COMPACT: IdentifyKind[] = ['area-restriction', 'ban', 'danger-rating', 'protected-land'];
 const DETAILS: IdentifyKind[] = ['wildfire', 'evacuation', 'area-restriction', 'ban', 'danger-rating'];
+// Nothing on the map marks a station or a rating zone, so a zoom would look random.
+const NO_ZOOM: IdentifyKind[] = ['weather-station', 'danger-rating'];
 
 /** The desktop preview of one identify result, beside the identify list. */
 @Component({
@@ -81,8 +83,7 @@ export class IdentifyPreviewComponent implements OnDestroy {
     this.item = item;
     if (this.kind === 'wildfire') {
       this.loadIncident();
-    } else if (this.kind === 'evacuation' || this.kind === 'local-authority') {
-      // These previews always moved the map to the area when they opened.
+    } else if (!NO_ZOOM.includes(this.kind)) {
       this.zoomIn();
     }
   }
@@ -110,10 +111,12 @@ export class IdentifyPreviewComponent implements OnDestroy {
 
   zoomIn() {
     const item = this.item;
+    const before = currentView();
     this.actions.zoomTarget(item, this.incident).then((target) => {
       if (!target || item !== this.item) {
         return;
       }
+      this.actions.cardZoomed(before);
       if (target.type === 'area') {
         this.actions.fitArea(target.rings);
         return;
@@ -147,6 +150,7 @@ export class IdentifyPreviewComponent implements OnDestroy {
   }
 
   goBack() {
+    this.actions.backToList();
     this.clearMarker();
     showPanel('identify-panel-wrapper');
     hidePanel('desktop-preview');

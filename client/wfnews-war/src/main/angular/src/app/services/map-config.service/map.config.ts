@@ -4,12 +4,15 @@ import { MapServices, MapServiceStatus } from '.';
 import { LayerDisplayConfig } from './layer-display.config';
 import { LayerConfig } from './layers';
 
-const BC_EXTENT = [-139.1, 46.52, -114.06, 61.4];
+export const BC_EXTENT = [-139.1, 46.52, -114.06, 61.4];
 
 // A fit rounds down to a whole zoom (zoomSnap is 1). On a phone this extent loses most
 // of a level, and the tall screen fills from the Yukon to Mexico. So a narrow screen
 // rounds up and trims the east and west edges instead.
 const NARROW_VIEWPORT_MAX_WIDTH = 600;
+
+/** The identify circle round a tap, in screen pixels at the zoom of the tap. */
+export const IDENTIFY_RADIUS_PX = 20;
 
 const bcLocation = () => {
   const width = typeof window === 'undefined' ? 0 : window.innerWidth;
@@ -69,7 +72,7 @@ export const mapConfig = (
       showPanel: false,
       // WFNEWS shows the search and "No features found" in its own panel.
       showStatus: false,
-      radius: 20,
+      radius: IDENTIFY_RADIUS_PX,
       command: {
         attributeMode: false,
         clear: false,
