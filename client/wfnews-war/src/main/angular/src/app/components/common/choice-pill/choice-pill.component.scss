@@ -19,6 +19,12 @@
   border-radius: 50% !important;
 }
 
+// A dialog focuses its first pill in code, and Material greys it until the next tap.
+// Keyboard focus keeps the grey layer.
+:host ::ng-deep .pill.cdk-program-focused .mat-mdc-button-persistent-ripple::before {
+  opacity: 0;
+}
+
 // Material draws the label span, so ::ng-deep is what reaches it.
 :host ::ng-deep .mdc-button__label {
   display: flex;
