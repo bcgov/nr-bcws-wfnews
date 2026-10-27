@@ -7,18 +7,21 @@
 }
 
 // An absolute footer ignores the parent's padding, so the bottom inset goes here.
-// The 8px is Material's own.
+// The Drawer Footer's spacing keeps Show Results clear of the rounded corners.
 .dialog-footer {
   position: absolute;
   bottom: 0px;
   width: 100%;
-  padding-bottom: calc(8px + env(safe-area-inset-bottom));
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  background-color: #fff;
+  // Material lifts each button label to z-index 1; the footer must cover them.
+  z-index: 1;
 }
 
 .dialog-panel {
   padding: 16px;
   overflow: auto;
-  height: calc(100% - 100px - env(safe-area-inset-bottom));
+  height: calc(100% - 116px - env(safe-area-inset-bottom));
 }
 
 .dialog-header {
