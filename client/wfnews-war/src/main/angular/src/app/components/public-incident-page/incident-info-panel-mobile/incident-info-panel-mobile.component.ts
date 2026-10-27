@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ResourcesRoutes, convertToDateYear } from '@app/utils';
+import { ResourcesRoutes, absoluteUrl, convertToDateYear } from '@app/utils';
 import { IncidentInfoPanelComponent } from '../incident-info-panel/incident-info-panel.component';
 
 @Component({
@@ -50,7 +50,7 @@ export class IncidentInfoPanelMobileComponent
 
   navigateToEvac(evac) {
     if (evac?.externalUri) {
-      window.open(evac.uri, '_blank');
+      window.open(absoluteUrl(evac.uri), '_blank');
     } else if (evac && this.incident) {
       let type = null;
       if (evac.orderAlertStatus === 'Alert') {
