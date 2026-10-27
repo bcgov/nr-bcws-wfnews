@@ -96,32 +96,12 @@ table tr:nth-child(even) td {
   display: inline-block;
 }
 
-.filter-clear {
-  margin-bottom: 8px;
-  position: absolute;
-  line-height: 24px;
-  font-size: 15px;
-  border-radius: 20%;
-  background-color: transparent;
-  border: none;
-  right: -40px;
-  top: 12px;
-  .button-wrapper {
-    padding: 0;
-    min-width: 0;
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    line-height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    top: -6px;
-    left: 6px;
-  }
-  mat-icon {
-    transform: translateX(-5px);
-  }
+// Beside the pill, not in it: a button inside a button is not valid HTML.
+.filter-clear.mat-mdc-icon-button {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  margin: 0 7px 0 -4px;
 }
 
 .input-clear-button {
@@ -191,49 +171,9 @@ table tr:nth-child(even) td {
   }
 }
 
-.list-icon {
-  position: relative;
-  margin: 0 0 -3px 0px;
-  top: 3px;
-}
-
+// The Choice Pill draws the look; the list only spaces it.
 .filter-button {
   margin-right: 7px;
-  border-radius: 20px;
-  border: 1px solid #c4c4c4;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 21.79px;
-  &-selected {
-    border: 2px solid #38598a !important;
-    background-color: #e9f0f8 !important;
-    color: #242424 !important;
-    height: 36px;
-    width: 36px;
-    border-radius: 20px;
-    .button-wrapper {
-      padding: 0;
-      min-width: 0;
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      line-height: 40px;
-      border-radius: 50%;
-      margin-left: 4px;
-      cursor: pointer;
-    }
-  }
-  .button-wrapper {
-    padding: 0;
-    min-width: 0;
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    line-height: 40px;
-    border-radius: 50%;
-    margin-left: 4px;
-    cursor: pointer;
-  }
 }
 
 .search-icon {

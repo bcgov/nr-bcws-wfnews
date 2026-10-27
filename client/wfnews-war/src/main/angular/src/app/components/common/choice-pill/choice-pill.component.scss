@@ -1,0 +1,40 @@
+@import "../../../../styles/component/choice-pill-mixin";
+
+// A caller sets the width on the host; the pill fills it.
+:host { display: inline-block; flex-shrink: 0; }
+
+.pill {
+  @include wf1-choice-pill;
+  width: 100%;
+
+  &.selected { @include wf1-choice-pill-selected; }
+}
+
+// The label keeps its bold width, so selecting a pill does not reflow its row.
+.label {
+  display: inline-flex;
+  flex-direction: column;
+
+  &::after {
+    content: attr(data-text);
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    font-weight: 700;
+  }
+}
+
+:host(.icon-only) .pill {
+  width: 36px;
+  height: 36px;
+  min-width: 0;
+  padding: 0;
+  border-radius: 50% !important;
+}
+
+// Material draws the label span, so ::ng-deep is what reaches it.
+:host ::ng-deep .mdc-button__label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}

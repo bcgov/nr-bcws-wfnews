@@ -53,21 +53,9 @@
   margin-left: 5px;
 }
 
+// The Choice Pill draws the look; the list only spaces it.
 .filter-button {
   margin-right: 7px;
-  border: 1px solid #c4c4c4;
-  background-color: white !important;
-  height: 36px;
-  width: 36px;
-  box-shadow: none;
-  &-selected {
-    margin-right: 7px;
-    border: 2px solid #38598a !important;
-    background-color: #e9f0f8 !important;
-    height: 36px;
-    width: 36px;
-    box-shadow: none !important;
-  }
 }
 
 .search-and-filters {

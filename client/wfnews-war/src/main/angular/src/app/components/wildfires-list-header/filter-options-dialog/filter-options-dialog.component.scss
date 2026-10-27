@@ -43,63 +43,16 @@
   border-bottom: 1px solid #dedede;
 }
 
-.radius-button {
-  border-radius: 20px;
-  border: 1px solid #c4c4c4;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 21.79px;
-  width: calc(50% - 10px);
-  margin-left: 5px;
+// Each pill takes its own width and the row wraps, so any screen width fits.
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-top: 15px;
-  &-selected {
-    border-radius: 20px;
-    border: 2px solid #38598a !important;
-    background-color: #e9f0f8 !important;
-    color: #242424 !important;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 21.79px;
-    width: calc(50% - 10px);
-    margin-left: 5px;
-    margin-top: 15px;
-  }
-}
-
-.list-button {
-  margin-right: 7px;
-  border-radius: 20px;
-  border: 1px solid #c4c4c4;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 21.79px;
-  width: 100%;
-  margin-top: 10px;
-  &-selected {
-    margin-right: 7px;
-    border-radius: 20px;
-    border: 2px solid #38598a !important;
-    background-color: #e9f0f8 !important;
-    color: #242424 !important;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 21.79px;
-    width: 100%;
-    margin-top: 10px;
-  }
-}
-
-.list-button-label {
-  margin: 0px 0px 0px 7px;
 }
 
 .radius-panel {
   border-bottom: 1px solid #dedede;
   padding-bottom: 20px;
   padding-top: 20px;
-}
-
-::ng-deep .mdc-button__label {
-  display: flex !important;
-  align-items: center !important;
 }

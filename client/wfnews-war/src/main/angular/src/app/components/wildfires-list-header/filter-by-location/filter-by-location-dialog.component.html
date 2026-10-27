@@ -30,22 +30,16 @@
               </mat-option>
           </mat-autocomplete>
       </div>
-      <button [class]="'list-button' + (locationData.useUserLocation ? '-selected' : '')" (click)="useUserLocation()" mat-flat-button ><img class="search-icon image-size" src="/assets/images/svg-icons/location-button.svg" alt="Use your location" height="20" width="20" /><span class="list-button-label">Use your location</span>
-        <button mat-mdc-button matSuffix mat-mdc-icon-button class="filter-clear" *ngIf="locationData.useUserLocation"
-                aria-label="Clear" (click)="useUserLocation(); $event.stopPropagation();"
-                matTooltip="Clear">
-                <span class="button-wrapper">
-                    <mat-icon>close</mat-icon>
-                </span>
-        </button>
-      </button>
+      <wfnews-choice-pill class="use-location" label="Use your location" [selected]="!!locationData.useUserLocation" (pillClicked)="useUserLocation()"><img src="/assets/images/svg-icons/location-button.svg" alt="" height="20" width="20" /><mat-icon iconEnd *ngIf="locationData.useUserLocation" aria-hidden="true">close</mat-icon></wfnews-choice-pill>
     </div>
     <div class="radius-panel">
-      <button [class]="'radius-button' + (locationData.radius === 5 ? '-selected' : '')" (click)="setRadius(5)" mat-flat-button ><span class="list-button-label">Within 5 km</span></button>
-      <button [class]="'radius-button' + (locationData.radius === 10 ? '-selected' : '')" (click)="setRadius(10)" mat-flat-button ><span class="list-button-label">Within 10 km</span></button>
-      <button [class]="'radius-button' + (locationData.radius === 20 ? '-selected' : '')" (click)="setRadius(20)" mat-flat-button ><span class="list-button-label">Within 20 km</span></button>
-      <button [class]="'radius-button' + (locationData.radius === 50 ? '-selected' : '')" (click)="setRadius(50)" mat-flat-button ><span class="list-button-label">Within 50 km</span></button>
-      <button [class]="'radius-button' + (locationData.radius === 100 ? '-selected' : '')" (click)="setRadius(100)" mat-flat-button ><span class="list-button-label">Within 100 km</span></button>
+      <div class="choices">
+        <wfnews-choice-pill label="Within 5 km" [selected]="locationData.radius === 5" (pillClicked)="setRadius(5)"></wfnews-choice-pill>
+        <wfnews-choice-pill label="Within 10 km" [selected]="locationData.radius === 10" (pillClicked)="setRadius(10)"></wfnews-choice-pill>
+        <wfnews-choice-pill label="Within 20 km" [selected]="locationData.radius === 20" (pillClicked)="setRadius(20)"></wfnews-choice-pill>
+        <wfnews-choice-pill label="Within 50 km" [selected]="locationData.radius === 50" (pillClicked)="setRadius(50)"></wfnews-choice-pill>
+        <wfnews-choice-pill label="Within 100 km" [selected]="locationData.radius === 100" (pillClicked)="setRadius(100)"></wfnews-choice-pill>
+      </div>
     </div>
   </div>
   <div class="dialog-footer" mat-dialog-actions>
