@@ -30,6 +30,7 @@
 		"SplashScreenPlugin",
 		"StatusBarPlugin",
 		"BackgroundTaskPlugin",
+		"CompassPlugin",
 		"NativeSettingsPlugin",
 		"CDVPlugin"
 	]

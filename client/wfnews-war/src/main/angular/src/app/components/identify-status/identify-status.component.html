@@ -1,5 +1,5 @@
 <mobile-sliding-drawer *ngIf="mobile; else desktop" [isVisible]="!!status" (isVisibleChange)="!$event && closed.emit()"
-    title="Results" [startPart]="0.25">
+    title="Results">
     <ng-container *ngTemplateOutlet="statusContent"></ng-container>
 </mobile-sliding-drawer>
 

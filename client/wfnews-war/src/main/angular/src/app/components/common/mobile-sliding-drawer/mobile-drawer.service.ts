@@ -71,7 +71,7 @@ export class MobileDrawerService {
 
     if (next && next !== current) {
       let fromHeight = this.destroyedHeight;
-      const outgoing = current ?? this.leaving;
+      const outgoing = current ?? (fromHeight !== null ? null : this.leaving);
       if (outgoing) {
         fromHeight = outgoing.visibleHeight();
       }

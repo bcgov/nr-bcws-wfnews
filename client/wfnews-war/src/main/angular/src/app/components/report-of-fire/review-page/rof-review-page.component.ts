@@ -21,6 +21,11 @@ import { ReportOfFire } from '../reportOfFireModel';
 import { RoFPage } from '../rofPage';
 import * as turf from '@turf/turf';
 
+/** The model starts each position at [0, 0], so that value means "no position". */
+function isPosition(latLon: number[] | undefined): boolean {
+  return latLon?.length === 2 && !(Number(latLon[0]) === 0 && Number(latLon[1]) === 0);
+}
+
 @Component({
   selector: 'rof-review-page',
   templateUrl: './rof-review-page.component.html',
@@ -211,19 +216,21 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
    */
   async loadMap() {
     const fire = this.reportOfFire?.fireLocation;
-    if (!fire?.length) {
+    if (!isPosition(fire)) {
       return;
     }
 
     const coords = [toLonLat(fire)];
     const here = this.reportOfFire?.currentLocation;
-    if (here?.length) {
+    if (isPosition(here)) {
       coords.push(toLonLat(here));
     }
 
     this.mapConfig = await this.mapConfigService.getPreviewMapConfig({
       extent: coordsToExtent(coords),
       maxZoom: 18,
+      // A drag on the map scrolls the page; Edit is the way to change the location.
+      pan: false,
     });
     this.cdr.markForCheck();
   }
@@ -240,7 +247,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
     });
 
     const here = this.reportOfFire?.currentLocation;
-    if (!here?.length || !this.reportOfFire.estimatedDistance) {
+    if (!isPosition(here) || !this.reportOfFire.estimatedDistance) {
       return;
     }
 

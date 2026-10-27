@@ -33,7 +33,8 @@
               "qrcode",
               "moment",
               "vanilla-text-mask",
-              "clone-deep"
+              "clone-deep",
+              "geomagnetism"
             ],
             "assets": [
               "src/favicon.png",
