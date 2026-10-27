@@ -1,4 +1,10 @@
 import { ChangeDetectorRef, Component,ComponentFactoryResolver,Input,OnChanges,OnDestroy,SimpleChanges,ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  FOCUS_DURATION_MS,
+  IdentifyActionsService,
+  TAP_MAX_ZOOM,
+  tapCircleExtent,
+} from '@app/services/identify-actions.service';
 import { PointIdService } from '@app/services/point-id.service';
 import {
   IdentifyResults,
@@ -8,7 +14,10 @@ import {
 } from '@app/utils/identify-results';
 import { WeatherPanelComponent } from '@app/components/weather/weather-panel/weather-panel.component';
 import { IdentifyPreviewComponent } from '@app/components/identify-results/identify-preview/identify-preview.component';
-import { clearMarker, hidePanel, showPanel } from '@app/utils';
+import { clearMarker, getActiveMap, hidePanel, showPanel } from '@app/utils';
+
+// The list and the preview cover 345px on the left of the map; the layer buttons cover the top.
+const FREE_MAP_PADDING = { top: 88, left: 345 + 32, right: 32, bottom: 32 };
 
 @Component({
   selector: 'wfnews-identify-panel',
@@ -29,6 +38,7 @@ export class IdentifyPanel implements OnChanges, OnDestroy {
     private cdr: ChangeDetectorRef,
     private componentFactoryResolver: ComponentFactoryResolver,
     private pointIdService: PointIdService,
+    private actions: IdentifyActionsService,
   ) {}
 
   ngOnDestroy(): void {
@@ -42,6 +52,7 @@ export class IdentifyPanel implements OnChanges, OnDestroy {
     if (incidentRefs) {
       this.currentIncidentRefs = incidentRefs;
       this.showResults();
+      this.zoomToTapCircle();
     }
 
     // A map click always shows the list; only a link to one incident opens it.
@@ -63,6 +74,22 @@ export class IdentifyPanel implements OnChanges, OnDestroy {
     this.results = groupIdentifyResults(this.currentIncidentRefs);
   }
 
+  // Zooms in to the identify circle beside the list. It does not zoom out.
+  private zoomToTapCircle() {
+    const point = this.currentIncidentRefs[0]?._identifyPoint;
+    if (!point?.longitude || !point?.latitude) {
+      return;
+    }
+    const map = getActiveMap().$viewer.map;
+    const zoom = map.getZoom();
+    const [west, south, east, north] = tapCircleExtent(Number(point.longitude), Number(point.latitude), zoom);
+    map.fitBounds([[west, south], [east, north]], {
+      padding: FREE_MAP_PADDING,
+      maxZoom: Math.max(zoom, TAP_MAX_ZOOM),
+      duration: FOCUS_DURATION_MS,
+    });
+  }
+
   closePanel() {
     clearIdentifyOnMap();
     this.showPanel = false;
@@ -70,7 +97,14 @@ export class IdentifyPanel implements OnChanges, OnDestroy {
     this.cdr.markForCheck();
   }
 
+  // Back from the list leaves identify for the BC view.
+  backToBc() {
+    this.closePanel();
+    this.actions.showBc();
+  }
+
   enterPreview(item: any) {
+    this.actions.cardOpened();
     const kind = identifyKind(item);
     if (kind === 'weather-station') {
       this.handleWeatherStations(item);

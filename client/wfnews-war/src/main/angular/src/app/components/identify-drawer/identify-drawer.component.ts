@@ -7,7 +7,13 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { IdentifyActionsService } from '@app/services/identify-actions.service';
+import {
+  FOCUS_DURATION_MS,
+  IdentifyActionsService,
+  TAP_MAX_ZOOM,
+  currentView,
+  tapCircleExtent,
+} from '@app/services/identify-actions.service';
 import { PointIdService } from '@app/services/point-id.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import {
@@ -41,8 +47,6 @@ const DETAIL_TIMEOUT_MS = 10000;
 const FOCUS_PADDING = { top: 88, side: 32, bottom: 24 };
 // Below this, the Drawer covers so much that a fit would only zoom far out.
 const MIN_FOCUS_HEIGHT = 48;
-// flyTo's own pace took 3 s from the province to an Incident; 500 ms was too fast.
-const FOCUS_DURATION_MS = 1000;
 
 @Component({
   selector: 'wfnews-identify-drawer',
@@ -69,7 +73,6 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
   removeIdentity = false;
   incidentLoad: IncidentLoad = null;
 
-  private previousZoom: number;
   private selection = 0;
   private zoomRequest = 0;
   private watchedMap: any;
@@ -219,7 +222,7 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
     this.watchMapGestures();
   }
 
-  // Keeps the tapped place above the Drawer. A zoom to the item replaces this.
+  // Zooms in to the identify circle above the Drawer. It does not zoom out.
   private focusTapPoint() {
     const point = this.currentIncidentRefs?.[0]?._identifyPoint;
     if (!point?.longitude || !point?.latitude) {
@@ -231,9 +234,7 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
     } catch {
       return;
     }
-    const x = Number(point.longitude);
-    const y = Number(point.latitude);
-    this.fitFocus([x, y, x, y], zoom);
+    this.fitFocus(tapCircleExtent(Number(point.longitude), Number(point.latitude), zoom), Math.max(zoom, TAP_MAX_ZOOM));
   }
 
   private fitFocus(extent: number[], maxZoom?: number) {
@@ -354,12 +355,13 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
 
   /** With ping, the item rings or flashes, so the button answers when the map is already there. */
   zoomIn(level?: number, ping = false) {
-    this.previousZoom = getActiveMap().$viewer.map.getZoom();
+    const before = currentView();
     const zoomRequest = this.zoomRequest;
     this.actions.zoomTarget(this.identifyItem, this.identifyIncident).then((target) => {
       if (!target || zoomRequest !== this.zoomRequest) {
         return;
       }
+      this.actions.cardZoomed(before);
       if (target.type === 'area') {
         this.fitFocus(ringsToExtent(target.rings));
         // The area keeps its own map colours; Zoom to marks it with a glow instead.
@@ -388,6 +390,7 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
 
   openPreviewPanel(item) {
     this.allowBackToIncidentsPanel = true;
+    this.actions.cardOpened();
     this.storedIncidentRefs = this.currentIncidentRefs;
     // capture the identify panel list;
     this.identifyItem = item;
@@ -399,9 +402,19 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
     this.handleLayersSelection();
   }
 
+  onBack() {
+    if (this.identifyItem) {
+      this.backToIdentifyPanel();
+      return;
+    }
+    // Back from the list leaves identify for the BC view.
+    this.closePanel();
+    this.actions.showBc();
+  }
+
   backToIdentifyPanel() {
     this.newSelection();
-    this.zoomIn(this.previousZoom);
+    this.actions.backToList();
     this.allowBackToIncidentsPanel = false;
     this.handleLayersSelection(true);
   }

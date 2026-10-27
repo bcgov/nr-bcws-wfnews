@@ -4,6 +4,7 @@ import { LocationData } from '@app/components/wildfires-list-header/filter-by-lo
 import { AGOLService } from '@app/services/AGOL-service';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { MapConfigService } from '@app/services/map-config.service';
+import { BC_EXTENT, IDENTIFY_RADIUS_PX } from '@app/services/map-config.service/map.config';
 import { ResourcesRoutes, getActiveMap, snowPlowHelper } from '@app/utils';
 import { IdentifyKind, WILDFIRE_LAYER_IDS, identifyKind } from '@app/utils/identify-results';
 import { highlightArea, polygonRings, ringsToExtent, zoomToCoords } from '@app/utils/preview-map';
@@ -18,6 +19,16 @@ export type ZoomTarget =
   | { type: 'incident' | 'pin' | 'point'; point: number[] }
   | { type: 'area'; rings: Rings };
 
+export interface MapView {
+  center: [number, number];
+  zoom: number;
+}
+
+// flyTo's own pace took 3 s from the province to an Incident; 500 ms was too fast.
+export const FOCUS_DURATION_MS = 1000;
+// A tap zooms in to the circle, but not past the zoom a point card uses.
+export const TAP_MAX_ZOOM = 13;
+
 // After this, an AGOL area that has not come is given up, so it cannot move the map later.
 const AREA_TIMEOUT_MS = 10000;
 const PIN_KINDS: IdentifyKind[] = ['road-event', 'closed-recreation-site'];
@@ -30,9 +41,26 @@ const lonLat = (lon: any, lat: any): number[] | null => {
   return point.every(Boolean) ? point : null;
 };
 
+/** The box round the identify circle that SMK drew for a tap at this zoom. */
+export function tapCircleExtent(longitude: number, latitude: number, zoom: number): number[] {
+  // Degrees across one screen pixel, for MapLibre's 512 px tiles.
+  const lon = (IDENTIFY_RADIUS_PX * 360) / (512 * 2 ** zoom);
+  const lat = lon * Math.cos((latitude * Math.PI) / 180);
+  return [longitude - lon, latitude - lat, longitude + lon, latitude + lat];
+}
+
+export function currentView(): MapView {
+  const map = getActiveMap().$viewer.map;
+  const { lng, lat } = map.getCenter();
+  return { center: [lng, lat], zoom: map.getZoom() };
+}
+
 /** Zoom to and Full Details for an identify result, on the phone and on desktop. */
 @Injectable({ providedIn: 'root' })
 export class IdentifyActionsService {
+  // The view before a card moved the map. Back from the card returns to it.
+  private listView: MapView | null = null;
+
   constructor(
     private router: Router,
     private agolService: AGOLService,
@@ -119,6 +147,33 @@ export class IdentifyActionsService {
       default:
         return null;
     }
+  }
+
+  /** A new card has moved nothing yet, so back from it stays where it is. */
+  cardOpened() {
+    this.listView = null;
+  }
+
+  /** The view from before a card zoom. A second Zoom to keeps the first one. */
+  cardZoomed(before: MapView) {
+    this.listView ??= before;
+  }
+
+  /** Back from a card: to the list view, if the card moved the map. */
+  backToList() {
+    const view = this.listView;
+    this.listView = null;
+    if (view) {
+      getActiveMap().$viewer.map.easeTo({ ...view, duration: FOCUS_DURATION_MS });
+    }
+  }
+
+  /** Back from the list: to the BC view the map loads with. */
+  showBc() {
+    this.listView = null;
+    const [west, south, east, north] = BC_EXTENT;
+    // The same fit as SMK's setView at load, which does not apply a zoom given with an extent.
+    getActiveMap().$viewer.map.fitBounds([[west, south], [east, north]], { padding: 0, duration: FOCUS_DURATION_MS });
   }
 
   /** Desktop Zoom to for an area: the map fits it and marks it. */

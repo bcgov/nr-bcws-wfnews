@@ -1,11 +1,10 @@
 <div class="identify-panel-wrapper">
     <div class="identify-panel" *ngIf="showPanel && currentIncidentRefs && currentIncidentRefs.length >= 1">
         <div class="panel-container" >
-            <div *ngIf="currentIncidentRefs && currentIncidentRefs.length == 1" class="identify-panel-title">
-                {{currentIncidentRefs.length}} Result <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
-            </div>
-            <div *ngIf="currentIncidentRefs && currentIncidentRefs.length != 1" class="identify-panel-title">
-                {{currentIncidentRefs.length}} Results <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+            <div class="identify-panel-title">
+                <mat-icon svgIcon="arrow-left" (click)="backToBc()"></mat-icon>
+                {{currentIncidentRefs.length}} {{currentIncidentRefs.length == 1 ? 'Result' : 'Results'}}
+                <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
             </div>
             <wfnews-identify-result-list [results]="results" layout="desktop" (selected)="enterPreview($event)"></wfnews-identify-result-list>
         </div>
