@@ -2,21 +2,26 @@
   height: 100%;
   width: 100%;
   padding-top: env(safe-area-inset-top) !important;
-  padding-bottom: env(safe-area-inset-bottom) !important;
   padding-left: env(safe-area-inset-left) !important;
   padding-right: env(safe-area-inset-right) !important;
 }
 
+// An absolute footer ignores the parent's padding, so the bottom inset goes here.
+// The Drawer Footer's spacing keeps Show Results clear of the rounded corners.
 .dialog-footer {
   position: absolute;
   bottom: 0px;
   width: 100%;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  background-color: #fff;
+  // Material lifts each button label to z-index 1; the footer must cover them.
+  z-index: 1;
 }
 
 .dialog-panel {
   padding: 16px;
   overflow: auto;
-  height: calc(100% - 100px);
+  height: calc(100% - 116px - env(safe-area-inset-bottom));
 }
 
 .dialog-header {
@@ -74,54 +79,15 @@
   border-bottom: 1px solid #dedede;
 }
 
-.radius-button {
-  border-radius: 20px;
-  border: 1px solid #c4c4c4;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 21.79px;
-  width: calc(50% - 10px);
-  margin-left: 5px;
-  margin-top: 15px;
-  &-selected {
-    border-radius: 20px;
-    border: 2px solid #38598a !important;
-    background-color: #e9f0f8 !important;
-    color: #242424 !important;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 21.79px;
-    width: calc(50% - 10px);
-    margin-left: 5px;
-    margin-top: 15px;
-  }
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.list-button {
-  margin-right: 7px;
-  border-radius: 20px;
-  border: 1px solid #c4c4c4;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 21.79px;
+.use-location {
   width: 100%;
   margin-top: 10px;
-  &-selected {
-    margin-right: 7px;
-    border-radius: 20px;
-    border: 2px solid #38598a !important;
-    background-color: #e9f0f8 !important;
-    color: #242424 !important;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 21.79px;
-    width: 100%;
-    margin-top: 10px;
-  }
-}
-
-.list-button-label {
-  margin: 0px 0px 0px 7px;
 }
 
 .input-clear-button {
@@ -139,33 +105,6 @@
     line-height: 40px;
     border-radius: 50%;
     cursor: pointer;
-  }
-  mat-icon {
-    transform: translateX(-5px);
-  }
-}
-
-.filter-clear {
-  margin-bottom: 8px;
-  position: absolute;
-  line-height: 24px;
-  font-size: 15px;
-  border-radius: 20%;
-  background-color: transparent;
-  border: none;
-  top: 6px;
-  .button-wrapper {
-    padding: 0;
-    min-width: 0;
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    line-height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    top: -6px;
-    left: 6px;
   }
   mat-icon {
     transform: translateX(-5px);

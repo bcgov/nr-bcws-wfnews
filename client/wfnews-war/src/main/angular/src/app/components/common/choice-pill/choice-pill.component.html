@@ -1,0 +1,7 @@
+<button mat-flat-button type="button" class="pill" [class.selected]="selected"
+  [attr.aria-pressed]="toggle ? !!selected : null" [attr.aria-label]="ariaLabel || null"
+  [disabled]="disabled" (click)="pillClicked.emit()">
+  <ng-content></ng-content>
+  <span *ngIf="label" class="label">{{ label }}</span>
+  <ng-content select="[iconEnd]"></ng-content>
+</button>

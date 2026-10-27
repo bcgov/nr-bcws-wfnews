@@ -1,0 +1,33 @@
+@import "../../../../styles/component/choice-pill-mixin";
+
+// A caller sets the width on the host; the pill fills it.
+:host { display: inline-block; flex-shrink: 0; }
+
+.pill {
+  @include wf1-choice-pill;
+  width: 100%;
+  padding: 0 16px;
+
+  &.selected { @include wf1-choice-pill-selected; }
+}
+
+:host(.icon-only) .pill {
+  width: 36px;
+  height: 36px !important;
+  min-width: 0;
+  padding: 0;
+  border-radius: 50% !important;
+}
+
+// A dialog focuses its first pill in code, and Material greys it until the next tap.
+// Keyboard focus keeps the grey layer.
+:host ::ng-deep .pill.cdk-program-focused .mat-mdc-button-persistent-ripple::before {
+  opacity: 0;
+}
+
+// Material draws the label span, so ::ng-deep is what reaches it.
+:host ::ng-deep .mdc-button__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

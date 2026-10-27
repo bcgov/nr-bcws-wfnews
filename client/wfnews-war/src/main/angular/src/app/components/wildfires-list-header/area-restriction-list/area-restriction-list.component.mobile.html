@@ -7,9 +7,7 @@
             <span class="button-wrapper"><mat-icon>close</mat-icon></span>
           </button>
         </div>
-        <button mat-fab matTooltip="Filter by Location" [class]="'filter-button' + (locationData ? '-selected' : '')" aria-label="By Location" (click)="openLocationFilter()">
-          <span class="button-wrapper"><img class="list-icon image-size" [src]="'/assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /></span>
-        </button>
+        <wfnews-choice-pill class="filter-button" [iconOnly]="true" [toggle]="false" [selected]="!!locationData" ariaLabel="Filter by Location" matTooltip="Filter by Location" (pillClicked)="openLocationFilter()"><img src="/assets/images/svg-icons/location-button.svg" alt="" height="24" width="24" /></wfnews-choice-pill>
     </div>
 </div>
 <div *ngIf="searchingComplete; else loading">

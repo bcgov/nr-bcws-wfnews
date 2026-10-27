@@ -301,16 +301,9 @@
     flex-wrap: wrap;
   }
 
+  // The Choice Pill draws its own height and padding; the host takes a share of the row.
   .button {
-    display: flex;
-    height: 36px;
-    padding: 8px 16px;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    gap: 8px;
     flex: 1 0 0;
-    flex-wrap: wrap;
   }
 }
 

@@ -117,12 +117,12 @@
             </div>
             <div class="distance-button-container">
                 <div class="button-row">
-                  <button mat-flat-button class="button wf1-choice-pill" [class.wf1-choice-pill--selected]="locationData.radius===25" (click)="toggleButton(25)">Within 25km</button>
-                  <button mat-flat-button class="button wf1-choice-pill" [class.wf1-choice-pill--selected]="locationData.radius===50" (click)="toggleButton(50)">Within 50km</button>
+                  <wfnews-choice-pill class="button" label="Within 25km" [selected]="locationData.radius===25" (pillClicked)="toggleButton(25)"></wfnews-choice-pill>
+                  <wfnews-choice-pill class="button" label="Within 50km" [selected]="locationData.radius===50" (pillClicked)="toggleButton(50)"></wfnews-choice-pill>
                 </div>
                 <div class="button-row">
-                  <button mat-flat-button class="button wf1-choice-pill" [class.wf1-choice-pill--selected]="locationData.radius===75" (click)="toggleButton(75)">Within 75km</button>
-                  <button mat-flat-button class="button wf1-choice-pill" [class.wf1-choice-pill--selected]="locationData.radius===100" (click)="toggleButton(100)">Within 100km</button>
+                  <wfnews-choice-pill class="button" label="Within 75km" [selected]="locationData.radius===75" (pillClicked)="toggleButton(75)"></wfnews-choice-pill>
+                  <wfnews-choice-pill class="button" label="Within 100km" [selected]="locationData.radius===100" (pillClicked)="toggleButton(100)"></wfnews-choice-pill>
                 </div>
               </div>
         </div>
