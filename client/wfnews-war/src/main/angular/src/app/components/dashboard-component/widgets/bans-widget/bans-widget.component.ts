@@ -20,7 +20,6 @@ export class BansWidget implements OnInit, AfterViewInit {
   public startupComplete = false;
   public map: any = null;
   mapConfig = null;
-  public showViewMapButton = false;
   bansRestrictionsUrl = this.appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString();
 
   constructor(
@@ -88,7 +87,6 @@ export class BansWidget implements OnInit, AfterViewInit {
   }
 
   toggleMapView(){
-    this.showViewMapButton = !this.showViewMapButton;
     this.router.navigate
     this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
       queryParams: {
