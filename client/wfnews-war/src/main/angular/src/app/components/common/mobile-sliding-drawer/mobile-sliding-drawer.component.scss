@@ -158,16 +158,17 @@ $scroll-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
   background-color: var(--drawer-bg);
 }
 
-// Tells the user that there is more below. It sits on the bottom of the visible content.
+// Tells the user that there is more below. It is solid under the footer space, or rows
+// show sharp again in the bottom Inset.
 .fade {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: var(--footer-space, 0px);
-  height: 48px;
+  bottom: 0;
+  height: calc(48px + var(--footer-space, 0px));
   opacity: 0;
   pointer-events: none;
-  background: linear-gradient(to bottom, transparent, var(--drawer-bg));
+  background: linear-gradient(to bottom, transparent, var(--drawer-bg) 48px);
   transition: opacity 150ms;
 
   .more-below & {

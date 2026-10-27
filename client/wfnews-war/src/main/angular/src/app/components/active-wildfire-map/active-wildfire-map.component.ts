@@ -19,7 +19,8 @@ import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
-import { DialogLocationComponent } from "@app/components/report-of-fire/dialog-location/dialog-location.component";
+import { PERMISSION_DIALOG } from "@app/components/common/permission-banner/permission-banner.constants";
+import { PermissionDialogService } from "@app/components/common/permission-dialog/permission-dialog.service";
 import { WildfireNotificationDialogComponent } from "@app/components/wildfire-notification-dialog/wildfire-notification-dialog.component";
 import { AGOLService } from "@app/services/AGOL-service";
 import { CapacitorService } from "@app/services/capacitor-service";
@@ -143,6 +144,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     private notificationService: NotificationService,
     protected capacitorService: CapacitorService,
     protected pointIdService: PointIdService,
+    private permissionDialog: PermissionDialogService,
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest["newsLocal"];
     this.placeData = new PlaceData();
@@ -1087,15 +1089,12 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
     this.searchText = undefined;
 
-    // A tap asks. When a prompt cannot help, the dialog gives the way out, and it
-    // picks the settings page from the state.
-    const state = await this.capacitorService.requestLocationPermission();
-    this.isLocationEnabled = state === "granted";
+    // A tap asks. When a prompt cannot help, the dialog gives the way out.
+    const result = await this.permissionDialog.ensure("location", {
+      reason: PERMISSION_DIALOG.location.reason.map,
+    });
+    this.isLocationEnabled = result === "granted";
     if (!this.isLocationEnabled) {
-      this.dialog.open(DialogLocationComponent, {
-        autoFocus: false,
-        width: "80vw",
-      });
       return;
     }
 

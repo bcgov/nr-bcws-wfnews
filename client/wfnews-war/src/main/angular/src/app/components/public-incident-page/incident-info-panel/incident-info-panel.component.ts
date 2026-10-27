@@ -28,6 +28,7 @@ import {
 import { PublishedIncidentService } from '../../../services/published-incident-service';
 import {
   ResourcesRoutes,
+  absoluteUrl,
   convertToDateYear,
   convertToFireCentreDescription,
   convertToYoutubeId,
@@ -314,11 +315,7 @@ export class IncidentInfoPanelComponent implements AfterViewInit, OnChanges {
 
   navigateToEvac(event) {
     if (event?.externalUri) {
-      let uri = event.uri;
-      if (!uri.startsWith('http://') && !uri.startsWith('https://')) {
-        uri = 'https://' + uri;
-      }
-      this.capacitorService.redirect(uri);
+      this.capacitorService.redirect(absoluteUrl(event.uri));
     } else {
       const url = this.route.serializeUrl(
         this.route.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {

@@ -12,10 +12,11 @@
 #   public *;
 #}
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Capacitor reads these at run time; full mode R8 drops the nested @Permission values
+-keep @interface com.getcapacitor.annotation.** { *; }
+-keep @interface com.getcapacitor.PluginMethod { *; }
+-keep @interface com.getcapacitor.NativePlugin { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Line numbers for Play Console crash traces; the AAB carries the mapping file
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile

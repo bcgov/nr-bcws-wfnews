@@ -760,6 +760,13 @@ export function getActiveMap(smk: any | null = null) {
   }
 }
 
+// Admin Panel links can have no scheme. In the iOS app a relative link becomes
+// capacitor://localhost/..., and iOS gives it to any app that claims that scheme.
+export function absoluteUrl(url: string): string {
+  const trimmed = url.trim();
+  return /^https?:\/\//i.test(trimmed) ? trimmed : 'https://' + trimmed.replace(/^\/+/, '');
+}
+
 export function openLink(link: string) {
   window.open(
     this.appConfigService.getConfig().externalAppConfig[

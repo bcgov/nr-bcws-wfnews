@@ -49,7 +49,7 @@ export const locationDenied: Story = {
 
 export const locationServicesOff: Story = {
   args: {
-    heading: location.heading.servicesOff,
+    heading: location.heading.off,
     message: location.message.nearestFirst,
     actionLabel: location.action.locationSettings,
   },

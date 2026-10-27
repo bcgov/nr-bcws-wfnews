@@ -27,7 +27,10 @@ import {
 } from '@app/utils/identify-results';
 import { pinDropElement } from '@app/utils/map-markers';
 import { flashArea, highlightArea, pingPoint, ringsToExtent } from '@app/utils/preview-map';
-import { MobileSlidingDrawerComponent } from '../common/mobile-sliding-drawer/mobile-sliding-drawer.component';
+import {
+  DRAWER_DURATION_MS,
+  MobileSlidingDrawerComponent,
+} from '../common/mobile-sliding-drawer/mobile-sliding-drawer.component';
 import { IncidentLoad } from '../identify-results/identify-card/identify-card.component';
 import * as turf from '@turf/turf';
 import { timeout } from 'rxjs/operators';
@@ -38,6 +41,8 @@ const DETAIL_TIMEOUT_MS = 10000;
 const FOCUS_PADDING = { top: 88, side: 32, bottom: 24 };
 // Below this, the Drawer covers so much that a fit would only zoom far out.
 const MIN_FOCUS_HEIGHT = 48;
+// flyTo's own pace took 3 s from the province to an Incident; 500 ms was too fast.
+const FOCUS_DURATION_MS = 1000;
 
 @Component({
   selector: 'wfnews-identify-drawer',
@@ -69,7 +74,7 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
   private zoomRequest = 0;
   private watchedMap: any;
   // The area the map is fitted to, so a new Drawer height can fit it again.
-  private focus: { extent: number[]; maxZoom?: number } | null = null;
+  private focus: { extent: number[]; maxZoom?: number; fitted?: boolean } | null = null;
   private focusDrawerHeight = -1;
   constructor(
     private publishedIncidentService: PublishedIncidentService,
@@ -249,6 +254,10 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
     }
     const drawerHeight = this.drawer?.restingHeight() ?? 0;
     this.focusDrawerHeight = drawerHeight;
+    // A fit before the Drawer opens is moved again when it opens. Its first rest fits instead.
+    if (!drawerHeight) {
+      return;
+    }
     const box = map.getContainer().getBoundingClientRect();
     const covered = Math.max(0, box.bottom - (window.innerHeight - drawerHeight));
     const bottom = covered + FOCUS_PADDING.bottom;
@@ -262,9 +271,13 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
         padding: { top: FOCUS_PADDING.top, left: FOCUS_PADDING.side, right: FOCUS_PADDING.side, bottom },
         // An undefined maxZoom replaces MapLibre's default and makes the camera NaN.
         ...(this.focus.maxZoom !== undefined && { maxZoom: this.focus.maxZoom }),
-        duration: 500,
+        // A refit moves with the Drawer.
+        ...(this.focus.fitted
+          ? { linear: true, duration: DRAWER_DURATION_MS }
+          : { duration: FOCUS_DURATION_MS }),
       },
     );
+    this.focus.fitted = true;
   }
 
   onDrawerRest(height: number) {

@@ -9,6 +9,7 @@ import {
   CapacitorService,
   LocationPermissionState,
 } from '@app/services/capacitor-service';
+import { PermissionService } from '@app/services/permission.service';
 import { WFMapService } from '@app/services/wf-map.service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -44,6 +45,12 @@ describe('WildfiresListHeaderComponent', () => {
             requestLocationPermission: () => Promise.resolve('granted'),
             openLocationSettings: () => Promise.resolve(),
           },
+        },
+        // The real one needs CommonUtilityService and its snack bar. The header
+        // only calls enable from the banner action.
+        {
+          provide: PermissionService,
+          useValue: { enable: () => Promise.resolve('granted') },
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
