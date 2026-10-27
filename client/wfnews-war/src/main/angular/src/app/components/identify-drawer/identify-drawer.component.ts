@@ -354,12 +354,14 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
 
   /** With ping, the item rings or flashes, so the button answers when the map is already there. */
   zoomIn(level?: number, ping = false) {
-    this.previousZoom = getActiveMap().$viewer.map.getZoom();
+    const zoom = getActiveMap().$viewer.map.getZoom();
     const zoomRequest = this.zoomRequest;
     this.actions.zoomTarget(this.identifyItem, this.identifyIncident).then((target) => {
       if (!target || zoomRequest !== this.zoomRequest) {
         return;
       }
+      // The zoom before the first move, so a second Zoom to does not hide it.
+      this.previousZoom ??= zoom;
       if (target.type === 'area') {
         this.fitFocus(ringsToExtent(target.rings));
         // The area keeps its own map colours; Zoom to marks it with a glow instead.
@@ -388,6 +390,7 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
 
   openPreviewPanel(item) {
     this.allowBackToIncidentsPanel = true;
+    this.previousZoom = undefined;
     this.storedIncidentRefs = this.currentIncidentRefs;
     // capture the identify panel list;
     this.identifyItem = item;
@@ -401,7 +404,10 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
 
   backToIdentifyPanel() {
     this.newSelection();
-    this.zoomIn(this.previousZoom);
+    // No previous zoom means the item did not move the map, so back does not either.
+    if (this.previousZoom !== undefined) {
+      this.zoomIn(this.previousZoom);
+    }
     this.allowBackToIncidentsPanel = false;
     this.handleLayersSelection(true);
   }
