@@ -63,6 +63,7 @@ export class MobileSlidingDrawerComponent
   @ViewChild('header') header: ElementRef<HTMLElement>;
   @ViewChild('content') content: ElementRef<HTMLElement>;
   @ViewChild('contentInner') contentInner: ElementRef<HTMLElement>;
+  @ViewChild('fade') fade: ElementRef<HTMLElement>;
   @ViewChild('footer') footer: ElementRef<HTMLElement>;
 
   rendered = false;
@@ -275,6 +276,7 @@ export class MobileSlidingDrawerComponent
     );
     this.moveSheet(this.sheetHeight - visible);
     this.moveFooter(this.footerOffsetFor(visible));
+    this.queueFadeUpdate();
   };
 
   private onPointerUp = (event: PointerEvent) => {
@@ -353,6 +355,7 @@ export class MobileSlidingDrawerComponent
     this.restingHeightChange.emit(target);
     this.moveSheet(this.sheetHeight - target);
     this.moveFooter(this.footerOffsetFor(target));
+    this.queueFadeUpdate();
     this.afterMotion(() => this.settle(target));
   }
 
@@ -380,6 +383,10 @@ export class MobileSlidingDrawerComponent
 
   private moveSheet(offset: number) {
     this.sheet.nativeElement.style.transform = `translate3d(0, ${offset}px, 0)`;
+    // The opposite move keeps the fade on the screen bottom, not on the sheet bottom below it.
+    if (this.fade) {
+      this.fade.nativeElement.style.transform = `translate3d(0, ${-offset}px, 0)`;
+    }
   }
 
   private moveFooter(offset: number) {
@@ -401,7 +408,7 @@ export class MobileSlidingDrawerComponent
   }
 
   private motionElements(): HTMLElement[] {
-    return [this.sheet?.nativeElement, this.footer?.nativeElement].filter(Boolean);
+    return [this.sheet?.nativeElement, this.footer?.nativeElement, this.fade?.nativeElement].filter(Boolean);
   }
 
   private afterMotion(done: () => void) {
@@ -513,8 +520,11 @@ export class MobileSlidingDrawerComponent
         if (!content) {
           return;
         }
+        // In motion the sheet is full height and partly below the screen; that part is not seen.
+        const shown = this.gesture?.dragging ? this.visibleHeight() : this.stop;
+        const hidden = Math.max(0, this.sheetHeight - shown);
         const moreAbove = content.scrollTop > 1;
-        const moreBelow = content.scrollTop + content.clientHeight < content.scrollHeight - 1;
+        const moreBelow = content.scrollTop + content.clientHeight - hidden < content.scrollHeight - 1;
         this.sheet.nativeElement.classList.toggle('more-above', moreAbove);
         this.sheet.nativeElement.classList.toggle('more-below', moreBelow);
         this.footer?.nativeElement.classList.toggle('more-below', moreBelow);

@@ -169,10 +169,17 @@ $scroll-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
   opacity: 0;
   pointer-events: none;
   background: linear-gradient(to bottom, transparent, var(--drawer-bg) 48px);
-  transition: opacity 150ms;
+  // The same motion as the sheet, so the two moves cancel out.
+  transition: transform $drawer-duration $drawer-easing, opacity 150ms;
+  will-change: transform;
 
   .more-below & {
     opacity: 1;
+  }
+
+  &.instant,
+  &.dragging {
+    transition: opacity 150ms;
   }
 }
 
@@ -212,5 +219,9 @@ $scroll-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
   .sheet,
   .sheet-footer {
     transition: none;
+  }
+
+  .fade {
+    transition: opacity 150ms;
   }
 }
