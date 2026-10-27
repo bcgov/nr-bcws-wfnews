@@ -372,8 +372,9 @@ export class MobileSlidingDrawerComponent
     this.sheet.nativeElement.style.height = `${sheetHeight}px`;
     this.moveSheet(sheetHeight - visible);
     this.moveFooter(footerOffset);
-    // Commit the new place before the next transition starts from it.
-    void this.sheet.nativeElement.offsetHeight;
+    // Commit the new place before the next transition starts from it. A call, because
+    // the production minifier removes a bare offsetHeight read.
+    this.sheet.nativeElement.getBoundingClientRect();
     this.setInstant(false);
   }
 

@@ -16,9 +16,9 @@
         <img height="17" width="17" src="/assets/images/category3ban.png" alt="Category 3" class="icon"><span class="checkbox-label">Category 3</span>
       </div>
     </div>
-    <div (click)="toggleMapView()" (mouseenter)="showViewMapButton = true" (mouseleave)="showViewMapButton = false" class="bans-map-container">
+    <div (click)="toggleMapView()" class="bans-map-container">
       <wf-map-container *ngIf="mapConfig" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"></wf-map-container>
-      <div class="map-overlay" *ngIf="showViewMapButton">
+      <div class="map-overlay">
         <a class="link">View Full Map</a>
       </div>
     </div>

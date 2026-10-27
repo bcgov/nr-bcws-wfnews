@@ -23,7 +23,6 @@ export class OverviewWidget implements OnInit, AfterViewInit {
   mapConfig = null;
   smk: any;
   private incidents: any = {};
-  public showViewMapButton = false;
 
   constructor(
     private appConfigService: AppConfigService,
@@ -140,7 +139,6 @@ export class OverviewWidget implements OnInit, AfterViewInit {
   }
 
   toggleMapView(){
-    this.showViewMapButton = !this.showViewMapButton;
     this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
   }
 }

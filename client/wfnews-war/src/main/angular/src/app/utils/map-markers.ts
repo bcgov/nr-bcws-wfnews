@@ -27,7 +27,8 @@ export function replayPing(el: HTMLElement | null): void {
     return;
   }
   el.classList.remove('marker-ping');
-  void el.offsetWidth;
+  // A call, because the production minifier removes a bare offsetWidth read.
+  el.getBoundingClientRect();
   el.classList.add('marker-ping');
 }
 

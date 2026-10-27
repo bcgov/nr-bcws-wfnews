@@ -1,4 +1,5 @@
 @import "../../../../../styles/variables";
+@import "../../../../../styles/component/choice-pill-mixin";
 @import "notosans-fontface/scss/notosans-fontface";
 
 @media (min-width: $desktop-md-min-width) {
@@ -185,31 +186,36 @@
 
 // Over the map, not after it: the map fills the box.
 .map-overlay {
+  display: none;
   position: absolute;
   inset: 0;
   z-index: 10000;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   background-color: #00000039;
+
+  .bans-map-container:hover & {
+    display: flex;
+  }
+
+  // A touch screen has no hover, so the link shows before the tap.
+  // A corner and no grey, so the map stays clear; the "i" is bottom right.
+  @media (hover: none) {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 12px;
+    background-color: transparent;
+  }
 }
 
 .link {
-  color: #242424;
-  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
+  @include wf1-choice-pill;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 16px;
   text-decoration: none;
-  border-radius: 20px;
-  border: 1px solid #5c5c5c;
-  background-color: white;
-  width: 151px;
-  text-align: center;
-  height: 25px;
-  display: block;
-  position: relative;
-  top: 50%;
-  left: calc(50% - 75px);
-  cursor: pointer;
 }
 
 .link-icon {
