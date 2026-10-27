@@ -1,17 +1,18 @@
 @import "../variables";
 @import "choice-pill-mixin";
 
-// One selectable pill: the "Within 25km" radius choices, the Dashboard tabs, the
-// list filters. The same shape and colours were repeated in 20+ component
-// stylesheets before this file existed. New pills use the Choice Pill component.
-.wf1-choice-pill {
+// The pill look as a class, for the pills not yet on the Choice Pill component:
+// the Dashboard tabs. New pills use the Choice Pill component.
+// The element type outranks Material's .mdc-button rules, its font family included.
+button.wf1-choice-pill {
   @include wf1-choice-pill;
-
-  &--selected {
-    @include wf1-choice-pill-selected;
-  }
 }
 
+button.wf1-choice-pill--selected {
+  @include wf1-choice-pill-selected;
+}
+
+// Report of Fire still plays this on its own selected choices.
 @keyframes wf1-choice-pill-select {
   50% {
     transform: scale(1.015);

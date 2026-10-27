@@ -1,3 +1,5 @@
+@import "../../../styles/component/choice-pill-mixin";
+
 .container {
   overflow: hidden;
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -43,23 +45,16 @@ p.dashboard-title {
   font-weight: 700 !important;
 }
 
+// The List page tabs take the shared pill look; the -selected class is the selected tab.
 .list-button {
+  @include wf1-choice-pill;
   margin-right: 7px;
-  border-radius: 20px;
-  border: 1px solid #c4c4c4;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 21.79px;
   right: 12px;
+
   &-selected {
+    @include wf1-choice-pill;
+    @include wf1-choice-pill-selected;
     margin-right: 7px;
-    border-radius: 20px;
-    border: 2px solid #38598a !important;
-    background-color: #e9f0f8 !important;
-    color: #242424 !important;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 21.79px;
     right: 12px;
   }
 }

@@ -1,33 +1,27 @@
-// The look of one selectable pill. The global .wf1-choice-pill class and the Choice Pill
-// component both take it from here, so the two cannot drift apart.
+@import "../variables";
+
+// The one pill look, taken from the map toggle chips. The map toggles, the List page tabs,
+// the .wf1-choice-pill class and the Choice Pill component all use it.
+// The border is 2px in both states, so selecting a pill never changes its size.
 @mixin wf1-choice-pill {
-  // Material sets border, background and transition on its own button classes,
+  // Material sets border, background and font on its own button classes,
   // so these have to outrank them.
+  box-sizing: border-box;
+  height: 32px !important;
   border-radius: 20px !important;
-  border: 1px solid #c4c4c4 !important;
+  border: 2px solid transparent !important;
   background-color: #fff;
+  box-shadow: $shadow-map-control;
   color: #242424;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif !important;
   font-size: 16px;
   font-weight: 400;
-  line-height: 21.79px;
-  transition:
-    background-color 0.18s ease,
-    border-color 0.18s ease,
-    color 0.18s ease !important;
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none !important;
-  }
+  line-height: 19px;
+  letter-spacing: normal;
 }
 
 @mixin wf1-choice-pill-selected {
-  border: 2px solid #38598a !important;
+  border-color: #38598a !important;
   background-color: #e9f0f8 !important;
   color: #242424 !important;
-  font-weight: 700;
-  animation: wf1-choice-pill-select 0.18s ease;
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-  }
 }
