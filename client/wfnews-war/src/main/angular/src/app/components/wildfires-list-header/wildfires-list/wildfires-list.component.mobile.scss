@@ -18,6 +18,8 @@
 
 .panel-card {
   border-bottom: 1px solid #dedede;
+  // Text starts 18px from the left screen edge; end it 18px from the right.
+  padding-right: 18px;
   cursor: pointer;
 }
 

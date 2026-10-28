@@ -76,6 +76,15 @@ p.dashboard-title {
 
 .mobile-container {
   margin: 0px;
+
+  // A phone has no page padding to bleed into, so the right bleed only cut text off.
+  .list-container {
+    margin-right: 0;
+
+    > div {
+      margin-right: 0;
+    }
+  }
 }
 
 .mobile-buttons-container {
