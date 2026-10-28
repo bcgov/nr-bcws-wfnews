@@ -291,17 +291,8 @@ const APP_BASEMAPS = [
     ...esriVectorBasemap('terrain-vector', 'Terrain', 101, '7dc6cea0b1764a1f9af2e679f642f0f5', ESRI_WORLD_VECTOR_URL),
     internal: true,
   },
-  // WFSS-862: SMK's Imagery adds retired overlays and uses the old host. Imagery alone.
-  {
-    id: 'imagery',
-    title: 'Imagery',
-    order: 103,
-    optionImageUrl: basemapImageUrl('imagery'),
-    type: 'esri-tiled-map',
-    url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',
-    deprecated: false,
-    option: { maxNativeZoom: 19, maxZoom: 30 },
-  },
+  // Satellite keeps its zoom 19 limit: deeper, more of BC answers "Map data not yet available".
+  { id: '--imagery-v2-tiles', option: { maxNativeZoom: 19, maxZoom: 30 } },
   // Esri's World Navigation Map, drawn from its item so it keeps up with Esri.
   esriVectorBasemap('navigation', 'Navigation', 102, '63c47b7177f946b49902c24129b87252', ESRI_WORLD_VECTOR_URL),
   // GeoBC's standard BC Basemap, with hillshade, as published.
@@ -311,14 +302,14 @@ const APP_BASEMAPS = [
 
 /** The picker's choices, in order. */
 const basemapChoices = () => [
-  'topography', 'navigation', 'imagery', 'night', 'bc-basemap',
+  'topography', 'navigation', 'imagery-v2', 'night', 'bc-basemap',
 ];
 
 /** WFNEWS-2401: the names the mobile picker shows. */
 const BASEMAP_TITLES = {
   topography: 'Terrain',
   navigation: 'Navigation',
-  imagery: 'Satellite',
+  'imagery-v2': 'Satellite',
   night: 'Dark',
   'bc-basemap': 'BC Basemap',
 };
