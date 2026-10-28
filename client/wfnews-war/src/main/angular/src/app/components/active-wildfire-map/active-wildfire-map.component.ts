@@ -1208,7 +1208,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: SearchResult | boolean) => {
       this.clearSearchMarkers();
-      if ((result as boolean) !== false) {
+      // Escape and a backdrop click close with undefined, not false
+      if (result) {
         this.searchData = result as SearchResult;
         // we have a selected result returned. Zoom to the provided lat long
         // identify if it's a feature, show a marker for addresses
