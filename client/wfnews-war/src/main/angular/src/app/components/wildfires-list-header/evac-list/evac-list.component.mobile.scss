@@ -1,7 +1,5 @@
-@import "../../../../styles/component/list-search-row-mixin";
 @import "../../../../styles/component/list-card-mixin";
 
-@include wf1-list-search-row;
 @include wf1-list-card;
 
 .status-card {

@@ -1,0 +1,95 @@
+:host {
+  display: block;
+}
+
+.table-search-header {
+  background-color: white !important;
+  border-top: none !important;
+  display: block !important;
+  padding-left: 20px;
+  // The list bleeds about 12px past the left screen edge only.
+  padding-right: 8px;
+  padding-bottom: 16px;
+  padding-top: 6px;
+  border-bottom: 1px solid #dedede;
+}
+
+.search-and-filters {
+  flex: 0 !important;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+// On the field and on its input. Before .mat-mdc-input-element, which clears the input border.
+.search-input {
+  border-radius: 20px !important;
+  border: 1px solid #a7a9ac !important;
+  padding: 0 5px;
+  height: 35px;
+  line-height: 35px;
+  font-family: "Noto sans", "BCSans", "Open Sans", "Verdana", "Arial", sans-serif;
+  font-size: 15px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+// A large system font widens the input; it shrinks so the pills keep their line.
+.field.search-input {
+  display: flex;
+  align-items: center;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+// The row centres the icon; the global rule would push it 8px down.
+.search-icon {
+  flex: none;
+  top: 0;
+}
+
+.mat-mdc-input-element {
+  flex: 1 1 auto;
+  min-width: 0;
+  background-color: transparent;
+  border: none !important;
+  padding: 0 5px;
+  border-radius: 20px;
+  height: 35px;
+  outline: none !important;
+  box-shadow: none !important;
+
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.input-clear-button {
+  flex: none;
+  position: relative;
+  background-color: transparent;
+  border: none;
+
+  .button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  mat-icon {
+    transform: translateX(-5px);
+  }
+}
+
+// The Choice Pill draws the look; the list only spaces it.
+.filter-button {
+  flex: none;
+  margin-right: 7px;
+}
