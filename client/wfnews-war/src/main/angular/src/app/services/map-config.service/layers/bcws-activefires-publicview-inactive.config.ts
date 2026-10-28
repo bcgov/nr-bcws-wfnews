@@ -7,7 +7,8 @@ export function WildfiresInactiveLayerConfig(ls: layerSettings) {
       id: 'active-wildfires-out',
       title: 'BC Wildfires - Declared Out',
       isQueryable: true,
-      useClustering: true,
+      // Grey says "out", as the single marker does; Arial Bold is on every Esri glyph server.
+      useClustering: { color: '#5c6671', textColor: '#ffffff', font: ['Arial Bold'] },
       useHeatmap: false,
       dataUrl:
         ls.wfnewsUrl + '/publicPublishedIncident/features?stageOfControl=OUT',
@@ -29,7 +30,7 @@ export function WildfiresInactiveLayerConfig(ls: layerSettings) {
         fillColor: '#5c6671',
         fillOpacity: '1',
         fill: true,
-        // The cluster bubble keeps the colours above; a single fire is the image.
+        // A single fire is the image.
         markerSize: ['20', '20'],
         markerOffset: ['10', '10'],
         markerUrl: '/assets/images/map-markers/wildfire-out.png',
