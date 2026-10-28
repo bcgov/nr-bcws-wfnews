@@ -1,58 +1,11 @@
 @import "../../../../styles/component/list-search-row-mixin";
+@import "../../../../styles/component/list-card-mixin";
 
 @include wf1-list-search-row;
-
-.header-row {
-  display: flex;
-  margin: 0;
-}
-
-.rounded-select {
-  border-radius: 20px !important;
-}
-
-.mdc-button__label {
-  margin-left: 1px !important;
-  margin-top: 3px !important;
-}
+@include wf1-list-card;
 
 .panel-card {
-  border-bottom: 1px solid #dedede;
-  // Text starts 18px from the left screen edge; end it 18px from the right.
-  padding-right: 18px;
   cursor: pointer;
-}
-
-.card-header {
-  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 27px;
-  letter-spacing: 0em;
-  text-align: left;
-  padding-bottom: 8px;
-  padding-left: 30px;
-  padding-top: 24px;
-}
-
-.card-item {
-  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: -0.40799999237060547px;
-  text-align: left;
-  color: #484848;
-  padding-bottom: 2px;
-  padding-left: 30px;
-}
-
-.card-icon {
-  margin-right: 7px;
-}
-
-.padding {
-  padding-bottom: 24px;
 }
 
 .status-icon {
@@ -108,12 +61,6 @@
 
 .list-button-label {
   margin: 0px 0px 0px 7px;
-}
-
-.spinner-position {
-  position: relative;
-  left: 50vw;
-  top: 20px;
 }
 
 .load-more {
