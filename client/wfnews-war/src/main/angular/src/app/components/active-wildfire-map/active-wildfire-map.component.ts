@@ -1,9 +1,4 @@
 import {
-  BreakpointObserver,
-  BreakpointState,
-  Breakpoints,
-} from "@angular/cdk/layout";
-import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -29,11 +24,11 @@ import { PointIdService } from "@app/services/point-id.service";
 import { App } from "@capacitor/app";
 import { Preferences } from "@capacitor/preferences";
 import { AppConfigService } from "@wf1/core-ui";
-import { Observable } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 import { CommonUtilityService } from "../../services/common-utility.service";
 import { MapConfigService } from "../../services/map-config.service";
 import { PublishedIncidentService } from "../../services/published-incident-service";
+import { ResponsiveDialogService } from "../../services/responsive-dialog.service";
 import { PlaceData } from "../../services/wfnews-map.service/place-data";
 import {
   ResourcesRoutes,
@@ -125,9 +120,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   public sliderButtonHold = false;
   public clickedMyLocation = false;
 
-  private isExtraSmall: Observable<BreakpointState> =
-    this.breakpointObserver.observe(Breakpoints.XSmall);
-
   constructor(
     protected appConfigService: AppConfigService,
     protected router: Router,
@@ -139,7 +131,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected dialog: MatDialog,
     protected cdr: ChangeDetectorRef,
     protected snackbarService: MatSnackBar,
-    private breakpointObserver: BreakpointObserver,
+    private responsiveDialog: ResponsiveDialogService,
     private agolService: AGOLService,
     private notificationService: NotificationService,
     protected capacitorService: CapacitorService,
@@ -1207,24 +1199,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.snowPlowHelper(this.url, {
       action: "search_map_click",
     });
-    const dialogRef = this.dialog.open(SearchPageComponent, {
-      width: "450px",
-      height: "650px",
-      maxWidth: "100vw",
-      maxHeight: "100dvh",
-      data: this.searchData,
-    });
-
-    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
-      if (size.matches) {
-        dialogRef.updateSize("100%", "100%");
-      } else {
-        dialogRef.updateSize("450px", "650px");
-      }
-    });
+    const dialogRef = this.responsiveDialog.open(
+      SearchPageComponent,
+      "450px",
+      "650px",
+      this.searchData,
+    );
 
     dialogRef.afterClosed().subscribe((result: SearchResult | boolean) => {
-      smallDialogSubscription.unsubscribe();
       this.clearSearchMarkers();
       if ((result as boolean) !== false) {
         this.searchData = result as SearchResult;

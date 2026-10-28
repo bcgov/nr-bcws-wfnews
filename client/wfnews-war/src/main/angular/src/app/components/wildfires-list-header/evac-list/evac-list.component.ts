@@ -1,22 +1,16 @@
 import {
-  BreakpointObserver,
-  BreakpointState,
-  Breakpoints,
-} from '@angular/cdk/layout';
-import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnInit,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { ResponsiveDialogService } from '@app/services/responsive-dialog.service';
 import { haversineDistance } from '@app/services/wfnews-map.service/util';
 import { ResourcesRoutes, convertToDateYear } from '@app/utils';
-import { Observable } from 'rxjs';
 import { AGOLService } from '../../../services/AGOL-service';
 import {
   FilterByLocationDialogComponent,
@@ -61,16 +55,12 @@ export class EvacListComponent implements OnInit {
 
   convertToDateYear = convertToDateYear;
 
-  private isExtraSmall: Observable<BreakpointState> =
-    this.breakpointObserver.observe(Breakpoints.XSmall);
-
   constructor(
     private agolService: AGOLService,
     protected router: Router,
     private cdr: ChangeDetectorRef,
     private commonUtilityService: CommonUtilityService,
-    private breakpointObserver: BreakpointObserver,
-    private dialog: MatDialog,
+    private responsiveDialog: ResponsiveDialogService,
     private capacitorService: CapacitorService
   ) { }
 
@@ -188,24 +178,14 @@ export class EvacListComponent implements OnInit {
   }
 
   openLocationFilter() {
-    const dialogRef = this.dialog.open(FilterByLocationDialogComponent, {
-      width: '380px',
-      height: '453px',
-      maxWidth: '100vw',
-      maxHeight: '100dvh',
-      data: this.locationData,
-    });
-
-    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
-      if (size.matches) {
-        dialogRef.updateSize('100%', '100%');
-      } else {
-        dialogRef.updateSize('380px', '453px');
-      }
-    });
+    const dialogRef = this.responsiveDialog.open(
+      FilterByLocationDialogComponent,
+      '380px',
+      '453px',
+      this.locationData,
+    );
 
     dialogRef.afterClosed().subscribe((result: LocationData | boolean) => {
-      smallDialogSubscription.unsubscribe();
       if ((result as boolean) === false) {
         this.locationData = null;
       } else {
