@@ -147,3 +147,144 @@ describe('WFMapContainerComponent identify', () => {
     expect(mapB.results).toEqual([]);
   }));
 });
+
+const station = (code: number, name: string, lon: number, lat: number) => ({
+  type: 'Feature',
+  geometry: { type: 'Point', coordinates: [lon, lat] },
+  properties: { STATION_CODE: code, STATION_NAME: name },
+});
+const NADINA = station(179, 'NADINA', -126.9278167, 53.942483);
+const MCBRIDE = station(180, 'MCBRIDE LAKE', -127.3994167, 54.074733);
+const MORICE_LAKE = { location: { map: { latitude: 53.9, longitude: -127.3 } } };
+
+let urlCount = 0;
+
+/** A map with the weather station layer. Each one has its own URL, so no test reuses a list. */
+function stationSmk(featureSet: any = {}, visible = true) {
+  const smk: any = fakeSmk(featureSet);
+  urlCount += 1;
+  smk.$viewer.layerId = {
+    'weather-stations': { config: { serviceUrl: `https://maps.test/${urlCount}`, layerName: 'pub:STATIONS' } },
+  };
+  smk.$viewer.isDisplayContextItemVisible = (id) => visible && id === 'weather-stations';
+  smk.$viewer.identified.add = (layerId, features) =>
+    features.forEach((f) => {
+      f.layerId = layerId;
+      featureSet[`${layerId}.${f.properties.STATION_CODE}`] = f;
+    });
+  return smk;
+}
+
+function stationResponse(delayMs = 0) {
+  const body = { ok: true, json: () => Promise.resolve({ features: [NADINA, MCBRIDE] }) };
+  return new Promise((resolve) => setTimeout(() => resolve(body), delayMs));
+}
+
+describe('WFMapContainerComponent nearest weather station', () => {
+  it('adds the nearest station when none is under the click', fakeAsync(() => {
+    const fetchSpy = spyOn(window, 'fetch').and.returnValue(stationResponse() as any);
+    const smk = stationSmk({ a: { layerId: 'active-wildfires' } });
+    const { component, pointId, results } = container(smk);
+    component.initMap();
+    flushMicrotasks();
+
+    smk.fire('startedIdentify', MORICE_LAKE);
+    smk.fire('finishedIdentify', MORICE_LAKE);
+    tick(500);
+
+    const added = results[0].r['weather-stations.180'];
+    expect(added.title).toBe('MCBRIDE LAKE');
+    expect(added._identifyPoint).toEqual(MORICE_LAKE.location.map);
+    expect(pointId.loadStationWeather).toHaveBeenCalledWith(added);
+    expect(fetchSpy.calls.count()).toBe(1);
+    expect(fetchSpy.calls.argsFor(0)[0]).toContain('request=GetFeature&srsName=EPSG%3A4326&typename=pub%3ASTATIONS');
+  }));
+
+  it('keeps the station that the identify found', fakeAsync(() => {
+    spyOn(window, 'fetch').and.returnValue(stationResponse() as any);
+    const smk = stationSmk({ a: { layerId: 'weather-stations' } });
+    const { component, results } = container(smk);
+    component.initMap();
+    flushMicrotasks();
+
+    smk.fire('startedIdentify', MORICE_LAKE);
+    smk.fire('finishedIdentify', MORICE_LAKE);
+    tick(500);
+
+    expect(Object.keys(results[0].r)).toEqual(['a']);
+  }));
+
+  it('adds no station when the layer is off', fakeAsync(() => {
+    spyOn(window, 'fetch').and.returnValue(stationResponse() as any);
+    const smk = stationSmk({}, false);
+    const { component, results } = container(smk);
+    component.initMap();
+    flushMicrotasks();
+
+    smk.fire('startedIdentify', MORICE_LAKE);
+    smk.fire('finishedIdentify', MORICE_LAKE);
+    tick(500);
+
+    expect(Object.keys(results[0].r)).toEqual([]);
+  }));
+
+  it('sends the results without a station that comes too late, and does not add it after', fakeAsync(() => {
+    spyOn(window, 'fetch').and.returnValue(stationResponse(2000) as any);
+    const featureSet = {};
+    const smk = stationSmk(featureSet);
+    const { component, results } = container(smk);
+    component.initMap();
+    flushMicrotasks();
+
+    smk.fire('startedIdentify', MORICE_LAKE);
+    smk.fire('finishedIdentify', MORICE_LAKE);
+    tick(999);
+    expect(results).toEqual([]);
+    tick(1);
+    expect(results.length).toBe(1);
+
+    tick(1000);
+    expect(Object.keys(featureSet)).toEqual([]);
+    expect(results.length).toBe(1);
+  }));
+
+  it('does not add an old station to the results of a new identify', fakeAsync(() => {
+    spyOn(window, 'fetch').and.returnValue(stationResponse(300) as any);
+    const featureSet = {};
+    const smk = stationSmk(featureSet);
+    const { component } = container(smk);
+    component.initMap();
+    flushMicrotasks();
+
+    smk.fire('startedIdentify', MORICE_LAKE);
+    smk.fire('finishedIdentify', MORICE_LAKE);
+    smk.fire('startedIdentify', MORICE_LAKE);
+    tick(300);
+
+    expect(Object.keys(featureSet)).toEqual([]);
+    tick(700);
+  }));
+
+  it('tries the list again after a failed request', fakeAsync(() => {
+    let calls = 0;
+    const fetchSpy = spyOn(window, 'fetch').and.callFake(() =>
+      (++calls === 1 ? Promise.reject(new Error('offline')) : stationResponse()) as any,
+    );
+    const smk = stationSmk();
+    const { component, results } = container(smk);
+    component.initMap();
+    flushMicrotasks();
+
+    smk.fire('startedIdentify', MORICE_LAKE);
+    smk.fire('finishedIdentify', MORICE_LAKE);
+    tick(500);
+    expect(Object.keys(results[0].r)).toEqual([]);
+
+    smk.fire('startedIdentify', MORICE_LAKE);
+    smk.fire('finishedIdentify', MORICE_LAKE);
+    tick(500);
+
+    expect(fetchSpy.calls.count()).toBe(2);
+    expect(Object.keys(results[1].r)).toEqual(['weather-stations.180']);
+  }));
+});
