@@ -8,6 +8,8 @@
   border-top: none !important;
   display: block !important;
   padding-left: 20px;
+  // The list container bleeds 20px past both screen edges.
+  padding-right: 20px;
   padding-bottom: 16px;
   padding-top: 6px;
   border-bottom: 1px solid #dedede;
@@ -54,13 +56,41 @@
 
 // The Choice Pill draws the look; the list only spaces it.
 .filter-button {
+  flex: none;
   margin-right: 7px;
 }
 
 .search-and-filters {
   flex: 0 !important;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+// A large system font widens the input; it shrinks so the pills keep their line.
+.field.search-input {
+  display: flex;
+  align-items: center;
+  flex: 0 1 auto;
+  min-width: 0;
+
+  .mat-mdc-input-element {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  // The row centres these, so the old baseline nudge would push them down.
+  .search-icon,
+  .input-clear-button {
+    flex: none;
+    top: 0 !important;
+  }
+
+  .input-clear-button .button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .mdc-button__label {
@@ -80,11 +110,6 @@
     outline: none !important;
     box-shadow: none !important;
   }
-}
-
-.search-icon {
-  position: relative !important;
-  top: 5px;
 }
 
 .panel-card-container {
