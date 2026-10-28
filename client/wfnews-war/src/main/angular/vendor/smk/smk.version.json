@@ -1,7 +1,7 @@
 {
   "source": "https://github.com/bcgov/smk-wildfire",
-  "branch": "release/v2.0.0",
-  "commit": "c64b6dc7ab1a9ea73aba66cf049985fd08ddfc6e",
-  "date": "2026-10-16T16:46:22-07:00",
+  "branch": "fix/wfim-base-maps",
+  "commit": "8040fd7e31a4079409de1ba443fd6876dd185d4d",
+  "date": "2026-10-27T17:00:16-07:00",
   "build": "vite.config.maplibre.js"
 }
