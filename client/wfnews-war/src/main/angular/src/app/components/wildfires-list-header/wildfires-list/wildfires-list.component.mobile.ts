@@ -1,13 +1,8 @@
-import {
-  BreakpointObserver,
-  BreakpointState,
-  Breakpoints,
-} from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
+import { ResponsiveDialogService } from '@app/services/responsive-dialog.service';
 import {
   ResourcesRoutes,
   convertFireNumber,
@@ -15,7 +10,6 @@ import {
   convertToDateYear
 } from '@app/utils';
 import moment from 'moment';
-import { Observable } from 'rxjs';
 import {
   FilterByLocationDialogComponent,
   LocationData,
@@ -60,15 +54,11 @@ export class WildFiresListComponentMobile {
   /** A new search makes the old answer stale. Count the searches to know. */
   private searchToken = 0;
 
-  private isExtraSmall: Observable<BreakpointState> =
-    this.breakpointObserver.observe(Breakpoints.XSmall);
-
   constructor(
     private router: Router,
     private publishedIncidentService: PublishedIncidentService,
     private cdr: ChangeDetectorRef,
-    private breakpointObserver: BreakpointObserver,
-    private dialog: MatDialog,
+    private responsiveDialog: ResponsiveDialogService,
   ) {}
 
   ngOnInit(): void {
@@ -152,24 +142,14 @@ export class WildFiresListComponentMobile {
   }
 
   openLocationFilter() {
-    const dialogRef = this.dialog.open(FilterByLocationDialogComponent, {
-      width: '380px',
-      height: '453px',
-      maxWidth: '100vw',
-      maxHeight: '100dvh',
-      data: this.lastLocation,
-    });
-
-    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
-      if (size.matches) {
-        dialogRef.updateSize('100%', '100%');
-      } else {
-        dialogRef.updateSize('380px', '453px');
-      }
-    });
+    const dialogRef = this.responsiveDialog.open(
+      FilterByLocationDialogComponent,
+      '380px',
+      '453px',
+      this.lastLocation,
+    );
 
     dialogRef.afterClosed().subscribe((result: LocationData) => {
-      smallDialogSubscription.unsubscribe();
       this.resetSearch();
       this.lastLocation = result;
       this.search();
@@ -196,24 +176,14 @@ export class WildFiresListComponentMobile {
   }
 
   filterOptions() {
-    const dialogRef = this.dialog.open(FilterOptionsDialogComponent, {
-      width: '450px',
-      height: '650px',
-      maxWidth: '100vw',
-      maxHeight: '100dvh',
-      data: this.filters,
-    });
-
-    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
-      if (size.matches) {
-        dialogRef.updateSize('100%', '100%');
-      } else {
-        dialogRef.updateSize('450px', '650px');
-      }
-    });
+    const dialogRef = this.responsiveDialog.open(
+      FilterOptionsDialogComponent,
+      '450px',
+      '650px',
+      this.filters,
+    );
 
     dialogRef.afterClosed().subscribe((result: FilterData | boolean) => {
-      smallDialogSubscription.unsubscribe();
       if ((result as boolean) !== false) {
         this.resetSearch();
         this.filters = result as FilterData;

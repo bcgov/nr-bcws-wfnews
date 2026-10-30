@@ -140,6 +140,7 @@ import { UnsavedChangesDialog } from './components/common/unsaved-changes-dialog
 import { WarningBannerComponent } from './components/common/warning-banner/warning-banner.component';
 import { WfnewsButtonComponent } from './components/common/wfnews-button/wfnews-button.component';
 import { ChoicePillComponent } from './components/common/choice-pill/choice-pill.component';
+import { ListSearchRowComponent } from './components/wildfires-list-header/list-search-row/list-search-row.component';
 import { WfnewsSelectComponent } from './components/common/wfnews-select/wfnews-select.component';
 import { Dashboard } from './components/dashboard-component/dashboard.component';
 import { ActiveFiresWidget } from './components/dashboard-component/widgets/active-fires-widget/active-fires-widget.component';
@@ -502,6 +503,7 @@ export const DATE_FORMATS = {
     IconListItemComponent,
     WfnewsButtonComponent,
     ChoicePillComponent,
+    ListSearchRowComponent,
     WhereShouldIGoCardComponent,
     WarningBannerComponent,
     WhenYouLeaveCardComponent,

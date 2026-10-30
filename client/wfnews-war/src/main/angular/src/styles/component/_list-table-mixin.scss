@@ -1,0 +1,84 @@
+// The Desktop search row, result count and table of the four List page tabs.
+// Each tab component includes it, so its styles stay scoped to that tab.
+// Include it last: its .mat-mdc-input-element border must win over the tab's .search-input.
+@mixin wf1-list-table {
+  .table-search-header {
+    background-color: white !important;
+    border-top: none !important;
+    display: block !important;
+    padding-left: 10px;
+  }
+
+  .mat-mdc-row:hover .mat-mdc-cell {
+    background-color: #c4cdd2;
+  }
+
+  p.results-count {
+    text-align: right;
+    margin-right: 2%;
+    font-size: 18px;
+  }
+
+  tr {
+    font-weight: normal;
+  }
+
+  .table-wrapper {
+    border: none;
+  }
+
+  td {
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    padding-right: 0.5%;
+    padding-left: 0.5%;
+    width: 25%;
+  }
+
+  table tr:nth-child(even) td {
+    background-color: white;
+  }
+
+  // Beside the pill, not in it: a button inside a button is not valid HTML.
+  .filter-clear.mat-mdc-icon-button {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    margin: 0 7px 0 -4px;
+  }
+
+  // The Choice Pill draws the look; the list only spaces it.
+  .filter-button {
+    margin-right: 7px;
+  }
+
+  .search-icon {
+    position: relative !important;
+    top: 5px;
+  }
+
+  .mat-mdc-input-element {
+    background-color: transparent;
+    border: none !important;
+    padding: 0 5px;
+    border-radius: 20px;
+    height: 35px;
+    outline: none !important;
+    box-shadow: none !important;
+
+    &:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  .right-align {
+    margin-left: auto !important;
+  }
+
+  .spinner-position {
+    position: relative;
+    left: 50vw;
+    top: 20px;
+  }
+}

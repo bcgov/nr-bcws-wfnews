@@ -1,0 +1,13 @@
+<div class="table-search-header flex-y-fixed">
+  <div class="search-and-filters">
+    <div class="field search-input">
+      <mat-icon class="search-icon" matSuffix>search</mat-icon>
+      <input matInput class="search-input" aria-label="Search" placeholder="Search" [ngModel]="searchText" (ngModelChange)="searchTextChange.emit($event)">
+      <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText" aria-label="Clear" (click)="searchTextChange.emit(undefined); $event.stopPropagation()" matTooltip="Clear">
+        <span class="button-wrapper"><mat-icon>close</mat-icon></span>
+      </button>
+    </div>
+    <wfnews-choice-pill class="filter-button" [iconOnly]="true" [toggle]="false" [selected]="locationSelected" ariaLabel="Filter by Location" matTooltip="Filter by Location" (pillClicked)="locationClicked.emit()"><img src="/assets/images/svg-icons/location-button.svg" alt="" height="24" width="24" /></wfnews-choice-pill>
+    <wfnews-choice-pill *ngIf="showFilter" class="filter-button" [iconOnly]="true" [toggle]="false" [selected]="filterSelected" ariaLabel="Filter" matTooltip="Filter" (pillClicked)="filterClicked.emit()"><img src="/assets/images/svg-icons/filter-button.svg" alt="" height="24" width="24" /></wfnews-choice-pill>
+  </div>
+</div>

@@ -1,24 +1,6 @@
 @import "src/styles/variables";
 
-.header-row {
-  display: flex;
-  margin: 0;
-}
-
-.table-search-header {
-  background-color: white !important;
-  border-top: none !important;
-  display: block !important;
-  padding-left: 10px;
-  .label {
-    font-size: 15px;
-  }
-}
-
-.search-icon {
-  position: relative !important;
-  top: 5px;
-}
+@import "../../../../styles/component/list-table-mixin";
 
 .search-input {
   position: relative;
@@ -36,99 +18,9 @@
   margin-top: -20px;
 }
 
-.mdc-button__label {
-  margin-left: 1px !important;
-  margin-top: 3px !important;
-}
-
-.mat-mdc-input-element {
-  background-color: transparent;
-  border: none !important;
-  padding: 0 5px;
-  border-radius: 20px;
-  height: 35px;
-  outline: none !important;
-  box-shadow: none !important;
-
-  &:focus {
-    outline: none !important;
-    box-shadow: none !important;
-  }
-}
-
-.stage-of-control {
-  margin-left: auto;
-  height: 50%;
-  margin-top: auto;
-}
-
-.my-location-button {
-  border: 1px solid #a7a9ac;
-  border-radius: 5px;
-  width: 100%;
-  .mat-mdc-raised-button {
-    box-shadow: none;
-    width: 100%;
-    padding: 0;
-  }
-  .mat-icon {
-    color: #a7a9ac;
-    margin-right: 10px !important;
-  }
-  button span {
-    white-space: nowrap;
-  }
-}
-
-p.results-count {
-  text-align: right;
-  margin-right: 2%;
-  font-size: 18px;
-}
-
-p.dashboard-title {
-  font-size: 24px;
-  margin-bottom: 0.5%;
-}
-
-p.active-incidents,
-p.datetime {
-  display: inline-block;
-}
-
-p.datetime {
-  float: right;
-  vertical-align: center;
-}
-
-tr {
-  font-weight: normal;
-}
-
-.table-wrapper {
-  border: none;
-}
-
 table {
   border: 1;
   table-layout: fixed;
-}
-
-td {
-  padding-top: 0.5%;
-  padding-bottom: 0.5%;
-  padding-right: 0.5%;
-  padding-left: 0.5%;
-  width: 25%;
-}
-
-table tr:nth-child(even) td {
-  background-color: white;
-}
-
-.block {
-  width: 15%;
-  display: inline-block;
 }
 
 .list-icon {
@@ -159,14 +51,6 @@ table tr:nth-child(even) td {
   position: relative;
 }
 
-// Beside the pill, not in it: a button inside a button is not valid HTML.
-.filter-clear.mat-mdc-icon-button {
-  width: 40px;
-  height: 40px;
-  padding: 8px;
-  margin: 0 7px 0 -4px;
-}
-
 .input-clear-button {
   position: absolute; /* Position relative to .field.search-input */
   top: 50%;
@@ -183,7 +67,6 @@ table tr:nth-child(even) td {
     font-size: 16px;
   }
 }
-
 
 .checkbox-label {
   font-size: 15px !important;
@@ -247,11 +130,6 @@ table tr:nth-child(even) td {
   line-height: 18px;
 }
 
-// The Choice Pill draws the look; the list only spaces it.
-.filter-button {
-  margin-right: 7px;
-}
-
 .fireNumber-subtext {
   font-size: 15px;
   font-weight: 600;
@@ -312,20 +190,6 @@ table tr:nth-child(even) td {
   margin-left: 8px;
 }
 
-.right-align {
-  margin-left: auto !important;
-}
-
-.spinner-position {
-  position: relative;
-  left: 50vw;
-  top: 20px;
-}
-
-.mat-mdc-row:hover .mat-mdc-cell {
-  background-color: #c4cdd2;
-}
-
 ::ng-deep .mat-mdc-select-arrow {
   width: 0 !important;
   height: 0 !important;
@@ -340,3 +204,5 @@ table tr:nth-child(even) td {
   border: 1px solid #a7a9ac !important;
   height: 35px;
 }
+
+@include wf1-list-table;

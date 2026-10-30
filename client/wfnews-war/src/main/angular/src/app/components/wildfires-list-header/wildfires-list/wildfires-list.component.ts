@@ -1,8 +1,3 @@
-import {
-  BreakpointObserver,
-  BreakpointState,
-  Breakpoints,
-} from '@angular/cdk/layout';
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -23,11 +18,11 @@ import { CapacitorService } from '@app/services/capacitor-service';
 import { Store } from '@ngrx/store';
 import { AppConfigService, TokenService } from '@wf1/core-ui';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { PagedCollection } from '../../../conversion/models';
 import { ApplicationStateService } from '../../../services/application-state.service';
 import { CommonUtilityService } from '../../../services/common-utility.service';
+import { ResponsiveDialogService } from '../../../services/responsive-dialog.service';
 import { WatchlistService } from '../../../services/watchlist-service';
 import { PlaceData } from '../../../services/wfnews-map.service/place-data';
 import { RootState } from '../../../store';
@@ -90,9 +85,6 @@ export class WildFiresListComponent
 
   public locationData: LocationData;
 
-  private isExtraSmall: Observable<BreakpointState> =
-    this.breakpointObserver.observe(Breakpoints.XSmall);
-
   convertFromTimestamp = convertFromTimestamp;
   convertToStageOfControlDescription = convertToStageOfControlDescription;
   convertToFireCentreDescription = convertToFireCentreDescription;
@@ -115,7 +107,7 @@ export class WildFiresListComponent
     http: HttpClient,
     watchlistService: WatchlistService,
     commonUtilityService: CommonUtilityService,
-    private breakpointObserver: BreakpointObserver,
+    private responsiveDialog: ResponsiveDialogService,
     private capacitorService: CapacitorService,
   ) {
     super(
@@ -353,25 +345,14 @@ export class WildFiresListComponent
   }
 
   openLocationFilter() {
-    const dialogRef = this.dialog.open(FilterByLocationDialogComponent, {
-      width: '380px',
-      height: '453px',
-      maxWidth: '100vw',
-      maxHeight: '100dvh',
-      data: this.locationData,
-    });
-
-    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
-      if (size.matches) {
-        dialogRef.updateSize('100%', '100%');
-      } else {
-        dialogRef.updateSize('380px', '453px');
-      }
-    });
+    const dialogRef = this.responsiveDialog.open(
+      FilterByLocationDialogComponent,
+      '380px',
+      '453px',
+      this.locationData,
+    );
 
     dialogRef.afterClosed().subscribe((result: LocationData | boolean) => {
-      smallDialogSubscription.unsubscribe();
-
       if ((result as boolean) === false) {
         this.clearLocation();
       } else {

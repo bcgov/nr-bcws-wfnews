@@ -1,15 +1,5 @@
-<div class="table-search-header flex-y-fixed">
-  <div class="search-and-filters">
-      <div class="field search-input">
-        <mat-icon class="search-icon" matSuffix>search</mat-icon>
-        <input matInput class="search-input" aria-label="Search" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="searchByText()">
-        <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText" aria-label="Clear" (click)="searchText=undefined; searchByText(); $event.stopPropagation()" matTooltip="Clear">
-          <span class="button-wrapper"><mat-icon>close</mat-icon></span>
-        </button>
-      </div>
-      <wfnews-choice-pill class="filter-button" [iconOnly]="true" [toggle]="false" [selected]="!!locationData" ariaLabel="Filter by Location" matTooltip="Filter by Location" (pillClicked)="openLocationFilter()"><img src="/assets/images/svg-icons/location-button.svg" alt="" height="24" width="24" /></wfnews-choice-pill>
-  </div>
-</div>
+<wfnews-list-search-row [searchText]="searchText" (searchTextChange)="searchText = $event; searchByText()"
+  [locationSelected]="!!locationData" (locationClicked)="openLocationFilter()"></wfnews-list-search-row>
 <div *ngIf="searchingComplete; else loading">
 <div *ngFor="let item of dataSource.data" class="panel-card-container">
   <div class="panel-card" (click)="navToFullDetails(item)">
