@@ -1,5 +1,5 @@
 import { of, throwError } from 'rxjs';
-import { IdentifyActionsService } from './identify-actions.service';
+import { FOCUS_DURATION_MS, IdentifyActionsService } from './identify-actions.service';
 
 const RING = [
   [-120.5, 50.5],
@@ -71,5 +71,30 @@ describe('IdentifyActionsService zoomTarget', () => {
 
     expect(await service.zoomTarget(station)).toEqual({ type: 'point', point: [-118, 50] });
     expect(await service.zoomTarget({ layerId: 'weather-stations' })).toBeNull();
+  });
+});
+
+describe('IdentifyActionsService fitArea', () => {
+  let savedSmk: any;
+  let smk: any;
+
+  beforeEach(() => {
+    savedSmk = window['SMK'];
+    smk = { $viewer: { map: jasmine.createSpyObj('map', ['fitBounds']) }, showFeature: jasmine.createSpy('showFeature') };
+    window['SMK'] = { MAP: { 1: smk } };
+  });
+
+  afterEach(() => {
+    window['SMK'] = savedSmk;
+  });
+
+  it('animates to the area and marks it', () => {
+    new IdentifyActionsService(null, null, null, null, null).fitArea([RING, ISLAND]);
+
+    expect(smk.$viewer.map.fitBounds).toHaveBeenCalledWith(
+      [[-121, 50], [-120, 51]],
+      jasmine.objectContaining({ duration: FOCUS_DURATION_MS }),
+    );
+    expect(smk.showFeature).toHaveBeenCalledWith('area-highlight', jasmine.anything(), jasmine.anything());
   });
 });

@@ -7,7 +7,7 @@ import { MapConfigService } from '@app/services/map-config.service';
 import { BC_EXTENT, IDENTIFY_RADIUS_PX } from '@app/services/map-config.service/map.config';
 import { ResourcesRoutes, getActiveMap, snowPlowHelper } from '@app/utils';
 import { IdentifyKind, WILDFIRE_LAYER_IDS, identifyKind } from '@app/utils/identify-results';
-import { highlightArea, polygonRings, ringsToExtent, zoomToCoords } from '@app/utils/preview-map';
+import { highlightArea, polygonRings, ringsToExtent } from '@app/utils/preview-map';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
 import { map, timeout } from 'rxjs/operators';
@@ -33,8 +33,6 @@ export const TAP_MAX_ZOOM = 13;
 const AREA_TIMEOUT_MS = 10000;
 const PIN_KINDS: IdentifyKind[] = ['road-event', 'closed-recreation-site'];
 const AREA_KINDS: IdentifyKind[] = ['ban', 'evacuation', 'area-restriction', 'danger-rating', 'local-authority', 'protected-land'];
-
-const flatten = <T>(nested: T[][]): T[] => [].concat(...(nested || []));
 
 const lonLat = (lon: any, lat: any): number[] | null => {
   const point = [Number(lon), Number(lat)];
@@ -179,7 +177,12 @@ export class IdentifyActionsService {
   /** Desktop Zoom to for an area: the map fits it and marks it. */
   fitArea(rings: Rings) {
     const smk = getActiveMap();
-    zoomToCoords(smk, flatten(rings));
+    const extent = ringsToExtent(rings);
+    if (extent) {
+      // SMK's setView jumps; the tap zoom and the way back both animate.
+      const [west, south, east, north] = extent;
+      smk.$viewer.map.fitBounds([[west, south], [east, north]], { padding: 0, duration: FOCUS_DURATION_MS });
+    }
     highlightArea(smk, rings);
   }
 
