@@ -84,7 +84,6 @@ export class OverviewWidget implements OnInit, AfterViewInit {
         .getConfig()['mapServices']['openmapsBaseUrl'].toString();
 
       return this.mapConfigService.getPreviewMapConfig({
-        baseMap: 'navigation',
         maxZoom: 10,
         layers: [
           {

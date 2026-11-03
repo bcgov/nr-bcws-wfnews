@@ -225,7 +225,6 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     this.mapLocation = location;
 
     this.mapConfig = await this.mapConfigService.getPreviewMapConfig({
-      baseMap: 'navigation',
       extent: this.viewExtent(),
       center: [location[1], location[0]],
       zoom: 9,
