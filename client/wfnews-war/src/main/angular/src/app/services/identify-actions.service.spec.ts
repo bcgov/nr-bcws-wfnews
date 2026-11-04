@@ -74,6 +74,31 @@ describe('IdentifyActionsService zoomTarget', () => {
   });
 });
 
+describe('IdentifyActionsService fitArea', () => {
+  let savedSmk: any;
+  let smk: any;
+
+  beforeEach(() => {
+    savedSmk = window['SMK'];
+    smk = { $viewer: { map: jasmine.createSpyObj('map', ['fitBounds']) }, showFeature: jasmine.createSpy('showFeature') };
+    window['SMK'] = { MAP: { 1: smk } };
+  });
+
+  afterEach(() => {
+    window['SMK'] = savedSmk;
+  });
+
+  it('animates to the area and marks it', () => {
+    new IdentifyActionsService(null, null, null, null, null).fitArea([RING, ISLAND]);
+
+    expect(smk.$viewer.map.fitBounds).toHaveBeenCalledWith(
+      [[-121, 50], [-120, 51]],
+      jasmine.objectContaining({ duration: FOCUS_DURATION_MS }),
+    );
+    expect(smk.showFeature).toHaveBeenCalledWith('area-highlight', jasmine.anything(), jasmine.anything());
+  });
+});
+
 describe('fitBoundsSnapped', () => {
   const BOUNDS = [[-121, 50], [-120, 51]];
   const OPTIONS = { padding: { top: 88, left: 32, right: 32, bottom: 446 }, duration: FOCUS_DURATION_MS };

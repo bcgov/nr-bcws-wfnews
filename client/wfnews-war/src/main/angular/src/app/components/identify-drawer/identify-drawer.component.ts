@@ -142,10 +142,11 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
       this.newSelection();
       if (this.incidentKey(this.identifyItem)) {
         this.loadIncident();
-      } else if (
-        ['weather-stations', 'danger-rating'].some((str) => this.identifyItem.layerId.includes(str))
-      ) {
-        // Nothing on the map marks a station or a rating zone, so a zoom would look random.
+      } else if (this.identifyItem.layerId.includes('weather-stations')) {
+        // Nothing on the map marks a station, so a zoom would look random.
+      } else if (this.identifyItem.layerId.includes('danger-rating')) {
+        // A rating area has the same colour as its neighbours, so the glow shows which one it is.
+        this.zoomIn(undefined, true);
       } else if (
         ['bans-and-prohibitions', 'evacuation-orders-and-alerts', 'area-restrictions'].some(str => this.identifyItem.layerId.includes(str))
       ) {
