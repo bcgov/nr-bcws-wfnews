@@ -1,5 +1,5 @@
 import { of, throwError } from 'rxjs';
-import { IdentifyActionsService } from './identify-actions.service';
+import { FOCUS_DURATION_MS, IdentifyActionsService, fitBoundsSnapped } from './identify-actions.service';
 
 const RING = [
   [-120.5, 50.5],
@@ -71,5 +71,23 @@ describe('IdentifyActionsService zoomTarget', () => {
 
     expect(await service.zoomTarget(station)).toEqual({ type: 'point', point: [-118, 50] });
     expect(await service.zoomTarget({ layerId: 'weather-stations' })).toBeNull();
+  });
+});
+
+describe('fitBoundsSnapped', () => {
+  const BOUNDS = [[-121, 50], [-120, 51]];
+  const OPTIONS = { padding: { top: 88, left: 32, right: 32, bottom: 446 }, duration: FOCUS_DURATION_MS };
+
+  it('fits no further in than the rounded zoom, so MapLibre centres the box for that zoom', () => {
+    const map = { cameraForBounds: jasmine.createSpy().and.returnValue({ zoom: 11 }), fitBounds: jasmine.createSpy() };
+    fitBoundsSnapped(map, BOUNDS, OPTIONS);
+    expect(map.cameraForBounds).toHaveBeenCalledWith(BOUNDS, OPTIONS);
+    expect(map.fitBounds).toHaveBeenCalledWith(BOUNDS, { ...OPTIONS, maxZoom: 11 });
+  });
+
+  it('gives MapLibre the fit unchanged when the box cannot fit', () => {
+    const map = { cameraForBounds: jasmine.createSpy().and.returnValue(undefined), fitBounds: jasmine.createSpy() };
+    fitBoundsSnapped(map, BOUNDS, OPTIONS);
+    expect(map.fitBounds).toHaveBeenCalledWith(BOUNDS, OPTIONS);
   });
 });
