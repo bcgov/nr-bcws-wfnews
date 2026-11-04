@@ -100,11 +100,22 @@ export class PermissionService {
     }
   }
 
+  /** A phone's `denied` can be an old answer, and only a request can tell. */
+  mayAskAgain(state: PermissionState): boolean {
+    return state === 'denied' && !this.isWeb;
+  }
+
   /** The one action that can repair the state: ask again, or open the settings. */
   async enable(
     kind: PermissionKind,
     state: PermissionState,
   ): Promise<PermissionState> {
+    if (this.mayAskAgain(state)) {
+      state = await this.request(kind);
+      if (state !== 'denied') {
+        return state;
+      }
+    }
     if (this.canOpenSettings(kind, state)) {
       await this.openSettings(kind, state);
       return state;

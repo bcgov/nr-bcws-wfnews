@@ -467,8 +467,8 @@ export class CapacitorService {
 
 
   /**
-   * Ask the phone for the permission. Android shows its prompt approximately one time,
-   * so a denied state can only be repaired in the settings.
+   * Ask the phone for the permission. After a second refusal Android does not prompt,
+   * and only the settings can repair it.
    */
   async requestLocationPermission(): Promise<LocationPermissionState> {
     if (this.isWebPlatform) {
@@ -477,7 +477,9 @@ export class CapacitorService {
 
     try {
       const status = await Geolocation.checkPermissions();
-      if (status.location !== 'granted' && status.location !== 'denied') {
+      // Capacitor keeps an Android "denied" after the user sets "Ask every time".
+      // A phone that will not prompt answers at once, so asking costs nothing.
+      if (status.location !== 'granted') {
         await Geolocation.requestPermissions();
       }
     } catch (error) {
