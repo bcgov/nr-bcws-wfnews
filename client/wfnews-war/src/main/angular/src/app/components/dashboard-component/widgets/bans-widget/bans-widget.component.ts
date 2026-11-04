@@ -64,7 +64,6 @@ export class BansWidget implements OnInit, AfterViewInit {
         });
 
         return this.mapConfigService.getPreviewMapConfig({
-          baseMap: 'navigation',
           maxZoom: 10,
           layers: [
             category('bans-cat3', cat3sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 3%'"),

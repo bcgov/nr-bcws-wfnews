@@ -254,7 +254,6 @@ export const previewMapConfig = (option: {
   extent?: number[];
   center?: number[];
   zoom?: number;
-  baseMap?: string;
   layers?: any[];
   maxZoom?: number;
   /** The +/- control and a reset to the configured view. reset-view needs both. */
@@ -266,7 +265,8 @@ export const previewMapConfig = (option: {
   viewer: {
     type: 'maplibre',
     location: previewLocation(option),
-    baseMap: option.baseMap || 'topography',
+    // Terrain, as the main map starts with.
+    baseMap: 'topography',
     // A phone-wide box needs zoom 3.4 to fit BC; a floor of 4 cut the province off.
     minZoom: 3,
     maxZoom: option.maxZoom || 30,

@@ -3,6 +3,12 @@ import { previewMapConfig } from './map.config';
 const zoomTool = (option?: Parameters<typeof previewMapConfig>[0]) =>
   previewMapConfig(option).tools.find((tool: any) => tool.type === 'zoom') as any;
 
+describe('previewMapConfig basemap', () => {
+  it('starts on Terrain, as the main map does', () => {
+    expect(previewMapConfig().viewer.baseMap).toBe('topography');
+  });
+});
+
 describe('previewMapConfig zoom', () => {
   it('has no zoom by default', () => {
     expect(zoomTool()).toEqual(jasmine.objectContaining({

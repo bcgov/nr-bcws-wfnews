@@ -96,7 +96,6 @@ export class EvacAlertFullDetailsComponent implements OnInit {
 
     this.extent = boundsToExtent(bounds);
     const cfg = await this.mapConfigService.getPreviewMapConfig({
-      baseMap: 'navigation',
       extent: this.extent,
       layers: [
         {
