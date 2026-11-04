@@ -77,9 +77,11 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
   private selection = 0;
   private zoomRequest = 0;
   private watchedMap: any;
-  // The area the map is fitted to, so a new Drawer height can fit it again.
+  // The area to fit, kept until the fit is done so a Drawer move during it can fit again.
   private focus: { extent: number[]; maxZoom?: number; fitted?: boolean } | null = null;
-  private focusDrawerHeight = -1;
+  private fitEnds = 0;
+  // The Drawer height the map was placed for; 0 while the Drawer is closed.
+  private placedHeight = 0;
   constructor(
     private publishedIncidentService: PublishedIncidentService,
     private cdr: ChangeDetectorRef,
@@ -244,30 +246,39 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
     this.refitFocus();
   }
 
+  private activeMap(): any {
+    try {
+      return getActiveMap()?.$viewer?.map;
+    } catch {
+      return null;
+    }
+  }
+
+  // Padding below the part of the map that a Drawer of this height leaves.
+  private bottomPadding(map: any, drawerHeight: number): number {
+    const box = map.getContainer().getBoundingClientRect();
+    return Math.max(0, box.bottom - (window.innerHeight - drawerHeight)) + FOCUS_PADDING.bottom;
+  }
+
   // Fits the area in the part of the map that the Drawer does not cover.
   private refitFocus() {
-    let map: any;
-    try {
-      map = getActiveMap()?.$viewer?.map;
-    } catch {
-      return;
-    }
+    const map = this.activeMap();
     if (!map || !this.focus) {
       return;
     }
     const drawerHeight = this.drawer?.restingHeight() ?? 0;
-    this.focusDrawerHeight = drawerHeight;
+    this.placedHeight = drawerHeight;
     // A fit before the Drawer opens is moved again when it opens. Its first rest fits instead.
     if (!drawerHeight) {
       return;
     }
-    const box = map.getContainer().getBoundingClientRect();
-    const covered = Math.max(0, box.bottom - (window.innerHeight - drawerHeight));
-    const bottom = covered + FOCUS_PADDING.bottom;
-    if (box.height - bottom - FOCUS_PADDING.top < MIN_FOCUS_HEIGHT) {
+    const bottom = this.bottomPadding(map, drawerHeight);
+    if (map.getContainer().clientHeight - bottom - FOCUS_PADDING.top < MIN_FOCUS_HEIGHT) {
       return;
     }
     const [west, south, east, north] = this.focus.extent;
+    // A fit cut short by the Drawer fits again; the zoom is not settled yet.
+    const duration = this.focus.fitted ? DRAWER_DURATION_MS : FOCUS_DURATION_MS;
     fitBoundsSnapped(
       map,
       [[west, south], [east, north]],
@@ -275,19 +286,32 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
         padding: { top: FOCUS_PADDING.top, left: FOCUS_PADDING.side, right: FOCUS_PADDING.side, bottom },
         // An undefined maxZoom replaces MapLibre's default and makes the camera NaN.
         ...(this.focus.maxZoom !== undefined && { maxZoom: this.focus.maxZoom }),
-        // A refit moves with the Drawer.
-        ...(this.focus.fitted
-          ? { linear: true, duration: DRAWER_DURATION_MS }
-          : { duration: FOCUS_DURATION_MS }),
+        ...(this.focus.fitted && { linear: true }),
+        duration,
       },
     );
     this.focus.fitted = true;
+    this.fitEnds = performance.now() + duration;
   }
 
   onDrawerRest(height: number) {
-    if (this.focus && height !== this.focusDrawerHeight) {
+    const placed = this.placedHeight;
+    if (this.focus && (!this.focus.fitted || performance.now() < this.fitEnds)) {
       this.refitFocus();
+    } else if (placed && height && height !== placed) {
+      this.slideMiddle(placed, height);
     }
+    this.placedHeight = height;
+  }
+
+  // The point in the middle of the visible map stays there; the zoom does not change.
+  private slideMiddle(fromHeight: number, toHeight: number) {
+    const map = this.activeMap();
+    if (!map) {
+      return;
+    }
+    const shift = (this.bottomPadding(map, toHeight) - this.bottomPadding(map, fromHeight)) / 2;
+    map.panBy([0, shift], { duration: DRAWER_DURATION_MS });
   }
 
   // A zoom that arrives after the user moved the map would take the map away from them.
@@ -346,6 +370,8 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
     this.identifyIncident = {};
     this.incidentLoad = null;
     this.newSelection();
+    // The Drawer reports no height when it closes.
+    this.placedHeight = 0;
     this.clearMarker();
     this.cdr.markForCheck();
   }
