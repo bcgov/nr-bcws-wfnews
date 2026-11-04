@@ -1,5 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
+import { polygonRings } from '@app/utils/preview-map';
+import { AppConfigService } from '@wf1/core-ui';
+import * as turf from '@turf/turf';
 
 const FULL_FEATURE: AgolOptions = { returnGeometry: true, returnCentroid: true, returnExtent: false };
 
@@ -9,15 +13,25 @@ const REUSE_MS = 60 * 1000;
 /** A quote in a name or an id from a link would end the SQL string. */
 export const sqlText = (value: string) => String(value).replace(/'/g, "''");
 
+/** A DataBC GeoJSON feature in the AGOL shape the pages read; the centroid is inside the area. */
+function asAgolFeature(feature: any): any {
+  const [x, y] = turf.pointOnFeature(feature).geometry.coordinates;
+  return { attributes: feature.properties, geometry: { rings: polygonRings(feature.geometry) }, centroid: { x, y } };
+}
+
 /**
- * The one AGOL feature behind a full-details page and a public event page.
+ * The one feature behind a full-details page and a public event page, in the AGOL shape.
  * Each answer has its geometry and centroid, or is null when nothing matched.
  */
 @Injectable({ providedIn: 'root' })
 export class EventFeatureService {
   private answers = new Map<string, { at: number; feature: Promise<any> }>();
 
-  constructor(private agolService: AGOLService) {}
+  constructor(
+    private agolService: AGOLService,
+    private http: HttpClient,
+    private appConfigService: AppConfigService,
+  ) {}
 
   getBan(id: string): Promise<any> {
     // AGOLService puts the id in the SQL with no quotes, so only a number may pass.
@@ -36,10 +50,24 @@ export class EventFeatureService {
     );
   }
 
+  /** From DataBC, the source of the map layer and the identify list; the AGOL TEST ids name other areas. */
   getDangerRating(sysId: string): Promise<any> {
-    const where = `PROT_DR_SYSID ='${sqlText(sysId)}'`;
-    return this.once(`danger-rating:${where}`, () =>
-      this.agolService.getDangerRatings(where, null, FULL_FEATURE).toPromise(),
+    // The id goes in the CQL filter with no quotes, so only a number may pass.
+    if (!/^\d+$/.test(String(sysId))) {
+      return Promise.resolve(null);
+    }
+    const params = new URLSearchParams({
+      service: 'WFS',
+      version: '1.1.0',
+      request: 'GetFeature',
+      srsName: 'EPSG:4326',
+      typename: 'pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP',
+      outputformat: 'application/json',
+      cql_filter: `PROT_DR_SYSID=${sysId}`,
+    });
+    const url = `${(this.appConfigService.getConfig() as any).mapServices['openmapsBaseUrl']}?${params}`;
+    return this.once(`danger-rating:${sysId}`, () =>
+      this.http.get<any>(url).toPromise().then((response) => ({ features: (response?.features ?? []).map(asAgolFeature) })),
     );
   }
 

@@ -111,17 +111,12 @@ export class RoFPermissionsPage extends RoFPage implements OnDestroy {
 
   /** The banner action: ask, or open the settings page that can repair the state. */
   async onBannerAction(): Promise<void> {
-    const state = this.locationState;
-    if (this.permissionService.canOpenSettings('location', state)) {
-      await this.permissionService.openSettings('location', state);
-      return;
-    }
     // A browser asks when the page asks for a position.
     if (this.permissionService.isWeb) {
       await this.find();
       return;
     }
-    this.setState(await this.permissionService.request('location'));
+    this.setState(await this.permissionService.enable('location', this.locationState));
     if (this.locationState === 'granted') {
       await this.find();
     }
