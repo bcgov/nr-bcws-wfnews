@@ -31,7 +31,11 @@ export class PermissionDialogService {
     let state = await this.permissionService.check(kind);
     // A browser can grant the site and still have no position, so it must ask.
     const mustAsk = kind === 'location' && this.permissionService.isWeb;
-    if (state === 'prompt' || (mustAsk && state === 'granted')) {
+    if (
+      state === 'prompt' ||
+      this.permissionService.mayAskAgain(state) ||
+      (mustAsk && state === 'granted')
+    ) {
       state = await this.permissionService.request(kind);
     }
     return state === 'granted' ? 'granted' : this.open(kind, state, options);
