@@ -12,6 +12,7 @@ import {
   IdentifyActionsService,
   TAP_MAX_ZOOM,
   currentView,
+  fitBoundsSnapped,
   tapCircleExtent,
 } from '@app/services/identify-actions.service';
 import { PointIdService } from '@app/services/point-id.service';
@@ -267,7 +268,8 @@ export class IdentifyDrawerComponent implements OnChanges, OnDestroy {
       return;
     }
     const [west, south, east, north] = this.focus.extent;
-    map.fitBounds(
+    fitBoundsSnapped(
+      map,
       [[west, south], [east, north]],
       {
         padding: { top: FOCUS_PADDING.top, left: FOCUS_PADDING.side, right: FOCUS_PADDING.side, bottom },

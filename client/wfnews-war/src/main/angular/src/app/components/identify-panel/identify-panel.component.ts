@@ -3,6 +3,7 @@ import {
   FOCUS_DURATION_MS,
   IdentifyActionsService,
   TAP_MAX_ZOOM,
+  fitBoundsSnapped,
   tapCircleExtent,
 } from '@app/services/identify-actions.service';
 import { PointIdService } from '@app/services/point-id.service';
@@ -83,7 +84,7 @@ export class IdentifyPanel implements OnChanges, OnDestroy {
     const map = getActiveMap().$viewer.map;
     const zoom = map.getZoom();
     const [west, south, east, north] = tapCircleExtent(Number(point.longitude), Number(point.latitude), zoom);
-    map.fitBounds([[west, south], [east, north]], {
+    fitBoundsSnapped(map, [[west, south], [east, north]], {
       padding: FREE_MAP_PADDING,
       maxZoom: Math.max(zoom, TAP_MAX_ZOOM),
       duration: FOCUS_DURATION_MS,

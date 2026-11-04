@@ -47,6 +47,14 @@ export function tapCircleExtent(longitude: number, latitude: number, zoom: numbe
   return [longitude - lon, latitude - lat, longitude + lon, latitude + lat];
 }
 
+/** fitBounds that keeps the box in the middle of the padded part of the map. */
+export function fitBoundsSnapped(map: any, bounds: number[][], options: any) {
+  // MapLibre places the box for the zoom before zoomSnap rounds it down, so uneven padding
+  // moves the box. A maxZoom at the rounded zoom makes it place the box for that zoom.
+  const camera = map.cameraForBounds(bounds, options);
+  map.fitBounds(bounds, camera ? { ...options, maxZoom: camera.zoom } : options);
+}
+
 export function currentView(): MapView {
   const map = getActiveMap().$viewer.map;
   const { lng, lat } = map.getCenter();
