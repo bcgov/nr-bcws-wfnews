@@ -11,6 +11,7 @@ import { ReportOfFire } from '../reportOfFireModel';
 import { Capacitor, PluginListenerHandle } from '@capacitor/core';
 import { Compass, Heading } from '@capawesome/capacitor-compass';
 import { CommonUtilityService } from '../../../services/common-utility.service';
+import { LocationService } from '@app/services/location.service';
 import { declinationAt, toTrueNorth } from '@app/utils/true-north';
 import { equalsIgnoreCase } from '../../../utils';
 
@@ -45,6 +46,7 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
 
   constructor(
     private commonUtilityService: CommonUtilityService,
+    private locationService: LocationService,
     private zone: NgZone,
     private cdr: ChangeDetectorRef,
   ) {
@@ -216,7 +218,7 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
   async useMyCurrentLocation() {
     try {
       const location =
-        await this.commonUtilityService.getPositionIfPermitted();
+        await this.locationService.getPositionIfPermitted();
       if (location) {
         this.currentLat = this.commonUtilityService.formatDDM(
           Number(location.coords.latitude),

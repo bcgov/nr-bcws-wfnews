@@ -125,7 +125,7 @@ export class RoFComplexQuestionPage extends RoFPage {
   private async leave(online: () => void) {
     if (
       this.id !== 'distance-page' ||
-      (await this.commonUtilityService.checkOnline())
+      (await this.commonUtilityService.checkOnlineStatus())
     ) {
       online();
       return;

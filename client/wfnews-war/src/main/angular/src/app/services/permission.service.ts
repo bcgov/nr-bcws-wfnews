@@ -3,10 +3,7 @@ import {
   CapacitorService,
   LocationPermissionState,
 } from '@app/services/capacitor-service';
-import {
-  CommonUtilityService,
-  Position,
-} from '@app/services/common-utility.service';
+import { LocationService, Position } from '@app/services/location.service';
 
 export type PermissionKind = 'location';
 
@@ -39,7 +36,7 @@ const BROWSER_POSITION_AGE = 30 * 1000;
 export class PermissionService {
   constructor(
     private capacitorService: CapacitorService,
-    private commonUtilityService: CommonUtilityService,
+    private locationService: LocationService,
   ) {}
 
   get isWeb(): boolean {
@@ -59,8 +56,8 @@ export class PermissionService {
       return { state };
     }
     const position = offline
-      ? await this.commonUtilityService.getGpsPositionIfPermitted()
-      : await this.commonUtilityService.getPositionIfPermitted();
+      ? await this.locationService.getGpsPositionIfPermitted()
+      : await this.locationService.getPositionIfPermitted();
     return position ? { state, position } : { state: 'no-position' };
   }
 

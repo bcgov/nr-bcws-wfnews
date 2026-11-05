@@ -20,6 +20,7 @@ import {
   LocationPermissionState,
 } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { LocationService } from '@app/services/location.service';
 import { MapConfigService } from '@app/services/map-config.service';
 import {
   fromLocationState,
@@ -69,6 +70,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
     private mapConfigService: MapConfigService,
     private cdr: ChangeDetectorRef,
     private commonUtilityService: CommonUtilityService,
+    private locationService: LocationService,
     private elementRef: ElementRef,
     private reportOfFirePage: ReportOfFirePage,
     private capacitorService: CapacitorService,
@@ -193,7 +195,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   async useMyCurrentLocation() {
     try {
       this.location =
-        await this.commonUtilityService.getCurrentLocationPromise();
+        await this.locationService.getCurrentLocationPromise();
       this.applyPosition();
     } catch (error) {
       this.location = undefined;
@@ -284,7 +286,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
 
     connector();
 
-    this.commonUtilityService.checkOnline().then((result) => {
+    this.commonUtilityService.checkOnlineStatus().then((result) => {
       if (!result) {
         this.addOfflineLayer();
       }
@@ -357,7 +359,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   }
 
   loadMapConfig() {
-    this.commonUtilityService.checkOnline().then((result) => {
+    this.commonUtilityService.checkOnlineStatus().then((result) => {
       if (!result) {
         this.mapConfigService.getReportOfFireOfflineMapConfig().then((cfg) => {
           const view = this.extentAroundDevice();

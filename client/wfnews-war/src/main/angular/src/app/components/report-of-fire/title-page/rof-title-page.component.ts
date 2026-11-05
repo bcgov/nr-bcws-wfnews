@@ -118,7 +118,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   async startReport() {
     // Await it. next() reads nextId, so a promise that has not settled sends an
     // offline user to the permissions page.
-    const online = await this.commonUtilityService.checkOnline();
+    const online = await this.commonUtilityService.checkOnlineStatus();
     if (!online) {
       this.nextId = 'disclaimer-page';
     }

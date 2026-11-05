@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AGOLService } from '@app/services/AGOL-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
+import { LocationService } from '@app/services/location.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { PlaceData } from '@app/services/wfnews-map.service/place-data';
 import { haversineDistance } from '@app/services/wfnews-map.service/util';
@@ -56,7 +56,7 @@ export class SearchPageComponent implements OnInit {
     private dialogRef: MatDialogRef<SearchPageComponent>,
     @Inject(MAT_DIALOG_DATA) public data: SearchResult,
     private agolService: AGOLService,
-    private commonUtilityService: CommonUtilityService,
+    private locationService: LocationService,
     private publishedIncidentService: PublishedIncidentService,
     private cdr: ChangeDetectorRef,
   ) {
@@ -218,7 +218,7 @@ export class SearchPageComponent implements OnInit {
 
   async checkUserLocation() {
     if (!this.userLocationChecked && !this.userLocationDenied) {
-      this.userLocation = await this.commonUtilityService
+      this.userLocation = await this.locationService
         .getPositionIfPermitted()
         .catch((err) => {
           this.userLocationDenied = true;

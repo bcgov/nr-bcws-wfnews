@@ -15,6 +15,7 @@ import {
   PushPermissionState,
 } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { LocationService } from '@app/services/location.service';
 import {
   NOTIFICATION_TOKEN_MISSING,
   NotificationService,
@@ -62,6 +63,7 @@ export class AddSavedLocationComponent implements OnInit, OnDestroy {
 
   constructor(
     private commonUtilityService: CommonUtilityService,
+    private locationService: LocationService,
     protected dialog: MatDialog,
     private router: Router,
     private cdr: ChangeDetectorRef,
@@ -160,7 +162,7 @@ export class AddSavedLocationComponent implements OnInit, OnDestroy {
   async useMyCurrentLocation() {
     try {
       this.currentLocation =
-        await this.commonUtilityService.getCurrentLocationPromise();
+        await this.locationService.getCurrentLocationPromise();
     } catch (error) {
       this.currentLocation = undefined;
     }
@@ -202,7 +204,7 @@ export class AddSavedLocationComponent implements OnInit, OnDestroy {
       if ((await this.permissionDialog.ensure('location', { reason })) !== 'granted') {
         return;
       }
-      const location = await this.commonUtilityService.findPosition(
+      const location = await this.locationService.findPosition(
         this.destroying.signal,
       );
       if (!location) {

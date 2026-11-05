@@ -46,7 +46,7 @@ describe('WildfiresListHeaderComponent', () => {
             openLocationSettings: () => Promise.resolve(),
           },
         },
-        // The real one needs CommonUtilityService and its snack bar. The header
+        // The real one needs LocationService and its snack bar. The header
         // only calls enable from the banner action.
         {
           provide: PermissionService,

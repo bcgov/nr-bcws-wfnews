@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PERMISSION_DIALOG } from '@app/components/common/permission-banner/permission-banner.constants';
 import { PermissionDialogService } from '@app/components/common/permission-dialog/permission-dialog.service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { LocationService } from '@app/services/location.service';
 import { PlaceData } from '@app/services/wfnews-map.service/place-data';
 import { debounceTime } from 'rxjs/operators';
 
@@ -33,6 +34,7 @@ export class FilterByLocationDialogComponent implements OnDestroy {
   constructor(
     private dialogRef: MatDialogRef<FilterByLocationDialogComponent>,
     private commonUtilityService: CommonUtilityService,
+    private locationService: LocationService,
     private permissionDialog: PermissionDialogService,
     @Inject(MAT_DIALOG_DATA) public data: LocationData,
   ) {
@@ -105,7 +107,7 @@ export class FilterByLocationDialogComponent implements OnDestroy {
     }
 
     const locating = (this.locating = new AbortController());
-    const location = await this.commonUtilityService.findPosition(locating.signal);
+    const location = await this.locationService.findPosition(locating.signal);
     // The clear button can also turn the choice off without a tap here.
     if (locating.signal.aborted || !this.locationData.useUserLocation) {
       return;

@@ -28,7 +28,7 @@ export class RoFDisclaimerPage extends RoFPage {
     this.message = data.message.split('\n');
 
     if (this.capacitor.isWebPlatform) {
-      this.commonUtilityService.checkOnline().then((result) => {
+      this.commonUtilityService.checkOnlineStatus().then((result) => {
         if (!result) {
           this.message =
             'Offline reporting is only available in the BC Wildfire Service app which you can find on the Apple App Store or Google Play Store.';

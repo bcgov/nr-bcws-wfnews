@@ -29,6 +29,7 @@ import { Preferences } from "@capacitor/preferences";
 import { AppConfigService } from "@wf1/core-ui";
 import { debounceTime } from "rxjs/operators";
 import { CommonUtilityService } from "../../services/common-utility.service";
+import { LocationService } from "../../services/location.service";
 import { MapConfigService } from "../../services/map-config.service";
 import { PublishedIncidentService } from "../../services/published-incident-service";
 import { ResponsiveDialogService } from "../../services/responsive-dialog.service";
@@ -139,6 +140,7 @@ export class ActiveWildfireMapComponent
     private mapConfigService: MapConfigService,
     private publishedIncidentService: PublishedIncidentService,
     private commonUtilityService: CommonUtilityService,
+    private locationService: LocationService,
     protected dialog: MatDialog,
     protected cdr: ChangeDetectorRef,
     protected snackbarService: MatSnackBar,
@@ -1115,7 +1117,7 @@ export class ActiveWildfireMapComponent
         this.setLocationState("finding");
       }
 
-      const position = await this.commonUtilityService.findPosition(
+      const position = await this.locationService.findPosition(
         this.destroying.signal,
       );
       if (!position) {
@@ -1154,7 +1156,7 @@ export class ActiveWildfireMapComponent
     }
     this.setLocationState("finding");
     // 60 s: a cold GPS fix is slow. A tap in the meantime shares this request.
-    const position = await this.commonUtilityService.getGpsPositionIfPermitted();
+    const position = await this.locationService.getGpsPositionIfPermitted();
     if (position) {
       this.userLocation = position;
       this.setLocationState("ready");

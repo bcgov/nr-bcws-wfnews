@@ -1,5 +1,5 @@
 import { PERMISSION_DIALOG } from '@app/components/common/permission-banner/permission-banner.constants';
-import { CommonUtilityService } from './common-utility.service';
+import { LocationService } from './location.service';
 
 const POSITION = { coords: { latitude: 48.4, longitude: -123.4 } };
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -10,19 +10,16 @@ function deferred<T>() {
   return { promise, resolve };
 }
 
-// Only the snackbar matters here; the injector is read once, later, by the constructor.
+// The service needs only the snackbar.
 function service(answer: Promise<any>) {
   const notice = { dismiss: jasmine.createSpy('dismiss') };
   const snackbar = { open: jasmine.createSpy('open').and.returnValue(notice) };
-  const injector = { get: () => null };
-  const s: any = new CommonUtilityService(
-    snackbar as any, null, null, injector as any, null, null, null, null, null, null, null,
-  );
+  const s: any = new LocationService(snackbar as any);
   spyOn(s, 'ifPermitted').and.returnValue(answer);
   return { s, snackbar, notice };
 }
 
-describe('CommonUtilityService findPosition', () => {
+describe('LocationService findPosition', () => {
   it('answers a page and a tap with one request', async () => {
     const gps = deferred<any>();
     const { s } = service(gps.promise);

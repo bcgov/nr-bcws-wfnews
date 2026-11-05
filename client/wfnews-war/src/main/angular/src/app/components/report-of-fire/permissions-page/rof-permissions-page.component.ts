@@ -10,10 +10,8 @@ import {
 } from '@app/components/common/permission-banner/permission-banner.constants';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CapacitorService } from '@app/services/capacitor-service';
-import {
-  CommonUtilityService,
-  Position,
-} from '@app/services/common-utility.service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
+import { Position } from '@app/services/location.service';
 import {
   PermissionService,
   PermissionState,
@@ -88,7 +86,7 @@ export class RoFPermissionsPage extends RoFPage implements OnDestroy {
       return;
     }
     // Offline, only GPS can answer, so the search waits longer. Read it before the first.
-    this.offline = !(await this.commonUtilityService.checkOnline());
+    this.offline = !(await this.commonUtilityService.checkOnlineStatus());
     // The app reads the state again when the user comes back from the settings.
     this.permissionSubscription ??=
       this.capacitorService.locationPermission.subscribe(() => this.recheck());

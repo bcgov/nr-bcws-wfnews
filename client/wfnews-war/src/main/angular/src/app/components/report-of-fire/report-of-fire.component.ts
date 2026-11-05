@@ -302,7 +302,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         case 'final-page':
           const rofTitlePageComponent = this.currentPage
             .instance as RoFTitlePage;
-          this.commonUtilityService.checkOnline().then((result) => {
+          this.commonUtilityService.checkOnlineStatus().then((result) => {
             if (!result) {
               this.currentPage.instance.nextId = 'disclaimer-page';
             }
