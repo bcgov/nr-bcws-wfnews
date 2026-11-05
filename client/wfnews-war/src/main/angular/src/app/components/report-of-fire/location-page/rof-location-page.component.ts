@@ -35,6 +35,7 @@ import offlineMapJson from '../../../../assets/maps/british-columbia.json';
 import { ReportOfFire } from '../reportOfFireModel';
 import { RoFPage } from '../rofPage';
 import * as turf from '@turf/turf';
+import { ConnectivityService } from '@app/services/connectivity.service';
 
 @Component({
   selector: 'rof-location-page',
@@ -70,6 +71,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
     private mapConfigService: MapConfigService,
     private cdr: ChangeDetectorRef,
     private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
     private locationService: LocationService,
     private elementRef: ElementRef,
     private reportOfFirePage: ReportOfFirePage,
@@ -286,7 +288,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
 
     connector();
 
-    this.commonUtilityService.checkOnlineStatus().then((result) => {
+    this.connectivityService.checkOnlineStatus().then((result) => {
       if (!result) {
         this.addOfflineLayer();
       }
@@ -359,7 +361,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   }
 
   loadMapConfig() {
-    this.commonUtilityService.checkOnlineStatus().then((result) => {
+    this.connectivityService.checkOnlineStatus().then((result) => {
       if (!result) {
         this.mapConfigService.getReportOfFireOfflineMapConfig().then((cfg) => {
           const view = this.extentAroundDevice();

@@ -9,6 +9,7 @@ import { ReportOfFire } from '../reportOfFireModel';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { MatButtonToggleGroup } from '@angular/material/button-toggle';
+import { ConnectivityService } from '@app/services/connectivity.service';
 
 @Component({
   selector: 'rof-simple-question-page',
@@ -30,6 +31,7 @@ export class RoFSimpleQuestionPage extends RoFPage {
     private reportOfFirePage: ReportOfFirePage,
     private cdr: ChangeDetectorRef,
     private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
   ) {
     super();
   }
@@ -100,7 +102,7 @@ this.reportOfFire.headingDetectionActive = true;
   }
 
   checkOnlineStatus() {
-    this.commonUtilityService.pingService().subscribe(
+    this.connectivityService.pingService().subscribe(
       () => {
         this.offLine = false;
         this.cdr.detectChanges();

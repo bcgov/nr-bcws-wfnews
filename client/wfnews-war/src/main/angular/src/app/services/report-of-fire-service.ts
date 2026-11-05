@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { CommonUtilityService } from './common-utility.service';
 import { IonicStorageService } from './ionic-storage.service';
 import { LocalStorageService } from './local-storage-service';
+import { ConnectivityService } from '@app/services/connectivity.service';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -45,6 +46,7 @@ export class ReportOfFireService {
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
     private ionicStorageService: IonicStorageService,
     private localStorageService: LocalStorageService
   ) { }
@@ -86,7 +88,7 @@ export class ReportOfFireService {
       this.formData = formData
       // if the device is offline save RoF in storage
       try {
-        const onlineStatus = await this.commonUtilityService.checkOnlineStatus();
+        const onlineStatus = await this.connectivityService.checkOnlineStatus();
         if (!onlineStatus) {
           await this.submitToStorage(formData);
           this.submittedOffline = true;

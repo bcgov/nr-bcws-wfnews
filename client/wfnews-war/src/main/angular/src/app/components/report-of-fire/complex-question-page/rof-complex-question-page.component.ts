@@ -13,6 +13,7 @@ import {
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import * as turf from '@turf/turf';
+import { ConnectivityService } from '@app/services/connectivity.service';
 
 /** The value that "I'm not sure" stores, on this page and in the review. */
 const UNKNOWN = 'Unknown';
@@ -38,6 +39,7 @@ export class RoFComplexQuestionPage extends RoFPage {
     private reportOfFirePage: ReportOfFirePage,
     private cdr: ChangeDetectorRef,
     private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
   ) {
     super();
   }
@@ -125,7 +127,7 @@ export class RoFComplexQuestionPage extends RoFPage {
   private async leave(online: () => void) {
     if (
       this.id !== 'distance-page' ||
-      (await this.commonUtilityService.checkOnlineStatus())
+      (await this.connectivityService.checkOnlineStatus())
     ) {
       online();
       return;

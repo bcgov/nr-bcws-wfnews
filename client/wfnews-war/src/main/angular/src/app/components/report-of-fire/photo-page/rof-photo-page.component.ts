@@ -15,6 +15,7 @@ import {
 } from '@capacitor/camera';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
+import { ConnectivityService } from '@app/services/connectivity.service';
 
 @Component({
   selector: 'rof-photo-page',
@@ -33,6 +34,7 @@ export class RoFPhotoPage extends RoFPage {
     private changeDetector: ChangeDetectorRef,
     private el: ElementRef,
     private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
     private reportOfFirePage: ReportOfFirePage,
     private cdr: ChangeDetectorRef,
   ) {
@@ -127,7 +129,7 @@ export class RoFPhotoPage extends RoFPage {
   }
 
   previousPage() {
-    this.commonUtilityService.checkOnlineStatus().then((result) => {
+    this.connectivityService.checkOnlineStatus().then((result) => {
       if (!result) {
         this.reportOfFirePage.selectPage('distance-page', null, false);
       } else {

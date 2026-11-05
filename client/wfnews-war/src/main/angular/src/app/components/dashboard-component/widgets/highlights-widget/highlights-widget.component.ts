@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { readableDate } from '@app/utils';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { ConnectivityService } from '@app/services/connectivity.service';
 
 interface WordPressPost {
   id: number;
@@ -55,7 +55,7 @@ export class HighlightsWidgetComponent implements OnInit {
   apiUrl = 'https://blog.gov.bc.ca/bcwildfire/wp-json/wp/v2';
   appTagSlug = 'app';
 
-  constructor(private commonUtilityService: CommonUtilityService) { }
+  constructor(private connectivityService: ConnectivityService) { }
 
   ngOnInit(): void {
     this.populateTags();
@@ -91,7 +91,7 @@ export class HighlightsWidgetComponent implements OnInit {
   private getTagBySlug(slug: string): Observable<number | null> {
     const url = `${this.apiUrl}/tags?slug=${slug}`;
 
-    return this.commonUtilityService.getRequest<any[]>(url).pipe(
+    return this.connectivityService.getRequest<any[]>(url).pipe(
       map(tags => tags[0]?.id || null),
       catchError(error => {
         console.error('Error fetching tag:', error);
@@ -104,7 +104,7 @@ export class HighlightsWidgetComponent implements OnInit {
   private fetchAllPostsWithTag(tagId: number): Observable<ProcessedPost[]> {
     const url = `${this.apiUrl}/posts?tags=${tagId}&_embed&per_page=15`;
 
-    return this.commonUtilityService.getRequest<WordPressPost[]>(url).pipe(
+    return this.connectivityService.getRequest<WordPressPost[]>(url).pipe(
       map(posts => posts.map(post => this.processPost(post))),
       catchError(error => {
         console.error('Error fetching posts:', error);

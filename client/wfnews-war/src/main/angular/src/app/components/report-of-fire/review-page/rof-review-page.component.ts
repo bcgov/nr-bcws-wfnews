@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { LocationService } from '@app/services/location.service';
 import {
   ReportOfFireService,
@@ -21,6 +20,7 @@ import ConfigJson from '../report-of-fire.config.json';
 import { ReportOfFire } from '../reportOfFireModel';
 import { RoFPage } from '../rofPage';
 import * as turf from '@turf/turf';
+import { ConnectivityService } from '@app/services/connectivity.service';
 
 /** The model starts each position at [0, 0], so that value means "no position". */
 function isPosition(latLon: number[] | undefined): boolean {
@@ -41,7 +41,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
   submitting: boolean = false;
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
-    private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
     private locationService: LocationService,
     private cdr: ChangeDetectorRef,
     private reportOfFireService: ReportOfFireService,
@@ -72,7 +72,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
     this.reportOfFirePages = this.reportOfFirePages.filter(
       (page) => !pagesToRemove.includes(page.id),
     );
-    this.commonUtilityService.checkOnlineStatus().then((result) => {
+    this.connectivityService.checkOnlineStatus().then((result) => {
       if (!result) {
         this.isOffLine = true;
       } else {
