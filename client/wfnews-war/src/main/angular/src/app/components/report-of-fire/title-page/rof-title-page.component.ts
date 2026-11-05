@@ -6,7 +6,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFireService } from '@app/services/report-of-fire-service';
 import { App } from '@capacitor/app';
 import { PluginListenerHandle } from '@capacitor/core';
@@ -32,7 +31,6 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   private appStateListener: PluginListenerHandle;
 
   public constructor(
-    private commonUtilityService: CommonUtilityService,
     private connectivityService: ConnectivityService,
     private cdr: ChangeDetectorRef,
     private reportOfFirePage: ReportOfFirePage,
@@ -105,7 +103,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     let rofSubmitted = false;
 
     // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
-    await this.commonUtilityService.removeInvalidOfflineRoF();
+    await this.reportOfFireService.removeInvalidOfflineRoF();
 
     // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
 

@@ -5,7 +5,6 @@ import { ShareDialogComponent } from '@app/components/admin-incident-form/share-
 import { snowPlowHelper } from '@app/utils';
 import { Share } from '@capacitor/share';
 import { AppConfigService } from '@wf1/core-ui';
-import { IonicStorageService } from './ionic-storage.service';
 import * as turf from '@turf/turf';
 
 @Injectable({
@@ -16,7 +15,6 @@ export class CommonUtilityService {
 
   constructor(
     private appConfigService: AppConfigService,
-    private ionicStorageService: IonicStorageService,
     private router: Router,
     private dialog: MatDialog,
   ) {}
@@ -104,41 +102,6 @@ export class CommonUtilityService {
     decimal = Math.abs(decimal);
     const d = Math.abs(Math.trunc(decimal));
     return d + '° ' + (60 * (decimal - d)).toFixed(3) + '\'';
-  }
-
-  async removeInvalidOfflineRoF() {
-    try {
-      let offlineReportSaved = null;
-      // Fetch locally stored data
-      await this.ionicStorageService.get('offlineReportData').then(response => {
-        offlineReportSaved = response;
-      });
-
-      if (offlineReportSaved) {
-        const offlineReport = JSON.parse(offlineReportSaved);
-
-        if (offlineReport.resource) {
-          const resource = JSON.parse(offlineReport.resource);
-          // Remove the locally stored data if it was submitted more than 24 hours ago
-          if (
-            resource.submittedTimestamp &&
-            this.invalidTimestamp(resource.submittedTimestamp)
-          ) {
-            this.ionicStorageService.clear();
-          }
-        }
-      }
-    } catch (error) {
-      console.error('Error removing invalid RoF data:', error);
-    }
-  }
-
-  invalidTimestamp(timestamp: string): boolean {
-    // check if submitted timestamp is more than 24 hours ago
-    const now = new Date().getTime();
-    const submittedTimestamp = Number(timestamp);
-    const oneDay = 24 * 60 * 60 * 1000;
-    return now - submittedTimestamp > oneDay;
   }
 
   isAttributePresent(array, attributeName, attributeValue) {
