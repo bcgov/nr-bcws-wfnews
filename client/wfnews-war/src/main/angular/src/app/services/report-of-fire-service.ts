@@ -5,9 +5,10 @@ import { AppConfigService } from '@wf1/core-ui';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Subscription } from 'rxjs';
-import { CommonUtilityService } from './common-utility.service';
 import { IonicStorageService } from './ionic-storage.service';
 import { LocalStorageService } from './local-storage-service';
+import { ConnectivityService } from '@app/services/connectivity.service';
+import { hasSQLKeywords } from '@app/utils';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -44,7 +45,7 @@ export class ReportOfFireService {
 
   constructor(
     private appConfigService: AppConfigService,
-    private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
     private ionicStorageService: IonicStorageService,
     private localStorageService: LocalStorageService
   ) { }
@@ -57,7 +58,7 @@ export class ReportOfFireService {
   ): Promise<any> {
     const rofUrl = this.appConfigService.getConfig().rest['fire-report-api'];
     const resource = JSON.stringify(reportOfFire);
-    if (this.commonUtilityService.hasSQLKeywords(resource)) {
+    if (hasSQLKeywords(resource)) {
       console.error("JSON blob contains SQL keywords. Potential SQL injection attempt.");
       return;
     }
@@ -86,7 +87,7 @@ export class ReportOfFireService {
       this.formData = formData
       // if the device is offline save RoF in storage
       try {
-        const onlineStatus = await this.commonUtilityService.checkOnlineStatus();
+        const onlineStatus = await this.connectivityService.checkOnlineStatus();
         if (!onlineStatus) {
           await this.submitToStorage(formData);
           this.submittedOffline = true;
@@ -368,5 +369,40 @@ export class ReportOfFireService {
       this.isSyncing = false;
     }
     return dataSynced;
+  }
+
+  async removeInvalidOfflineRoF() {
+    try {
+      let offlineReportSaved = null;
+      // Fetch locally stored data
+      await this.ionicStorageService.get('offlineReportData').then(response => {
+        offlineReportSaved = response;
+      });
+
+      if (offlineReportSaved) {
+        const offlineReport = JSON.parse(offlineReportSaved);
+
+        if (offlineReport.resource) {
+          const resource = JSON.parse(offlineReport.resource);
+          // Remove the locally stored data if it was submitted more than 24 hours ago
+          if (
+            resource.submittedTimestamp &&
+            this.invalidTimestamp(resource.submittedTimestamp)
+          ) {
+            this.ionicStorageService.clear();
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error removing invalid RoF data:', error);
+    }
+  }
+
+  invalidTimestamp(timestamp: string): boolean {
+    // check if submitted timestamp is more than 24 hours ago
+    const now = new Date().getTime();
+    const submittedTimestamp = Number(timestamp);
+    const oneDay = 24 * 60 * 60 * 1000;
+    return now - submittedTimestamp > oneDay;
   }
 }

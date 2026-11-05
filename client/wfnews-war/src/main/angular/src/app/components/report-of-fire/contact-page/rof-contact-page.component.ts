@@ -6,7 +6,8 @@ import {
 import { RoFPage } from '../rofPage';
 import { ReportOfFire } from '../reportOfFireModel';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
-import { CommonUtilityService } from '@app/services/common-utility.service';
+import { ConnectivityService } from '@app/services/connectivity.service';
+import { checkIfLandscapeMode } from '@app/utils/device';
 
 @Component({
   selector: 'rof-contact-page',
@@ -19,7 +20,7 @@ export class RoFContactPage extends RoFPage {
   offLine = false;
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
-    private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
     private cdr: ChangeDetectorRef,
   ) {
     super();
@@ -39,7 +40,7 @@ export class RoFContactPage extends RoFPage {
   }
 
   checkOnlineStatus() {
-    this.commonUtilityService.pingService().subscribe(
+    this.connectivityService.pingService().subscribe(
       () => {
         this.offLine = false;
         this.cdr.detectChanges();
@@ -62,7 +63,7 @@ export class RoFContactPage extends RoFPage {
 
 
   nextPage() {
-    if (this.reportOfFire.motionSensor !== 'no' && !this.commonUtilityService.checkIfLandscapeMode()) {
+    if (this.reportOfFire.motionSensor !== 'no' && !checkIfLandscapeMode()) {
       this.next();
     } else {
       this.reportOfFirePage.selectPage('review-page', null, false);

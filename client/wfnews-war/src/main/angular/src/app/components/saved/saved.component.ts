@@ -8,7 +8,6 @@ import {
 import { PERMISSION_BANNER } from '@app/components/common/permission-banner/permission-banner.constants';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import {
   CapacitorService,
   PushPermissionState,
@@ -17,6 +16,7 @@ import { NotificationService } from '@app/services/notification.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { WatchlistService } from '@app/services/watchlist-service';
 import {
+  isAttributePresent,
   ResourcesRoutes,
   hasOwn,
   isMobileView,
@@ -50,7 +50,6 @@ export class SavedComponent implements OnInit, OnDestroy {
     private publishedIncidentService: PublishedIncidentService,
     private watchlistService: WatchlistService,
     protected dialog: MatDialog,
-    private commonUtilityService: CommonUtilityService,
     private capacitorService: CapacitorService,
   ) {}
 
@@ -159,7 +158,7 @@ export class SavedComponent implements OnInit, OnDestroy {
             if (hasOwn(bans?.features, innerIndex)) {
               const element = bans.features[innerIndex];
 
-              const attributePresent = this.commonUtilityService.isAttributePresent(
+              const attributePresent = isAttributePresent(
                 this.savedLocations[outerIndex].bans,
                 'ACCESS_PROHIBITION_DESCRIPTION',
                 element.attributes.ACCESS_PROHIBITION_DESCRIPTION

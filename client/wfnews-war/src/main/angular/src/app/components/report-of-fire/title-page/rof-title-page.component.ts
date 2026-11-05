@@ -6,7 +6,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFireService } from '@app/services/report-of-fire-service';
 import { App } from '@capacitor/app';
 import { PluginListenerHandle } from '@capacitor/core';
@@ -14,6 +13,7 @@ import { BackgroundTask } from '@capawesome/capacitor-background-task';
 import { Subscription, interval } from 'rxjs';
 import { ReportOfFire } from '../reportOfFireModel';
 import { RoFPage } from '../rofPage';
+import { ConnectivityService } from '@app/services/connectivity.service';
 
 @Component({
   selector: 'rof-title-page',
@@ -31,7 +31,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   private appStateListener: PluginListenerHandle;
 
   public constructor(
-    private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
     private cdr: ChangeDetectorRef,
     private reportOfFirePage: ReportOfFirePage,
     private reportOfFireService: ReportOfFireService,
@@ -103,11 +103,11 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     let rofSubmitted = false;
 
     // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
-    await this.commonUtilityService.removeInvalidOfflineRoF();
+    await this.reportOfFireService.removeInvalidOfflineRoF();
 
     // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
 
-    if (await this.commonUtilityService.checkOnlineStatus()) {
+    if (await this.connectivityService.checkOnlineStatus()) {
       if (await this.reportOfFireService.syncDataWithServer(this.intervalRef)) {
         rofSubmitted = true;
       }
@@ -118,7 +118,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   async startReport() {
     // Await it. next() reads nextId, so a promise that has not settled sends an
     // offline user to the permissions page.
-    const online = await this.commonUtilityService.checkOnline();
+    const online = await this.connectivityService.checkOnlineStatus();
     if (!online) {
       this.nextId = 'disclaimer-page';
     }
@@ -129,7 +129,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   }
 
   checkOnlineStatus() {
-    this.commonUtilityService.pingService().subscribe(
+    this.connectivityService.pingService().subscribe(
       () => {
         this.offLine = false;
         this.cdr.detectChanges();

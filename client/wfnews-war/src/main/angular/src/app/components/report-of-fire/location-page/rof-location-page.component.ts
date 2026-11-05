@@ -19,7 +19,7 @@ import {
   CompassHeading,
   LocationPermissionState,
 } from '@app/services/capacitor-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
+import { LocationService } from '@app/services/location.service';
 import { MapConfigService } from '@app/services/map-config.service';
 import {
   fromLocationState,
@@ -34,6 +34,8 @@ import offlineMapJson from '../../../../assets/maps/british-columbia.json';
 import { ReportOfFire } from '../reportOfFireModel';
 import { RoFPage } from '../rofPage';
 import * as turf from '@turf/turf';
+import { ConnectivityService } from '@app/services/connectivity.service';
+import { calculateBearing } from '@app/utils/coordinates';
 
 @Component({
   selector: 'rof-location-page',
@@ -68,7 +70,8 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   public constructor(
     private mapConfigService: MapConfigService,
     private cdr: ChangeDetectorRef,
-    private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
+    private locationService: LocationService,
     private elementRef: ElementRef,
     private reportOfFirePage: ReportOfFirePage,
     private capacitorService: CapacitorService,
@@ -193,7 +196,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   async useMyCurrentLocation() {
     try {
       this.location =
-        await this.commonUtilityService.getCurrentLocationPromise();
+        await this.locationService.getCurrentLocationPromise();
       this.applyPosition();
     } catch (error) {
       this.location = undefined;
@@ -284,7 +287,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
 
     connector();
 
-    this.commonUtilityService.checkOnline().then((result) => {
+    this.connectivityService.checkOnlineStatus().then((result) => {
       if (!result) {
         this.addOfflineLayer();
       }
@@ -300,7 +303,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
       this.reportOfFire.estimatedDistance = this.distance * 1000;
     }
     const direction = this.location?.coords
-      ? this.commonUtilityService.calculateBearing(
+      ? calculateBearing(
         this.location.coords.latitude,
         this.location.coords.longitude,
         this.fireLocation[0],
@@ -357,7 +360,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   }
 
   loadMapConfig() {
-    this.commonUtilityService.checkOnline().then((result) => {
+    this.connectivityService.checkOnlineStatus().then((result) => {
       if (!result) {
         this.mapConfigService.getReportOfFireOfflineMapConfig().then((cfg) => {
           const view = this.extentAroundDevice();

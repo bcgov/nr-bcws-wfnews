@@ -10,10 +10,7 @@ import {
 } from '@app/components/common/permission-banner/permission-banner.constants';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CapacitorService } from '@app/services/capacitor-service';
-import {
-  CommonUtilityService,
-  Position,
-} from '@app/services/common-utility.service';
+import { Position } from '@app/services/location.service';
 import {
   PermissionService,
   PermissionState,
@@ -21,6 +18,8 @@ import {
 import { Subscription } from 'rxjs';
 import { ReportOfFire } from '../reportOfFireModel';
 import { RoFPage } from '../rofPage';
+import { ConnectivityService } from '@app/services/connectivity.service';
+import { checkIfLandscapeMode } from '@app/utils/device';
 
 // A browser tells no page when its settings change, so the page reads them again.
 const RECHECK_INTERVAL = 2 * 1000;
@@ -60,7 +59,7 @@ export class RoFPermissionsPage extends RoFPage implements OnDestroy {
 
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
-    private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
     private capacitorService: CapacitorService,
     private cdr: ChangeDetectorRef,
     private permissionService: PermissionService,
@@ -88,7 +87,7 @@ export class RoFPermissionsPage extends RoFPage implements OnDestroy {
       return;
     }
     // Offline, only GPS can answer, so the search waits longer. Read it before the first.
-    this.offline = !(await this.commonUtilityService.checkOnline());
+    this.offline = !(await this.connectivityService.checkOnlineStatus());
     // The app reads the state again when the user comes back from the settings.
     this.permissionSubscription ??=
       this.capacitorService.locationPermission.subscribe(() => this.recheck());
@@ -144,7 +143,7 @@ export class RoFPermissionsPage extends RoFPage implements OnDestroy {
 
     if (
       this.isMotionSensorActive() &&
-      !this.commonUtilityService.checkIfLandscapeMode()
+      !checkIfLandscapeMode()
     ) {
       this.reportOfFire.headingDetectionActive = true;
       this.next();

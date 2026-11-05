@@ -7,7 +7,6 @@ import {
   dangerRatingRelatedTopics,
 } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
 import { EventFeatureService } from '@app/services/event-feature.service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { displayDangerRatingDescription, ResourcesRoutes, setDisplayColor } from '@app/utils';
 import { FullDetailsMapService } from '@app/services/full-details-map.service';
@@ -15,6 +14,8 @@ import { MapConfigService } from '@app/services/map-config.service';
 import { boundsToExtent, drawNearbyIncidents, extentToParam } from '@app/utils/preview-map';
 import { filter, take } from 'rxjs/operators';
 import { AppConfigService } from '@wf1/core-ui';
+import { ShareService } from '@app/services/share.service';
+import { extractPolygonData, getPolygonBond } from '@app/utils/polygon-bounds';
 
 @Component({
   selector: 'wfnews-danger-rating-full-details',
@@ -39,7 +40,7 @@ export class DangerRatingFullDetailsComponent implements OnInit {
     private publishedIncidentService: PublishedIncidentService,
     private route: Route,
     private eventFeatureService: EventFeatureService,
-    private commonUtilityService: CommonUtilityService,
+    private shareService: ShareService,
     private metaService: Meta,
     private mapConfigService: MapConfigService,
     private fullDetailsMap: FullDetailsMapService
@@ -60,9 +61,9 @@ export class DangerRatingFullDetailsComponent implements OnInit {
     const locationData = JSON.parse(this.location) as LocationData;
     const dangerRating = await this.eventFeatureService.getDangerRating(this.sysid);
     const rings = dangerRating?.geometry?.rings;
-    const polygonData = rings?.length ? this.commonUtilityService.extractPolygonData(rings) : [];
+    const polygonData = rings?.length ? extractPolygonData(rings) : [];
     if (polygonData.length) {
-      this.createMap(locationData, this.commonUtilityService.getPolygonBond(polygonData));
+      this.createMap(locationData, getPolygonBond(polygonData));
     }
   }
 
@@ -127,6 +128,6 @@ export class DangerRatingFullDetailsComponent implements OnInit {
   }
 
   shareMobile() {
-    this.commonUtilityService.shareMobile(`${this.rating} Danger Rating`);
+    this.shareService.shareMobile(`${this.rating} Danger Rating`);
   }
 }

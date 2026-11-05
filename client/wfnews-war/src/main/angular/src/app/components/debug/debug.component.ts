@@ -5,11 +5,11 @@ import { PushNotifications } from '@capacitor/push-notifications';
 import { NotificationSettings } from '@app/services/notification-settings.plugin';
 import { NetworkDiagnostics } from '@capgo/capacitor-network-diagnostics';
 import { CapacitorService } from '@app/services/capacitor-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { DebugAccessService } from '@app/services/debug-access.service';
 import { ResourcesRoutes } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import { BUILD_NUMBER } from '../../../environments/build-info';
+import { ConnectivityService } from '@app/services/connectivity.service';
 
 interface Row {
   label: string;
@@ -113,7 +113,7 @@ export class DebugComponent implements OnInit {
     private router: Router,
     private appConfig: AppConfigService,
     private capacitorService: CapacitorService,
-    private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
     private access: DebugAccessService,
   ) {}
 
@@ -353,7 +353,7 @@ export class DebugComponent implements OnInit {
     this.set(this.reach, 'Time', NOT_YET);
     const started = Date.now();
     try {
-      await this.commonUtilityService.pingService().toPromise();
+      await this.connectivityService.pingService().toPromise();
       const ms = Date.now() - started;
       this.set(this.reach, 'API answers', 'yes');
       this.set(this.reach, 'Time', `${ms} ms${ms > SLOW_MS ? ' (slow)' : ''}`);

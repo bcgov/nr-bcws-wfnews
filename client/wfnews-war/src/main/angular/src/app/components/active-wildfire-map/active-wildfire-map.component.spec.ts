@@ -23,7 +23,7 @@ function map(permission: string, position: Promise<any>) {
     permissionDialog: {
       ensure: jasmine.createSpy('ensure').and.returnValue(Promise.resolve(permission)),
     },
-    commonUtilityService: {
+    locationService: {
       getGpsPositionIfPermitted: jasmine.createSpy('gps').and.returnValue(position),
       findPosition: jasmine.createSpy('find').and.returnValue(position),
     },
@@ -55,7 +55,7 @@ describe('ActiveWildfireMapComponent location FAB', () => {
     const c = map('denied', Promise.resolve(POSITION));
     await c.refreshLocationState();
     expect(c.locationState).toBe('off');
-    expect(c.commonUtilityService.getGpsPositionIfPermitted).not.toHaveBeenCalled();
+    expect(c.locationService.getGpsPositionIfPermitted).not.toHaveBeenCalled();
   });
 
   it('ignores a second tap while the first one waits', async () => {
@@ -68,7 +68,7 @@ describe('ActiveWildfireMapComponent location FAB', () => {
 
     gps.resolve(POSITION);
     await first;
-    expect(c.commonUtilityService.findPosition).toHaveBeenCalledTimes(1);
+    expect(c.locationService.findPosition).toHaveBeenCalledTimes(1);
     expect(c.locationState).toBe('ready');
     expect(c.clickedMyLocation).toBe(true);
   });

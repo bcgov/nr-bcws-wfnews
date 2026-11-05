@@ -20,8 +20,9 @@ import { filter, take } from 'rxjs/operators';
 import { AppConfigService } from '@wf1/core-ui';
 import { setDisplayColor } from '@app/utils';
 import { WatchlistService } from '@app/services/watchlist-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { Meta } from '@angular/platform-browser';
+import { ShareService } from '@app/services/share.service';
+import { extractPolygonData, getPolygonBond } from '@app/utils/polygon-bounds';
 
 export class AreaRestriction {
   public name: string;
@@ -60,7 +61,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
     private eventFeatureService: EventFeatureService,
     private publishedIncidentService: PublishedIncidentService,
     private watchlistService: WatchlistService,
-    private commonUtilityService: CommonUtilityService,
+    private shareService: ShareService,
     private metaService: Meta,
     protected router: Router,
     private mapConfigService: MapConfigService,
@@ -85,9 +86,9 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
 
     const areaRestriction = await this.eventFeatureService.getAreaRestriction({ id: this.id, name: this.name });
     const rings = areaRestriction?.geometry?.rings;
-    const polygonData = rings?.length ? this.commonUtilityService.extractPolygonData(rings) : [];
+    const polygonData = rings?.length ? extractPolygonData(rings) : [];
     if (polygonData.length) {
-      this.createMap(location, this.commonUtilityService.getPolygonBond(polygonData));
+      this.createMap(location, getPolygonBond(polygonData));
     } else {
       this.createMap(location);
     }
@@ -236,6 +237,6 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
   }
 
   shareMobile() {
-    this.commonUtilityService.shareMobile(this.restrictionData?.name);
+    this.shareService.shareMobile(this.restrictionData?.name);
   }
 }

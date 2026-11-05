@@ -16,7 +16,7 @@ function dialog(permission: string, position: Promise<any>) {
   Object.assign(c, {
     locationData: new LocationData(),
     permissionDialog: { ensure: () => Promise.resolve(permission) },
-    commonUtilityService: { findPosition: () => position },
+    locationService: { findPosition: () => position },
   });
   return c;
 }

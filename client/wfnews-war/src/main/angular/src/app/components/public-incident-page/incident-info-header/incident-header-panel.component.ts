@@ -22,7 +22,6 @@ import { Meta } from '@angular/platform-browser';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { MapConfigService } from '@app/services/map-config.service';
 import { boundsToExtent, drawNearbyIncidents, extentToParam, fireOfNote, stageDot } from '@app/utils/preview-map';
@@ -42,6 +41,8 @@ import {
 } from '../../../utils';
 import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
 import * as turf from '@turf/turf';
+import { ShareService } from '@app/services/share.service';
+import { extractPolygonData, getPolygonBond } from '@app/utils/polygon-bounds';
 
 @Component({
   selector: 'incident-header-panel',
@@ -91,7 +92,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     private publishedIncidentService: PublishedIncidentService,
     private route: ActivatedRoute,
     private agolService: AGOLService,
-    private commonUtilityService: CommonUtilityService,
+    private shareService: ShareService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private metaService: Meta,
@@ -157,9 +158,9 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         const matchingFeature = response.features.find(
           (feature) => feature.attributes.EVENT_NUMBER === this.params['eventNumber'],
         );
-        const polygonData = this.commonUtilityService.extractPolygonData(matchingFeature.geometry.rings);
+        const polygonData = extractPolygonData(matchingFeature.geometry.rings);
         if (polygonData?.length) {
-          this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
+          this.bounds = getPolygonBond(polygonData);
         }
       }
     } else if (this.areaRestriction) {
@@ -167,9 +168,9 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         Number(this.areaRestriction.centroid?.y),
         Number(this.areaRestriction.centroid?.x),
       ];
-      const polygonData = this.commonUtilityService.extractPolygonData(this.areaRestriction.geometry?.rings);
+      const polygonData = extractPolygonData(this.areaRestriction.geometry?.rings);
       if (polygonData?.length) {
-        this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
+        this.bounds = getPolygonBond(polygonData);
       }
       layers = [
         {
@@ -190,9 +191,9 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       this.banCategories.isCat2 = this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('2');
       this.banCategories.isCat3 = this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('3');
       location = [Number(this.ban.centroid?.y), Number(this.ban.centroid?.x)];
-      const polygonData = this.commonUtilityService.extractPolygonData(this.ban.geometry?.rings);
+      const polygonData = extractPolygonData(this.ban.geometry?.rings);
       if (polygonData?.length) {
-        this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
+        this.bounds = getPolygonBond(polygonData);
       }
       layers = await this.banLayers(databcUrl);
     } else if (this.dangerRating) {
@@ -200,9 +201,9 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         Number(this.dangerRating.centroid?.y),
         Number(this.dangerRating.centroid?.x),
       ];
-      const polygonData = this.commonUtilityService.extractPolygonData(this.dangerRating.geometry?.rings);
+      const polygonData = extractPolygonData(this.dangerRating.geometry?.rings);
       if (polygonData?.length) {
-        this.bounds = this.commonUtilityService.getPolygonBond(polygonData);
+        this.bounds = getPolygonBond(polygonData);
       }
       layers = [
         {
@@ -412,7 +413,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     const incidentType = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS}` : 'Wildfire';
     const name = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS} for ${this.evac.attributes.EVENT_NAME}`
       : this.incident?.incidentName;
-    this.commonUtilityService.openShareWindow(incidentType, name);
+    this.shareService.openShareWindow(incidentType, name);
   }
 
 
@@ -611,6 +612,6 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   }
 
   shareMobile() {
-    this.commonUtilityService.shareMobile(this.incident.incidentName);
+    this.shareService.shareMobile(this.incident.incidentName);
   }
 }

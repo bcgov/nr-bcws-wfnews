@@ -14,7 +14,7 @@ import {
   CapacitorService,
   PushPermissionState,
 } from '@app/services/capacitor-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
+import { LocationService } from '@app/services/location.service';
 import {
   NOTIFICATION_TOKEN_MISSING,
   NotificationService,
@@ -22,6 +22,7 @@ import {
 import { PlaceData } from '@app/services/wfnews-map.service/place-data';
 import { isMobileView } from '@app/utils';
 import { debounceTime } from 'rxjs/operators';
+import { sortAddressList } from '@app/utils/address-search';
 
 export class LocationData {
   public notificationName: string;
@@ -61,7 +62,7 @@ export class AddSavedLocationComponent implements OnInit, OnDestroy {
   private readonly destroying = new AbortController();
 
   constructor(
-    private commonUtilityService: CommonUtilityService,
+    private locationService: LocationService,
     protected dialog: MatDialog,
     private router: Router,
     private cdr: ChangeDetectorRef,
@@ -93,7 +94,7 @@ export class AddSavedLocationComponent implements OnInit, OnDestroy {
             if (results) {
               results.forEach(() => {
                 self.sortedAddressList =
-                  self.commonUtilityService.sortAddressList(results, val);
+                  sortAddressList(results, val);
               });
               self.filteredOptions = self.sortedAddressList;
             }
@@ -160,7 +161,7 @@ export class AddSavedLocationComponent implements OnInit, OnDestroy {
   async useMyCurrentLocation() {
     try {
       this.currentLocation =
-        await this.commonUtilityService.getCurrentLocationPromise();
+        await this.locationService.getCurrentLocationPromise();
     } catch (error) {
       this.currentLocation = undefined;
     }
@@ -202,7 +203,7 @@ export class AddSavedLocationComponent implements OnInit, OnDestroy {
       if ((await this.permissionDialog.ensure('location', { reason })) !== 'granted') {
         return;
       }
-      const location = await this.commonUtilityService.findPosition(
+      const location = await this.locationService.findPosition(
         this.destroying.signal,
       );
       if (!location) {

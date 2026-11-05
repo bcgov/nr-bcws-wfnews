@@ -16,7 +16,6 @@ import {
   confirmationDialogConfig,
 } from '@app/components/common/confirmation-dialog/confirmation-dialog.component';
 import { RofCallPage } from '@app/components/report-of-fire/rof-callback-page/rof-call-page.component';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { isMobileView } from '@app/utils';
 import { RoFCommentsPage } from './comment-page/rof-comments-page.component';
 import { RoFCompassPage } from './compass-page/rof-compass-page.component';
@@ -31,6 +30,7 @@ import { ReportOfFire } from './reportOfFireModel';
 import { RoFReviewPage } from './review-page/rof-review-page.component';
 import { RoFSimpleQuestionPage } from './simple-question-page/rof-simple-question-page.component';
 import { RoFTitlePage } from './title-page/rof-title-page.component';
+import { ConnectivityService } from '@app/services/connectivity.service';
 
 enum PageOperation {
   Next = 1,
@@ -47,7 +47,6 @@ enum PageOperation {
   selector: 'report-of-fire',
   templateUrl: './report-of-fire.component.html',
   styleUrls: ['./report-of-fire.component.scss'],
-  providers: [CommonUtilityService],
 })
 export class ReportOfFirePage implements OnInit, AfterContentInit {
   @ViewChild('dynamic', { static: true, read: ViewContainerRef })
@@ -80,7 +79,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
     private locationService: Location,
     private router: Router,
     protected cdr: ChangeDetectorRef,
-    private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
     protected dialog: MatDialog,
   ) {
     this.pageComponents = [];
@@ -302,7 +301,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         case 'final-page':
           const rofTitlePageComponent = this.currentPage
             .instance as RoFTitlePage;
-          this.commonUtilityService.checkOnline().then((result) => {
+          this.connectivityService.checkOnlineStatus().then((result) => {
             if (!result) {
               this.currentPage.instance.nextId = 'disclaimer-page';
             }

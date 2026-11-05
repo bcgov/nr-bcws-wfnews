@@ -7,7 +7,7 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { CapacitorService } from '@app/services/capacitor-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
+import { LocationService } from '@app/services/location.service';
 import { ResponsiveDialogService } from '@app/services/responsive-dialog.service';
 import { haversineDistance } from '@app/services/wfnews-map.service/util';
 import { ResourcesRoutes, convertToDateTime } from '@app/utils';
@@ -54,7 +54,7 @@ export class AreaRestrictionListComponent implements OnInit {
   constructor(
     private agolService: AGOLService,
     private cdr: ChangeDetectorRef,
-    private commonUtilityService: CommonUtilityService,
+    private locationService: LocationService,
     private responsiveDialog: ResponsiveDialogService,
     protected router: Router,
     private capacitorService: CapacitorService,
@@ -68,7 +68,7 @@ export class AreaRestrictionListComponent implements OnInit {
     this.searchingComplete = false;
     let userLocation;
     try {
-      userLocation = await this.commonUtilityService.getPositionIfPermitted();
+      userLocation = await this.locationService.getPositionIfPermitted();
     } catch (error) {
       console.error('Error getting current location:', error);
     }

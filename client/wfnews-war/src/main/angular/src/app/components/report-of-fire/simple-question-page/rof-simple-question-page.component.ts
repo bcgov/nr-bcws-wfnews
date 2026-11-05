@@ -7,8 +7,9 @@ import {
 import { RoFPage } from '../rofPage';
 import { ReportOfFire } from '../reportOfFireModel';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { MatButtonToggleGroup } from '@angular/material/button-toggle';
+import { ConnectivityService } from '@app/services/connectivity.service';
+import { checkIfLandscapeMode } from '@app/utils/device';
 
 @Component({
   selector: 'rof-simple-question-page',
@@ -29,7 +30,7 @@ export class RoFSimpleQuestionPage extends RoFPage {
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
     private cdr: ChangeDetectorRef,
-    private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
   ) {
     super();
   }
@@ -100,7 +101,7 @@ this.reportOfFire.headingDetectionActive = true;
   }
 
   checkOnlineStatus() {
-    this.commonUtilityService.pingService().subscribe(
+    this.connectivityService.pingService().subscribe(
       () => {
         this.offLine = false;
         this.cdr.detectChanges();
@@ -122,7 +123,7 @@ this.reportOfFire.headingDetectionActive = true;
   skipPage() {
     if (this.id === 'callback-page') {
       this.reportOfFire.headingDetectionActive = true;
-      if (this.reportOfFire.motionSensor !== 'no' && !this.commonUtilityService.checkIfLandscapeMode()) {
+      if (this.reportOfFire.motionSensor !== 'no' && !checkIfLandscapeMode()) {
         this.skip();
       } else {
         this.reportOfFirePage.selectPage('review-page', null, false);

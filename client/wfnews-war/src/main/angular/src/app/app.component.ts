@@ -16,7 +16,6 @@ import {
   CapacitorService,
   LocationNotification,
 } from '@app/services/capacitor-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { AppConfigService, TokenService } from '@wf1/core-ui';
 import {
@@ -147,7 +146,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     protected dialog: MatDialog,
     protected wfMapService: WFMapService,
     protected capacitorService: CapacitorService,
-    protected commonUtilityService: CommonUtilityService,
     protected zone: NgZone,
     protected titleService: Title,
     protected metaService: Meta,

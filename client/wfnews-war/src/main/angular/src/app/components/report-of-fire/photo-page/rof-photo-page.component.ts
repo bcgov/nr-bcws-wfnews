@@ -13,8 +13,9 @@ import {
   GalleryPhoto,
   Photo,
 } from '@capacitor/camera';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
+import { ConnectivityService } from '@app/services/connectivity.service';
+import { isIPhone } from '@app/utils/device';
 
 @Component({
   selector: 'rof-photo-page',
@@ -32,7 +33,7 @@ export class RoFPhotoPage extends RoFPage {
   public constructor(
     private changeDetector: ChangeDetectorRef,
     private el: ElementRef,
-    private commonUtilityService: CommonUtilityService,
+    private connectivityService: ConnectivityService,
     private reportOfFirePage: ReportOfFirePage,
     private cdr: ChangeDetectorRef,
   ) {
@@ -86,7 +87,7 @@ export class RoFPhotoPage extends RoFPage {
   }
 
   enterImageFullScreen(index: number) {
-    if (!this.isFullScreen && !this.commonUtilityService.isIPhone()) {
+    if (!this.isFullScreen && !isIPhone()) {
       const imgElement =
         this.el.nativeElement.querySelectorAll('.imagecontainer')[index];
       if (imgElement) {
@@ -127,7 +128,7 @@ export class RoFPhotoPage extends RoFPage {
   }
 
   previousPage() {
-    this.commonUtilityService.checkOnline().then((result) => {
+    this.connectivityService.checkOnlineStatus().then((result) => {
       if (!result) {
         this.reportOfFirePage.selectPage('distance-page', null, false);
       } else {
