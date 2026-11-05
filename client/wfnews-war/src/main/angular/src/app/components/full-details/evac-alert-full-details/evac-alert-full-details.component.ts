@@ -20,6 +20,7 @@ import { filter, take } from 'rxjs/operators';
 import { AppConfigService } from '@wf1/core-ui';
 import { setDisplayColor } from '../../../utils';
 import { Meta } from '@angular/platform-browser';
+import { ShareService } from '@app/services/share.service';
 
 export class EvacData {
   public name: string;
@@ -63,6 +64,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     protected router: Router,
     private watchlistService: WatchlistService,
     private commonUtilityService: CommonUtilityService,
+    private shareService: ShareService,
     private metaService: Meta,
     private mapConfigService: MapConfigService,
     private fullDetailsMap: FullDetailsMapService
@@ -245,6 +247,6 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   }
 
   shareMobile(status: string) {
-    this.commonUtilityService.shareMobile(`Evacuation ${status} for ${this.evacData.name}`);
+    this.shareService.shareMobile(`Evacuation ${status} for ${this.evacData.name}`);
   }
 }

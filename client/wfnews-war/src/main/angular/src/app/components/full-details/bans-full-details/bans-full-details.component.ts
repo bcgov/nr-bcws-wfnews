@@ -9,7 +9,6 @@ import {
   fireBanRelatedTopics,
 } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
 import { EventFeatureService } from '@app/services/event-feature.service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
 import { FullDetailsMapService } from '@app/services/full-details-map.service';
@@ -17,6 +16,7 @@ import { MapConfigService } from '@app/services/map-config.service';
 import { drawNearbyIncidents, ringsToExtent } from '@app/utils/preview-map';
 import { filter, take } from 'rxjs/operators';
 import { AppConfigService } from '@wf1/core-ui';
+import { ShareService } from '@app/services/share.service';
 
 export class BanProhibition {
   public id: string;
@@ -55,7 +55,7 @@ export class BansFullDetailsComponent implements OnInit {
     private publishedIncidentService: PublishedIncidentService,
     private httpClient: HttpClient,
     private route: Route,
-    private commonUtilityService: CommonUtilityService,
+    private shareService: ShareService,
     private metaService: Meta,
     private mapConfigService: MapConfigService,
     private fullDetailsMap: FullDetailsMapService
@@ -183,6 +183,6 @@ export class BansFullDetailsComponent implements OnInit {
   }
 
   shareMobile() {
-    this.commonUtilityService.shareMobile(`Fire Ban on ${this.banData.description} Open Fires`);
+    this.shareService.shareMobile(`Fire Ban on ${this.banData.description} Open Fires`);
   }
 }

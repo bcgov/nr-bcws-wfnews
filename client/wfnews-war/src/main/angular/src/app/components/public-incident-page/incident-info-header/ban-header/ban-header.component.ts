@@ -1,8 +1,8 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { INFORMATION_TEXTS } from '@app/constants';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ResourcesRoutes, convertToDateYear } from '@app/utils';
+import { ShareService } from '@app/services/share.service';
 
 @Component({
   selector: 'wfnews-ban-header',
@@ -17,7 +17,7 @@ export class BanHeaderComponent {
 
   constructor(
     private router: Router,
-    private commonUtilityService: CommonUtilityService
+    private shareService: ShareService,
   ) {}
 
 
@@ -43,7 +43,7 @@ export class BanHeaderComponent {
 
   openShareWindow() {
     const name = `Fire Ban on ${this.replaceCategoryDescription(this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION)} Open Fires`;
-    this.commonUtilityService.openShareWindow('Fire Ban',name);
+    this.shareService.openShareWindow('Fire Ban',name);
   }
 
 }

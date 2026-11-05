@@ -15,6 +15,7 @@ import { MapConfigService } from '@app/services/map-config.service';
 import { boundsToExtent, drawNearbyIncidents, extentToParam } from '@app/utils/preview-map';
 import { filter, take } from 'rxjs/operators';
 import { AppConfigService } from '@wf1/core-ui';
+import { ShareService } from '@app/services/share.service';
 
 @Component({
   selector: 'wfnews-danger-rating-full-details',
@@ -40,6 +41,7 @@ export class DangerRatingFullDetailsComponent implements OnInit {
     private route: Route,
     private eventFeatureService: EventFeatureService,
     private commonUtilityService: CommonUtilityService,
+    private shareService: ShareService,
     private metaService: Meta,
     private mapConfigService: MapConfigService,
     private fullDetailsMap: FullDetailsMapService
@@ -127,6 +129,6 @@ export class DangerRatingFullDetailsComponent implements OnInit {
   }
 
   shareMobile() {
-    this.commonUtilityService.shareMobile(`${this.rating} Danger Rating`);
+    this.shareService.shareMobile(`${this.rating} Danger Rating`);
   }
 }

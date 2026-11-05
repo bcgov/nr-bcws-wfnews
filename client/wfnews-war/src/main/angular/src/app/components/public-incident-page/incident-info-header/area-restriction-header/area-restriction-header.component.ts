@@ -1,8 +1,8 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 import { extentToParam, ringsToExtent } from '@app/utils/preview-map';
+import { ShareService } from '@app/services/share.service';
 
 @Component({
   selector: 'wfnews-area-restriction-header',
@@ -16,7 +16,7 @@ export class AreaRestrictionHeaderComponent {
 
   constructor(
     private router: Router,
-    private commonUtilityService: CommonUtilityService
+    private shareService: ShareService,
   ) {}
 
 
@@ -37,6 +37,6 @@ export class AreaRestrictionHeaderComponent {
 
   openShareWindow() {
     const name = this.areaRestriction.attributes.NAME;
-    this.commonUtilityService.openShareWindow('Area restriction',name);
+    this.shareService.openShareWindow('Area restriction',name);
   }
 }

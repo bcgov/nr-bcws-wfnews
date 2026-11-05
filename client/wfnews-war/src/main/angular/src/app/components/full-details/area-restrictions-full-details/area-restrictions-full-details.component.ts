@@ -22,6 +22,7 @@ import { setDisplayColor } from '@app/utils';
 import { WatchlistService } from '@app/services/watchlist-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { Meta } from '@angular/platform-browser';
+import { ShareService } from '@app/services/share.service';
 
 export class AreaRestriction {
   public name: string;
@@ -61,6 +62,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
     private publishedIncidentService: PublishedIncidentService,
     private watchlistService: WatchlistService,
     private commonUtilityService: CommonUtilityService,
+    private shareService: ShareService,
     private metaService: Meta,
     protected router: Router,
     private mapConfigService: MapConfigService,
@@ -236,6 +238,6 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
   }
 
   shareMobile() {
-    this.commonUtilityService.shareMobile(this.restrictionData?.name);
+    this.shareService.shareMobile(this.restrictionData?.name);
   }
 }

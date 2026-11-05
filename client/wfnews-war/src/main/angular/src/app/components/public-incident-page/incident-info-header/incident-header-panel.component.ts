@@ -42,6 +42,7 @@ import {
 } from '../../../utils';
 import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
 import * as turf from '@turf/turf';
+import { ShareService } from '@app/services/share.service';
 
 @Component({
   selector: 'incident-header-panel',
@@ -92,6 +93,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     private route: ActivatedRoute,
     private agolService: AGOLService,
     private commonUtilityService: CommonUtilityService,
+    private shareService: ShareService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private metaService: Meta,
@@ -412,7 +414,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     const incidentType = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS}` : 'Wildfire';
     const name = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS} for ${this.evac.attributes.EVENT_NAME}`
       : this.incident?.incidentName;
-    this.commonUtilityService.openShareWindow(incidentType, name);
+    this.shareService.openShareWindow(incidentType, name);
   }
 
 
@@ -611,6 +613,6 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   }
 
   shareMobile() {
-    this.commonUtilityService.shareMobile(this.incident.incidentName);
+    this.shareService.shareMobile(this.incident.incidentName);
   }
 }
