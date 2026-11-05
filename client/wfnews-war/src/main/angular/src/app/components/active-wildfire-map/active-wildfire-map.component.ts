@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   QueryList,
   ViewChild,
@@ -20,8 +21,10 @@ import { WildfireNotificationDialogComponent } from "@app/components/wildfire-no
 import { AGOLService } from "@app/services/AGOL-service";
 import { CapacitorService } from "@app/services/capacitor-service";
 import { NotificationService } from "@app/services/notification.service";
+import { PermissionService } from "@app/services/permission.service";
 import { PointIdService } from "@app/services/point-id.service";
 import { App } from "@capacitor/app";
+import { PluginListenerHandle } from "@capacitor/core";
 import { Preferences } from "@capacitor/preferences";
 import { AppConfigService } from "@wf1/core-ui";
 import { debounceTime } from "rxjs/operators";
@@ -64,13 +67,18 @@ declare const window: any;
 // At the start zoom the province fills the screen, so centring a point there only shifts it.
 const POINT_LINK_ZOOM = 8;
 
+/** The location FAB: `off` has no permission, `finding` has no position yet. */
+export type LocationState = "off" | "finding" | "ready";
+
 @Component({
   selector: "active-wildfire-map",
   templateUrl: "./active-wildfire-map.component.html",
   styleUrls: ["./active-wildfire-map.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
+export class ActiveWildfireMapComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @ViewChildren("locationOptions") locationOptions: QueryList<ElementRef>;
   @ViewChild(MatAutocompleteTrigger, { read: MatAutocompleteTrigger })
   inputAutoComplete: MatAutocompleteTrigger;
@@ -98,7 +106,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   savedLocationlabelsToShow: any[] = [];
   savedLocationlabels: any[] = [];
 
-  isLocationEnabled: boolean;
+  locationState: LocationState = "off";
+  private locating = false;
+  private resumeListener: Promise<PluginListenerHandle>;
+  private readonly destroying = new AbortController();
   public userLocation;
   isMapLoaded = false;
   isAllLayersOpen = false;
@@ -137,6 +148,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected capacitorService: CapacitorService,
     protected pointIdService: PointIdService,
     private permissionDialog: PermissionDialogService,
+    private permissionService: PermissionService,
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest["newsLocal"];
     this.placeData = new PlaceData();
@@ -321,9 +333,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         }
       });
 
-    App.addListener("resume", () => {
-      this.updateLocationEnabledVariable();
+    this.resumeListener = App.addListener("resume", () => {
+      this.refreshLocationState();
     });
+  }
+
+  ngOnDestroy() {
+    this.destroying.abort();
+    this.resumeListener?.then((handle) => handle.remove());
   }
 
   pushTextMatchToFront(val: string) {
@@ -591,7 +608,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       this.router.url.slice(1);
     this.snowPlowHelper(this.url);
     this.showAccordion = true;
-    this.updateLocationEnabledVariable();
+    this.refreshLocationState();
   }
 
   get maplibre() {
@@ -743,7 +760,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   clearSearchLocationControl() {
     this.searchByLocationControl.reset();
-    this.isLocationEnabled = false;
     this.clearMyLocation();
   }
 
@@ -1072,6 +1088,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   async useMyCurrentLocation() {
+    // A second tap waits for the first request to finish.
+    if (this.locating) {
+      return;
+    }
+    this.locating = true;
     this.snowPlowHelper(this.url, {
       action: "near_me_map_click",
     });
@@ -1081,20 +1102,30 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
     this.searchText = undefined;
 
-    // A tap asks. When a prompt cannot help, the dialog gives the way out.
-    const result = await this.permissionDialog.ensure("location", {
-      reason: PERMISSION_DIALOG.location.reason.map,
-    });
-    this.isLocationEnabled = result === "granted";
-    if (!this.isLocationEnabled) {
-      return;
-    }
-
     try {
-      this.userLocation =
-        await this.commonUtilityService.getCurrentLocationPromise();
-      const long = this.userLocation.coords.longitude;
-      const lat = this.userLocation.coords.latitude;
+      // A tap asks. When a prompt cannot help, the dialog gives the way out.
+      const result = await this.permissionDialog.ensure("location", {
+        reason: PERMISSION_DIALOG.location.reason.map,
+      });
+      if (result !== "granted") {
+        this.setLocationState("off");
+        return;
+      }
+      if (this.locationState !== "ready") {
+        this.setLocationState("finding");
+      }
+
+      const position = await this.commonUtilityService.findPosition(
+        this.destroying.signal,
+      );
+      if (!position) {
+        return;
+      }
+      this.userLocation = position;
+      this.setLocationState("ready");
+
+      const long = position.coords.longitude;
+      const lat = position.coords.latitude;
       if (lat && long) {
         this.showAreaHighlight([long, lat], 50);
         this.showLocationMarker({
@@ -1109,23 +1140,43 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         }
       }
       this.searchByLocationControl.setValue(lat + "," + long);
-    } catch (error) {
-      if (this.isLocationEnabled) {
-        this.snackbarService.open(
-          "Awaiting location information from device. Please try again momentarily.",
-          "",
-          {
-            duration: 5000,
-          },
-        );
-      }
+    } finally {
+      this.locating = false;
     }
   }
 
-  async updateLocationEnabledVariable() {
-    this.isLocationEnabled =
-      await this.commonUtilityService.checkLocationServiceStatus();
-    this.cdr.detectChanges();
+  /** The FAB shows the permission; its colour shows whether a position is ready. */
+  async refreshLocationState() {
+    const state = await this.permissionService.check("location");
+    if (state !== "granted") {
+      this.setLocationState("off");
+      return;
+    }
+    this.setLocationState("finding");
+    // 60 s: a cold GPS fix is slow. A tap in the meantime shares this request.
+    const position = await this.commonUtilityService.getGpsPositionIfPermitted();
+    if (position) {
+      this.userLocation = position;
+      this.setLocationState("ready");
+    }
+  }
+
+  private setLocationState(state: LocationState) {
+    this.locationState = state;
+    if (!this.destroying.signal.aborted) {
+      this.cdr.detectChanges();
+    }
+  }
+
+  get locationLabel(): string {
+    if (this.clickedMyLocation) {
+      return "Clear my location";
+    }
+    return {
+      off: "Location is off",
+      finding: "Finding your location",
+      ready: "Show my location",
+    }[this.locationState];
   }
 
   showAreaHighlight(center, radius) {
