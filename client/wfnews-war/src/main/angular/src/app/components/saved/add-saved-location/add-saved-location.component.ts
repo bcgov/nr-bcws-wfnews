@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -42,7 +42,7 @@ export class LocationData {
   templateUrl: './add-saved-location.component.html',
   styleUrls: ['./add-saved-location.component.scss'],
 })
-export class AddSavedLocationComponent implements OnInit {
+export class AddSavedLocationComponent implements OnInit, OnDestroy {
   searchText = undefined;
   public filteredOptions = [];
   public locationData = new LocationData();
@@ -57,6 +57,8 @@ export class AddSavedLocationComponent implements OnInit {
 
   private placeData: PlaceData;
   private sortedAddressList: string[] = [];
+  private locating = false;
+  private readonly destroying = new AbortController();
 
   constructor(
     private commonUtilityService: CommonUtilityService,
@@ -102,6 +104,10 @@ export class AddSavedLocationComponent implements OnInit {
 
   isWebDevice() {
     return this.capacitor.isWebPlatform;
+  }
+
+  ngOnDestroy(): void {
+    this.destroying.abort();
   }
 
   ngOnInit(): void {
@@ -185,14 +191,23 @@ export class AddSavedLocationComponent implements OnInit {
   }
 
   async useUserLocation() {
-    // A tap asks. When a prompt cannot help, the dialog gives the way out.
-    const reason = PERMISSION_DIALOG.location.reason.useLocation;
-    if ((await this.permissionDialog.ensure('location', { reason })) !== 'granted') {
+    // A second tap waits for the first request to finish.
+    if (this.locating) {
       return;
     }
+    this.locating = true;
     try {
-      const location =
-        await this.commonUtilityService.getCurrentLocationPromise();
+      // A tap asks. When a prompt cannot help, the dialog gives the way out.
+      const reason = PERMISSION_DIALOG.location.reason.useLocation;
+      if ((await this.permissionDialog.ensure('location', { reason })) !== 'granted') {
+        return;
+      }
+      const location = await this.commonUtilityService.findPosition(
+        this.destroying.signal,
+      );
+      if (!location) {
+        return;
+      }
       this.setLocationSource('device');
       this.locationData.latitude = location.coords.latitude;
       this.locationData.longitude = location.coords.longitude;
@@ -202,10 +217,12 @@ export class AddSavedLocationComponent implements OnInit {
         this.locationData.longitude.toFixed(2).toString();
 
       this.locationData.searchText = this.searchText;
-    } catch (error) {
-      console.error('Could not get the device position', error);
+    } finally {
+      this.locating = false;
+      if (!this.destroying.signal.aborted) {
+        this.cdr.detectChanges();
+      }
     }
-    this.cdr.detectChanges();
   }
 
   async chooseOnMap() {

@@ -2,10 +2,18 @@ import { NumberFormatStyle } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  MatSnackBar,
+  MatSnackBarRef,
+  TextOnlySnackBar,
+} from '@angular/material/snack-bar';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ShareDialogComponent } from '@app/components/admin-incident-form/share-dialog/share-dialog.component';
+import {
+  PERMISSION_BANNER,
+  PERMISSION_DIALOG,
+} from '@app/components/common/permission-banner/permission-banner.constants';
 import { snowPlowHelper } from '@app/utils';
 import { Capacitor, CapacitorHttp } from '@capacitor/core';
 import { Geolocation } from '@capacitor/geolocation';
@@ -22,6 +30,11 @@ const MAX_CACHE_AGE = 30 * 1000;
 const POSITION_LIMIT = 10 * 1000;
 // MDN: a GPS fix "can take a minute or more". With no network, only GPS can answer.
 const GPS_POSITION_LIMIT = 60 * 1000;
+// A cached position answers before this, so only a real wait shows the notice.
+const SEARCHING_NOTICE_DELAY = 300;
+const NO_POSITION_DURATION = 10 * 1000;
+const SEARCHING = PERMISSION_BANNER.location.reportOfFire.searching;
+const SEARCHING_NOTICE = `${SEARCHING.heading}. ${SEARCHING.message}`;
 
 /**
  * The Android plugin does not apply its own `timeout`. A request measured on a
@@ -70,6 +83,7 @@ export class CommonUtilityService {
   private locationTime;
   private location;
   private rofService;
+  private gpsRequest: Promise<Position | undefined>;
 
   constructor(
     protected snackbarService: MatSnackBar,
@@ -113,21 +127,52 @@ export class CommonUtilityService {
   }
 
   /**
-   * The same, for a device with no network. The Play services check fails offline,
+   * The same, with time for a cold GPS fix. Offline the Play services check fails,
    * so only the fallback reaches the GPS provider (plugin README).
    */
-  async getGpsPositionIfPermitted(): Promise<Position | undefined> {
-    return this.ifPermitted(() =>
-      withLimit(
-        Geolocation.getCurrentPosition({
-          enableHighAccuracy: true,
-          enableLocationFallback: true,
-          maximumAge: MAX_CACHE_AGE,
-          timeout: GPS_POSITION_LIMIT,
-        }),
-        GPS_POSITION_LIMIT,
-      ),
+  getGpsPositionIfPermitted(): Promise<Position | undefined> {
+    // A page and a tap can ask at the same time; one request answers both.
+    if (!this.gpsRequest) {
+      this.gpsRequest = this.ifPermitted(() =>
+        withLimit(
+          Geolocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            enableLocationFallback: true,
+            maximumAge: MAX_CACHE_AGE,
+            timeout: GPS_POSITION_LIMIT,
+          }),
+          GPS_POSITION_LIMIT,
+        ),
+      ).finally(() => (this.gpsRequest = undefined));
+    }
+    return this.gpsRequest;
+  }
+
+  /**
+   * A position for a tap, after the permission is granted. It tells the user while it
+   * waits, and what to do when no position comes. An abort ends it with no message.
+   */
+  async findPosition(signal?: AbortSignal): Promise<Position | undefined> {
+    if (signal?.aborted) {
+      return undefined;
+    }
+    let notice: MatSnackBarRef<TextOnlySnackBar>;
+    const timer = setTimeout(() => {
+      notice = this.snackbarService.open(SEARCHING_NOTICE);
+    }, SEARCHING_NOTICE_DELAY);
+    const aborted = new Promise<undefined>((resolve) =>
+      signal?.addEventListener('abort', () => resolve(undefined), { once: true }),
     );
+    const position = await Promise.race([this.getGpsPositionIfPermitted(), aborted]);
+    clearTimeout(timer);
+    if (position || signal?.aborted) {
+      notice?.dismiss();
+      return signal?.aborted ? undefined : position;
+    }
+    this.snackbarService.open(PERMISSION_DIALOG.location.message.noPosition, '', {
+      duration: NO_POSITION_DURATION,
+    });
+    return undefined;
   }
 
   private async ifPermitted(
@@ -226,21 +271,6 @@ export class CommonUtilityService {
   isIPhone(): boolean {
     const userAgent = window.navigator.userAgent.toLowerCase();
     return /iphone/.test(userAgent);
-  }
-
-  /**
-   * Can we get a position right now? This never raises the Android dialog, because it
-   * runs on load, for example when the Active Wildfire Map starts. A control that
-   * should ask must call requestLocationPermission() on the CapacitorService instead.
-   */
-  async checkLocation(): Promise<boolean> {
-    return (await this.getPositionIfPermitted()) !== undefined;
-  }
-
-  async checkLocationServiceStatus(): Promise<boolean> {
-    // requestPosition carries its own limit now, so the old countdown race is gone.
-    // That race never applied: it awaited the answer before it raced it.
-    return this.checkLocation();
   }
 
   pingService(): Observable<any> {
