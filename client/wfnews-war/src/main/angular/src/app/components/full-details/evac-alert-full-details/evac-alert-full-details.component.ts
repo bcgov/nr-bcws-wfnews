@@ -6,7 +6,6 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { EventFeatureService } from '@app/services/event-feature.service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import {
   PublishedIncidentService,
   SimpleIncident,
@@ -21,6 +20,7 @@ import { AppConfigService } from '@wf1/core-ui';
 import { setDisplayColor } from '../../../utils';
 import { Meta } from '@angular/platform-browser';
 import { ShareService } from '@app/services/share.service';
+import { extractPolygonData, getPolygonBond } from '@app/utils/polygon-bounds';
 
 export class EvacData {
   public name: string;
@@ -63,7 +63,6 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     protected router: Router,
     private watchlistService: WatchlistService,
-    private commonUtilityService: CommonUtilityService,
     private shareService: ShareService,
     private metaService: Meta,
     private mapConfigService: MapConfigService,
@@ -85,9 +84,9 @@ export class EvacAlertFullDetailsComponent implements OnInit {
       Number(this.evacData?.centroidLongitude),
     ];
     const rings = this.evacFeature?.geometry?.rings;
-    const polygonData = rings?.length ? this.commonUtilityService.extractPolygonData(rings) : [];
+    const polygonData = rings?.length ? extractPolygonData(rings) : [];
     if (polygonData.length) {
-      this.createMap(location, this.commonUtilityService.getPolygonBond(polygonData));
+      this.createMap(location, getPolygonBond(polygonData));
     } else {
       this.createMap(location);
     }

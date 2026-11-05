@@ -10,10 +10,11 @@ import { RoFPage } from '../rofPage';
 import { ReportOfFire } from '../reportOfFireModel';
 import { Capacitor, PluginListenerHandle } from '@capacitor/core';
 import { Compass, Heading } from '@capawesome/capacitor-compass';
-import { CommonUtilityService } from '../../../services/common-utility.service';
 import { LocationService } from '@app/services/location.service';
 import { declinationAt, toTrueNorth } from '@app/utils/true-north';
 import { equalsIgnoreCase } from '../../../utils';
+import { formatDDM } from '@app/utils/coordinates';
+import { checkIfLandscapeMode } from '@app/utils/device';
 
 // A browser with no compass sends no reading at all, so the wait needs an end.
 const NO_READING_MS = 2000;
@@ -45,7 +46,6 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
   equalsIgnoreCase = equalsIgnoreCase;
 
   constructor(
-    private commonUtilityService: CommonUtilityService,
     private locationService: LocationService,
     private zone: NgZone,
     private cdr: ChangeDetectorRef,
@@ -73,9 +73,9 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
   }
 
   onShown(): void {
-    this.landscapeMode = this.commonUtilityService.checkIfLandscapeMode();
+    this.landscapeMode = checkIfLandscapeMode();
     this.viewportListener = () => {
-      const landscape = this.commonUtilityService.checkIfLandscapeMode();
+      const landscape = checkIfLandscapeMode();
       if (landscape === this.landscapeMode) {
         return;
       }
@@ -220,10 +220,10 @@ export class RoFCompassPage extends RoFPage implements OnInit, OnDestroy {
       const location =
         await this.locationService.getPositionIfPermitted();
       if (location) {
-        this.currentLat = this.commonUtilityService.formatDDM(
+        this.currentLat = formatDDM(
           Number(location.coords.latitude),
         );
-        this.currentLong = this.commonUtilityService.formatDDM(
+        this.currentLong = formatDDM(
           Number(location.coords.longitude),
         );
       }

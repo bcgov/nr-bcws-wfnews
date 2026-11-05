@@ -46,6 +46,7 @@ import {
   LocationData,
 } from '../filter-by-location/filter-by-location-dialog.component';
 import { WildFiresListComponentModel } from './wildfires-list.component.model';
+import { sortAddressList } from '@app/utils/address-search';
 
 @Directive()
 export class WildFiresListComponent
@@ -148,7 +149,7 @@ export class WildFiresListComponent
             if (results) {
               results.forEach((result) => {
                 self.sortedAddressList =
-                  self.commonUtilityService.sortAddressList(results, val);
+                  sortAddressList(results, val);
               });
               self.filteredOptions = self.sortedAddressList;
             }

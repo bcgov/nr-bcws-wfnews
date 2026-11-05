@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ReportOfFire } from '@app/components/report-of-fire/reportOfFireModel';
 import { RoFPage } from '@app/components/report-of-fire/rofPage';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { LocationService } from '@app/services/location.service';
 import { AppConfigService } from '@wf1/core-ui';
+import { formatDDM } from '@app/utils/coordinates';
 
 @Component({
   selector: 'rof-call-page',
@@ -38,7 +38,6 @@ export class RofCallPage extends RoFPage {
 
   public constructor(
     private appConfig: AppConfigService,
-    private commonUtilityService: CommonUtilityService,
     private locationService: LocationService,
   ) {
     super();
@@ -68,6 +67,6 @@ export class RofCallPage extends RoFPage {
   }
 
   formate(coordinate) {
-    return this.commonUtilityService.formatDDM(Number(coordinate));
+    return formatDDM(Number(coordinate));
   }
 }

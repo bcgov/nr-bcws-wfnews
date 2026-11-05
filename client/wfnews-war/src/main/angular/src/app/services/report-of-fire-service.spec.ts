@@ -82,7 +82,6 @@ describe('ReportOfFireService EXIF handling', () => {
       null as any,
       null as any,
       null as any,
-      null as any,
     );
     service.latitude = TEST_LATITUDE;
     service.longitude = TEST_LONGITUDE;

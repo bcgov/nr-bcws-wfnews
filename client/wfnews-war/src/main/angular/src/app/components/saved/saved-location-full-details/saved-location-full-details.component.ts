@@ -4,6 +4,7 @@ import { NotificationService } from '@app/services/notification.service';
 import { PointIdService } from '@app/services/point-id.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import {
+  isAttributePresent,
   ResourcesRoutes,
   convertToDateTimeTimeZone,
   displayDangerRatingDescription,
@@ -21,7 +22,6 @@ import {
 } from '@app/components/common/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { WatchlistService } from '@app/services/watchlist-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 
 @Component({
   selector: 'wfnews-saved-location-full-details',
@@ -62,7 +62,6 @@ export class SavedLocationFullDetailsComponent implements OnInit {
     protected dialog: MatDialog,
     protected snackbarService: MatSnackBar,
     private watchlistService: WatchlistService,
-    private commonUtilityService: CommonUtilityService
   ) {}
 
   ngOnInit() {
@@ -194,7 +193,7 @@ this.agolService
             if (bans?.features) {
               this.fireBans = [];
               for (const item of bans.features) {
-                const attributePresent = this.commonUtilityService.isAttributePresent(
+                const attributePresent = isAttributePresent(
                   this.fireBans,
                   'ACCESS_PROHIBITION_DESCRIPTION',
                   item.attributes.ACCESS_PROHIBITION_DESCRIPTION

@@ -5,10 +5,10 @@ import { AppConfigService } from '@wf1/core-ui';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Subscription } from 'rxjs';
-import { CommonUtilityService } from './common-utility.service';
 import { IonicStorageService } from './ionic-storage.service';
 import { LocalStorageService } from './local-storage-service';
 import { ConnectivityService } from '@app/services/connectivity.service';
+import { hasSQLKeywords } from '@app/utils';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -45,7 +45,6 @@ export class ReportOfFireService {
 
   constructor(
     private appConfigService: AppConfigService,
-    private commonUtilityService: CommonUtilityService,
     private connectivityService: ConnectivityService,
     private ionicStorageService: IonicStorageService,
     private localStorageService: LocalStorageService
@@ -59,7 +58,7 @@ export class ReportOfFireService {
   ): Promise<any> {
     const rofUrl = this.appConfigService.getConfig().rest['fire-report-api'];
     const resource = JSON.stringify(reportOfFire);
-    if (this.commonUtilityService.hasSQLKeywords(resource)) {
+    if (hasSQLKeywords(resource)) {
       console.error("JSON blob contains SQL keywords. Potential SQL injection attempt.");
       return;
     }

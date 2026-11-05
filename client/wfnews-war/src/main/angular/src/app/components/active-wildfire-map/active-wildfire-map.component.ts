@@ -28,7 +28,6 @@ import { PluginListenerHandle } from "@capacitor/core";
 import { Preferences } from "@capacitor/preferences";
 import { AppConfigService } from "@wf1/core-ui";
 import { debounceTime } from "rxjs/operators";
-import { CommonUtilityService } from "../../services/common-utility.service";
 import { LocationService } from "../../services/location.service";
 import { MapConfigService } from "../../services/map-config.service";
 import { PublishedIncidentService } from "../../services/published-incident-service";
@@ -51,6 +50,7 @@ import {
   SearchResult,
 } from "../search/search-page.component";
 import * as turf from '@turf/turf';
+import { sortAddressList } from '@app/utils/address-search';
 
 export type SelectedLayer =
   | "evacuation-orders-and-alerts"
@@ -139,7 +139,6 @@ export class ActiveWildfireMapComponent
     private appConfig: AppConfigService,
     private mapConfigService: MapConfigService,
     private publishedIncidentService: PublishedIncidentService,
-    private commonUtilityService: CommonUtilityService,
     private locationService: LocationService,
     protected dialog: MatDialog,
     protected cdr: ChangeDetectorRef,
@@ -176,7 +175,7 @@ export class ActiveWildfireMapComponent
           if (val.length > 2) {
             this.placeData.searchAddresses(val).then((results) => {
               if (results) {
-                const sortedResults = this.commonUtilityService.sortAddressList(
+                const sortedResults = sortAddressList(
                   results,
                   val,
                 );

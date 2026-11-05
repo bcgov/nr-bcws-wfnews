@@ -10,7 +10,6 @@ import {
 } from '@app/components/common/permission-banner/permission-banner.constants';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { CapacitorService } from '@app/services/capacitor-service';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { Position } from '@app/services/location.service';
 import {
   PermissionService,
@@ -20,6 +19,7 @@ import { Subscription } from 'rxjs';
 import { ReportOfFire } from '../reportOfFireModel';
 import { RoFPage } from '../rofPage';
 import { ConnectivityService } from '@app/services/connectivity.service';
+import { checkIfLandscapeMode } from '@app/utils/device';
 
 // A browser tells no page when its settings change, so the page reads them again.
 const RECHECK_INTERVAL = 2 * 1000;
@@ -59,7 +59,6 @@ export class RoFPermissionsPage extends RoFPage implements OnDestroy {
 
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
-    private commonUtilityService: CommonUtilityService,
     private connectivityService: ConnectivityService,
     private capacitorService: CapacitorService,
     private cdr: ChangeDetectorRef,
@@ -144,7 +143,7 @@ export class RoFPermissionsPage extends RoFPage implements OnDestroy {
 
     if (
       this.isMotionSensorActive() &&
-      !this.commonUtilityService.checkIfLandscapeMode()
+      !checkIfLandscapeMode()
     ) {
       this.reportOfFire.headingDetectionActive = true;
       this.next();
