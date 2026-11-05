@@ -21,7 +21,6 @@ import * as moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
 import { PagedCollection } from '../../../conversion/models';
 import { ApplicationStateService } from '../../../services/application-state.service';
-import { CommonUtilityService } from '../../../services/common-utility.service';
 import { ResponsiveDialogService } from '../../../services/responsive-dialog.service';
 import { WatchlistService } from '../../../services/watchlist-service';
 import { PlaceData } from '../../../services/wfnews-map.service/place-data';
@@ -107,7 +106,6 @@ export class WildFiresListComponent
     appConfigService: AppConfigService,
     http: HttpClient,
     watchlistService: WatchlistService,
-    commonUtilityService: CommonUtilityService,
     private responsiveDialog: ResponsiveDialogService,
     private capacitorService: CapacitorService,
   ) {
@@ -126,7 +124,6 @@ export class WildFiresListComponent
       appConfigService,
       http,
       watchlistService,
-      commonUtilityService,
     );
     this.placeData = new PlaceData();
     const self = this;

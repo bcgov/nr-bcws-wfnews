@@ -16,7 +16,6 @@ import {
   confirmationDialogConfig,
 } from '@app/components/common/confirmation-dialog/confirmation-dialog.component';
 import { RofCallPage } from '@app/components/report-of-fire/rof-callback-page/rof-call-page.component';
-import { CommonUtilityService } from '@app/services/common-utility.service';
 import { isMobileView } from '@app/utils';
 import { RoFCommentsPage } from './comment-page/rof-comments-page.component';
 import { RoFCompassPage } from './compass-page/rof-compass-page.component';
@@ -48,7 +47,6 @@ enum PageOperation {
   selector: 'report-of-fire',
   templateUrl: './report-of-fire.component.html',
   styleUrls: ['./report-of-fire.component.scss'],
-  providers: [CommonUtilityService],
 })
 export class ReportOfFirePage implements OnInit, AfterContentInit {
   @ViewChild('dynamic', { static: true, read: ViewContainerRef })

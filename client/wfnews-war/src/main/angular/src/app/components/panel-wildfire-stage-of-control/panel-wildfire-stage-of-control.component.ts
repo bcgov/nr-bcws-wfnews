@@ -31,7 +31,6 @@ import {
   PagedCollection,
 } from '../../conversion/models';
 import { ApplicationStateService } from '../../services/application-state.service';
-import { CommonUtilityService } from '../../services/common-utility.service';
 import { LocationService } from '../../services/location.service';
 import { WatchlistService } from '../../services/watchlist-service';
 import { haversineDistance } from '../../services/wfnews-map.service/util';
@@ -145,7 +144,6 @@ export class PanelWildfireStageOfControlComponent
     appConfigService: AppConfigService,
     http: HttpClient,
     watchlistService: WatchlistService,
-    commonUtilityService?: CommonUtilityService,
   ) {
     super(
       router,
@@ -162,7 +160,6 @@ export class PanelWildfireStageOfControlComponent
       appConfigService,
       http,
       watchlistService,
-      commonUtilityService,
     );
     this.zone = this.injector.get(NgZone);
   }

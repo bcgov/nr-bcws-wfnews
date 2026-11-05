@@ -119,7 +119,7 @@ So these three services are **not shaped and not counted** by any
 
 - `notification.service.ts` — the **Saved Location** reads
 - `wf-map.service.ts` — the **Active Wildfire Map**
-- `common-utility.service.ts`
+- `connectivity.service.ts` — the Dashboard highlights
 
 `offline` is the exception because it turns the Wi-Fi off, which stops every
 path.

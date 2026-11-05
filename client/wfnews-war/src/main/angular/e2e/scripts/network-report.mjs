@@ -100,7 +100,7 @@ function main() {
   out.push('');
   out.push('- `notification.service.ts` — the Saved Location reads');
   out.push('- `wf-map.service.ts` — the Active Wildfire Map');
-  out.push('- `common-utility.service.ts`');
+  out.push('- `connectivity.service.ts` — the Dashboard highlights');
   out.push('');
   out.push('The `offline` Network Profile is the exception. It turns the Wi-Fi off, which');
   out.push('stops every path, so the offline rows are complete.');

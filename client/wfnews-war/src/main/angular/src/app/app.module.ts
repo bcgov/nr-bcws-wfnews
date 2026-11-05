@@ -314,7 +314,6 @@ import { WfimEtagInterceptor } from './interceptors/wfim-etag-interceptor';
 import { WfnewsInterceptor } from './interceptors/wfnews-interceptor';
 import { SafePipe } from './pipes/safe.pipe';
 import { AGOLService } from './services/AGOL-service';
-import { CommonUtilityService } from './services/common-utility.service';
 import { DocumentManagementService } from './services/document-management.service';
 import { GoogleChartsService } from './services/google-charts.service';
 import { IonicStorageService } from './services/ionic-storage.service';
@@ -736,7 +735,6 @@ export const DATE_FORMATS = {
     { provide: MatDialogRef, useValue: {} },
     WFMapService,
     MapConfigService,
-    CommonUtilityService,
     DocumentManagementService,
     PublishedIncidentService,
     LocalStorageService,
