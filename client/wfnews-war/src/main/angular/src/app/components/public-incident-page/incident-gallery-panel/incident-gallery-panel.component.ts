@@ -39,7 +39,7 @@ export class IncidentGalleryPanel implements OnInit {
 
   getAll(displayedItemNumber: number) {
     return this.media.sort(
-      (a, b) => new Date(b.uploadedDate).getDate() - new Date(a.uploadedDate).getDate()
+      (a, b) => (new Date(b.uploadedDate).getTime() || 0) - (new Date(a.uploadedDate).getTime() || 0)
     ).slice(0, displayedItemNumber);
   }
 
@@ -49,7 +49,7 @@ export class IncidentGalleryPanel implements OnInit {
 
   getVideos(displayedItemNumber: number) {
     return this.media.filter((item) => item.type === 'video').sort(
-      (a, b) => new Date(b.uploadedDate).getDate() - new Date(a.uploadedDate).getDate()
+      (a, b) => (new Date(b.uploadedDate).getTime() || 0) - (new Date(a.uploadedDate).getTime() || 0)
     ).slice(0, displayedItemNumber);
   }
 
@@ -59,7 +59,7 @@ export class IncidentGalleryPanel implements OnInit {
 
   getImages(displayedItemNumber: number) {
     return this.media.filter((item) => item.type === 'image').sort(
-      (a, b) => new Date(b.uploadedDate).getDate() - new Date(a.uploadedDate).getDate()
+      (a, b) => (new Date(b.uploadedDate).getTime() || 0) - (new Date(a.uploadedDate).getTime() || 0)
     ).slice(0, displayedItemNumber);
   }
 
