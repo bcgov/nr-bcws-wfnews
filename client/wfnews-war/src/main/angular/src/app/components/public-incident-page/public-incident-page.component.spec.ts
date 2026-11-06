@@ -1,4 +1,3 @@
-import { ChangeDetectorRef } from '@angular/core';
 import { of } from 'rxjs';
 import { PublicIncidentPageComponent } from './public-incident-page.component';
 import { IncidentTabsComponent } from './incident-tabs/incident-tabs.component';
@@ -6,7 +5,7 @@ import { IncidentTabsComponent } from './incident-tabs/incident-tabs.component';
 describe('PublicIncidentPageComponent - Tab Selection and Sharing', () => {
   let component: PublicIncidentPageComponent;
   let mockActivatedRoute: any;
-  let mockCdr: jasmine.SpyObj<ChangeDetectorRef>;
+  let mockCdr: any;
   let mockAgolService: any;
   let mockPublishedIncidentService: any;
   let mockHttp: any;
