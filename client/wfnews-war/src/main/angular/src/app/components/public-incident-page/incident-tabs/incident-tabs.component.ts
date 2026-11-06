@@ -23,6 +23,5 @@ export class IncidentTabsComponent {
 
   handleTabChange(tabIndex) {
     this.selectedTabIndex = tabIndex;
-    this.tabChange.emit({ index: tabIndex } as MatTabChangeEvent);
   } 
 }

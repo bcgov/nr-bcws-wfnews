@@ -204,14 +204,12 @@ describe('PublicIncidentPageComponent - Tab Selection and Sharing', () => {
   });
 
   describe('IncidentTabsComponent', () => {
-    it('should emit tabChange when handleTabChange is called', () => {
+    it('should update selectedTabIndex when handleTabChange is called', () => {
       const tabsComponent = new IncidentTabsComponent();
-      spyOn(tabsComponent.tabChange, 'emit');
 
       tabsComponent.handleTabChange(2);
 
       expect(tabsComponent.selectedTabIndex).toBe(2);
-      expect(tabsComponent.tabChange.emit).toHaveBeenCalledWith({ index: 2 } as any);
     });
   });
 });
