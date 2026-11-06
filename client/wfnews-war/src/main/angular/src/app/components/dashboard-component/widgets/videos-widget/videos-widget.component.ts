@@ -3,7 +3,11 @@ import { AfterViewInit, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { YouTubeService } from '@app/services/youtube-service';
-import { convertToYoutubeId, snowPlowHelper } from '@app/utils';
+import {
+  convertToYoutubeId,
+  decodeHtmlEntities,
+  snowPlowHelper,
+} from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
@@ -42,7 +46,7 @@ export class VideosWidget implements AfterViewInit {
             this.videos.push({
               externalUriGuid: video.etag,
               sourceObjectUniqueId: video.etag,
-              externalUriDisplayLabel: video.snippet.title,
+              externalUriDisplayLabel: decodeHtmlEntities(video.snippet.title),
               externalUri: this.youtubeService.sanitizeYoutubeUrl(`https://www.youtube.com/watch?v=${video.id.videoId}`),
             });
           }
@@ -81,7 +85,7 @@ export class VideosWidget implements AfterViewInit {
                   this.videos.push({
                     externalUriGuid: video.externalUriGuid,
                     sourceObjectUniqueId: video.sourceObjectUniqueId,
-                    externalUriDisplayLabel: video.externalUriDisplayLabel,
+                    externalUriDisplayLabel: decodeHtmlEntities(video.externalUriDisplayLabel),
                     externalUri: this.youtubeService.sanitizeYoutubeUrl(video.externalUri),
                   });
 

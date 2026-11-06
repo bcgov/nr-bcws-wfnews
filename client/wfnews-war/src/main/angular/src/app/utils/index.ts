@@ -517,6 +517,19 @@ export function convertToYoutubeId(externalUri: string) {
   }
 }
 
+// Decodes HTML entities (for example &#39; or &amp;) into plain text. The
+// parsed document is inert, so no scripts run, and only the text content is
+// returned, so no markup survives.
+export function decodeHtmlEntities(value: string): string {
+  if (!value) {
+    return value;
+  }
+  return (
+    new DOMParser().parseFromString(value, 'text/html').documentElement
+      .textContent ?? ''
+  );
+}
+
 export function hideOnMobileView() {
   return (
     (window.innerWidth < 768 && window.innerHeight < 1024) ||
