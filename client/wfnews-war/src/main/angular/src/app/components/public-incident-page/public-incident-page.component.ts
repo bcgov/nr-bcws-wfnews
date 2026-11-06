@@ -30,6 +30,7 @@ export class PublicIncidentPageComponent implements OnInit {
   public snowPlowHelper = snowPlowHelper;
 
   selectedTabIndex = 0;
+  public readonly tabLabels = ['Details', 'Response', 'Gallery', 'Maps'];
 
   showImageWarning: boolean;
   showMapsWarning: boolean;
@@ -46,14 +47,55 @@ export class PublicIncidentPageComponent implements OnInit {
     private currentRouter: Router
   ) { }
 
+  getTabIndexFromParam(tab: any): number {
+    if (!tab) {
+      return 0;
+    }
+    const tabStr = tab.toString().toLowerCase().trim();
+    switch (tabStr) {
+      case 'details':
+        return 0;
+      case 'response':
+        return 1;
+      case 'gallery':
+        return 2;
+      case 'maps':
+        return 3;
+      default:
+        return 0;
+    }
+  }
+
   ngOnInit() {
     this.router.queryParams.subscribe((params: ParamMap) => {
       this.appConfigService
         .getConfig()
         .externalAppConfig['bcWildfireResponsePage'].toString();
       if (params && params['incidentNumber'] && params['fireYear']) {
-        this.incidentNumber = params['incidentNumber'];
-        this.fireYear = params['fireYear'];
+        const incidentNumber = params['incidentNumber'];
+        const fireYear = params['fireYear'];
+        const isSameIncident = this.incidentNumber === incidentNumber && this.fireYear === fireYear;
+
+        this.incidentNumber = incidentNumber;
+        this.fireYear = fireYear;
+
+        if (params['tab']) {
+          this.selectedTabIndex = this.getTabIndexFromParam(params['tab']);
+        } else {
+          this.selectedTabIndex = 0;
+          this.currentRouter.navigate([], {
+            relativeTo: this.router,
+            queryParams: { tab: this.tabLabels[this.selectedTabIndex] },
+            queryParamsHandling: 'merge',
+            replaceUrl: true,
+          });
+        }
+
+        if (isSameIncident && (this.incident || this.isLoading)) {
+          this.cdr.detectChanges();
+          return;
+        }
+
         // Load the incident from the API
         this.publishedIncidentService
           .fetchPublishedIncident(this.incidentNumber, this.fireYear)
@@ -124,7 +166,22 @@ export class PublicIncidentPageComponent implements OnInit {
           });
       } else {
         if (params && params['preview']) {
-          this.loadPreview();
+          if (params['tab']) {
+            this.selectedTabIndex = this.getTabIndexFromParam(params['tab']);
+          } else {
+            this.selectedTabIndex = 0;
+            this.currentRouter.navigate([], {
+              relativeTo: this.router,
+              queryParams: { tab: this.tabLabels[this.selectedTabIndex] },
+              queryParamsHandling: 'merge',
+              replaceUrl: true,
+            });
+          }
+          if (!this.incident) {
+            this.loadPreview();
+          } else {
+            this.cdr.detectChanges();
+          }
         } else {
           this.isLoading = false;
           this.loadingFailed = true;
@@ -307,22 +364,35 @@ export class PublicIncidentPageComponent implements OnInit {
       'incident_details_maps_click',
     ];
 
-    const tabLabels = ['Details', 'Response', 'Gallery', 'Maps'];
-    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.currentRouter.url.slice(1);
-
     // Determine the index based on the type of event
     const index = typeof event === 'number' ? event : event.index;
 
     // Validate the index to avoid accessing undefined values
-    if (index < 0 || index >= TAB_ACTIONS.length) {
+    if (index < 0 || index >= this.tabLabels.length) {
       console.warn('Invalid tab index:', index);
       return;
     }
 
+    if (this.selectedTabIndex !== index || this.router.snapshot.queryParams['tab'] !== this.tabLabels[index]) {
+      this.selectedTabIndex = index;
+      this.currentRouter.navigate([], {
+        relativeTo: this.router,
+        queryParams: { tab: this.tabLabels[index] },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }
+
+    const tree = this.currentRouter.createUrlTree([], {
+      relativeTo: this.router,
+      queryParams: { tab: this.tabLabels[index] },
+      queryParamsHandling: 'merge',
+    });
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.currentRouter.serializeUrl(tree).slice(1);
     const actionName = TAB_ACTIONS[index];
     this.snowPlowHelper(url, {
       action: actionName,
-      text: tabLabels[index],
+      text: this.tabLabels[index],
     });
   }
 
