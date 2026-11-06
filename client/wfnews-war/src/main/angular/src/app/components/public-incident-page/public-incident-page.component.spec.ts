@@ -55,6 +55,15 @@ describe('PublicIncidentPageComponent - Tab Selection and Sharing', () => {
     mockCurrentRouter = {
       url: '/incidents?incidentNumber=K50123&fireYear=2024',
       navigate: jasmine.createSpy('navigate').and.returnValue(Promise.resolve(true)),
+      createUrlTree: jasmine.createSpy('createUrlTree').and.callFake((commands: any, navExtras: any) => {
+        return {
+          queryParams: navExtras?.queryParams,
+        };
+      }),
+      serializeUrl: jasmine.createSpy('serializeUrl').and.callFake((tree: any) => {
+        const tab = tree?.queryParams?.tab;
+        return `/incidents?incidentNumber=K50123&fireYear=2024${tab ? `&tab=${tab}` : ''}`;
+      }),
     };
 
     component = new PublicIncidentPageComponent(
@@ -109,8 +118,13 @@ describe('PublicIncidentPageComponent - Tab Selection and Sharing', () => {
         queryParamsHandling: 'merge',
         replaceUrl: true,
       });
+      expect(mockCurrentRouter.createUrlTree).toHaveBeenCalledWith([], {
+        relativeTo: mockActivatedRoute,
+        queryParams: { tab: 'Response' },
+        queryParamsHandling: 'merge',
+      });
       expect(component.snowPlowHelper).toHaveBeenCalledWith(
-        'https://wildfires.gov.bc.ca/incidents?incidentNumber=K50123&fireYear=2024',
+        'https://wildfires.gov.bc.ca/incidents?incidentNumber=K50123&fireYear=2024&tab=Response',
         {
           action: 'incident_details_response_click',
           text: 'Response',

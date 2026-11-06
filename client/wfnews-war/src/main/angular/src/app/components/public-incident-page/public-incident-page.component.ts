@@ -383,7 +383,12 @@ export class PublicIncidentPageComponent implements OnInit {
       });
     }
 
-    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.currentRouter.url.slice(1);
+    const tree = this.currentRouter.createUrlTree([], {
+      relativeTo: this.router,
+      queryParams: { tab: this.tabLabels[index] },
+      queryParamsHandling: 'merge',
+    });
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.currentRouter.serializeUrl(tree).slice(1);
     const actionName = TAB_ACTIONS[index];
     this.snowPlowHelper(url, {
       action: actionName,
