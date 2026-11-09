@@ -36,7 +36,7 @@ export class EvacHeaderComponent {
     }, 200);
   }
 
-  openShareWindow(evac?: string) {
+  openShareWindow() {
     const incidentType = `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS}`;
     const name = `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS} for ${this.evac.attributes.EVENT_NAME}`;
     this.shareService.openShareWindow(incidentType, name);
