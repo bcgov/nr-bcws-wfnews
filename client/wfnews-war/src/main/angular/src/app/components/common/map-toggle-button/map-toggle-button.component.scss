@@ -36,6 +36,16 @@
     ::ng-deep .mat-button-toggle-focus-overlay {
       border-radius: 20px;
     }
+
+    &:not(.mat-button-toggle-checked):hover {
+      ::ng-deep .mat-button-toggle-button {
+        background-color: #edebe9;
+      }
+
+      ::ng-deep .mat-button-toggle-focus-overlay {
+        opacity: 0 !important;
+      }
+    }
   }
 
   .mat-button-toggle-checked {

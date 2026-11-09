@@ -362,6 +362,14 @@
   margin-left: auto;
   height: 34px !important;
   box-shadow: $shadow-map-control;
+
+  &:hover {
+    background-color: #edebe9;
+
+    ::ng-deep .mat-mdc-button-persistent-ripple::before {
+      opacity: 0;
+    }
+  }
 }
 
 .button-label {
@@ -399,6 +407,14 @@
   &.right {
     right: 10px;
     top: 1px;
+  }
+
+  &:hover {
+    background: #edebe9 !important;
+
+    ::ng-deep .mat-mdc-button-persistent-ripple::before {
+      opacity: 0;
+    }
   }
 }
 
