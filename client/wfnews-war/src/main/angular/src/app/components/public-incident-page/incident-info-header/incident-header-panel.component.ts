@@ -4,20 +4,16 @@ import {
   EVACUATION_DRAWING_INFO,
   FIRE_PERIMETER_DRAWING_INFO,
 } from '@app/services/map-config.service/layers/evacuation-orders-and-alerts-wms.config';
-import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   HostListener,
   Input,
   OnInit,
-  Output
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Meta } from '@angular/platform-browser';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
@@ -27,21 +23,12 @@ import { MapConfigService } from '@app/services/map-config.service';
 import { boundsToExtent, drawNearbyIncidents, extentToParam, fireOfNote, stageDot } from '@app/utils/preview-map';
 import { pingMarker } from '@app/utils/map-markers';
 import { AppConfigService } from '@wf1/core-ui';
-import * as moment from 'moment';
-import { toCanvas } from 'qrcode';
 import { EvacOrderOption } from '../../../conversion/models';
-import { WatchlistService } from '../../../services/watchlist-service';
 import {
-  convertFireNumber,
-  convertToDateYear,
-  convertToFireCentreDescription,
-  getStageOfControlLabel,
   isMobileView,
   ResourcesRoutes,
 } from '../../../utils';
-import { ContactUsDialogComponent } from '../../admin-incident-form/contact-us-dialog/contact-us-dialog.component';
 import * as turf from '@turf/turf';
-import { ShareService } from '@app/services/share.service';
 import { extractPolygonData, getPolygonBond } from '@app/utils/polygon-bounds';
 
 @Component({
@@ -58,15 +45,8 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   @Input() public areaRestriction: any;
   @Input() public ban: any;
   @Input() public dangerRating: any;
-  @Output() requestPrint = new EventEmitter<void>();
-
   public params: ParamMap;
-  public defaultEvacURL: string;
 
-  convertToFireCentreDescription = convertToFireCentreDescription;
-  convertFireNumber = convertFireNumber;
-  convertToDateYear = convertToDateYear;
-  getStageOfControlLabel = getStageOfControlLabel;
   isMobileView = isMobileView;
 
   incidentEvacOrders = [];
@@ -85,19 +65,14 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
 
   constructor(
     private appConfigService: AppConfigService,
-    private watchlistService: WatchlistService,
-    private dialog: MatDialog,
     private router: Router,
-    private location: Location,
     private publishedIncidentService: PublishedIncidentService,
     private route: ActivatedRoute,
     private agolService: AGOLService,
-    private shareService: ShareService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private metaService: Meta,
     private mapConfigService: MapConfigService,
-
   ) {
     /* Empty, just here for injection */
   }
@@ -108,9 +83,6 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    this.defaultEvacURL = this.appConfigService
-      .getConfig()
-      .externalAppConfig['evacDefaultUrl'].toString();
     this.route.queryParams.subscribe((params: ParamMap) => {
       this.params = params;
     });
@@ -337,76 +309,6 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     this.cdr.detectChanges();
   }
 
-  onWatchlist(): boolean {
-    return this.watchlistService
-      .getWatchlist()
-      .includes(
-        this.incident.fireYear + ':' + this.incident.incidentNumberLabel,
-      );
-  }
-
-  removeFromWatchlist() {
-    this.watchlistService.removeFromWatchlist(
-      this.incident.fireYear,
-      this.incident.incidentNumberLabel,
-    );
-  }
-
-  displaySizeType(incidentSizeDetail: string) {
-    if (incidentSizeDetail?.includes('estimated')) {
-      return '(Estimated)';
-    } else if (incidentSizeDetail?.includes('mapped')) {
-      return '(Mapped)';
-    } else {
-      return null;
-    }
-  }
-
-  convertDangerRating(rating) {
-    switch (rating) {
-      case 'Very Low':
-        return 'very-low';
-      case 'Low':
-        return 'low';
-      case 'Moderate':
-        return 'moderate';
-      case 'High':
-        return 'high';
-      case 'Extreme':
-        return 'extreme';
-      default:
-        return null;
-    }
-  }
-
-  convertToMobileFormat(dateString) {
-    // Should probably be MMM for month formats to prevent long strings
-    const formattedDate = moment(
-      dateString,
-      'dddd, MMMM D, YYYY [at] h:mm:ss a',
-    ).format('MMMM D, YYYY');
-    return formattedDate;
-  }
-
-  openContactUsWindow(mode: string | null) {
-    this.dialog.open(ContactUsDialogComponent, {
-      panelClass: 'contact-us-dialog',
-      width: mode === 'desktop' ? '500px' : undefined,  // Set width based on mode
-      data: {
-        incident: this.incident,
-      },
-    });
-  }
-
-  openShareWindow(evac: string | null) {
-    const incidentType = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS}` : 'Wildfire';
-    const name = evac ? `Evacuation ${this.evac.attributes.ORDER_ALERT_STATUS} for ${this.evac.attributes.EVENT_NAME}`
-      : this.incident?.incidentName;
-    this.shareService.openShareWindow(incidentType, name);
-  }
-
-
-
   backToMap() {
     const zoom = this.params?.['zoom'];
 
@@ -518,18 +420,6 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
     }
   }
 
-  shareContent() {
-    const currentUrl = this.location.path();
-    if (navigator.share) {
-      navigator
-        .share({
-          url: currentUrl, // The URL user wants to share
-        })
-        .then(() => console.log('Sharing succeeded.'))
-        .catch((error) => console.error('Error sharing:', error));
-    }
-  }
-
   async addSurroundingIncidents(smk: any) {
     // now fetch the rest of the incidents in the area and display on map
     try {
@@ -560,47 +450,5 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         'Could not retrieve surrounding incidents for area restriction',
       );
     }
-  }
-
-  public printPage() {
-    const twoColumnContent = document.getElementsByClassName('two-column-content-cards-container')[0];
-    twoColumnContent.classList.add('print');
-
-    const printContents =
-      document.getElementsByClassName('page-container')[0].innerHTML;
-
-    const appRoot = document.body.removeChild(
-      document.getElementById('app-root'),
-    );
-
-    document.body.innerHTML = printContents;
-
-    const canvas = document.getElementById('qr-code');
-    toCanvas(canvas, window.location.href, (error) => {
-      if (error) {
-        console.error(error);
-      }
-      window.print();
-      document.body.innerHTML = '';
-      document.body.appendChild(appRoot);
-      twoColumnContent.classList.remove('print');
-    });
-  }
-
-  navToMap() {
-    setTimeout(() => {
-      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
-        queryParams: {
-          longitude: this.evac.centroid.x,
-          latitude: this.evac.centroid.y,
-          evacuationAlert: true,
-          extent: extentToParam(boundsToExtent(this.bounds)),
-        },
-      });
-    }, 200);
-  }
-
-  shareMobile() {
-    this.shareService.shareMobile(this.incident.incidentName);
   }
 }
