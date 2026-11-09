@@ -73,6 +73,10 @@
         min-width: 118px !important;
         padding: unset !important;
         cursor: pointer;
+
+        &:hover {
+          background-color: #f5f5f5 !important;
+        }
       }
     }
   }
@@ -95,6 +99,10 @@
         padding: unset !important;
         margin-top: 180px !important;
         cursor: pointer;
+
+        &:hover {
+          background-color: #f5f5f5 !important;
+        }
       }
     }
   }
@@ -139,7 +147,7 @@
 
       &:hover {
         border: 0;
-        background-color: #edebe9;
+        background-color: #f5f5f5;
       }
     }
   }
@@ -167,6 +175,10 @@
       padding-left: 12px !important;
       padding-right: 12px !important;
       cursor: pointer;
+
+      &:hover {
+        background-color: #f5f5f5 !important;
+      }
 
       &.smk-tool-LayersTool::after {
         content: "All Layers";
@@ -353,7 +365,7 @@
 
         &:hover {
           border-color: #c4c4c4;
-          background-color: #edebe9;
+          background-color: #f5f5f5;
         }
       }
 
