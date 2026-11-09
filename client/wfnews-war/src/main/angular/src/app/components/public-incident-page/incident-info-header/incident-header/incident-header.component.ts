@@ -35,9 +35,6 @@ export class IncidentHeaderComponent {
   ) {}
 
   onWatchlist(): boolean {
-    if (!this.incident?.fireYear || !this.incident?.incidentNumberLabel) {
-      return false;
-    }
     return this.watchlistService
       .getWatchlist()
       .includes(
@@ -83,18 +80,16 @@ export class IncidentHeaderComponent {
 
   public printPage() {
     const twoColumnContent = document.getElementsByClassName('two-column-content-cards-container')[0];
-    twoColumnContent?.classList.add('print');
+    twoColumnContent.classList.add('print');
 
     const printContents =
-      document.getElementsByClassName('page-container')[0]?.innerHTML;
+      document.getElementsByClassName('page-container')[0].innerHTML;
 
-    const appRoot = document.getElementById('app-root') ? document.body.removeChild(
+    const appRoot = document.body.removeChild(
       document.getElementById('app-root'),
-    ) : null;
+    );
 
-    if (printContents) {
-      document.body.innerHTML = printContents;
-    }
+    document.body.innerHTML = printContents;
 
     const canvas = document.getElementById('qr-code');
     toCanvas(canvas, window.location.href, (error) => {
@@ -103,12 +98,9 @@ export class IncidentHeaderComponent {
       }
       window.print();
       document.body.innerHTML = '';
-      if (appRoot) {
-        document.body.appendChild(appRoot);
-      }
-      twoColumnContent?.classList.remove('print');
+      document.body.appendChild(appRoot);
+      twoColumnContent.classList.remove('print');
     });
-    this.requestPrint.emit();
   }
 }
 
