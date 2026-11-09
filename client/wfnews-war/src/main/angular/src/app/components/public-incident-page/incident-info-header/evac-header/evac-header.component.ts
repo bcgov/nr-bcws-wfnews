@@ -2,7 +2,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { ShareService } from '@app/services/share.service';
 import { ResourcesRoutes, convertToDateYear, isMobileView } from '@app/utils';
-import { boundsToExtent, extentToParam, ringsToExtent } from '@app/utils/preview-map';
+import { boundsToExtent, extentToParam } from '@app/utils/preview-map';
 
 @Component({
   selector: 'wfnews-evac-header',
@@ -24,13 +24,12 @@ export class EvacHeaderComponent {
 
   navToMap() {
     setTimeout(() => {
-      const extent = this.bounds ? boundsToExtent(this.bounds) : ringsToExtent(this.evac?.geometry?.rings);
       this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
         queryParams: {
           longitude: this.evac.centroid.x,
           latitude: this.evac.centroid.y,
           evacuationAlert: true,
-          extent: extentToParam(extent),
+          extent: extentToParam(boundsToExtent(this.bounds)),
         },
       });
     }, 200);
