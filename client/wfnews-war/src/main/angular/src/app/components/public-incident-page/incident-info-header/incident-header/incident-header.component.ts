@@ -5,7 +5,6 @@ import { ShareService } from '@app/services/share.service';
 import { WatchlistService } from '@app/services/watchlist-service';
 import {
   convertFireNumber,
-  convertToDateYear,
   convertToFireCentreDescription,
   getStageOfControlLabel,
   isMobileView,
@@ -28,7 +27,6 @@ export class IncidentHeaderComponent implements OnInit {
 
   convertToFireCentreDescription = convertToFireCentreDescription;
   convertFireNumber = convertFireNumber;
-  convertToDateYear = convertToDateYear;
   getStageOfControlLabel = getStageOfControlLabel;
   isMobileView = isMobileView;
 
