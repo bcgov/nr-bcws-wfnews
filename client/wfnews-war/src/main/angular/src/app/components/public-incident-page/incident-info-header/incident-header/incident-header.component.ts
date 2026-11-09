@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EvacOrderOption } from '@app/conversion/models';
 import { ShareService } from '@app/services/share.service';
 import { WatchlistService } from '@app/services/watchlist-service';
 import {
@@ -18,9 +17,8 @@ import { toCanvas } from 'qrcode';
   styleUrls: ['./incident-header.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class IncidentHeaderComponent implements OnInit {
+export class IncidentHeaderComponent {
   @Input() public incident: any;
-  @Input() public evacOrders: EvacOrderOption[] = [];
   @Input() public incidentEvacOrders = [];
   @Input() public incidentEvacAlerts = [];
   @Output() requestPrint = new EventEmitter<void>();
@@ -35,18 +33,6 @@ export class IncidentHeaderComponent implements OnInit {
     private dialog: MatDialog,
     private shareService: ShareService,
   ) {}
-
-  ngOnInit(): void {
-    if (this.evacOrders?.length && !this.incidentEvacOrders?.length && !this.incidentEvacAlerts?.length) {
-      for (const evac of this.evacOrders) {
-        if (evac.orderAlertStatus === 'Order') {
-          this.incidentEvacOrders.push(evac);
-        } else if (evac.orderAlertStatus === 'Alert') {
-          this.incidentEvacAlerts.push(evac);
-        }
-      }
-    }
-  }
 
   onWatchlist(): boolean {
     if (!this.incident?.fireYear || !this.incident?.incidentNumberLabel) {
