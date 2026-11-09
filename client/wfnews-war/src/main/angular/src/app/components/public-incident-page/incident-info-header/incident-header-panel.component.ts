@@ -345,17 +345,6 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       );
   }
 
-  addToWatchlist() {
-    if (this.onWatchlist()) {
-      this.removeFromWatchlist();
-    } else {
-      this.watchlistService.saveToWatchlist(
-        this.incident.fireYear,
-        this.incident.incidentNumberLabel,
-      );
-    }
-  }
-
   removeFromWatchlist() {
     this.watchlistService.removeFromWatchlist(
       this.incident.fireYear,
