@@ -52,6 +52,8 @@
 }
 
 .load-more {
+  display: flex;
+  justify-content: center;
   padding-top: 64px;
   padding-bottom: 64px;
   max-width: 377px;

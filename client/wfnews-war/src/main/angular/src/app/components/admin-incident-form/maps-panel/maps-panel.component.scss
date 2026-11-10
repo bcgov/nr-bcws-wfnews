@@ -503,5 +503,6 @@ table tr:nth-child(even) td {
 .header-panel {
   padding: 1rem 2rem;
   display: flex;
+  justify-content: space-between;
 }
 
