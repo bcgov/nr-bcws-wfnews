@@ -7,6 +7,8 @@
   padding-bottom: 2px;
   .map-toggle-button {
     background: transparent;
+    display: inline-block;
+    border-radius: 20px;
 
     .map-toggle-button-label {
       display: flex;
@@ -28,6 +30,20 @@
         color: inherit;
         padding: 0;
         vertical-align: middle;
+      }
+    }
+
+    ::ng-deep .mat-button-toggle-focus-overlay {
+      border-radius: 20px;
+    }
+
+    &:not(.mat-button-toggle-checked):hover {
+      ::ng-deep .mat-button-toggle-button {
+        background-color: #edebe9;
+      }
+
+      ::ng-deep .mat-button-toggle-focus-overlay {
+        opacity: 0 !important;
       }
     }
   }
