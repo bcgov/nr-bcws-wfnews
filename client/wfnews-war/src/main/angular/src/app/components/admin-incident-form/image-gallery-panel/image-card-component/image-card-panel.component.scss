@@ -46,6 +46,13 @@
         width: 20px;
         height: 20px;
       }
+
+      // Material gives the radio label a 14px text style; use the text style of the other actions.
+      mat-radio-button ::ng-deep .mdc-form-field {
+        font-size: inherit;
+        letter-spacing: inherit;
+        line-height: inherit;
+      }
     }
 
     .checkbox-label {
