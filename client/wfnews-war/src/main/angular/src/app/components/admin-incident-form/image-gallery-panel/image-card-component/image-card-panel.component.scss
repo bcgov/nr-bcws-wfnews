@@ -1,7 +1,7 @@
 .image-panel {
   display: flex;
   padding: 1rem;
-  width: 650px;
+  width: 680px;
   margin: 0 1rem;
 
   .image-container {
@@ -29,6 +29,10 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
+    // The date must never be cut off, so it moves to its own line when there is no room.
+    .row.date { white-space: normal; }
+    .row.date strong { white-space: nowrap; }
 
     .action {
       padding: 5px 0;
