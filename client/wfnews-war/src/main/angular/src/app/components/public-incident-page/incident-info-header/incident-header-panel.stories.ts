@@ -11,6 +11,11 @@ import { WatchlistService } from '@app/services/watchlist-service';
 import { AppConfigService } from '@wf1/core-ui';
 import { of } from 'rxjs';
 import { WfnewsButtonComponent } from '@app/components/common/wfnews-button/wfnews-button.component';
+import { AreaRestrictionHeaderComponent } from './area-restriction-header/area-restriction-header.component';
+import { BanHeaderComponent } from './ban-header/ban-header.component';
+import { DangerRatingHeaderComponent } from './danger-rating-header/danger-rating-header.component';
+import { EvacHeaderComponent } from './evac-header/evac-header.component';
+import { IncidentHeaderComponent } from './incident-header/incident-header.component';
 import { IncidentHeaderPanelComponent } from './incident-header-panel.component';
 
 // Mock services
@@ -46,7 +51,15 @@ const meta: Meta<IncidentHeaderPanelComponent> = {
     component: IncidentHeaderPanelComponent,
     decorators: [
         moduleMetadata({
-            declarations: [IncidentHeaderPanelComponent, WfnewsButtonComponent],
+            declarations: [
+                IncidentHeaderPanelComponent,
+                IncidentHeaderComponent,
+                EvacHeaderComponent,
+                AreaRestrictionHeaderComponent,
+                BanHeaderComponent,
+                DangerRatingHeaderComponent,
+                WfnewsButtonComponent,
+            ],
             imports: [
                 CommonModule, 
                 RouterModule.forChild([]),

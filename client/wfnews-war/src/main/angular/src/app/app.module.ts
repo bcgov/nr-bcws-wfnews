@@ -241,6 +241,8 @@ import { AreaRestrictionHeaderComponent } from './components/public-incident-pag
 import { BanHeaderComponent } from './components/public-incident-page/incident-info-header/ban-header/ban-header.component';
 import { DangerRatingHeaderComponent } from './components/public-incident-page/incident-info-header/danger-rating-header/danger-rating-header.component';
 import { IncidentHeaderPanelComponent } from './components/public-incident-page/incident-info-header/incident-header-panel.component';
+import { IncidentHeaderComponent } from './components/public-incident-page/incident-info-header/incident-header/incident-header.component';
+import { EvacHeaderComponent } from './components/public-incident-page/incident-info-header/evac-header/evac-header.component';
 import { IncidentInfoPanelMobileComponent } from './components/public-incident-page/incident-info-panel-mobile/incident-info-panel-mobile.component';
 import { IncidentInfoPanelComponent } from './components/public-incident-page/incident-info-panel/incident-info-panel.component';
 import { IncidentMapsPanelMobileComponent } from './components/public-incident-page/incident-maps-panel-mobile/incident-maps-panel-mobile.component';
@@ -493,6 +495,8 @@ export const DATE_FORMATS = {
     AreaRestrictionHeaderComponent,
     BanHeaderComponent,
     DangerRatingHeaderComponent,
+    IncidentHeaderComponent,
+    EvacHeaderComponent,
     AdvisorySectionComponent,
     ContentCardContainerComponent,
     TwoColumnContentCardsContainerComponent,

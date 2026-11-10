@@ -1,0 +1,45 @@
+<div *ngIf="evac" class="evac">
+  <div class="title">Evacuation {{evac.attributes.ORDER_ALERT_STATUS}} for {{evac.attributes.EVENT_NAME}}</div>
+  <div class="evac-cards">
+    <div class="order-count evac " *ngIf="evac.attributes.ORDER_ALERT_STATUS === 'Order' ">
+      <img class="icon" src="/assets/images/svg-icons/evacuation_order.svg" alt="evacuation_order" />Order
+    </div>
+    <div class="alert-count evac" *ngIf="evac.attributes.ORDER_ALERT_STATUS === 'Alert' ">
+      <img class="icon" src="/assets/images/svg-icons/evacuation_alert.svg" alt="evacuation_order" />Alert
+    </div>
+  </div>
+  <div class="info-panel">
+    <div class="info-panel-row" *ngIf="evac.attributes.DATE_MODIFIED">
+      <img class="icon" height="24" width="24" alt="calendar "src="/assets/images/svg-icons/calendar.svg">
+      <span class="label">Updated on&nbsp;{{convertToDateYear(evac.attributes.DATE_MODIFIED)}}</span>
+    </div>
+    <div class="info-panel-row" *ngIf="evac.attributes.ISSUING_AGENCY">
+      <img class="icon" height="24" width="24" src="/assets/images/svg-icons/local_authority.svg" alt="local_authority" />
+      <span class="label">Issued by&nbsp;{{evac.attributes.ISSUING_AGENCY}}</span>
+    </div>
+    <div class="info-panel-row">
+      <img class="icon" src="/assets/images/svg-icons/carbon_layers.svg" alt="Layers" />
+      <span class="label">Fire Evacuation Orders and Alerts Layer</span>
+    </div>
+    <hr>
+    <div class="info-panel-row">
+      <span class="label" *ngIf="evac.attributes.ORDER_ALERT_STATUS === 'Order' ">
+        People in this area are at risk and should leave the area immediately.
+        Follow instructions from your local government or First Nation.
+      </span>
+      <span class="label" *ngIf="evac.attributes.ORDER_ALERT_STATUS === 'Alert' ">
+        An evacuation alert is a warning about a potential threat to life and/or property.
+        It is intended to give you time to be ready for a possible evacuation.
+        Follow instructions from your local government or First Nation.
+      </span>
+    </div>
+    <div class="info-panel-button-row" *ngIf="!isMobileView()">
+      <wfnews-button variant="secondary" label="View on Map"
+        iconPath="/assets/images/svg-icons/map.svg" (buttonClicked)="navToMap()"></wfnews-button>
+      <wfnews-button variant="secondary" label="Share"
+        iconPath="/assets/images/svg-icons/share.svg"
+        (buttonClicked)="openShareWindow()"></wfnews-button>
+    </div>
+  </div>
+</div>
+
