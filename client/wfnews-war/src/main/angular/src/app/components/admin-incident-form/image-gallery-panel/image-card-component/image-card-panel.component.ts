@@ -150,6 +150,13 @@ export class ImageCardPanel implements OnInit, OnChanges {
       return moment(value).format('YYYY-MM-DD HH:mm:ss');
     }
   }
+
+  copyFileName() {
+    navigator.clipboard.writeText(this.attachment.fileName).then(
+      () => this.snackbarService.open('File name copied', 'OK', { duration: 3000, panelClass: 'snackbar-success' }),
+      () => this.snackbarService.open('The file name did not copy. Please try again.', 'OK', { duration: 10000, panelClass: 'snackbar-error' }),
+    );
+  }
   loadImage() {
     if (!this.loaded) {
       this.documentManagementService

@@ -5,7 +5,11 @@
   </div>
   <div class="info-panel">
     <div class="row">Image Title: <strong>{{attachment.attachmentTitle}}</strong></div>
-    <div class="row">File Name: <strong>{{attachment.fileName}}</strong></div>
+    <div class="row file-name">
+      <span class="value" [matTooltip]="attachment.fileName">File Name: <strong>{{attachment.fileName}}</strong></span>
+      <wfnews-button variant="tertiary" size="xsmall" [iconOnly]="true" iconPath="/assets/images/svg-icons/copy.svg"
+        ariaLabel="Copy file name" matTooltip="Copy file name" (buttonClicked)="copyFileName()"></wfnews-button>
+    </div>
     <div class="row date">Uploaded On: <strong>{{convertToDate(attachment.uploadedTimestamp)}}</strong></div>
     <div class="divider action"></div>
     <div class="action">

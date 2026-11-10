@@ -34,6 +34,10 @@
     .row.date { white-space: normal; }
     .row.date strong { white-space: nowrap; }
 
+    // The name keeps its ellipsis, and the copy Button beside it stays visible.
+    .row.file-name { display: flex; align-items: center; gap: 4px; }
+    .row.file-name .value { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+
     .action {
       padding: 5px 0;
       display: flex;
