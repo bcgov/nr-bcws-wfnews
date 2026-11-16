@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { readableDate } from '@app/utils';
+import { decodeHtmlEntities, readableDate } from '@app/utils';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ConnectivityService } from '@app/services/connectivity.service';
@@ -131,7 +131,7 @@ export class HighlightsWidgetComponent implements OnInit {
     return {
       id: post.id,
       date: formattedDate,
-      title: post.title.rendered,
+      title: decodeHtmlEntities(post.title.rendered),
       link: post.link,
       thumbnail: {
         url: featuredMedia?.source_url || null,
