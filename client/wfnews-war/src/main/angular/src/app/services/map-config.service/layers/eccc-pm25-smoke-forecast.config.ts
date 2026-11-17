@@ -15,10 +15,8 @@ export function SmokeForecastLayerConfig(ls: layerSettings) {
       attributes: false,
       queries: null,
       tiled: false,
-      // The RAQDPS grid is about 10 km, so at screen size each cell is a hard square.
-      // A sixth of the size gives under one image pixel per cell, which MapLibre's
-      // linear stretch smooths into a plume, with 1/36 of the data on each pan.
-      resolutionDivisor: 6,
+      // GeoMet blends the ~10 km RAQDPS cells before it colours them, as MSC AniMet does.
+      params: { interpolation: true },
       version: '1.3.0',
       format: 'image/png',
       serviceUrl: 'https://geo.weather.gc.ca/geomet',
