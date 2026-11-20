@@ -4,7 +4,7 @@ export type IdentifyLayout = 'phone' | 'desktop';
 
 export interface IdentifyVariant {
   texts: typeof IDENTIFY_TEXTS.phone;
-  /** "Fire Ban on … Open Fires", with Category 1 named Campfires on the card. */
+  /** "Fire Prohibition on … Open Fires", with Category 1 named Campfires on the card. */
   banOpenFires: boolean;
   /** The list row names an Area Restriction a "Restricted Area". */
   restrictedAreaName: boolean;
