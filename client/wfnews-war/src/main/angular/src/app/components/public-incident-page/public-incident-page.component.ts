@@ -192,6 +192,10 @@ export class PublicIncidentPageComponent implements OnInit {
 
   async loadPreview() {
     this.incident = JSON.parse(localStorage.getItem('preview_incident'));
+    if (this.incident?.incidentSizeEstimatedHa) {
+      this.incident.incidentSizeEstimatedHa =
+        this.incident.incidentSizeEstimatedHa.toLocaleString();
+    }
     await this.loadRelated();
 
     this.publishedIncidentService

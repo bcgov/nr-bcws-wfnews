@@ -18,8 +18,6 @@ export interface IdentifyVariant {
   parkClosedFallback: boolean;
   /** A wildfire of note shows its stage dot beside its icon in the list. */
   fireOfNoteDot: boolean;
-  /** The wildfire size has thousands separators. */
-  sizeSeparators: boolean;
   /** The Fire Centre comes before the size and the discovery date. */
   fireCentreFirst: boolean;
   /** A wildfire of note keeps a gap between its two description texts. */
@@ -37,7 +35,6 @@ export const IDENTIFY_VARIANTS: Record<IdentifyLayout, IdentifyVariant> = {
     campfireBan: true,
     parkClosedFallback: false,
     fireOfNoteDot: false,
-    sizeSeparators: false,
     fireCentreFirst: true,
     fireOfNoteGap: false,
   },
@@ -50,7 +47,6 @@ export const IDENTIFY_VARIANTS: Record<IdentifyLayout, IdentifyVariant> = {
     campfireBan: false,
     parkClosedFallback: true,
     fireOfNoteDot: true,
-    sizeSeparators: true,
     fireCentreFirst: false,
     fireOfNoteGap: true,
   },
