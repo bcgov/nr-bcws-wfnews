@@ -5,7 +5,7 @@ export function BansAndProhibitionsLayerConfig(ls: layerSettings) {
     {
       type: 'wms',
       id: 'bans-and-prohibitions-cat1',
-      title: 'BC Wildfire Prohibitions - Category 1 (Campfires)',
+      title: 'BC Wildfire Bans and Prohibitions - Category 1 (Campfires)',
       serviceUrl: ls.openmapsBaseUrl,
       layerName:
         'pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
@@ -49,7 +49,7 @@ export function BansAndProhibitionsLayerConfig(ls: layerSettings) {
     {
       type: 'wms',
       id: 'bans-and-prohibitions-cat2',
-      title: 'BC Wildfire Prohibitions - Category 2',
+      title: 'BC Wildfire Bans and Prohibitions - Category 2',
       serviceUrl: ls.openmapsBaseUrl,
       layerName:
         'pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
@@ -93,7 +93,7 @@ export function BansAndProhibitionsLayerConfig(ls: layerSettings) {
     {
       type: 'wms',
       id: 'bans-and-prohibitions-cat3',
-      title: 'BC Wildfire Prohibitions - Category 3',
+      title: 'BC Wildfire Bans and Prohibitions - Category 3',
       serviceUrl: ls.openmapsBaseUrl,
       layerName:
         'pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
