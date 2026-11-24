@@ -26,7 +26,7 @@ export class IdentifyWildfireCardComponent extends IdentifyCardBase {
   }
 
   get size(): string {
-    const hectares = this.incident?.incidentSizeEstimatedHa;
+    const hectares = this.incident?.incidentSizeEstimatedHa ?? 0;
     return `${formatNumber(hectares)} ${hectares === 1 ? 'Hectare' : 'Hectares'}`;
   }
 
