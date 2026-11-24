@@ -11,6 +11,10 @@ import {
 import { EventFeatureService } from '@app/services/event-feature.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
+import {
+  parseProhibitionCategories,
+  prohibitionCategoryCqlFilter,
+} from '@app/utils/prohibition-categories';
 import { FullDetailsMapService } from '@app/services/full-details-map.service';
 import { MapConfigService } from '@app/services/map-config.service';
 import { drawNearbyIncidents, ringsToExtent } from '@app/utils/preview-map';
@@ -101,10 +105,9 @@ export class BansFullDetailsComponent implements OnInit {
     const cfg = await this.mapConfigService.getPreviewMapConfig({
       extent: ringsToExtent(ban?.geometry?.rings),
       layers: [
-        category('bans-cat3', cat3sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 3%'"),
-        category('bans-cat2', cat2sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 2%'"),
-        category('bans-cat1', cat1sld,
-          "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 1%' OR ACCESS_PROHIBITION_DESCRIPTION LIKE '%Campfire%'"),
+        category('bans-cat3', cat3sld, prohibitionCategoryCqlFilter(3)),
+        category('bans-cat2', cat2sld, prohibitionCategoryCqlFilter(2)),
+        category('bans-cat1', cat1sld, prohibitionCategoryCqlFilter(1)),
       ],
     });
     this.fullDetailsMap.setConfig(cfg);
@@ -155,11 +158,12 @@ export class BansFullDetailsComponent implements OnInit {
       this.banData.bulletinUrl = ban.attributes.BULLETIN_URL;
       this.banData.centroidLatitude = ban.centroid.y;
       this.banData.centroidLongitude = ban.centroid.x;
-      this.banData.isCat1 =
-        this.banData.description.includes('1') ||
-        this.banData.description.toLowerCase().includes('campfires');
-      this.banData.isCat2 = this.banData.description.includes('2');
-      this.banData.isCat3 = this.banData.description.includes('3');
+      const { isCat1, isCat2, isCat3 } = parseProhibitionCategories(
+        ban.attributes.CATEGORY,
+      );
+      this.banData.isCat1 = isCat1;
+      this.banData.isCat2 = isCat2;
+      this.banData.isCat3 = isCat3;
     } else {
       // What happens when this fails?
     }
