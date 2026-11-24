@@ -46,7 +46,6 @@ public class RoFEndpointsImpl extends WfOneNotificationsBaseEndpointsImpl implem
         logger.info("ROF body: " + document);
         Response response = null;
 
-        // No SQL word check: RoFFormMapper binds every value, so report text never becomes SQL.
         if (document.contains("eval(")) {
           throw new ValidationException("Potential use of eval statement detected");
         }
