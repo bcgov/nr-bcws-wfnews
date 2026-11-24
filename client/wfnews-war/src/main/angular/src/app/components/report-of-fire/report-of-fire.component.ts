@@ -311,11 +311,6 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
           const rofTitlePageComponent = this.currentPage
             .instance as RoFTitlePage;
           rofTitlePageComponent.checkOnlineStatus();
-          this.connectivityService.checkOnlineStatus().then((result) => {
-            if (!result) {
-              this.currentPage.instance.nextId = 'disclaimer-page';
-            }
-          });
           break;
         case 'callback-page':
           const roFSimpleQuestionPageComponent = this.currentPage
