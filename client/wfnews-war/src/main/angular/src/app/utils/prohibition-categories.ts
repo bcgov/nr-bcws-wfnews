@@ -37,3 +37,11 @@ export function parseProhibitionCategories(
 export function prohibitionCategoryCqlFilter(category: 1 | 2 | 3): string {
   return `strMatches(CATEGORY, '.*(^|[^0-9])${category}([^0-9]|$).*') = true`;
 }
+
+/**
+ * Compacts SLD XML to a single line without inter-tag whitespace, matching
+ * SMK's `resolveSLD` so `sld_body` query parameters pass CloudFront WAF.
+ */
+export function compactSld(sld: string): string {
+  return sld.replace(/\s+/g, ' ').replace(/> </g, '><').trim();
+}

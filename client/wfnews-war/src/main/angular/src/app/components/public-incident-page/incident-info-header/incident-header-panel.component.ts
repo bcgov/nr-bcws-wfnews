@@ -23,6 +23,7 @@ import { MapConfigService } from '@app/services/map-config.service';
 import { boundsToExtent, drawNearbyIncidents, extentToParam, fireOfNote, stageDot } from '@app/utils/preview-map';
 import { pingMarker } from '@app/utils/map-markers';
 import {
+  compactSld,
   parseProhibitionCategories,
   prohibitionCategoryCqlFilter,
 } from '@app/utils/prohibition-categories';
@@ -272,7 +273,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       serviceUrl: databcUrl,
       layerName: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
       version: '1.1.1',
-      sld: sldBody,
+      sld: compactSld(sldBody),
       where,
       opacity: 0.5,
       isVisible: true,

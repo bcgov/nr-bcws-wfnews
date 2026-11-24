@@ -1,4 +1,5 @@
 import {
+  compactSld,
   parseProhibitionCategories,
   prohibitionCategoryCqlFilter,
 } from './prohibition-categories';
@@ -128,6 +129,16 @@ describe('prohibition-categories', () => {
       expect(re3.test('Category 2,3')).toBe(true);
       expect(re3.test('Category 4,5')).toBe(false);
       expect(re3.test('Category 13')).toBe(false);
+    });
+  });
+
+  describe('compactSld', () => {
+    it('collapses newlines and inter-tag whitespace into a single line', () => {
+      const raw =
+        '<StyledLayerDescriptor version="1.0.0">\r\n\t<NamedLayer>\n\t\t<Name>test layer</Name>\n\t</NamedLayer>\r\n</StyledLayerDescriptor>\n';
+      expect(compactSld(raw)).toBe(
+        '<StyledLayerDescriptor version="1.0.0"><NamedLayer><Name>test layer</Name></NamedLayer></StyledLayerDescriptor>',
+      );
     });
   });
 });

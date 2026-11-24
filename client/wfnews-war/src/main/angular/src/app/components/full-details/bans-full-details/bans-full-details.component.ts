@@ -12,6 +12,7 @@ import { EventFeatureService } from '@app/services/event-feature.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
 import {
+  compactSld,
   parseProhibitionCategories,
   prohibitionCategoryCqlFilter,
 } from '@app/utils/prohibition-categories';
@@ -96,7 +97,7 @@ export class BansFullDetailsComponent implements OnInit {
       serviceUrl: databcUrl,
       layerName: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
       version: '1.1.1',
-      sld: sldBody,
+      sld: compactSld(sldBody),
       where,
       opacity: 0.5,
       isVisible: true,
