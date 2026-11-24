@@ -64,8 +64,8 @@ export class BansFullDetailsComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.populateBansByID();
     this.initMap();
-    this.metaService.updateTag({ property: 'og:title', content: `Fire Ban on ${this.banData.description} Open Fires`});
-    this.metaService.updateTag({ property: 'og:description', content: `Fire Ban on ${this.banData.description} Open Fires` });
+    this.metaService.updateTag({ property: 'og:title', content: `Fire Prohibition on ${this.banData.description} Open Fires`});
+    this.metaService.updateTag({ property: 'og:description', content: `Fire Prohibition on ${this.banData.description} Open Fires` });
   }
 
   async initMap() {
@@ -183,6 +183,6 @@ export class BansFullDetailsComponent implements OnInit {
   }
 
   shareMobile() {
-    this.shareService.shareMobile(`Fire Ban on ${this.banData.description} Open Fires`);
+    this.shareService.shareMobile(`Fire Prohibition on ${this.banData.description} Open Fires`);
   }
 }

@@ -45,7 +45,7 @@
 <p class="results-count">{{dataSource ? dataSource.data.length : 0}} Results</p>
 <div *ngIf="searchingComplete; else loading" class="table-wrapper">
   <table mat-table matSort [matSortActive]="selectedSortValue" [matSortDirection]="selectedSortOrder"
-    (matSortChange)="sortData($event)" [dataSource]="dataSource" aria-label="Bans and Restrictions Table">
+    (matSortChange)="sortData($event)" [dataSource]="dataSource" aria-label="Fire Prohibitions Table">
 
     <ng-container matColumnDef="fireCentre">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre </th>

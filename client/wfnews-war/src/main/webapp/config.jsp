@@ -119,7 +119,7 @@
       json.append("\"localGovernmentSystemsUrl\":\"").append("https://www2.gov.bc.ca/gov/content?id=79E361C3243F47E58F2BED364BA60B39").append("\",");
       json.append("\"accessibleGovernmentUrl\":\"").append("https://www2.gov.bc.ca/gov/content?id=E08E79740F9C41B9B0C484685CC5E412").append("\",");
       json.append("\"copyrightUrl\":\"").append("https://www2.gov.bc.ca/gov/content?id=1AAACC9C65754E4D89A118B875E0FBDA").append("\",");
-      json.append("\"disclaimerUrl\":\"").append("https://www2.gov.bc.ca/gov/content?id=79F93E018712422FBC8E674A67A70535").append("\",");
+      json.append("\"disclaimerUrl\":\"").append("https://www2.gov.bc.ca/gov/content?id=DE91907CDB3E4B5EB2F0363569079B85").append("\",");
       json.append("\"getHelpUrl\":\"").append("https://www2.gov.bc.ca/gov/content?id=6A77C17D0CCB48F897F8598CCC019111").append("\",");
       json.append("\"privacyUrl\":\"").append("https://www2.gov.bc.ca/gov/content?id=9E890E16955E4FF4BF3B0E07B4722932").append("\",");
       json.append("\"roadSafetyUrl\":\"").append("https://www2.gov.bc.ca/gov/content?id=D0FAAC6BD7014A049289C47454D6D324").append("\",");
