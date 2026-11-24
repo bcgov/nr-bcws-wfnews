@@ -35,5 +35,5 @@ export function parseProhibitionCategories(
  * while ignoring any other numbers (e.g. 4, 5, 12).
  */
 export function prohibitionCategoryCqlFilter(category: 1 | 2 | 3): string {
-  return `CATEGORY IS NOT NULL AND strMatches(CATEGORY, '.*(^|[^0-9])${category}([^0-9]|$).*') = true`;
+  return `strMatches(CATEGORY, '.*(^|[^0-9])${category}([^0-9]|$).*') = true`;
 }

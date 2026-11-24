@@ -94,13 +94,13 @@ describe('prohibition-categories', () => {
   describe('prohibitionCategoryCqlFilter', () => {
     it('builds the expected CQL filters for categories 1, 2, and 3', () => {
       expect(prohibitionCategoryCqlFilter(1)).toBe(
-        "CATEGORY IS NOT NULL AND strMatches(CATEGORY, '.*(^|[^0-9])1([^0-9]|$).*') = true",
+        "strMatches(CATEGORY, '.*(^|[^0-9])1([^0-9]|$).*') = true",
       );
       expect(prohibitionCategoryCqlFilter(2)).toBe(
-        "CATEGORY IS NOT NULL AND strMatches(CATEGORY, '.*(^|[^0-9])2([^0-9]|$).*') = true",
+        "strMatches(CATEGORY, '.*(^|[^0-9])2([^0-9]|$).*') = true",
       );
       expect(prohibitionCategoryCqlFilter(3)).toBe(
-        "CATEGORY IS NOT NULL AND strMatches(CATEGORY, '.*(^|[^0-9])3([^0-9]|$).*') = true",
+        "strMatches(CATEGORY, '.*(^|[^0-9])3([^0-9]|$).*') = true",
       );
     });
 
