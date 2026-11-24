@@ -71,6 +71,43 @@ function decode(dataUrl: string): Promise<HTMLImageElement> {
   });
 }
 
+describe('ReportOfFireService.saveReportOfFire', () => {
+  let service: ReportOfFireService;
+  let fetchSpy: jasmine.Spy;
+
+  beforeEach(() => {
+    const appConfig = {
+      getConfig: () => ({ rest: { 'fire-report-api': 'https://rof.test/submit' } }),
+    };
+    const connectivity = { checkOnlineStatus: () => Promise.resolve(true) };
+    const ionicStorage = { get: () => Promise.resolve(null) };
+    service = new ReportOfFireService(
+      appConfig as any,
+      connectivity as any,
+      ionicStorage as any,
+      null as any,
+    );
+    fetchSpy = spyOn(window, 'fetch').and.resolveTo(new Response('{}', { status: 200 }));
+  });
+
+  // Ordinary words that the old SQL word filter stopped with no send and no save.
+  for (const otherInfo of ['please update me', 'The fire may drop to the road.']) {
+    it(`sends a report with "${otherInfo}" in otherInfo`, async () => {
+      const result = await service.saveReportOfFire(
+        { otherInfo, fireLocation: [TEST_LATITUDE, TEST_LONGITUDE] },
+        null,
+        null,
+        null,
+      );
+
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+      const body = fetchSpy.calls.mostRecent().args[1].body as FormData;
+      expect(JSON.parse(body.get('resource') as string).otherInfo).toBe(otherInfo);
+      expect(result).toEqual(jasmine.objectContaining({ success: true }));
+    });
+  }
+});
+
 describe('ReportOfFireService EXIF handling', () => {
   let service: ReportOfFireService;
 
