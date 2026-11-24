@@ -87,7 +87,7 @@ describe('ReportOfFireService.saveReportOfFire', () => {
       ionicStorage as any,
       null as any,
     );
-    fetchSpy = spyOn(window, 'fetch').and.resolveTo(new Response('{}', { status: 200 }));
+    fetchSpy = spyOn(window, 'fetch').and.returnValue(Promise.resolve(new Response('{}', { status: 200 })));
   });
 
   // Ordinary words that the old SQL word filter stopped with no send and no save.
