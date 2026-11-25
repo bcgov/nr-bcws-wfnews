@@ -44,8 +44,8 @@ export class IdentifyResultListComponent {
       },
     },
     {
-      key: 'bansAndProhibitions', title: 'Fire Bans and Prohibitions', icon: () => 'ban.svg',
-      label: (item) => `Fire Ban on ${item.title}` + (this.variant.banOpenFires ? ' Open Fires' : ''),
+      key: 'bansAndProhibitions', title: 'Fire Prohibitions', icon: () => 'ban.svg',
+      label: (item) => `Fire Prohibition on ${item.title}` + (this.variant.banOpenFires ? ' Open Fires' : ''),
     },
     {
       key: 'dangerRatings', title: 'Fire Danger Rating',

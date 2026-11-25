@@ -69,7 +69,7 @@ describe('identify-results', () => {
   describe('identifyTitle', () => {
     it('names an evacuation by its status and other results by their kind', () => {
       expect(identifyTitle(item('evacuation-orders-and-alerts-wms', { ORDER_ALERT_STATUS: 'Order' }))).toBe('Evacuation Order');
-      expect(identifyTitle(item('bans-and-prohibitions-cat1'))).toBe('Fire Bans');
+      expect(identifyTitle(item('bans-and-prohibitions-cat1'))).toBe('Fire Prohibitions');
       expect(identifyTitle(item('active-wildfires-fire-of-note'))).toBe('Wildfire of Note');
       expect(identifyTitle(item('unknown-layer'))).toBe('');
     });

@@ -34,7 +34,7 @@
                 <div class="icon-label">
                     <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_ruler.svg"
                         alt="carbon_ruler" />
-                    <span>{{incident.incidentSizeEstimatedHa}} Hectares</span>
+                    <span>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares</span>
                 </div>
                 <div class="icon-label">
                     <img class="icon" height="24" width="24" src="/assets/images/svg-icons/calendar.svg"

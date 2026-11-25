@@ -79,11 +79,11 @@
                               <div>
                                   <div *ngIf="location.bans && location.bans.length > 0 ; else noBans">
                                       <div *ngFor="let ban of location.bans" class="fire-bans">
-                                          Fire Ban on {{ban.attributes.ACCESS_PROHIBITION_DESCRIPTION}}
+                                          Fire Prohibition on {{ban.attributes.ACCESS_PROHIBITION_DESCRIPTION}}
                                       </div>
                                   </div>
                                   <ng-template #noBans class="fire-bans">
-                                      No fire bans in effect
+                                      No fire prohibitions in effect
                                   </ng-template>
                               </div>
                           </div>

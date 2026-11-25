@@ -361,6 +361,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
         this.reportOfFire.image2,
         this.reportOfFire.image3,
       );
+      this.submitting = false;
       this.next();
     } catch (err) {
       this.submitting = false;

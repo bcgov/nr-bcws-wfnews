@@ -42,8 +42,8 @@ export class BanHeaderComponent {
   }
 
   openShareWindow() {
-    const name = `Fire Ban on ${this.replaceCategoryDescription(this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION)} Open Fires`;
-    this.shareService.openShareWindow('Fire Ban',name);
+    const name = `Fire Prohibition on ${this.replaceCategoryDescription(this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION)} Open Fires`;
+    this.shareService.openShareWindow('Fire Prohibition',name);
   }
 
 }
