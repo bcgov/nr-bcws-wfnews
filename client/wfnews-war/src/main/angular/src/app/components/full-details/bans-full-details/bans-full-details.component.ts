@@ -103,13 +103,23 @@ export class BansFullDetailsComponent implements OnInit {
       isVisible: true,
     });
 
+    const { isCat1, isCat2, isCat3 } = parseProhibitionCategories(
+      ban?.attributes?.CATEGORY,
+    );
+    const layers = [];
+    if (isCat3) {
+      layers.push(category('bans-cat3', cat3sld, prohibitionCategoryCqlFilter(3)));
+    }
+    if (isCat2) {
+      layers.push(category('bans-cat2', cat2sld, prohibitionCategoryCqlFilter(2)));
+    }
+    if (isCat1) {
+      layers.push(category('bans-cat1', cat1sld, prohibitionCategoryCqlFilter(1)));
+    }
+
     const cfg = await this.mapConfigService.getPreviewMapConfig({
       extent: ringsToExtent(ban?.geometry?.rings),
-      layers: [
-        category('bans-cat3', cat3sld, prohibitionCategoryCqlFilter(3)),
-        category('bans-cat2', cat2sld, prohibitionCategoryCqlFilter(2)),
-        category('bans-cat1', cat1sld, prohibitionCategoryCqlFilter(1)),
-      ],
+      layers,
     });
     this.fullDetailsMap.setConfig(cfg);
 
