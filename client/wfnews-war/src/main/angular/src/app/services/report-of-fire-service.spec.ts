@@ -1,5 +1,7 @@
 import * as P from 'piexifjs';
+import { OfflineReport, OfflineReportQueueService } from './offline-report-queue.service';
 import { ReportOfFireService } from './report-of-fire-service';
+import { FakeIonicStorage, ionicStorageOver, rejectionOf } from './testing/fake-ionic-storage';
 
 /**
  * Regression coverage for the EXIF handling that Report of Fire photos pass through.
@@ -71,23 +73,116 @@ function decode(dataUrl: string): Promise<HTMLImageElement> {
   });
 }
 
+/** A ReportOfFireService over an in-memory Ionic Storage and localStorage. */
+function makeService(online = { value: true }) {
+  const storage = new FakeIonicStorage();
+  const queue = new OfflineReportQueueService(ionicStorageOver(storage));
+  const local = new Map<string, string>();
+  const service = new ReportOfFireService(
+    { getConfig: () => ({ rest: { 'fire-report-api': 'https://rof.test/submit' } }) } as any,
+    { checkOnlineStatus: () => Promise.resolve(online.value) } as any,
+    queue,
+    {
+      getData: (key: string) => local.get(key) ?? null,
+      saveData: (key: string, value: string) => local.set(key, value),
+    } as any,
+  );
+  return { service, storage, queue, local, online };
+}
+
+function queued(submissionID: string, submittedTimestamp = String(Date.now())): OfflineReport {
+  return {
+    submissionID,
+    queuedTimestamp: Number(submittedTimestamp),
+    syncAttempts: 0,
+    resource: JSON.stringify({ submissionID, submittedTimestamp }),
+  };
+}
+
+function sentSubmissionId(call: { args: any[] }): string {
+  const body = call.args[1].body as FormData;
+  return JSON.parse(body.get('resource') as string).submissionID;
+}
+
 describe('ReportOfFireService.saveReportOfFire', () => {
   let service: ReportOfFireService;
+  let queue: OfflineReportQueueService;
+  let online: { value: boolean };
   let fetchSpy: jasmine.Spy;
 
   beforeEach(() => {
-    const appConfig = {
-      getConfig: () => ({ rest: { 'fire-report-api': 'https://rof.test/submit' } }),
-    };
-    const connectivity = { checkOnlineStatus: () => Promise.resolve(true) };
-    const ionicStorage = { get: () => Promise.resolve(null) };
-    service = new ReportOfFireService(
-      appConfig as any,
-      connectivity as any,
-      ionicStorage as any,
-      null as any,
-    );
+    ({ service, queue, online } = makeService());
     fetchSpy = spyOn(window, 'fetch').and.returnValue(Promise.resolve(new Response('{}', { status: 200 })));
+  });
+
+  async function submit(submissionID: string) {
+    return service.saveReportOfFire(
+      { submissionID, fireLocation: [TEST_LATITUDE, TEST_LONGITUDE] },
+      null,
+      null,
+      null,
+    );
+  }
+
+  it('queues an offline report and does not send it', async () => {
+    online.value = false;
+
+    await submit('a');
+
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect((await queue.list()).map((item) => item.submissionID)).toEqual(['a']);
+  });
+
+  it('keeps two offline reports', async () => {
+    online.value = false;
+
+    await submit('a');
+    await submit('b');
+
+    expect((await queue.list()).map((item) => item.submissionID)).toEqual(['a', 'b']);
+  });
+
+  it('sends an online report after an offline one in the same session', async () => {
+    online.value = false;
+    await submit('a');
+
+    online.value = true;
+    await submit('b');
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(sentSubmissionId(fetchSpy.calls.mostRecent())).toBe('b');
+  });
+
+  it('queues a report when the send throws', async () => {
+    fetchSpy.and.callFake(() => Promise.reject(new TypeError('Failed to fetch')));
+
+    const result = await submit('a');
+
+    expect(result).toEqual(jasmine.objectContaining({ success: false }));
+    expect((await queue.list()).length).toBe(1);
+  });
+
+  it('queues a report when the server answers 500', async () => {
+    fetchSpy.and.returnValue(Promise.resolve(new Response('{}', { status: 500 })));
+
+    await submit('a');
+
+    expect((await queue.list()).length).toBe(1);
+  });
+
+  it('removes the queued copy when the same report is then sent', async () => {
+    await queue.add(queued('a'));
+
+    await submit('a');
+
+    expect(await queue.list()).toEqual([]);
+  });
+
+  it('rejects when the queue write fails', async () => {
+    online.value = false;
+    spyOn(queue, 'add').and.callFake(() => Promise.reject(new Error('QuotaExceededError')));
+
+    expect((await rejectionOf(submit('a'))).message).toBe('QuotaExceededError');
   });
 
   // Ordinary words that the old SQL word filter stopped with no send and no save.
@@ -106,6 +201,82 @@ describe('ReportOfFireService.saveReportOfFire', () => {
       expect(result).toEqual(jasmine.objectContaining({ success: true }));
     });
   }
+});
+
+describe('ReportOfFireService Sync', () => {
+  let service: ReportOfFireService;
+  let queue: OfflineReportQueueService;
+  let storage: FakeIonicStorage;
+  let local: Map<string, string>;
+  let fetchSpy: jasmine.Spy;
+  const failing = new Set<string>();
+
+  beforeEach(() => {
+    ({ service, queue, storage, local } = makeService());
+    failing.clear();
+    fetchSpy = spyOn(window, 'fetch').and.callFake(async (_url, init) => {
+      const id = JSON.parse((init.body as FormData).get('resource') as string).submissionID;
+      return new Response('{}', { status: failing.has(id) ? 500 : 200 });
+    });
+  });
+
+  it('keeps only the report that fails', async () => {
+    await queue.add(queued('a'));
+    await queue.add(queued('b'));
+    failing.add('b');
+
+    const emptied = await service.syncDataWithServer(null);
+
+    const left = await queue.list();
+    expect(left.map((item) => item.submissionID)).toEqual(['b']);
+    expect(left[0].syncAttempts).toBe(1);
+    expect(emptied).toBe(false);
+    expect(JSON.parse(local.get('submissionIDList'))).toEqual(['a']);
+  });
+
+  it('stops the timer when every report is sent', async () => {
+    await queue.add(queued('a'));
+    await queue.add(queued('b'));
+    const timer = jasmine.createSpyObj('Subscription', ['unsubscribe']);
+
+    const emptied = await service.syncDataWithServer(timer);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+    expect(await queue.list()).toEqual([]);
+    expect(emptied).toBe(true);
+    expect(timer.unsubscribe).toHaveBeenCalled();
+  });
+
+  it('keeps other Ionic Storage keys', async () => {
+    storage.data.set('otherFeature', 'keep me');
+    await queue.add(queued('a'));
+
+    await service.syncDataWithServer(null);
+
+    expect(storage.data.get('otherFeature')).toBe('keep me');
+  });
+
+  it('compares whole Submission IDs in the old comma-separated list', async () => {
+    local.set('submissionIDList', 'abc123, def456');
+    await queue.add(queued('abc123'));
+    await queue.add(queued('abc'));
+
+    await service.syncDataWithServer(null);
+
+    // abc123 was sent before, so only abc goes; it is a part of abc123, not equal to it.
+    expect(fetchSpy.calls.all().map(sentSubmissionId)).toEqual(['abc']);
+    expect(await queue.list()).toEqual([]);
+  });
+
+  it('removes only the reports older than 24 hours', async () => {
+    const twoDaysAgo = String(Date.now() - 2 * 24 * 60 * 60 * 1000);
+    await queue.add(queued('old', twoDaysAgo));
+    await queue.add(queued('new'));
+
+    await service.removeInvalidOfflineRoF();
+
+    expect((await queue.list()).map((item) => item.submissionID)).toEqual(['new']);
+  });
 });
 
 describe('ReportOfFireService EXIF handling', () => {

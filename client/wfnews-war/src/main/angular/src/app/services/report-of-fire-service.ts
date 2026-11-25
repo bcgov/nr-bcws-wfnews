@@ -5,8 +5,8 @@ import { AppConfigService } from '@wf1/core-ui';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Subscription } from 'rxjs';
-import { IonicStorageService } from './ionic-storage.service';
 import { LocalStorageService } from './local-storage-service';
+import { OfflineReport, OfflineReportQueueService } from './offline-report-queue.service';
 import { ConnectivityService } from '@app/services/connectivity.service';
 
 export interface ReportOfFireType {
@@ -36,16 +36,14 @@ export interface ReportOfFireType {
   providedIn: 'root',
 })
 export class ReportOfFireService {
-  submittedOffline: boolean;
   longitude: number;
   latitude: number;
-  formData: FormData;
   isSyncing: boolean = false;
 
   constructor(
     private appConfigService: AppConfigService,
     private connectivityService: ConnectivityService,
-    private ionicStorageService: IonicStorageService,
+    private offlineReportQueue: OfflineReportQueueService,
     private localStorageService: LocalStorageService
   ) { }
 
@@ -66,78 +64,58 @@ export class ReportOfFireService {
       this.longitude = reportOfFire.fireLocation[1];
     }
 
+    const formData = new FormData();
+    formData.append('resource', resource);
+
+    if (image1) {
+      formData.append('image1', await this.convertToBase64(image1));
+    }
+    if (image2) {
+      formData.append('image2', await this.convertToBase64(image2));
+    }
+    if (image3) {
+      formData.append('image3', await this.convertToBase64(image3));
+    }
+
+    // A queue write error is not caught here: the caller must know the report is not saved.
+    let online = true;
     try {
-      const formData = new FormData();
-      formData.append('resource', resource);
+      online = await this.connectivityService.checkOnlineStatus();
+    } catch (error) {
+      console.error('Error checking online status for ROF submission', error);
+    }
+    if (!online) {
+      await this.submitToStorage(formData);
+      return;
+    }
 
-      if (image1) {
-        formData.append('image1', await this.convertToBase64(image1));
-      }
-      if (image2) {
-        formData.append('image2', await this.convertToBase64(image2));
-      }
-      if (image3) {
-        formData.append('image3', await this.convertToBase64(image3));
-      }
-      this.formData = formData
-      // if the device is offline save RoF in storage
-      try {
-        const onlineStatus = await this.connectivityService.checkOnlineStatus();
-        if (!onlineStatus) {
-          await this.submitToStorage(formData);
-          this.submittedOffline = true;
-        }
-      } catch (error) {
-        console.error('Error checking online status for ROF submission', error);
-      }
-
-      if (this.submittedOffline) {
-        return;
-      }
-
-      try {
-        const offlineReportDataResponse = await this.ionicStorageService.get('offlineReportData');
-        if (offlineReportDataResponse) {
-          const offlineReport = JSON.parse(offlineReportDataResponse);
-          if (offlineReport.resource) {
-            const offlineResource = JSON.parse(offlineReport.resource);
-            if (offlineResource === resource) {
-              try {
-                await this.ionicStorageService.clear();
-              } catch (error) {
-                console.error('An error occurred while removing offlineReportData:', error);
-              }
-            }
-          }
-        }
-
-      } catch (error) {
-        console.error('An error occurred while retrieving offlineReportData:', error);
-      }
-
-      const response = await fetch(rofUrl, {
+    let response: Response;
+    try {
+      response = await fetch(rofUrl, {
         method: 'POST',
         body: formData,
       });
-      if (response.ok || response.status == 200) {
-        // The server successfully processed the report
-        return { success: true, message: 'Report submitted successfully' };
-      } else {
-        // submit to storage if there is an issue
-        if (this.formData) await this.submitToStorage(this.formData);
-        // The server encountered an error
-        return { success: false, message: JSON.stringify(response) };
-      }
     } catch (error) {
       console.error(error);
-      // submit to storage if there is an error
-      if (this.formData) await this.submitToStorage(this.formData);
-      // An error occurred during the HTTP request
+      await this.submitToStorage(formData);
       return {
         success: false,
         message: 'An error occurred while submitting the report',
       };
     }
+
+    if (response.ok) {
+      // A retry of a queued report must not be sent again by Sync.
+      if (reportOfFire?.submissionID) {
+        await this.offlineReportQueue
+          .remove(reportOfFire.submissionID)
+          .catch((error) => console.error('Error removing sent report from the queue', error));
+      }
+      return { success: true, message: 'Report submitted successfully' };
+    }
+
+    await this.submitToStorage(formData);
+    return { success: false, message: JSON.stringify(response) };
   }
 
   async blobToBase64(url): Promise<string> {
@@ -223,49 +201,35 @@ export class ReportOfFireService {
     return base64;
   }
 
-  async submitOfflineReportToServer(offlineReport?): Promise<any> {
-    // retrieve the offline RoF from the device's storage and convert to FormData for submission
-    // images will already to converted to base64 string from initial submission
+  async submitOfflineReportToServer(offlineReport: OfflineReport): Promise<any> {
+    // The photos are already base64 text from the first submit.
     const rofUrl = this.appConfigService.getConfig().rest['fire-report-api'];
-    const rofJson = JSON.parse(offlineReport);
-    const resource = rofJson.resource;
-    const image1 = rofJson.image1;
-    const image2 = rofJson.image2;
-    const image3 = rofJson.image3;
-
     const formData = new FormData();
-    if (resource) {
-      formData.append('resource', resource);
+    if (offlineReport.resource) {
+      formData.append('resource', offlineReport.resource);
     }
-
-    if (image1) {
-      formData.append('image1', image1);
+    if (offlineReport.image1) {
+      formData.append('image1', offlineReport.image1);
     }
-    if (image2) {
-      formData.append('image2', image2);
+    if (offlineReport.image2) {
+      formData.append('image2', offlineReport.image2);
     }
-    if (image3) {
-      formData.append('image3', image3);
+    if (offlineReport.image3) {
+      formData.append('image3', offlineReport.image3);
     }
 
     try {
-      // Make an HTTP POST request to your server's API endpoint
       const response = await fetch(rofUrl, {
         method: 'POST',
         body: formData,
       });
 
-      if (response.ok || response.status == 200) {
-        // Remove the locally stored data if sync is successful
-        this.ionicStorageService.clear();
-        // The server successfully processed the report
+      if (response.ok) {
         return { success: true, message: 'Report submitted successfully' };
       } else {
-        // The server encountered an error
         return { success: false, message: JSON.stringify(response) };
       }
     } catch (error) {
-      // An error occurred during the HTTP request
       return {
         success: false,
         message: 'An error occurred while submitting the report',
@@ -274,13 +238,19 @@ export class ReportOfFireService {
   }
 
   async submitToStorage(formData: FormData) {
-    const object = {};
-    formData.forEach((value, key) => (object[key] = value));
-    const json = JSON.stringify(object);
-    const data = await this.ionicStorageService.get('offlineReportData');
-    if (data && data == json) {
-      return;
-    } else this.ionicStorageService.set('offlineReportData', json);
+    const fields: Record<string, string> = {};
+    formData.forEach((value, key) => (fields[key] = value as string));
+    const resource = fields.resource ? JSON.parse(fields.resource) : {};
+    const queuedTimestamp = Date.now();
+    await this.offlineReportQueue.add({
+      submissionID: resource.submissionID || `local-${queuedTimestamp}`,
+      queuedTimestamp,
+      syncAttempts: 0,
+      resource: fields.resource,
+      image1: fields.image1,
+      image2: fields.image2,
+      image3: fields.image3,
+    });
   }
 
   // could not seem to get this to work for non-JPEG, those will be handled in notifications api.
@@ -316,81 +286,69 @@ export class ReportOfFireService {
 
     this.isSyncing = true;
 
-    let dataSynced = false;
-    let submissionID = null;
-    let duplicateStored = false;
-    let submissionIdList = null;
-    let offlineReport = null;
-
+    let emptied = false;
     try {
-      // Fetch and submit locally stored data
-      offlineReport = await this.ionicStorageService.get('offlineReportData');
+      const queue = await this.offlineReportQueue.list();
+      const sentIds = this.getSentSubmissionIds();
 
-      submissionIdList = this.localStorageService.getData('submissionIDList');
-
-      if (offlineReport) {
-        // Check for duplicate, reject if submissionID has already been stored
-        const offlineJson = JSON.parse(offlineReport);
-        if (offlineJson?.resource) {
-          const resourceJson = JSON.parse(offlineJson.resource);
-          submissionID = resourceJson?.submissionID;
-          if (submissionID && submissionIdList?.includes(submissionID)) {
-            duplicateStored = true;
-          }
+      for (const item of queue) {
+        if (sentIds.includes(item.submissionID)) {
+          await this.offlineReportQueue.remove(item.submissionID);
+          continue;
         }
 
-        // Reject duplicate if submissionID has already been stored
-        if (duplicateStored) return true;
-
-        // Send the report to the server
-        const submitResponse = await this.submitOfflineReportToServer(offlineReport);
+        const submitResponse = await this.submitOfflineReportToServer(item);
         if (submitResponse.success) {
-          dataSynced = true;
-          // Remove the locally stored data if sync is successful
-          this.ionicStorageService.clear();
-          // store submissionID for duplicate check
-
-          if (submissionID) {
-            submissionIdList = submissionIdList ? submissionIdList + ", " + submissionID : submissionID;
-            this.localStorageService.saveData('submissionIDList', submissionIdList);
-          }
-
-          intervalRef.unsubscribe();
+          await this.offlineReportQueue.remove(item.submissionID);
+          sentIds.push(item.submissionID);
+          this.localStorageService.saveData(SENT_SUBMISSION_IDS_KEY, JSON.stringify(sentIds));
+        } else {
+          await this.offlineReportQueue.markAttempt(item.submissionID);
         }
+      }
+
+      // Stop the timer only when every queued report is gone.
+      emptied = queue.length > 0 && (await this.offlineReportQueue.list()).length === 0;
+      if (emptied) {
+        intervalRef?.unsubscribe();
       }
     } catch (error) {
       console.error('Sync failed:', error);
     } finally {
       this.isSyncing = false;
     }
-    return dataSynced;
+    return emptied;
   }
 
   async removeInvalidOfflineRoF() {
     try {
-      let offlineReportSaved = null;
-      // Fetch locally stored data
-      await this.ionicStorageService.get('offlineReportData').then(response => {
-        offlineReportSaved = response;
-      });
-
-      if (offlineReportSaved) {
-        const offlineReport = JSON.parse(offlineReportSaved);
-
-        if (offlineReport.resource) {
-          const resource = JSON.parse(offlineReport.resource);
-          // Remove the locally stored data if it was submitted more than 24 hours ago
-          if (
-            resource.submittedTimestamp &&
-            this.invalidTimestamp(resource.submittedTimestamp)
-          ) {
-            this.ionicStorageService.clear();
-          }
+      const queue = await this.offlineReportQueue.list();
+      for (const item of queue) {
+        const submitted = submittedTimestampOf(item);
+        if (this.invalidTimestamp(String(submitted))) {
+          await this.offlineReportQueue.remove(item.submissionID);
         }
       }
     } catch (error) {
       console.error('Error removing invalid RoF data:', error);
     }
+  }
+
+  // Before the queue this was a comma-separated string, and includes() matched part of an ID.
+  private getSentSubmissionIds(): string[] {
+    const stored = this.localStorageService.getData(SENT_SUBMISSION_IDS_KEY);
+    if (!stored) {
+      return [];
+    }
+    try {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
+    } catch {
+      // The old comma-separated form.
+    }
+    return stored.split(',').map((id) => id.trim()).filter((id) => id);
   }
 
   invalidTimestamp(timestamp: string): boolean {
@@ -400,4 +358,18 @@ export class ReportOfFireService {
     const oneDay = 24 * 60 * 60 * 1000;
     return now - submittedTimestamp > oneDay;
   }
+}
+
+const SENT_SUBMISSION_IDS_KEY = 'submissionIDList';
+
+function submittedTimestampOf(item: OfflineReport): number {
+  try {
+    const submitted = Number(JSON.parse(item.resource)?.submittedTimestamp);
+    if (submitted) {
+      return submitted;
+    }
+  } catch {
+    // An unreadable resource falls back to the queue time.
+  }
+  return item.queuedTimestamp;
 }

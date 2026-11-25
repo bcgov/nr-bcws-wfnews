@@ -6,31 +6,22 @@ import { Storage } from '@ionic/storage-angular';
   providedIn: 'root'
 })
 export class IonicStorageService {
-  private _storage: Storage | null = null;
+  // A call that comes before create() has finished must wait, not do nothing.
+  private readonly ready: Promise<Storage>;
 
-  constructor(private storage: Storage) {
-    this.init();
+  constructor(storage: Storage) {
+    this.ready = storage.create();
   }
 
-  async init() {
-    const storage = await this.storage.create();
-    this._storage = storage;
+  public async set(key: string, value: any) {
+    return (await this.ready).set(key, value);
   }
 
-  public set(key: string, value: any) {
-    this._storage?.set(key, value);
+  public async get(key: string) {
+    return (await this.ready).get(key);
   }
 
-  public get(key: string) {
-    return this._storage?.get(key);
+  public async remove(key: string) {
+    return (await this.ready).remove(key);
   }
-
-  public remove(key: string) {
-    this._storage?.remove(key);
-  }
-
-  public clear() {
-    this._storage?.clear();
-  }
-
 }
