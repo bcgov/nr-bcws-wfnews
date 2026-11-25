@@ -120,7 +120,7 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
             'Fire danger rating in your area and other information about fire weather.',
         },
         {
-          title: 'Fire Bans and Restrictions',
+          title: 'Fire Prohibitions and Restrictions',
           subtitle: 'BC Wildfire Service',
           url: this.appConfigService.getConfig().externalAppConfig['bansRestrictionsUrl'].toString(),
           description:

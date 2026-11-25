@@ -841,7 +841,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 		switch (topic) {
 			case "British_Columbia_Bans_and_Prohibition_Areas":
-				return "ban or prohibition";
+				return "fire prohibition";
 			case "Evacuation_Orders_and_Alerts":
 				return "evacuation order or alert";
 			case "British_Columbia_Area_Restrictions":

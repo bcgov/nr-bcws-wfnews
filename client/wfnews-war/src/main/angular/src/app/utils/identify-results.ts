@@ -78,7 +78,7 @@ export function identifyKind(item: any): IdentifyKind | null {
 
 const KIND_TITLES: Partial<Record<IdentifyKind, string>> = {
   'area-restriction': 'Area Restrictions',
-  ban: 'Fire Bans',
+  ban: 'Fire Prohibitions',
   'danger-rating': 'Wildfire Danger Rating',
   'closed-recreation-site': 'Closed Recreational Sites',
   'road-event': 'Road Events',

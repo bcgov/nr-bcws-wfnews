@@ -95,7 +95,7 @@
                       <div class="saved-location-detail">
                           <div class="saved-detail">
                               <div class="saved-title">
-                                  <img alt="icon" class="location-icon" src="/assets/images/svg-icons/ban-icon.svg">Current Fire Bans
+                                  <img alt="icon" class="location-icon" src="/assets/images/svg-icons/ban-icon.svg">Current Fire Prohibitions
                               </div>
                           </div>
                       </div>
@@ -103,11 +103,11 @@
                       <div class="saved-location-detail">
                           <div *ngIf="fireBans && fireBans.length > 0 ; else noBans">
                               <div *ngFor="let ban of fireBans" class="saved-detail">
-                                  Fire Ban on {{ban.attributes.ACCESS_PROHIBITION_DESCRIPTION}}
+                                  Fire Prohibition on {{ban.attributes.ACCESS_PROHIBITION_DESCRIPTION}}
                               </div>
                           </div>
                           <ng-template #noBans class="saved-detail">
-                              No bans in effect
+                              No fire prohibitions in effect
                           </ng-template>
                       </div>
                   </div>

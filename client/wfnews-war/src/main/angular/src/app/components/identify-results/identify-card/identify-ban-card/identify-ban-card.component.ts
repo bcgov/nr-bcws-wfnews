@@ -12,9 +12,9 @@ export class IdentifyBanCardComponent extends IdentifyCardBase {
 
   get heading(): string {
     if (!this.variant.banOpenFires) {
-      return `Fire Ban on ${this.item.title}`;
+      return `Fire Prohibition on ${this.item.title}`;
     }
     const description: string = this.p.ACCESS_PROHIBITION_DESCRIPTION;
-    return `Fire Ban on ${description.includes('Category 1') ? description.replace('Category 1', 'Category 1 (Campfires)') : description} Open Fires`;
+    return `Fire Prohibition on ${description.includes('Category 1') ? description.replace('Category 1', 'Category 1 (Campfires)') : description} Open Fires`;
   }
 }
