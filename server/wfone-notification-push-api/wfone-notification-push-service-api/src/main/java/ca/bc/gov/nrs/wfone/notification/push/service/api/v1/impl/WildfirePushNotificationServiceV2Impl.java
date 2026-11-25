@@ -731,7 +731,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		String title = "New " + getIncidentType(messageInformation);
 
 		if (StringUtils.isNotBlank(pushNotificationPrefix)) {
-			title = pushNotificationPrefix + title;
+			title = pushNotificationPrefix.trim() + " " + title;
 		}
 
 		return title;
