@@ -963,10 +963,3 @@ export function clearLocationPin() {
 export function isAttributePresent(array, attributeName, attributeValue) {
   return array.some(existingItem => existingItem.attributes[attributeName] === attributeValue);
 }
-
-export function hasSQLKeywords(jsonBlob) {
-  //detect standalone sql words
-  const sqlKeywords = /\b(SELECT|INSERT|UPDATE|DELETE|ALTER|DROP|CREATE)\b(?!\s*\*)/i;
-  const sqlDetected = sqlKeywords.test(jsonBlob);
-  return sqlDetected;
-}

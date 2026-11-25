@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { CapacitorHttp } from '@capacitor/core';
 import { AppConfigService } from '@wf1/core-ui';
-import { hasSQLKeywords } from '@app/utils';
 
 export interface NotificationSettingRsrc {
   deviceType: string;
@@ -98,12 +97,6 @@ export class NotificationService {
           notificationSettingRsrc.notifications.push(notification);
         });
       }
-      const notificationSettingsJSON: string = JSON.stringify(notificationSettingRsrc);
-      if (hasSQLKeywords(notificationSettingsJSON)) {
-        console.error("JSON blob contains SQL keywords. Potential SQL injection attempt.");
-        return;
-      }
-
       return this.httpClient
         .put<NotificationSettingRsrc>(url, notificationSettingRsrc, { headers })
         .toPromise();

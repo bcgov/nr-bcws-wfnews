@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs';
 import { IonicStorageService } from './ionic-storage.service';
 import { LocalStorageService } from './local-storage-service';
 import { ConnectivityService } from '@app/services/connectivity.service';
-import { hasSQLKeywords } from '@app/utils';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -58,10 +57,6 @@ export class ReportOfFireService {
   ): Promise<any> {
     const rofUrl = this.appConfigService.getConfig().rest['fire-report-api'];
     const resource = JSON.stringify(reportOfFire);
-    if (hasSQLKeywords(resource)) {
-      console.error("JSON blob contains SQL keywords. Potential SQL injection attempt.");
-      return;
-    }
     // if the device's location is not populated use the fire location to set image GPS coordinates
     if (reportOfFire?.deviceLocation) {
       this.latitude = reportOfFire.deviceLocation[0];

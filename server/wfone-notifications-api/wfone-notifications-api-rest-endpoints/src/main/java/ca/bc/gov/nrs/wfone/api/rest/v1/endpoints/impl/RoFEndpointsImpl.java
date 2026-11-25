@@ -22,7 +22,6 @@ import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.RoFEndpoints;
 import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.impl.WfOneNotificationsBaseEndpointsImpl;
 import ca.bc.gov.nrs.wfone.service.api.v1.RecordRoFService;
 import ca.bc.gov.nrs.wfone.service.api.v1.validation.ModelValidator;
-import ca.bc.gov.nrs.wfone.api.rest.v1.utils.SqlUtil;
 import java.nio.charset.StandardCharsets;
 
 
@@ -47,13 +46,6 @@ public class RoFEndpointsImpl extends WfOneNotificationsBaseEndpointsImpl implem
         logger.info("ROF body: " + document);
         Response response = null;
 
-        String[] sqlKeywords = SqlUtil.sqlKeywords;
-        // Check if the document contains any SQL keyword
-        for (String keyword : sqlKeywords) {
-            if (document.contains(keyword)) {
-                throw new ValidationException("Potential use of sql statement detected");
-            }
-        }
         if (document.contains("eval(")) {
           throw new ValidationException("Potential use of eval statement detected");
         }
