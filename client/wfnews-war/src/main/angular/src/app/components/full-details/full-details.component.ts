@@ -55,7 +55,7 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
       case 'danger-rating':
         return 'Wildfire Danger Rating';
       case 'bans-prohibitions':
-        return 'Fire Bans';
+        return 'Fire Prohibitions';
       case 'evac-alert':
       case 'evac-order':
         return 'Evacuation Notice';

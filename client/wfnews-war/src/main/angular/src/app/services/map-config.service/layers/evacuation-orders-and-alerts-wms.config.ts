@@ -15,14 +15,14 @@ export const EVACUATION_DRAWING_INFO = {
   transparency: 0,
 };
 
-/** A fire perimeter is a red outline with no fill. */
+/** A fire perimeter is a red outline with a 15% #8E743A fill. */
 export const FIRE_PERIMETER_DRAWING_INFO = {
   renderer: {
     type: 'simple',
     symbol: {
       type: 'esriSFS',
       style: 'esriSFSSolid',
-      color: [0, 0, 0, 0],
+      color: [142, 116, 58, 38],
       outline: { type: 'esriSLS', style: 'esriSLSSolid', color: [230, 0, 0, 255], width: 2 },
     },
   },

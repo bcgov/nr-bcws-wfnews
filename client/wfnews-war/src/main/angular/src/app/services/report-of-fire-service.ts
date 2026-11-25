@@ -80,6 +80,7 @@ export class ReportOfFireService {
         formData.append('image3', await this.convertToBase64(image3));
       }
       this.formData = formData
+      this.submittedOffline = false;
       // if the device is offline save RoF in storage
       try {
         const onlineStatus = await this.connectivityService.checkOnlineStatus();

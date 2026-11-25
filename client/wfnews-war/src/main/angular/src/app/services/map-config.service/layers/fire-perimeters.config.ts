@@ -1,4 +1,5 @@
 import { layerSettings } from '.';
+import { FIRE_PERIMETER_DRAWING_INFO } from './evacuation-orders-and-alerts-wms.config';
 
 export function FirePerimetersLayerConfig(ls: layerSettings) {
   return [
@@ -11,6 +12,7 @@ export function FirePerimetersLayerConfig(ls: layerSettings) {
         ls.services6BaseUrl + '/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0',
       where: 'FIRE_STATUS <> \'Out\'',
       opacity: 1,
+      drawingInfo: FIRE_PERIMETER_DRAWING_INFO,
       attributes: [
         {
           name: 'FIRE_NUMBER',

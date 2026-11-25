@@ -20,11 +20,11 @@ export interface RelatedTopicsLink {
   url: string;
 }
 
-/** The Related Topics of a fire ban, the same on the desktop and the phone page. */
+/** The Related Topics of a fire prohibition, the same on the desktop and the phone page. */
 export function fireBanRelatedTopics(appConfigService: AppConfigService): RelatedTopicsLink[] {
   const external = appConfigService.getConfig().externalAppConfig;
   return [
-    { text: 'Current Fire Bans and Restrictions', url: external['bansRestrictionsUrl'].toString() },
+    { text: 'Current Fire Prohibitions and Restrictions', url: external['bansRestrictionsUrl'].toString() },
     { text: 'Forest Use Restrictions', url: external['bansForestUseUrl'].toString() },
     { text: 'Open Burning', url: external['bansOpenBurningUrl'].toString() },
   ];
@@ -45,7 +45,7 @@ export function dangerRatingRelatedTopics(appConfigService: AppConfigService): R
   const external = appConfigService.getConfig().externalAppConfig;
   return [
     { text: 'Fire Danger Rating', url: external['fireDangerUrl'].toString() },
-    { text: 'Current Fire Bans and Restrictions', url: external['bansRestrictionsUrl'].toString() },
+    { text: 'Current Fire Prohibitions and Restrictions', url: external['bansRestrictionsUrl'].toString() },
     { text: 'Fire Danger Class', url: external['dangerSummary'].toString() },
     { text: 'High Risk Activities', url: external['highRiskActvitiesUrl'].toString() },
   ];

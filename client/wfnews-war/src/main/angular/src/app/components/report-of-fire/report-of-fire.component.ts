@@ -242,20 +242,23 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
     this.currentPage.instance.onShown();
 
     if (editMode) {
-      this.isEditMode = true;
+      this.isEditMode = pageId !== 'review-page';
 
       switch (pageId) {
         case 'contact-page':
           const contactPageComponent = this.currentPage
             .instance as RoFContactPage;
           contactPageComponent.editMode();
+          break;
         case 'location-page':
           const locationPageComponent = this.currentPage
             .instance as RoFLocationPage;
           locationPageComponent.editMode();
+          break;
         case 'photo-page':
           const photoPageComponent = this.currentPage.instance as RoFPhotoPage;
           photoPageComponent.editMode();
+          break;
         case 'smoke-color-page':
         case 'fire-size-page':
         case 'response-details-page':
@@ -264,6 +267,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
           const complexQuestionPageComponent = this.currentPage
             .instance as RoFComplexQuestionPage;
           complexQuestionPageComponent.editMode();
+          break;
 
         case 'callback-page':
         case 'visible-flame-page':
@@ -273,11 +277,13 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
           const simpleQustionPageComponent = this.currentPage
             .instance as RoFSimpleQuestionPage;
           simpleQustionPageComponent.editMode();
+          break;
 
         case 'comments-page':
           const commentPageComponent = this.currentPage
             .instance as RoFCommentsPage;
           commentPageComponent.editMode();
+          break;
         case 'review-page':
           const reviewPageComponent = this.currentPage
             .instance as RoFReviewPage;
@@ -285,9 +291,12 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
             // A new config object rebuilds the map.
             reviewPageComponent.loadMap();
           }
+          break;
         default:
           return null;
       }
+    } else {
+      this.isEditMode = false;
     }
 
     // Check if the component allows for the exit, skip buttons, and will display the progress
@@ -301,19 +310,18 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         case 'final-page':
           const rofTitlePageComponent = this.currentPage
             .instance as RoFTitlePage;
-          this.connectivityService.checkOnlineStatus().then((result) => {
-            if (!result) {
-              this.currentPage.instance.nextId = 'disclaimer-page';
-            }
-          });
+          rofTitlePageComponent.checkOnlineStatus();
+          break;
         case 'callback-page':
           const roFSimpleQuestionPageComponent = this.currentPage
             .instance as RoFSimpleQuestionPage;
           roFSimpleQuestionPageComponent.checkOnlineStatus();
+          break;
         case 'contact-page':
           const roFContactPageComponent = this.currentPage
             .instance as RoFContactPage;
           roFContactPageComponent.checkOnlineStatus();
+          break;
       }
     }
 
@@ -354,13 +362,13 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * This may change for mobile vs desktop
    */
   exit() {
-    if (this.isEditMode && this.currentPage.instance.id !== 'review-page') {
+    if (this.currentPage.instance.id === 'final-page') {
+      //this.router.navigateByUrl('/map')
+      this.locationService.back();
+    } else if (this.isEditMode && this.currentPage.instance.id !== 'review-page') {
       this.edit('review-page');
       this.isEditMode = false;
       this.cdr.detectChanges();
-    } else if (this.currentPage.instance.id === 'final-page') {
-      //this.router.navigateByUrl('/map')
-      this.locationService.back();
     } else {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         ...confirmationDialogConfig,

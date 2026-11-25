@@ -136,6 +136,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
       },
       () => {
         this.offLine = true;
+        this.nextId = 'disclaimer-page';
         this.cdr.detectChanges();
       },
     );
