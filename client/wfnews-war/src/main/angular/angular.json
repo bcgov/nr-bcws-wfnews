@@ -38,14 +38,10 @@
             ],
             "assets": [
               "src/favicon.png",
-              "src/config.jsp",
-              "src/token.jsp",
               "src/manifest.json",
               "src/refresh-token.html",
               "src/robots.txt",
               "src/wfnews-service-worker.js",
-              "src/.well-known/apple-app-site-association",
-              "src/.well-known/assetlinks.json",
               {
                 "glob": "**/*",
                 "input": "src/assets",
@@ -101,14 +97,10 @@
               "outputHashing": "all",
               "assets": [
                 "src/favicon.png",
-                "src/config.jsp",
-                "src/token.jsp",
                 "src/manifest.json",
                 "src/refresh-token.html",
                 "src/robots.txt",
                 "src/wfnews-service-worker.js",
-                "src/.well-known/apple-app-site-association",
-                "src/.well-known/assetlinks.json",
                 {
                   "glob": "**/*",
                   "input": "src/assets",
@@ -230,12 +222,7 @@
             ],
             "assets": [
               "src/assets",
-              "src/favicon.ico",
               "src/robots.txt",
-              "src/oauth.html",
-              "src/config.jsp",
-              "src/token.jsp",
-              "src/override_config.json",
               "src/manifest.json",
               "src/refresh-token.html"
             ]
