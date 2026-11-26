@@ -11,7 +11,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        RofUploadSession.shared.start()
         return true
+    }
+
+    func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String,
+                     completionHandler: @escaping () -> Void) {
+        guard identifier == RofUploadSession.identifier else {
+            completionHandler()
+            return
+        }
+        RofUploadSession.shared.backgroundCompletion = completionHandler
+        RofUploadSession.shared.start()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

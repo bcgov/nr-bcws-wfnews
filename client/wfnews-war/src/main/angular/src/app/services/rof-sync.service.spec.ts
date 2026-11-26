@@ -47,7 +47,12 @@ class FakePlugins {
 
 describe('RofSyncService', () => {
   let queue: OfflineReportQueueService;
-  let rof: { removeInvalidOfflineRoF: jasmine.Spy; syncDataWithServer: jasmine.Spy };
+  let rof: {
+    removeInvalidOfflineRoF: jasmine.Spy;
+    removeNativeSent: jasmine.Spy;
+    handQueueToNative: jasmine.Spy;
+    syncDataWithServer: jasmine.Spy;
+  };
   let connectivity: { checkOnlineStatus: jasmine.Spy };
   let plugins: FakePlugins;
   let service: RofSyncService;
@@ -71,9 +76,16 @@ describe('RofSyncService', () => {
   // Outside fakeAsync, storage.create() settles on the real microtask queue, which no flush reaches.
   beforeEach(fakeAsync(() => {
     queue = new OfflineReportQueueService(ionicStorageOver(new FakeIonicStorage()));
-    rof = jasmine.createSpyObj('ReportOfFireService', ['removeInvalidOfflineRoF', 'syncDataWithServer']);
+    rof = jasmine.createSpyObj('ReportOfFireService', [
+      'removeInvalidOfflineRoF',
+      'removeNativeSent',
+      'handQueueToNative',
+      'syncDataWithServer',
+    ]);
     // resolveTo gives a native Promise, which flushMicrotasks does not flush.
     rof.removeInvalidOfflineRoF.and.callFake(async () => undefined);
+    rof.removeNativeSent.and.callFake(async () => undefined);
+    rof.handQueueToNative.and.callFake(async () => undefined);
     rof.syncDataWithServer.and.callFake(sendAll);
     connectivity = jasmine.createSpyObj('ConnectivityService', ['checkOnlineStatus']);
     connectivity.checkOnlineStatus.and.callFake(async () => true);
@@ -96,6 +108,19 @@ describe('RofSyncService', () => {
 
     expect(rof.syncDataWithServer).toHaveBeenCalledTimes(1);
     expect(rof.removeInvalidOfflineRoF).toHaveBeenCalledTimes(1);
+    expect(rof.removeNativeSent).toHaveBeenCalledTimes(1);
+  }));
+
+  it('gives the queue to the native uploader after the start Sync', fakeAsync(() => {
+    const order: string[] = [];
+    rof.syncDataWithServer.and.callFake(async () => order.push('sync'));
+    rof.handQueueToNative.and.callFake(async () => order.push('native'));
+    add('a');
+
+    start();
+
+    expect(order).toEqual(['sync', 'native']);
+    discardPeriodicTasks();
   }));
 
   it('syncs one time on resume', fakeAsync(() => {

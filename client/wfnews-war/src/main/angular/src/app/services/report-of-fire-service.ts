@@ -7,6 +7,7 @@ import * as P from 'piexifjs';
 import { LocalStorageService } from './local-storage-service';
 import { OfflineReport, OfflineReportQueueService } from './offline-report-queue.service';
 import { ConnectivityService } from '@app/services/connectivity.service';
+import { NativeReportSenderService, OFFLINE_REPORT_MAX_AGE_MS } from './native-report-sender.service';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -43,7 +44,8 @@ export class ReportOfFireService {
     private appConfigService: AppConfigService,
     private connectivityService: ConnectivityService,
     private offlineReportQueue: OfflineReportQueueService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private nativeReportSender: NativeReportSenderService,
   ) { }
 
   async saveReportOfFire(
@@ -109,6 +111,7 @@ export class ReportOfFireService {
         await this.offlineReportQueue
           .remove(reportOfFire.submissionID)
           .catch((error) => console.error('Error removing sent report from the queue', error));
+        await this.nativeReportSender.cancel(reportOfFire.submissionID);
       }
       return { success: true, message: 'Report submitted successfully' };
     }
@@ -241,7 +244,7 @@ export class ReportOfFireService {
     formData.forEach((value, key) => (fields[key] = value as string));
     const resource = fields.resource ? JSON.parse(fields.resource) : {};
     const queuedTimestamp = Date.now();
-    await this.offlineReportQueue.add({
+    const item: OfflineReport = {
       submissionID: resource.submissionID || `local-${queuedTimestamp}`,
       queuedTimestamp,
       syncAttempts: 0,
@@ -249,7 +252,34 @@ export class ReportOfFireService {
       image1: fields.image1,
       image2: fields.image2,
       image3: fields.image3,
-    });
+    };
+    await this.offlineReportQueue.add(item);
+    await this.nativeReportSender.enqueue(item, submittedTimestampOf(item));
+  }
+
+  // The native uploader sent these with the app closed. Record them first, so a failed
+  // remove still leaves Sync a reason to skip them.
+  async removeNativeSent(): Promise<void> {
+    const sent = await this.nativeReportSender.takeSent();
+    if (!sent.length) {
+      return;
+    }
+    const sentIds = this.getSentSubmissionIds();
+    sentIds.push(...sent.filter((id) => !sentIds.includes(id)));
+    this.localStorageService.saveData(SENT_SUBMISSION_IDS_KEY, JSON.stringify(sentIds));
+    for (const id of sent) {
+      await this.offlineReportQueue.remove(id);
+    }
+  }
+
+  // Covers a report queued before the native uploader, or one whose native copy is gone.
+  async handQueueToNative(): Promise<void> {
+    const pending = await this.nativeReportSender.pending();
+    for (const item of await this.offlineReportQueue.list()) {
+      if (!pending.includes(item.submissionID)) {
+        await this.nativeReportSender.enqueue(item, submittedTimestampOf(item));
+      }
+    }
   }
 
   // could not seem to get this to work for non-JPEG, those will be handled in notifications api.
@@ -292,12 +322,14 @@ export class ReportOfFireService {
       for (const item of queue) {
         if (sentIds.includes(item.submissionID)) {
           await this.offlineReportQueue.remove(item.submissionID);
+          await this.nativeReportSender.cancel(item.submissionID);
           continue;
         }
 
         const submitResponse = await this.submitOfflineReportToServer(item);
         if (submitResponse.success) {
           await this.offlineReportQueue.remove(item.submissionID);
+          await this.nativeReportSender.cancel(item.submissionID);
           sentIds.push(item.submissionID);
           this.localStorageService.saveData(SENT_SUBMISSION_IDS_KEY, JSON.stringify(sentIds));
         } else {
@@ -318,6 +350,7 @@ export class ReportOfFireService {
         const submitted = submittedTimestampOf(item);
         if (this.invalidTimestamp(String(submitted))) {
           await this.offlineReportQueue.remove(item.submissionID);
+          await this.nativeReportSender.cancel(item.submissionID);
         }
       }
     } catch (error) {
@@ -346,8 +379,7 @@ export class ReportOfFireService {
     // check if submitted timestamp is more than 24 hours ago
     const now = new Date().getTime();
     const submittedTimestamp = Number(timestamp);
-    const oneDay = 24 * 60 * 60 * 1000;
-    return now - submittedTimestamp > oneDay;
+    return now - submittedTimestamp > OFFLINE_REPORT_MAX_AGE_MS;
   }
 }
 

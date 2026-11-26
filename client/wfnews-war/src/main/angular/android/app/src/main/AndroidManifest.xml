@@ -36,10 +36,14 @@
             </intent-filter>
             <meta-data android:name="photopicker_activity:0:required" android:value="" />
         </service>
+        <!-- WorkManager adds this for foreground work. The report upload is not foreground work, so no
+             foreground service is declared to Play. -->
+        <service android:name="androidx.work.impl.foreground.SystemForegroundService" tools:node="remove" />
     </application>
 
     <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" tools:node="remove" />
     <!--
         Photo selection uses the Android photo picker via Camera.pickImages(), which
         requires no storage or media permissions. Do not reintroduce READ_MEDIA_IMAGES:

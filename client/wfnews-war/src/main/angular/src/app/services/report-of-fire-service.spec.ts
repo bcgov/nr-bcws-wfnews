@@ -74,10 +74,29 @@ function decode(dataUrl: string): Promise<HTMLImageElement> {
 }
 
 /** A ReportOfFireService over an in-memory Ionic Storage and localStorage. */
+/** A NativeReportSenderService that records calls; `pending` and `sent` set its answers. */
+function fakeNativeSender() {
+  return {
+    pendingIds: [] as string[],
+    sentIds: [] as string[],
+    enqueue: jasmine.createSpy('enqueue').and.callFake(async () => undefined),
+    cancel: jasmine.createSpy('cancel').and.callFake(async () => undefined),
+    async pending() {
+      return this.pendingIds;
+    },
+    async takeSent() {
+      const sent = this.sentIds;
+      this.sentIds = [];
+      return sent;
+    },
+  };
+}
+
 function makeService(online = { value: true }) {
   const storage = new FakeIonicStorage();
   const queue = new OfflineReportQueueService(ionicStorageOver(storage));
   const local = new Map<string, string>();
+  const native = fakeNativeSender();
   const service = new ReportOfFireService(
     { getConfig: () => ({ rest: { 'fire-report-api': 'https://rof.test/submit' } }) } as any,
     { checkOnlineStatus: () => Promise.resolve(online.value) } as any,
@@ -86,8 +105,9 @@ function makeService(online = { value: true }) {
       getData: (key: string) => local.get(key) ?? null,
       saveData: (key: string, value: string) => local.set(key, value),
     } as any,
+    native as any,
   );
-  return { service, storage, queue, local, online };
+  return { service, storage, queue, local, online, native };
 }
 
 function queued(submissionID: string, submittedTimestamp = String(Date.now())): OfflineReport {
@@ -108,10 +128,11 @@ describe('ReportOfFireService.saveReportOfFire', () => {
   let service: ReportOfFireService;
   let queue: OfflineReportQueueService;
   let online: { value: boolean };
+  let native: ReturnType<typeof fakeNativeSender>;
   let fetchSpy: jasmine.Spy;
 
   beforeEach(() => {
-    ({ service, queue, online } = makeService());
+    ({ service, queue, online, native } = makeService());
     fetchSpy = spyOn(window, 'fetch').and.returnValue(Promise.resolve(new Response('{}', { status: 200 })));
   });
 
@@ -131,6 +152,17 @@ describe('ReportOfFireService.saveReportOfFire', () => {
 
     expect(fetchSpy).not.toHaveBeenCalled();
     expect((await queue.list()).map((item) => item.submissionID)).toEqual(['a']);
+  });
+
+  it('gives an offline report to the native uploader with its submitted time', async () => {
+    online.value = false;
+
+    await service.saveReportOfFire({ submissionID: 'a', submittedTimestamp: '1000' }, null, null, null);
+
+    expect(native.enqueue).toHaveBeenCalledTimes(1);
+    const [item, submitted] = native.enqueue.calls.mostRecent().args;
+    expect(item.submissionID).toBe('a');
+    expect(submitted).toBe(1000);
   });
 
   it('keeps two offline reports', async () => {
@@ -208,11 +240,12 @@ describe('ReportOfFireService Sync', () => {
   let queue: OfflineReportQueueService;
   let storage: FakeIonicStorage;
   let local: Map<string, string>;
+  let native: ReturnType<typeof fakeNativeSender>;
   let fetchSpy: jasmine.Spy;
   const failing = new Set<string>();
 
   beforeEach(() => {
-    ({ service, queue, storage, local } = makeService());
+    ({ service, queue, storage, local, native } = makeService());
     failing.clear();
     fetchSpy = spyOn(window, 'fetch').and.callFake(async (_url, init) => {
       const id = JSON.parse((init.body as FormData).get('resource') as string).submissionID;
@@ -272,6 +305,40 @@ describe('ReportOfFireService Sync', () => {
     await service.removeInvalidOfflineRoF();
 
     expect((await queue.list()).map((item) => item.submissionID)).toEqual(['new']);
+    expect(native.cancel.calls.allArgs()).toEqual([['old']]);
+  });
+
+  it('cancels the native copy of a report that Sync sent', async () => {
+    await queue.add(queued('a'));
+    failing.add('b');
+    await queue.add(queued('b'));
+
+    await service.syncDataWithServer();
+
+    expect(native.cancel.calls.allArgs()).toEqual([['a']]);
+  });
+
+  it('records the reports the native uploader sent and removes them', async () => {
+    await queue.add(queued('a'));
+    await queue.add(queued('b'));
+    native.sentIds = ['a'];
+
+    await service.removeNativeSent();
+
+    expect((await queue.list()).map((item) => item.submissionID)).toEqual(['b']);
+    expect(JSON.parse(local.get('submissionIDList'))).toEqual(['a']);
+    await service.syncDataWithServer();
+    expect(fetchSpy.calls.all().map(sentSubmissionId)).toEqual(['b']);
+  });
+
+  it('gives the native uploader only the reports it does not hold', async () => {
+    await queue.add(queued('a'));
+    await queue.add(queued('b'));
+    native.pendingIds = ['a'];
+
+    await service.handQueueToNative();
+
+    expect(native.enqueue.calls.allArgs().map(([item]) => item.submissionID)).toEqual(['b']);
   });
 });
 
@@ -282,6 +349,7 @@ describe('ReportOfFireService EXIF handling', () => {
     // checkExifGPS only reads this.latitude / this.longitude, so the injected
     // collaborators are not exercised here.
     service = new ReportOfFireService(
+      null as any,
       null as any,
       null as any,
       null as any,
