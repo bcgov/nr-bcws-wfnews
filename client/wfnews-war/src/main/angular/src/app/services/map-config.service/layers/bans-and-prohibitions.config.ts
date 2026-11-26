@@ -1,4 +1,5 @@
 import { layerSettings } from '.';
+import { prohibitionCategoryCqlFilter } from '@app/utils/prohibition-categories';
 
 export function BansAndProhibitionsLayerConfig(ls: layerSettings) {
   return [
@@ -10,7 +11,7 @@ export function BansAndProhibitionsLayerConfig(ls: layerSettings) {
       layerName:
         'pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
       sld: `@${window.location.protocol}//${window.location.host}/assets/js/smk/bans-cat1.sld`,
-      where: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfire%\'',
+      where: prohibitionCategoryCqlFilter(1),
       opacity: 0.5,
       titleAttribute: 'ACCESS_PROHIBITION_DESCRIPTION',
       geometryAttribute: 'SHAPE',
@@ -54,7 +55,7 @@ export function BansAndProhibitionsLayerConfig(ls: layerSettings) {
       layerName:
         'pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
       sld: `@${window.location.protocol}//${window.location.host}/assets/js/smk/bans-cat2.sld`,
-      where: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 2%\'',
+      where: prohibitionCategoryCqlFilter(2),
       opacity: 0.5,
       titleAttribute: 'ACCESS_PROHIBITION_DESCRIPTION',
       geometryAttribute: 'SHAPE',
@@ -98,7 +99,7 @@ export function BansAndProhibitionsLayerConfig(ls: layerSettings) {
       layerName:
         'pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
       sld: `@${window.location.protocol}//${window.location.host}/assets/js/smk/bans-cat3.sld`,
-      where: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 3%\'',
+      where: prohibitionCategoryCqlFilter(3),
       opacity: 0.4,
       titleAttribute: 'ACCESS_PROHIBITION_DESCRIPTION',
       geometryAttribute: 'SHAPE',

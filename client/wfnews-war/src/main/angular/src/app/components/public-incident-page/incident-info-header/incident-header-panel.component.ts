@@ -22,6 +22,11 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import { MapConfigService } from '@app/services/map-config.service';
 import { boundsToExtent, drawNearbyIncidents, extentToParam, fireOfNote, stageDot } from '@app/utils/preview-map';
 import { pingMarker } from '@app/utils/map-markers';
+import {
+  compactSld,
+  parseProhibitionCategories,
+  prohibitionCategoryCqlFilter,
+} from '@app/utils/prohibition-categories';
 import { AppConfigService } from '@wf1/core-ui';
 import { EvacOrderOption } from '../../../conversion/models';
 import {
@@ -157,11 +162,9 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
         },
       ];
     } else if (this.ban) {
-      this.banCategories.isCat1 =
-        this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('1') ||
-        this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.toLowerCase().includes('campfires');
-      this.banCategories.isCat2 = this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('2');
-      this.banCategories.isCat3 = this.ban.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('3');
+      this.banCategories = parseProhibitionCategories(
+        this.ban.attributes.CATEGORY,
+      );
       location = [Number(this.ban.centroid?.y), Number(this.ban.centroid?.x)];
       const polygonData = extractPolygonData(this.ban.geometry?.rings);
       if (polygonData?.length) {
@@ -270,7 +273,7 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
       serviceUrl: databcUrl,
       layerName: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
       version: '1.1.1',
-      sld: sldBody,
+      sld: compactSld(sldBody),
       where,
       opacity: 0.5,
       isVisible: true,
@@ -278,14 +281,13 @@ export class IncidentHeaderPanelComponent implements AfterViewInit, OnInit {
 
     const layers = [];
     if (this.banCategories.isCat3) {
-      layers.push(category('bans-cat3', cat3sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 3%'"));
+      layers.push(category('bans-cat3', cat3sld, prohibitionCategoryCqlFilter(3)));
     }
     if (this.banCategories.isCat2) {
-      layers.push(category('bans-cat2', cat2sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 2%'"));
+      layers.push(category('bans-cat2', cat2sld, prohibitionCategoryCqlFilter(2)));
     }
     if (this.banCategories.isCat1) {
-      layers.push(category('bans-cat1', cat1sld,
-        "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 1%' OR ACCESS_PROHIBITION_DESCRIPTION LIKE '%Campfire%'"));
+      layers.push(category('bans-cat1', cat1sld, prohibitionCategoryCqlFilter(1)));
     }
     return layers;
   }

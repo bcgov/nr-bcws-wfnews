@@ -8,6 +8,10 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ResourcesRoutes } from '@app/utils';
+import {
+  compactSld,
+  prohibitionCategoryCqlFilter,
+} from '@app/utils/prohibition-categories';
 import { MapConfigService } from '@app/services/map-config.service';
 import { AppConfigService } from '@wf1/core-ui';
 
@@ -57,7 +61,7 @@ export class BansWidget implements OnInit, AfterViewInit {
           serviceUrl: databcUrl,
           layerName: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
           version: '1.1.1',
-          sld: sldBody,
+          sld: compactSld(sldBody),
           where,
           opacity: 0.5,
           isVisible: true,
@@ -66,10 +70,9 @@ export class BansWidget implements OnInit, AfterViewInit {
         return this.mapConfigService.getPreviewMapConfig({
           maxZoom: 10,
           layers: [
-            category('bans-cat3', cat3sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 3%'"),
-            category('bans-cat2', cat2sld, "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 2%'"),
-            category('bans-cat1', cat1sld,
-              "ACCESS_PROHIBITION_DESCRIPTION LIKE '%Category 1%' OR ACCESS_PROHIBITION_DESCRIPTION LIKE '%Campfire%'"),
+            category('bans-cat3', cat3sld, prohibitionCategoryCqlFilter(3)),
+            category('bans-cat2', cat2sld, prohibitionCategoryCqlFilter(2)),
+            category('bans-cat1', cat1sld, prohibitionCategoryCqlFilter(1)),
           ],
         });
       })

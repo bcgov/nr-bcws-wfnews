@@ -8,6 +8,7 @@ import {
   fireBanRelatedTopics,
 } from '@app/components/full-details/cards/related-topics-card/related-topics-card.component';
 import { AppConfigService } from '@wf1/core-ui';
+import { parseProhibitionCategories } from '@app/utils/prohibition-categories';
 import { INFORMATION_TEXTS } from '../../../constants';
 
 @Component({
@@ -53,10 +54,12 @@ export class FireBanDetailsComponent implements OnInit {
   }
 
   getCategories() {
-    this.category[1] = this.fireBan?.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('1') 
-      || this.fireBan?.attributes.ACCESS_PROHIBITION_DESCRIPTION.toLowerCase().includes('campfires');
-    this.category[2] = this.fireBan?.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('2');
-    this.category[3] = this.fireBan?.attributes.ACCESS_PROHIBITION_DESCRIPTION.includes('3');
+    const { isCat1, isCat2, isCat3 } = parseProhibitionCategories(
+      this.fireBan?.attributes?.CATEGORY,
+    );
+    this.category[1] = isCat1;
+    this.category[2] = isCat2;
+    this.category[3] = isCat3;
   }
 
   getBulletinLink() {

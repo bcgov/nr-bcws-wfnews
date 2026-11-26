@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { ResponsiveDialogService } from '@app/services/responsive-dialog.service';
 import { ResourcesRoutes, convertToDateTime } from '@app/utils';
+import { parseProhibitionCategories } from '@app/utils/prohibition-categories';
 import { AGOLService } from '../../../services/AGOL-service';
 import {
   FilterByLocationDialogComponent,
@@ -67,39 +68,30 @@ export class BansListComponent implements OnInit {
   async search(location: LocationData | null = null) {
     this.searchingComplete = false;
 
-    let whereString = '';
+    const conditions: string[] = [];
 
     if (this.searchText && this.searchText.length > 0) {
       // eslint-disable-next-line max-len
-      whereString += `(ACCESS_PROHIBITION_DESCRIPTION LIKE '%${this.searchText}%' OR FIRE_CENTRE_NAME LIKE '%${this.searchText}%' OR TYPE LIKE '%${this.searchText}%') AND (`;
+      conditions.push(
+        `(ACCESS_PROHIBITION_DESCRIPTION LIKE '%${this.searchText}%' OR FIRE_CENTRE_NAME LIKE '%${this.searchText}%' OR TYPE LIKE '%${this.searchText}%')`,
+      );
     }
 
+    const categoryClauses: string[] = [];
     if (this.category1) {
-      whereString +=
-        '(ACCESS_PROHIBITION_DESCRIPTION LIKE \'%1%\' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfires%\')';
+      categoryClauses.push("CATEGORY LIKE '%1%'");
     }
-
     if (this.category2) {
-      whereString += ' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%2%\'';
+      categoryClauses.push("CATEGORY LIKE '%2%'");
     }
-
     if (this.category3) {
-      whereString += ' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%3%\'';
+      categoryClauses.push("CATEGORY LIKE '%3%'");
+    }
+    if (categoryClauses.length > 0) {
+      conditions.push(`(${categoryClauses.join(' OR ')})`);
     }
 
-    if (this.searchText && this.searchText.length > 0) {
-      whereString += ')';
-    }
-
-    if (whereString.startsWith(' OR ')) {
-      whereString = whereString.substring(3);
-    }
-    if (whereString.endsWith(' AND ()')) {
-      whereString = whereString.substring(0, whereString.length - 7);
-    }
-    if (whereString === '') {
-      whereString = null;
-    }
+    const whereString = conditions.length > 0 ? conditions.join(' AND ') : null;
 
     this.agolService
       .getBansAndProhibitions(
@@ -117,6 +109,20 @@ export class BansListComponent implements OnInit {
         const banData = [];
         if (bans && bans.features) {
           for (const element of bans.features) {
+            if (categoryClauses.length > 0) {
+              const { isCat1, isCat2, isCat3 } = parseProhibitionCategories(
+                element.attributes.CATEGORY,
+              );
+              if (
+                !(
+                  (this.category1 && isCat1) ||
+                  (this.category2 && isCat2) ||
+                  (this.category3 && isCat3)
+                )
+              ) {
+                continue;
+              }
+            }
             banData.push({
               id: element.attributes.PROT_BAP_SYSID,
               fireCentre: element.attributes.FIRE_CENTRE_NAME,
