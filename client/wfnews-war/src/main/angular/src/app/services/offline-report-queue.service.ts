@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { IonicStorageService } from './ionic-storage.service';
 
 export interface OfflineReport {
@@ -22,15 +23,18 @@ export class OfflineReportQueueService {
   // A submit and a Sync can run together; one chain stops one write replacing the other.
   private chain: Promise<unknown> = Promise.resolve();
   private migrated = false;
+  // Sync starts its timer from this, so a report queued while the app is open is sent.
+  readonly added = new Subject<void>();
 
   constructor(private storage: IonicStorageService) {}
 
-  add(item: OfflineReport): Promise<void> {
-    return this.update((queue) =>
+  async add(item: OfflineReport): Promise<void> {
+    await this.update((queue) =>
       queue.some((queued) => queued.submissionID === item.submissionID)
         ? queue
         : [...queue, item],
     );
+    this.added.next();
   }
 
   list(): Promise<OfflineReport[]> {

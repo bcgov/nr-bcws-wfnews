@@ -29,6 +29,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
+import { RofSyncService } from './services/rof-sync.service';
 import { UpdateService } from './services/update.service';
 import { WFMapService } from './services/wf-map.service';
 import {
@@ -149,6 +150,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     protected zone: NgZone,
     protected titleService: Title,
     protected metaService: Meta,
+    protected rofSyncService: RofSyncService,
   ) {
   }
 
@@ -182,6 +184,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.wfMapService.patch();
     this.addCustomMaterialIcons();
     this.updateService.checkForUpdates();
+    this.rofSyncService.start();
     this.checkUserPermissions();
 
     if (!this.location.path().startsWith('/(root:external')) {
