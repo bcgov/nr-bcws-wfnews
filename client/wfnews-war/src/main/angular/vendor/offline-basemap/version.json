@@ -1,0 +1,26 @@
+{
+  "source": "https://build.protomaps.com/20261125.pmtiles",
+  "build": "20261125.pmtiles",
+  "region": "scripts/offline-basemap/bc-boundary.geojson",
+  "maxzoom": 12,
+  "droppedLayers": [
+    "landuse",
+    "buildings",
+    "pois"
+  ],
+  "bytes": 33910214,
+  "fonts": [
+    "Noto Sans Italic",
+    "Noto Sans Medium",
+    "Noto Sans Regular"
+  ],
+  "ranges": [
+    "0-255",
+    "256-511",
+    "512-767",
+    "768-1023",
+    "7680-7935",
+    "8192-8447"
+  ],
+  "generatedAt": "2026-11-26T17:09:30.159Z"
+}

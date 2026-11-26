@@ -1,4 +1,4 @@
-import { previewMapConfig } from './map.config';
+import { previewMapConfig, reportOfFireMapConfig } from './map.config';
 
 const zoomTool = (option?: Parameters<typeof previewMapConfig>[0]) =>
   previewMapConfig(option).tools.find((tool: any) => tool.type === 'zoom') as any;
@@ -6,6 +6,17 @@ const zoomTool = (option?: Parameters<typeof previewMapConfig>[0]) =>
 describe('previewMapConfig basemap', () => {
   it('starts on Terrain, as the main map does', () => {
     expect(previewMapConfig().viewer.baseMap).toBe('topography');
+  });
+
+  it('uses an explicit basemap when requested', () => {
+    expect(previewMapConfig({ baseMap: 'offline' }).viewer.baseMap).toBe('offline');
+  });
+});
+
+describe('reportOfFireMapConfig basemap', () => {
+  it('defaults to Terrain and accepts offline basemap override', () => {
+    expect(reportOfFireMapConfig(null, null, 'desktop', null).viewer.baseMap).toBe('topography');
+    expect(reportOfFireMapConfig(null, null, 'desktop', null, 'offline').viewer.baseMap).toBe('offline');
   });
 });
 

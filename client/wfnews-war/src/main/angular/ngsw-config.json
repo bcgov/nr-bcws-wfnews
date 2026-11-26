@@ -13,7 +13,7 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {
-        "files": ["/assets/**"]
+        "files": ["/assets/**", "!/assets/offline-basemap/**"]
       }
     }
   ],

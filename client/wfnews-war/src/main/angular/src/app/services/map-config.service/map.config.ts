@@ -187,6 +187,7 @@ export const reportOfFireMapConfig = (
   serviceStatus: MapServiceStatus,
   device: WfDevice,
   appConfigService: AppConfigService,
+  baseMap = 'topography',
 ) => ({
   viewer: {
     type: 'maplibre',
@@ -194,7 +195,7 @@ export const reportOfFireMapConfig = (
     location: {
       extent: [-136.3, 49, -116, 60.2],
     },
-    baseMap: 'topography',
+    baseMap,
     minZoom: 4,
   },
   tools: [
@@ -256,6 +257,7 @@ export const previewMapConfig = (option: {
   zoom?: number;
   layers?: any[];
   maxZoom?: number;
+  baseMap?: string;
   /** The +/- control and a reset to the configured view. reset-view needs both. */
   zoomControl?: boolean;
   /** Wheel, double click (or double tap) and box zoom, for a map the user explores. */
@@ -266,7 +268,7 @@ export const previewMapConfig = (option: {
     type: 'maplibre',
     location: previewLocation(option),
     // Terrain, as the main map starts with.
-    baseMap: 'topography',
+    baseMap: option.baseMap || 'topography',
     // A phone-wide box needs zoom 3.4 to fit BC; a floor of 4 cut the province off.
     minZoom: 3,
     maxZoom: option.maxZoom || 30,
@@ -306,63 +308,3 @@ function previewLocation(option: { extent?: number[]; center?: number[]; zoom?: 
   }
   return { extent: [-139, 48.3, -114, 60.2] };
 }
-
-export const reportOfFireOfflineMapConfig = (
-  mapServices: MapServices,
-  serviceStatus: MapServiceStatus,
-  device: WfDevice,
-  appConfigService: AppConfigService,
-) => ({
-  viewer: {
-    type: 'maplibre',
-    device,
-    location: {
-      extent: [-136.3, 49, -116, 60.2],
-    },
-    baseMap: 'topography',
-    zoomControl: false,
-    doubleClickZoom: false,
-    boxZoom: false,
-    trackResize: false,
-    scrollWheelZoom: false,
-  },
-  tools: [
-    {
-      type: 'pan',
-      enabled: true,
-    },
-    {
-      type: 'baseMaps',
-      enabled: false,
-    },
-    {
-      type: 'search',
-      enabled: false,
-    },
-    {
-      type: 'search-location',
-      enabled: false,
-    },
-    {
-      type: 'markup',
-      enabled: false,
-    },
-    {
-      type: 'location',
-      enabled: false,
-    },
-    {
-      type: 'scale',
-      enabled: false,
-    },
-    {
-      type: 'bespoke',
-      instance: 'full-screen',
-      title: 'Full Screen',
-      position: 'toolbar',
-      enabled: false,
-      order: 1,
-      icon: 'open_in_full',
-    },
-  ],
-});

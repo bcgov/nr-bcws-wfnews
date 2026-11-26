@@ -11,8 +11,6 @@ import {
   MatButtonToggleGroup,
 } from '@angular/material/button-toggle';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
-import * as turf from '@turf/turf';
-import { ConnectivityService } from '@app/services/connectivity.service';
 import { checkIfLandscapeMode } from '@app/utils/device';
 
 /** The value that "I'm not sure" stores, on this page and in the review. */
@@ -38,7 +36,6 @@ export class RoFComplexQuestionPage extends RoFPage {
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
     private cdr: ChangeDetectorRef,
-    private connectivityService: ConnectivityService,
   ) {
     super();
   }
@@ -111,51 +108,6 @@ export class RoFComplexQuestionPage extends RoFPage {
   }
 
   nextPage() {
-    return this.leave(() => this.next());
-  }
-
-  /** The wizard header calls this. Offline, Skip also passes the map page. */
-  skipPage() {
-    return this.leave(() => this.skip());
-  }
-
-  /**
-   * With no network the location page is skipped, because a map needs tiles. The
-   * fire is placed here instead, from the position the Permissions page took.
-   */
-  private async leave(online: () => void) {
-    if (
-      this.id !== 'distance-page' ||
-      (await this.connectivityService.checkOnlineStatus())
-    ) {
-      online();
-      return;
-    }
-    this.placeFireOffline();
-    this.reportOfFirePage.selectPage('photo-page', null, false);
-  }
-
-  /**
-   * `turf.destination` is the same calculation that places the fire on the location
-   * page, and it is in the bundle, so it works with no network.
-   */
-  private placeFireOffline(): void {
-    const [lat, lon] = (this.reportOfFire.deviceLocation ?? []).map(Number);
-    if (!lat && !lon) {
-      return;
-    }
-
-    const km = Number(this.reportOfFire.estimatedDistance) / 1000;
-    const heading = Number(this.reportOfFire.compassHeading);
-    if (!turf || !km || Number.isNaN(heading)) {
-      // No heading or no distance. The device position is the best answer left.
-      this.reportOfFire.fireLocation = [lat, lon];
-      return;
-    }
-
-    // turf works in [longitude, latitude]. The report holds [latitude, longitude].
-    const point = turf.destination([lon, lat], km, heading);
-    const [fireLon, fireLat] = point.geometry.coordinates;
-    this.reportOfFire.fireLocation = [Number(fireLat), Number(fireLon)];
+    this.next();
   }
 }

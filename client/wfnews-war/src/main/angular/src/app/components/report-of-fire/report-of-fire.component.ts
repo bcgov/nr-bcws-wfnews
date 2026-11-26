@@ -386,11 +386,6 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * displayed components "skip"
    */
   skip() {
-    // Offline, Skip places the fire and passes the map page, the same as Next.
-    if (this.currentPage.instance.id === 'distance-page') {
-      (this.currentPage.instance as RoFComplexQuestionPage).skipPage();
-      return;
-    }
     // The call back pages come last, so their skip goes to the review like any other.
     // A rule left from an older order sent a landscape screen back to the distance page.
     if (

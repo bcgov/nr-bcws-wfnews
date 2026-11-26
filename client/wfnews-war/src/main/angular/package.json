@@ -54,6 +54,7 @@
     "@ngrx/router-store": "15.4.0",
     "@ngrx/store": "15.4.0",
     "@ngrx/store-devtools": "15.4.0",
+    "@protomaps/basemaps": "^5.7.2",
     "@swimlane/ngx-charts": "20.1.0",
     "@turf/turf": "7.2.0",
     "@types/geojson": "7946.0.8",
@@ -78,6 +79,7 @@
     "geomagnetism": "0.2.0",
     "karma-viewport": "1.0.9",
     "lightgallery": "2.7.0",
+    "material-icons": "^1.13.14",
     "moment": "2.29.4",
     "ng-pick-datetime": "6.0.16",
     "ng-pick-datetime-moment": "1.0.7",
@@ -87,6 +89,7 @@
     "ngx-pagination": "5.1.1",
     "notosans-fontface": "1.3.0",
     "piexifjs": "1.0.6",
+    "pmtiles": "^4.5.0",
     "popper.js": "1.14.4",
     "puppeteer": "15.4.0",
     "qrcode": "1.5.1",
@@ -223,7 +226,8 @@
     "mavenbuild": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href / && replace-in-file /ngsw:/g ngsw:wfnewsi: dist/ngsw-worker.js --verbose --isRegex",
     "mavenbuild-source-map": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href / --source-map && replace-in-file /ngsw:/g ngsw:wfnewsi: ../../../target/angular/ngsw-worker.js --verbose --isRegex",
     "storybook": "ng run WFNEWS:storybook",
-    "build-storybook": "ng run WFNEWS:build-storybook"
+    "build-storybook": "ng run WFNEWS:build-storybook",
+    "offline-basemap:build": "node scripts/offline-basemap/build.mjs"
   },
   "version": "2.7.0"
 }

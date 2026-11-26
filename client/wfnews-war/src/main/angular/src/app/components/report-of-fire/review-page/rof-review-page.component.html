@@ -6,7 +6,7 @@
     <div *ngFor="let page of reportOfFirePages"
       [class.review-wide]="page.id === 'comments-page'">
       <div
-        *ngIf="page.id !== 'disclaimer-page' && page.id !== 'call-page' && !(page.id === 'location-page' && isOffLine)">
+        *ngIf="page.id !== 'disclaimer-page' && page.id !== 'call-page'">
         <div class="rof-text-review-header">
           {{page.title}}
         </div>
@@ -60,11 +60,11 @@
             </div>
           </div>
         </div>
-        <div *ngIf="page.id === 'location-page' && !isOffLine" style="position: relative;">
+        <div *ngIf="page.id === 'location-page'" style="position: relative;">
           <wfnews-button class="edit-button" variant="secondary" size="small" label="Edit"
             iconPath="/assets/images/svg-icons/edit.svg"
             (buttonClicked)="edit(page.id)"></wfnews-button>
-          <div *ngIf="!isOffLine && mapConfig" class="map-container">
+          <div *ngIf="mapConfig" class="map-container">
             <wf-map-container [mapConfig]="mapConfig"
               (mapInitialized)="initMap($event)"></wf-map-container>
           </div>

@@ -10,4 +10,5 @@ export const environment = {
   app_config_location: '/assets/data/appConfig.mobile.json',
   app_base: '/',
   document_management_proxy_auth_url: '/auth',
+  offline_basemap: true,
 };
