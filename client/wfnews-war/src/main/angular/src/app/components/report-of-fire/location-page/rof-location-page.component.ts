@@ -26,15 +26,17 @@ import {
   PermissionService,
 } from '@app/services/permission.service';
 import { LatLon, LonLat } from '@app/services/wfnews-map.service/util';
-import { getActiveMap, hasOwn } from '@app/utils';
 import { SmkApi } from '@app/utils/smk';
 import { drawArrow, markerElement } from '../rof-arrow';
 import { Subscription } from 'rxjs';
-import offlineMapJson from '../../../../assets/maps/british-columbia.json';
 import { ReportOfFire } from '../reportOfFireModel';
 import { RoFPage } from '../rofPage';
 import * as turf from '@turf/turf';
 import { ConnectivityService } from '@app/services/connectivity.service';
+import {
+  isOfflineBasemapAvailable,
+  OFFLINE_BASEMAP_ID,
+} from '@app/services/offline-basemap';
 import { calculateBearing } from '@app/utils/coordinates';
 
 @Component({
@@ -286,12 +288,6 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
     };
 
     connector();
-
-    this.connectivityService.checkOnlineStatus().then((result) => {
-      if (!result) {
-        this.addOfflineLayer();
-      }
-    });
   }
 
   confirmLocation() {
@@ -360,20 +356,14 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
   }
 
   loadMapConfig() {
-    this.connectivityService.checkOnlineStatus().then((result) => {
-      if (!result) {
-        this.mapConfigService.getReportOfFireOfflineMapConfig().then((cfg) => {
-          const view = this.extentAroundDevice();
-          this.mapConfig = view ? [cfg, view] : [cfg];
-          this.cdr.detectChanges();
-        });
-      } else {
-        this.mapConfigService.getReportOfFireMapConfig().then((cfg) => {
-          const view = this.extentAroundDevice();
-          this.mapConfig = view ? [cfg, view] : [cfg];
-          this.cdr.detectChanges();
-        });
-      }
+    this.connectivityService.checkOnlineStatus().then((online) => {
+      const baseMap =
+        !online && isOfflineBasemapAvailable() ? OFFLINE_BASEMAP_ID : 'topography';
+      this.mapConfigService.getReportOfFireMapConfig(baseMap).then((cfg) => {
+        const view = this.extentAroundDevice();
+        this.mapConfig = view ? [cfg, view] : [cfg];
+        this.cdr.detectChanges();
+      });
     });
   }
 
@@ -383,47 +373,5 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit, OnDestroy
 
   backToReview() {
     this.reportOfFirePage.edit('review-page');
-  }
-
-  addOfflineLayer() {
-    const SMK = window['SMK'];
-    for (const smkMap in SMK.MAP) {
-      if (hasOwn(SMK.MAP, smkMap)) {
-        const map = getActiveMap(SMK).$viewer.map;
-
-        // The raster tiles go under the outline, so add that source first.
-        if (!map.getSource('offline-tiles')) {
-          // Only zoom 5 is on disk, so cap the source there and let MapLibre
-          // scale those tiles. Without the cap it asks for tiles that 404.
-          map.addSource('offline-tiles', {
-            type: 'raster',
-            tiles: ['/assets/offline-maps/{z}/{y}/{x}.jpg'],
-            tileSize: 256,
-            minzoom: 5,
-            maxzoom: 5,
-          });
-          map.addLayer({
-            id: 'offline-tiles',
-            type: 'raster',
-            source: 'offline-tiles',
-          });
-        }
-
-        if (!map.getSource('offline-outline')) {
-          map.addSource('offline-outline', {
-            type: 'geojson',
-            data: offlineMapJson,
-          });
-          map.addLayer({
-            id: 'offline-outline',
-            type: 'line',
-            source: 'offline-outline',
-            paint: { 'line-color': '#6495ED', 'line-width': 8 },
-          });
-        }
-
-        map.setZoom(5);
-      }
-    }
   }
 }

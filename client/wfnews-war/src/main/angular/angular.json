@@ -38,14 +38,10 @@
             ],
             "assets": [
               "src/favicon.png",
-              "src/config.jsp",
-              "src/token.jsp",
               "src/manifest.json",
               "src/refresh-token.html",
               "src/robots.txt",
               "src/wfnews-service-worker.js",
-              "src/.well-known/apple-app-site-association",
-              "src/.well-known/assetlinks.json",
               {
                 "glob": "**/*",
                 "input": "src/assets",
@@ -76,6 +72,8 @@
               "src/styles/main.scss",
               "node_modules/ng-pick-datetime/assets/style/picker.min.css",
               "node_modules/lightgallery/scss/lightgallery.scss",
+              "node_modules/material-icons/iconfont/filled.css",
+              "node_modules/material-icons/iconfont/outlined.css",
               "vendor/smk/smk.css"
             ],
             "scripts": [
@@ -97,6 +95,48 @@
                 }
               ],
               "outputHashing": "all",
+              "assets": [
+                "src/favicon.png",
+                "src/manifest.json",
+                "src/refresh-token.html",
+                "src/robots.txt",
+                "src/wfnews-service-worker.js",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets",
+                  "output": "assets"
+                },
+                {
+                  "glob": "smk-template-compiler.js",
+                  "input": "vendor/smk",
+                  "output": "assets/smk"
+                },
+                {
+                  "glob": "splash-screen/**/*",
+                  "input": "node_modules/@wf1/wfcc-application-ui",
+                  "output": "assets"
+                },
+                {
+                  "glob": "bc-sans/**/*",
+                  "input": "node_modules/@wf1/wfcc-application-ui",
+                  "output": "assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/.well-known",
+                  "output": ".well-known/"
+                },
+                {
+                  "glob": "bc.pmtiles",
+                  "input": "vendor/offline-basemap",
+                  "output": "assets/offline-basemap"
+                },
+                {
+                  "glob": "fonts/**/*",
+                  "input": "vendor/offline-basemap",
+                  "output": "assets/offline-basemap"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -145,6 +185,9 @@
             "proxyConfig": "../dm-proxy/proxy.conf.json"
           },
           "configurations": {
+            "mobile": {
+              "browserTarget": "WFNEWS:build:mobile"
+            },
             "production": {
               "browserTarget": "WFNEWS:build:production"
             },
@@ -179,12 +222,7 @@
             ],
             "assets": [
               "src/assets",
-              "src/favicon.ico",
               "src/robots.txt",
-              "src/oauth.html",
-              "src/config.jsp",
-              "src/token.jsp",
-              "src/override_config.json",
               "src/manifest.json",
               "src/refresh-token.html"
             ]

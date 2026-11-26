@@ -9,6 +9,12 @@ import {
 import { CapacitorHttp } from '@capacitor/core';
 import { AppConfigService } from '@wf1/core-ui';
 import { registerTimeDimension } from '@app/services/smk-time-dimension';
+import {
+  isOfflineBasemapAvailable,
+  OFFLINE_BASEMAP_ID,
+  offlineBasemapConfig,
+  registerOfflineBasemapProtocol,
+} from '@app/services/offline-basemap';
 
 export type Smk = any;
 export type SmkPromise = Promise<Smk>;
@@ -185,6 +191,9 @@ export class WFMapService {
           })
           .then(() => {
             registerTimeDimension(SMK, window['Vue']);
+            if (isOfflineBasemapAvailable()) {
+              registerOfflineBasemapProtocol();
+            }
           })
           .then(() => {
             console.log('done patching SMK');
@@ -268,35 +277,95 @@ const esriVectorBasemap = (id: string, title: string, order: number, itemId: str
 const ESRI_WORLD_VECTOR_URL = 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer';
 
 /** The basemaps SMK lacks, or defines differently from WFNEWS. */
-const APP_BASEMAPS = [
-  // WFPREV's Topographic, so both apps show the same Terrain. A composite stacks bottom first.
-  {
-    id: 'topography',
-    title: 'Terrain',
-    order: 101,
-    optionImageUrl: basemapImageUrl('topography'),
-    type: 'composite',
-    layers: ['terrain-hillshade', 'terrain-vector'],
-  },
-  {
-    id: 'terrain-hillshade',
-    internal: true,
-    type: 'esri-tiled-map',
-    url: 'https://services.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer',
-    // Above 16 the service answers "Map data not yet available", which covers the map.
-    // SMK 1.0 stopped here too; MapLibre enlarges the zoom 16 tiles instead.
-    option: { maxNativeZoom: 16 },
-  },
-  {
-    ...esriVectorBasemap('terrain-vector', 'Terrain', 101, '7dc6cea0b1764a1f9af2e679f642f0f5', ESRI_WORLD_VECTOR_URL),
-    internal: true,
-  },
-  // Esri's World Navigation Map, drawn from its item so it keeps up with Esri.
-  esriVectorBasemap('navigation', 'Navigation', 102, '63c47b7177f946b49902c24129b87252', ESRI_WORLD_VECTOR_URL),
-  // GeoBC's standard BC Basemap, with hillshade, as published.
-  esriVectorBasemap('bc-basemap', 'BC BaseMap', 105, 'bbe05270d3a642f5b62203d6c454f457',
-    'https://tiles.arcgis.com/tiles/ubm4tcTYICKBpist/arcgis/rest/services/BC_BASEMAP_20240307/VectorTileServer'),
-];
+const appBasemaps = (withOffline: boolean) => {
+  const under = withOffline ? [OFFLINE_BASEMAP_ID] : [];
+  const dropBackground = (ls: any[]) => ls.filter((l) => l.type !== 'background');
+
+  const list: any[] = [
+    // WFPREV's Topographic, so both apps show the same Terrain. A composite stacks bottom first.
+    {
+      id: 'topography',
+      title: 'Terrain',
+      order: 101,
+      optionImageUrl: basemapImageUrl('topography'),
+      type: 'composite',
+      layers: [...under, 'terrain-hillshade', 'terrain-vector'],
+    },
+    {
+      id: 'terrain-hillshade',
+      internal: true,
+      type: 'esri-tiled-map',
+      url: 'https://services.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer',
+      // Above 16 the service answers "Map data not yet available", which covers the map.
+      // SMK 1.0 stopped here too; MapLibre enlarges the zoom 16 tiles instead.
+      option: { maxNativeZoom: 16 },
+    },
+    {
+      ...esriVectorBasemap('terrain-vector', 'Terrain', 101, '7dc6cea0b1764a1f9af2e679f642f0f5', ESRI_WORLD_VECTOR_URL),
+      internal: true,
+    },
+    // Esri's World Navigation Map, drawn from its item so it keeps up with Esri.
+    ...(withOffline
+      ? [
+          {
+            id: 'navigation',
+            title: 'Navigation',
+            order: 102,
+            optionImageUrl: basemapImageUrl('navigation'),
+            type: 'composite',
+            layers: [OFFLINE_BASEMAP_ID, 'navigation-vector'],
+          },
+          {
+            ...esriVectorBasemap('navigation-vector', 'Navigation', 102, '63c47b7177f946b49902c24129b87252', ESRI_WORLD_VECTOR_URL),
+            internal: true,
+            transformLayers: dropBackground,
+          },
+          {
+            id: 'imagery-v2',
+            title: 'Satellite',
+            order: 103,
+            optionImageUrl: basemapImageUrl('imagery-v2'),
+            type: 'composite',
+            layers: [OFFLINE_BASEMAP_ID, '--imagery-v2-tiles', '--imagery-v2-vector'],
+          },
+          {
+            id: 'night',
+            title: 'Dark',
+            order: 104,
+            optionImageUrl: basemapImageUrl('night'),
+            type: 'composite',
+            layers: [OFFLINE_BASEMAP_ID, 'night-vector'],
+          },
+          {
+            ...esriVectorBasemap('night-vector', 'Dark', 104, '86f556a2d1fd468181855a35e344567f', ESRI_WORLD_VECTOR_URL),
+            internal: true,
+            transformLayers: dropBackground,
+          },
+          {
+            id: 'bc-basemap',
+            title: 'BC BaseMap',
+            order: 105,
+            optionImageUrl: basemapImageUrl('bc-basemap'),
+            type: 'composite',
+            layers: [OFFLINE_BASEMAP_ID, 'bc-basemap-vector'],
+          },
+          {
+            ...esriVectorBasemap('bc-basemap-vector', 'BC BaseMap', 105, 'bbe05270d3a642f5b62203d6c454f457',
+              'https://tiles.arcgis.com/tiles/ubm4tcTYICKBpist/arcgis/rest/services/BC_BASEMAP_20240307/VectorTileServer'),
+            internal: true,
+          },
+          offlineBasemapConfig(),
+        ]
+      : [
+          esriVectorBasemap('navigation', 'Navigation', 102, '63c47b7177f946b49902c24129b87252', ESRI_WORLD_VECTOR_URL),
+          // GeoBC's standard BC Basemap, with hillshade, as published.
+          esriVectorBasemap('bc-basemap', 'BC BaseMap', 105, 'bbe05270d3a642f5b62203d6c454f457',
+            'https://tiles.arcgis.com/tiles/ubm4tcTYICKBpist/arcgis/rest/services/BC_BASEMAP_20240307/VectorTileServer'),
+        ]),
+  ];
+
+  return list;
+};
 
 /** The picker's choices, in order. */
 const basemapChoices = () => [
@@ -313,16 +382,19 @@ const BASEMAP_TITLES = {
 };
 
 /** A picture and a name for each choice; the full definition where SMK's will not do. */
-const basemapConfig = () => [
-  ...basemapChoices().map((id, i) => ({
-    ...(APP_BASEMAPS.find((b) => b.id === id) ?? { id, optionImageUrl: basemapImageUrl(id) }),
-    title: BASEMAP_TITLES[id],
-    // The picker sorts by order, so this keeps the choices' order.
-    order: 100 + i,
-  })),
-  // The parts of a composite, which are not choices.
-  ...APP_BASEMAPS.filter((b) => !basemapChoices().includes(b.id)),
-];
+const basemapConfig = () => {
+  const basemaps = appBasemaps(isOfflineBasemapAvailable());
+  return [
+    ...basemapChoices().map((id, i) => ({
+      ...(basemaps.find((b) => b.id === id) ?? { id, optionImageUrl: basemapImageUrl(id) }),
+      title: BASEMAP_TITLES[id],
+      // The picker sorts by order, so this keeps the choices' order.
+      order: 100 + i,
+    })),
+    // The parts of a composite, which are not choices.
+    ...basemaps.filter((b) => !basemapChoices().includes(b.id)),
+  ];
+};
 
 const encodeUrl = (url, data) => {
   if (!data) {

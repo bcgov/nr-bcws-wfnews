@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {
   mapConfig,
   reportOfFireMapConfig,
-  reportOfFireOfflineMapConfig, previewMapConfig } from './map.config';
+  previewMapConfig,
+} from './map.config';
 import { AppConfigService } from '@wf1/core-ui';
 
 export interface MapServiceStatus {
@@ -42,39 +43,14 @@ export class MapConfigService {
     return Promise.resolve(previewMapConfig(option));
   }
 
-  getReportOfFireMapConfig(): Promise<any> {
+  getReportOfFireMapConfig(baseMap = 'topography'): Promise<any> {
     const status: MapServiceStatus = {
       useSecure: true,
       token: null,
     };
 
-    return this.appConfig
-      .loadAppConfig()
-      .then((config) =>
-        reportOfFireMapConfig(
-          this.appConfig.getConfig()['mapServices'],
-          status,
-          'desktop',
-          this.appConfig,
-        ),
-      );
-  }
-
-  getReportOfFireOfflineMapConfig(): Promise<any> {
-    const status: MapServiceStatus = {
-      useSecure: true,
-      token: null,
-    };
-
-    return this.appConfig
-      .loadAppConfig()
-      .then((config) =>
-        reportOfFireOfflineMapConfig(
-          this.appConfig.getConfig()['mapServices'],
-          status,
-          'desktop',
-          this.appConfig,
-        ),
-      );
+    return Promise.resolve(
+      reportOfFireMapConfig(null, status, 'desktop', this.appConfig, baseMap),
+    );
   }
 }

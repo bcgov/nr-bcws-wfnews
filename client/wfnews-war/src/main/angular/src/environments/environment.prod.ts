@@ -3,4 +3,5 @@ export const environment = {
   app_config_location: 'config.jsp',
   webade_preference_config: '',
   app_base: '/',
+  offline_basemap: false,
 };

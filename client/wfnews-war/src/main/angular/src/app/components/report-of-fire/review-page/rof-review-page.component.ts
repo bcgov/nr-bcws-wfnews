@@ -21,6 +21,10 @@ import { ReportOfFire } from '../reportOfFireModel';
 import { RoFPage } from '../rofPage';
 import * as turf from '@turf/turf';
 import { ConnectivityService } from '@app/services/connectivity.service';
+import {
+  isOfflineBasemapAvailable,
+  OFFLINE_BASEMAP_ID,
+} from '@app/services/offline-basemap';
 
 /** The model starts each position at [0, 0], so that value means "no position". */
 function isPosition(latLon: number[] | undefined): boolean {
@@ -36,7 +40,6 @@ function isPosition(latLon: number[] | undefined): boolean {
 export class RoFReviewPage extends RoFPage implements AfterViewInit {
   public reportOfFirePages: any;
   mapConfig = null;
-  isOffLine: boolean;
   currentLocation: any;
   submitting: boolean = false;
   public constructor(
@@ -72,13 +75,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
     this.reportOfFirePages = this.reportOfFirePages.filter(
       (page) => !pagesToRemove.includes(page.id),
     );
-    this.connectivityService.checkOnlineStatus().then((result) => {
-      if (!result) {
-        this.isOffLine = true;
-      } else {
-        this.isOffLine = false;
-      }
-    });
   }
 
   selectedAnswer(page: any) {
@@ -213,8 +209,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
   }
 
   /**
-   * The map is only in the DOM when online, so there is no offline branch here.
    * The extent holds both points; previewMapConfig caps how far it zooms in.
+   * Uses the bundled offline basemap when the device has no network.
    */
   async loadMap() {
     const fire = this.reportOfFire?.fireLocation;
@@ -228,11 +224,14 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       coords.push(toLonLat(here));
     }
 
+    const online = await this.connectivityService.checkOnlineStatus();
     this.mapConfig = await this.mapConfigService.getPreviewMapConfig({
       extent: coordsToExtent(coords),
       maxZoom: 18,
       // A drag on the map scrolls the page; Edit is the way to change the location.
       pan: false,
+      baseMap:
+        !online && isOfflineBasemapAvailable() ? OFFLINE_BASEMAP_ID : undefined,
     });
     this.cdr.markForCheck();
   }

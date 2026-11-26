@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { Capacitor, CapacitorHttp } from '@capacitor/core';
 import { AppConfigService } from '@wf1/core-ui';
 import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, timeout } from 'rxjs/operators';
+
+export const PING_TIMEOUT_MS = 3000;
 
 /** Reaches the network: the WFNEWS API check, and GET requests that must work on the phone. */
 @Injectable({
@@ -17,7 +19,7 @@ export class ConnectivityService {
 
   pingService(): Observable<any> {
     const url = this.appConfigService.getConfig().rest['wfnews'];
-    return this.http.get(url);
+    return this.http.get(url).pipe(timeout(PING_TIMEOUT_MS));
   }
 
   async checkOnlineStatus(): Promise<boolean> {
