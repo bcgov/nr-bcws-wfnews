@@ -10,6 +10,9 @@ import { ResourcesRoutes } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import { BUILD_NUMBER } from '../../../environments/build-info';
 import { ConnectivityService } from '@app/services/connectivity.service';
+import { ReportOfFireService } from '@app/services/report-of-fire-service';
+import { RofSyncService } from '@app/services/rof-sync.service';
+import { DeliveryRow, rofDeliveryRows } from './rof-delivery-rows';
 
 interface Row {
   label: string;
@@ -83,6 +86,7 @@ export class DebugComponent implements OnInit {
   public device: Row[] = [];
   public network: Row[] = [];
   public notifications: Row[] = [];
+  public reports: DeliveryRow[] = [];
   // The test rows exist before the test runs, so a result fills a row instead of
   // adding one. The page keeps its shape.
   public reach: Row[] = [
@@ -106,6 +110,7 @@ export class DebugComponent implements OnInit {
   public speedTesting = false;
   public deepTesting = false;
   public refreshing = false;
+  public sending = false;
   public readAt = '';
   public copied = false;
 
@@ -115,6 +120,8 @@ export class DebugComponent implements OnInit {
     private capacitorService: CapacitorService,
     private connectivityService: ConnectivityService,
     private access: DebugAccessService,
+    private reportOfFireService: ReportOfFireService,
+    private rofSyncService: RofSyncService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -177,7 +184,31 @@ export class DebugComponent implements OnInit {
     this.graphics = this.readGraphics();
     this.notifications = await this.readNotifications();
     this.network = await this.readNetwork();
+    this.reports = await this.readReports();
     this.readAt = new Date().toLocaleTimeString();
+  }
+
+  /** The button for this is `Send queued reports now`. It runs one Sync, then reads the rows again. */
+  async sendNow(): Promise<void> {
+    this.sending = true;
+    const started = Date.now();
+    try {
+      await this.rofSyncService.sync();
+      this.reports = await this.readReports();
+    } finally {
+      const left = MIN_FEEDBACK_MS - (Date.now() - started);
+      if (left > 0) await this.pause(left);
+      this.sending = false;
+    }
+  }
+
+  private async readReports(): Promise<DeliveryRow[]> {
+    try {
+      return rofDeliveryRows(await this.reportOfFireService.deliveryState());
+    } catch (error) {
+      console.error('Could not read the Offline Queue', error);
+      return [{ label: 'Queued', value: 'Unreadable' }];
+    }
   }
 
   private hostOf(url: string): string {
@@ -593,6 +624,7 @@ export class DebugComponent implements OnInit {
       ['Reachability', this.reach],
       ['Native test', this.deep],
       ['Device speed', this.speed],
+      ['Report of Fire delivery', this.reports.map((r) => ({ label: r.label, value: r.detail ? `${r.value} (ID ${r.detail})` : r.value }))],
     ];
 
     let block = sections

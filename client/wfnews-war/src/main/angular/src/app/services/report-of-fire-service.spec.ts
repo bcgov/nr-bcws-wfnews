@@ -77,8 +77,12 @@ function decode(dataUrl: string): Promise<HTMLImageElement> {
 /** A NativeReportSenderService that records calls; `pending` and `sent` set its answers. */
 function fakeNativeSender() {
   return {
+    available: true,
     pendingIds: [] as string[],
     sentIds: [] as string[],
+    isAvailable() {
+      return this.available;
+    },
     enqueue: jasmine.createSpy('enqueue').and.callFake(async () => undefined),
     cancel: jasmine.createSpy('cancel').and.callFake(async () => undefined),
     async pending() {
@@ -152,6 +156,15 @@ describe('ReportOfFireService.saveReportOfFire', () => {
 
     expect(fetchSpy).not.toHaveBeenCalled();
     expect((await queue.list()).map((item) => item.submissionID)).toEqual(['a']);
+  });
+
+  it('remembers a report sent at submit as sent right away', async () => {
+    await service.saveReportOfFire({ submissionID: 'a', submittedTimestamp: '1000' }, null, null, null);
+
+    const recent = (await service.deliveryState()).recentSent;
+    expect(recent.map(({ submissionID, submittedAt, how }) => ({ submissionID, submittedAt, how }))).toEqual([
+      { submissionID: 'a', submittedAt: 1000, how: 'direct' },
+    ]);
   });
 
   it('gives an offline report to the native uploader with its submitted time', async () => {
@@ -329,6 +342,55 @@ describe('ReportOfFireService Sync', () => {
     expect(JSON.parse(local.get('submissionIDList'))).toEqual(['a']);
     await service.syncDataWithServer();
     expect(fetchSpy.calls.all().map(sentSubmissionId)).toEqual(['b']);
+  });
+
+  it('gives the diagnostics each queued report with its time and native state, and takes nothing', async () => {
+    await queue.add(queued('a', '1000'));
+    await queue.add(queued('b', '2000'));
+    native.pendingIds = ['a'];
+    native.sentIds = ['n1'];
+
+    const state = await service.deliveryState();
+
+    expect(state.queue).toEqual([
+      { submissionID: 'a', submittedAt: 1000, syncAttempts: 0, nativeHeld: true },
+      { submissionID: 'b', submittedAt: 2000, syncAttempts: 0, nativeHeld: false },
+    ]);
+    expect(native.sentIds).toEqual(['n1']);
+  });
+
+  it('gives no native state on the web', async () => {
+    native.available = false;
+    await queue.add(queued('a'));
+
+    expect((await service.deliveryState()).queue[0].nativeHeld).toBeNull();
+  });
+
+  it('remembers how recent reports went', async () => {
+    await queue.add(queued('bg', '1000'));
+    await queue.add(queued('app', '2000'));
+    native.sentIds = ['bg'];
+
+    await service.removeNativeSent();
+    await service.syncDataWithServer();
+
+    const recent = (await service.deliveryState()).recentSent;
+    expect(recent.map(({ submissionID, submittedAt, how }) => ({ submissionID, submittedAt, how }))).toEqual([
+      { submissionID: 'bg', submittedAt: 1000, how: 'background' },
+      { submissionID: 'app', submittedAt: 2000, how: 'sync' },
+    ]);
+  });
+
+  it('keeps only the last ten recent reports', async () => {
+    for (let i = 0; i < 12; i++) {
+      await queue.add(queued(`r${i}`));
+    }
+
+    await service.syncDataWithServer();
+
+    const recent = (await service.deliveryState()).recentSent;
+    expect(recent.length).toBe(10);
+    expect(recent[0].submissionID).toBe('r2');
   });
 
   it('gives the native uploader only the reports it does not hold', async () => {

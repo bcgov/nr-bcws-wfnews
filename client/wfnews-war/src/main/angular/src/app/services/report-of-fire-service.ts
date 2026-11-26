@@ -8,6 +8,7 @@ import { LocalStorageService } from './local-storage-service';
 import { OfflineReport, OfflineReportQueueService } from './offline-report-queue.service';
 import { ConnectivityService } from '@app/services/connectivity.service';
 import { NativeReportSenderService, OFFLINE_REPORT_MAX_AGE_MS } from './native-report-sender.service';
+import { RofDeliveryState, SentHow, SentReportState } from './rof-delivery-state';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -112,6 +113,7 @@ export class ReportOfFireService {
           .remove(reportOfFire.submissionID)
           .catch((error) => console.error('Error removing sent report from the queue', error));
         await this.nativeReportSender.cancel(reportOfFire.submissionID);
+        this.recordSent(reportOfFire.submissionID, Number(reportOfFire.submittedTimestamp) || Date.now(), 'direct');
       }
       return { success: true, message: 'Report submitted successfully' };
     }
@@ -267,8 +269,44 @@ export class ReportOfFireService {
     const sentIds = this.getSentSubmissionIds();
     sentIds.push(...sent.filter((id) => !sentIds.includes(id)));
     this.localStorageService.saveData(SENT_SUBMISSION_IDS_KEY, JSON.stringify(sentIds));
+    const queue = await this.offlineReportQueue.list();
     for (const id of sent) {
+      const item = queue.find((queued) => queued.submissionID === id);
+      if (item) {
+        this.recordSent(id, submittedTimestampOf(item), 'background');
+      }
       await this.offlineReportQueue.remove(id);
+    }
+  }
+
+  // For the diagnostics page. Read only: it must not take the native sent list from Sync.
+  async deliveryState(): Promise<RofDeliveryState> {
+    const native = this.nativeReportSender.isAvailable() ? await this.nativeReportSender.pending() : null;
+    const queue = await this.offlineReportQueue.list();
+    return {
+      queue: queue.map((item) => ({
+        submissionID: item.submissionID,
+        submittedAt: submittedTimestampOf(item),
+        syncAttempts: item.syncAttempts,
+        nativeHeld: native ? native.includes(item.submissionID) : null,
+      })),
+      recentSent: this.getRecentSent(),
+    };
+  }
+
+  // Times and how only, for the diagnostics; the sent ID list alone has no dates.
+  private recordSent(submissionID: string, submittedAt: number, how: SentHow): void {
+    const recent = this.getRecentSent().filter((item) => item.submissionID !== submissionID);
+    recent.push({ submissionID, submittedAt, sentAt: Date.now(), how });
+    this.localStorageService.saveData(RECENT_SENT_KEY, JSON.stringify(recent.slice(-RECENT_SENT_MAX)));
+  }
+
+  private getRecentSent(): SentReportState[] {
+    try {
+      const parsed = JSON.parse(this.localStorageService.getData(RECENT_SENT_KEY) || '[]');
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
     }
   }
 
@@ -330,6 +368,7 @@ export class ReportOfFireService {
         if (submitResponse.success) {
           await this.offlineReportQueue.remove(item.submissionID);
           await this.nativeReportSender.cancel(item.submissionID);
+          this.recordSent(item.submissionID, submittedTimestampOf(item), 'sync');
           sentIds.push(item.submissionID);
           this.localStorageService.saveData(SENT_SUBMISSION_IDS_KEY, JSON.stringify(sentIds));
         } else {
@@ -384,6 +423,8 @@ export class ReportOfFireService {
 }
 
 const SENT_SUBMISSION_IDS_KEY = 'submissionIDList';
+const RECENT_SENT_KEY = 'rofRecentSent';
+const RECENT_SENT_MAX = 10;
 
 function submittedTimestampOf(item: OfflineReport): number {
   try {

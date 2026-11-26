@@ -31,6 +31,10 @@ export class NativeReportSenderService {
     private bridge: RofUploaderBridge,
   ) {}
 
+  isAvailable(): boolean {
+    return this.bridge.isNativePlatform();
+  }
+
   async enqueue(report: OfflineReport, submittedTimestamp: number): Promise<void> {
     if (!this.bridge.isNativePlatform()) {
       return;
