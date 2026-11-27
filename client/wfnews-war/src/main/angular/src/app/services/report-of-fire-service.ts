@@ -4,7 +4,6 @@ import { Filesystem } from '@capacitor/filesystem';
 import { AppConfigService } from '@wf1/core-ui';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
-import { Subscription } from 'rxjs';
 import { LocalStorageService } from './local-storage-service';
 import { OfflineReport, OfflineReportQueueService } from './offline-report-queue.service';
 import { ConnectivityService } from '@app/services/connectivity.service';
@@ -279,14 +278,13 @@ export class ReportOfFireService {
     }
   }
 
-  async syncDataWithServer(intervalRef: Subscription) {
+  async syncDataWithServer(): Promise<void> {
     if (this.isSyncing) {
       return;
     }
 
     this.isSyncing = true;
 
-    let emptied = false;
     try {
       const queue = await this.offlineReportQueue.list();
       const sentIds = this.getSentSubmissionIds();
@@ -306,18 +304,11 @@ export class ReportOfFireService {
           await this.offlineReportQueue.markAttempt(item.submissionID);
         }
       }
-
-      // Stop the timer only when every queued report is gone.
-      emptied = queue.length > 0 && (await this.offlineReportQueue.list()).length === 0;
-      if (emptied) {
-        intervalRef?.unsubscribe();
-      }
     } catch (error) {
       console.error('Sync failed:', error);
     } finally {
       this.isSyncing = false;
     }
-    return emptied;
   }
 
   async removeInvalidOfflineRoF() {

@@ -225,33 +225,29 @@ describe('ReportOfFireService Sync', () => {
     await queue.add(queued('b'));
     failing.add('b');
 
-    const emptied = await service.syncDataWithServer(null);
+    await service.syncDataWithServer();
 
     const left = await queue.list();
     expect(left.map((item) => item.submissionID)).toEqual(['b']);
     expect(left[0].syncAttempts).toBe(1);
-    expect(emptied).toBe(false);
     expect(JSON.parse(local.get('submissionIDList'))).toEqual(['a']);
   });
 
-  it('stops the timer when every report is sent', async () => {
+  it('sends every report and empties the queue', async () => {
     await queue.add(queued('a'));
     await queue.add(queued('b'));
-    const timer = jasmine.createSpyObj('Subscription', ['unsubscribe']);
 
-    const emptied = await service.syncDataWithServer(timer);
+    await service.syncDataWithServer();
 
     expect(fetchSpy).toHaveBeenCalledTimes(2);
     expect(await queue.list()).toEqual([]);
-    expect(emptied).toBe(true);
-    expect(timer.unsubscribe).toHaveBeenCalled();
   });
 
   it('keeps other Ionic Storage keys', async () => {
     storage.data.set('otherFeature', 'keep me');
     await queue.add(queued('a'));
 
-    await service.syncDataWithServer(null);
+    await service.syncDataWithServer();
 
     expect(storage.data.get('otherFeature')).toBe('keep me');
   });
@@ -261,7 +257,7 @@ describe('ReportOfFireService Sync', () => {
     await queue.add(queued('abc123'));
     await queue.add(queued('abc'));
 
-    await service.syncDataWithServer(null);
+    await service.syncDataWithServer();
 
     // abc123 was sent before, so only abc goes; it is a part of abc123, not equal to it.
     expect(fetchSpy.calls.all().map(sentSubmissionId)).toEqual(['abc']);
