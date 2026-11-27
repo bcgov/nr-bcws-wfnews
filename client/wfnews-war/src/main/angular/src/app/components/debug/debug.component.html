@@ -87,6 +87,17 @@
     </div>
   </section>
 
+  <section class="debug-section">
+    <h2>Report of Fire delivery</h2>
+    <button type="button" class="debug-button" (click)="sendNow()" [disabled]="sending">
+      {{ sending ? 'Sending…' : 'Send queued reports now' }}
+    </button>
+    <div class="debug-row" *ngFor="let row of reports">
+      <span class="debug-label">{{ row.label }}</span>
+      <span class="debug-value">{{ row.value }}</span>
+    </div>
+  </section>
+
   <div class="debug-actions">
     <button type="button" class="debug-button" (click)="refresh()" [disabled]="refreshing">
       {{ refreshing ? 'Refreshing…' : 'Refresh diagnostics' }}

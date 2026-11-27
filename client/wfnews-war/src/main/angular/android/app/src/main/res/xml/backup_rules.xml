@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 10 and 11. The Offline Queue is in IndexedDB; a queued report must not leave the device. -->
+<full-backup-content>
+    <exclude domain="root" path="app_webview/Default/IndexedDB/" />
+</full-backup-content>

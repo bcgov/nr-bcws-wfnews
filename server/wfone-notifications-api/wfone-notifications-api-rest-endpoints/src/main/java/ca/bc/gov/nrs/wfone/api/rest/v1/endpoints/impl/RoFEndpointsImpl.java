@@ -43,7 +43,6 @@ public class RoFEndpointsImpl extends WfOneNotificationsBaseEndpointsImpl implem
     @Override
     public Response submitRoFForm(String document, FormDataBodyPart image1, FormDataBodyPart image2, FormDataBodyPart image3) throws ValidationException, Exception{
         logger.debug("<submitRoFForm");
-        logger.info("ROF body: " + document);
         Response response = null;
 
         if (document.contains("eval(")) {
@@ -51,6 +50,8 @@ public class RoFEndpointsImpl extends WfOneNotificationsBaseEndpointsImpl implem
         }
 
         PublicReportOfFire prof  = convertToPublicReportOfFire(document);
+        // The body holds a name, a phone number and a location; log only the ID.
+        logger.info("RoF received, submissionID: " + prof.getSubmissionID());
         List<Message> errors = modelValidator.validatePublicReportOfFire(prof);
         if (!errors.isEmpty()) {
 			    throw new ValidationException(errors);
@@ -61,11 +62,6 @@ public class RoFEndpointsImpl extends WfOneNotificationsBaseEndpointsImpl implem
             byte[] imageByteArray1 = new byte [0];
             byte[] imageByteArray2 = new byte [0];
             byte[] imageByteArray3 = new byte [0];
-            
-            if (document!=null){
-                String jsonObj = new JSONObject(document).toString();
-                logger.debug("jsonObj = " + jsonObj);
-            }else logger.debug("document = null");
 
             if (image1 != null) {
               imageByteArray1 = imageToBytes(image1);

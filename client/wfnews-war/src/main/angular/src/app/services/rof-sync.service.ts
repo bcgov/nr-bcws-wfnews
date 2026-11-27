@@ -23,7 +23,10 @@ export class RofSyncPlugins {
   }
 }
 
-/** Sends the Offline Queue from every screen: at start, on resume, on reconnect and on a timer. */
+/**
+ * Sends the Offline Queue from every screen: at start, on resume, on reconnect and on a timer.
+ * With the app closed, the native uploader sends it (NativeReportSenderService).
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -64,6 +67,9 @@ export class RofSyncService {
     this.queue.added.subscribe(() => this.updateTimer(true));
 
     await this.sync();
+    await this.reportOfFireService
+      .handQueueToNative()
+      .catch((error) => console.error('Native hand-over failed:', error));
   }
 
   sync(): Promise<void> {
@@ -77,6 +83,7 @@ export class RofSyncService {
   private async runSync(): Promise<void> {
     try {
       await this.reportOfFireService.removeInvalidOfflineRoF();
+      await this.reportOfFireService.removeNativeSent();
       if (!(await this.hasItems())) {
         this.stopTimer();
         return;
